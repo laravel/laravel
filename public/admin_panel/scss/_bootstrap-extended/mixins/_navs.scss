@@ -1,0 +1,94 @@
+// Navs
+// *******************************************************************************
+
+@mixin template-nav-size($padding-y, $padding-x, $font-size, $line-height) {
+  > .nav .nav-link,
+  &.nav .nav-link {
+    padding: $padding-y $padding-x;
+    font-size: $font-size;
+    line-height: $line-height;
+  }
+}
+
+@mixin template-nav-variant($parent, $background, $color: null) {
+  // .nav-link class hover theme color for basic nav
+  .nav .nav-link {
+    &:hover,
+    &:focus {
+      color: shift-color($background, $link-shade-percentage);
+    }
+  }
+
+  $pills-selector: if($parent== '', '.nav-pills', '#{$parent}.nav-pills, #{$parent} > .nav-pills');
+
+  #{$pills-selector} .nav-link.active {
+    &,
+    &:hover,
+    &:focus {
+      background-color: $background;
+      color: if($color, $color, color-contrast($background));
+    }
+  }
+
+  // Tabs line
+
+  #{$parent}.tabs-line.nav-tabs .nav-link.active,
+  #{$parent}.tabs-line > .nav-tabs .nav-link.active {
+    &,
+    &:hover,
+    &:focus {
+      box-shadow: 0 -2px 0 $background inset;
+    }
+  }
+
+  .nav-align-bottom .tabs-line.nav-tabs .nav-link.active,
+  .nav-align-bottom .tabs-line > .nav-tabs .nav-link.active {
+    &,
+    &:hover,
+    &:focus {
+      box-shadow: 0 2px 0 $background inset;
+    }
+  }
+
+  .nav-align-left .tabs-line.nav-tabs .nav-link.active,
+  .nav-align-left .tabs-line > .nav-tabs .nav-link.active {
+    &,
+    &:hover,
+    &:focus {
+      box-shadow: -2px 0px 0 $background inset;
+    }
+  }
+
+  .nav-align-right .tabs-line.nav-tabs .nav-link.active,
+  .nav-align-right .tabs-line > .nav-tabs .nav-link.active {
+    &,
+    &:hover,
+    &:focus {
+      box-shadow: 2px 0px 0 $background inset;
+    }
+  }
+
+  @include rtl-only {
+    .nav-align-left .tabs-line.nav-tabs .nav-link.active,
+    .nav-align-left .tabs-line > .nav-tabs .nav-link.active {
+      &,
+      &:hover,
+      &:focus {
+        box-shadow: 2px 0px 0 $background inset;
+      }
+    }
+
+    .nav-align-right .tabs-line.nav-tabs .nav-link.active,
+    .nav-align-right .tabs-line > .nav-tabs .nav-link.active {
+      &,
+      &:hover,
+      &:focus {
+        box-shadow: -2px 0px 0 $background inset;
+      }
+    }
+  }
+}
+
+@mixin template-nav-theme($background, $color: null) {
+  @include template-nav-variant('', $background, $color);
+}

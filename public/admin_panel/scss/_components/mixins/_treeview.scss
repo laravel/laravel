@@ -1,0 +1,18 @@
+// Treeview
+// *******************************************************************************
+
+// Treeview click
+@mixin template-treeview-clicked-bg($background) {
+  .jstree-default {
+    .jstree-wholerow-clicked,
+    .jstree-wholerow-hovered {
+      background: mix($white, $background, 85%);
+    }
+  }
+  .jstree-default-dark {
+    .jstree-wholerow-hovered,
+    .jstree-wholerow-clicked {
+      background: mix($dark, $background, 55%);
+    }
+  }
+}

@@ -1,0 +1,314 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+@import '../../node_modules/sweetalert2/src/sweetalert2';
+
+// Sweet Alert2 Modal
+.swal2-modal.swal2-popup {
+  .swal2-title {
+    margin: 1.875rem 0 1rem 0;
+    max-width: $swal2-width * 0.5;
+    line-height: light.$line-height-base;
+  }
+
+  .swal2-content {
+    margin: 0 0 1rem 0;
+  }
+
+  .swal2-actions {
+    margin-top: 1rem;
+    .btn {
+      align-items: center;
+    }
+  }
+
+  .swal2-actions button + button {
+    margin-left: 0.375rem;
+
+    @include app-rtl {
+      margin-left: 0;
+      margin-right: 0.375rem;
+    }
+  }
+
+  .swal2-input,
+  .swal2-file,
+  .swal2-textarea {
+    box-shadow: none !important;
+  }
+
+  .swal2-icon {
+    margin-bottom: 0;
+  }
+
+  .swal2-checkbox input,
+  .swal2-radio input {
+    margin-right: 0.375rem;
+
+    @include app-rtl {
+      margin-right: 0;
+      margin-left: 0.375rem;
+    }
+  }
+  .swal2-close:focus {
+    box-shadow: none;
+  }
+}
+
+// RTL Specific
+@include app-rtl(false) {
+  .swal2-close {
+    right: auto;
+    left: 0.5rem;
+  }
+
+  .swal2-range input {
+    float: right;
+  }
+
+  .swal2-range output {
+    float: left;
+  }
+
+  .swal2-radio label:not(:first-child) {
+    margin-left: 0;
+    margin-right: 1.25rem;
+  }
+
+  .swal2-validationerror::before {
+    margin-left: 0.625rem;
+    margin-right: 0;
+  }
+
+  .swal2-actions.swal2-loading :not(.swal2-styled).swal2-confirm::after {
+    margin-left: 0;
+    margin-right: 0.3125rem;
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    .swal2-container {
+      z-index: light.$zindex-modal;
+
+      .tooltip {
+        z-index: light.$zindex-modal + 2;
+      }
+
+      .popover {
+        z-index: light.$zindex-modal + 1;
+      }
+    }
+
+    .swal2-modal.swal2-popup {
+      font-family: light.$font-family-base;
+      box-shadow: light.$modal-content-box-shadow-xs;
+
+      @include light.border-radius(light.$border-radius);
+    }
+
+    .swal2-container.swal2-shown {
+      background: rgba(light.$modal-backdrop-bg, light.$modal-backdrop-opacity);
+    }
+
+    .swal2-popup .swal2-title {
+      font-size: light.$h2-font-size;
+      font-weight: light.$headings-font-weight;
+      color: light.$body-color;
+    }
+
+    .swal2-popup .swal2-content {
+      color: light.$text-muted;
+      line-height: light.$line-height-base;
+      font-size: light.$lead-font-size;
+      font-weight: light.$lead-font-weight;
+    }
+
+    .swal2-popup .swal2-input,
+    .swal2-popup .swal2-file,
+    .swal2-popup .swal2-textarea {
+      border: light.$input-border-width solid light.$input-border-color !important;
+      font-size: light.$font-size-lg;
+      color: light.$body-color;
+
+      @include light.border-radius(light.$border-radius-lg);
+    }
+
+    .swal2-popup .swal2-validationerror {
+      color: light.$body-color;
+      background: light.$gray-100;
+    }
+
+    //  Colors
+    .swal2-popup .swal2-icon.swal2-success {
+      border-color: light.$success;
+
+      .swal2-success-ring {
+        border-color: rgba(light.$success, 0.2);
+      }
+
+      [class^='swal2-success-line'] {
+        background-color: light.$success;
+      }
+    }
+
+    .swal2-popup .swal2-icon.swal2-question {
+      border-color: rgba(light.$secondary, 0.4);
+      color: light.$secondary;
+    }
+
+    .swal2-popup .swal2-icon.swal2-info {
+      border-color: rgba(light.$info, 0.4);
+      color: light.$info;
+    }
+
+    .swal2-popup .swal2-icon.swal2-warning {
+      border-color: rgba(light.$warning, 0.8);
+      color: light.$warning;
+    }
+
+    .swal2-popup .swal2-icon.swal2-error {
+      border-color: rgba(light.$danger, 0.6);
+
+      [class^='swal2-x-mark-line'] {
+        border-color: light.$danger;
+      }
+    }
+  }
+}
+// Dark Style
+@if $enable-dark-style {
+  .dark-style {
+    .swal2-container {
+      z-index: dark.$zindex-modal;
+
+      .tooltip {
+        z-index: dark.$zindex-modal + 2;
+      }
+
+      .popover {
+        z-index: dark.$zindex-modal + 1;
+      }
+    }
+
+    .swal2-modal.swal2-popup {
+      background: dark.$modal-content-bg;
+      font-family: dark.$font-family-base;
+      box-shadow: dark.$modal-content-box-shadow-xs;
+
+      @include dark.border-radius(dark.$border-radius);
+    }
+
+    .swal2-container.swal2-shown {
+      background: rgba(dark.$modal-backdrop-bg, dark.$modal-backdrop-opacity);
+    }
+
+    .swal2-popup .swal2-title {
+      font-size: dark.$h2-font-size;
+      font-weight: dark.$headings-font-weight;
+      color: dark.$body-color;
+    }
+
+    .swal2-popup .swal2-content {
+      font-weight: dark.$lead-font-weight;
+      color: dark.$text-muted;
+      line-height: dark.$line-height-base;
+      font-size: dark.$lead-font-size;
+      pre {
+        color: dark.$body-color;
+      }
+    }
+    .swal2-popup .swal2-footer {
+      border-top: 1px solid dark.$border-color;
+    }
+
+    .swal2-popup .swal2-html-container {
+      color: dark.$body-color;
+    }
+
+    .swal2-popup .swal2-input,
+    .swal2-popup .swal2-file,
+    .swal2-popup .swal2-textarea {
+      color: dark.$body-color;
+      border: dark.$input-border-width solid dark.$input-border-color !important;
+      font-size: dark.$font-size-lg;
+
+      @include dark.border-radius(dark.$border-radius-lg);
+    }
+
+    .swal2-popup .swal2-validationerror {
+      color: dark.$body-color;
+      background: dark.$gray-100;
+    }
+
+    //  Colors
+    .swal2-popup .swal2-icon.swal2-success {
+      border-color: dark.$success;
+
+      .swal2-success-ring {
+        border-color: rgba(dark.$success, 0.2);
+      }
+
+      [class^='swal2-success-line'] {
+        background-color: dark.$success;
+      }
+    }
+
+    .swal2-popup .swal2-icon.swal2-question {
+      border-color: rgba(dark.$secondary, 0.4);
+      color: dark.$secondary;
+    }
+
+    .swal2-popup .swal2-icon.swal2-info {
+      border-color: rgba(dark.$info, 0.4);
+      color: dark.$info;
+    }
+
+    .swal2-popup .swal2-icon.swal2-warning {
+      border-color: rgba(dark.$warning, 0.8);
+      color: dark.$warning;
+    }
+
+    .swal2-popup .swal2-icon.swal2-error {
+      border-color: rgba(dark.$danger, 0.6);
+
+      [class^='swal2-x-mark-line'] {
+        border-color: dark.$danger;
+      }
+    }
+  }
+}
+
+.swal2-popup .swal2-actions.swal2-loading :not(.swal2-styled).swal2-confirm::after {
+  display: block;
+  width: 1em;
+  height: 1em;
+  margin-left: 0.2rem;
+  border: 0.15em solid currentColor;
+  border-right-color: transparent;
+  box-shadow: none;
+
+  @include app-rtl {
+    margin-left: 0;
+    margin-right: 0.5em;
+  }
+}
+
+// IE Specific
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .swal2-modal:not([style='display: none;']),
+  .swal2-icon:not([style='display: none;']),
+  .swal2-actions:not([style='display: none;']),
+  .swal2-image:not([style='display: none;']),
+  .swal2-input:not([style='display: none;']),
+  .swal2-file:not([style='display: none;']),
+  .swal2-range:not([style='display: none;']),
+  .swal2-select:not([style='display: none;']),
+  .swal2-radio:not([style='display: none;']),
+  .swal2-checkbox:not([style='display: none;']),
+  .swal2-textarea:not([style='display: none;']),
+  .swal2-footer:not([style='display: none;']) {
+    display: flex;
+  }
+}

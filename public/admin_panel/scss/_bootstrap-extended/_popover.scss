@@ -1,0 +1,96 @@
+// Popovers
+// *******************************************************************************
+
+@each $color, $value in $theme-colors {
+  @if $color != primary and $color != light {
+    @include template-popover-variant(
+      '.popover-#{$color}, .popover-#{$color} > .popover, .ngb-popover-#{$color} + ngb-popover-window',
+      $value
+    );
+  }
+}
+
+.modal-open .popover {
+  z-index: $zindex-modal + 1;
+}
+
+.popover {
+  box-shadow: $popover-box-shadow;
+
+  .popover-arrow {
+    z-index: 1;
+  }
+  &.bs-popover-auto {
+    &[data-popper-placement='bottom'] > .popover-arrow {
+      &::after {
+        border-bottom-color: if(not $dark-style, rgba-to-hex($popover-header-bg), $popover-header-bg);
+        top: 2px;
+      }
+      &:before {
+        top: 1px;
+      }
+    }
+  }
+}
+
+// popover header font size override
+.popover-header {
+  padding: $popover-header-padding-x $popover-header-padding-x $popover-header-padding-y;
+  @include font-size($popover-header-font-size);
+}
+
+// RTL
+// *******************************************************************************
+
+@include rtl-only {
+  .popover {
+    text-align: right;
+  }
+  &.bs-popover-auto {
+    &[data-popper-placement='right'] {
+      > .popover-arrow {
+        right: subtract(-$popover-arrow-height, $popover-border-width);
+        left: inherit;
+        &::before {
+          right: 0;
+          left: inherit;
+          border-width: ($popover-arrow-width * 0.5) 0 $popover-arrow-height ($popover-arrow-width * 0.5);
+          border-left-color: $popover-arrow-outer-color;
+        }
+
+        &::after {
+          right: $popover-border-width;
+          left: inherit;
+          border-width: ($popover-arrow-width * 0.5) 0 $popover-arrow-height ($popover-arrow-width * 0.5);
+          border-left-color: $popover-arrow-color;
+        }
+      }
+    }
+    &[data-popper-placement='bottom'] {
+      .popover-header::before {
+        right: 50%;
+        margin-right: -$popover-arrow-width * 0.5;
+      }
+    }
+    &[data-popper-placement='left'] {
+      > .popover-arrow {
+        left: subtract(-$popover-arrow-height, $popover-border-width);
+        right: inherit;
+
+        &::before {
+          left: 0;
+          right: inherit;
+          border-width: ($popover-arrow-width * 0.5) ($popover-arrow-width * 0.5) $popover-arrow-height 0;
+          border-right-color: $popover-arrow-outer-color;
+        }
+
+        &::after {
+          left: $popover-border-width;
+          right: inherit;
+          border-width: ($popover-arrow-width * 0.5) ($popover-arrow-width * 0.5) $popover-arrow-height 0;
+          border-right-color: $popover-arrow-color;
+        }
+      }
+    }
+  }
+}

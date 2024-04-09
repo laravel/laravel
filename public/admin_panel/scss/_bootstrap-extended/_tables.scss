@@ -1,0 +1,77 @@
+// Tables
+// ********************************************************************************/
+
+@each $color, $value in $table-variants {
+  @if $color != primary {
+    @include template-table-variant($color, $value);
+  }
+}
+
+// Style for table inside card
+.card {
+  .table {
+    margin-bottom: 0;
+  }
+}
+@supports (-moz-appearance: none) {
+  .table {
+    .dropdown-menu.show {
+      display: inline-table;
+    }
+  }
+}
+// Table heading style
+.table {
+  th {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    font-weight: bold;
+  }
+  &:not(.table-dark) thead:not(.table-dark) th {
+    color: $headings-color;
+  }
+}
+
+.table-border-bottom-0 {
+  tr:last-child {
+    td,
+    th {
+      border-bottom-width: 0;
+    }
+  }
+}
+
+// Dark Table icon button
+.table.table-dark .btn.btn-icon {
+  color: $table-border-color;
+}
+
+// Flush spacing of left from first column ans right from last column
+.table.table-flush-spacing {
+  thead,
+  tbody {
+    tr > td:first-child {
+      padding-left: 0;
+    }
+    tr > td:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+// * Table inside card
+// *******************************************************************************
+
+// .card,
+.nav-align-top,
+.nav-align-right,
+.nav-align-bottom,
+.nav-align-left {
+  .table:not(.table-dark),
+  .table:not(.table-dark) thead:not(.table-dark) th,
+  .table:not(.table-dark) tfoot:not(.table-dark) th,
+  .table:not(.table-dark) td {
+    border-color: $border-inner-color;
+  }
+}

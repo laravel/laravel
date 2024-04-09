@@ -1,0 +1,391 @@
+// Nav
+// *******************************************************************************
+
+.nav .nav-item,
+.nav .nav-link,
+.tab-pane,
+.tab-pane .card-body {
+  outline: none !important;
+}
+
+// Tab and pills style
+.nav-tabs,
+.nav-pills {
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    &:not(.active) {
+      &:hover,
+      &:focus {
+        color: $nav-tabs-link-active-color;
+      }
+    }
+  }
+
+  &:not(.nav-fill):not(.nav-justified) .nav-link {
+    margin-right: $nav-spacer;
+    width: 100%;
+
+    @include rtl-style {
+      margin-left: $nav-spacer;
+      margin-right: 0;
+    }
+  }
+}
+
+.tab-content {
+  padding: $card-spacer-y;
+  border-radius: $border-radius;
+}
+
+// For scrollable navs/tabs/pills
+.nav-scrollable {
+  display: -webkit-inline-box;
+  display: -moz-inline-box;
+  width: 100%;
+  overflow-y: auto;
+  flex-wrap: nowrap;
+}
+
+// Todo: remove/ update style for nav with perfect scrollbar
+// ? Not working with fixed width
+// ? if provide width/min-width with %/auto not working
+// ? Also can't use width with PX (as it's required for ps)
+// ? removed JS so need to initialize ps again
+// ? Once done add an example to docs
+
+// .nav-scrollable {
+//   display: -webkit-inline-box;
+//   display: -moz-inline-box;
+//   width: 420px;
+//   padding-bottom: 0.5rem;
+//   position: relative;
+//   // overflow-y: auto;
+//   flex-wrap: nowrap;
+// }
+
+// Tab link
+.nav-tabs .nav-link {
+  background-clip: padding-box;
+  &.active {
+    border-bottom-color: $nav-tabs-link-active-bg;
+    &:hover,
+    &:focus {
+      border-bottom-color: $nav-tabs-link-active-bg;
+    }
+  }
+  &:hover,
+  &:focus {
+    border-bottom-color: transparent;
+  }
+}
+
+// Sizing
+// *******************************************************************************
+
+.nav-sm {
+  @include template-nav-size($nav-link-padding-y-sm, $nav-link-padding-x-sm, $font-size-sm, $nav-link-line-height-sm);
+}
+.nav-lg {
+  @include template-nav-size($nav-link-padding-y-lg, $nav-link-padding-x-lg, $font-size-lg, $nav-link-line-height-lg);
+}
+
+// Top, Right, Bottom & Left Tabbed panels
+// *******************************************************************************
+
+.nav-align-top,
+.nav-align-right,
+.nav-align-bottom,
+.nav-align-left {
+  display: flex;
+
+  > .nav,
+  > div > .nav {
+    border: 0;
+    z-index: 1;
+    position: relative;
+  }
+
+  > .nav .nav-link,
+  > div > .nav .nav-link {
+    &.active {
+      border-color: $nav-tabs-link-active-border-color;
+    }
+    &:not(.active):hover,
+    &:not(.active):focus {
+      border-color: $nav-tabs-link-hover-border-color;
+    }
+  }
+
+  .row-bordered > [class^='col-'],
+  .row-bordered > [class*=' col-'],
+  .row-bordered > [class^='col '],
+  .row-bordered > [class*=' col '],
+  .row-bordered > [class$=' col'],
+  .row-bordered > [class='col'] {
+    &::before,
+    &::after {
+      border-color: $card-inner-border-color;
+    }
+  }
+}
+
+.nav-align-right,
+.nav-align-left {
+  align-items: stretch;
+
+  > .nav,
+  > div > .nav {
+    flex-grow: 0;
+    flex-direction: column;
+  }
+
+  > .nav .nav-link,
+  > div > .nav .nav-link {
+    margin: 0 0 $nav-spacer 0 !important;
+  }
+
+  > .tab-content {
+    flex-grow: 1;
+  }
+}
+
+// Top tabs
+.nav-align-top {
+  flex-direction: column;
+
+  > .nav .nav-link,
+  > div > .nav .nav-link {
+    &:hover,
+    &:focus {
+      border-bottom-color: transparent;
+    }
+
+    &.active {
+      border-bottom-color: $nav-tabs-link-active-bg;
+    }
+  }
+}
+
+// Right tabs
+.nav-align-right {
+  flex-direction: row-reverse;
+
+  > .nav .nav-item,
+  > div > .nav .nav-item {
+    margin-left: -1px;
+    margin-bottom: 0;
+
+    @include rtl-style {
+      margin-left: 0;
+      margin-right: -1px;
+    }
+  }
+  .nav-link {
+    text-align: right;
+    justify-content: end;
+  }
+  > .nav:not(.nav-pills) .nav-link,
+  > div > .nav:not(.nav-pills) .nav-link {
+    @include border-radius(0 $border-radius $border-radius 0);
+
+    @include rtl-style {
+      @include border-radius($border-radius 0 0 $border-radius);
+    }
+
+    &.active {
+      @include ltr-style {
+        border-left-color: $nav-tabs-link-active-bg;
+      }
+
+      @include rtl-style {
+        border-right-color: $nav-tabs-link-active-bg;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      @include ltr-style {
+        border-left-color: $nav-tabs-link-active-bg;
+      }
+
+      @include rtl-style {
+        border-right-color: $nav-tabs-link-active-bg;
+      }
+    }
+  }
+}
+
+// Bottom tabs
+.nav-align-bottom {
+  flex-direction: column-reverse;
+
+  > .nav .nav-item,
+  > div > .nav .nav-item {
+    margin-bottom: 0;
+    margin-top: -1px;
+  }
+
+  > .nav:not(.nav-pills) .nav-link,
+  > div > .nav:not(.nav-pills) .nav-link {
+    @include border-radius(0 0 $border-radius $border-radius);
+    &.active {
+      border-top-color: $nav-tabs-link-active-bg;
+    }
+    &:hover,
+    &:focus {
+      border-top-color: $nav-tabs-link-active-bg;
+    }
+  }
+}
+
+// Left tabs
+.nav-align-left {
+  > .nav .nav-item,
+  > div > .nav .nav-item {
+    margin-right: -1px;
+    margin-bottom: 0;
+    @include rtl-style {
+      margin-right: 0;
+      margin-left: -1px;
+    }
+  }
+  .nav-link {
+    text-align: left;
+    justify-content: start;
+  }
+  > .nav:not(.nav-pills) .nav-link,
+  > div > .nav:not(.nav-pills) .nav-link {
+    @include rtl-style {
+      @include border-radius(0 $border-radius $border-radius 0);
+    }
+    @include border-radius($border-radius 0 0 $border-radius);
+
+    &.active {
+      @include ltr-style {
+        border-right-color: $nav-tabs-link-active-bg;
+      }
+
+      @include rtl-style {
+        border-left-color: $nav-tabs-link-active-bg;
+      }
+    }
+
+    &:hover,
+    &:focus {
+      @include ltr-style {
+        border-right-color: $nav-tabs-link-active-bg;
+      }
+
+      @include rtl-style {
+        border-left-color: $nav-tabs-link-active-bg;
+      }
+    }
+  }
+}
+
+// Tab content
+.nav-align-top > .tab-content,
+.nav-align-right > .tab-content,
+.nav-align-bottom > .tab-content,
+.nav-align-left > .tab-content {
+  flex-shrink: 1;
+  border: 1px solid $border-color;
+  background-clip: padding-box;
+  background: $nav-tabs-link-active-bg;
+}
+
+.nav-align-top,
+.nav-align-right,
+.nav-align-bottom,
+.nav-align-left {
+  .nav-pills,
+  .tabs-line {
+    + .tab-content {
+      box-shadow: $card-box-shadow;
+      border-width: 0;
+    }
+  }
+}
+
+.nav-pills {
+  .nav-link.active {
+    box-shadow: $box-shadow-sm;
+  }
+}
+
+.nav-align-top :not(.nav-pills) ~ .tab-content {
+  @include border-radius(0 0 $border-radius $border-radius);
+}
+
+.nav-align-right :not(.nav-pills) ~ .tab-content {
+  @include border-radius($border-radius 0 0 $border-radius);
+  @include rtl-style {
+    @include border-radius(0 $border-radius $border-radius 0);
+  }
+}
+
+.nav-align-bottom :not(.nav-pills) ~ .tab-content {
+  @include border-radius($border-radius $border-radius 0 0);
+}
+
+.nav-align-left :not(.nav-pills) ~ .tab-content {
+  @include border-radius(0 $border-radius $border-radius 0);
+  @include rtl-style {
+    @include border-radius($border-radius 0 0 $border-radius);
+  }
+}
+
+// Tabs line
+// *******************************************************************************
+
+.nav-tabs.tabs-line .nav-link,
+.tabs-line > .nav-tabs .nav-link {
+  &,
+  &.active {
+    background-color: transparent;
+    border-width: 0;
+  }
+}
+
+// Dark
+@if $dark-style {
+  .nav-tabs {
+    .nav-link.active {
+      border-color: $border-color;
+      border-bottom-color: $nav-tabs-link-active-bg;
+    }
+  }
+  .nav-align-top {
+    .nav-tabs {
+      .nav-link.active {
+        border-bottom-color: $nav-tabs-link-active-bg !important;
+      }
+    }
+  }
+  .nav-align-bottom {
+    .nav-tabs {
+      .nav-link.active {
+        border-top-color: $nav-tabs-link-active-bg !important;
+      }
+    }
+  }
+}
+
+// RTL
+@include rtl-only {
+  .nav {
+    padding-right: 0;
+  }
+  .nav-align-left {
+    .nav-link {
+      text-align: right;
+    }
+  }
+  .nav-align-right {
+    .nav-link {
+      text-align: left;
+    }
+  }
+}

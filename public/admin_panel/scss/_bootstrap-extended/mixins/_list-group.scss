@@ -1,0 +1,65 @@
+// List groups
+// *******************************************************************************
+
+@mixin list-group-item-variant($state: null, $background: null, $color: null) {
+}
+
+// Basic List groups
+@mixin template-list-group-item-variant($parent, $background, $color: null) {
+  $background-color: if(
+    $dark-style,
+    shift-color($background, -$list-group-item-bg-scale, $card-bg),
+    shift-color($background, $list-group-item-bg-scale, $card-bg)
+  );
+  $color: if(
+    $parent == '.list-group-item-dark' and $dark-style,
+    color-contrast($background),
+    shift-color($background, $list-group-item-color-scale)
+  );
+  $hover-background: shade-color($background-color, $list-group-item-bg-hover-scale);
+  #{$parent} {
+    background-color: $background-color;
+    color: $color !important;
+  }
+
+  a#{$parent},
+  button#{$parent} {
+    color: $color;
+    &:hover,
+    &:focus {
+      background-color: $hover-background;
+      color: $color;
+    }
+
+    &.active {
+      border-color: $background;
+      background-color: $background;
+      color: if($color, $color, color-contrast($background));
+    }
+  }
+}
+
+@mixin template-list-group-theme($background, $color: null) {
+  @include template-list-group-item-variant('.list-group-item-primary', $background);
+
+  .list-group-item.active {
+    &,
+    &:hover,
+    &:focus {
+      border-color: $background;
+      background-color: $background;
+    }
+  }
+}
+
+@mixin template-list-group-timeline-variant($parent, $background) {
+  .list-group {
+    &.list-group-timeline {
+      #{$parent} {
+        &:before {
+          background-color: $background;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,175 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+@import '../../node_modules/perfect-scrollbar/css/perfect-scrollbar';
+
+$ps-width: 0.25rem !default;
+$ps-hover-width: 0.375rem !default;
+
+.ps {
+  position: relative;
+}
+
+.ps__rail-x {
+  height: $ps-width;
+}
+
+.ps__rail-y {
+  width: $ps-width;
+}
+
+.ps__rail-x,
+.ps__rail-y,
+.ps__thumb-x,
+.ps__thumb-y {
+  border-radius: 10rem;
+}
+.ps__rail-x:hover,
+.ps__rail-x:focus,
+.ps__rail-x.ps--clicking,
+.ps__rail-x:hover > .ps__thumb-x,
+.ps__rail-x:focus > .ps__thumb-x,
+.ps__rail-x.ps--clicking > .ps__thumb-x {
+  height: $ps-hover-width;
+}
+
+.ps__rail-y:hover,
+.ps__rail-y:focus,
+.ps__rail-y.ps--clicking,
+.ps__rail-y:hover > .ps__thumb-y,
+.ps__rail-y:focus > .ps__thumb-y,
+.ps__rail-y.ps--clicking > .ps__thumb-y {
+  width: $ps-hover-width;
+}
+
+.ps__thumb-x {
+  height: $ps-width;
+  bottom: 0;
+}
+
+.ps__thumb-y {
+  width: $ps-width;
+  right: 0;
+}
+
+// Light layout
+@if $enable-light-style {
+  .light-style {
+    .ps__thumb-x,
+    .ps__thumb-y {
+      background-color: light.$gray-400;
+    }
+
+    .ps__rail-x:hover,
+    .ps__rail-y:hover,
+    .ps__rail-x:focus,
+    .ps__rail-y:focus,
+    .ps__rail-x.ps--clicking,
+    .ps__rail-y.ps--clicking {
+      background-color: light.$gray-200;
+    }
+
+    .ps__rail-x:hover > .ps__thumb-x,
+    .ps__rail-y:hover > .ps__thumb-y,
+    .ps__rail-x:focus > .ps__thumb-x,
+    .ps__rail-y:focus > .ps__thumb-y,
+    .ps__rail-x.ps--clicking > .ps__thumb-x,
+    .ps__rail-y.ps--clicking > .ps__thumb-y {
+      background-color: light.$gray-700;
+    }
+
+    .ps-inverted {
+      .ps__rail-x:hover,
+      .ps__rail-y:hover,
+      .ps__rail-x:focus,
+      .ps__rail-y:focus,
+      .ps__rail-x.ps--clicking,
+      .ps__rail-y.ps--clicking {
+        background-color: rgba(#fff, 0.5);
+      }
+
+      .ps__thumb-x,
+      .ps__thumb-y {
+        background-color: rgba(#fff, 0.7);
+      }
+
+      .ps__rail-x:hover > .ps__thumb-x,
+      .ps__rail-y:hover > .ps__thumb-y,
+      .ps__rail-x:focus > .ps__thumb-x,
+      .ps__rail-y:focus > .ps__thumb-y,
+      .ps__rail-x.ps--clicking > .ps__thumb-x,
+      .ps__rail-y.ps--clicking > .ps__thumb-y {
+        background-color: #fff;
+      }
+    }
+  }
+}
+
+// Firefox width issue fixed
+@supports (-moz-appearance: none) {
+  #both-scrollbars-example {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+// Dark style
+@if $enable-dark-style {
+  .dark-style {
+    .ps__thumb-x,
+    .ps__thumb-y {
+      background-color: rgba(255, 255, 255, 0.438133) !important;
+    }
+
+    .ps__rail-x:hover,
+    .ps__rail-y:hover,
+    .ps__rail-x:focus,
+    .ps__rail-y:focus,
+    .ps__rail-x.ps--clicking,
+    .ps__rail-y.ps--clicking {
+      background-color: rgba(255, 255, 255, 0.438133) !important;
+    }
+
+    .ps__rail-x:hover > .ps__thumb-x,
+    .ps__rail-y:hover > .ps__thumb-y,
+    .ps__rail-x:focus > .ps__thumb-x,
+    .ps__rail-y:focus > .ps__thumb-y,
+    .ps__rail-x.ps--clicking > .ps__thumb-x,
+    .ps__rail-y.ps--clicking > .ps__thumb-y {
+      background-color: dark.$gray-700;
+    }
+
+    .ps-inverted {
+      .ps__rail-x:hover,
+      .ps__rail-y:hover,
+      .ps__rail-x:focus,
+      .ps__rail-y:focus,
+      .ps__rail-x.ps--clicking,
+      .ps__rail-y.ps--clicking {
+        background-color: rgba(#fff, 0.5);
+      }
+
+      .ps__thumb-x,
+      .ps__thumb-y {
+        background-color: rgba(#fff, 0.7);
+      }
+
+      .ps__rail-x:hover > .ps__thumb-x,
+      .ps__rail-y:hover > .ps__thumb-y,
+      .ps__rail-x:focus > .ps__thumb-x,
+      .ps__rail-y:focus > .ps__thumb-y,
+      .ps__rail-x.ps--clicking > .ps__thumb-x,
+      .ps__rail-y.ps--clicking > .ps__thumb-y {
+        background-color: #fff;
+      }
+    }
+  }
+}
+// RTL rail-y position
+.ps--active-y > .ps__rail-y {
+  @include app-rtl {
+    left: 0;
+  }
+}

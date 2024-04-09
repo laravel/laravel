@@ -1,0 +1,29 @@
+// Within menu
+@mixin template-app-brand-collapsed() {
+  .app-brand {
+    width: $menu-collapsed-width;
+  }
+
+  .app-brand-logo,
+  .app-brand-link,
+  .app-brand-text {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .app-brand-logo ~ .app-brand-text,
+  .app-brand .layout-menu-toggle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 0;
+  }
+
+  .app-brand-img {
+    display: none;
+  }
+
+  .app-brand-img-collapsed {
+    display: block;
+  }
+}

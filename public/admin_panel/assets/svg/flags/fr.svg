@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>BL</title>
+    <defs>
+        <circle id="path-1" cx="20" cy="20" r="20"></circle>
+        <rect id="path-3" x="0" y="0" width="53.3333333" height="40"></rect>
+        <circle id="path-5" cx="20" cy="20" r="20"></circle>
+    </defs>
+    <g id="Flagpack" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-978.000000, -678.000000)">
+            <g id="BL" transform="translate(978.000000, 678.000000)">
+                <g id="Group-Clipped">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="path-1"></g>
+                    <g id="Group" mask="url(#mask-2)">
+                        <g transform="translate(-6.666667, 0.000000)" id="contents-Clipped">
+                            <mask id="mask-4" fill="white">
+                                <use xlink:href="#path-3"></use>
+                            </mask>
+                            <g id="path-3"></g>
+                            <g id="contents" mask="url(#mask-4)" fill-rule="nonzero">
+                                <polygon id="bottom" fill="#F50100" points="36.6666667 0 53.3333333 0 53.3333333 40 36.6666667 40"></polygon>
+                                <polygon id="left" fill="#2E42A5" points="0 0 20 0 20 40 0 40"></polygon>
+                                <polygon id="middle" fill="#F7FCFF" points="16.6666667 0 36.6666667 0 36.6666667 40 16.6666667 40"></polygon>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+                <g id="overlay-Clipped">
+                    <mask id="mask-6" fill="white">
+                        <use xlink:href="#path-5"></use>
+                    </mask>
+                    <g id="path-1"></g>
+                    <circle id="overlay" mask="url(#mask-6)" cx="20" cy="20" r="20"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,80 @@
+// Accordions
+// *******************************************************************************
+
+@each $color, $value in $theme-colors {
+  @if $color != primary {
+    // Mixins of different Advance Styling
+    @include template-accordion-header-variant('.accordion-header-#{$color}', $value);
+  }
+}
+
+.accordion-header + .accordion-collapse .accordion-body {
+  padding-top: 0;
+}
+
+// accordion without icon
+.accordion {
+  &.accordion-without-arrow {
+    .accordion-button::after {
+      background-image: none !important;
+    }
+  }
+  // Active accordion box shadow
+  .accordion-item.active {
+    box-shadow: $box-shadow;
+  }
+}
+
+// added box shadow
+.card.accordion-item {
+  box-shadow: none;
+}
+
+.accordion-button.collapsed:focus {
+  box-shadow: none;
+}
+.accordion-button {
+  box-shadow: none;
+}
+
+.accordion-header {
+  line-height: 1.54;
+}
+
+.accordion-item {
+  &:not(:first-of-type) {
+    border-top: $accordion-border-width solid $accordion-border-color;
+  }
+}
+
+// Accordion border radius
+.accordion-button {
+  font-weight: inherit;
+  @include border-top-radius($accordion-border-radius);
+  &.collapsed {
+    @include border-radius($accordion-border-radius);
+  }
+}
+
+// Default card styles of accordion
+.accordion > .card:not(:last-of-type) {
+  border-radius: $accordion-border-radius !important;
+  margin-bottom: 0.5rem;
+}
+
+// RTL
+// *******************************************************************************
+
+@include rtl-only {
+  .accordion-button {
+    text-align: right;
+    &::after {
+      margin-left: 0;
+      margin-right: auto;
+      transform: rotate(180deg);
+    }
+    &:not(.collapsed)::after {
+      transform: rotate(90deg);
+    }
+  }
+}

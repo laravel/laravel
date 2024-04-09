@@ -1,0 +1,41 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@use '../../scss/_components/include' as comp;
+
+@import '../../scss/_custom-variables/libs';
+@import '../../node_modules/datatables.net-select-bs5/css/select.bootstrap5';
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    table.dataTable tbody > tr.selected,
+    table.dataTable tbody > tr > .selected {
+      background-color: light.$gray-50;
+    }
+    table.dataTable tbody > tr.selected > *,
+    table.dataTable tbody > tr > .selected > * {
+      box-shadow: inset 0 0 0 light.$gray-50;
+      color: light.$body-color;
+    }
+    table.dataTable tbody tr.selected,
+    table.dataTable tbody th.selected,
+    table.dataTable tbody td.selected {
+      color: light.$body-color;
+    }
+  }
+}
+
+// Dark Style
+@if $enable-dark-style {
+  .dark-style {
+    table.dataTable tbody > tr.selected,
+    table.dataTable tbody > tr > .selected {
+      background-color: dark.$table-active-bg;
+    }
+    table.dataTable tbody tr.selected,
+    table.dataTable tbody th.selected,
+    table.dataTable tbody td.selected {
+      color: inherit;
+    }
+  }
+}

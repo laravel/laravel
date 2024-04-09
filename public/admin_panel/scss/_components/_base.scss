@@ -1,0 +1,174 @@
+// Base
+// *******************************************************************************
+
+body {
+  text-rendering: optimizeLegibility;
+  font-smoothing: antialiased;
+  -moz-font-feature-settings: 'liga' on;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@include media-breakpoint-up(md) {
+  button.list-group-item {
+    outline: none;
+  }
+}
+
+// * App Overlay
+// *******************************************************************************
+
+.app-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba($black, 0.5);
+  visibility: hidden;
+  z-index: 3;
+  transition: all 0.25s ease;
+  &.show {
+    visibility: visible;
+  }
+}
+
+// * Containers
+// *******************************************************************************
+
+.container,
+.container-fluid,
+.container-xxl {
+  padding-right: $container-padding-x-sm;
+  padding-left: $container-padding-x-sm;
+
+  @include media-breakpoint-up(lg) {
+    padding-right: $container-padding-x;
+    padding-left: $container-padding-x;
+  }
+}
+
+// * Thumbnails
+// *******************************************************************************
+
+.img-thumbnail {
+  position: relative;
+  display: block;
+  img {
+    z-index: 1;
+  }
+}
+.img-thumbnail-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  display: block;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+  transform: translate(-50%, -50%);
+
+  .img-thumbnail:hover &,
+  .img-thumbnail:focus & {
+    opacity: 1;
+  }
+}
+
+// Overlay effect
+.img-thumbnail-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  display: block;
+  transition: all 0.2s ease-in-out;
+
+  .img-thumbnail:not(:hover):not(:focus) & {
+    opacity: 0 !important;
+  }
+}
+
+.img-thumbnail-shadow {
+  transition: box-shadow 0.2s;
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 5px 20px rgba($black, 0.4);
+  }
+}
+
+// Zoom-in effect
+.img-thumbnail-zoom-in {
+  overflow: hidden;
+
+  img {
+    transition: all 0.3s ease-in-out;
+    transform: translate3d(0);
+  }
+
+  .img-thumbnail-content {
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+
+  &:hover,
+  &:focus {
+    img {
+      transform: scale(1.1);
+    }
+
+    .img-thumbnail-content {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+}
+
+// * IE Fixes
+// *******************************************************************************
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  // Fix IE parent container height bug when containing image with fluid width
+  .card,
+  .card-body,
+  .media,
+  .flex-column,
+  .tab-content {
+    min-height: 1px;
+  }
+
+  img {
+    min-height: 1px;
+    height: auto;
+  }
+}
+
+// * RTL
+// *******************************************************************************
+
+@if $rtl-support {
+  [dir='rtl'] body {
+    text-align: right;
+    direction: rtl;
+  }
+}
+
+// * Buy now section
+// *******************************************************************************
+.buy-now {
+  .btn-buy-now {
+    position: fixed;
+    bottom: 3rem;
+
+    right: $container-padding-x;
+    @include rtl-style() {
+      left: $container-padding-x;
+      right: inherit;
+    }
+    z-index: $zindex-menu-fixed;
+    box-shadow: 0 1px 20px 1px $danger;
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}

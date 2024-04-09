@@ -1,0 +1,163 @@
+@import './_components/include';
+@import './_theme/common';
+@import './_theme/libs';
+@import './_theme/pages';
+@import './_theme/_theme';
+
+$primary-color: #5a8dee;
+$body-bg: #f3f4f4;
+$menu-active-section-bg: #eceded;
+
+body {
+  background: $body-bg;
+}
+
+.bg-body {
+  background: $body-bg !important;
+}
+
+@include template-common-theme($primary-color);
+@include template-libs-theme($primary-color);
+@include template-pages-theme($primary-color);
+
+// Navbar
+// ---------------------------------------------------------------------------
+@include template-navbar-style('.bg-navbar-theme', $body-bg, $color: $body-color, $active-color: $headings-color);
+
+.layout-horizontal .layout-navbar {
+  background-color: $card-bg !important;
+  box-shadow: 0 1px 0 $border-color;
+}
+
+// Menu
+// ---------------------------------------------------------------------------
+@include template-menu-style(
+  '.bg-menu-theme',
+  $body-bg,
+  $color: $body-color,
+  $active-color: $primary-color,
+  $border: transparent,
+  $active-bg: rgba-to-hex(rgba($primary-color, 0.16), $body-bg)
+);
+@include media-breakpoint-up(xl) {
+  .layout-menu {
+    box-shadow: 0 0 0 1px $border-color;
+  }
+}
+
+.bg-menu-theme {
+  // Menu header
+  .menu-header {
+    color: $text-muted;
+  }
+  .menu-inner .menu-item.open:not(.active) > .menu-link:hover,
+  .menu-inner .menu-item:not(.active) .menu-link:hover {
+    html:not(.layout-menu-collapsed) &,
+    .layout-menu-hover.layout-menu-collapsed & {
+      background-color: rgba($black, 0.04);
+    }
+  }
+
+  // menu item open or active(horizontal)
+  .menu-inner .menu-sub > .menu-item.active,
+  .menu-inner .menu-sub > .menu-item.open {
+    > .menu-link.menu-toggle {
+      background-color: rgba($black, 0.04);
+      .menu-icon {
+        color: $primary-color;
+      }
+    }
+  }
+  // menu item active
+  .menu-inner > .menu-item.open:not(.active) {
+    html:not(.layout-menu-collapsed) &,
+    .layout-menu-hover.layout-menu-collapsed & {
+      background-color: $menu-active-section-bg;
+    }
+  }
+  .menu-inner > .menu-item.active {
+    background-color: $menu-active-section-bg;
+    .layout-menu-collapsed:not(.layout-menu-hover):not(.layout-menu-expanded) & {
+      background-color: rgba-to-hex(rgba($primary-color, 0.16), $body-bg) !important;
+      .menu-link {
+        color: $primary-color;
+      }
+    }
+  }
+  // Sub menu item link bullet
+  .menu-sub > .menu-item > .menu-link:before {
+    background-color: rgba-to-hex($gray-400, $rgba-to-hex-bg) !important;
+  }
+  // Sub menu item link active bullet
+  .menu-sub > .menu-item.active > .menu-link:not(.menu-toggle):before {
+    background-color: $primary-color !important;
+  }
+  // Menu header color
+  .menu-inner > .menu-header::before {
+    background-color: rgba-to-hex($gray-400, $rgba-to-hex-bg);
+  }
+
+  // Horizontal Menu
+  &.menu-horizontal {
+    background-color: $card-bg !important;
+    box-shadow: $box-shadow-sm;
+    .menu-inner .menu-item.open:not(.active) > .menu-link,
+    .menu-inner .menu-item:not(.active) .menu-link:hover,
+    .menu-inner .menu-sub .menu-item.active .menu-link:not(.menu-toggle):hover {
+      html:not(.layout-menu-collapsed) &,
+      .layout-menu-hover.layout-menu-collapsed & {
+        background-color: rgba($black, 0.06) !important;
+        color: $headings-color;
+      }
+    }
+
+    // menu-item's menu-link active
+    .menu-inner > .menu-item.active > .menu-link {
+      background-color: rgba-to-hex(rgba($primary-color, 0.16), $card-bg) !important;
+    }
+
+    // menu item active (overwrite)
+    .menu-inner > .menu-item.open:not(.active) {
+      html:not(.layout-menu-collapsed) & {
+        background-color: transparent;
+      }
+    }
+
+    .menu-inner .menu-item:not(.menu-item-closing) > .menu-sub {
+      background: $white !important;
+    }
+
+    .menu-inner .menu-sub > .menu-item.active,
+    .menu-inner .menu-sub > .menu-item.open {
+      > .menu-link.menu-toggle {
+        background-color: rgba($black, 0.06) !important;
+      }
+    }
+
+    .menu-inner .menu-sub > .menu-item.open:not(.active) {
+      .menu-link.menu-toggle {
+        .menu-icon {
+          color: $body-color;
+        }
+      }
+    }
+
+    .menu-inner > .menu-item.active {
+      > .menu-link {
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+// App Brand
+// ---------------------------------------------------------------------------
+.app-brand .layout-menu-toggle {
+  i {
+    color: $primary-color;
+  }
+}
+
+// Footer
+// ---------------------------------------------------------------------------
+@include template-footer-style('.bg-footer-theme', $body-bg, $color: $body-color, $active-color: $headings-color);

@@ -1,0 +1,125 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+@import '../../node_modules/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5';
+
+// Fixed column style
+div.dataTables_scrollBody thead tr,
+div.DTFC_LeftBodyLiner thead tr {
+  border-top-width: 0;
+  border-bottom-width: 0;
+}
+div.dataTables_scrollBody {
+  border: 0 !important;
+}
+@include app-ltr(false) {
+  div.dataTables_scrollFootInner table.table-bordered tr th:first-child,
+  div.dataTables_scrollHeadInner table.table-bordered tr th:first-child {
+    border-left: 0 !important;
+  }
+}
+@include app-rtl(false) {
+  table.dataTable thead th,
+  table.dataTable thead td,
+  table.dataTable tfoot th,
+  table.dataTable tfoot td {
+    text-align: right !important;
+  }
+}
+// Light style
+@if $enable-light-style {
+  .light-style {
+    table.DTFC_Cloned tr {
+      border-color: light.$table-border-color;
+    }
+    // fixed header and footer border
+    div.dataTables_scrollFootInner table.table-bordered tr th:first-child,
+    div.dataTables_scrollHeadInner table.table-bordered tr th:first-child {
+      border-left: 1px solid light.$table-border-color;
+    }
+    // fixed column background color
+    table.dataTable thead tr > .dtfc-fixed-left,
+    table.dataTable thead tr > .dtfc-fixed-right,
+    table.dataTable tbody tr > .dtfc-fixed-left,
+    table.dataTable tbody tr > .dtfc-fixed-right,
+    div.dtfc-right-top-blocker,
+    div.dtfc-left-top-blocker {
+      background-color: light.$card-bg;
+    }
+    // To override BS5 css
+    .dt-fixedcolumns thead {
+      border-top-color: light.$table-border-color;
+    }
+    &[dir='rtl'] {
+      div.dataTables_scrollHead,
+      div.dataTables_scrollBody {
+        table {
+          border: 0;
+        }
+      }
+      div.DTFC_LeftBodyLiner {
+        padding-right: 0 !important;
+      }
+      div.DTFC_RightHeadWrapper,
+      div.DTFC_RightBodyWrapper {
+        table {
+          border: 0;
+        }
+      }
+      div.DTFC_RightBodyLiner {
+        padding-left: 0 !important;
+      }
+    }
+  }
+}
+// Dark style
+@if $enable-dark-style {
+  .dark-style {
+    table.DTFC_Cloned tr {
+      background-color: dark.$card-bg;
+      border-color: dark.$table-border-color;
+    }
+    div.dataTables_scrollHead table,
+    div.DTFC_RightHeadWrapper table {
+      background-color: dark.$card-bg;
+    }
+    // fixed header and footer border
+    div.dataTables_scrollFootInner table.table-bordered tr th:first-child,
+    div.dataTables_scrollHeadInner table.table-bordered tr th:first-child {
+      border-left: 1px solid dark.$table-border-color;
+    }
+    // fixed column background color
+    table.dataTable thead tr > .dtfc-fixed-left,
+    table.dataTable thead tr > .dtfc-fixed-right,
+    table.dataTable tbody tr > .dtfc-fixed-left,
+    table.dataTable tbody tr > .dtfc-fixed-right,
+    div.dtfc-right-top-blocker,
+    div.dtfc-left-top-blocker {
+      background-color: dark.$card-bg;
+    }
+    // To override BS5 css
+    .dt-fixedcolumns thead {
+      border-top-color: dark.$table-border-color;
+    }
+    &[dir='rtl'] {
+      div.dataTables_scrollHead,
+      div.dataTables_scrollBody {
+        table {
+          border: 0;
+        }
+      }
+      div.DTFC_LeftBodyLiner {
+        padding-right: 0 !important;
+      }
+      div.DTFC_RightHeadWrapper,
+      div.DTFC_RightBodyWrapper {
+        table {
+          border: 0;
+        }
+      }
+      div.DTFC_RightBodyLiner {
+        padding-left: 0 !important;
+      }
+    }
+  }
+}

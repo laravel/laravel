@@ -1,0 +1,12 @@
+.api-key-actions {
+  position: absolute !important;
+  top: 0.75rem;
+}
+html:not([dir=rtl]) .api-key-actions {
+  right: 0.5rem;
+}
+[dir=rtl] .api-key-actions {
+  left: 0.5rem;
+}
+
+/*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzL3BhZ2UtYWNjb3VudC1zZXR0aW5ncy5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSw2QkFBNkI7RUFDN0IsWUFBWTtBQUNkO0FBQ0E7RUFDRSxhQUFhO0FBQ2Y7QUFDQTtFQUNFLFlBQVk7QUFDZCIsImZpbGUiOiJwYWdlcy9wYWdlLWFjY291bnQtc2V0dGluZ3MuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmFwaS1rZXktYWN0aW9ucyB7XG4gIHBvc2l0aW9uOiBhYnNvbHV0ZSAhaW1wb3J0YW50O1xuICB0b3A6IDAuNzVyZW07XG59XG5odG1sOm5vdChbZGlyPXJ0bF0pIC5hcGkta2V5LWFjdGlvbnMge1xuICByaWdodDogMC41cmVtO1xufVxuW2Rpcj1ydGxdIC5hcGkta2V5LWFjdGlvbnMge1xuICBsZWZ0OiAwLjVyZW07XG59XG4iXX0= */

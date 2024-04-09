@@ -1,0 +1,36 @@
+// Floating Labels
+// *******************************************************************************
+
+// Display placeholder on focus
+.form-floating {
+  > .form-control:focus,
+  > .form-control:not(:placeholder-shown) {
+    &::placeholder {
+      color: $input-placeholder-color;
+    }
+  }
+}
+
+// RTL
+@include rtl-only {
+  .form-floating {
+    > label {
+      right: 0;
+      transform-origin: 100% 0;
+    }
+
+    > .form-control:focus,
+    > .form-control:not(:placeholder-shown),
+    > .form-select {
+      ~ label {
+        transform: $form-floating-label-transform-rtl;
+      }
+    }
+
+    > .form-control:-webkit-autofill {
+      ~ label {
+        transform: $form-floating-label-transform-rtl;
+      }
+    }
+  }
+}

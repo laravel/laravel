@@ -1,0 +1,25 @@
+@import '../../node_modules/spinkit/spinkit';
+:root {
+  --sk-size: 30px;
+  --sk-color: #fff;
+}
+
+.sk-wave {
+  width: 40px;
+  white-space: nowrap;
+}
+
+.sk-fading-circle .sk-circle {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.sk-wave {
+  width: 40px;
+  white-space: nowrap;
+}
+
+.sk-fading-circle .sk-circle {
+  margin-top: 0;
+  margin-bottom: 0;
+}

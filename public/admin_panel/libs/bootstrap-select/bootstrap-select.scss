@@ -1,0 +1,230 @@
+// Bootstrap Select
+// *******************************************************************************
+
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+@import '../../node_modules/bootstrap-select/sass/bootstrap-select.scss';
+
+// Common Styles
+.bootstrap-select *,
+.bootstrap-select .dropdown-toggle:focus {
+  outline: 0 !important;
+}
+.bootstrap-select {
+  .dropdown-toggle {
+    @include app-ltr {
+      padding: 0.535rem 1.375rem 0.535rem 0.75rem;
+    }
+
+    @include app-rtl {
+      padding: 0.535rem 0.75rem 0.535rem 1.375rem;
+    }
+    &:after {
+      transform: rotate(45deg) translateY(-50%);
+      position: absolute;
+      right: 13px;
+      top: 50%;
+
+      @include app-rtl {
+        left: 13px;
+        right: auto;
+      }
+    }
+  }
+
+  // For header dropdown close btn
+  .dropdown-menu .popover-header {
+    display: flex;
+    align-items: center;
+    button {
+      border: none;
+      font-size: light.$h4-font-size;
+      background: transparent;
+      padding-bottom: 0.125rem;
+    }
+  }
+}
+
+.dropdown-header {
+  font-family: light.$font-family-serif;
+  font-weight: 500;
+}
+
+.bootstrap-select.dropup .dropdown-toggle:after {
+  transform: rotate(-45deg) translateY(-50%);
+}
+
+// Menu Position
+.bootstrap-select.show-tick .dropdown-menu {
+  li a {
+    position: relative;
+  }
+  // RTL
+  @include app-rtl {
+    li a span.text {
+      margin-left: 2.125rem;
+      margin-right: 0;
+    }
+  }
+
+  .selected span.check-mark {
+    display: block;
+    right: 1rem;
+    top: 50%;
+    margin: 0;
+    transform: translateY(-50%);
+    line-height: 1;
+
+    @include app-rtl {
+      left: 1rem;
+      right: auto;
+    }
+  }
+}
+
+// To remove ripple effect
+.bootstrap-select .dropdown-menu.inner .selected .waves-ripple {
+  display: none !important;
+}
+
+.bootstrap-select:not(.input-group-btn),
+.bootstrap-select[class*='col-'] {
+  display: block;
+}
+
+html[class] .bootstrap-select.form-select {
+  background: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.bootstrap-select .bs-actionsbox {
+  .actions-btn {
+    padding: 0.375rem 0.675rem;
+    box-shadow: none;
+    border-color: transparent;
+  }
+}
+// RTL
+
+@include app-rtl(false) {
+  .bootstrap-select .dropdown-toggle .filter-option {
+    float: right;
+    right: 0;
+    left: auto;
+    text-align: right;
+    padding-left: inherit;
+    padding-right: 0;
+    margin-left: -100%;
+    margin-right: 0;
+  }
+  // Fix: Subtext rtl support
+  .bootstrap-select .filter-option-inner-inner {
+    float: right;
+  }
+  .bootstrap-select .dropdown-menu li small.text-muted,
+  .bootstrap-select .filter-option small.text-muted {
+    position: relative;
+    top: 2px;
+    padding-left: 0;
+    padding-right: 0.5em;
+    float: left;
+  }
+
+  .bootstrap-select .dropdown-toggle .filter-option-inner {
+    padding-left: inherit;
+    padding-right: 0;
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    .bootstrap-select {
+      background-color: light.$input-bg;
+      .dropdown-toggle {
+        border-radius: light.$border-radius;
+        border: light.$input-border-width solid light.$input-border-color;
+        &:not(.show):hover {
+          border-color: light.$input-border-color;
+        }
+      }
+      .dropdown-menu {
+        .dropdown-header {
+          color: light.$headings-color;
+        }
+        .notify {
+          background: light.$popover-bg;
+          border: light.$input-border-width solid light.$popover-border-color;
+        }
+        .popover-header button {
+          color: light.$body-color;
+        }
+        .bs-actionsbox {
+          .actions-btn {
+            background-color: rgba(light.$secondary, 0.16);
+            color: light.$secondary;
+            &:hover {
+              background-color: light.$secondary;
+              color: light.$white;
+            }
+          }
+        }
+      }
+
+      &.disabled {
+        background-color: light.$input-disabled-bg;
+      }
+
+      .filter-option-inner-inner {
+        color: light.$body-color;
+      }
+    }
+  }
+}
+
+// Dark Style
+@if $enable-dark-style {
+  .dark-style {
+    .bootstrap-select {
+      background-color: dark.$input-bg;
+      .dropdown-toggle {
+        border: dark.$input-border-width solid dark.$input-border-color;
+        border-radius: dark.$border-radius;
+        &:not(.show):hover {
+          border-color: dark.$input-border-color;
+        }
+      }
+      .dropdown-menu {
+        .dropdown-header {
+          color: dark.$headings-color;
+        }
+        .notify {
+          background: dark.$popover-bg;
+          border: dark.$input-border-width solid dark.$popover-border-color;
+        }
+        .popover-header button {
+          color: dark.$body-color;
+        }
+        .bs-actionsbox {
+          .actions-btn {
+            background-color: rgba(dark.$secondary, 0.16);
+            color: dark.$secondary;
+            &:hover {
+              background-color: dark.$secondary;
+              color: dark.$white;
+            }
+          }
+        }
+      }
+      &.disabled {
+        background-color: dark.$input-disabled-bg;
+      }
+      .filter-option-inner-inner {
+        color: dark.$body-color;
+      }
+    }
+  }
+}

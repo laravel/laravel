@@ -1,0 +1,171 @@
+/**
+* Apex Charts
+*/
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+@import '../../node_modules/apexcharts-clevision/dist/apexcharts';
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    .apexcharts-canvas {
+      .apexcharts-tooltip {
+        background: light.$card-bg;
+        border-color: light.$border-color;
+        box-shadow: light.$box-shadow;
+        .apexcharts-tooltip-title {
+          background: light.$card-bg;
+          border-color: light.$border-color;
+          font-family: light.$font-family-base !important;
+        }
+        &.apexcharts-theme-light {
+          color: light.$headings-color;
+        }
+        &.apexcharts-theme-dark {
+          color: light.$white;
+        }
+        .apexcharts-tooltip-title {
+          font-weight: light.$headings-font-weight;
+        }
+      }
+      .apexcharts-xaxistooltip,
+      .apexcharts-yaxistooltip {
+        background: light.$body-bg;
+        border-color: light.$border-color;
+        color: light.$headings-color;
+        &.apexcharts-xaxistooltip-bottom,
+        &.apexcharts-yaxistooltip-bottom {
+          &:after {
+            border-bottom-color: light.$body-bg;
+          }
+          &:before {
+            border-bottom-color: light.$border-color;
+          }
+        }
+        &.apexcharts-xaxistooltip-left,
+        &.apexcharts-yaxistooltip-left {
+          &:after {
+            border-left-color: light.$body-bg;
+          }
+          &:before {
+            border-left-color: light.$border-color;
+          }
+        }
+        &.apexcharts-xaxistooltip-right,
+        &.apexcharts-yaxistooltip-right {
+          &:after {
+            border-right-color: light.$body-bg;
+          }
+          &:before {
+            border-right-color: light.$border-color;
+          }
+        }
+        &.apexcharts-xaxistooltip-top,
+        &.apexcharts-yaxistooltip-top {
+          &:after {
+            border-top-color: light.$body-bg;
+          }
+          &:before {
+            border-top-color: light.$border-color;
+          }
+        }
+      }
+      .apexcharts-tooltip-text {
+        font-family: light.$font-family-base !important;
+        filter: none;
+      }
+    }
+  }
+}
+// Dark Style
+@if $enable-dark-style {
+  .dark-style {
+    #radarChart {
+      .apexcharts-canvas {
+        .apexcharts-grid line {
+          opacity: 0;
+        }
+      }
+    }
+    .apexcharts-canvas {
+      .apexcharts-tooltip {
+        background: dark.$body-bg;
+        border-color: dark.$border-color;
+        box-shadow: dark.$box-shadow;
+        .apexcharts-tooltip-title {
+          background: dark.$body-bg;
+          border-color: dark.$border-color;
+          font-family: dark.$font-family-base !important;
+        }
+        &.apexcharts-theme-light {
+          color: dark.$headings-color;
+        }
+        &.apexcharts-theme-dark {
+          color: dark.$white;
+        }
+        .apexcharts-tooltip-title {
+          font-weight: dark.$headings-font-weight;
+        }
+      }
+      .apexcharts-xaxistooltip,
+      .apexcharts-yaxistooltip {
+        background: dark.$body-bg;
+        color: dark.$headings-color;
+        border-color: dark.$border-color;
+        &.apexcharts-xaxistooltip-bottom,
+        &.apexcharts-yaxistooltip-bottom {
+          &:after {
+            border-bottom-color: dark.$body-bg;
+          }
+          &:before {
+            border-bottom-color: dark.$border-color;
+          }
+        }
+        &.apexcharts-xaxistooltip-left,
+        &.apexcharts-yaxistooltip-left {
+          &:after {
+            border-left-color: dark.$body-bg;
+          }
+          &:before {
+            border-left-color: dark.$border-color;
+          }
+        }
+        &.apexcharts-xaxistooltip-right,
+        &.apexcharts-yaxistooltip-right {
+          &:after {
+            border-right-color: dark.$body-bg;
+          }
+          &:before {
+            border-right-color: dark.$border-color;
+          }
+        }
+        &.apexcharts-xaxistooltip-top,
+        &.apexcharts-yaxistooltip-top {
+          &:after {
+            border-top-color: dark.$body-bg;
+          }
+          &:before {
+            border-top-color: dark.$border-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+// RTL
+@include app-rtl(false) {
+  .apexcharts-canvas {
+    .apexcharts-yaxis {
+      text {
+        text-anchor: start;
+      }
+    }
+    .apexcharts-legend-marker,
+    .apexcharts-tooltip-marker {
+      margin-right: 0;
+      margin-left: 0.5rem;
+    }
+  }
+}

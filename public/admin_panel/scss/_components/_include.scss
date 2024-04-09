@@ -1,0 +1,11 @@
+// Include
+// *******************************************************************************
+
+@import '../_bootstrap-extended/include';
+
+//Mixins
+@import './_mixins'; // Components mixins
+
+//Components variables
+@import '../_custom-variables/components'; // Components variable (for customization purpose)
+@import 'variables'; // Components variable

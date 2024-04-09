@@ -1,0 +1,129 @@
+@import '../../scss/_bootstrap-extended/functions';
+
+@mixin flatpickr-theme($background, $color: null) {
+  $in-range-bg: rgba-to-hex(rgba($background, 0.08), #fff);
+  $color: if($color, $color, color-contrast($background));
+
+  .flatpickr-calendar .numInputWrapper span {
+    &.arrowDown:after {
+      border-top-color: $color;
+    }
+
+    &.arrowUp:after {
+      border-bottom-color: $color;
+    }
+  }
+
+  .flatpickr-day {
+    &.today {
+      border-color: $background;
+    }
+
+    &.inRange,
+    &.nextMonthDay.inRange,
+    &.prevMonthDay.inRange,
+    &.today.inRange,
+    &.prevMonthDay.today.inRange,
+    &.nextMonthDay.today.inRange {
+      color: $background !important;
+      background: $in-range-bg !important;
+      border-color: $in-range-bg !important;
+    }
+
+    &.selected,
+    &.selected.inRange,
+    &.selected:focus,
+    &.selected:hover,
+    &.selected.nextMonthDay,
+    &.selected.prevMonthDay,
+    &.startRange,
+    &.startRange.inRange,
+    &.startRange:focus,
+    &.startRange:hover,
+    &.startRange.nextMonthDay,
+    &.startRange.prevMonthDay,
+    &.endRange,
+    &.endRange.inRange,
+    &.endRange:focus,
+    &.endRange:hover,
+    &.endRange.nextMonthDay,
+    &.endRange.prevMonthDay,
+    &.week.selected {
+      color: $color !important;
+      background: $background !important;
+      border-color: $background !important;
+    }
+  }
+  .flatpickr-prev-month,
+  .flatpickr-next-month {
+    border: 1px solid $background;
+    svg {
+      fill: $background;
+      stroke: $background;
+    }
+  }
+}
+
+@mixin flatpickr-dark-theme($background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+  $in-range-bg: rgba-to-hex(rgba($background, 0.16), #283144);
+
+  .flatpickr-calendar .numInputWrapper span {
+    &.arrowUp:after {
+      border-bottom-color: $color;
+    }
+
+    &.arrowDown:after {
+      border-top-color: $color;
+    }
+  }
+
+  .flatpickr-day {
+    &.today {
+      border-color: $background;
+    }
+
+    &.inRange,
+    &.nextMonthDay.inRange,
+    &.prevMonthDay.inRange,
+    &.today.inRange,
+    &.nextMonthDay.today.inRange,
+    &.prevMonthDay.today.inRange {
+      border-color: $in-range-bg !important;
+      background: $in-range-bg !important;
+      color: $background !important;
+    }
+
+    &.selected,
+    &.selected.inRange,
+    &.selected:focus,
+    &.selected:hover,
+    &.selected.prevMonthDay,
+    &.selected.nextMonthDay,
+    &.startRange,
+    &.startRange.inRange,
+    &.startRange:focus,
+    &.startRange:hover,
+    &.startRange.prevMonthDay,
+    &.startRange.nextMonthDay,
+    &.endRange,
+    &.endRange.inRange,
+    &.endRange:focus,
+    &.endRange:hover,
+    &.endRange.nextMonthDay,
+    &.endRange.prevMonthDay,
+    &.week.selected {
+      background: $background !important;
+      border-color: $background !important;
+      color: $color !important;
+    }
+  }
+  .flatpickr-prev-month,
+  .flatpickr-next-month {
+    border: 1px solid $background;
+    svg {
+      fill: $background;
+      stroke: $background;
+    }
+  }
+}

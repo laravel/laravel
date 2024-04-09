@@ -1,0 +1,170 @@
+// Avatar
+// *******************************************************************************
+
+// Avatar Styles
+.avatar {
+  position: relative;
+  width: $avatar-size;
+  height: $avatar-size;
+  cursor: pointer;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  // Avatar Initials if no images added
+  .avatar-initial {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $white;
+    background-color: $secondary;
+    font-weight: $font-weight-semibold;
+  }
+  // Avatar Status indication
+  &.avatar-online,
+  &.avatar-offline,
+  &.avatar-away,
+  &.avatar-busy {
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 3px;
+      width: 8px;
+      height: 8px;
+      border-radius: 100%;
+      box-shadow: 0 0 0 2px $white;
+    }
+  }
+  &.avatar-online:after {
+    background-color: $success;
+  }
+  &.avatar-offline:after {
+    background-color: $secondary;
+  }
+  &.avatar-away:after {
+    background-color: $warning;
+  }
+  &.avatar-busy:after {
+    background-color: $danger;
+  }
+}
+
+// Pull up avatar style
+.pull-up {
+  transition: all 0.25s ease;
+  &:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: $box-shadow;
+    z-index: 30;
+    border-radius: 50%;
+  }
+}
+
+// Avatar Sizes
+.avatar-xs {
+  @include template-avatar-style($avatar-size-xs, $avatar-size-xs, $avatar-initial-xs, 1px);
+}
+.avatar-sm {
+  @include template-avatar-style($avatar-size-sm, $avatar-size-sm, $avatar-initial-sm, 2px);
+}
+.avatar-md {
+  @include template-avatar-style($avatar-size-md, $avatar-size-md, $avatar-initial-md, 4px);
+}
+.avatar-lg {
+  @include template-avatar-style($avatar-size-lg, $avatar-size-lg, $avatar-initial-lg, 5px);
+}
+.avatar-xl {
+  @include template-avatar-style($avatar-size-xl, $avatar-size-xl, $avatar-initial-xl, 6px);
+}
+
+// Avatar Group SCSS
+.avatar-group {
+  .avatar {
+    transition: all 0.25s ease;
+    img,
+    .avatar-initial {
+      border: 2px solid $avatar-group-border;
+      // box-shadow: 0 0 0 2px $avatar-group-border, inset 0 0 0 1px rgba($black, 0.07); //0 2px 10px 0 rgba($secondary,.3);
+    }
+    .avatar-initial {
+      background-color: tint-color($secondary, 20%);
+    }
+    &:hover {
+      z-index: 30;
+      transition: all 0.25s ease;
+    }
+  }
+  // Avatar Group Sizings
+  .avatar {
+    margin-left: -0.8rem;
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+  .avatar-xs {
+    margin-left: -0.65rem;
+  }
+  .avatar-sm {
+    margin-left: -0.75rem;
+  }
+  .avatar-md {
+    margin-left: -0.9rem;
+  }
+  .avatar-lg {
+    margin-left: -1.5rem;
+  }
+  .avatar-xl {
+    margin-left: -1.75rem;
+  }
+}
+
+// Avatar Group RTL with sizing
+@include rtl-only {
+  .avatar-group {
+    // Avatar Group Sizings
+    .avatar {
+      margin-right: -0.8rem;
+      margin-left: 0;
+    }
+    .avatar-xs {
+      margin-right: -0.65rem;
+    }
+    .avatar-sm {
+      margin-right: -0.75rem;
+    }
+    .avatar-md {
+      margin-right: -0.9rem;
+    }
+    .avatar-lg {
+      margin-right: -1.5rem;
+    }
+    .avatar-xl {
+      margin-right: -1.75rem;
+    }
+  }
+}
+
+// Avatar dark css
+@if $dark-style {
+  .avatar-group .avatar .avatar-initial {
+    background-color: tint-color($avatar-group-border, 10%);
+  }
+  // Avatar Status indication
+  .avatar {
+    &.avatar-online,
+    &.avatar-offline,
+    &.avatar-away,
+    &.avatar-busy {
+      &:after {
+        box-shadow: 0 0 0 2px $body-bg;
+      }
+    }
+  }
+}

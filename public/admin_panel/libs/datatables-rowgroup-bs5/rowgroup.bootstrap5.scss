@@ -1,0 +1,27 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+
+@import '../../node_modules/datatables.net-rowgroup-bs5/css/rowGroup.bootstrap5';
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    tr.group,
+    tr.group:hover {
+      background-color: light.$gray-100 !important;
+      color: light.$headings-color;
+    }
+  }
+}
+
+// Dark style
+@if $enable-dark-style {
+  .dark-style {
+    tr.group,
+    tr.group:hover {
+      background-color: rgba(dark.$gray-500, dark.$table-striped-bg-factor) !important;
+      color: dark.$headings-color;
+    }
+  }
+}

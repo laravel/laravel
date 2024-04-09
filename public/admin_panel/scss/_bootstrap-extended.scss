@@ -1,0 +1,39 @@
+@import '_bootstrap-extended/include';
+
+// Import bootstrap extended scss
+@import '_bootstrap-extended/root';
+@import '_bootstrap-extended/reboot';
+@import '_bootstrap-extended/type';
+@import '_bootstrap-extended/utilities';
+@import '_bootstrap-extended/tables';
+@import '_bootstrap-extended/buttons';
+@import '_bootstrap-extended/button-group';
+@import '_bootstrap-extended/badge';
+@import '_bootstrap-extended/dropdown';
+@import '_bootstrap-extended/nav';
+@import '_bootstrap-extended/pagination';
+@import '_bootstrap-extended/alert';
+@import '_bootstrap-extended/tooltip';
+@import '_bootstrap-extended/popover';
+@import '_bootstrap-extended/forms';
+@import '_bootstrap-extended/modal';
+@import '_bootstrap-extended/progress';
+@import '_bootstrap-extended/breadcrumb';
+@import '_bootstrap-extended/list-group';
+@import '_bootstrap-extended/navbar';
+@import '_bootstrap-extended/card';
+@import '_bootstrap-extended/accordion';
+@import '_bootstrap-extended/close';
+@import '_bootstrap-extended/toasts';
+@import '_bootstrap-extended/carousel';
+@import '_bootstrap-extended/spinners';
+@import '_bootstrap-extended/offcanvas';
+
+// Common Utilities
+@import '../node_modules/bootstrap/scss/utilities/api';
+
+// LTR Utilities
+@include ltr-only {
+  @import '_bootstrap-extended/utilities-ltr';
+  @import '../node_modules/bootstrap/scss/utilities/api';
+}

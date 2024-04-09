@@ -1,0 +1,39 @@
+// Pickr
+// *******************************************************************************
+
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+
+@import 'pickr-classic';
+@import 'pickr-monolith';
+@import 'pickr-nano';
+@import 'mixins';
+
+@if $enable-light-style {
+  .light-style {
+    .pcr-app {
+      .pcr-interaction input:focus {
+        box-shadow: light.$box-shadow;
+      }
+    }
+  }
+}
+
+// Dark style for pickr
+@if $enable-dark-style {
+  .dark-style {
+    .pcr-app {
+      background: dark.$card-bg !important;
+
+      .pcr-type:not(.active),
+      .pcr-result {
+        background: dark.$dropdown-bg !important;
+        color: dark.$white !important;
+      }
+      .pcr-interaction input:focus {
+        box-shadow: dark.$box-shadow;
+      }
+    }
+  }
+}

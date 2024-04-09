@@ -1,0 +1,255 @@
+// * Common
+// *******************************************************************************
+
+@use '../_bootstrap-extended/include' as light;
+
+.ui-square,
+.ui-rect,
+.ui-rect-30,
+.ui-rect-60,
+.ui-rect-67,
+.ui-rect-75 {
+  position: relative !important;
+  display: block !important;
+  padding-top: 100% !important;
+  width: 100% !important;
+}
+
+.ui-square {
+  padding-top: 100% !important;
+}
+
+.ui-rect {
+  padding-top: 50% !important;
+}
+
+.ui-rect-30 {
+  padding-top: 30% !important;
+}
+
+.ui-rect-60 {
+  padding-top: 60% !important;
+}
+
+.ui-rect-67 {
+  padding-top: 67% !important;
+}
+
+.ui-rect-75 {
+  padding-top: 75% !important;
+}
+
+.ui-square-content,
+.ui-rect-content {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+}
+
+.text-strike-through {
+  text-decoration: line-through;
+}
+
+// * Line Clamp with ellipsis
+// *******************************************************************************
+
+$clamp-numbers: (
+  '1': 1,
+  '2': 2,
+  '3': 3
+) !default;
+
+@each $clamp-class, $clamp-value in $clamp-numbers {
+  .line-clamp-#{$clamp-class} {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: $clamp-value;
+    -webkit-box-orient: vertical;
+  }
+}
+
+// * Stars
+// *******************************************************************************
+
+.ui-stars,
+.ui-star,
+.ui-star > * {
+  height: $ui-star-size;
+
+  // Disable dragging
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+.ui-stars {
+  display: inline-block;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.ui-star {
+  position: relative;
+  display: block;
+  float: left;
+  width: $ui-star-size;
+  height: $ui-star-size;
+  text-decoration: none !important;
+  font-size: $ui-star-size;
+  line-height: 1;
+  user-select: none;
+
+  @include rtl-style {
+    float: right;
+  }
+
+  & + & {
+    margin-left: $ui-stars-spacer;
+
+    @include rtl-style {
+      margin-right: $ui-stars-spacer;
+      margin-left: 0;
+    }
+  }
+
+  > *,
+  > *::before,
+  > *::after {
+    position: absolute;
+    left: $ui-star-size * 0.5;
+    height: 100%;
+    font-size: 1em;
+    line-height: 1;
+    transform: translateX(-50%);
+
+    @include rtl-style {
+      right: $ui-star-size * 0.5;
+      left: auto;
+      transform: translateX(50%);
+    }
+  }
+
+  > * {
+    top: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  > *:first-child {
+    z-index: 10;
+    display: none;
+    overflow: hidden;
+    color: $ui-star-filled-color;
+  }
+
+  // Default icon
+  > *:last-child {
+    z-index: 5;
+    display: block;
+  }
+
+  &.half-filled > *:first-child {
+    width: 50%;
+    transform: translateX(-100%);
+
+    @include rtl-style {
+      transform: translateX(100%);
+    }
+  }
+
+  &.filled > *:first-child,
+  &.half-filled > *:first-child {
+    display: block;
+  }
+
+  &.filled > *:last-child {
+    display: none;
+  }
+}
+
+// Hoverable
+
+.ui-stars.hoverable .ui-star > *:first-child {
+  display: block;
+}
+
+// Empty stars if first star is not filled
+.ui-stars.hoverable .ui-star:first-child:not(.filled),
+.ui-stars.hoverable .ui-star:first-child:not(.half-filled) {
+  > *:first-child,
+  ~ .ui-star > *:first-child {
+    display: none;
+  }
+}
+
+.ui-stars.hoverable .ui-star.filled > *:first-child,
+.ui-stars.hoverable .ui-star.half-filled > *:first-child {
+  display: block !important;
+}
+
+.ui-stars.hoverable:hover .ui-star > *:first-child {
+  display: block !important;
+  width: 100% !important;
+  transform: translateX(-50%) !important;
+
+  @include rtl-style {
+    transform: translateX(50%) !important;
+  }
+}
+
+.ui-stars.hoverable .ui-star:hover ~ .ui-star {
+  > *:first-child {
+    display: none !important;
+  }
+
+  > *:last-child {
+    display: block !important;
+  }
+}
+
+// * Background
+// *******************************************************************************
+
+.ui-bg-cover {
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center center;
+  background-size: cover;
+}
+
+.ui-bg-overlay-container,
+.ui-bg-video-container {
+  position: relative;
+
+  > * {
+    position: relative;
+  }
+}
+
+.ui-bg-overlay-container .ui-bg-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+}
+
+// * Styles
+// *******************************************************************************
+@if not $dark-style {
+  .light-style {
+    $ui-star-empty-color: light.$gray-200;
+
+    .ui-bordered {
+      border: 1px solid light.$border-color;
+    }
+
+    .ui-star > *:last-child {
+      color: $ui-star-empty-color;
+    }
+  }
+}

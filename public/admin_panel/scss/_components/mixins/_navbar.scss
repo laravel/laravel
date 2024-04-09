@@ -1,0 +1,90 @@
+// Navbar
+// *******************************************************************************
+
+@mixin template-navbar-style($parent, $bg, $color: null, $active-color: null, $border: null) {
+  $colors: get-navbar-prop($bg, $active-color, $color, $border);
+
+  #{$parent} {
+    background-color: map-get($colors, bg) !important;
+    color: map-get($colors, color);
+
+    .navbar-brand,
+    .navbar-brand a {
+      color: map-get($colors, active-color);
+
+      &:hover,
+      &:focus {
+        color: map-get($colors, active-color);
+      }
+    }
+
+    // Navbar search color
+    .navbar-search-wrapper {
+      .navbar-search-icon,
+      .search-input {
+        color: map-get($colors, color);
+      }
+    }
+    .search-input-wrapper {
+      .search-input,
+      .search-toggler {
+        background-color: $bg !important;
+        color: map-get($colors, color);
+      }
+    }
+
+    .navbar-nav {
+      > .nav-link,
+      > .nav-item > .nav-link,
+      > .nav > .nav-item > .nav-link {
+        color: map-get($colors, color);
+
+        &:hover,
+        &:focus {
+          color: map-get($colors, active-color);
+        }
+
+        &.disabled {
+          color: map-get($colors, disabled-color) !important;
+        }
+      }
+
+      .show > .nav-link,
+      .active > .nav-link,
+      .nav-link.show,
+      .nav-link.active {
+        color: map-get($colors, active-color);
+      }
+    }
+
+    .navbar-toggler {
+      color: map-get($colors, color);
+      border-color: map-get($colors, border);
+    }
+
+    .navbar-toggler-icon {
+      background-image: if(
+        map-get($colors, active-color) == #fff,
+        $navbar-dark-toggler-icon-bg,
+        $navbar-light-toggler-icon-bg
+      );
+    }
+
+    .navbar-text {
+      color: map-get($colors, color);
+
+      a {
+        color: map-get($colors, active-color);
+
+        &:hover,
+        &:focus {
+          color: map-get($colors, active-color);
+        }
+      }
+    }
+
+    hr {
+      border-color: map-get($colors, border);
+    }
+  }
+}

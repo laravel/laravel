@@ -1,0 +1,52 @@
+// * Carets
+// *******************************************************************************
+
+@mixin caret-up {
+  margin-top: -0;
+  width: $caret-width;
+  height: $caret-width;
+  border: 1.5px solid;
+  border-bottom: 0;
+  border-left: 0;
+  transform: rotate(-45deg);
+}
+
+@mixin caret-down {
+  margin-top: -1 * $caret-width;
+  width: $caret-width;
+  height: $caret-width;
+  border: 1.5px solid;
+  border-top: 0;
+  border-left: 0;
+  transform: rotate(45deg);
+}
+
+@mixin caret-left {
+  margin-top: -1 * $caret-width;
+  width: $caret-width;
+  height: $caret-width;
+  border: 1.5px solid;
+  border-top: 0;
+  border-right: 0;
+  transform: rotate(45deg);
+  @include rtl-style {
+    margin-right: 0 !important;
+    margin-left: $caret-spacing !important;
+    transform: rotate(225deg);
+  }
+}
+
+@mixin caret-right {
+  margin-top: -1 * $caret-width;
+  width: $caret-width;
+  height: $caret-width;
+  border: 1.5px solid;
+  border-top: 0;
+  border-left: 0;
+  transform: rotate(-45deg);
+  @include rtl-style {
+    margin-left: 0 !important;
+    margin-right: $caret-spacing !important;
+    transform: rotate(135deg);
+  }
+}

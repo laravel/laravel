@@ -1,0 +1,30 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../node_modules/datatables.net-responsive-bs5/css/responsive.bootstrap5';
+@import 'mixins';
+
+// Responsive table area '+' icon position
+table.dataTable.dtr-column > tbody > tr > td.control:before,
+table.dataTable.dtr-column > tbody > tr > th.control:before {
+  line-height: 0.8em;
+  font-weight: bold;
+}
+
+// To scroll within datatable area
+@media screen and (max-width: 1399.98px) {
+  table.dataTable.table-responsive {
+    display: block;
+  }
+}
+
+// Modal table style
+.modal.dtr-bs-modal {
+  .modal-body {
+    padding: 0;
+  }
+  .table {
+    tr:last-child > td {
+      border-bottom: 0;
+    }
+  }
+}

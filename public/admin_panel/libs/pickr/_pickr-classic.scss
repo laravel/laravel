@@ -1,0 +1,15 @@
+@import '../../node_modules/@simonwep/pickr/src/scss/themes/classic.scss';
+@import '../../scss/_custom-variables/libs';
+
+@include app-rtl(false) {
+  .pcr-app[data-theme='classic'] .pcr-selection .pcr-color-preview {
+    margin-right: inherit;
+    margin-left: 0.75em;
+  }
+
+  .pcr-app[data-theme='classic'] .pcr-selection .pcr-color-chooser,
+  .pcr-app[data-theme='classic'] .pcr-selection .pcr-color-opacity {
+    margin-left: inherit;
+    margin-right: 0.75em;
+  }
+}

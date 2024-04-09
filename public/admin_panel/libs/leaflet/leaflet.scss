@@ -1,0 +1,46 @@
+@import '../../scss/_bootstrap-extended/include';
+@import '../../scss/_custom-variables/libs';
+@import '../../node_modules/leaflet/dist/leaflet';
+
+.leaflet-map {
+  height: 400px;
+}
+
+.leaflet-pane {
+  z-index: 1;
+}
+
+// RTL
+
+@include app-rtl(false) {
+  .leaflet-map {
+    .leaflet-control-container {
+      .leaflet-left {
+        right: 0;
+        left: unset;
+        .leaflet-control-zoom,
+        .leaflet-control-layers {
+          margin-left: 0;
+          margin-right: 10px;
+        }
+      }
+      .leaflet-right {
+        left: 0;
+        right: unset;
+        .leaflet-control-zoom,
+        .leaflet-control-layers {
+          margin-left: 10px;
+          margin-right: 0px;
+        }
+      }
+    }
+  }
+}
+
+//Map tooltip border radius
+
+.leaflet-popup {
+  .leaflet-popup-content-wrapper {
+    border-radius: $border-radius;
+  }
+}

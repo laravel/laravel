@@ -1,0 +1,196 @@
+@import './_components/include-dark';
+@import './_theme/common';
+@import './_theme/libs';
+@import './_theme/pages';
+@import './_theme/_theme';
+
+$primary-color: #e30b5c;
+$menu-sub-bg: #273143;
+
+body {
+  background: $body-bg;
+}
+
+.bg-body {
+  background: $body-bg !important;
+}
+
+@include template-common-theme($primary-color);
+@include template-libs-theme($primary-color);
+@include template-pages-theme($primary-color);
+
+// Navbar
+// ---------------------------------------------------------------------------
+
+@include template-navbar-style('.bg-navbar-theme', $body-bg, $color: $body-color, $active-color: $headings-color);
+
+.layout-horizontal .layout-navbar {
+  background-color: $card-bg !important;
+  box-shadow: 0 1px 0 $border-color;
+}
+
+// Menu
+// ---------------------------------------------------------------------------
+
+@include template-menu-style(
+  '.bg-menu-theme',
+  $body-bg,
+  $color: $body-color,
+  $active-color: $white,
+  $border: transparent,
+  $active-bg: $primary-color
+);
+
+.layout-menu {
+  box-shadow: 0 0 0 1px $border-color;
+}
+
+.layout-menu-horizontal {
+  box-shadow: 0 -1px 0 $border-color inset;
+}
+
+.bg-menu-theme {
+  // Menu header
+  .menu-header {
+    color: $text-muted;
+  }
+
+  // menu item open(vertical) & hover (vertical & horizontal)
+  .menu-inner .menu-item.open > .menu-link:hover,
+  .menu-inner .menu-item:not(.active) .menu-link:hover {
+    background-color: rgba-to-hex(rgba($white, 0.08), $body-bg);
+  }
+  // menu item open(horizontal)
+  .menu-inner .menu-sub > .menu-item.active,
+  .menu-inner .menu-sub > .menu-item.open {
+    > .menu-link.menu-toggle {
+      background-color: rgba-to-hex(rgba($white, 0.08), $body-bg);
+    }
+    .menu-icon {
+      color: $primary-color;
+    }
+  }
+
+  // menu item active
+  .menu-inner > .menu-item.open:not(.active) {
+    html:not(.layout-menu-collapsed) &,
+    .layout-menu-hover.layout-menu-collapsed & {
+      background-color: rgba-to-hex(rgba($white, 0.04), $body-bg) !important;
+    }
+  }
+  .menu-inner > .menu-item.active {
+    background-color: rgba-to-hex(rgba($white, 0.04), $body-bg) !important;
+    .layout-menu-collapsed:not(.layout-menu-hover):not(.layout-menu-expanded) & {
+      background-color: $primary-color !important;
+      > .menu-link {
+        color: color-contrast($primary-color);
+      }
+    }
+  }
+
+  // Sub menu item link bullet
+  .menu-sub > .menu-item > .menu-link:before {
+    background-color: $body-color !important;
+  }
+  // Sub menu item link active bullet
+  .menu-sub > .menu-item.active > .menu-link:not(.menu-toggle):before {
+    background-color: color-contrast($primary-color) !important;
+  }
+  // Menu header color
+  .menu-inner > .menu-header::before {
+    background-color: $text-muted;
+  }
+
+  // Horizontal Menu
+  &.menu-horizontal {
+    background-color: $card-bg !important;
+    box-shadow: $box-shadow-sm;
+    .menu-inner .menu-item.open:not(.active) > .menu-link,
+    .menu-inner .menu-item:not(.active) .menu-link:hover,
+    .menu-inner .menu-item.active .menu-link:not(.menu-toggle):hover {
+      html:not(.layout-menu-collapsed) &,
+      .layout-menu-hover.layout-menu-collapsed & {
+        background-color: rgba($gray-500, 0.08) !important;
+        color: $headings-color;
+      }
+    }
+
+    // menu item active (overwrite)
+    .menu-inner > .menu-item.open:not(.active) {
+      html:not(.layout-menu-collapsed) & {
+        background-color: transparent !important;
+      }
+    }
+
+    .menu-inner .menu-item:not(.menu-item-closing) > .menu-sub {
+      background: $menu-sub-bg !important;
+    }
+    .menu-inner .menu-sub > .menu-item.active,
+    .menu-inner .menu-sub > .menu-item.open {
+      > .menu-link.menu-toggle {
+        background-color: rgba($gray-500, 0.08) !important;
+      }
+    }
+    .menu-inner .menu-sub > .menu-item.open:not(.active) {
+      .menu-link.menu-toggle {
+        .menu-icon {
+          color: $body-color;
+        }
+      }
+    }
+    .menu-inner > .menu-item.active {
+      > .menu-link {
+        color: color-contrast($primary-color);
+      }
+    }
+  }
+}
+
+.timeline .timeline-item .timeline-event:after {
+  content: '';
+}
+
+// App Brand
+// ---------------------------------------------------------------------------
+.app-brand .layout-menu-toggle {
+  i {
+    color: $primary-color;
+  }
+}
+
+// Footer
+// ---------------------------------------------------------------------------
+@include template-footer-style('.bg-footer-theme', $body-bg, $color: $body-color, $active-color: $headings-color);
+
+// Component styles
+// ---------------------------------------------------------------------------
+
+// card
+.card {
+  box-shadow: none;
+  border: $border-width solid $card-border-color;
+}
+
+// Accordion
+.accordion {
+  .accordion-item {
+    border-top: $accordion-border-width solid $accordion-border-color;
+  }
+}
+
+// default form wizard style
+
+.bs-stepper:not(.wizard-modern) {
+  border: 1px solid $border-color;
+  border-radius: $card-border-radius;
+}
+
+// modern form wizard style
+
+.bs-stepper.wizard-modern {
+  .bs-stepper-content {
+    box-shadow: none !important;
+    border: 1px solid $border-color;
+    border-radius: $card-border-radius;
+  }
+}

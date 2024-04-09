@@ -1,0 +1,235 @@
+// Switches
+// *******************************************************************************
+
+.switch {
+  margin-right: $switch-spacer-x;
+  position: relative;
+  vertical-align: middle;
+  margin-bottom: 0;
+  display: inline-block;
+  border-radius: $switch-border-radius;
+
+  @include template-switch-size-base(
+    '',
+    $switch-width,
+    $switch-height,
+    $switch-font-size,
+    $switch-label-font-size,
+    $switch-label-line-height,
+    $switch-inner-spacer
+  );
+
+  @include rtl-style {
+    margin-left: $switch-spacer-x;
+    margin-right: 0;
+  }
+}
+
+// Input
+// *******************************************************************************
+
+.switch-input {
+  opacity: 0;
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  z-index: -1;
+}
+
+// Toggle slider
+// *******************************************************************************
+
+.switch-toggle-slider {
+  position: absolute;
+  overflow: hidden;
+  border-radius: $switch-border-radius;
+  background: $switch-off-bg;
+  color: $switch-off-color;
+  transition-duration: 0.2s;
+  transition-property: left, right, background, box-shadow;
+  cursor: pointer;
+  user-select: none;
+}
+
+// Label switch
+// *******************************************************************************
+
+.switch-label {
+  display: inline-block;
+  font-weight: 400;
+  color: $switch-label-color;
+  position: relative;
+  cursor: default;
+}
+
+// Checked / Unchecked states
+.switch-off,
+.switch-on {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  transition-duration: 0.2s;
+  transition-property: left, right;
+}
+
+.switch-on {
+  left: -100%;
+
+  @include rtl-style {
+    left: auto;
+    right: -100%;
+  }
+
+  .switch-input:not(:checked) ~ .switch-toggle-slider & {
+    color: transparent;
+  }
+}
+
+.switch-off {
+  left: 0;
+
+  @include rtl-style {
+    right: 0;
+    left: auto;
+  }
+}
+
+// Checked state
+.switch-input:checked ~ .switch-toggle-slider {
+  .switch-on {
+    left: 0;
+
+    @include rtl-style {
+      right: 0;
+      left: auto;
+    }
+  }
+
+  .switch-off {
+    left: 100%;
+    color: transparent;
+
+    @include rtl-style {
+      right: 100%;
+      left: auto;
+    }
+  }
+}
+
+// Toggler
+// *******************************************************************************
+
+.switch-toggle-slider::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  display: block;
+  border-radius: 999px;
+  background: $switch-holder-bg;
+  box-shadow: $switch-holder-shadow;
+  transition-duration: 0.2s;
+  transition-property: left, right, background;
+
+  @include rtl-style {
+    right: 0;
+    left: auto;
+  }
+}
+
+// Stacked switches
+// *******************************************************************************
+
+.switches-stacked {
+  @include clearfix;
+
+  .switch {
+    display: block;
+    @include ltr-style {
+      margin-right: 0;
+    }
+    @include rtl-style {
+      margin-left: 0;
+    }
+    &:not(:last-child) {
+      margin-bottom: $switch-spacer-y;
+    }
+  }
+}
+
+// Square
+// *******************************************************************************
+
+.switch-square,
+.switch-square .switch-toggle-slider {
+  @if $enable-rounded {
+    border-radius: $switch-square-border-radius;
+  } @else {
+    border-radius: 0;
+  }
+}
+
+.switch-square .switch-toggle-slider::after {
+  @if $enable-rounded {
+    border-radius: calc(#{$switch-square-border-radius} - 2px);
+  } @else {
+    border-radius: 0;
+  }
+}
+
+// Disabled
+// *******************************************************************************
+
+.switch-input:disabled {
+  ~ .switch-toggle-slider {
+    opacity: $switch-disabled-opacity;
+    &::after {
+      box-shadow: none;
+    }
+  }
+
+  ~ .switch-label {
+    color: $switch-label-disabled-color;
+  }
+}
+
+// Switch Sizes
+// *******************************************************************************
+
+@include template-switch-size(
+  'sm',
+  $switch-width-sm,
+  $switch-height-sm,
+  $switch-font-size,
+  $switch-label-font-size-sm,
+  $switch-label-line-height-sm
+);
+@include template-switch-size(
+  'lg',
+  $switch-width-lg,
+  $switch-height-lg,
+  $switch-font-size,
+  $switch-label-font-size-lg,
+  $switch-label-line-height-lg
+);
+
+// Variations
+// *******************************************************************************
+
+@each $color, $value in $theme-colors {
+  @if $color != primary and $color != light {
+    @include template-switch-variant('.switch-#{$color}', $value);
+  }
+}
+
+// Validation states
+// *******************************************************************************
+
+.switch .valid-feedback,
+.switch .invalid-feedback {
+  padding-left: $switch-gutter;
+}
+
+@include template-switch-validation-state('valid', $form-feedback-valid-color);
+@include template-switch-validation-state('invalid', $form-feedback-invalid-color);

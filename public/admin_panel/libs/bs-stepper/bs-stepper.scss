@@ -1,0 +1,674 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../node_modules/bs-stepper/dist/css/bs-stepper';
+@import '../../scss/_custom-variables/libs';
+
+$bs-stepper-header-padding-y: light.$card-spacer-y !default;
+$bs-stepper-header-padding-x: light.$card-spacer-x !default;
+$bs-stepper-content-padding-x: light.$card-spacer-x !default;
+$bs-stepper-content-padding-y: light.$card-spacer-y !default;
+$bs-stepper-trigger-padding: 1rem !default;
+$bs-stepper-trigger-padding-vertical: 0.65rem !default;
+$bs-stepper-label-max-width: 224px !default;
+$bs-stepper-svg-icon-height: 3.375rem !default;
+$bs-stepper-svg-icon-width: 3.375rem !default;
+$bs-stepper-icon-font-size: 1.6rem !default;
+$bs-stepper-vertical-separator-height: 1.85rem !default;
+$bs-stepper-vertical-header-min-width: 18rem !default;
+$bs-stepper-circle-height: 2.375rem !default;
+
+// Default Styles
+.bs-stepper {
+  border-radius: light.$border-radius-lg;
+
+  .line {
+    flex: 0;
+    min-width: auto;
+    min-height: auto;
+    background-color: transparent;
+    margin: 0;
+
+    i {
+      font-size: 1.8rem;
+    }
+  }
+
+  .bs-stepper-header {
+    padding: $bs-stepper-header-padding-y $bs-stepper-header-padding-x;
+
+    .step {
+      .step-trigger {
+        padding: 0 $bs-stepper-trigger-padding;
+        flex-wrap: nowrap;
+
+        .bs-stepper-label {
+          margin: 0;
+          max-width: $bs-stepper-label-max-width;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          text-align: start;
+          display: inline-grid;
+          font-weight: light.$font-weight-semibold;
+          font-size: light.$font-size-base;
+
+          .bs-stepper-title {
+            line-height: 1;
+            margin-top: 0.25rem;
+          }
+          .bs-stepper-subtitle {
+            margin-top: 0.2rem;
+            font-size: light.$font-size-sm;
+            font-weight: normal;
+          }
+          @include app-ltr {
+            margin-left: 0.75rem;
+          }
+          @include app-rtl {
+            margin-right: 0.75rem;
+          }
+        }
+
+        &:hover {
+          background-color: transparent;
+        }
+      }
+
+      &:first-child {
+        .step-trigger {
+          @include app-ltr {
+            padding-left: 0;
+          }
+          @include app-rtl {
+            padding-right: 0;
+          }
+        }
+      }
+      &:last-child {
+        .step-trigger {
+          @include app-ltr {
+            padding-right: 0;
+          }
+          @include app-rtl {
+            padding-left: 0;
+          }
+        }
+      }
+      .bs-stepper-circle {
+        height: $bs-stepper-circle-height;
+        width: $bs-stepper-circle-height;
+        font-family: light.$font-family-serif;
+        font-weight: 500;
+        font-size: 1.125rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: light.$border-radius-xl;
+        background-color: transparent;
+      }
+      &.crossed {
+        .bs-stepper-circle {
+          font-family: light.$font-family-sans-serif;
+          font-weight: light.$font-weight-normal;
+        }
+      }
+    }
+  }
+
+  .bs-stepper-content {
+    padding: $bs-stepper-content-padding-y $bs-stepper-content-padding-x;
+  }
+
+  &.vertical {
+    .bs-stepper-header {
+      min-width: $bs-stepper-vertical-header-min-width;
+      .step {
+        .step-trigger {
+          padding: $bs-stepper-trigger-padding-vertical 0;
+        }
+        &:first-child {
+          .step-trigger {
+            padding-top: 0;
+          }
+        }
+        &:last-child {
+          .step-trigger {
+            padding-bottom: 0;
+          }
+        }
+      }
+      .line {
+        position: relative;
+        min-height: 1px;
+        &:before {
+          position: absolute;
+          top: -0.9rem;
+          left: 1.4rem;
+          display: block;
+          height: $bs-stepper-vertical-separator-height;
+          width: 2px;
+          content: '';
+        }
+      }
+    }
+    .bs-stepper-content {
+      width: 100%;
+      .content {
+        &:not(.active) {
+          display: none;
+        }
+      }
+    }
+
+    &.wizard-icons {
+      .step {
+        text-align: center;
+        padding: 0.75rem 0;
+      }
+      .bs-stepper-header {
+        .line:before {
+          top: -0.7rem;
+          left: 50%;
+          margin-left: -0.06rem;
+        }
+      }
+    }
+  }
+
+  &.wizard-icons {
+    .bs-stepper-header {
+      justify-content: space-around;
+
+      // vertical line removed in small screen
+      .line::before {
+        content: none !important;
+      }
+
+      .step-trigger {
+        flex-direction: column;
+        .bs-stepper-icon {
+          svg {
+            height: $bs-stepper-svg-icon-height;
+            width: $bs-stepper-svg-icon-width;
+            margin-bottom: 0.5rem;
+          }
+          i {
+            font-size: $bs-stepper-icon-font-size;
+          }
+        }
+        .bs-stepper-label {
+          font-weight: normal;
+        }
+      }
+      .step {
+        &.active {
+          .bs-stepper-label {
+            font-weight: light.$font-weight-semibold;
+          }
+        }
+      }
+    }
+  }
+
+  // Remove borders from wizard modern
+  &.wizard-modern {
+    .bs-stepper-header {
+      border-bottom: none !important;
+    }
+    .bs-stepper-content {
+      border-radius: light.$border-radius-lg;
+    }
+
+    &.vertical {
+      .bs-stepper-header {
+        border-right: none !important;
+      }
+    }
+  }
+}
+
+// removing padding top of content only in basic wizard
+.bs-stepper:not(.vertical, .wizard-modern, .wizard-icons) {
+  .bs-stepper-content {
+    padding-top: 0.5rem;
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    .bs-stepper {
+      background-color: light.$card-bg;
+      &:not(.wizard-modern) {
+        box-shadow: light.$card-box-shadow;
+      }
+
+      .bs-stepper-header {
+        .line {
+          color: light.$gray-500;
+          &:before {
+            background-color: light.$border-color;
+          }
+        }
+
+        .step {
+          &:not(.active) {
+            .bs-stepper-circle {
+              border: 1px solid light.$border-color;
+              color: light.$headings-color;
+            }
+          }
+          &.active {
+            .bs-stepper-circle {
+              box-shadow: light.$box-shadow-sm;
+            }
+            .bs-stepper-subtitle {
+              color: light.$body-color;
+            }
+          }
+          .bs-stepper-subtitle {
+            color: light.$text-muted;
+          }
+        }
+      }
+
+      .step-trigger {
+        color: light.$body-color;
+
+        &::after {
+          background-color: light.$border-color;
+        }
+      }
+
+      .step {
+        &.crossed {
+          .bs-stepper-circle {
+            color: light.$body-color !important;
+          }
+          .bs-stepper-label {
+            color: light.$text-muted !important;
+          }
+        }
+      }
+
+      &.vertical {
+        .bs-stepper-header {
+          border-bottom: none;
+          @include light.media-breakpoint-down(lg) {
+            border-right: none !important;
+            border-left: none !important;
+            border-bottom: 1px solid light.$border-color;
+          }
+        }
+      }
+
+      &.wizard-modern {
+        background-color: transparent;
+        .bs-stepper-content {
+          background-color: light.$card-bg;
+          box-shadow: light.$card-box-shadow;
+        }
+      }
+
+      &.wizard-icons {
+        .bs-stepper-header {
+          border-bottom: 1px solid light.$border-color;
+          .bs-stepper-icon {
+            svg {
+              fill: light.$body-color;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // ! FIX: Vertical border issue in rtl and ltr
+  @include app-rtl(false) {
+    &.light-style {
+      .bs-stepper {
+        &.vertical {
+          .bs-stepper-header {
+            border-left: 1px solid light.$border-color;
+          }
+        }
+      }
+    }
+  }
+  @include app-ltr(false) {
+    &.light-style {
+      .bs-stepper {
+        &.vertical {
+          .bs-stepper-header {
+            border-right: 1px solid light.$border-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Dark Style
+@if $enable-dark-style {
+  .dark-style {
+    .bs-stepper {
+      background-color: dark.$card-bg;
+      &:not(.wizard-modern) {
+        box-shadow: dark.$card-box-shadow;
+      }
+
+      .bs-stepper-header {
+        .bs-stepper-label {
+          color: dark.$body-color;
+        }
+        .line {
+          color: dark.$gray-500;
+          &:before {
+            background-color: dark.$border-color;
+          }
+        }
+
+        .step {
+          &:not(.active) {
+            .bs-stepper-circle {
+              border: 1px solid dark.$border-color;
+              color: dark.$headings-color;
+            }
+          }
+          &.active {
+            .bs-stepper-circle {
+              box-shadow: dark.$box-shadow-sm;
+            }
+            .bs-stepper-subtitle {
+              color: dark.$body-color;
+            }
+          }
+        }
+      }
+
+      .step-trigger {
+        color: dark.$body-color;
+        &::after {
+          background-color: dark.$border-color;
+        }
+      }
+
+      .step {
+        &.crossed {
+          .bs-stepper-circle {
+            color: dark.$body-color !important;
+          }
+          .bs-stepper-label {
+            color: dark.$text-muted !important;
+          }
+        }
+        .bs-stepper-subtitle {
+          color: dark.$text-muted;
+        }
+      }
+
+      &.vertical {
+        .bs-stepper-header {
+          border-bottom: none;
+          @include light.media-breakpoint-down(lg) {
+            border-right: none !important;
+            border-left: none !important;
+            border-bottom: 1px solid dark.$border-color;
+          }
+        }
+      }
+
+      &.wizard-modern {
+        background-color: transparent;
+        .bs-stepper-content {
+          background-color: dark.$card-bg;
+          box-shadow: dark.$card-box-shadow;
+        }
+      }
+
+      &.wizard-icons {
+        .bs-stepper-header {
+          border-bottom: 1px solid dark.$border-color;
+          .bs-stepper-icon {
+            i {
+              color: dark.$body-color;
+            }
+
+            svg {
+              fill: dark.$body-color;
+            }
+          }
+          .bs-stepper-label {
+            color: dark.$body-color;
+          }
+        }
+      }
+    }
+  }
+
+  // ! FIX: Vertical border issue in rtl and ltr
+  @include app-rtl(false) {
+    &.dark-style {
+      .bs-stepper {
+        &.vertical {
+          .bs-stepper-header {
+            border-left: 1px solid dark.$border-color;
+          }
+        }
+      }
+    }
+  }
+  @include app-ltr(false) {
+    &.dark-style {
+      .bs-stepper {
+        &.vertical {
+          .bs-stepper-header {
+            border-right: 1px solid dark.$border-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+// RTL
+@include app-rtl(false) {
+  .bs-stepper {
+    .bs-stepper-content {
+      .btn-next,
+      .btn-prev {
+        i {
+          transform: rotate(180deg);
+        }
+        span {
+          vertical-align: middle;
+        }
+      }
+    }
+
+    &.vertical {
+      .bs-stepper-header {
+        .line:before {
+          left: auto;
+          right: 1.4rem;
+        }
+      }
+
+      &.wizard-icons {
+        .bs-stepper-header {
+          .line:before {
+            right: 50%;
+          }
+        }
+      }
+    }
+
+    // Remove borders from wizard modern
+    &.wizard-modern {
+      &.vertical {
+        .bs-stepper-header {
+          border-left: none !important;
+        }
+      }
+    }
+
+    @include light.media-breakpoint-up(lg) {
+      .bs-stepper-header {
+        .line {
+          i {
+            transform: rotate(180deg);
+          }
+        }
+      }
+    }
+
+    @include light.media-breakpoint-down(lg) {
+      .bs-stepper-header {
+        .step {
+          .step-trigger {
+            .bs-stepper-label {
+              margin-left: 0;
+              margin-right: 0.35rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// horizontal bottom line only on large or above screen
+@include light.media-breakpoint-up(lg) {
+  .bs-stepper:not(.vertical, .wizard-icons) {
+    .bs-stepper-header {
+      .step {
+        .step-trigger {
+          position: relative;
+          padding-bottom: 0.6875rem;
+          margin: 0 1rem;
+
+          @include app-ltr {
+            padding-left: 0;
+          }
+
+          @include app-rtl {
+            padding-right: 0;
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 3px;
+            height: 0.188rem;
+            width: 100%;
+            border-radius: 1.5px;
+          }
+        }
+        &:first-child .step-trigger {
+          @include app-ltr {
+            margin-left: 0;
+          }
+          @include app-rtl {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Media Queries
+@include light.media-breakpoint-down(lg) {
+  .bs-stepper {
+    .bs-stepper-header {
+      flex-direction: column;
+      align-items: flex-start;
+      .step {
+        .step-trigger {
+          padding: 0.5rem 0;
+          flex-direction: row;
+          .bs-stepper-label {
+            margin-left: 0.35rem;
+          }
+        }
+        &:first-child {
+          .step-trigger {
+            padding-top: 0;
+          }
+        }
+        &:last-child {
+          .step-trigger {
+            padding-bottom: 0;
+          }
+        }
+      }
+    }
+    &.vertical {
+      flex-direction: column;
+      .bs-stepper-header {
+        align-items: flex-start;
+      }
+
+      &.wizard-icons {
+        .bs-stepper-header {
+          .line:before {
+            left: 0.75rem;
+            margin-left: 0;
+          }
+        }
+      }
+    }
+    &:not(.vertical) {
+      .bs-stepper-header {
+        .line {
+          i {
+            display: none;
+          }
+          position: relative;
+          min-height: 1px;
+          &:before {
+            position: absolute;
+            top: -0.75rem;
+
+            display: block;
+            height: $bs-stepper-vertical-separator-height - 0.3;
+            width: 2px;
+            content: '';
+
+            @include app-ltr {
+              left: 1.4rem;
+            }
+
+            @include app-rtl {
+              right: 1.4rem;
+            }
+          }
+        }
+      }
+    }
+    &.wizard-icons {
+      .bs-stepper-header {
+        .bs-stepper-icon {
+          svg {
+            margin-top: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .bs-stepper-header {
+    margin: 0;
+  }
+}
+
+// Styles for Create App Modal Wizard
+#wizard-create-app {
+  &.vertical {
+    .bs-stepper-header {
+      min-width: $bs-stepper-vertical-header-min-width - 3;
+    }
+  }
+}

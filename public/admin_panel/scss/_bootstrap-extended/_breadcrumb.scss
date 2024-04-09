@@ -1,0 +1,71 @@
+// Breadcrumbs
+// *******************************************************************************
+
+.breadcrumb-item,
+.breadcrumb-item a {
+  color: $breadcrumb-color;
+
+  &:hover,
+  &:focus {
+    color: $breadcrumb-active-color;
+  }
+
+  &.active {
+    font-weight: $font-weight-semibold;
+    &::before {
+      font-weight: $font-weight-normal;
+    }
+  }
+}
+
+.breadcrumb-item.active a {
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    color: inherit;
+  }
+}
+
+// Breadcrumb divider styles
+.breadcrumb-style1,
+.breadcrumb-style2 {
+  .breadcrumb-item + .breadcrumb-item::before {
+    font-family: boxicons;
+    vertical-align: middle;
+  }
+}
+.breadcrumb-style1 .breadcrumb-item + .breadcrumb-item::before {
+  content: '\ea50';
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+.breadcrumb-style2 .breadcrumb-item + .breadcrumb-item::before {
+  content: '\ebe7';
+  font-size: $font-size-lg;
+  line-height: 1.39rem;
+}
+
+// RTL
+// *******************************************************************************
+
+@include rtl-only {
+  .breadcrumb-item + .breadcrumb-item {
+    padding-right: $breadcrumb-item-padding-x;
+    padding-left: 0;
+
+    &::before {
+      content: '#{$breadcrumb-divider-flipped}';
+      padding-right: 0;
+      padding-left: $breadcrumb-item-padding-x;
+      float: right;
+    }
+  }
+  // Breadcrumb divider style Icons
+  .breadcrumb-style1 .breadcrumb-item + .breadcrumb-item::before {
+    content: '\ea4d';
+  }
+  .breadcrumb-style2 .breadcrumb-item + .breadcrumb-item::before {
+    content: '\eb34';
+  }
+}

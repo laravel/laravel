@@ -1,0 +1,22 @@
+@import '../../scss/_bootstrap-extended/include';
+@mixin tour-theme($background) {
+  .shepherd-element {
+    &[data-popper-placement='bottom'] {
+      .shepherd-arrow:before {
+        background-color: $background !important;
+        border-color: $background;
+      }
+    }
+    .shepherd-header {
+      background: $background !important;
+      color: $white;
+
+      .shepherd-title,
+      .shepherd-cancel-icon {
+        color: $white !important;
+      }
+    }
+    @include template-button-variant('.shepherd-button:not(:disabled).btn-primary', $background);
+    @include template-button-label-variant('.shepherd-button:not(:disabled).btn-label-secondary', $secondary);
+  }
+}

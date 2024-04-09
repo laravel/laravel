@@ -1,0 +1,26 @@
+.pricing-plans-comparison .table tr > th:first-child,
+.pricing-plans-comparison .table tr > td:first-child {
+  white-space: nowrap;
+  text-align: start;
+}
+.pricing-plans-comparison .table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.pricing-free-trial {
+  background-color: rgba(90, 141, 238, 0.08);
+}
+
+.pricing-plans-comparison table.table tbody td {
+  padding: 0.85rem 1.5rem;
+}
+
+.light-style .bg-alt-pricing {
+  background-color: #f2f2f6;
+}
+
+.dark-style .bg-alt-pricing {
+  background-color: #1c222f;
+}
+
+/*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInBhZ2VzL3BhZ2UtcHJpY2luZy5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0VBRUUsbUJBQW1CO0VBQ25CLGlCQUFpQjtBQUNuQjtBQUNBO0VBQ0UsZ0JBQWdCO0FBQ2xCOztBQUVBO0VBQ0UsMENBQTBDO0FBQzVDOztBQUVBO0VBQ0UsdUJBQXVCO0FBQ3pCOztBQUVBO0VBQ0UseUJBQXlCO0FBQzNCOztBQUVBO0VBQ0UseUJBQXlCO0FBQzNCIiwiZmlsZSI6InBhZ2VzL3BhZ2UtcHJpY2luZy5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIucHJpY2luZy1wbGFucy1jb21wYXJpc29uIC50YWJsZSB0ciA+IHRoOmZpcnN0LWNoaWxkLFxuLnByaWNpbmctcGxhbnMtY29tcGFyaXNvbiAudGFibGUgdHIgPiB0ZDpmaXJzdC1jaGlsZCB7XG4gIHdoaXRlLXNwYWNlOiBub3dyYXA7XG4gIHRleHQtYWxpZ246IHN0YXJ0O1xufVxuLnByaWNpbmctcGxhbnMtY29tcGFyaXNvbiAudGFibGUgdGJvZHkgdHI6bGFzdC1jaGlsZCB0ZCB7XG4gIGJvcmRlci1ib3R0b206IDA7XG59XG5cbi5wcmljaW5nLWZyZWUtdHJpYWwge1xuICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDkwLCAxNDEsIDIzOCwgMC4wOCk7XG59XG5cbi5wcmljaW5nLXBsYW5zLWNvbXBhcmlzb24gdGFibGUudGFibGUgdGJvZHkgdGQge1xuICBwYWRkaW5nOiAwLjg1cmVtIDEuNXJlbTtcbn1cblxuLmxpZ2h0LXN0eWxlIC5iZy1hbHQtcHJpY2luZyB7XG4gIGJhY2tncm91bmQtY29sb3I6ICNmMmYyZjY7XG59XG5cbi5kYXJrLXN0eWxlIC5iZy1hbHQtcHJpY2luZyB7XG4gIGJhY2tncm91bmQtY29sb3I6ICMxYzIyMmY7XG59XG4iXX0= */

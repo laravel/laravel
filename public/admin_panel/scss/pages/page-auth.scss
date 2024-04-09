@@ -1,0 +1,132 @@
+// * Authentication
+// *******************************************************************************
+
+@use '../_bootstrap-extended/include' as light;
+@use '../_bootstrap-extended/include-dark' as dark;
+@import '../_custom-variables/pages';
+
+$authentication-1-inner-max-width: 25rem !default;
+
+.authentication-wrapper {
+  display: flex;
+  flex-basis: 100%;
+  min-height: 100vh;
+  width: 100%;
+
+  .authentication-inner {
+    width: 100%;
+  }
+
+  &.authentication-basic {
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  &.authentication-cover {
+    align-items: flex-start;
+    .authentication-inner {
+      height: 100vh;
+    }
+  }
+
+  &.authentication-basic .authentication-inner {
+    max-width: $authentication-1-inner-max-width;
+    position: relative;
+    &:before {
+      width: 21rem;
+      height: 21rem;
+      content: ' ';
+      position: fixed;
+      top: -100px;
+      background: url('../../../img/pages/auth-top-left.png');
+      background-size: contain;
+      @include app-ltr() {
+        left: -100px;
+      }
+      @include app-rtl() {
+        right: -100px;
+        transform: rotate(90deg);
+      }
+    }
+    &:after {
+      width: 7rem;
+      height: 14.125rem;
+      content: ' ';
+      position: fixed;
+      bottom: 0;
+      background-image: url('../../../img/pages/auth-right-bottom.png');
+      background-size: contain;
+      @include app-ltr() {
+        right: 0;
+      }
+      @include app-rtl() {
+        left: 0;
+        transform: rotate(180deg);
+      }
+    }
+    .card {
+      z-index: 1;
+      .app-brand {
+        margin-bottom: 2.5rem;
+      }
+    }
+  }
+
+  // For two-steps auth
+  .auth-input-wrapper .auth-input {
+    max-width: 50px;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+    font-size: light.$large-font-size;
+  }
+}
+
+.authentication-cover-img {
+  margin-bottom: 1rem;
+}
+
+// Two-steps auth responsive style
+@include light.media-breakpoint-down(sm) {
+  .authentication-wrapper {
+    .auth-input-wrapper .auth-input {
+      font-size: light.$h5-font-size;
+    }
+  }
+}
+
+// Two Steps Verification
+// ? Used for validation specific style as we have validated hidden field
+#twoStepsForm {
+  .fv-plugins-bootstrap5-row-invalid .form-control {
+    border-color: light.$form-feedback-invalid-color;
+  }
+}
+
+// Light Layout
+@if $enable-light-style {
+  .light-style {
+    .authentication-wrapper {
+      .authentication-bg {
+        background-color: light.$white;
+      }
+    }
+  }
+}
+
+// Dark Layout
+@if $enable-dark-style {
+  .dark-style {
+    .authentication-wrapper {
+      .authentication-bg {
+        background-color: dark.$card-bg;
+      }
+    }
+  }
+}
+
+@media (min-height: 737px) {
+  .authentication-cover-img {
+    margin-bottom: 3rem;
+  }
+}

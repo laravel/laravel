@@ -1,0 +1,68 @@
+// Alerts
+// *******************************************************************************
+
+@mixin alert-variant($background: null, $border: null, $color: null) {
+}
+
+// Basic Alerts
+@mixin template-alert-variant($parent, $background) {
+  $border: if(
+    $dark-style,
+    shift-color($background, -$alert-border-scale, $card-bg),
+    shift-color($background, $alert-border-scale, $card-bg)
+  );
+  $color: if($dark-style, shift-color($background, -$alert-color-scale), shift-color($background, $alert-color-scale));
+  $background: if(
+    $dark-style,
+    shift-color($background, -$alert-bg-scale, $card-bg),
+    shift-color($background, $alert-bg-scale, $card-bg)
+  );
+
+  #{$parent} {
+    @include gradient-bg($background);
+    border-color: $border;
+    color: $color;
+    .btn-close {
+      background-image: str-replace(str-replace($btn-close-bg, '#{$btn-close-color}', $color), '#', '%23');
+    }
+
+    .alert-link {
+      color: $color;
+    }
+  }
+
+  .card {
+    #{$parent} {
+      hr {
+        background-color: $color !important;
+      }
+    }
+  }
+}
+
+// Solid Alerts
+@mixin template-alert-solid-variant($parent, $background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+
+  #{$parent} {
+    @include gradient-bg($background);
+    color: $color;
+    box-shadow: $box-shadow-sm;
+
+    .btn-close {
+      background-image: str-replace(str-replace($btn-close-bg, '#{$btn-close-color}', $color), '#', '%23');
+    }
+
+    .alert-link {
+      color: $color;
+    }
+  }
+
+  .card {
+    #{$parent} {
+      hr {
+        background-color: $color !important;
+      }
+    }
+  }
+}

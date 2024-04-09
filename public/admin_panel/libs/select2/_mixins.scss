@@ -1,0 +1,32 @@
+@import '../../scss/_bootstrap-extended/include';
+@mixin select2-variant($parent, $background, $color: null) {
+  #{$parent} {
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+      background: rgba($background, 0.08) !important;
+      color: if($color, $color, $background) !important;
+      &:hover {
+        background: rgba($background, 0.16) !important;
+      }
+    }
+  }
+}
+
+@mixin select2-validation-state($state, $border) {
+  .is-#{$state} .select2-container--default .select2-selection,
+  .is-#{$state}.select2-container--default .select2-selection {
+    border-color: $border !important;
+  }
+}
+
+@mixin select2-theme($background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+
+  .select2-container--default {
+    &.select2-container--focus .select2-selection,
+    &.select2-container--open .select2-selection {
+      border-color: $background !important;
+    }
+  }
+
+  @include select2-variant('.select2-primary', $background);
+}

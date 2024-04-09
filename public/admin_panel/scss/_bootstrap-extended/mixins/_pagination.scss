@@ -1,0 +1,129 @@
+// Pagination
+// *******************************************************************************
+// Basic Pagination
+@mixin template-pagination-variant($parent, $background, $color: null) {
+  #{$parent} .page-item.active .page-link,
+  #{$parent}.pagination li.active > a:not(.page-link) {
+    &,
+    &:hover,
+    &:focus {
+      border-color: $background;
+      background-color: $background;
+      color: if($color, $color, color-contrast($background));
+      box-shadow: $box-shadow-sm;
+    }
+  }
+}
+
+@mixin template-pagination-theme($background, $color: null) {
+  @include template-pagination-variant('', $background, $color);
+}
+
+$pagination-active-height-variation: 0.125rem;
+
+// set style for .first,.last,.prev,.last page items
+@mixin template-pagination-spacing-radius($parent, $item-border-radius, $font-size, $padding-y, $custom-spacer) {
+  #{$parent} {
+    // set margin-end for first and prev page-items
+    .page-item.first,
+    .page-item.prev,
+    .page-item.previous {
+      .page-link {
+        @include border-radius($item-border-radius);
+
+        @include ltr-style {
+          margin-right: $spacer * $custom-spacer;
+        }
+
+        @include rtl-style {
+          margin-left: $spacer * $custom-spacer;
+        }
+      }
+    }
+
+    // set margin-start for last and next page-items
+    .page-item.last,
+    .page-item.next {
+      .page-link {
+        @include border-radius($item-border-radius);
+
+        @include ltr-style {
+          margin-left: $spacer * $custom-spacer;
+        }
+
+        @include rtl-style {
+          margin-right: $spacer * $custom-spacer;
+        }
+      }
+    }
+
+    // change the size, style of active pagination
+    .page-item {
+      &.active {
+        .page-link {
+          border-radius: $item-border-radius;
+          margin-top: -$pagination-active-height-variation;
+          margin-bottom: -$pagination-active-height-variation;
+          padding-top: $padding-y + $pagination-active-height-variation !important;
+          padding-bottom: $padding-y + $pagination-active-height-variation !important;
+          min-width: calc(
+            #{'#{($font-size * $pagination-line-height) + (($padding-y + $pagination-active-height-variation) * 2)} + #{$pagination-border-width * 2}'}
+          ) !important;
+        }
+      }
+      // border radius on hover
+      .page-link {
+        &:hover,
+        &:focus,
+        &:active {
+          border-radius: $item-border-radius;
+        }
+      }
+    }
+
+    // set border radius of first-child of pagination after prev and next page-items
+    .page-item.prev,
+    .page-item.previous {
+      + .page-item,
+      + .page-item .page-link {
+        @include ltr-style {
+          border-top-left-radius: $item-border-radius;
+          border-bottom-left-radius: $item-border-radius;
+        }
+
+        @include rtl-style {
+          border-top-right-radius: $item-border-radius;
+          border-bottom-right-radius: $item-border-radius;
+        }
+      }
+    }
+    .page-item.first {
+      ~ .page-item:nth-last-child(3),
+      ~ .page-item:nth-last-child(3) .page-link {
+        @include ltr-style {
+          border-top-right-radius: $item-border-radius;
+          border-bottom-right-radius: $item-border-radius;
+        }
+
+        @include rtl-style {
+          border-top-left-radius: $item-border-radius;
+          border-bottom-left-radius: $item-border-radius;
+        }
+      }
+    }
+    .page-item:not(.first) {
+      ~ .page-item:nth-last-child(2),
+      ~ .page-item:nth-last-child(2) .page-link {
+        @include ltr-style {
+          border-top-right-radius: $item-border-radius;
+          border-bottom-right-radius: $item-border-radius;
+        }
+
+        @include rtl-style {
+          border-top-left-radius: $item-border-radius;
+          border-bottom-left-radius: $item-border-radius;
+        }
+      }
+    }
+  }
+}

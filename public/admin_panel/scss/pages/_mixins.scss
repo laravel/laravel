@@ -1,0 +1,40 @@
+/*
+* Pages Mixins
+*/
+@import '../../scss/_bootstrap-extended/functions';
+
+@mixin icon-theme($color) {
+  .icon-card.active {
+    outline: 1px solid $color;
+    i,
+    svg {
+      color: $color;
+    }
+  }
+}
+
+// App Chat
+@mixin app-chat-theme($color) {
+  .app-chat {
+    .sidebar-body {
+      .chat-contact-list {
+        li {
+          &.active {
+            background-color: $color;
+          }
+        }
+      }
+    }
+    .app-chat-history {
+      .chat-history {
+        .chat-message {
+          &.chat-message-right {
+            .chat-message-text {
+              background-color: $color !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}

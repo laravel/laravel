@@ -1,0 +1,282 @@
+.required:after {
+    content: " *";
+    color: red;
+    font-size: 20px;
+}
+
+label.error {
+    color: red !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.nav-item a:hover {
+    color: #3b82f6 !important;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    transition: all 0.5s ease; /* Smooth transition for all properties */
+    padding: 0.5rem 1rem; /* Increase padding */
+    cursor: pointer; /* Change cursor to pointer */
+}
+
+.select2-container .select2-results__option:hover {
+    background-color: #3b82f6 !important;
+    color: white !important;
+}
+
+.home_page_illustration {
+    width: 650px;
+    height: 630px;
+    border: none;
+    border-color: white !important;
+    border: none !important;
+}
+
+/* Media query for responsive behavior on all screens */
+@media (max-width: 1024px) {
+    .home_page_illustration {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Custom CSS for Navbar */
+
+/* Smooth Transition for Navbar Items */
+.nav-item a {
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect for Navbar Items */
+.nav-item a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Active Navbar Item */
+.nav-item a.active {
+    color: #fff;
+    background-color: #3b82f6; /* Tailwind's blue-500 */
+}
+
+/* Custom Search Form */
+.search-form {
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.search-form input[type="text"] {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 0.5rem;
+    background-color: transparent;
+}
+
+.search-form button {
+    background-color: #3b82f6; /* Tailwind's blue-500 */
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-form button:hover {
+    background-color: #2563eb; /* Darker shade of Tailwind's blue-500 */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    .nav-item a {
+        padding: 0.75rem 1rem;
+    }
+
+    .search-form {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .search-form input[type="text"],
+    .search-form button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Custom CSS for Navbar */
+
+/* Existing styles... */
+
+/* Additional Media Queries for Responsiveness */
+
+/* For tablets and smaller devices */
+@media (max-width: 768px) {
+    .nav-item a {
+        padding: 0.75rem 1rem;
+    }
+
+    .search-form {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .search-form input[type="text"],
+    .search-form button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* For mobile devices */
+@media (max-width: 480px) {
+    .nav-item a {
+        padding: 0.5rem 1rem;
+    }
+
+    .search-form {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .search-form input[type="text"],
+    .search-form button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* For very small devices */
+@media (max-width: 320px) {
+    .nav-item a {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .search-form {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .search-form input[type="text"],
+    .search-form button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.products_page_img {
+    height: 250px;
+    width: 300px;
+}
+
+.cat_heading {
+    border: ridge;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: #3b82f6 5px solid;
+    width: fit-content;
+}
+
+.view_product {
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    padding: 20px; /* Add padding for spacing inside the box */
+    background-color: #ffffff; /* Set background color */
+    transition: box-shadow 0.3s ease; /* Add transition for smooth hover effect */
+}
+
+/* Add hover effect */
+.view_product:hover {
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+}
+
+.product_quantity_view_page {
+    width: 70px;
+    padding: 0 8px; /* Adjust padding for better appearance */
+    border: 1px solid black; /* Use shorthand property for border */
+    height: 40px;
+    box-sizing: border-box; /* Ensure padding is included in width calculation */
+    border-radius: 4px; /* Add some border radius for rounded corners */
+    font-size: 16px; /* Adjust font size for better readability */
+    line-height: 1.5; /* Ensure consistent line height */
+    outline: none; /* Remove default outline */
+}
+
+.product_quantity_view_page:focus {
+    border-color: #2563eb; /* Change border color on focus */
+}
+
+.cat_page_h2 {
+    width: fit-content;
+}
+
+.add_to_cart {
+    cursor: pointer;
+}
+
+#order_list::-webkit-scrollbar {
+    width: 12px; /* width of the entire scrollbar */
+}
+
+#order_list::-webkit-scrollbar-track {
+    background: white; /* color of the tracking area */
+}
+
+#order_list::-webkit-scrollbar-thumb {
+    background-color: #3b82f6; /* color of the scroll thumb */
+    border-radius: 20px; /* roundness of the scroll thumb */
+    border: 3px solid white; /* creates padding around scroll thumb */
+}
+
+.icon_view_right {
+    height: 18px;
+    width: 18px;
+    margin-top: 6px;
+}
+
+.view_more_anchor:hover {
+    color: #3b82f6 !important;
+    text-decoration: underline #3b82f6 2px solid;
+}
+
+.view_more_anchor {
+margin-left: 10px !important;
+    color: #3b82f6 !important;
+    margin-top: 18px !important;
+
+}
+
+.register_page_form input {
+    padding-left: 10px;
+}
+
+.register_page_form textarea {
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+
+.title_navbar_brand_logo{
+    font-size: 25px;
+}
+
+
+.change_password_page_input{
+height: 35px;
+padding-left: 10px;
+}
+
+
+
+.loader_icon{
+    font-size: 22px;
+}

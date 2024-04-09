@@ -1,0 +1,13 @@
+// Type
+//
+
+@include rtl-only {
+  .list-inline,
+  .list-unstyled {
+    padding-right: 0;
+  }
+  .list-inline-item:not(:last-child) {
+    margin-right: 0;
+    margin-left: $list-inline-padding;
+  }
+}

@@ -1,0 +1,696 @@
+@charset "UTF-8";
+.ql-editor p,
+.ql-editor ol,
+.ql-editor ul,
+.ql-editor pre,
+.ql-editor blockquote,
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3,
+.ql-editor h4,
+.ql-editor h5,
+.ql-editor h6,
+.ql-content p,
+.ql-content ol,
+.ql-content ul,
+.ql-content pre,
+.ql-content blockquote,
+.ql-content h1,
+.ql-content h2,
+.ql-content h3,
+.ql-content h4,
+.ql-content h5,
+.ql-content h6 {
+  counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+}
+.ql-editor ol,
+.ql-editor ul,
+.ql-content ol,
+.ql-content ul {
+  margin-right: 0;
+  margin-left: 0;
+  padding-right: 0;
+  padding-left: 0;
+}
+.ql-editor ol > li,
+.ql-editor ul > li,
+.ql-content ol > li,
+.ql-content ul > li {
+  list-style-type: none;
+}
+.ql-editor ol > li:not(.ql-direction-rtl),
+.ql-editor ul > li:not(.ql-direction-rtl),
+.ql-content ol > li:not(.ql-direction-rtl),
+.ql-content ul > li:not(.ql-direction-rtl) {
+  padding-left: 2rem;
+}
+[dir=rtl] .ql-editor ol > li:not(.ql-direction-rtl),
+[dir=rtl] .ql-editor ul > li:not(.ql-direction-rtl),
+[dir=rtl] .ql-content ol > li:not(.ql-direction-rtl),
+[dir=rtl] .ql-content ul > li:not(.ql-direction-rtl) {
+  padding-right: 2rem;
+  padding-left: 0;
+}
+.ql-editor ol > li.ql-direction-rtl,
+.ql-editor ul > li.ql-direction-rtl,
+.ql-content ol > li.ql-direction-rtl,
+.ql-content ul > li.ql-direction-rtl {
+  padding-right: 2rem;
+}
+[dir=rtl] .ql-editor ol > li.ql-direction-rtl,
+[dir=rtl] .ql-editor ul > li.ql-direction-rtl,
+[dir=rtl] .ql-content ol > li.ql-direction-rtl,
+[dir=rtl] .ql-content ul > li.ql-direction-rtl {
+  padding-right: 0;
+  padding-left: 2rem;
+}
+.ql-editor ul > li::before,
+.ql-content ul > li::before {
+  content: "•";
+}
+.ql-editor ul[data-checked=true],
+.ql-editor ul[data-checked=false],
+.ql-content ul[data-checked=true],
+.ql-content ul[data-checked=false] {
+  pointer-events: none;
+}
+.ql-editor ul[data-checked=true] > li *,
+.ql-editor ul[data-checked=false] > li *,
+.ql-content ul[data-checked=true] > li *,
+.ql-content ul[data-checked=false] > li * {
+  pointer-events: all;
+}
+.ql-editor ul[data-checked=true] > li *::before,
+.ql-editor ul[data-checked=false] > li *::before,
+.ql-content ul[data-checked=true] > li *::before,
+.ql-content ul[data-checked=false] > li *::before {
+  pointer-events: all;
+  cursor: pointer;
+  color: #777;
+}
+.ql-editor ul[data-checked=false] > li::before,
+.ql-content ul[data-checked=false] > li::before {
+  content: "☐";
+}
+.ql-editor ul[data-checked=true] > li::before,
+.ql-content ul[data-checked=true] > li::before {
+  content: "☑";
+}
+.ql-editor li::before,
+.ql-content li::before {
+  display: inline-block;
+  width: calc(2rem - 0.3em);
+  white-space: nowrap;
+}
+.ql-editor li.ql-direction-rtl::before,
+.ql-content li.ql-direction-rtl::before {
+  margin-right: -2rem;
+  margin-left: 0.3em;
+  text-align: left;
+}
+[dir=rtl] .ql-editor li.ql-direction-rtl::before,
+[dir=rtl] .ql-content li.ql-direction-rtl::before {
+  margin-right: 0.3em;
+  margin-left: -2rem;
+  text-align: right;
+}
+.ql-editor li:not(.ql-direction-rtl)::before,
+.ql-content li:not(.ql-direction-rtl)::before {
+  text-align: right;
+  margin-left: -2rem;
+  margin-right: 0.3em;
+}
+[dir=rtl] .ql-editor li:not(.ql-direction-rtl)::before,
+[dir=rtl] .ql-content li:not(.ql-direction-rtl)::before {
+  text-align: left;
+  margin-left: 0.3em;
+  margin-right: -2rem;
+}
+.ql-editor ol li,
+.ql-content ol li {
+  counter-increment: list-0;
+  counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+}
+.ql-editor ol li::before,
+.ql-content ol li::before {
+  content: counter(list-0, decimal) ". ";
+}
+.ql-editor ol li.ql-indent-1,
+.ql-content ol li.ql-indent-1 {
+  counter-increment: list-1;
+  counter-reset:  list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+}
+.ql-editor ol li.ql-indent-1::before,
+.ql-content ol li.ql-indent-1::before {
+  content: counter(list-1, lower-alpha) ". ";
+}
+.ql-editor .ql-indent-1:not(.ql-direction-rtl),
+.ql-content .ql-indent-1:not(.ql-direction-rtl) {
+  padding-left: 2rem;
+}
+[dir=rtl] .ql-editor .ql-indent-1:not(.ql-direction-rtl),
+[dir=rtl] .ql-content .ql-indent-1:not(.ql-direction-rtl) {
+  padding-right: 2rem;
+  padding-left: 0;
+}
+.ql-editor li.ql-indent-1:not(.ql-direction-rtl),
+.ql-content li.ql-indent-1:not(.ql-direction-rtl) {
+  padding-left: 4rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-1:not(.ql-direction-rtl),
+[dir=rtl] .ql-content li.ql-indent-1:not(.ql-direction-rtl) {
+  padding-right: 4rem;
+  padding-left: 0;
+}
+.ql-editor .ql-indent-1.ql-direction-rtl.ql-align-right,
+.ql-content .ql-indent-1.ql-direction-rtl.ql-align-right {
+  padding-right: 2rem;
+}
+[dir=rtl] .ql-editor .ql-indent-1.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content .ql-indent-1.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 2rem;
+}
+.ql-editor li.ql-indent-1.ql-direction-rtl.ql-align-right,
+.ql-content li.ql-indent-1.ql-direction-rtl.ql-align-right {
+  padding-right: 4rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-1.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content li.ql-indent-1.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 4rem;
+}
+.ql-editor ol li.ql-indent-2,
+.ql-content ol li.ql-indent-2 {
+  counter-increment: list-2;
+  counter-reset:  list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+}
+.ql-editor ol li.ql-indent-2::before,
+.ql-content ol li.ql-indent-2::before {
+  content: counter(list-2, lower-roman) ". ";
+}
+.ql-editor .ql-indent-2:not(.ql-direction-rtl),
+.ql-content .ql-indent-2:not(.ql-direction-rtl) {
+  padding-left: 4rem;
+}
+[dir=rtl] .ql-editor .ql-indent-2:not(.ql-direction-rtl),
+[dir=rtl] .ql-content .ql-indent-2:not(.ql-direction-rtl) {
+  padding-right: 4rem;
+  padding-left: 0;
+}
+.ql-editor li.ql-indent-2:not(.ql-direction-rtl),
+.ql-content li.ql-indent-2:not(.ql-direction-rtl) {
+  padding-left: 6rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-2:not(.ql-direction-rtl),
+[dir=rtl] .ql-content li.ql-indent-2:not(.ql-direction-rtl) {
+  padding-right: 6rem;
+  padding-left: 0;
+}
+.ql-editor .ql-indent-2.ql-direction-rtl.ql-align-right,
+.ql-content .ql-indent-2.ql-direction-rtl.ql-align-right {
+  padding-right: 4rem;
+}
+[dir=rtl] .ql-editor .ql-indent-2.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content .ql-indent-2.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 4rem;
+}
+.ql-editor li.ql-indent-2.ql-direction-rtl.ql-align-right,
+.ql-content li.ql-indent-2.ql-direction-rtl.ql-align-right {
+  padding-right: 6rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-2.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content li.ql-indent-2.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 6rem;
+}
+.ql-editor ol li.ql-indent-3,
+.ql-content ol li.ql-indent-3 {
+  counter-increment: list-3;
+  counter-reset:  list-4 list-5 list-6 list-7 list-8 list-9;
+}
+.ql-editor ol li.ql-indent-3::before,
+.ql-content ol li.ql-indent-3::before {
+  content: counter(list-3, decimal) ". ";
+}
+.ql-editor .ql-indent-3:not(.ql-direction-rtl),
+.ql-content .ql-indent-3:not(.ql-direction-rtl) {
+  padding-left: 6rem;
+}
+[dir=rtl] .ql-editor .ql-indent-3:not(.ql-direction-rtl),
+[dir=rtl] .ql-content .ql-indent-3:not(.ql-direction-rtl) {
+  padding-right: 6rem;
+  padding-left: 0;
+}
+.ql-editor li.ql-indent-3:not(.ql-direction-rtl),
+.ql-content li.ql-indent-3:not(.ql-direction-rtl) {
+  padding-left: 8rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-3:not(.ql-direction-rtl),
+[dir=rtl] .ql-content li.ql-indent-3:not(.ql-direction-rtl) {
+  padding-right: 8rem;
+  padding-left: 0;
+}
+.ql-editor .ql-indent-3.ql-direction-rtl.ql-align-right,
+.ql-content .ql-indent-3.ql-direction-rtl.ql-align-right {
+  padding-right: 6rem;
+}
+[dir=rtl] .ql-editor .ql-indent-3.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content .ql-indent-3.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 6rem;
+}
+.ql-editor li.ql-indent-3.ql-direction-rtl.ql-align-right,
+.ql-content li.ql-indent-3.ql-direction-rtl.ql-align-right {
+  padding-right: 8rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-3.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content li.ql-indent-3.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 8rem;
+}
+.ql-editor ol li.ql-indent-4,
+.ql-content ol li.ql-indent-4 {
+  counter-increment: list-4;
+  counter-reset:  list-5 list-6 list-7 list-8 list-9;
+}
+.ql-editor ol li.ql-indent-4::before,
+.ql-content ol li.ql-indent-4::before {
+  content: counter(list-4, lower-alpha) ". ";
+}
+.ql-editor .ql-indent-4:not(.ql-direction-rtl),
+.ql-content .ql-indent-4:not(.ql-direction-rtl) {
+  padding-left: 8rem;
+}
+[dir=rtl] .ql-editor .ql-indent-4:not(.ql-direction-rtl),
+[dir=rtl] .ql-content .ql-indent-4:not(.ql-direction-rtl) {
+  padding-right: 8rem;
+  padding-left: 0;
+}
+.ql-editor li.ql-indent-4:not(.ql-direction-rtl),
+.ql-content li.ql-indent-4:not(.ql-direction-rtl) {
+  padding-left: 10rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-4:not(.ql-direction-rtl),
+[dir=rtl] .ql-content li.ql-indent-4:not(.ql-direction-rtl) {
+  padding-right: 10rem;
+  padding-left: 0;
+}
+.ql-editor .ql-indent-4.ql-direction-rtl.ql-align-right,
+.ql-content .ql-indent-4.ql-direction-rtl.ql-align-right {
+  padding-right: 8rem;
+}
+[dir=rtl] .ql-editor .ql-indent-4.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content .ql-indent-4.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 8rem;
+}
+.ql-editor li.ql-indent-4.ql-direction-rtl.ql-align-right,
+.ql-content li.ql-indent-4.ql-direction-rtl.ql-align-right {
+  padding-right: 10rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-4.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content li.ql-indent-4.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 10rem;
+}
+.ql-editor ol li.ql-indent-5,
+.ql-content ol li.ql-indent-5 {
+  counter-increment: list-5;
+  counter-reset:  list-6 list-7 list-8 list-9;
+}
+.ql-editor ol li.ql-indent-5::before,
+.ql-content ol li.ql-indent-5::before {
+  content: counter(list-5, lower-roman) ". ";
+}
+.ql-editor .ql-indent-5:not(.ql-direction-rtl),
+.ql-content .ql-indent-5:not(.ql-direction-rtl) {
+  padding-left: 10rem;
+}
+[dir=rtl] .ql-editor .ql-indent-5:not(.ql-direction-rtl),
+[dir=rtl] .ql-content .ql-indent-5:not(.ql-direction-rtl) {
+  padding-right: 10rem;
+  padding-left: 0;
+}
+.ql-editor li.ql-indent-5:not(.ql-direction-rtl),
+.ql-content li.ql-indent-5:not(.ql-direction-rtl) {
+  padding-left: 12rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-5:not(.ql-direction-rtl),
+[dir=rtl] .ql-content li.ql-indent-5:not(.ql-direction-rtl) {
+  padding-right: 12rem;
+  padding-left: 0;
+}
+.ql-editor .ql-indent-5.ql-direction-rtl.ql-align-right,
+.ql-content .ql-indent-5.ql-direction-rtl.ql-align-right {
+  padding-right: 10rem;
+}
+[dir=rtl] .ql-editor .ql-indent-5.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content .ql-indent-5.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 10rem;
+}
+.ql-editor li.ql-indent-5.ql-direction-rtl.ql-align-right,
+.ql-content li.ql-indent-5.ql-direction-rtl.ql-align-right {
+  padding-right: 12rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-5.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content li.ql-indent-5.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 12rem;
+}
+.ql-editor ol li.ql-indent-6,
+.ql-content ol li.ql-indent-6 {
+  counter-increment: list-6;
+  counter-reset:  list-7 list-8 list-9;
+}
+.ql-editor ol li.ql-indent-6::before,
+.ql-content ol li.ql-indent-6::before {
+  content: counter(list-6, decimal) ". ";
+}
+.ql-editor .ql-indent-6:not(.ql-direction-rtl),
+.ql-content .ql-indent-6:not(.ql-direction-rtl) {
+  padding-left: 12rem;
+}
+[dir=rtl] .ql-editor .ql-indent-6:not(.ql-direction-rtl),
+[dir=rtl] .ql-content .ql-indent-6:not(.ql-direction-rtl) {
+  padding-right: 12rem;
+  padding-left: 0;
+}
+.ql-editor li.ql-indent-6:not(.ql-direction-rtl),
+.ql-content li.ql-indent-6:not(.ql-direction-rtl) {
+  padding-left: 14rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-6:not(.ql-direction-rtl),
+[dir=rtl] .ql-content li.ql-indent-6:not(.ql-direction-rtl) {
+  padding-right: 14rem;
+  padding-left: 0;
+}
+.ql-editor .ql-indent-6.ql-direction-rtl.ql-align-right,
+.ql-content .ql-indent-6.ql-direction-rtl.ql-align-right {
+  padding-right: 12rem;
+}
+[dir=rtl] .ql-editor .ql-indent-6.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content .ql-indent-6.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 12rem;
+}
+.ql-editor li.ql-indent-6.ql-direction-rtl.ql-align-right,
+.ql-content li.ql-indent-6.ql-direction-rtl.ql-align-right {
+  padding-right: 14rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-6.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content li.ql-indent-6.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 14rem;
+}
+.ql-editor ol li.ql-indent-7,
+.ql-content ol li.ql-indent-7 {
+  counter-increment: list-7;
+  counter-reset:  list-8 list-9;
+}
+.ql-editor ol li.ql-indent-7::before,
+.ql-content ol li.ql-indent-7::before {
+  content: counter(list-7, lower-alpha) ". ";
+}
+.ql-editor .ql-indent-7:not(.ql-direction-rtl),
+.ql-content .ql-indent-7:not(.ql-direction-rtl) {
+  padding-left: 14rem;
+}
+[dir=rtl] .ql-editor .ql-indent-7:not(.ql-direction-rtl),
+[dir=rtl] .ql-content .ql-indent-7:not(.ql-direction-rtl) {
+  padding-right: 14rem;
+  padding-left: 0;
+}
+.ql-editor li.ql-indent-7:not(.ql-direction-rtl),
+.ql-content li.ql-indent-7:not(.ql-direction-rtl) {
+  padding-left: 16rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-7:not(.ql-direction-rtl),
+[dir=rtl] .ql-content li.ql-indent-7:not(.ql-direction-rtl) {
+  padding-right: 16rem;
+  padding-left: 0;
+}
+.ql-editor .ql-indent-7.ql-direction-rtl.ql-align-right,
+.ql-content .ql-indent-7.ql-direction-rtl.ql-align-right {
+  padding-right: 14rem;
+}
+[dir=rtl] .ql-editor .ql-indent-7.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content .ql-indent-7.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 14rem;
+}
+.ql-editor li.ql-indent-7.ql-direction-rtl.ql-align-right,
+.ql-content li.ql-indent-7.ql-direction-rtl.ql-align-right {
+  padding-right: 16rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-7.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content li.ql-indent-7.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 16rem;
+}
+.ql-editor ol li.ql-indent-8,
+.ql-content ol li.ql-indent-8 {
+  counter-increment: list-8;
+  counter-reset:  list-9;
+}
+.ql-editor ol li.ql-indent-8::before,
+.ql-content ol li.ql-indent-8::before {
+  content: counter(list-8, lower-roman) ". ";
+}
+.ql-editor .ql-indent-8:not(.ql-direction-rtl),
+.ql-content .ql-indent-8:not(.ql-direction-rtl) {
+  padding-left: 16rem;
+}
+[dir=rtl] .ql-editor .ql-indent-8:not(.ql-direction-rtl),
+[dir=rtl] .ql-content .ql-indent-8:not(.ql-direction-rtl) {
+  padding-right: 16rem;
+  padding-left: 0;
+}
+.ql-editor li.ql-indent-8:not(.ql-direction-rtl),
+.ql-content li.ql-indent-8:not(.ql-direction-rtl) {
+  padding-left: 18rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-8:not(.ql-direction-rtl),
+[dir=rtl] .ql-content li.ql-indent-8:not(.ql-direction-rtl) {
+  padding-right: 18rem;
+  padding-left: 0;
+}
+.ql-editor .ql-indent-8.ql-direction-rtl.ql-align-right,
+.ql-content .ql-indent-8.ql-direction-rtl.ql-align-right {
+  padding-right: 16rem;
+}
+[dir=rtl] .ql-editor .ql-indent-8.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content .ql-indent-8.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 16rem;
+}
+.ql-editor li.ql-indent-8.ql-direction-rtl.ql-align-right,
+.ql-content li.ql-indent-8.ql-direction-rtl.ql-align-right {
+  padding-right: 18rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-8.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content li.ql-indent-8.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 18rem;
+}
+.ql-editor ol li.ql-indent-9,
+.ql-content ol li.ql-indent-9 {
+  counter-increment: list-9;
+}
+.ql-editor ol li.ql-indent-9::before,
+.ql-content ol li.ql-indent-9::before {
+  content: counter(list-9, decimal) ". ";
+}
+.ql-editor .ql-indent-9:not(.ql-direction-rtl),
+.ql-content .ql-indent-9:not(.ql-direction-rtl) {
+  padding-left: 18rem;
+}
+[dir=rtl] .ql-editor .ql-indent-9:not(.ql-direction-rtl),
+[dir=rtl] .ql-content .ql-indent-9:not(.ql-direction-rtl) {
+  padding-right: 18rem;
+  padding-left: 0;
+}
+.ql-editor li.ql-indent-9:not(.ql-direction-rtl),
+.ql-content li.ql-indent-9:not(.ql-direction-rtl) {
+  padding-left: 20rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-9:not(.ql-direction-rtl),
+[dir=rtl] .ql-content li.ql-indent-9:not(.ql-direction-rtl) {
+  padding-right: 20rem;
+  padding-left: 0;
+}
+.ql-editor .ql-indent-9.ql-direction-rtl.ql-align-right,
+.ql-content .ql-indent-9.ql-direction-rtl.ql-align-right {
+  padding-right: 18rem;
+}
+[dir=rtl] .ql-editor .ql-indent-9.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content .ql-indent-9.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 18rem;
+}
+.ql-editor li.ql-indent-9.ql-direction-rtl.ql-align-right,
+.ql-content li.ql-indent-9.ql-direction-rtl.ql-align-right {
+  padding-right: 20rem;
+}
+[dir=rtl] .ql-editor li.ql-indent-9.ql-direction-rtl.ql-align-right,
+[dir=rtl] .ql-content li.ql-indent-9.ql-direction-rtl.ql-align-right {
+  padding-right: 0;
+  padding-left: 20rem;
+}
+.ql-editor .ql-video,
+.ql-content .ql-video {
+  max-width: 100%;
+  display: block;
+}
+.ql-editor .ql-video.ql-align-right,
+.ql-content .ql-video.ql-align-right {
+  margin: 0 0 0 auto;
+}
+[dir=rtl] .ql-editor .ql-video.ql-align-right,
+[dir=rtl] .ql-content .ql-video.ql-align-right {
+  margin: 0 auto 0 0;
+}
+.ql-editor .ql-video.ql-align-center,
+.ql-content .ql-video.ql-align-center {
+  margin: 0 auto;
+}
+.ql-editor .ql-bg-red,
+.ql-content .ql-bg-red {
+  background-color: #e60000;
+}
+.ql-editor .ql-bg-black,
+.ql-content .ql-bg-black {
+  background-color: #000;
+}
+.ql-editor .ql-bg-yellow,
+.ql-content .ql-bg-yellow {
+  background-color: #ff0;
+}
+.ql-editor .ql-bg-orange,
+.ql-content .ql-bg-orange {
+  background-color: #f90;
+}
+.ql-editor .ql-bg-purple,
+.ql-content .ql-bg-purple {
+  background-color: #93f;
+}
+.ql-editor .ql-bg-blue,
+.ql-content .ql-bg-blue {
+  background-color: #06c;
+}
+.ql-editor .ql-bg-green,
+.ql-content .ql-bg-green {
+  background-color: #008a00;
+}
+.ql-editor .ql-color-red,
+.ql-content .ql-color-red {
+  color: #e60000;
+}
+.ql-editor .ql-color-white,
+.ql-content .ql-color-white {
+  color: #fff;
+}
+.ql-editor .ql-color-yellow,
+.ql-content .ql-color-yellow {
+  color: #ff0;
+}
+.ql-editor .ql-color-orange,
+.ql-content .ql-color-orange {
+  color: #f90;
+}
+.ql-editor .ql-color-purple,
+.ql-content .ql-color-purple {
+  color: #93f;
+}
+.ql-editor .ql-color-blue,
+.ql-content .ql-color-blue {
+  color: #06c;
+}
+.ql-editor .ql-color-green,
+.ql-content .ql-color-green {
+  color: #008a00;
+}
+.ql-editor .ql-direction-rtl,
+.ql-content .ql-direction-rtl {
+  direction: rtl;
+  text-align: inherit;
+}
+[dir=rtl] .ql-editor .ql-direction-rtl,
+[dir=rtl] .ql-content .ql-direction-rtl {
+  direction: ltr;
+  text-align: inherit;
+}
+.ql-editor .ql-align-center,
+.ql-content .ql-align-center {
+  text-align: center;
+}
+.ql-editor .ql-align-justify,
+.ql-content .ql-align-justify {
+  text-align: justify;
+}
+.ql-editor .ql-align-right,
+.ql-content .ql-align-right {
+  text-align: right;
+}
+[dir=rtl] .ql-editor .ql-align-right,
+[dir=rtl] .ql-content .ql-align-right {
+  text-align: left;
+}
+.ql-editor img,
+.ql-content img {
+  max-width: 100%;
+}
+
+.light-style .ql-editor blockquote,
+.light-style .ql-content blockquote {
+  font-size: 1.171875rem;
+  margin-bottom: 1rem;
+}
+.light-style .ql-editor .ql-font-serif,
+.light-style .ql-content .ql-font-serif {
+  font-family: "Rubik", "Times New Roman", serif;
+}
+.light-style .ql-editor .ql-font-monospace,
+.light-style .ql-content .ql-font-monospace {
+  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+.light-style .ql-editor .ql-size-large,
+.light-style .ql-content .ql-size-large {
+  font-size: 1.063rem;
+}
+.light-style .ql-editor .ql-size-huge,
+.light-style .ql-content .ql-size-huge {
+  font-size: 1.25rem;
+}
+.light-style .ql-editor .ql-size-small,
+.light-style .ql-content .ql-size-small {
+  font-size: 0.813rem;
+}
+
+.dark-style .ql-editor blockquote,
+.dark-style .ql-content blockquote {
+  font-size: 1.171875rem;
+  margin-bottom: 1rem;
+}
+.dark-style .ql-editor .ql-font-monospace,
+.dark-style .ql-content .ql-font-monospace {
+  font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+.dark-style .ql-editor .ql-font-serif,
+.dark-style .ql-content .ql-font-serif {
+  font-family: "Rubik", "Times New Roman", serif;
+}
+.dark-style .ql-editor .ql-size-huge,
+.dark-style .ql-content .ql-size-huge {
+  font-size: 1.25rem;
+}
+.dark-style .ql-editor .ql-size-large,
+.dark-style .ql-content .ql-size-large {
+  font-size: 1.063rem;
+}
+.dark-style .ql-editor .ql-size-small,
+.dark-style .ql-content .ql-size-small {
+  font-size: 0.813rem;
+}

@@ -1,0 +1,132 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+
+// Variables
+@import '../../node_modules/plyr/src/sass/settings/breakpoints';
+@import '../../node_modules/plyr/src/sass/settings/colors';
+@import '../../node_modules/plyr/src/sass/settings/cosmetics';
+@import '../../node_modules/plyr/src/sass/settings/type';
+@import '../../node_modules/plyr/src/sass/settings/badges';
+@import '../../node_modules/plyr/src/sass/settings/captions';
+@import '../../node_modules/plyr/src/sass/settings/controls';
+@import '../../node_modules/plyr/src/sass/settings/helpers';
+@import '../../node_modules/plyr/src/sass/settings/menus';
+@import '../../node_modules/plyr/src/sass/settings/progress';
+@import '../../node_modules/plyr/src/sass/settings/sliders';
+@import '../../node_modules/plyr/src/sass/settings/tooltips';
+@import '../../node_modules/plyr/src/sass/lib/animation';
+@import '../../node_modules/plyr/src/sass/lib/functions';
+@import '../../node_modules/plyr/src/sass/lib/mixins';
+
+// Components
+@import '../../node_modules/plyr/src/sass/base';
+@import '../../node_modules/plyr/src/sass/components/badges';
+@import '../../node_modules/plyr/src/sass/components/captions';
+@import '../../node_modules/plyr/src/sass/components/control';
+@import '../../node_modules/plyr/src/sass/components/controls';
+@import '../../node_modules/plyr/src/sass/components/menus';
+@import '../../node_modules/plyr/src/sass/components/sliders';
+@import '../../node_modules/plyr/src/sass/components/poster';
+@import '../../node_modules/plyr/src/sass/components/times';
+@import '../../node_modules/plyr/src/sass/components/tooltips';
+@import '../../node_modules/plyr/src/sass/components/progress';
+@import '../../node_modules/plyr/src/sass/components/volume';
+@import '../../node_modules/plyr/src/sass/types/audio';
+@import '../../node_modules/plyr/src/sass/types/video';
+@import '../../node_modules/plyr/src/sass/states/fullscreen';
+@import '../../node_modules/plyr/src/sass/plugins/ads';
+@import '../../node_modules/plyr/src/sass/plugins/preview-thumbnails';
+@import '../../node_modules/plyr/src/sass/utils/animation';
+@import '../../node_modules/plyr/src/sass/utils/hidden';
+
+.plyr__progress__container,
+.plyr__volume input[type='range'] {
+  flex: 0 1 auto;
+}
+.plyr--audio .plyr__controls {
+  padding: 0;
+}
+
+.plyr__menu__container {
+  @include app-rtl {
+    direction: rtl;
+    text-align: right;
+
+    .plyr__control--forward {
+      &::after {
+        left: 5px;
+        right: auto;
+        border-right-color: rgba($plyr-menu-color, 0.8);
+        border-left-color: transparent;
+      }
+
+      &.plyr__tab-focus::after,
+      &:hover::after {
+        border-right-color: currentColor;
+      }
+    }
+
+    .plyr__menu__value {
+      padding-left: 1rem;
+      padding-right: calc(calc(var(--plyr-control-spacing, 10px) * 0.7) * 1.5);
+    }
+
+    .plyr__control[role='menuitemradio'] {
+      .plyr__menu__value {
+        margin-right: auto;
+        padding-left: 0;
+      }
+      &::before {
+        margin-left: $plyr-control-spacing;
+        margin-right: 0;
+      }
+
+      &::after {
+        right: 15px;
+        left: auto;
+      }
+    }
+  }
+}
+
+@if $enable-light-style {
+  .light-style {
+    .plyr__tooltip {
+      line-height: light.$line-height-sm;
+      font-size: light.$font-size-sm;
+    }
+  }
+}
+
+@if $enable-dark-style {
+  .dark-style {
+    .plyr__tooltip {
+      line-height: dark.$line-height-sm;
+      font-size: dark.$font-size-sm;
+    }
+
+    .plyr--audio .plyr__controls {
+      color: dark.$body-color;
+      background-color: dark.$card-bg;
+    }
+
+    .plyr--full-ui.plyr--audio input[type='range'] {
+      &::-webkit-slider-runnable-track {
+        background-color: dark.$gray-100;
+      }
+
+      &::-moz-range-track {
+        background-color: dark.$gray-100;
+      }
+
+      &::-ms-track {
+        background-color: dark.$gray-100;
+      }
+    }
+
+    .plyr--audio .plyr__progress__buffer {
+      color: dark.$gray-200;
+    }
+  }
+}

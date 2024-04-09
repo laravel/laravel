@@ -1,0 +1,25 @@
+// Offcanvas
+// *******************************************************************************
+
+.offcanvas {
+  box-shadow: $offcanvas-box-shadow;
+}
+// RTL
+// *******************************************************************************
+@include rtl-only {
+  .offcanvas-header .btn-close {
+    margin: ($offcanvas-padding-y * -0.5) auto ($offcanvas-padding-x * -0.5) ($offcanvas-padding-y * -0.5);
+  }
+
+  .offcanvas-start {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+  }
+
+  .offcanvas-end {
+    right: auto;
+    left: 0;
+    transform: translateX(-100%);
+  }
+}

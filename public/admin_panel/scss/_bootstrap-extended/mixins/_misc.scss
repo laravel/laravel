@@ -1,0 +1,125 @@
+// * Light/Dark layout
+// *******************************************************************************
+@mixin light-layout-only() {
+  @if $dark-style {
+    html:not(.dark-style) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin dark-layout-only() {
+  @if $dark-style {
+    .dark-style {
+      @content;
+    }
+  }
+}
+
+// * RTL/LTR
+// *******************************************************************************
+
+@mixin ltr-only() {
+  @if $rtl-support {
+    html:not([dir='rtl']) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin rtl-only() {
+  @if $rtl-support {
+    [dir='rtl'] {
+      @content;
+    }
+  }
+}
+
+@mixin ltr-style() {
+  @if $rtl-support {
+    html:not([dir='rtl']) & {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin rtl-style() {
+  @if $rtl-support {
+    [dir='rtl'] & {
+      @content;
+    }
+  }
+}
+
+// * Keyframes
+// *******************************************************************************
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+// * Colors
+// *******************************************************************************
+
+@mixin bg-color-variant($parent, $color, $rth-color: #000) {
+  #{$parent} {
+    background-color: $color !important;
+  }
+
+  a#{$parent} {
+    &:hover,
+    &:focus {
+      background-color: rgba-to-hex(rgba($color, 0.95), $background: $rth-color) !important;
+    }
+  }
+
+  //! Fix: Dropdown notification read badge bg color
+  .dropdown-notifications-item:not(.mark-as-read) {
+    .dropdown-notifications-read span {
+      background-color: $color;
+    }
+  }
+}
+
+@mixin bg-variant($parent, $color, $rth-color: #000) {
+  @include bg-color-variant($parent, $color);
+}
+
+// BG Label
+@mixin bg-label-variant($parent, $background, $color: $background) {
+  $label-background: if(
+    $dark-style,
+    shade-color($background, $btn-label-bg-shade-amount, $card-bg),
+    tint-color($background, $btn-label-bg-tint-amount, $card-bg)
+  );
+  #{$parent} {
+    background-color: $label-background !important;
+    color: if($color, $color, color-contrast($bg)) !important;
+  }
+}
+
+@mixin text-variant($parent, $color) {
+  #{$parent} {
+    color: $color !important;
+  }
+  //! Fix: text-body hover color
+  .text-body[href]:hover {
+    color: shift-color($color, $link-shade-percentage) !important;
+  }
+}

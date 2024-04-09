@@ -1,0 +1,5 @@
+@mixin dropzone-theme($border) {
+  .dropzone.dz-drag-hover {
+    border-color: $border !important;
+  }
+}

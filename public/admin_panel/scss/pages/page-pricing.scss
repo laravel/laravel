@@ -1,0 +1,55 @@
+// * Pricing
+// *******************************************************************************
+
+@use '../_bootstrap-extended/include' as light;
+@use '../_bootstrap-extended/include-dark' as dark;
+@import '../_custom-variables/pages';
+
+.pricing-plans-comparison {
+  .table {
+    tr {
+      > th:first-child,
+      > td:first-child {
+        white-space: nowrap;
+        text-align: start;
+      }
+    }
+    tbody {
+      tr:last-child {
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+.pricing-free-trial {
+  background-color: rgba(light.$primary, 0.08);
+}
+
+// pricing comparison table's padding
+.pricing-plans-comparison {
+  table.table {
+    tbody {
+      td {
+        padding: 0.85rem 1.5rem;
+      }
+    }
+  }
+}
+@if $enable-light-style {
+  .light-style {
+    .bg-alt-pricing {
+      background-color: light.$body-bg;
+    }
+  }
+}
+
+@if $enable-dark-style {
+  .dark-style {
+    .bg-alt-pricing {
+      background-color: dark.$body-bg;
+    }
+  }
+}

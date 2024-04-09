@@ -1,0 +1,1 @@
+import 'jkanban/dist/jkanban';

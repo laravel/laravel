@@ -1,0 +1,194 @@
+// * Switches
+// *******************************************************************************
+
+@mixin template-switch-size-base(
+  $size,
+  $width,
+  $height,
+  $font-size,
+  $form-label-font-size,
+  $label-line-height,
+  $inner-spacer
+) {
+  min-height: $height;
+
+  font-size: $form-label-font-size;
+  line-height: $label-line-height;
+
+  $delta: 0;
+  $line-height-computed: $form-label-font-size * $label-line-height;
+  .switch-label:first-child {
+    padding-right: $switch-gutter;
+  }
+  .switch-input ~ .switch-label {
+    padding-left: $width + $switch-gutter;
+  }
+
+  .switch-toggle-slider {
+    width: $width;
+    height: $height - ($delta * 2);
+    font-size: $font-size;
+    line-height: $height;
+    border: 1px solid transparent;
+
+    i {
+      position: relative;
+      font-size: $form-label-font-size;
+      @if ($size== 'lg') {
+        top: -2px;
+      } @else if ($size== 'sm') {
+        top: -2px;
+      } @else {
+        top: -1.35px;
+      }
+    }
+
+    @if ($line-height-computed>$height) {
+      top: (($line-height-computed - $height) * 0.5) + $delta;
+    } @else {
+      top: 0 + $delta;
+    }
+  }
+
+  .switch-label {
+    @if ($line-height-computed < $height) {
+      top: ($height - $line-height-computed) * 0.5;
+    } @else {
+      top: 0;
+    }
+  }
+
+  .switch-input:checked ~ .switch-toggle-slider::after {
+    left: $width - $height;
+  }
+
+  .switch-toggle-slider::after {
+    top: ($delta * -1) + -1px;
+    margin: $inner-spacer 0 0 $inner-spacer;
+    width: floor(rem-to-px($height - $inner-spacer * 2));
+    height: floor(rem-to-px($height - $inner-spacer * 2));
+  }
+
+  .switch-on {
+    padding-left: $inner-spacer;
+    padding-right: $height - $inner-spacer;
+  }
+
+  .switch-off {
+    padding-left: $height - $inner-spacer;
+    padding-right: $inner-spacer;
+  }
+
+  @if $rtl-support {
+    [dir='rtl'] & .switch-label {
+      padding-right: $width + $switch-gutter;
+      padding-left: 0;
+    }
+    [dir='rtl'] & .switch-input:checked ~ .switch-toggle-slider::after {
+      left: auto;
+      right: $width - $height;
+    }
+
+    [dir='rtl'] & .switch-toggle-slider {
+      &::after {
+        margin-left: 0;
+        margin-right: $inner-spacer;
+      }
+    }
+
+    [dir='rtl'] & .switch-on {
+      padding-left: $height - $inner-spacer;
+      padding-right: $inner-spacer;
+    }
+
+    [dir='rtl'] & .switch-off {
+      padding-left: $inner-spacer;
+      padding-right: $height - $inner-spacer;
+    }
+  }
+}
+
+// Switch size
+@mixin template-switch-size(
+  $size,
+  $width,
+  $height,
+  $font-size,
+  $form-label-font-size,
+  $label-line-height,
+  $inner-spacer: $switch-inner-spacer
+) {
+  .switch-#{$size} {
+    @include template-switch-size-base(
+      $size,
+      $width,
+      $height,
+      $font-size,
+      $form-label-font-size,
+      $label-line-height,
+      $inner-spacer
+    );
+  }
+}
+
+// Switch variant (default)
+@mixin template-switch-variant($parent, $background, $color: null) {
+  $selector: if($parent== '', '', '#{$parent}.switch');
+  $color: if($color, $color, color-contrast($background));
+
+  #{$selector} .switch-input:checked ~ .switch-toggle-slider {
+    background: $background;
+    color: $color;
+  }
+
+  #{$selector} .switch-input:active ~ .switch-toggle-slider {
+    box-shadow: none;
+  }
+
+  #{$selector} .switch-input:focus ~ .switch-toggle-slider {
+    // border: 1px solid $background;
+    box-shadow: $switch-focus-box-shadow;
+  }
+}
+
+// Switch theme
+@mixin template-switch-theme($parent, $background, $color: null) {
+  @include template-switch-variant($parent, $background, $color);
+}
+
+// Switch validation
+@mixin template-switch-validation-state($state, $color) {
+  .switch-input {
+    //BS & jQuery validation
+    .was-validated &:#{$state},
+    &.invalid,
+    //jq
+    &.is-#{$state} {
+      ~ .switch-label {
+        color: $color;
+      }
+
+      ~ .#{$state}-feedback,
+      ~ .#{$state}-tooltip {
+        display: block;
+      }
+
+      ~ .switch-toggle-slider {
+        border: 1px solid $color !important;
+      }
+
+      &:checked ~ .switch-toggle-slider {
+        background: $color;
+        color: color-contrast($color);
+      }
+
+      &:focus ~ .switch-toggle-slider {
+        box-shadow: none;
+      }
+
+      &:active ~ .switch-toggle-slider {
+        box-shadow: none;
+      }
+    }
+  }
+}

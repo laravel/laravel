@@ -1,0 +1,81 @@
+// Navbar
+// *******************************************************************************
+
+.navbar {
+  z-index: 2;
+  // ! Fix: navbar dropdown focus outline
+  .dropdown:focus,
+  .dropdown-toggle:focus {
+    outline: 0;
+  }
+  .navbar-toggler:focus {
+    box-shadow: none;
+  }
+}
+
+.fixed-top {
+  z-index: $zindex-fixed;
+}
+
+.navbar.navbar-light {
+  color: $navbar-light-color;
+}
+
+.navbar-light .navbar-nav .nav-link.disabled {
+  color: $navbar-light-disabled-color !important;
+}
+
+.navbar.navbar-dark {
+  color: $navbar-dark-color;
+}
+
+.navbar-dark .navbar-nav .nav-link.disabled {
+  color: $navbar-dark-disabled-color !important;
+}
+
+// IE fix
+.navbar-collapse,
+.navbar-brand,
+.navbar-text {
+  flex-shrink: 1;
+}
+
+// Icons
+// .navbar-icon {
+//   font-size: 130%;
+// }
+
+// Rulers
+.navbar-dark hr {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-light hr {
+  border-color: $gray-100;
+}
+
+// RTL Style
+// ******************************************************************************
+
+@include rtl-only {
+  .navbar-nav {
+    padding-right: 0;
+  }
+
+  .navbar-brand {
+    margin-right: 0;
+    margin-left: $navbar-padding-x;
+  }
+}
+
+// Mega dropdown
+// ******************************************************************************
+
+.mega-dropdown {
+  .dropdown-toggle {
+    outline: 0;
+  }
+  .dropdown-menu {
+    width: 100%;
+  }
+}

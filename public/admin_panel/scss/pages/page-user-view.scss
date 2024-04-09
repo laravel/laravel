@@ -1,0 +1,101 @@
+// * Help center
+// *******************************************************************************
+
+@use '../_bootstrap-extended/include' as light;
+@use '../_bootstrap-extended/include-dark' as dark;
+@import '../_custom-variables/pages';
+
+.user-card {
+  .user-info-title {
+    min-width: 100px;
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    @include light.media-breakpoint-up(xl) {
+      .user-card {
+        .border-container-lg {
+          border-right: 1px solid light.$border-color;
+        }
+      }
+      @include app-rtl-style() {
+        .user-card {
+          .border-container-lg {
+            border-right: 0;
+            border-left: 1px solid light.$border-color;
+          }
+        }
+      }
+    }
+    @include light.media-breakpoint-down(xl) {
+      .user-card {
+        .border-container-lg {
+          padding-bottom: 1rem;
+        }
+      }
+    }
+    @include light.media-breakpoint-up(sm) {
+      .user-card {
+        .border-container {
+          border-right: 1px solid light.$border-color;
+        }
+      }
+      .timeline {
+        .break-text {
+          width: calc(100% - 90px);
+        }
+      }
+      @include app-rtl-style() {
+        .user-card {
+          .border-container {
+            border-right: 0;
+            border-left: 1px solid light.$border-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Dark style
+@if $enable-dark-style {
+  .dark-style {
+    @include dark.media-breakpoint-up(lg) {
+      .user-card {
+        .border-container-lg {
+          border-right: 1px solid dark.$border-color;
+        }
+      }
+      @include app-rtl-style() {
+        .user-card {
+          .border-container-lg {
+            border-right: 0;
+            border-left: 1px solid dark.$border-color;
+          }
+        }
+      }
+    }
+    @include dark.media-breakpoint-up(sm) {
+      .user-card {
+        .border-container {
+          border-right: 1px solid dark.$border-color;
+        }
+      }
+      .timeline {
+        .break-text {
+          width: calc(100% - 90px);
+        }
+      }
+      @include app-rtl-style() {
+        .user-card {
+          .border-container {
+            border-right: 0;
+            border-left: 1px solid dark.$border-color;
+          }
+        }
+      }
+    }
+  }
+}

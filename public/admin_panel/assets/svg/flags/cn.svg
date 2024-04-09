@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>BE</title>
+    <defs>
+        <circle id="path-1" cx="20" cy="20" r="20"></circle>
+        <rect id="path-3" x="0" y="0" width="53.3636364" height="40" rx="2"></rect>
+        <rect id="path-5" x="0" y="0" width="53.3636364" height="40"></rect>
+        <rect id="path-7" x="0" y="0" width="53.3636364" height="40" rx="2"></rect>
+    </defs>
+    <g id="Flagpack" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-569.000000, -678.000000)">
+            <g id="BE" transform="translate(569.000000, 678.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="path-1"></g>
+                <g id="Group" mask="url(#mask-2)">
+                    <g transform="translate(-6.636364, 0.000000)" id="CN">
+                        <g id="drop-shadow" fill="#000000" fill-rule="nonzero">
+                            <rect id="path-3" x="0" y="0" width="53.3636364" height="40" rx="2"></rect>
+                        </g>
+                        <g id="Group-Clipped">
+                            <mask id="mask-4" fill="white">
+                                <use xlink:href="#path-3"></use>
+                            </mask>
+                            <g id="path-3"></g>
+                            <g id="Group" mask="url(#mask-4)">
+                                <g id="contents-Clipped">
+                                    <mask id="mask-6" fill="white">
+                                        <use xlink:href="#path-5"></use>
+                                    </mask>
+                                    <g id="path-6"></g>
+                                    <g id="contents" mask="url(#mask-6)" fill-rule="nonzero">
+                                        <polygon id="background" fill="#E31D1C" points="0 0 53.3636364 0 53.3636364 40 0 40"></polygon>
+                                        <g id="mark" transform="translate(3.335227, 1.666667)" fill="#FECA00">
+                                            <polygon id="Star-5" points="21.7051848 5.91385267 20.0206242 6.93024203 20.4048618 4.94685968 19.0020351 3.46249305 20.901541 3.38223218 21.7051848 1.53024242 22.5088287 3.38223218 24.4051028 3.38223218 23.0055079 4.94685968 23.426869 6.93024203"></polygon>
+                                            <polygon id="Star-5" points="8.36726816 14.3453504 3.56315035 16.930242 4.65893922 11.8860842 0.65828511 8.11102817 6.07539484 7.90690795 8.36726816 3.19690908 10.6591415 7.90690795 16.0670347 7.90690795 12.0755971 11.8860842 13.2772563 16.930242"></polygon>
+                                            <polygon id="Star-5" points="25.0404121 12.5805193 23.3558515 13.5969087 23.740089 11.6135264 22.3372624 10.1291597 24.2367682 10.0488989 25.0404121 8.19690908 25.844056 10.0488989 27.7403301 10.0488989 26.3407352 11.6135264 26.7620963 13.5969087"></polygon>
+                                            <polygon id="Star-5" points="23.3727985 19.247186 21.6882379 20.2635753 22.0724754 18.280193 20.6696488 16.7958263 22.5691546 16.7155655 23.3727985 14.8635758 24.1764423 16.7155655 26.0727165 16.7155655 24.6731215 18.280193 25.0944826 20.2635753"></polygon>
+                                            <polygon id="Star-5" points="18.3699575 24.247186 16.685397 25.2635753 17.0696345 23.280193 15.6668078 21.7958263 17.5663137 21.7155655 18.3699575 19.8635758 19.1736014 21.7155655 21.0698756 21.7155655 19.6702806 23.280193 20.0916417 25.2635753"></polygon>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                        <g id="overlay-Clipped">
+                            <mask id="mask-8" fill="white">
+                                <use xlink:href="#path-7"></use>
+                            </mask>
+                            <g id="path-3"></g>
+                            <g id="overlay" mask="url(#mask-8)">
+                                <g id="path-9-link" style="mix-blend-mode: overlay;">
+                                    <rect id="path-9" x="0" y="0" width="53.3636364" height="40" rx="2"></rect>
+                                </g>
+                                <rect id="Rectangle" stroke-opacity="0.1" stroke="#000000" x="0.833806818" y="0.833333333" width="51.6960227" height="38.3333333" rx="2"></rect>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

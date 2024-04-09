@@ -1,0 +1,18 @@
+// * Toast
+// *******************************************************************************
+
+@mixin template-toast-variant($parent, $background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+
+  .toast,
+  .bs-toast {
+    .toast-header#{$parent} {
+      background-color: $background;
+      color: $color;
+    }
+  }
+}
+
+@mixin template-toast-theme($parent, $background, $color: null) {
+  @include template-toast-variant($parent, $background, $color);
+}

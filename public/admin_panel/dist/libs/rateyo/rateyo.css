@@ -1,0 +1,70 @@
+.jq-ry-container {
+  position: relative;
+  padding: 0 5px;
+  line-height: 0;
+  display: block;
+  cursor: pointer;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  direction: ltr;
+}
+
+.jq-ry-container[readonly=readonly] {
+  cursor: default;
+}
+
+.jq-ry-container > .jq-ry-group-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.jq-ry-container > .jq-ry-group-wrapper > .jq-ry-group {
+  position: relative;
+  line-height: 0;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.jq-ry-container > .jq-ry-group-wrapper > .jq-ry-group > svg {
+  display: inline-block;
+}
+
+.jq-ry-container > .jq-ry-group-wrapper > .jq-ry-group.jq-ry-normal-group {
+  width: 100%;
+}
+
+.jq-ry-container > .jq-ry-group-wrapper > .jq-ry-group.jq-ry-rated-group {
+  width: 0;
+  z-index: 11;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.light-style:not([dir=rtl]) .jq-ry-container .jq-ry-normal-group svg {
+  fill: rgba(38, 60, 85, 0.2);
+}
+.light-style:not([dir=rtl]) .jq-ry-container:not(.multi-color-ratings) .jq-ry-rated-group svg {
+  fill: #fdac41;
+}
+.light-style[dir=rtl] .jq-ry-container:not(.multi-color-ratings) .jq-ry-normal-group svg {
+  fill: #fdac41;
+}
+.light-style[dir=rtl] .jq-ry-container .jq-ry-rated-group svg {
+  fill: #d4d8dd;
+}
+
+.dark-style:not([dir=rtl]) .jq-ry-container .jq-ry-normal-group svg {
+  fill: rgba(255, 255, 255, 0.6);
+}
+.dark-style:not([dir=rtl]) .jq-ry-container:not(.multi-color-ratings) .jq-ry-rated-group svg {
+  fill: #fdac41;
+}
+.dark-style[dir=rtl] .jq-ry-container:not(.multi-color-ratings) .jq-ry-normal-group svg {
+  fill: #fdac41;
+}
+.dark-style[dir=rtl] .jq-ry-container .jq-ry-rated-group svg {
+  fill: #c1cadd;
+}

@@ -1,0 +1,10 @@
+// Progress bars
+// *******************************************************************************
+
+@mixin template-progress-bar-theme($background, $color: null) {
+  .progress-bar {
+    background-color: $background;
+    color: if($color, $color, color-contrast($background));
+    box-shadow: 0 2px 4px 0 rgba($background, 0.4);
+  }
+}

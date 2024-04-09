@@ -1,0 +1,51 @@
+$enable-light-style: true;
+$enable-dark-style: true;
+$enable-rtl-support: true;
+
+@mixin app-ltr($has-child: true) {
+  @if $enable-rtl-support {
+    @if $has-child {
+      html:not([dir='rtl']) & {
+        @content;
+      }
+    } @else {
+      html:not([dir='rtl']) {
+        @content;
+      }
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin app-ltr-style() {
+  @if $enable-rtl-support {
+    &:not([dir='rtl']) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin app-rtl($has-child: true) {
+  @if $enable-rtl-support {
+    @if $has-child {
+      [dir='rtl'] & {
+        @content;
+      }
+    } @else {
+      [dir='rtl'] {
+        @content;
+      }
+    }
+  }
+}
+
+@mixin app-rtl-style() {
+  @if $enable-rtl-support {
+    &[dir='rtl'] {
+      @content;
+    }
+  }
+}

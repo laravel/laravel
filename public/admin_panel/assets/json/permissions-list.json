@@ -1,0 +1,85 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Management",
+      "assigned_to": [
+        "Admin"
+      ],
+      "created_date": "14 Apr 2021, 8:43 PM"
+    },
+    {
+      "id": 2,
+      "name": "Manage Billing & Roles",
+      "assigned_to": [
+        "Admin"
+      ],
+      "created_date": "16 Sep 2021, 5:20 PM"
+    },
+    {
+      "id": 3,
+      "name": "Add & Remove Users",
+      "assigned_to": [
+        "Admin",
+        "Manager"
+      ],
+      "created_date": "14 Oct 2021, 10:20 AM"
+    },
+    {
+      "id": 4,
+      "name": "Project Planning",
+      "assigned_to": [
+        "Admin",
+        "Users",
+        "Support"
+      ],
+      "created_date": "14 May 2021, 12:10 PM"
+    },
+    {
+      "id": 5,
+      "name": "Manage Email Sequences",
+      "assigned_to": [
+        "Admin",
+        "Users",
+        "Support"
+      ],
+      "created_date": "23 Aug 2021, 2:00 PM"
+    },
+    {
+      "id": 6,
+      "name": "Client Communication",
+      "assigned_to": [
+        "Admin",
+        "Manager"
+      ],
+      "created_date": "15 Apr 2021, 11:30 AM"
+    },
+    {
+      "id": 7,
+      "name": "Only View",
+      "assigned_to": [
+        "Admin",
+        "Restricted"
+      ],
+      "created_date": "04 Dec 2021, 8:15 PM"
+    },
+    {
+      "id": 8,
+      "name": "Financial Management",
+      "assigned_to": [
+        "Admin",
+        "Manager"
+      ],
+      "created_date": "25 Feb 2021, 10:30 AM"
+    },
+    {
+      "id": 9,
+      "name": "Manage Others’ Tasks",
+      "assigned_to": [
+        "Admin",
+        "Support"
+      ],
+      "created_date": "04 Nov 2021, 11:45 AM"
+    }
+  ]
+}

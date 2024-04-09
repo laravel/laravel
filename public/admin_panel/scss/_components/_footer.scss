@@ -1,0 +1,72 @@
+// Footer
+// *******************************************************************************
+
+.footer-link {
+  display: inline-block;
+}
+
+// Light footer
+.footer-light {
+  color: $navbar-light-color;
+
+  .footer-text {
+    color: $navbar-light-active-color;
+  }
+
+  .footer-link {
+    color: $navbar-light-color;
+
+    &:hover,
+    &:focus {
+      color: $navbar-light-hover-color;
+    }
+
+    &.disabled {
+      color: $navbar-light-disabled-color !important;
+    }
+  }
+
+  .show > .footer-link,
+  .active > .footer-link,
+  .footer-link.show,
+  .footer-link.active {
+    color: $navbar-light-active-color;
+  }
+
+  hr {
+    border-color: $menu-light-border-color;
+  }
+}
+
+// Dark footer
+.footer-dark {
+  color: $navbar-dark-color;
+
+  .footer-text {
+    color: $navbar-dark-active-color;
+  }
+
+  .footer-link {
+    color: $navbar-dark-color;
+
+    &:hover,
+    &:focus {
+      color: $navbar-dark-hover-color;
+    }
+
+    &.disabled {
+      color: $navbar-dark-disabled-color !important;
+    }
+  }
+
+  .show > .footer-link,
+  .active > .footer-link,
+  .footer-link.show,
+  .footer-link.active {
+    color: $navbar-dark-active-color;
+  }
+
+  hr {
+    border-color: $menu-dark-border-color;
+  }
+}

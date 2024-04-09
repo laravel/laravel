@@ -1,0 +1,44 @@
+// Spinners
+//
+
+//Large size
+.spinner-border-lg {
+  width: $spinner-width-lg;
+  height: $spinner-height-lg;
+  border-width: $spinner-border-width-lg;
+}
+
+.spinner-grow-lg {
+  width: $spinner-width-lg;
+  height: $spinner-height-lg;
+  border-width: $spinner-border-width-lg;
+}
+
+// * Within button
+// *******************************************************************************
+
+.btn {
+  .spinner-border,
+  .spinner-grow {
+    position: relative;
+    top: -0.0625rem;
+    height: 1em;
+    width: 1em;
+  }
+
+  .spinner-border {
+    border-width: 0.15em;
+  }
+}
+
+@include keyframes('spinner-border-rtl') {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+// RTL
+@include rtl-only {
+  .spinner-border {
+    animation-name: spinner-border-rtl;
+  }
+}

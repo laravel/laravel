@@ -1,0 +1,109 @@
+@import './_components/include-dark';
+@import './_theme/common';
+@import './_theme/libs';
+@import './_theme/pages';
+@import './_theme/_theme';
+
+$primary-color: #5a8dee;
+$menu-bg-color: #f2f2f6;
+body {
+  background: $body-bg;
+}
+
+.bg-body {
+  background: $body-bg !important;
+}
+
+@include template-common-theme($primary-color);
+@include template-libs-dark-theme($primary-color);
+@include template-pages-theme($primary-color);
+
+// Navbar
+// ---------------------------------------------------------------------------
+@include template-navbar-style('.bg-navbar-theme', $body-bg, $color: $body-color, $active-color: $headings-color);
+
+.layout-horizontal .layout-navbar {
+  background-color: $card-bg !important;
+  box-shadow: 0 1px 0 $border-color;
+}
+
+// Menu
+// ---------------------------------------------------------------------------
+@include template-menu-style(
+  '.bg-menu-theme',
+  $menu-bg-color,
+  $color: rgba-to-hex($gray-700, $rgba-to-hex-bg),
+  $active-color: $white,
+  $border: transparent,
+  $active-bg: $primary-color
+);
+
+.bg-menu-theme {
+  // Menu header
+  .menu-header {
+    color: rgba-to-hex($gray-300, $rgba-to-hex-bg);
+  }
+
+  .menu-text {
+    color: $primary-color;
+  }
+
+  // menu item open(vertical) & hover (vertical & horizontal)
+  .menu-inner .menu-item.open > .menu-link:hover,
+  .menu-inner .menu-item:not(.active) .menu-link:hover {
+    background-color: rgba-to-hex(rgba($black, 0.08), $menu-bg-color);
+  }
+  // menu item open(horizontal)
+  .menu-inner .menu-sub > .menu-item.active,
+  .menu-inner .menu-sub > .menu-item.open {
+    > .menu-link.menu-toggle {
+      background-color: rgba-to-hex(rgba($black, 0.08), $menu-bg-color);
+    }
+    .menu-icon {
+      color: $primary-color;
+    }
+  }
+
+  // menu item active
+  .menu-inner > .menu-item.open:not(.active) {
+    html:not(.layout-menu-collapsed) &,
+    .layout-menu-hover.layout-menu-collapsed & {
+      background-color: rgba-to-hex(rgba($black, 0.04), $menu-bg-color) !important;
+    }
+  }
+  .menu-inner > .menu-item.active {
+    background-color: rgba-to-hex(rgba($black, 0.04), $menu-bg-color) !important;
+    .layout-menu-collapsed:not(.layout-menu-hover):not(.layout-menu-expanded) & {
+      background-color: $primary-color !important;
+      > .menu-link {
+        color: color-contrast($primary-color);
+      }
+    }
+  }
+
+  // Sub menu item link bullet
+  .menu-sub > .menu-item > .menu-link:before {
+    background-color: rgba-to-hex($gray-700, $rgba-to-hex-bg) !important;
+  }
+  // Sub menu item link active bullet
+  .menu-sub > .menu-item.active > .menu-link:not(.menu-toggle):before {
+    background-color: color-contrast($primary-color) !important;
+    // border: 3px solid color-contrast($primary-color) !important;
+  }
+  // Menu header color
+  .menu-inner > .menu-header::before {
+    background-color: rgba-to-hex($gray-300, $rgba-to-hex-bg);
+  }
+}
+
+// App Brand
+// ---------------------------------------------------------------------------
+.app-brand .layout-menu-toggle {
+  i {
+    color: $primary-color;
+  }
+}
+
+// Footer
+// ---------------------------------------------------------------------------
+@include template-footer-style('.bg-footer-theme', $body-bg, $color: $body-color, $active-color: $headings-color);

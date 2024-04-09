@@ -1,0 +1,66 @@
+// * Help center
+// *******************************************************************************
+
+@use '../_bootstrap-extended/include' as light;
+@use '../_bootstrap-extended/include-dark' as dark;
+@import '../_custom-variables/pages';
+
+$user-profile-banner-size: 250px !default;
+$user-profile-banner-sm-size: 150px !default;
+$user-image-size: 120px !default;
+$user-image-sm-size: 100px !default;
+
+.user-profile-header-banner {
+  img {
+    width: 100%;
+    object-fit: cover;
+    height: $user-profile-banner-size;
+  }
+}
+.user-profile-header {
+  margin-top: -2rem;
+  .user-profile-img {
+    border: 5px solid;
+    width: $user-image-size;
+  }
+}
+
+//Light style
+@if $enable-light-style {
+  .light-style {
+    .user-profile-header .user-profile-img {
+      border-color: light.$white;
+    }
+  }
+}
+
+//Dark style
+@if $enable-dark-style {
+  .dark-style {
+    .user-profile-header .user-profile-img {
+      border-color: dark.$card-bg;
+    }
+  }
+}
+
+// Datatable search margin
+.dataTables_wrapper {
+  .card-header .dataTables_filter label {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+// Responsive style
+@include light.media-breakpoint-down(md) {
+  .user-profile-header-banner {
+    img {
+      height: $user-profile-banner-sm-size;
+    }
+  }
+  .user-profile-header {
+    .user-profile-img {
+      width: $user-image-sm-size;
+    }
+  }
+}

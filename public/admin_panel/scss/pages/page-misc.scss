@@ -1,0 +1,15 @@
+// * Miscellaneous
+// *******************************************************************************
+
+@import '../_bootstrap-extended/include';
+
+.misc-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(
+    100vh - calc(#{$container-padding-y} * 2)
+  ); // ?we have added container-p-y class to add padding on top & bottom
+  text-align: center;
+}

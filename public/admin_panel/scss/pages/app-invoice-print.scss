@@ -1,0 +1,28 @@
+// * Invoice Print
+// *******************************************************************************
+
+@import '../_bootstrap-extended/include';
+@import '../_custom-variables/pages';
+
+html,
+body {
+  background: $white !important;
+}
+
+body > :not(.invoice-print) {
+  display: none !important;
+}
+
+.invoice-print {
+  min-width: 768px !important;
+  font-size: 15px !important;
+
+  svg {
+    fill: $body-color !important;
+  }
+}
+
+.invoice-print * {
+  border-color: rgba($color: $black, $alpha: 0.5) !important;
+  color: $body-color !important;
+}

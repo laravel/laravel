@@ -1,0 +1,123 @@
+@import '../../../scss/_bootstrap-extended/include'; // imported for media query mixin
+
+// Light Style
+@if $enable-light-style {
+  $theme-name: 'default';
+  $throbber-bg: "url('./themes/default/throbber.gif')";
+  $small-bg: "url('./themes/default/32px.png')";
+  $big-bg: "url('./themes/default/40px.png')";
+
+  .jstree-#{$theme-name} {
+    background: transparent;
+  }
+  .jstree-#{$theme-name} > .jstree-container-ul .jstree-loading > .jstree-ocl,
+  .jstree-#{$theme-name}-small > .jstree-container-ul .jstree-loading > .jstree-ocl,
+  .jstree-#{$theme-name}-large > .jstree-container-ul .jstree-loading > .jstree-ocl {
+    background-image: #{$throbber-bg};
+  }
+
+  .jstree-#{$theme-name} .jstree-node,
+  .jstree-#{$theme-name} .jstree-icon,
+  .jstree-#{$theme-name} .jstree-file,
+  .jstree-#{$theme-name} .jstree-folder,
+  #jstree-dnd.jstree-#{$theme-name} .jstree-ok,
+  #jstree-dnd.jstree-#{$theme-name} .jstree-er,
+  .jstree-#{$theme-name}-small .jstree-node,
+  .jstree-#{$theme-name}-small .jstree-icon,
+  .jstree-#{$theme-name}-small .jstree-file,
+  .jstree-#{$theme-name}-small .jstree-folder,
+  #jstree-dnd.jstree-#{$theme-name}-small .jstree-ok,
+  #jstree-dnd.jstree-#{$theme-name}-small .jstree-er,
+  .jstree-#{$theme-name}-large .jstree-node,
+  .jstree-#{$theme-name}-large .jstree-icon,
+  .jstree-#{$theme-name}-large .jstree-file,
+  .jstree-#{$theme-name}-large .jstree-folder,
+  #jstree-dnd.jstree-#{$theme-name}-large .jstree-ok,
+  #jstree-dnd.jstree-#{$theme-name}-large .jstree-er {
+    background-image: #{$small-bg};
+  }
+
+  @include media-breakpoint-down(md) {
+    #jstree-dnd.jstree-dnd-responsive > .jstree-ok,
+    #jstree-dnd.jstree-dnd-responsive > .jstree-er,
+    .jstree-#{$theme-name}-responsive .jstree-icon,
+    .jstree-#{$theme-name}-responsive .jstree-node,
+    .jstree-#{$theme-name}-responsive .jstree-icon,
+    .jstree-#{$theme-name}-responsive .jstree-node > .jstree-ocl,
+    .jstree-#{$theme-name}-responsive .jstree-themeicon,
+    .jstree-#{$theme-name}-responsive .jstree-checkbox,
+    .jstree-#{$theme-name}-responsive .jstree-file,
+    .jstree-#{$theme-name}-responsive .jstree-folder {
+      background-image: #{$big-bg};
+    }
+  }
+
+  .jstree-#{$theme-name} .jstree-last,
+  .jstree-#{$theme-name} > .jstree-no-dots .jstree-node,
+  .jstree-#{$theme-name} > .jstree-no-dots .jstree-leaf > .jstree-ocl,
+  .jstree-#{$theme-name} .jstree-disabled,
+  .jstree-#{$theme-name} .jstree-themeicon-custom:not(.jstree-file):not(.jstree-folder) {
+    background: transparent !important;
+  }
+}
+
+// Dark Style
+@if $enable-dark-style {
+  $theme-name: 'default-dark';
+  $throbber-bg: "url('./themes/default-dark/throbber.gif')";
+  $small-bg: "url('./themes/default-dark/32px.png')";
+  $big-bg: "url('./themes/default-dark/40px.png')";
+
+  .jstree-#{$theme-name} {
+    background: transparent;
+  }
+  .jstree-#{$theme-name} > .jstree-container-ul .jstree-loading > .jstree-ocl,
+  .jstree-#{$theme-name}-small > .jstree-container-ul .jstree-loading > .jstree-ocl,
+  .jstree-#{$theme-name}-large > .jstree-container-ul .jstree-loading > .jstree-ocl {
+    background-image: #{$throbber-bg};
+  }
+
+  .jstree-#{$theme-name} .jstree-node,
+  .jstree-#{$theme-name} .jstree-icon,
+  .jstree-#{$theme-name} .jstree-file,
+  .jstree-#{$theme-name} .jstree-folder,
+  #jstree-dnd.jstree-#{$theme-name} .jstree-ok,
+  #jstree-dnd.jstree-#{$theme-name} .jstree-er,
+  .jstree-#{$theme-name}-small .jstree-node,
+  .jstree-#{$theme-name}-small .jstree-icon,
+  .jstree-#{$theme-name}-small .jstree-file,
+  .jstree-#{$theme-name}-small .jstree-folder,
+  #jstree-dnd.jstree-#{$theme-name}-small .jstree-ok,
+  #jstree-dnd.jstree-#{$theme-name}-small .jstree-er,
+  .jstree-#{$theme-name}-large .jstree-node,
+  .jstree-#{$theme-name}-large .jstree-icon,
+  .jstree-#{$theme-name}-large .jstree-file,
+  .jstree-#{$theme-name}-large .jstree-folder,
+  #jstree-dnd.jstree-#{$theme-name}-large .jstree-ok,
+  #jstree-dnd.jstree-#{$theme-name}-large .jstree-er {
+    background-image: #{$small-bg};
+  }
+
+  @include media-breakpoint-down(md) {
+    #jstree-dnd.jstree-dnd-responsive > .jstree-ok,
+    #jstree-dnd.jstree-dnd-responsive > .jstree-er,
+    .jstree-#{$theme-name}-responsive .jstree-icon,
+    .jstree-#{$theme-name}-responsive .jstree-node,
+    .jstree-#{$theme-name}-responsive .jstree-icon,
+    .jstree-#{$theme-name}-responsive .jstree-node > .jstree-ocl,
+    .jstree-#{$theme-name}-responsive .jstree-themeicon,
+    .jstree-#{$theme-name}-responsive .jstree-checkbox,
+    .jstree-#{$theme-name}-responsive .jstree-file,
+    .jstree-#{$theme-name}-responsive .jstree-folder {
+      background-image: #{$big-bg};
+    }
+  }
+
+  .jstree-#{$theme-name} .jstree-last,
+  .jstree-#{$theme-name} > .jstree-no-dots .jstree-node,
+  .jstree-#{$theme-name} > .jstree-no-dots .jstree-leaf > .jstree-ocl,
+  .jstree-#{$theme-name} .jstree-disabled,
+  .jstree-#{$theme-name} .jstree-themeicon-custom:not(.jstree-file):not(.jstree-folder) {
+    background: transparent !important;
+  }
+}

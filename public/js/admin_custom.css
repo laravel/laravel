@@ -1,0 +1,109 @@
+
+
+
+.fa-trash{
+    margin-top: 14px!important;
+    cursor:pointer;
+    font-size: 20px;
+}
+
+.fa-trash:hover{
+    color:#5A8DEE;
+  
+}
+
+
+.fa-edit:hover{
+
+    color:#5A8DEE;
+}
+
+.fa-edit{
+    font-size: 20px;
+    margin-top: 14px!important;
+    cursor:pointer
+
+}
+
+
+.add_product_modal_input{
+    margin-top:5px;
+}
+
+.dataTables_filter input {
+    width: 300px !important; 
+    height:35px !important;
+    padding: 5px;
+    font-size: 15px !important;
+}
+
+.dataTables_filter label{
+    font-size: 15px;
+}
+
+
+option :hover{
+
+    color:#5A8DEE;
+}
+
+
+
+.admin_icon_rights:hover{
+   cursor: pointer;
+   color: #5A8DEE;
+    
+}
+
+
+.eye_icon_order{
+   font-size: 22px;
+}
+
+.eye_icon_user{
+   font-size: 22px;
+
+}
+
+div.scroll_order {
+    margin: 4px, 4px;
+    margin-top: 30px;
+    padding: 4px;
+    background-color: white;
+    border: rgb(212, 216, 221) 1px solid;
+    width: 600px;
+    height: 250px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
+}
+
+
+
+.User_view_order_card{
+    height: fit-content;
+    width: fit-content;
+}
+
+
+
+
+#breadcrumb_nav{
+    font-size: 18px;
+}
+
+
+.bg-brown{
+    background-color: #78350F;
+}
+
+.bg-pink{
+    background-color:#EC4899;
+}
+
+.bg-purple{
+    background-color: #A855F7;
+}
+
+
+

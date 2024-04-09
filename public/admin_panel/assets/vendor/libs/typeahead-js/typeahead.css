@@ -1,0 +1,88 @@
+.twitter-typeahead {
+  display: block !important;
+}
+.twitter-typeahead .tt-menu {
+  float: left;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  text-align: left;
+  list-style: none;
+  background-clip: padding-box;
+  display: none;
+}
+[dir=rtl] .twitter-typeahead .tt-menu {
+  float: right;
+  left: auto !important;
+  right: 0 !important;
+  text-align: right;
+}
+.twitter-typeahead .tt-menu .tt-suggestion {
+  text-align: inherit;
+  border: 0;
+  width: 100%;
+  display: block;
+  white-space: nowrap;
+  background: none;
+  clear: both;
+  cursor: pointer;
+}
+.twitter-typeahead .tt-menu .tt-suggestion p {
+  margin: 0;
+}
+.twitter-typeahead .tt-hint {
+  color: #999;
+}
+[dir=rtl] .twitter-typeahead .tt-input {
+  direction: rtl;
+}
+
+.light-style .twitter-typeahead .tt-menu {
+  min-width: 10rem;
+  padding: 0.3125rem 0;
+  font-size: 0.9375rem;
+  z-index: 1000;
+  margin: 0.125rem 0;
+  color: #677788;
+  box-shadow: 0 0.25rem 1rem rgba(147, 158, 170, 0.45);
+  background-color: #fff;
+  border-radius: 0.25rem;
+}
+.light-style .twitter-typeahead .tt-hint {
+  color: #a8b1bb;
+}
+.light-style .twitter-typeahead .tt-suggestion {
+  font-weight: 400;
+  color: #677788;
+  padding: 0.5rem 1rem;
+}
+.light-style .twitter-typeahead .tt-suggestion:hover, .light-style .twitter-typeahead .tt-suggestion:focus {
+  text-decoration: none;
+  color: #677788;
+  background-color: rgba(38, 60, 85, 0.06);
+}
+
+.dark-style .twitter-typeahead .tt-menu {
+  color: #a1b0cb;
+  min-width: 10rem;
+  padding: 0.3125rem 0;
+  margin: 0.125rem 0;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.25);
+  font-size: 0.9375rem;
+  background-color: #283144;
+  z-index: 1000;
+  border-radius: 0.25rem;
+}
+.dark-style .twitter-typeahead .tt-menu .tt-suggestion {
+  font-weight: 400;
+  color: #a1b0cb;
+  padding: 0.5rem 1rem;
+}
+.dark-style .twitter-typeahead .tt-menu .tt-suggestion:hover, .dark-style .twitter-typeahead .tt-menu .tt-suggestion:focus {
+  text-decoration: none;
+  color: #a1b0cb;
+  background-color: rgba(99, 123, 169, 0.08);
+}
+.dark-style .twitter-typeahead .tt-hint {
+  color: #8295ba;
+}

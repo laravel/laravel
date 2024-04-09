@@ -1,0 +1,197 @@
+// * App Calendar
+// *******************************************************************************
+
+@use '../_bootstrap-extended/include' as light;
+@use '../_bootstrap-extended/include-dark' as dark;
+@import '../_custom-variables/pages';
+
+$calender-sidebar-width: 18.25rem !default;
+
+// App Calendar specific
+.app-calendar-wrapper {
+  position: relative;
+  border-radius: light.$border-radius;
+  .app-calendar-sidebar {
+    position: absolute;
+    overflow: hidden;
+    flex-grow: 0;
+    flex-basis: $calender-sidebar-width;
+    left: calc(-#{$calender-sidebar-width} - 1.2rem);
+    height: 100%;
+    width: $calender-sidebar-width;
+    transition: all 0.2s;
+    z-index: 4;
+    &.show {
+      left: 0;
+    }
+
+    .flatpickr-calendar {
+      box-shadow: none;
+      .flatpickr-month,
+      .flatpickr-weekday,
+      .flatpickr-weekdays {
+        background: transparent;
+      }
+      .flatpickr-days {
+        border: 0;
+      }
+      &:focus {
+        outline: 0;
+      }
+    }
+  }
+  .app-calendar-content {
+    position: relative;
+  }
+
+  .fc-toolbar {
+    h2 {
+      font-size: light.$h5-font-size;
+      @include light.media-breakpoint-down(md) {
+        font-size: 1rem;
+      }
+    }
+  }
+  // Set border 0 to app calender page only
+  table.fc-scrollgrid {
+    border-left: 0;
+    border-right: 0;
+    td {
+      border-right: 0;
+    }
+  }
+  .fc-dayGridMonth-view {
+    table.fc-scrollgrid {
+      td {
+        border-bottom: 0;
+      }
+    }
+  }
+  .fc-header-toolbar {
+    margin-bottom: 1.7rem !important;
+  }
+  .fc-view-container {
+    margin: 0 -1.6rem;
+  }
+  .event-sidebar {
+    .ql-editor {
+      min-height: 5rem;
+    }
+    .select2 {
+      .select2-selection__choice {
+        display: flex;
+
+        .avatar {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @include light.media-breakpoint-up(lg) {
+    .app-calendar-sidebar {
+      position: static;
+      height: auto;
+      background-color: transparent !important;
+
+      .flatpickr-days {
+        background-color: transparent;
+      }
+    }
+  }
+}
+// RTL
+@if $enable-rtl-support {
+  [dir='rtl'] {
+    .app-calendar-wrapper {
+      .fc {
+        .fc-toolbar {
+          .fc-sidebarToggle-button {
+            order: 1;
+          }
+        }
+      }
+
+      .app-calendar-sidebar {
+        left: auto;
+        right: calc(-#{$calender-sidebar-width} - 1.2rem);
+        &.show {
+          left: auto;
+          right: 0;
+        }
+      }
+    }
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    .app-calendar-wrapper {
+      .app-calendar-sidebar {
+        background-color: light.$white;
+        box-shadow: 0 0 0 1px rgba(light.$black, 0.075);
+
+        .flatpickr-calendar {
+          .flatpickr-month,
+          .flatpickr-weekday,
+          .flatpickr-weekdays {
+            color: light.$body-color;
+          }
+          .flatpickr-months {
+            svg {
+              fill: light.$body-color;
+            }
+          }
+        }
+      }
+    }
+    @include light.media-breakpoint-up(lg) {
+      .app-calendar-sidebar {
+        box-shadow: none !important;
+        border-right: 1px solid light.$border-color;
+      }
+      @if $enable-rtl-support {
+        &[dir='rtl'] {
+          .app-calendar-sidebar {
+            border-right: 0;
+            border-left: 1px solid light.$border-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Dark Style
+@if $enable-dark-style {
+  .dark-style {
+    .app-calendar-wrapper {
+      .app-calendar-sidebar {
+        background-color: dark.$card-bg;
+        box-shadow: 0 0 0 1px rgba(dark.$white, 0.075);
+
+        .flatpickr-calendar {
+          background-color: dark.$card-bg;
+          .flatpickr-days {
+            background-color: dark.$card-bg;
+          }
+        }
+      }
+    }
+    @include dark.media-breakpoint-up(lg) {
+      .app-calendar-sidebar {
+        box-shadow: none !important;
+        border-right: 1px solid dark.$border-color;
+      }
+      @if $enable-rtl-support {
+        &[dir='rtl'] {
+          .app-calendar-sidebar {
+            border-right: 0;
+            border-left: 1px solid dark.$border-color;
+          }
+        }
+      }
+    }
+  }
+}

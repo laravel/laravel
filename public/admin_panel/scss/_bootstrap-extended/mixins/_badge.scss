@@ -1,0 +1,9 @@
+// Badges
+// *******************************************************************************
+
+// Size
+@mixin badge-size($badge-height, $badge-width, $badge-font-size) {
+  height: $badge-height;
+  width: $badge-width;
+  @include font-size($badge-font-size);
+}

@@ -1,0 +1,252 @@
+// Variables
+//
+// Variables should follow the `$component-state-property-size` formula for
+// consistent naming. Ex: $nav-link-disabled-color and $modal-content-box-shadow-xs.
+//
+// (C) Custom variables for extended components of bootstrap only
+
+// ! _variable-dark.scss file overrides _variable.scss file.
+
+// * Colors
+// *******************************************************************************
+
+// scss-docs-start gray-color-variables
+$white: #fff !default;
+$black: #000 !default;
+$base: #637ba9 !default; // (C)
+$gray-25: rgba($white, 0.015) !default; // (C)
+$gray-50: rgba($white, 0.03) !default; // (C)
+$gray-100: rgba($white, 0.75) !default;
+$gray-200: rgba($white, 0.6) !default;
+$gray-300: rgba($white, 0.4) !default;
+$gray-400: rgba($white, 0.2) !default;
+$gray-500: $base !default;
+$gray-600: rgba($black, 0.1) !default;
+$gray-700: rgba($black, 0.15) !default;
+$gray-800: rgba($black, 0.45) !default;
+$gray-900: rgba($black, 0.6) !default;
+// scss-docs-end gray-color-variables
+
+// scss-docs-start gray-colors-map
+$grays: (
+  '25': $gray-25,
+  '50': $gray-50
+) !default;
+// scss-docs-end gray-colors-map
+
+// scss-docs-start color-variables
+$blue: #5a8dee !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #e83e8c !default;
+$red: #ff5b5c !default;
+$orange: #fd7e14 !default;
+$yellow: #fdac41 !default;
+$green: #39da8a !default;
+$teal: #20c997 !default;
+$cyan: #00cfdd !default;
+// scss-docs-end color-variables
+
+// scss-docs-start theme-color-variables
+$primary: $blue !default;
+$secondary: #69809a !default;
+$success: $green !default;
+$info: $cyan !default;
+$warning: $yellow !default;
+$danger: $red !default;
+$light: #434c5f !default;
+$dark: #717784 !default;
+$gray: $gray-100 !default; // (C)
+// scss-docs-end theme-color-variables
+
+// scss-docs-start theme-colors-map
+$theme-colors: (
+  'primary': $primary,
+  'secondary': $secondary,
+  'success': $success,
+  'info': $info,
+  'warning': $warning,
+  'danger': $danger,
+  'light': $light,
+  'dark': $dark,
+  'gray': $gray
+) !default;
+// scss-docs-end theme-colors-map
+
+$color-scheme: 'dark' !default; // (C)
+
+// * Body
+// *******************************************************************************
+
+$body-bg: #1c222f !default;
+$rgba-to-hex-bg: $base !default; // (C)
+$body-color: rgba-to-hex($gray-300, $rgba-to-hex-bg) !default;
+$rgba-to-hex-bg-inverted: rgb(160, 149, 149) !default; // (C) ASK
+
+// * Components
+// *******************************************************************************
+// scss-docs-start box-shadow-variables
+$box-shadow: 0 0.25rem 1rem rgba($black, 0.25) !default;
+$box-shadow-sm: 0 0.125rem 0.25rem rgba($black, 0.2) !default;
+$box-shadow-lg: 0 0.625rem 1.25rem rgba($black, 0.3) !default;
+// scss-docs-end box-shadow-variables
+// $border-color: rgba-to-hex(rgba($white, 0.1), $rgba-to-hex-bg) !default;
+// $border-inner-color: rgba-to-hex(rgba($white, 0.09), $rgba-to-hex-bg) !default; // (C)
+$border-color: rgba-to-hex($gray-800, $rgba-to-hex-bg) !default;
+$border-inner-color: rgba($white, 0.09) !default; // (C)
+
+// * Typography
+// *******************************************************************************
+
+$text-muted: rgba-to-hex($gray-400, $rgba-to-hex-bg) !default;
+$text-muted-hover: rgba-to-hex($white, $rgba-to-hex-bg) !default; // (C)
+
+$text-light: rgba-to-hex($gray-500, $rgba-to-hex-bg) !default; // (C)
+$text-lighter: rgba-to-hex($gray-400, $rgba-to-hex-bg) !default; // (C)
+$text-lightest: rgba-to-hex($gray-300, $rgba-to-hex-bg) !default; // (C)
+
+// scss-docs-start headings-variables
+$headings-color: rgba-to-hex($gray-100, $rgba-to-hex-bg) !default;
+// scss-docs-end headings-variables
+
+$hr-color: $border-color !default;
+
+// * Tables
+// *******************************************************************************
+
+$table-bg-scale: -80% !default;
+
+// scss-docs-start table-loop
+$table-variants: (
+  'primary': shift-color($primary, $table-bg-scale),
+  'secondary': shift-color($secondary, $table-bg-scale),
+  'success': shift-color($success, $table-bg-scale),
+  'info': shift-color($info, $table-bg-scale),
+  'warning': shift-color($warning, $table-bg-scale),
+  'danger': shift-color($danger, $table-bg-scale),
+  'light': $dark,
+  'dark': $white
+) !default;
+// scss-docs-end table-loop
+
+$table-striped-bg-factor: 0.06 !default;
+$table-striped-bg: rgba($gray-500, $table-striped-bg-factor) !default;
+
+$table-hover-bg-factor: 0.08 !default;
+$table-hover-bg: rgba($gray-500, $table-hover-bg-factor) !default;
+$table-active-bg-factor: 0.08 !default;
+$table-active-bg: rgba($gray-500, $table-active-bg-factor) !default;
+
+$table-border-color: $border-color !default;
+$table-group-separator-color: $table-border-color !default;
+
+$component-active-bg: $white !default;
+
+// * Cards
+// *******************************************************************************
+
+$card-bg: rgba-to-hex($gray-900, $rgba-to-hex-bg) !default;
+$card-border-color: $border-color !default;
+$card-inner-border-color: rgba-to-hex($gray-800, $rgba-to-hex-bg) !default;
+$card-box-shadow: 0 0.125rem 0.875rem 0 rgba($black, 0.16) !default;
+
+// * Accordion
+// *******************************************************************************
+
+$accordion-bg: $card-bg !default;
+
+// * Buttons
+// *******************************************************************************
+
+$btn-box-shadow: $box-shadow-sm !default;
+$btn-hover-box-shadow: $box-shadow !default; // (C)
+
+// * Forms
+// *******************************************************************************
+
+$input-bg: $card-bg !default;
+$input-disabled-bg: rgba-to-hex($gray-800, $rgba-to-hex-bg) !default;
+
+$input-border-color: rgba-to-hex($gray-700, $rgba-to-hex-bg) !default;
+$input-placeholder-color: $text-muted !default;
+
+$form-check-input-border: 1px solid $input-border-color !default;
+$form-check-input-focus-box-shadow: 0 0 0 0.12rem rgba(rgba-to-hex($gray-500, $rgba-to-hex-bg), 30%) !default;
+
+$form-switch-color: $input-border-color !default;
+$form-switch-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$form-switch-color}'/></svg>") !default;
+
+$form-select-bg: $input-bg !default;
+$form-select-indicator-color: $body-color !default;
+$form-select-indicator: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='#{$form-select-indicator-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/></svg>") !default;
+$form-select-indicator-rtl: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='none' stroke='#{$form-select-indicator-color}' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/></svg>") !default; // (C)
+
+$form-range-track-bg: rgba-to-hex($gray-800, $rgba-to-hex-bg) !default;
+$form-range-track-disabled-bg: $gray-50 !default; // (C)
+
+$form-range-thumb-bg: rgba-to-hex($gray-200, $rgba-to-hex-bg) !default;
+$form-range-thumb-box-shadow: 0 0 6px 0 $gray-200 !default;
+$form-range-thumb-focus-box-shadow: 0 0 8px 0px $gray-200 !default;
+$form-range-thumb-active-bg: $form-range-thumb-bg !default;
+$form-range-thumb-disabled-bg: rgba-to-hex($gray-600, $rgba-to-hex-bg) !default;
+
+// * Navs
+// *******************************************************************************
+
+$nav-link-color: $headings-color !default;
+$nav-tabs-link-active-bg: $card-bg !default;
+$nav-tabs-link-hover-border-color: $border-color !default;
+$nav-tabs-link-active-border-color: $nav-tabs-link-hover-border-color !default;
+
+// * Navbar
+// *******************************************************************************
+
+$navbar-light-hover-color: #4e5155 !default;
+$navbar-light-active-color: #4e5155 !default;
+$navbar-light-disabled-color: rgba($black, 0.2) !default;
+
+// * Dropdowns
+// *******************************************************************************
+
+$dropdown-bg: rgba-to-hex($gray-900, $rgba-to-hex-bg) !default;
+$dropdown-divider-bg: $border-inner-color !default;
+
+$dropdown-link-hover-bg: rgba($gray-500, 0.08) !default;
+
+// * Pagination
+// *******************************************************************************
+
+$pagination-bg: rgba($gray-500, 0.08) !default;
+$pagination-focus-bg: rgba($gray-500, 0.16) !default;
+
+$pagination-disabled-color: $text-muted !default;
+$pagination-disabled-bg: rgba($gray-500, 0.06) !default;
+// * Popovers
+// *******************************************************************************
+$popover-bg: $card-bg !default;
+
+// * Modals
+// *******************************************************************************
+
+$modal-content-bg: $card-bg !default;
+$modal-content-box-shadow-xs: 0 0.125rem 1.25rem 0 rgba($black, 0.28) !default;
+$modal-close-btn-bg: rgba($base, 0.16) !default; // (C)
+
+// * Progress bars
+// *******************************************************************************
+
+$progress-bg: rgba-to-hex($gray-800, $rgba-to-hex-bg) !default;
+
+// * List group
+// *******************************************************************************
+
+$list-group-border-color: $border-color !default;
+$list-group-item-bg-scale: -70% !default;
+$list-group-item-bg-hover-scale: 10% !default; //  (c)
+$list-group-hover-bg: rgba($base, 0.08) !default;
+
+$kbd-color: $dark !default;
+
+// Config
+$rtl-support: false !default;
+$dark-style: true !default;

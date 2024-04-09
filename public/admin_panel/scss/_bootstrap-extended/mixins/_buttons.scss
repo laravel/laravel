@@ -1,0 +1,256 @@
+// Buttons
+// *******************************************************************************
+
+// Basic
+@mixin button-variant(
+  $background: null,
+  $border: null,
+  $hover-background: null,
+  $hover-border: null,
+  $active-background: null,
+  $active-border: null
+) {
+}
+@mixin template-button-variant($parent, $background, $color: null, $border: null) {
+  $background: $background;
+  $border: $background;
+  $color: if($color, $color, color-contrast($background));
+  $hover-background: if(
+    $color == $color-contrast-light,
+    tint-color($background, $btn-hover-bg-tint-amount),
+    shade-color($background, $btn-hover-bg-shade-amount)
+  );
+  $hover-border: if(
+    $color == $color-contrast-light,
+    tint-color($border, $btn-hover-border-tint-amount),
+    shade-color($border, $btn-hover-border-shade-amount)
+  );
+  $hover-color: color-contrast($hover-background);
+
+  $active-background: if(
+    $color == $color-contrast-light,
+    shade-color($background, $btn-active-bg-shade-amount),
+    tint-color($background, $btn-active-bg-tint-amount)
+  );
+  $active-border: if(
+    $color == $color-contrast-light,
+    shade-color($border, $btn-active-border-shade-amount),
+    tint-color($border, $btn-active-border-tint-amount)
+  );
+  // $split-border-color: if($color == $color-contrast-light, tint-color($background, 20%), shade-color($background, 20%));
+  $active-color: color-contrast($active-background);
+  $disabled-background: $background;
+  $disabled-border: $border;
+  $disabled-color: color-contrast($disabled-background);
+
+  #{$parent} {
+    color: $color;
+    @include gradient-bg($background);
+    border-color: $border;
+    @include box-shadow($btn-box-shadow);
+    box-shadow: $btn-box-shadow;
+
+    &:hover {
+      color: $hover-color !important;
+      @include gradient-bg($hover-background !important);
+      border-color: $hover-border !important;
+      box-shadow: $btn-hover-box-shadow !important;
+    }
+
+    .btn-check:focus + &,
+    &:focus,
+    &.focus {
+      color: $active-color;
+      @include gradient-bg($active-background);
+      border-color: $active-border;
+      box-shadow: none;
+    }
+
+    .btn-check:checked + &,
+    .btn-check:active + &,
+    &:active,
+    &.active,
+    &.show.dropdown-toggle,
+    .show > &.dropdown-toggle {
+      color: $active-color !important;
+      background-color: $active-background !important;
+      // Remove CSS gradients if they're enabled
+      background-image: if($enable-gradients, none !important, null);
+      border-color: $active-border !important;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    &.disabled,
+    &:disabled {
+      color: $disabled-color !important;
+      background-color: $disabled-background !important;
+      // Remove CSS gradients if they're enabled
+      background-image: if($enable-gradients, none !important, null);
+      border-color: $disabled-border !important;
+      box-shadow: none !important;
+    }
+  }
+
+  // Button groups
+  // .btn-group #{$parent},
+  // .input-group #{$parent} {
+  //   border-right: $input-btn-border-width solid $split-border-color;
+  //   border-left: $input-btn-border-width solid $split-border-color;
+  // }
+}
+
+// Label
+@mixin button-label-variant($background: null, $border: null, $active-background: null, $active-border: null) {
+}
+
+@mixin template-button-label-variant($parent, $background, $color: null, $border: null) {
+  // Using the $dark-style variable for condition as in label style text color can't compare with $color-contrast-light/dark
+  $border: transparent;
+
+  $label-color: if($color, $color, $background);
+  $hover-color: if($color, $color, color-contrast($background));
+
+  $label-background: if(
+    $hover-color == $color-contrast-light,
+    shade-color($background, $btn-label-bg-shade-amount, $card-bg),
+    tint-color($background, $btn-label-bg-tint-amount, $card-bg)
+  );
+
+  $hover-background: $background;
+  // $split-border-color: if($color == $color-contrast-light, tint-color($background, 24%), shade-color($background, 24%));
+  $active-color: if($color, $color, color-contrast($background));
+  $active-background: if(
+    $hover-color == $color-contrast-light,
+    shade-color($background, $btn-active-bg-shade-amount),
+    tint-color($background, $btn-active-bg-tint-amount)
+  );
+
+  #{$parent} {
+    color: $label-color;
+    border-color: $border;
+    background: $label-background;
+    @include box-shadow($btn-box-shadow);
+
+    &:hover {
+      border-color: $border !important;
+      background: $hover-background !important;
+      color: $hover-color !important;
+    }
+
+    &:focus,
+    &.focus {
+      color: $active-color;
+      background: $active-background;
+      box-shadow: none !important;
+    }
+
+    &:active,
+    &.active,
+    &.show.dropdown-toggle,
+    .show > &.dropdown-toggle {
+      color: $active-color !important;
+      background-color: $active-background !important;
+      // Remove CSS gradients if they're enabled
+      background-image: if($enable-gradients, none !important, null);
+      border-color: $border !important;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    &.disabled,
+    &:disabled {
+      color: $label-color !important;
+      border-color: $border !important;
+      background: $label-background !important;
+      box-shadow: none !important;
+    }
+  }
+
+  // Button groups
+  // .btn-group #{$parent},
+  // .input-group #{$parent} {
+  //   border-right: $input-btn-border-width solid $split-border-color;
+  //   border-left: $input-btn-border-width solid $split-border-color;
+  // }
+}
+
+// Outline
+@mixin button-outline-variant($color: null, $color-hover: null, $hover-color: null) {
+}
+
+@mixin template-button-outline-variant($parent, $color, $hover-color: null) {
+  $color: $color;
+  $color-hover: color-contrast($color);
+  $active-background: if(
+    $color == $color-contrast-light,
+    tint-color($color, $btn-active-bg-tint-amount),
+    shade-color($color, $btn-active-bg-shade-amount)
+  );
+  $active-border: if(
+    $color == $color-contrast-light,
+    tint-color($color, $btn-active-border-tint-amount),
+    shade-color($color, $btn-active-border-shade-amount)
+  );
+  $active-color: color-contrast($active-background);
+
+  #{$parent} {
+    color: $color;
+    border-color: $color;
+    background: transparent;
+
+    &:hover {
+      color: $color-hover !important;
+      background-color: $color !important;
+      border-color: $color !important;
+    }
+
+    .btn-check:focus + &,
+    &:focus {
+      color: $active-color;
+      background-color: $active-background;
+      border-color: $active-border;
+      box-shadow: none;
+    }
+
+    .btn-check:checked + &,
+    .btn-check:active + &,
+    &:active,
+    &.active,
+    &.dropdown-toggle.show {
+      color: $active-color !important;
+      background-color: $active-background !important;
+      border-color: $active-border !important;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    &.disabled,
+    &:disabled {
+      color: $color !important;
+      background-color: transparent !important;
+    }
+  }
+
+  #{$parent} .badge {
+    background: $color;
+    border-color: $color;
+    color: color-contrast($color);
+  }
+
+  #{$parent}:hover .badge,
+  #{$parent}:focus:hover .badge,
+  #{$parent}:active .badge,
+  #{$parent}.active .badge,
+  .show > #{$parent}.dropdown-toggle .badge {
+    background: $color-hover;
+    border-color: $color-hover;
+    color: if(alpha($color) ==1, $color, color-contrast($color-hover));
+  }
+}

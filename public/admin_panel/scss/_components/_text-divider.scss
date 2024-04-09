@@ -1,0 +1,119 @@
+// Divider
+// *******************************************************************************
+
+@import '../../scss/_custom-variables/libs';
+
+.divider {
+  display: block;
+  text-align: center;
+  margin: $divider-margin-y $divider-margin-x;
+  overflow: hidden;
+  white-space: nowrap;
+
+  .divider-text {
+    position: relative;
+    display: inline-block;
+    font-size: $divider-font-size;
+    padding: $divider-text-padding-y $divider-text-padding-x;
+
+    i {
+      font-size: $divider-icon-size;
+    }
+
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 100vw;
+      border-top: 1px solid $divider-color;
+    }
+
+    &:before {
+      right: 100%;
+    }
+
+    &:after {
+      left: 100%;
+    }
+  }
+  &.text-start {
+    .divider-text {
+      padding-left: 0;
+    }
+  }
+  &.text-end {
+    .divider-text {
+      padding-right: 0;
+    }
+  }
+  &.text-start-center {
+    .divider-text {
+      left: -25%;
+    }
+  }
+  &.text-end-center {
+    .divider-text {
+      right: -25%;
+    }
+  }
+  // Dotted Bordered Divider
+  &.divider-dotted {
+    .divider-text {
+      &:before,
+      &:after {
+        border-style: dotted;
+        border-width: 0 1px 1px;
+        border-color: $divider-color;
+      }
+    }
+  }
+  // Dashed Bordered Divider
+  &.divider-dashed {
+    .divider-text {
+      &:before,
+      &:after {
+        border-style: dashed;
+        border-width: 0 1px 1px;
+        border-color: $divider-color;
+      }
+    }
+  }
+}
+
+// RTL
+@include rtl-only {
+  .divider {
+    &.text-start-center {
+      .divider-text {
+        right: -25%;
+        left: auto;
+      }
+    }
+    &.text-end-center {
+      .divider-text {
+        left: -25%;
+        right: auto;
+      }
+    }
+    &.text-start {
+      .divider-text {
+        padding-right: 0;
+        padding-left: $divider-text-padding-x;
+      }
+    }
+    &.text-end {
+      .divider-text {
+        padding-left: 0;
+        padding-right: $divider-text-padding-x;
+      }
+    }
+  }
+}
+
+// For Contextual Colors
+@each $color, $value in $theme-colors {
+  @if $color !=primary and $color !=light {
+    @include template-text-divider-variant('.divider.divider-#{$color}', $value);
+  }
+}

@@ -1,0 +1,19 @@
+@mixin nouislider-variant($background) {
+  .noUi-connect {
+    background: $background !important;
+  }
+  .noUi-touch-area {
+    background-color: $background !important ;
+  }
+}
+
+@mixin nouislider-theme($background) {
+  .noUi-primary .noUi-base {
+    .noUi-connect {
+      background: $background !important;
+    }
+    .noUi-touch-area {
+      background-color: $background !important ;
+    }
+  }
+}

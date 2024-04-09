@@ -1,0 +1,300 @@
+// Modals
+// *******************************************************************************
+
+// Modal Shadow
+.modal-content {
+  box-shadow: $modal-content-box-shadow-xs;
+}
+
+// Modal close btn style
+.modal {
+  .btn-close {
+    background-color: $modal-close-btn-bg;
+    padding: ($modal-header-padding-y - 0.8125) ($modal-header-padding-x - 0.9375);
+    margin: 0 0 0 auto;
+    z-index: 1;
+  }
+}
+
+// modal footer
+.modal-footer {
+  padding: $modal-footer-padding;
+}
+
+// Modal RTL
+@include rtl-only {
+  .modal,
+  .modal-backdrop {
+    right: 0;
+  }
+  .modal-header {
+    .btn-close {
+      margin-left: 0;
+      margin-right: auto;
+    }
+  }
+}
+
+// Onboarding Modals
+// *******************************************************************************
+
+.modal-onboarding {
+  .close-label {
+    font-size: 0.8rem;
+    position: absolute;
+    top: 1.5rem;
+    opacity: $btn-close-opacity;
+    &:hover {
+      opacity: $btn-close-hover-opacity;
+    }
+  }
+
+  .onboarding-media {
+    margin-bottom: 1rem;
+    img {
+      margin: 0 auto;
+    }
+  }
+  .onboarding-content {
+    margin: 2rem;
+  }
+  form {
+    margin-top: 2rem;
+    text-align: left;
+  }
+
+  // Carousel Inside Modal
+  .carousel-indicators {
+    bottom: -10px;
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    top: auto;
+    bottom: 0.75rem;
+    opacity: 1;
+    @include rtl-style {
+      flex-direction: row-reverse;
+    }
+  }
+  .carousel-control-prev {
+    left: 1rem;
+  }
+  .onboarding-horizontal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .onboarding-media {
+      margin: 2rem;
+      margin-top: 0;
+    }
+    .carousel-control-prev {
+      left: 0;
+    }
+  }
+  // Modal animation
+  &.animated {
+    .onboarding-media {
+      transform: translateY(10px) scale(0.8);
+      transition: all 0.5s cubic-bezier(0.25, 1.1, 0.5, 1.35);
+      transition-delay: 0.3s;
+      opacity: 0;
+    }
+    .onboarding-content {
+      transform: translateY(40px);
+      transition-delay: 0.1s;
+      transition: all 0.4s ease;
+      opacity: 0;
+    }
+    .onboarding-title {
+      opacity: 0;
+      transition-delay: 0.5s;
+      transition: all 0.5s cubic-bezier(0.25, 1.1, 0.5, 1.35);
+      transform: translateY(40px);
+    }
+    .onboarding-info {
+      opacity: 0;
+      transition-delay: 0.6s;
+      transition: all 0.5s cubic-bezier(0.25, 1.1, 0.5, 1.35);
+      transform: translateY(40px);
+    }
+    form {
+      opacity: 0;
+      transition-delay: 0.7s;
+      transition: all 0.5s ease;
+      transform: translateY(40px);
+    }
+    &.show {
+      .onboarding-media {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      .onboarding-content {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .onboarding-title {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      .onboarding-info {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+      form {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+    }
+  }
+}
+
+// Top modals
+// *******************************************************************************
+
+.modal-top {
+  .modal-dialog {
+    margin-top: 0;
+  }
+
+  .modal-content {
+    @include border-top-radius(0);
+  }
+}
+
+// Transparent modals
+// ******************************************************************************
+
+.modal-transparent {
+  .modal-dialog {
+    display: flex;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+
+  .modal-content {
+    margin: auto;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .btn-close {
+    position: absolute;
+    top: 0;
+    right: $modal-header-padding-x;
+    transform: none;
+    opacity: 1;
+    padding: $btn-close-padding-y $btn-close-padding-x;
+    background-image: str-replace(str-replace($btn-close-bg, '#{$btn-close-color}', $white), '#', '%23');
+    background-color: transparent !important;
+    @include rtl-style {
+      right: auto;
+      left: $modal-header-padding-x;
+    }
+  }
+}
+
+// Modal Simple (Modal Examples)
+// ******************************************************************************
+
+.modal-simple {
+  .modal-content {
+    padding: $modal-simple-padding;
+  }
+  .btn-close {
+    position: absolute;
+    top: -($modal-simple-padding - $modal-simple-close-position);
+    @include rtl-style() {
+      left: -($modal-simple-padding - $modal-simple-close-position);
+    }
+    @include ltr-style() {
+      right: -($modal-simple-padding - $modal-simple-close-position);
+    }
+    // For small screen set top, left/right 0 p-3,  p-md-5
+    @include media-breakpoint-down(md) {
+      top: 0;
+      @include rtl-style() {
+        left: 0;
+      }
+      @include ltr-style() {
+        right: 0;
+      }
+    }
+  }
+}
+
+// Refer & Earn Modal Example
+.modal-refer-and-earn {
+  .modal-refer-and-earn-step {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: $border-radius;
+    i {
+      font-size: 2.5rem;
+    }
+  }
+}
+
+// Modal Animations
+// ******************************************************************************
+
+// Slide from Top
+.modal-top.fade .modal-dialog,
+.modal-top .modal.fade .modal-dialog {
+  transform: translateY(-100%);
+}
+
+.modal-top.show .modal-dialog,
+.modal-top .modal.show .modal-dialog {
+  transform: translateY(0);
+}
+
+// Transparent
+.modal-transparent.fade .modal-dialog,
+.modal-transparent .modal.fade .modal-dialog {
+  transform: scale(0.5, 0.5);
+}
+
+.modal-transparent.show .modal-dialog,
+.modal-transparent .modal.show .modal-dialog {
+  transform: scale(1, 1);
+}
+
+// Responsive
+// *******************************************************************************
+
+@include media-breakpoint-down(lg) {
+  .modal-onboarding .onboarding-horizontal {
+    flex-direction: column;
+  }
+}
+@include media-breakpoint-down(md) {
+  .modal {
+    .modal-dialog:not(.modal-fullscreen) {
+      padding: 0 0.75rem;
+      padding-left: 0.75rem !important;
+    }
+    .carousel-control-prev,
+    .carousel-control-next {
+      display: none;
+    }
+  }
+}
+@include media-breakpoint-up(sm) {
+  .modal-content {
+    box-shadow: $modal-content-box-shadow-sm-up;
+  }
+  .modal-sm .modal-dialog {
+    max-width: $modal-sm;
+  }
+}
+@include media-breakpoint-up(xl) {
+  .modal-xl .modal-dialog {
+    max-width: $modal-xl;
+  }
+}

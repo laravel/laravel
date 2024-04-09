@@ -1,0 +1,259 @@
+// * App Kanban
+// *******************************************************************************
+
+@use '../_bootstrap-extended/include' as light;
+@use '../_bootstrap-extended/include-dark' as dark;
+@import '../_custom-variables/pages';
+
+$kanban-wrapper-height: calc(100vh - 12rem);
+$kanban-app-horizontal-height-diff: 3.5rem;
+$kanban-title-font-size: light.$h5-font-size;
+$kanban-title-font-weight: light.$font-weight-semibold;
+$kanban-title-max-width: 13rem;
+
+$kanban-drag-min-height: 1rem;
+$kanban-drag-min-width: 16.25rem;
+$kanban-drag-padding: 0;
+
+$kanban-item-width: 16.25rem;
+$kanban-item-padding-y: 1rem;
+$kanban-item-padding-x: $kanban-item-padding-y;
+$kanban-item-border-radius: light.$border-radius-lg;
+
+$kanban-add-new-board-padding: 0.9375rem;
+
+// Kanban styles
+.app-kanban {
+  .kanban-wrapper {
+    width: 100%;
+    height: $kanban-wrapper-height;
+    overflow-x: auto;
+    overflow-y: auto;
+    @include light.media-breakpoint-up(xl) {
+      .layout-horizontal & {
+        height: calc($kanban-wrapper-height - $kanban-app-horizontal-height-diff);
+      }
+    }
+
+    // Kanban container
+    .kanban-container {
+      display: flex;
+      width: max-content !important;
+      .kanban-board {
+        width: auto !important;
+        height: 100%;
+        background: transparent;
+
+        &:focus {
+          outline: 0;
+        }
+
+        .kanban-board-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .kanban-title-board {
+            font-size: $kanban-title-font-size;
+            font-weight: $kanban-title-font-weight;
+            max-width: $kanban-title-max-width;
+            white-space: nowrap;
+            overflow: hidden;
+            &:focus {
+              outline: 0;
+            }
+          }
+          .btn-default {
+            &.btn:active {
+              border-color: transparent;
+            }
+          }
+          .dropdown {
+            .dropdown-toggle:after {
+              display: none;
+            }
+          }
+        }
+        .kanban-drag {
+          min-height: $kanban-drag-min-height;
+          min-width: $kanban-drag-min-width;
+          padding: $kanban-drag-padding;
+        }
+        .kanban-title-button {
+          position: absolute;
+          left: -8px;
+          bottom: 0;
+          margin: -1.5rem 0;
+          font-size: light.$small-font-size;
+          &:focus {
+            box-shadow: none;
+          }
+        }
+        .kanban-item {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          width: $kanban-item-width;
+          padding: $kanban-item-padding-y $kanban-item-padding-x;
+          margin-bottom: $kanban-item-padding-x;
+          border-radius: $kanban-item-border-radius;
+          .kanban-tasks-item-dropdown {
+            display: none;
+            position: absolute;
+            right: 0.75rem;
+            cursor: pointer;
+            .dropdown-toggle:after {
+              display: none;
+            }
+          }
+          &:hover {
+            box-shadow: rgba(0, 0, 0, 0.1) 0 4px 20px 0;
+            .kanban-tasks-item-dropdown {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Add new board styles
+  .kanban-add-new-board {
+    .kanban-add-board-btn {
+      padding-bottom: $kanban-add-new-board-padding;
+    }
+    margin-top: $kanban-add-new-board-padding;
+    float: left;
+    padding: 0 $kanban-add-new-board-padding;
+    label {
+      font-size: $kanban-title-font-size;
+      font-weight: $kanban-title-font-weight;
+      margin-bottom: $kanban-drag-padding;
+      cursor: pointer;
+    }
+  }
+
+  // Update sidebar styles
+  .kanban-update-item-sidebar {
+    text-align: left;
+    .comment-editor {
+      &.ql-container {
+        @include light.border-top-radius(light.$border-radius);
+      }
+      .ql-editor {
+        min-height: 7rem;
+        background: unset;
+      }
+    }
+    .comment-toolbar.ql-toolbar {
+      width: 100%;
+      text-align: right;
+      border-top: 0;
+      @include light.border-bottom-radius(light.$border-radius);
+    }
+  }
+}
+
+// For when item is being dragged
+.kanban-board.gu-mirror {
+  .kanban-board-header {
+    .dropdown {
+      display: none;
+    }
+  }
+  .kanban-item {
+    .kanban-tasks-item-dropdown {
+      .dropdown-toggle:after {
+        display: none;
+      }
+    }
+  }
+}
+.kanban-item.gu-mirror {
+  .kanban-tasks-item-dropdown {
+    .dropdown-toggle:after {
+      display: none;
+    }
+  }
+}
+.kanban-board.is-moving.gu-mirror .kanban-drag {
+  padding-right: 20px;
+  width: 100%;
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    .app-kanban {
+      .kanban-board {
+        .kanban-board-header {
+          color: light.$headings-color;
+        }
+        .kanban-item {
+          background-color: light.$card-bg;
+          box-shadow: light.$card-box-shadow;
+        }
+      }
+      .kanban-add-new-board {
+        label {
+          color: light.$headings-color;
+        }
+      }
+    }
+  }
+}
+
+// Dark Style
+@if $enable-dark-style {
+  .dark-style {
+    .app-kanban {
+      .kanban-board {
+        .kanban-board-header {
+          color: dark.$headings-color;
+        }
+        .kanban-item {
+          background-color: dark.$card-bg;
+          box-shadow: dark.$card-box-shadow;
+        }
+      }
+      .kanban-add-new-board {
+        label {
+          color: dark.$headings-color;
+        }
+      }
+    }
+    // For when item is being dragged
+    .kanban-item.gu-mirror {
+      background-color: dark.$card-bg;
+    }
+  }
+}
+
+// RTL
+@if $enable-rtl-support {
+  [dir='rtl'] {
+    .app-kanban {
+      .kanban-board,
+      .kanban-add-new-btn {
+        float: right;
+      }
+      .kanban-board {
+        .kanban-board-header {
+          .kanban-title-button {
+            left: auto !important;
+            right: -8px;
+          }
+        }
+        .kanban-tasks-item-dropdown {
+          left: 1.2rem;
+          right: auto !important;
+        }
+      }
+      .kanban-update-item-sidebar {
+        text-align: right;
+        .comment-toolbar.ql-toolbar {
+          text-align: right;
+        }
+      }
+    }
+  }
+}

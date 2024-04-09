@@ -1,0 +1,126 @@
+@import '../../scss/_bootstrap-extended/include';
+@import '../../scss/_custom-variables/libs';
+@import '../../node_modules/swiper/swiper-bundle';
+
+.swiper {
+  width: 100%;
+  overflow: hidden !important;
+  .swiper-slide {
+    color: $white;
+  }
+  .swiper-pagination-bullet.swiper-pagination-bullet-active.bg-transparent {
+    background: transparent !important;
+  }
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &::after {
+    font-size: 1.2rem;
+    font-weight: $font-weight-bolder;
+  }
+
+  &.swiper-button-white {
+    color: $white;
+  }
+
+  &.custom-icon {
+    background-image: none;
+    line-height: 1;
+    &::after {
+      font-size: 1.2rem;
+      font-weight: $font-weight-bolder;
+    }
+    @include app-rtl {
+      transform: scaleX(-1) rotate(180deg);
+    }
+  }
+}
+
+.swiper-pagination-bullet {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.swiper-pagination-progressbar,
+.swiper-scrollbar {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.swiper-scrollbar-drag {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.swiper-pagination-white {
+  .swiper-pagination-bullet {
+    background: $white !important;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: $white !important;
+  }
+}
+
+.swiper-scrollbar-white {
+  background: rgba(255, 255, 255, 0.2) !important;
+
+  .swiper-scrollbar-drag {
+    background: $white !important;
+  }
+}
+
+// black arrows for 3d style
+@if $enable-dark-style {
+  .dark-style {
+    .swiper-3d {
+      .swiper-button-prev,
+      .swiper-button-next {
+        &.swiper-button-black {
+          --swiper-navigation-color: $white;
+        }
+      }
+    }
+  }
+}
+
+@include app-rtl(false) {
+  .swiper-button-next {
+    right: auto;
+    left: 1.25rem;
+  }
+
+  .swiper-button-prev {
+    right: 1.25rem;
+    left: auto;
+  }
+
+  .swiper-vertical {
+    > .swiper-pagination-bullets {
+      right: auto;
+      left: 10px;
+    }
+
+    > .swiper-pagination-progressbar {
+      right: 0;
+      left: auto;
+    }
+
+    > .swiper-scrollbar {
+      right: auto;
+      left: 3px;
+    }
+  }
+}
+
+@include app-ltr(false) {
+  .swiper-button-next {
+    right: 1.25rem;
+  }
+
+  .swiper-button-prev {
+    left: 1.25rem;
+  }
+}

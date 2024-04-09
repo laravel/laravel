@@ -1,0 +1,1104 @@
+// Editor
+// *******************************************************************************
+
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+
+// common styles
+.ql-container {
+  display: block;
+  margin: 0;
+  position: relative;
+
+  &.ql-disabled .ql-editor ul[data-checked] > li::before {
+    pointer-events: none;
+  }
+
+  &.ql-disabled .ql-tooltip {
+    visibility: hidden;
+  }
+}
+
+.ql-clipboard {
+  position: absolute;
+  overflow-y: hidden;
+  left: -6250rem;
+  height: 0.0625rem;
+  top: 50%;
+
+  @include app-rtl {
+    left: auto;
+    right: -6250rem;
+  }
+}
+
+.ql-editor {
+  overflow-y: auto;
+  height: 100%;
+  tab-size: 4;
+  -moz-tab-size: 4;
+  box-sizing: border-box;
+  display: block;
+  outline: none;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+
+  > * {
+    cursor: text;
+  }
+
+  &.ql-blank::before {
+    position: absolute;
+    content: attr(data-placeholder);
+    font-style: italic;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+  }
+}
+
+// Themes
+.ql-snow,
+.ql-bubble {
+  box-sizing: border-box;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .ql-out-bottom,
+  .ql-out-top {
+    visibility: hidden;
+  }
+
+  .ql-hidden {
+    display: none !important;
+  }
+
+  .ql-even {
+    fill-rule: evenodd;
+  }
+
+  .ql-empty {
+    fill: none;
+  }
+
+  .ql-transparent {
+    opacity: 0.4;
+  }
+
+  .ql-thin,
+  .ql-stroke.ql-thin {
+    stroke-width: 1;
+  }
+
+  .ql-editor a {
+    text-decoration: underline;
+  }
+
+  .ql-direction.ql-active {
+    svg:last-child {
+      display: inline;
+    }
+
+    svg:first-child {
+      display: none;
+    }
+  }
+
+  .ql-direction svg:last-child {
+    display: none;
+  }
+
+  &.ql-toolbar,
+  & .ql-toolbar {
+    box-sizing: border-box;
+    padding: 0.5rem;
+
+    &::after {
+      clear: both;
+      content: '';
+      display: table;
+    }
+
+    button {
+      float: left;
+      display: inline-block;
+      padding: 0.1875rem 0.3125rem;
+      height: 1.5rem;
+      width: 1.75rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      &:active:hover {
+        outline: none;
+      }
+
+      @include app-rtl {
+        float: right;
+      }
+
+      svg {
+        height: 100%;
+        float: left;
+
+        @include app-rtl {
+          float: right;
+        }
+      }
+    }
+
+    input.ql-image[type='file'] {
+      display: none;
+    }
+  }
+
+  .ql-tooltip {
+    transform: translateY(0.625rem);
+    position: absolute;
+
+    &.ql-flip {
+      transform: translateY(-0.625rem);
+    }
+
+    a {
+      cursor: pointer;
+      text-decoration: none;
+    }
+  }
+
+  .ql-formats {
+    display: inline-block;
+    margin-right: 0.9375rem;
+    vertical-align: middle;
+
+    @include app-rtl {
+      margin-right: 0;
+      margin-left: 0.9375rem;
+    }
+
+    &::after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+  }
+
+  .ql-picker {
+    vertical-align: middle;
+    position: relative;
+    height: 1.5rem;
+    display: inline-block;
+    float: left;
+
+    @include app-rtl {
+      float: right;
+    }
+
+    &.ql-expanded .ql-picker-options {
+      top: 100%;
+      display: block;
+      z-index: 1;
+      margin-top: -0.0625rem;
+    }
+
+    &.ql-header,
+    &.ql-font,
+    &.ql-size {
+      .ql-picker-label[data-label]:not([data-label=''])::before,
+      .ql-picker-item[data-label]:not([data-label=''])::before {
+        content: attr(data-label);
+      }
+    }
+
+    &.ql-header {
+      width: 6.125rem;
+
+      .ql-picker-label,
+      .ql-picker-item {
+        &::before {
+          content: 'Normal';
+        }
+
+        &[data-value='1']::before {
+          content: 'Heading 1';
+        }
+
+        &[data-value='2']::before {
+          content: 'Heading 2';
+        }
+
+        &[data-value='3']::before {
+          content: 'Heading 3';
+        }
+
+        &[data-value='4']::before {
+          content: 'Heading 4';
+        }
+
+        &[data-value='5']::before {
+          content: 'Heading 5';
+        }
+
+        &[data-value='6']::before {
+          content: 'Heading 6';
+        }
+      }
+    }
+
+    &.ql-font {
+      width: 6.75rem;
+
+      .ql-picker-label,
+      .ql-picker-item {
+        &::before {
+          content: 'Sans Serif';
+        }
+
+        &[data-value='serif']::before {
+          content: 'Serif';
+        }
+
+        &[data-value='monospace']::before {
+          content: 'Monospace';
+        }
+      }
+    }
+
+    &.ql-size {
+      width: 6.125rem;
+
+      .ql-picker-label,
+      .ql-picker-item {
+        &::before {
+          content: 'Normal';
+        }
+
+        &[data-value='small']::before {
+          content: 'Small';
+        }
+
+        &[data-value='large']::before {
+          content: 'Large';
+        }
+
+        &[data-value='huge']::before {
+          content: 'Huge';
+        }
+      }
+    }
+
+    &:not(.ql-color-picker):not(.ql-icon-picker) svg {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      margin-top: -0.5625rem;
+      width: 1.125rem;
+
+      @include app-rtl {
+        right: auto;
+        left: 0;
+      }
+    }
+  }
+
+  .ql-picker-label {
+    position: relative;
+    display: inline-block;
+    padding-right: 0.125rem;
+    padding-left: 0.5rem;
+    height: 100%;
+    width: 100%;
+    border: 0.0625rem solid transparent;
+    cursor: pointer;
+
+    &::before {
+      line-height: 1.375rem;
+      display: inline-block;
+    }
+  }
+
+  .ql-picker-options {
+    padding: 0.25rem 0.5rem;
+    min-width: 100%;
+    position: absolute;
+    display: none;
+    white-space: nowrap;
+
+    .ql-picker-item {
+      padding-bottom: 0.3125rem;
+      padding-top: 0.3125rem;
+      display: block;
+      cursor: pointer;
+    }
+  }
+
+  .ql-color-picker,
+  .ql-icon-picker {
+    width: 1.75rem;
+
+    .ql-picker-label {
+      padding: 0.125rem 0.25rem;
+    }
+  }
+
+  .ql-icon-picker {
+    .ql-picker-options {
+      padding: 0.25rem 0;
+    }
+
+    .ql-picker-item {
+      padding: 0.125rem 0.25rem;
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  .ql-color-picker {
+    .ql-picker-options {
+      padding: 0.1875rem 0.3125rem;
+      width: 9.5rem;
+    }
+
+    .ql-picker-item {
+      float: left;
+      margin: 0.125rem;
+      padding: 0;
+      width: 1rem;
+      height: 1rem;
+      border: 0.0625rem solid transparent;
+
+      @include app-rtl {
+        float: right;
+      }
+    }
+
+    &.ql-background .ql-picker-item {
+      background-color: #fff;
+    }
+
+    &.ql-color .ql-picker-item {
+      background-color: #000;
+    }
+  }
+
+  @include app-rtl {
+    .ql-italic svg,
+    .ql-list svg,
+    .ql-indent svg,
+    .ql-direction svg,
+    .ql-align svg,
+    .ql-link svg,
+    .ql-image svg,
+    .ql-clean svg {
+      transform: scaleX(-1);
+    }
+  }
+}
+
+.ql-snow {
+  &.ql-toolbar,
+  .ql-toolbar {
+    background: #fff;
+    background-clip: padding-box;
+  }
+
+  .ql-editor {
+    min-height: 15rem;
+    background: #fff;
+  }
+
+  .ql-picker.ql-expanded .ql-picker-label {
+    z-index: 2;
+    color: #ccc !important;
+
+    .ql-fill {
+      fill: #ccc !important;
+    }
+
+    .ql-stroke {
+      stroke: #ccc !important;
+    }
+  }
+
+  .ql-stroke {
+    fill: none;
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .ql-stroke-miter {
+    fill: none;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+  }
+
+  .ql-picker-label {
+    border: 0.0625rem solid transparent;
+  }
+
+  .ql-picker-options {
+    border: 0.0625rem solid transparent;
+    background-color: #fff;
+    background-clip: padding-box;
+  }
+
+  .ql-color-picker .ql-picker-item.ql-selected,
+  .ql-color-picker .ql-picker-item:hover {
+    border-color: #000;
+  }
+
+  .ql-tooltip {
+    display: flex;
+    padding: 0.3125rem 0.75rem;
+    background-color: #fff;
+    background-clip: padding-box;
+    white-space: nowrap;
+
+    &::before {
+      content: 'Visit URL:';
+      margin-right: 0.5rem;
+      line-height: 1.625rem;
+
+      @include app-rtl {
+        margin-right: 0;
+        margin-left: 0.5rem;
+      }
+    }
+
+    input[type='text'] {
+      display: none;
+      margin: 0;
+      padding: 0.1875rem 0.3125rem;
+      width: 10.625rem;
+      height: 1.625rem;
+      font-size: 0.8125rem;
+    }
+
+    a.ql-preview {
+      display: inline-block;
+      vertical-align: top;
+      max-width: 12.5rem;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
+
+    a.ql-action::after {
+      content: 'Edit';
+      margin-left: 1rem;
+      padding-right: 0.5rem;
+      border-right: 0.0625rem solid #ccc;
+
+      @include app-rtl {
+        margin-left: 0;
+        margin-right: 1rem;
+        padding-left: 0.5rem;
+        padding-right: 0;
+        border-right: 0;
+        border-left: 0.0625rem solid #ccc;
+      }
+    }
+
+    a.ql-remove::before {
+      content: 'Remove';
+      margin-left: 0.5rem;
+
+      @include app-rtl {
+        margin-right: 0.5rem;
+        margin-left: 0;
+      }
+    }
+
+    a {
+      line-height: 1.625rem;
+    }
+
+    &.ql-editing a.ql-preview,
+    &.ql-editing a.ql-remove {
+      display: none;
+    }
+
+    &.ql-editing input[type='text'] {
+      display: inline-block;
+    }
+
+    &.ql-editing a.ql-action::after {
+      content: 'Save';
+      border-right: 0;
+      padding-right: 0;
+
+      @include app-rtl {
+        border-left: 0;
+        padding-left: 0;
+      }
+    }
+
+    &[data-mode='link']::before {
+      content: 'Enter link:';
+    }
+
+    &[data-mode='formula']::before {
+      content: 'Enter formula:';
+    }
+
+    &[data-mode='video']::before {
+      content: 'Enter video:';
+    }
+  }
+}
+
+.ql-bubble {
+  &.ql-toolbar,
+  .ql-toolbar {
+    button:hover,
+    button:focus,
+    button.ql-active,
+    .ql-picker-label:hover,
+    .ql-picker-label.ql-active,
+    .ql-picker-item:hover,
+    .ql-picker-item.ql-selected {
+      color: #fff;
+    }
+
+    button:hover .ql-stroke,
+    button:focus .ql-stroke,
+    button.ql-active .ql-stroke,
+    .ql-picker-label:hover .ql-stroke,
+    .ql-picker-label.ql-active .ql-stroke,
+    .ql-picker-item:hover .ql-stroke,
+    .ql-picker-item.ql-selected .ql-stroke,
+    button:hover .ql-stroke-miter,
+    button:focus .ql-stroke-miter,
+    button.ql-active .ql-stroke-miter,
+    .ql-picker-label:hover .ql-stroke-miter,
+    .ql-picker-label.ql-active .ql-stroke-miter,
+    .ql-picker-item:hover .ql-stroke-miter,
+    .ql-picker-item.ql-selected .ql-stroke-miter {
+      stroke: #fff;
+    }
+    button:hover .ql-fill,
+    button:focus .ql-fill,
+    button.ql-active .ql-fill,
+    .ql-picker-label:hover .ql-fill,
+    .ql-picker-label.ql-active .ql-fill,
+    .ql-picker-item:hover .ql-fill,
+    .ql-picker-item.ql-selected .ql-fill,
+    button:hover .ql-stroke.ql-fill,
+    button:focus .ql-stroke.ql-fill,
+    button.ql-active .ql-stroke.ql-fill,
+    .ql-picker-label:hover .ql-stroke.ql-fill,
+    .ql-picker-label.ql-active .ql-stroke.ql-fill,
+    .ql-picker-item:hover .ql-stroke.ql-fill,
+    .ql-picker-item.ql-selected .ql-stroke.ql-fill {
+      fill: #fff;
+    }
+
+    @media (pointer: coarse) {
+      button:hover:not(.ql-active) {
+        color: #ccc;
+      }
+      button:hover:not(.ql-active) .ql-fill,
+      button:hover:not(.ql-active) .ql-stroke.ql-fill {
+        fill: #ccc;
+      }
+      button:hover:not(.ql-active) .ql-stroke,
+      button:hover:not(.ql-active) .ql-stroke-miter {
+        stroke: #ccc;
+      }
+    }
+  }
+
+  .ql-stroke {
+    fill: none;
+    stroke: #ccc;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    stroke-width: 2;
+  }
+
+  .ql-stroke-miter {
+    fill: none;
+    stroke: #ccc;
+    stroke-miterlimit: 10;
+    stroke-width: 2;
+  }
+
+  .ql-fill,
+  .ql-stroke.ql-fill {
+    fill: #ccc;
+  }
+
+  .ql-picker {
+    color: #ccc;
+
+    &.ql-expanded .ql-picker-label {
+      z-index: 2;
+      color: #777;
+
+      .ql-fill {
+        fill: #777;
+      }
+
+      .ql-stroke {
+        stroke: #777;
+      }
+    }
+  }
+
+  .ql-picker-options {
+    background-color: #444;
+  }
+
+  .ql-color-picker .ql-picker-label svg,
+  .ql-icon-picker .ql-picker-label svg {
+    right: 0.25rem;
+
+    @include app-rtl {
+      right: auto;
+      left: 0.25rem;
+    }
+  }
+
+  .ql-color-picker {
+    .ql-color-picker svg {
+      margin: 0.0625rem;
+    }
+
+    .ql-picker-item.ql-selected,
+    .ql-picker-item:hover {
+      border-color: #fff;
+    }
+  }
+
+  .ql-toolbar .ql-formats {
+    margin: 0.5rem 0.75rem 0.5rem 0;
+
+    @include app-rtl {
+      margin: 0.5rem 0 0.5rem 0.75rem;
+    }
+
+    &:first-child {
+      margin-left: 0.75rem;
+
+      @include app-rtl {
+        margin-right: 0.75rem;
+      }
+    }
+  }
+
+  .ql-tooltip-arrow {
+    content: ' ';
+    position: absolute;
+    display: block;
+    left: 50%;
+    margin-left: -0.375rem;
+    border-right: 0.375rem solid transparent;
+    border-left: 0.375rem solid transparent;
+  }
+
+  .ql-tooltip {
+    background-color: #444;
+    color: #fff;
+
+    &:not(.ql-flip) .ql-tooltip-arrow {
+      top: -0.375rem;
+      border-bottom: 0.375rem solid #444;
+    }
+
+    &.ql-flip .ql-tooltip-arrow {
+      bottom: -0.375rem;
+      border-top: 0.375rem solid #444;
+    }
+
+    &.ql-editing {
+      .ql-tooltip-editor {
+        display: block;
+      }
+
+      .ql-formats {
+        visibility: hidden;
+      }
+    }
+  }
+
+  .ql-tooltip-editor {
+    display: none;
+
+    input[type='text'] {
+      position: absolute;
+      padding: 0.625rem 1.25rem;
+      height: 100%;
+      width: 100%;
+      outline: none;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 0.8125rem;
+    }
+
+    a {
+      position: absolute;
+      right: 1.25rem;
+      top: 0.625rem;
+
+      @include app-rtl {
+        right: auto;
+        left: 1.25rem;
+      }
+
+      &::before {
+        content: '\D7';
+        color: #ccc;
+        font-size: 1rem;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &.ql-container:not(.ql-disabled) a {
+    white-space: nowrap;
+    position: relative;
+
+    &::before,
+    &::after {
+      margin-left: 50%;
+      position: absolute;
+      visibility: hidden;
+      left: 0;
+      transition: visibility 0s ease 200ms;
+      transform: translate(-50%, -100%);
+    }
+
+    &:hover::before,
+    &:hover::after {
+      visibility: visible;
+    }
+
+    &::before {
+      content: attr(href);
+      top: -0.3125rem;
+      z-index: 1;
+      overflow: hidden;
+      padding: 0.3125rem 0.9375rem;
+      border-radius: 0.9375rem;
+      background-color: #444;
+      text-decoration: none;
+      color: #fff;
+      font-weight: normal;
+      font-size: 0.75rem;
+    }
+
+    &::after {
+      content: ' ';
+      top: 0;
+      height: 0;
+      width: 0;
+      border-top: 0.375rem solid #444;
+      border-right: 0.375rem solid transparent;
+      border-left: 0.375rem solid transparent;
+    }
+  }
+}
+
+// Light styles
+@if $enable-light-style {
+  .light-style {
+    .ql-editor.ql-blank:before {
+      color: light.$input-placeholder-color;
+    }
+
+    .ql-snow,
+    .ql-bubble {
+      &.ql-toolbar .ql-picker-options,
+      & .ql-toolbar .ql-picker-options {
+        box-shadow: light.$dropdown-box-shadow;
+      }
+
+      .ql-picker {
+        &.ql-header .ql-picker-item {
+          &[data-value='1']::before {
+            font-size: light.$h1-font-size;
+          }
+
+          &[data-value='2']::before {
+            font-size: light.$h2-font-size;
+          }
+
+          &[data-value='3']::before {
+            font-size: light.$h3-font-size;
+          }
+
+          &[data-value='4']::before {
+            font-size: light.$h4-font-size;
+          }
+
+          &[data-value='5']::before {
+            font-size: light.$h5-font-size;
+          }
+
+          &[data-value='6']::before {
+            font-size: light.$h6-font-size;
+          }
+        }
+
+        &.ql-font .ql-picker-item {
+          &[data-value='serif']::before {
+            font-family: light.$font-family-serif;
+          }
+
+          &[data-value='monospace']::before {
+            font-family: light.$font-family-monospace;
+          }
+        }
+
+        &.ql-size .ql-picker-item {
+          &[data-value='small']::before {
+            font-size: light.$font-size-sm;
+          }
+
+          &[data-value='large']::before {
+            font-size: light.$font-size-lg;
+          }
+
+          &[data-value='huge']::before {
+            font-size: light.$font-size-xl;
+          }
+        }
+      }
+    }
+
+    .ql-snow {
+      .ql-editor.ql-blank::before {
+        padding: 0 light.$input-btn-padding-x;
+      }
+
+      &.ql-container {
+        border: 0.0625rem solid light.$input-border-color;
+      }
+
+      .ql-editor {
+        padding: light.$input-btn-padding-x;
+      }
+
+      &.ql-toolbar,
+      & .ql-toolbar {
+        border: 0.0625rem solid light.$input-border-color;
+
+        @media (pointer: coarse) {
+          button:hover:not(.ql-active) {
+            color: light.$body-color;
+          }
+          button:hover:not(.ql-active) .ql-stroke,
+          button:hover:not(.ql-active) .ql-stroke-miter {
+            stroke: light.$body-color;
+          }
+          button:hover:not(.ql-active) .ql-fill,
+          button:hover:not(.ql-active) .ql-stroke.ql-fill {
+            fill: light.$body-color;
+          }
+        }
+      }
+
+      &.ql-toolbar + .ql-container.ql-snow {
+        border-top: 0;
+      }
+
+      .ql-stroke {
+        stroke: light.$body-color;
+      }
+
+      .ql-fill,
+      .ql-stroke.ql-fill {
+        fill: light.$body-color;
+      }
+
+      .ql-stroke-miter {
+        stroke: light.$body-color;
+      }
+      .ql-picker {
+        color: light.$body-color;
+
+        &.ql-expanded .ql-picker-options {
+          border-color: light.$dropdown-border-color;
+        }
+
+        &.ql-expanded .ql-picker-label {
+          border-color: light.$input-border-color;
+        }
+      }
+
+      .ql-tooltip {
+        border: light.$dropdown-border-width solid light.$dropdown-border-color;
+        color: light.$body-color;
+        box-shadow: light.$dropdown-box-shadow;
+
+        input[type='text'] {
+          border: 0.0625rem solid light.$input-border-color;
+        }
+      }
+    }
+
+    .ql-bubble .ql-tooltip {
+      border-radius: light.$border-radius;
+      z-index: light.$zindex-menu-fixed + 10;
+    }
+  }
+}
+
+// dark styles
+@if $enable-dark-style {
+  .dark-style {
+    .ql-editor.ql-blank:before {
+      color: dark.$input-placeholder-color;
+    }
+
+    .ql-snow,
+    .ql-bubble {
+      .ql-tooltip {
+        background: dark.$body-bg;
+      }
+      &.ql-toolbar .ql-picker-options,
+      & .ql-toolbar .ql-picker-options {
+        box-shadow: dark.$dropdown-box-shadow;
+      }
+
+      .ql-picker {
+        &.ql-header .ql-picker-item {
+          &[data-value='1']::before {
+            font-size: dark.$h1-font-size;
+          }
+
+          &[data-value='2']::before {
+            font-size: dark.$h2-font-size;
+          }
+
+          &[data-value='3']::before {
+            font-size: dark.$h3-font-size;
+          }
+
+          &[data-value='4']::before {
+            font-size: dark.$h4-font-size;
+          }
+
+          &[data-value='5']::before {
+            font-size: dark.$h5-font-size;
+          }
+
+          &[data-value='6']::before {
+            font-size: dark.$h6-font-size;
+          }
+        }
+
+        &.ql-font .ql-picker-item {
+          &[data-value='serif']::before {
+            font-family: dark.$font-family-serif;
+          }
+
+          &[data-value='monospace']::before {
+            font-family: dark.$font-family-monospace;
+          }
+        }
+
+        &.ql-size .ql-picker-item {
+          &[data-value='small']::before {
+            font-size: dark.$font-size-sm;
+          }
+
+          &[data-value='large']::before {
+            font-size: dark.$font-size-lg;
+          }
+
+          &[data-value='huge']::before {
+            font-size: dark.$font-size-xl;
+          }
+        }
+      }
+    }
+
+    .ql-snow {
+      .ql-editor.ql-blank::before {
+        padding: 0 dark.$input-btn-padding-x;
+      }
+
+      &.ql-container {
+        border: 0.0625rem solid dark.$input-border-color;
+      }
+
+      .ql-editor {
+        padding: dark.$input-btn-padding-x;
+        background: dark.$card-bg;
+      }
+
+      .ql-picker-options {
+        background: dark.$card-bg;
+      }
+
+      &.ql-toolbar,
+      & .ql-toolbar {
+        border: 0.0625rem solid dark.$input-border-color;
+        background: dark.$card-bg;
+
+        @media (pointer: coarse) {
+          button:hover:not(.ql-active) {
+            color: dark.$body-color;
+          }
+          button:hover:not(.ql-active) .ql-stroke,
+          button:hover:not(.ql-active) .ql-stroke-miter {
+            stroke: dark.$body-color;
+          }
+          button:hover:not(.ql-active) .ql-fill,
+          button:hover:not(.ql-active) .ql-stroke.ql-fill {
+            fill: dark.$body-color;
+          }
+        }
+      }
+
+      &.ql-toolbar + .ql-container.ql-snow {
+        border-top: 0;
+      }
+
+      .ql-stroke-miter {
+        stroke: dark.$body-color;
+      }
+
+      .ql-stroke {
+        stroke: dark.$body-color;
+      }
+
+      .ql-fill,
+      .ql-stroke.ql-fill {
+        fill: dark.$body-color;
+      }
+
+      .ql-picker {
+        color: dark.$body-color;
+
+        &.ql-expanded .ql-picker-options {
+          border-color: dark.$dropdown-border-color;
+        }
+
+        &.ql-expanded .ql-picker-label {
+          border-color: dark.$input-border-color;
+        }
+      }
+
+      .ql-tooltip {
+        border: dark.$dropdown-border-width solid dark.$dropdown-border-color;
+        color: dark.$body-color;
+        box-shadow: dark.$dropdown-box-shadow;
+
+        input[type='text'] {
+          border: 0.0625rem solid dark.$input-border-color;
+        }
+      }
+    }
+
+    .ql-bubble .ql-tooltip {
+      border-radius: dark.$border-radius;
+      z-index: dark.$zindex-menu-fixed + 10;
+    }
+  }
+}

@@ -1,0 +1,289 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+@import 'mixins';
+
+.ql-editor,
+.ql-content {
+  $quill-indent: 2rem;
+
+  p,
+  ol,
+  ul,
+  pre,
+  blockquote,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+  }
+
+  ol,
+  ul {
+    margin-right: 0;
+    margin-left: 0;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  ol > li,
+  ul > li {
+    list-style-type: none;
+
+    &:not(.ql-direction-rtl) {
+      padding-left: $quill-indent;
+
+      @include app-rtl {
+        padding-right: $quill-indent;
+        padding-left: 0;
+      }
+    }
+
+    &.ql-direction-rtl {
+      padding-right: $quill-indent;
+
+      @include app-rtl {
+        padding-right: 0;
+        padding-left: $quill-indent;
+      }
+    }
+  }
+
+  ul > li::before {
+    content: '\2022';
+  }
+
+  ul[data-checked='true'],
+  ul[data-checked='false'] {
+    pointer-events: none;
+
+    > li * {
+      pointer-events: all;
+
+      &::before {
+        pointer-events: all;
+        cursor: pointer;
+        color: #777;
+      }
+    }
+  }
+
+  ul[data-checked='false'] > li::before {
+    content: '\2610';
+  }
+
+  ul[data-checked='true'] > li::before {
+    content: '\2611';
+  }
+
+  li::before {
+    display: inline-block;
+    width: calc(#{$quill-indent} - 0.3em);
+    white-space: nowrap;
+  }
+
+  li.ql-direction-rtl::before {
+    margin-right: -$quill-indent;
+    margin-left: 0.3em;
+    text-align: left;
+
+    @include app-rtl {
+      margin-right: 0.3em;
+      margin-left: -$quill-indent;
+      text-align: right;
+    }
+  }
+
+  li:not(.ql-direction-rtl)::before {
+    text-align: right;
+    margin-left: -$quill-indent;
+    margin-right: 0.3em;
+
+    @include app-rtl {
+      text-align: left;
+      margin-left: 0.3em;
+      margin-right: -$quill-indent;
+    }
+  }
+
+  ol li {
+    counter-increment: list-0;
+    counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+
+    &::before {
+      content: counter(list-0, decimal) '. ';
+    }
+  }
+
+  @include quill-generate-lists($quill-indent);
+
+  .ql-video {
+    max-width: 100%;
+    display: block;
+
+    &.ql-align-right {
+      margin: 0 0 0 auto;
+
+      @include app-rtl {
+        margin: 0 auto 0 0;
+      }
+    }
+
+    &.ql-align-center {
+      margin: 0 auto;
+    }
+  }
+
+  .ql-bg-red {
+    background-color: #e60000;
+  }
+
+  .ql-bg-black {
+    background-color: #000;
+  }
+
+  .ql-bg-yellow {
+    background-color: #ff0;
+  }
+
+  .ql-bg-orange {
+    background-color: #f90;
+  }
+
+  .ql-bg-purple {
+    background-color: #93f;
+  }
+
+  .ql-bg-blue {
+    background-color: #06c;
+  }
+
+  .ql-bg-green {
+    background-color: #008a00;
+  }
+
+  .ql-color-red {
+    color: #e60000;
+  }
+  .ql-color-white {
+    color: #fff;
+  }
+
+  .ql-color-yellow {
+    color: #ff0;
+  }
+
+  .ql-color-orange {
+    color: #f90;
+  }
+
+  .ql-color-purple {
+    color: #93f;
+  }
+
+  .ql-color-blue {
+    color: #06c;
+  }
+
+  .ql-color-green {
+    color: #008a00;
+  }
+
+  .ql-direction-rtl {
+    direction: rtl;
+    text-align: inherit;
+
+    @include app-rtl {
+      direction: ltr;
+      text-align: inherit;
+    }
+  }
+
+  .ql-align-center {
+    text-align: center;
+  }
+
+  .ql-align-justify {
+    text-align: justify;
+  }
+
+  .ql-align-right {
+    text-align: right;
+
+    @include app-rtl {
+      text-align: left;
+    }
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    .ql-editor,
+    .ql-content {
+      blockquote {
+        font-size: light.$blockquote-font-size;
+        margin-bottom: light.$spacer;
+      }
+
+      .ql-font-serif {
+        font-family: light.$font-family-serif;
+      }
+
+      .ql-font-monospace {
+        font-family: light.$font-family-monospace;
+      }
+
+      .ql-size-large {
+        font-size: light.$font-size-lg;
+      }
+      .ql-size-huge {
+        font-size: light.$font-size-xl;
+      }
+
+      .ql-size-small {
+        font-size: light.$font-size-sm;
+      }
+    }
+  }
+}
+
+// Dark style
+@if $enable-dark-style {
+  .dark-style {
+    .ql-editor,
+    .ql-content {
+      blockquote {
+        font-size: dark.$blockquote-font-size;
+        margin-bottom: dark.$spacer;
+      }
+
+      .ql-font-monospace {
+        font-family: dark.$font-family-monospace;
+      }
+
+      .ql-font-serif {
+        font-family: dark.$font-family-serif;
+      }
+
+      .ql-size-huge {
+        font-size: dark.$font-size-xl;
+      }
+
+      .ql-size-large {
+        font-size: dark.$font-size-lg;
+      }
+
+      .ql-size-small {
+        font-size: dark.$font-size-sm;
+      }
+    }
+  }
+}

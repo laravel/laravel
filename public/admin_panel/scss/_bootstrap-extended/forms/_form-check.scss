@@ -1,0 +1,47 @@
+// Checkboxes and Radios
+// *******************************************************************************
+.form-check-input{
+  cursor: $form-check-label-cursor;
+}
+// RTL Style
+@include rtl-only {
+  .form-check {
+    padding-left: 0;
+    padding-right: $form-check-padding-start;
+  }
+  .form-check .form-check-input {
+    float: right;
+    margin-left: 0;
+    margin-right: $form-check-padding-start * -1;
+  }
+}
+
+// Switches
+// *******************************************************************************
+
+// RTL Style
+@include rtl-only {
+  .form-switch {
+    padding-left: 0;
+    padding-right: $form-switch-padding-start;
+    .form-check-input {
+      margin-left: 0;
+      margin-right: $form-switch-padding-start * -1;
+      background-position: right center;
+      &:checked {
+        background-position: $form-switch-checked-bg-position-rtl;
+      }
+    }
+  }
+  .form-check-inline {
+    margin-right: 0;
+    margin-left: $form-check-inline-margin-end;
+  }
+}
+
+// Contextual colors for form check
+@each $color, $value in $theme-colors {
+  @if $color != primary {
+    @include template-form-check-variant('.form-check-#{$color}', $value);
+  }
+}

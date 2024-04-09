@@ -1,0 +1,131 @@
+// Buttons
+// *******************************************************************************
+
+.btn {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  .bx {
+    line-height: 1.15;
+  }
+  &.disabled,
+  &:disabled {
+    cursor: default;
+  }
+}
+
+// Badge within button
+.btn .badge {
+  @include transition($btn-transition);
+}
+
+label.btn {
+  margin-bottom: 0;
+}
+
+// Button Sizes
+
+.btn-xl {
+  @include button-size($btn-padding-y-xl, $btn-padding-x-xl, $btn-font-size-xl, $btn-border-radius-xl);
+}
+
+.btn-xs {
+  @include button-size($btn-padding-y-xs, $btn-padding-x-xs, $btn-font-size-xs, $btn-border-radius-xs);
+}
+
+// Buttons Variant
+
+@each $color, $value in $theme-colors {
+  @if $color != primary {
+    @include template-button-variant('.btn-#{$color}', $value);
+    @include template-button-label-variant('.btn-label-#{$color}', $value);
+    @include template-button-outline-variant('.btn-outline-#{$color}', $value);
+  }
+}
+
+// Icon button
+
+.btn-icon {
+  $btn-icon-size: ($btn-font-size * $btn-line-height) + ($btn-padding-y * 2);
+  $btn-icon-size-xl: ($btn-font-size-xl * $btn-line-height-xl) + ($btn-padding-y-xl * 2);
+  $btn-icon-size-lg: ($btn-font-size-lg * $btn-line-height-lg) + ($btn-padding-y-lg * 2);
+  $btn-icon-size-sm: ($btn-font-size-sm * $btn-line-height-sm) + ($btn-padding-y-sm * 2);
+  $btn-icon-size-xs: ($btn-font-size-xs * $btn-line-height-xs) + ($btn-padding-y-xs * 2);
+  $borders-width: $btn-border-width * 2;
+  --#{$prefix}btn-active-border-color: transparent;
+
+  padding: 0;
+  width: calc(#{$btn-icon-size} + #{$borders-width});
+  height: calc(#{$btn-icon-size} + #{$borders-width});
+  display: inline-flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+
+  &.btn-xl {
+    width: calc(#{$btn-icon-size-xl} + #{$borders-width});
+    height: calc(#{$btn-icon-size-xl} + #{$borders-width});
+    > span {
+      font-size: $btn-font-size-xl;
+    }
+  }
+
+  &.btn-lg {
+    width: calc(#{$btn-icon-size-lg} + #{$borders-width});
+    height: calc(#{$btn-icon-size-lg} + #{$borders-width});
+    font-size: $btn-font-size-lg;
+  }
+
+  &.btn-sm {
+    width: calc(#{$btn-icon-size-sm} + #{$borders-width});
+    height: calc(#{$btn-icon-size-sm} + #{$borders-width});
+    font-size: $btn-font-size-sm;
+  }
+
+  &.btn-xs {
+    width: calc(#{$btn-icon-size-xs} + #{$borders-width});
+    height: calc(#{$btn-icon-size-xs} + #{$borders-width});
+    font-size: $btn-font-size-xs;
+  }
+}
+
+// Without border
+
+.btn.borderless {
+  &:not(.active):not(:active):not(:hover):not(:focus),
+  :not(.show) > &.dropdown-toggle:not(:hover):not(:focus) {
+    border-color: transparent;
+    box-shadow: none;
+  }
+}
+
+// Link buttons
+.btn.btn-link {
+  font-size: inherit;
+}
+
+.btn-pinned {
+  position: absolute;
+  top: 0.75rem;
+  @include ltr-style {
+    right: 0.75rem;
+  }
+  @include rtl-style {
+    left: 0.75rem;
+  }
+}
+
+// Button focus
+button:focus,
+button:focus-visible {
+  outline: none;
+}
+
+// Table Action Dropdown fix
+.btn:not([class*='btn-']):active,
+.btn:not([class*='btn-']).active,
+.btn:not([class*='btn-']).show,
+.btn:not([class*='btn-']) {
+  border: none;
+}

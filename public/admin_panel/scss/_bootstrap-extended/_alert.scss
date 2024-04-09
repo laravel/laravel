@@ -1,0 +1,30 @@
+// Alerts
+// *******************************************************************************
+
+// Alert mixins
+@each $state, $value in $theme-colors {
+  @if $state != primary and $state != light {
+    @include template-alert-variant('.alert-#{$state}', if($state== 'dark' and $dark-style, $white, $value));
+    @include template-alert-solid-variant('.alert-solid-#{$state}', $value);
+  }
+}
+
+.alert-dismissible {
+  .btn-close {
+    padding: $alert-padding-y * 1.4 $alert-padding-x;
+  }
+}
+// RTL
+// *******************************************************************************
+
+@include rtl-only {
+  .alert-dismissible {
+    padding-left: $alert-dismissible-padding-r;
+    padding-right: $alert-padding-x;
+  }
+
+  .alert-dismissible .btn-close {
+    right: auto;
+    left: 0;
+  }
+}

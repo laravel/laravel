@@ -1,0 +1,246 @@
+@import './_components/include';
+@import './_theme/common';
+@import './_theme/libs';
+@import './_theme/pages';
+@import './_theme/_theme';
+
+$primary-color: #5a8dee;
+$body-bg: #fff;
+$menu-active-section-bg: #fafafa;
+
+body {
+  background: $body-bg;
+}
+
+.bg-body {
+  background: $body-bg !important;
+}
+
+@include template-common-theme($primary-color);
+@include template-libs-theme($primary-color);
+@include template-pages-theme($primary-color);
+
+// Navbar
+// ---------------------------------------------------------------------------
+
+@include template-navbar-style('.bg-navbar-theme', $body-bg, $color: $body-color, $active-color: $headings-color);
+
+.layout-horizontal .layout-navbar {
+  background-color: $card-bg !important;
+  box-shadow: 0 1px 0 $border-color;
+}
+
+.layout-navbar-fixed {
+  .layout-navbar.navbar-elevated {
+    box-shadow: 0 1px 0 rgba-to-hex(rgba($border-color, 0.75), $menu-active-section-bg);
+  }
+}
+
+// Menu
+// ---------------------------------------------------------------------------
+
+@include template-menu-style(
+  '.bg-menu-theme',
+  $body-bg,
+  $color: $body-color,
+  $active-color: $primary-color,
+  $border: transparent,
+  $active-bg: rgba-to-hex(rgba($primary-color, 0.16), $body-bg)
+);
+
+@include media-breakpoint-up(xl) {
+  .layout-menu {
+    box-shadow: 0 0 0 1px $border-color;
+  }
+}
+
+.layout-menu-horizontal {
+  box-shadow: 0 -1px 0 $border-color inset;
+}
+
+.bg-menu-theme {
+  // Menu header
+  .menu-header {
+    color: $text-muted;
+  }
+
+  // menu item open(vertical) & hover (vertical & horizontal)
+  .menu-inner .menu-item.open > .menu-link:hover,
+  .menu-inner .menu-item:not(.active) .menu-link:hover {
+    background-color: rgba($black, 0.06);
+  }
+
+  .menu-inner .menu-sub > .menu-item.active,
+  .menu-inner .menu-sub > .menu-item.open {
+    > .menu-link.menu-toggle {
+      background-color: rgba($black, 0.06);
+      .menu-icon {
+        color: $primary-color;
+      }
+    }
+  }
+  // menu item active
+  .menu-inner > .menu-item.open:not(.active) {
+    html:not(.layout-menu-collapsed) &,
+    .layout-menu-hover.layout-menu-collapsed & {
+      background-color: $menu-active-section-bg;
+    }
+  }
+  .menu-inner > .menu-item.active {
+    background-color: $menu-active-section-bg;
+    .layout-menu-collapsed:not(.layout-menu-hover):not(.layout-menu-expanded) & {
+      background-color: rgba-to-hex(rgba($primary-color, 0.16), $body-bg);
+      .menu-link {
+        color: $primary-color;
+      }
+    }
+  }
+
+  // Sub menu item link bullet
+  .menu-sub > .menu-item > .menu-link:before {
+    background-color: rgba-to-hex($gray-400, $rgba-to-hex-bg) !important;
+  }
+  // Sub menu item link active bullet
+  .menu-sub > .menu-item.active > .menu-link:not(.menu-toggle):before {
+    background-color: $primary-color !important;
+  }
+
+  // Menu header color
+  .menu-inner > .menu-header::before {
+    background-color: rgba-to-hex($gray-600, $rgba-to-hex-bg);
+  }
+
+  // Horizontal Menu
+  &.menu-horizontal {
+    background-color: $card-bg !important;
+    box-shadow: none;
+    border-bottom: 1px solid $border-color;
+
+    // menu-item's menu-link active
+    .menu-inner > .menu-item.active > .menu-link {
+      background-color: rgba-to-hex(rgba($primary-color, 0.16), $card-bg) !important;
+    }
+    // Sub menu box-shadow & border (horizontal)
+    .menu-inner > .menu-item .menu-sub {
+      box-shadow: none;
+      border: 1px solid $border-color;
+    }
+    .menu-inner .menu-item.open:not(.active) > .menu-link,
+    .menu-inner .menu-item:not(.active) .menu-link:hover,
+    .menu-inner .menu-sub .menu-item.active .menu-link:not(.menu-toggle):hover {
+      html:not(.layout-menu-collapsed) &,
+      .layout-menu-hover.layout-menu-collapsed & {
+        background-color: rgba($black, 0.06) !important;
+        color: $headings-color;
+      }
+    }
+
+    // menu item active (overwrite)
+    .menu-inner > .menu-item.open:not(.active) {
+      html:not(.layout-menu-collapsed) & {
+        background-color: transparent;
+      }
+    }
+
+    .menu-inner .menu-item:not(.menu-item-closing) > .menu-sub {
+      background: $white !important;
+    }
+
+    .menu-inner .menu-sub > .menu-item.active,
+    .menu-inner .menu-sub > .menu-item.open {
+      > .menu-link.menu-toggle {
+        background-color: rgba($black, 0.06) !important;
+      }
+    }
+
+    .menu-inner .menu-sub > .menu-item.open:not(.active) {
+      .menu-link.menu-toggle {
+        .menu-icon {
+          color: $body-color;
+        }
+      }
+    }
+
+    .menu-inner > .menu-item.active {
+      > .menu-link {
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+.timeline .timeline-item .timeline-event:after {
+  content: '';
+}
+
+// App Brand
+// ---------------------------------------------------------------------------
+.app-brand .layout-menu-toggle {
+  i {
+    color: $primary-color;
+  }
+}
+
+// Footer
+// ---------------------------------------------------------------------------
+@include template-footer-style('.bg-footer-theme', $body-bg, $color: $body-color, $active-color: $headings-color);
+
+.layout-footer-fixed .content-footer {
+  box-shadow: none;
+  border-top: $border-width solid $card-border-color;
+}
+
+// Component styles
+// ---------------------------------------------------------------------------
+
+// card
+.card {
+  box-shadow: none;
+  border: $border-width solid $card-border-color;
+}
+
+// Accordion
+.accordion {
+  .accordion-item {
+    border-top: 1px solid $accordion-border-color;
+    box-shadow: none !important;
+  }
+}
+
+// Tabs and pills
+.nav-align-top {
+  .nav-pills,
+  .tabs-line {
+    + .tab-content {
+      border: 1px solid $nav-tabs-border-color;
+      box-shadow: none;
+    }
+  }
+}
+
+//Kanban-item
+.kanban-item {
+  box-shadow: none !important;
+  border: $border-width solid $card-border-color;
+}
+// default form wizard style
+.bs-stepper:not(.wizard-modern) {
+  box-shadow: none !important;
+  border: 1px solid $border-color;
+  border-radius: $card-border-radius;
+}
+
+// modern form wizard style
+.bs-stepper.wizard-modern {
+  .bs-stepper-content {
+    box-shadow: none !important;
+    border: 1px solid $border-color;
+    border-radius: $card-border-radius;
+  }
+}
+
+// dz-preview
+.dz-preview {
+  box-shadow: none !important;
+  border: 1px solid $border-color !important;
+}

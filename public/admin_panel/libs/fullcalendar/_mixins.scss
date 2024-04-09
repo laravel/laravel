@@ -1,0 +1,23 @@
+@mixin fullcalendar-theme($background, $color) {
+  .fc {
+    // FC event
+    @include bg-label-variant('.fc-event-primary:not(.fc-list-event)', $background);
+
+    // FC list event
+    .fc-event-primary.fc-list-event {
+      .fc-list-event-dot {
+        border-color: $background !important;
+      }
+    }
+
+    @include template-button-label-variant('.fc-button-primary:not(.fc-prev-button):not(.fc-next-button)', $background);
+
+    .fc-button-primary:not(.fc-prev-button):not(.fc-next-button) {
+      &.fc-button-active {
+        background-color: $background !important;
+        border-color: $background !important;
+        color: $white;
+      }
+    }
+  }
+}

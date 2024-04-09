@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>AS</title>
+    <defs>
+        <circle id="path-1" cx="20" cy="20" r="20"></circle>
+        <rect id="path-3" x="0" y="0" width="53.3636364" height="40" rx="2"></rect>
+        <rect id="path-5" x="0" y="0" width="53.3636364" height="40"></rect>
+        <rect id="path-7" x="0" y="0" width="53.3636364" height="40"></rect>
+        <rect id="path-9" x="0" y="0" width="30.0170455" height="23.3333333"></rect>
+        <rect id="path-11" x="0" y="0" width="53.3636364" height="40"></rect>
+        <rect id="path-13" x="0" y="0" width="53.3636364" height="40" rx="2"></rect>
+    </defs>
+    <g id="Flagpack" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-569.000000, -678.000000)">
+            <g id="AS" transform="translate(569.000000, 678.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="path-1"></g>
+                <g id="Group" mask="url(#mask-2)">
+                    <g transform="translate(-6.636364, 0.000000)" id="HM">
+                        <g id="drop-shadow" fill="#000000" fill-rule="nonzero">
+                            <rect id="path-3" x="0" y="0" width="53.3636364" height="40" rx="2"></rect>
+                        </g>
+                        <g id="Group-Clipped">
+                            <mask id="mask-4" fill="white">
+                                <use xlink:href="#path-3"></use>
+                            </mask>
+                            <g id="path-3"></g>
+                            <g id="Group" mask="url(#mask-4)">
+                                <g id="contents-Clipped">
+                                    <mask id="mask-6" fill="white">
+                                        <use xlink:href="#path-5"></use>
+                                    </mask>
+                                    <g id="path-6"></g>
+                                    <g id="contents" mask="url(#mask-6)">
+                                        <g id="background" fill="#2E42A5" fill-rule="nonzero">
+                                            <rect id="path-8" x="0" y="0" width="53.3636364" height="40"></rect>
+                                        </g>
+                                        <g id="gb---large-Clipped">
+                                            <mask id="mask-8" fill="white">
+                                                <use xlink:href="#path-7"></use>
+                                            </mask>
+                                            <g id="path-8"></g>
+                                            <g id="gb---large" mask="url(#mask-8)">
+                                                <g id="flag">
+                                                    <g id="mask" fill="#2B409A" fill-rule="nonzero">
+                                                        <rect id="path-10" x="0" y="0" width="30.0170455" height="23.3333333"></rect>
+                                                    </g>
+                                                    <g id="contents-Clipped">
+                                                        <mask id="mask-10" fill="white">
+                                                            <use xlink:href="#path-9"></use>
+                                                        </mask>
+                                                        <g id="path-10"></g>
+                                                        <g id="contents" mask="url(#mask-10)">
+                                                            <g transform="translate(-5.002841, -3.333333)" id="Group">
+                                                                <g id="stripe" transform="translate(1.667614, 0.000000)" fill-rule="nonzero">
+                                                                    <polygon id="white" fill="#F7FCFF" transform="translate(18.489604, 14.553008) scale(-1, 1) rotate(-180.000000) translate(-18.489604, -14.553008) " points="-0.00711446835 4.10631506 6.59822049 1.210981 33.5021585 22.6247773 36.9863217 26.9273298 29.9228663 27.8950358 18.9493931 18.6672183 10.116875 12.4498255"></polygon>
+                                                                    <polygon id="red" fill="#F50100" transform="translate(18.316174, 15.243689) scale(-1, 1) rotate(-180.000000) translate(-18.316174, -15.243689) " points="0.897165814 3.45913748 4.26227899 1.77892633 35.7351827 28.7084522 31.0101722 28.7084522"></polygon>
+                                                                </g>
+                                                                <g id="stripe" transform="translate(19.177557, 14.166667) scale(-1, 1) translate(-19.177557, -14.166667) " fill-rule="nonzero">
+                                                                    <polygon id="white" fill="#F7FCFF" transform="translate(18.489604, 14.553008) scale(-1, 1) rotate(-180.000000) translate(-18.489604, -14.553008) " points="-0.00711446835 4.10631506 6.59822049 1.210981 33.5021585 22.6247773 36.9863217 26.9273298 29.9228663 27.8950358 18.9493931 18.6672183 10.116875 12.4498255"></polygon>
+                                                                    <polygon id="red" fill="#F50100" transform="translate(18.769921, 15.164599) scale(-1, 1) rotate(-180.000000) translate(-18.769921, -15.164599) " points="0.218267479 3.87363048 3.58338066 2.19341933 16.9848692 13.7233483 20.9581229 15.0115596 37.3215747 28.1357793 32.5965643 28.1357793 16.242306 15.3230729 11.8982532 13.7783695"></polygon>
+                                                                </g>
+                                                                <g id="cross" transform="translate(3.335227, 1.666667)" fill="#F50100" fill-rule="nonzero" stroke="#F7FCFF" stroke-width="1.5">
+                                                                    <polygon id="red" points="19.5687381 0.416666667 19.567885 10.4166667 32.9353693 10.4166667 32.9353693 16.25 19.567885 16.25 19.5687381 26.25 13.7320903 26.25 13.7312373 16.25 0.416903409 16.25 0.416903409 10.4166667 13.7312373 10.4166667 13.7320903 0.416666667"></polygon>
+                                                                </g>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                        <g id="stars-Clipped">
+                                            <mask id="mask-12" fill="white">
+                                                <use xlink:href="#path-11"></use>
+                                            </mask>
+                                            <g id="path-8"></g>
+                                            <g id="stars" mask="url(#mask-12)">
+                                                <g transform="translate(10.005682, 3.333333)" id="Star">
+                                                    <polygon id="Path" fill="#F7FCFF" fill-rule="nonzero" points="5.00284091 30.8333333 2.83218958 32.8381777 3.04715165 29.8920578 0.125431667 29.445938 2.56413628 27.777031 1.09146239 25.2158843 3.91751525 26.0809112 5.00284091 23.3333333 6.08816657 26.0809112 8.91421944 25.2158843 7.44154553 27.777031 9.88025016 29.445938 6.95853017 29.8920578 7.17349223 32.8381777"></polygon>
+                                                    <polygon id="Path" fill="#F7FCFF" fill-rule="nonzero" points="26.6818182 18.3333333 25.2347173 19.6698962 25.3780253 17.7058163 23.4302121 17.4084032 25.0560151 16.2957985 24.0742324 14.5883673 25.9582678 15.1650519 26.6818182 13.3333333 27.4053686 15.1650519 29.2894039 14.5883673 28.3076212 16.2957985 29.9334243 17.4084032 27.9856111 17.7058163 28.1289191 19.6698962"></polygon>
+                                                    <polygon id="Path" fill="#F7FCFF" fill-rule="nonzero" points="30.0170455 5 28.5699445 6.3365629 28.7132526 4.372483 26.7654393 4.07506978 28.3912424 2.96246512 27.4094597 1.25503399 29.2934951 1.83171855 30.0170455 0 30.7405958 1.83171855 32.6246312 1.25503399 31.6428485 2.96246512 33.2686516 4.07506978 31.3208383 4.372483 31.4641464 6.3365629"></polygon>
+                                                    <polygon id="Path" fill="#F7FCFF" fill-rule="nonzero" points="38.3551136 11.6666667 36.9080127 13.0032296 37.0513208 11.0391497 35.1035075 10.7417365 36.7293106 9.62913178 35.7475279 7.92170067 37.6315633 8.49838522 38.3551136 6.66666667 39.078664 8.49838522 40.9626994 7.92170067 39.9809167 9.62913178 41.6067198 10.7417365 39.6589065 11.0391497 39.8022146 13.0032296"></polygon>
+                                                    <polygon id="Path" fill="#F7FCFF" fill-rule="nonzero" points="31.6846591 33.3333333 30.2375582 34.6698962 30.3808662 32.7058163 28.433053 32.4084032 30.058856 31.2957985 29.0770733 29.5883673 30.9611087 30.1650518 31.6846591 28.3333333 32.4082095 30.1650518 34.2922448 29.5883673 33.3104622 31.2957985 34.9362652 32.4084032 32.988452 32.7058163 33.13176 34.6698962"></polygon>
+                                                    <polygon id="Path" fill="#F7FCFF" fill-rule="nonzero" points="37.5213068 20.4166667 36.0510087 21.1892092 36.3318107 19.5529378 35.1423146 18.3941242 36.7861579 18.1553955 37.5213068 16.6666667 38.2564558 18.1553955 39.9002991 18.3941242 38.710803 19.5529378 38.9916049 21.1892092"></polygon>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                        <g id="overlay-Clipped">
+                            <mask id="mask-14" fill="white">
+                                <use xlink:href="#path-13"></use>
+                            </mask>
+                            <g id="path-3"></g>
+                            <g id="overlay" mask="url(#mask-14)">
+                                <g id="path-13-link" style="mix-blend-mode: overlay;">
+                                    <rect id="path-13" x="0" y="0" width="53.3636364" height="40" rx="2"></rect>
+                                </g>
+                                <rect id="Rectangle" stroke-opacity="0.1" stroke="#000000" x="0.833806818" y="0.833333333" width="51.6960227" height="38.3333333" rx="2"></rect>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

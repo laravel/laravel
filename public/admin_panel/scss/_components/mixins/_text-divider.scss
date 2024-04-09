@@ -1,0 +1,16 @@
+// Text Divider
+// *******************************************************************************
+
+@mixin template-text-divider-variant($divider-color, $background) {
+  $divider-selector: if($divider-color== '', '', '#{$divider-color}');
+  .divider {
+    &#{$divider-selector} {
+      .divider-text {
+        &:before,
+        &:after {
+          border-color: $background;
+        }
+      }
+    }
+  }
+}

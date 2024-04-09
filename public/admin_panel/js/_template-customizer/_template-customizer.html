@@ -1,0 +1,173 @@
+<div id="template-customizer" class="invert-bg-white">
+  <a href="javascript:void(0)" class="template-customizer-open-btn" tabindex="-1"></a>
+
+  <div class="p-4 m-0 lh-1 border-bottom template-customizer-header">
+    <h4 class="template-customizer-t-panel_header mb-2"></h4>
+    <p class="template-customizer-t-panel_sub_header mb-0"></p>
+    <a
+      href="javascript:void(0)"
+      class="btn-close template-customizer-close-btn fw-light px-4 py-2 text-body"
+      tabindex="-1"
+    ></a>
+  </div>
+
+  <div class="template-customizer-inner pt-4">
+    <!-- Theming -->
+    <div class="template-customizer-theming">
+      <h5 class="m-0 px-4 py-4 lh-1 text-light d-block">
+        <span class="template-customizer-t-theming_header"></span>
+      </h5>
+
+      <!-- Themes -->
+      <div class="m-0 px-4 pb-3 template-customizer-themes w-100">
+        <label for="customizerTheme" class="form-label template-customizer-t-theme_label"></label>
+        <div class="row row-cols-lg-auto g-3 align-items-center template-customizer-themes-options"></div>
+      </div>
+
+      <!-- Style -->
+      <div class="m-0 px-4 pb-3 pt-1 template-customizer-style w-100">
+        <label for="customizerStyle" class="form-label d-block template-customizer-t-style_label"></label>
+        <label class="switch switch-sm">
+          <span class="switch-label template-customizer-t-style_switch_light"></span>
+          <input type="checkbox" class="switch-input" />
+          <span class="switch-toggle-slider">
+            <span class="switch-on"></span>
+            <span class="switch-off"></span>
+          </span>
+          <span class="switch-label template-customizer-t-style_switch_dark"></span>
+        </label>
+      </div>
+    </div>
+    <!--/ Theming -->
+
+    <!-- Layout -->
+    <div class="template-customizer-layout">
+      <hr class="m-0" />
+
+      <h5 class="m-0 px-4 py-4 lh-1 text-light d-block">
+        <span class="template-customizer-t-layout_header"></span>
+      </h5>
+
+      <!-- Layout(Menu) -->
+      <div class="m-0 px-4 pb-3 d-block template-customizer-layoutType">
+        <label for="customizerStyle" class="form-label d-block template-customizer-t-layout_label"></label>
+        <div class="row row-cols-lg-auto g-3 align-items-center template-customizer-layouts-options">
+          <div class="col-12">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="layoutRadios"
+                id="layoutRadios-static"
+                value="static"
+              />
+              <label class="form-check-label template-customizer-t-layout_static" for="layoutRadios-static"></label>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="layoutRadios" id="layoutRadios-fixed" value="fixed" />
+              <label class="form-check-label template-customizer-t-layout_fixed" for="layoutRadios-fixed"></label>
+            </div>
+          </div>
+          <!--? Uncomment If using offcanvas layout -->
+          <!-- <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="layoutRadios" id="layoutRadios-offcanvas"
+                value="static-offcanvas">
+              <label class="form-check-label template-customizer-t-layout_offcanvas"
+                for="layoutRadios-offcanvas"></label>
+            </div>
+          </div> -->
+          <!-- <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="layoutRadios" id="layoutRadios-fixed_offcanvas"
+                value="fixed-offcanvas">
+              <label class="form-check-label template-customizer-t-layout_fixed_offcanvas"
+                for="layoutRadios-fixed_offcanvas"></label>
+            </div>
+          </div> -->
+        </div>
+      </div>
+
+      <!-- Menu flipped -->
+      <!--? Uncomment If needed -->
+      <!-- <div
+        class="m-0 px-4 pb-3 d-flex media align-items-middle justify-content-between template-customizer-layoutMenuFlipped">
+        <div class="template-customizer-t-layout_flipped_label"></div>
+        <label class="switch switch-sm pe-4">
+          <input type="checkbox" class="switch-input" />
+          <span class="switch-toggle-slider">
+            <span class="switch-on"></span>
+            <span class="switch-off"></span>
+          </span>
+        </label>
+      </div> -->
+
+      <!-- Fixed navbar -->
+      <label
+        class="m-0 px-4 pb-3 d-flex media align-items-middle justify-content-between template-customizer-layoutNavbarFixed"
+      >
+        <span class="template-customizer-t-layout_navbar_label"></span>
+        <label class="switch switch-sm pe-4">
+          <input type="checkbox" class="switch-input" />
+          <span class="switch-toggle-slider">
+            <span class="switch-on"></span>
+            <span class="switch-off"></span>
+          </span>
+        </label>
+      </label>
+
+      <!-- Fixed footer -->
+      <label
+        class="m-0 px-4 pb-3 d-flex media align-items-middle justify-content-between template-customizer-layoutFooterFixed"
+      >
+        <span class="template-customizer-t-layout_footer_label"></span>
+        <label class="switch switch-sm pe-4">
+          <input type="checkbox" class="switch-input" />
+          <span class="switch-toggle-slider">
+            <span class="switch-on"></span>
+            <span class="switch-off"></span>
+          </span>
+        </label>
+      </label>
+
+      <!-- Dropdown on hover -->
+      <label
+        class="m-0 px-4 pb-3 d-flex media align-items-middle justify-content-between template-customizer-showDropdownOnHover"
+      >
+        <span class="template-customizer-t-layout_dd_open_label"></span>
+        <label class="switch switch-sm pe-4">
+          <input type="checkbox" class="switch-input" />
+          <span class="switch-toggle-slider">
+            <span class="switch-on"></span>
+            <span class="switch-off"></span>
+          </span>
+        </label>
+      </label>
+    </div>
+    <!--/ Layout -->
+
+    <!-- Misc -->
+    <div class="template-customizer-misc">
+      <hr class="m-0" />
+
+      <h5 class="m-0 px-4 py-4 lh-1 text-light d-block">
+        <span class="template-customizer-t-misc_header"></span>
+      </h5>
+
+      <!-- RTL -->
+      <label class="m-0 px-4 pb-3 d-flex media align-items-middle justify-content-between template-customizer-rtl">
+        <span class="template-customizer-t-rtl_label"></span>
+        <label class="switch switch-sm pe-4">
+          <input type="checkbox" class="switch-input" />
+          <span class="switch-toggle-slider">
+            <span class="switch-on"></span>
+            <span class="switch-off"></span>
+          </span>
+        </label>
+      </label>
+    </div>
+    <!--/ Misc -->
+  </div>
+</div>

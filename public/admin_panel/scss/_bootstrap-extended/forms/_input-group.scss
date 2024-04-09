@@ -1,0 +1,247 @@
+// Input groups
+// *******************************************************************************
+
+// Using :focus-within to apply focus/validation border and shadow to default and merged input-group
+.input-group {
+  // Rounded pill option
+  &.rounded-pill {
+    .input-group-text,
+    .form-control {
+      @include border-radius($border-radius-pill);
+    }
+  }
+  &:focus-within {
+    box-shadow: $input-focus-box-shadow;
+    .form-control,
+    .input-group-text {
+      box-shadow: none;
+    }
+  }
+  // For disabled input group
+  &.disabled {
+    .input-group-text {
+      background-color: $input-disabled-bg;
+    }
+  }
+  // ! FIX: Formvalidation border radius issue
+  &.has-validation {
+    > .input-group-text:first-child {
+      @include border-end-radius(0);
+    }
+    > .form-control:first-child {
+      @include border-end-radius(0);
+    }
+    > .form-control:not(:first-child):not(:last-child) {
+      @include border-radius(0);
+    }
+  }
+}
+
+// input-group-text icon size
+.input-group-text {
+  background-clip: padding-box;
+  i {
+    @include font-size($input-font-size);
+  }
+}
+.input-group-lg > .input-group-text {
+  i {
+    @include font-size($input-font-size-lg);
+  }
+}
+.input-group-sm > .input-group-text {
+  i {
+    @include font-size($input-font-size-sm);
+  }
+}
+
+// Merge input
+
+// Input group merge .form-control border & padding
+@include ltr-only {
+  .input-group-merge {
+    .input-group-text {
+      &:first-child {
+        border-right: 0;
+      }
+      &:last-child {
+        border-left: 0;
+      }
+    }
+    .form-control {
+      &:not(:first-child) {
+        padding-left: 0;
+        border-left: 0;
+      }
+      &:not(:last-child) {
+        padding-right: 0;
+        border-right: 0;
+      }
+    }
+  }
+}
+
+// Adding transition (On focus border color change)
+.input-group-text {
+  @include transition($input-transition);
+}
+
+// RTL Style
+// *******************************************************************************
+
+@include rtl-only {
+  .input-group-lg > .form-select,
+  .input-group-sm > .form-select {
+    padding-left: $form-select-padding-x + $form-select-indicator-padding;
+  }
+
+  .input-group {
+    // Rounded input field
+    &.rounded-pill {
+      .input-group-text {
+        border-top-right-radius: $border-radius-pill !important;
+        border-bottom-right-radius: $border-radius-pill !important;
+      }
+      .form-control {
+        border-top-left-radius: $border-radius-pill !important;
+        border-bottom-left-radius: $border-radius-pill !important;
+      }
+    }
+
+    // Input group with dropdown rounded corners, while not validate
+    &:not(.has-validation) {
+      > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
+      > .dropdown-toggle:nth-last-child(n + 3) {
+        @include border-start-radius(0);
+        @include border-end-radius($input-border-radius);
+      }
+    }
+    &.input-group-lg {
+      &:not(.has-validation) {
+        > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
+        > .dropdown-toggle:nth-last-child(n + 3) {
+          @include border-end-radius($input-border-radius-lg);
+        }
+      }
+    }
+    &.input-group-sm {
+      &:not(.has-validation) {
+        > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
+        > .dropdown-toggle:nth-last-child(n + 3) {
+          @include border-end-radius($input-border-radius-sm);
+        }
+      }
+    }
+
+    // Input group with dropdown rounded corners, while validate
+    &.has-validation {
+      > :nth-last-child(n + 3):not(.dropdown-toggle):not(.dropdown-menu),
+      > .dropdown-toggle:nth-last-child(n + 4) {
+        @include border-start-radius(0);
+        @include border-end-radius($input-border-radius);
+      }
+    }
+    &.input-group-lg {
+      > :nth-last-child(n + 3):not(.dropdown-toggle):not(.dropdown-menu),
+      > .dropdown-toggle:nth-last-child(n + 4) {
+        @include border-end-radius($input-border-radius-lg);
+      }
+    }
+    &.input-group-sm {
+      > :nth-last-child(n + 3):not(.dropdown-toggle):not(.dropdown-menu),
+      > .dropdown-toggle:nth-last-child(n + 4) {
+        @include border-end-radius($input-border-radius-sm);
+      }
+    }
+
+    // Input group border radius
+    $validation-messages: '';
+    @each $state in map-keys($form-validation-states) {
+      $validation-messages: $validation-messages +
+        ':not(.' +
+        unquote($state) +
+        '-tooltip)' +
+        ':not(.' +
+        unquote($state) +
+        '-feedback)';
+    }
+
+    > :not(:first-child):not(.dropdown-menu)#{$validation-messages} {
+      margin-right: -$input-border-width;
+      @include border-end-radius(0);
+      margin-left: 0px;
+      @include border-start-radius($input-border-radius);
+    }
+    &.input-group-lg {
+      > :not(:first-child):not(.dropdown-menu)#{$validation-messages} {
+        @include border-start-radius($input-border-radius-lg);
+      }
+    }
+    &.input-group-sm {
+      > :not(:first-child):not(.dropdown-menu)#{$validation-messages} {
+        @include border-start-radius($input-border-radius-sm);
+      }
+    }
+
+    // ? We apply border radius from the above styles
+    // Remove border radius from first and last element
+    > :not(:first-child):not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
+    > .dropdown-toggle:nth-last-child(n + 3):not(:first-child) {
+      @include border-radius(0 !important);
+    }
+
+    // ! FIX: Formvalidation border radius issue
+    &.has-validation {
+      > .input-group-text:first-child {
+        @include border-start-radius(0);
+        @include border-end-radius($input-border-radius);
+      }
+      > .form-control:first-child {
+        @include border-start-radius(0);
+        @include border-end-radius($input-border-radius);
+      }
+    }
+  }
+
+  // Input group merge .input-group-text border & .form-control border & padding
+  // Merge input
+  .input-group-merge {
+    .input-group-text {
+      &:first-child {
+        border-left: 0;
+      }
+      &:last-child {
+        border-right: 0;
+      }
+    }
+    .form-control {
+      &:not(:first-child) {
+        padding-right: 0;
+        border-right: 0;
+      }
+      &:not(:last-child) {
+        padding-left: 0;
+        border-left: 0;
+      }
+    }
+  }
+}
+
+//! FIX: Formvalidation : .input-group-text valid/invalid border color, If .input-group has .input-group-text first.
+.fv-plugins-bootstrap5-row-invalid {
+  .input-group.has-validation,
+  .input-group.has-validation:focus-within {
+    .input-group-text {
+      border-color: $form-feedback-invalid-color;
+    }
+  }
+}
+// ? UnComment If eleValidClass is not blank i.e form-validation.js Line no. ~208
+// .fv-plugins-bootstrap5-row-valid {
+//   .input-group,
+//   .input-group:focus-within {
+//     .input-group-text {
+//       border-color: $form-feedback-valid-color;
+//     }
+//   }
+// }

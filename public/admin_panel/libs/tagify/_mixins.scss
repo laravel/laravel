@@ -1,0 +1,5 @@
+@mixin tagify-theme($color) {
+  .tagify--focus {
+    border-color: $color !important;
+  }
+}

@@ -1,0 +1,97 @@
+@charset "UTF-8";
+table.dataTable > tbody > tr > .selected {
+  background-color: rgba(13, 110, 253, 0.9);
+  color: white;
+}
+
+table.dataTable > tbody > tr > td.select-checkbox,
+table.dataTable > tbody > tr > th.select-checkbox {
+  position: relative;
+}
+
+table.dataTable > tbody > tr > td.select-checkbox:before, table.dataTable > tbody > tr > td.select-checkbox:after,
+table.dataTable > tbody > tr > th.select-checkbox:before,
+table.dataTable > tbody > tr > th.select-checkbox:after {
+  display: block;
+  position: absolute;
+  top: 1.2em;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  box-sizing: border-box;
+}
+
+table.dataTable > tbody > tr > td.select-checkbox:before,
+table.dataTable > tbody > tr > th.select-checkbox:before {
+  content: " ";
+  margin-top: -5px;
+  margin-left: -6px;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+table.dataTable > tbody > tr.selected > td.select-checkbox:before,
+table.dataTable > tbody > tr.selected > th.select-checkbox:before {
+  border: 1px solid white;
+}
+
+table.dataTable > tbody > tr.selected > td.select-checkbox:after,
+table.dataTable > tbody > tr.selected > th.select-checkbox:after {
+  content: "✓";
+  font-size: 20px;
+  margin-top: -19px;
+  margin-left: -6px;
+  text-align: center;
+  text-shadow: 1px 1px #B0BED9, -1px -1px #B0BED9, 1px -1px #B0BED9, -1px 1px #B0BED9;
+}
+
+table.dataTable.compact > tbody > tr > td.select-checkbox:before,
+table.dataTable.compact > tbody > tr > th.select-checkbox:before {
+  margin-top: -12px;
+}
+
+table.dataTable.compact > tbody > tr.selected > td.select-checkbox:after,
+table.dataTable.compact > tbody > tr.selected > th.select-checkbox:after {
+  margin-top: -16px;
+}
+
+div.dataTables_wrapper span.select-info,
+div.dataTables_wrapper span.select-item {
+  margin-left: 0.5em;
+}
+
+@media screen and (max-width: 640px) {
+  div.dataTables_wrapper span.select-info,
+  div.dataTables_wrapper span.select-item {
+    margin-left: 0;
+    display: block;
+  }
+}
+table.dataTable.table-sm tbody td.select-checkbox::before {
+  margin-top: -9px;
+}
+
+.light-style table.dataTable tbody > tr.selected,
+.light-style table.dataTable tbody > tr > .selected {
+  background-color: rgba(38, 60, 85, 0.06);
+}
+.light-style table.dataTable tbody > tr.selected > *,
+.light-style table.dataTable tbody > tr > .selected > * {
+  box-shadow: inset 0 0 0 rgba(38, 60, 85, 0.06);
+  color: #677788;
+}
+.light-style table.dataTable tbody tr.selected,
+.light-style table.dataTable tbody th.selected,
+.light-style table.dataTable tbody td.selected {
+  color: #677788;
+}
+
+.dark-style table.dataTable tbody > tr.selected,
+.dark-style table.dataTable tbody > tr > .selected {
+  background-color: rgba(99, 123, 169, 0.08);
+}
+.dark-style table.dataTable tbody tr.selected,
+.dark-style table.dataTable tbody th.selected,
+.dark-style table.dataTable tbody td.selected {
+  color: inherit;
+}

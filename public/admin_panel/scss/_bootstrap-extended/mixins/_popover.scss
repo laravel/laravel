@@ -1,0 +1,54 @@
+// Popovers
+// *******************************************************************************
+
+@mixin template-popover-variant($parent, $background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+
+  .popover {
+    &#{$parent} {
+      border-color: transparent;
+      background: $background;
+
+      .popover-header {
+        background: transparent;
+        color: $color;
+      }
+
+      .popover-body {
+        background: transparent;
+        color: rgba($color, 0.8);
+      }
+
+      > .popover-arrow::before {
+        border-color: transparent;
+      }
+      &.bs-popover-auto {
+        &[data-popper-placement='top'] > .popover-arrow::after {
+          border-top-color: $background !important;
+        }
+
+        &[data-popper-placement='right'] > .popover-arrow::after {
+          border-right-color: $background !important;
+          @include rtl-style {
+            border-left-color: $background !important;
+          }
+        }
+
+        &[data-popper-placement='bottom'] > .popover-arrow::after {
+          border-bottom-color: $background !important;
+        }
+
+        &[data-popper-placement='left'] > .popover-arrow::after {
+          border-left-color: $background !important;
+          @include rtl-style {
+            border-right-color: $background !important;
+          }
+        }
+
+        &.bs-popover-bottom .popover-header::before {
+          border-bottom: 1px solid transparent;
+        }
+      }
+    }
+  }
+}

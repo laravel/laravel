@@ -1,0 +1,106 @@
+// Menu
+// *******************************************************************************
+
+@mixin template-menu-style($parent, $bg, $color: null, $active-color: null, $border: null, $active-bg: null) {
+  $colors: get-navbar-prop($bg, $active-color, $color, $border);
+  $contrast-percent: map-get($colors, contrast-percent);
+
+  @if not $active-bg {
+    $active-bg: rgba-to-hex(
+      rgba(map-get($colors, bg), 1 - if($contrast-percent < 0.75, 0.025, 0.05)),
+      if($contrast-percent > 0.25, #fff, #000)
+    );
+  }
+
+  $menu-active-bg: rgba-to-hex(
+    rgba($active-bg, 1 - if($contrast-percent < 0.75, 0.025, 0.05)),
+    if($contrast-percent > 0.25, #fff, #000)
+  );
+
+  #{$parent} {
+    background-color: map-get($colors, bg) !important;
+    color: map-get($colors, color);
+
+    .menu-link,
+    .menu-horizontal-prev,
+    .menu-horizontal-next {
+      color: map-get($colors, color);
+
+      &.active {
+        color: map-get($colors, active-color);
+      }
+    }
+
+    .menu-item.disabled .menu-link,
+    .menu-horizontal-prev.disabled,
+    .menu-horizontal-next.disabled {
+      color: map-get($colors, disabled-color) !important;
+    }
+
+    // .menu-item.open:not(.menu-item-closing) > .menu-toggle,
+    .menu-item.active > .menu-link:not(.menu-toggle) {
+      color: map-get($colors, active-color);
+      background-color: $active-bg;
+    }
+    //-
+    &.menu-horizontal {
+      // .menu-inner > .menu-item.active > .menu-link.menu-toggle,
+      .menu-inner > .menu-item.active > .menu-link {
+        background-color: $active-bg !important;
+      }
+      .menu-sub > .menu-item.active > .menu-link:not(.menu-toggle) {
+        background-color: transparent !important;
+        color: map-get($colors, active-color) !important;
+      }
+    }
+
+    .menu-inner > .menu-item.menu-item-closing .menu-item.open .menu-sub,
+    .menu-inner > .menu-item.menu-item-closing .menu-item.open .menu-toggle {
+      background: transparent;
+      color: map-get($colors, color);
+    }
+
+    .menu-inner-shadow {
+      background: linear-gradient($bg 41%, rgba($bg, 0.11) 95%, rgba($bg, 0));
+    }
+
+    .menu-text {
+      color: map-get($colors, active-color);
+    }
+
+    .menu-header {
+      color: map-get($colors, muted-color);
+    }
+
+    hr,
+    .menu-divider,
+    .menu-inner > .menu-item.open > .menu-sub::before {
+      border-color: map-get($colors, border) !important;
+    }
+
+    .menu-inner > .menu-header::before {
+      background-color: map-get($colors, border);
+    }
+
+    .menu-block::before {
+      background-color: map-get($colors, muted-color);
+    }
+
+    //-
+    .menu-inner > .menu-item.open .menu-item.open > .menu-toggle::before {
+      background-color: rgba-to-hex(map-get($colors, border), $active-bg);
+    }
+
+    .menu-inner > .menu-item.open .menu-item.active > .menu-link::before {
+      background-color: map-get($colors, active-color);
+    }
+
+    .ps__thumb-y,
+    .ps__rail-y.ps--clicking > .ps__thumb-y {
+      background: rgba(
+        map-get($colors, active-color),
+        if($contrast-percent > 0.75, map-get($colors, opacity) - 0.4, map-get($colors, opacity) - 0.2)
+      ) !important;
+    }
+  }
+}

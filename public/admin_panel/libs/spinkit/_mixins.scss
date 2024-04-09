@@ -1,0 +1,14 @@
+@mixin spinkit-theme($background) {
+  .sk-primary.sk-plane,
+  .sk-primary .sk-chase-dot:before,
+  .sk-primary .sk-bounce-dot,
+  .sk-primary .sk-wave-rect,
+  .sk-primary.sk-pulse,
+  .sk-primary .sk-swing-dot,
+  .sk-primary .sk-circle-dot:before,
+  .sk-primary .sk-circle-fade-dot:before,
+  .sk-primary .sk-grid-cube,
+  .sk-primary .sk-fold-cube:before {
+    background-color: $background;
+  }
+}

@@ -1,0 +1,22 @@
+// Avatar
+// *******************************************************************************
+
+@mixin template-avatar-style($height, $width, $font-size, $status-indicator-position: 2px) {
+  width: $width;
+  height: $height;
+
+  .avatar-initial {
+    font-size: $font-size;
+  }
+
+  &.avatar-online,
+  &.avatar-offline,
+  &.avatar-away,
+  &.avatar-busy {
+    &:after {
+      width: $width * 0.2;
+      height: $height * 0.2;
+      right: $status-indicator-position;
+    }
+  }
+}

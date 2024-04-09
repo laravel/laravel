@@ -1,0 +1,9 @@
+@mixin bs-datatables-theme($background) {
+  // Style for responsive icon
+  table.dataTable.dtr-column > tbody > tr > td.control:before,
+  table.dataTable.dtr-column > tbody > tr > th.control:before {
+    background-color: $background;
+    border: 2px solid $rgba-to-hex-bg;
+    box-shadow: 0 0 3px $gray-800;
+  }
+}

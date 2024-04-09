@@ -1,0 +1,122 @@
+/* Suggestions items */
+.tagify__dropdown.users-list {
+  font-size: 1rem;
+
+  .tagify__dropdown__item {
+    padding: 0.5em 0.7em;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 1em;
+    grid-template-areas:
+      'avatar name'
+      'avatar email';
+
+    &__avatar-wrap {
+      grid-area: avatar;
+      width: $tag-avatar-select-size;
+      height: $tag-avatar-select-size;
+      border-radius: 50%;
+      overflow: hidden;
+
+      transition: 0.1s ease-out;
+    }
+  }
+
+  img {
+    width: 100%;
+    vertical-align: top;
+  }
+
+  strong {
+    grid-area: name;
+    width: 100%;
+    align-self: center;
+    font-weight: 500;
+  }
+
+  span {
+    grid-area: email;
+    width: 100%;
+    font-size: 0.9em;
+    opacity: 0.6;
+  }
+}
+
+/* Tags items */
+.tagify__tag {
+  white-space: nowrap;
+
+  .tagify__tag__avatar-wrap {
+    width: $tag-avatar-size;
+    height: $tag-avatar-size;
+    white-space: normal;
+
+    border-radius: 50%;
+    margin-right: 5px;
+    transition: 0.12s ease-out;
+    vertical-align: middle;
+  }
+
+  img {
+    width: 100%;
+    vertical-align: top;
+  }
+}
+
+//RTL
+@include app-rtl(false) {
+  .tagify__tag {
+    .tagify__tag__avatar-wrap {
+      margin-left: 5px;
+      margin-right: auto;
+    }
+  }
+}
+
+// Light styles
+@if $enable-light-style {
+  .light-style {
+    .tagify {
+      &__dropdown.users-list {
+        .tagify__dropdown__item__avatar-wrap {
+          background: light.$body-bg;
+        }
+      }
+
+      &__tag {
+        .tagify__tag__avatar-wrap {
+          background: light.$body-bg;
+        }
+      }
+      &__dropdown.users-list {
+        .addAll {
+          border-bottom: 1px solid light.$border-color;
+        }
+      }
+    }
+  }
+}
+
+// Dark styles
+@if $enable-dark-style {
+  .dark-style {
+    .tagify {
+      &__dropdown.users-list {
+        .tagify__dropdown__item__avatar-wrap {
+          background: dark.$body-bg;
+        }
+      }
+
+      &__tag {
+        .tagify__tag__avatar-wrap {
+          background: dark.$body-bg;
+        }
+      }
+      &__dropdown.users-list {
+        .addAll {
+          border-bottom: 1px solid dark.$border-color;
+        }
+      }
+    }
+  }
+}

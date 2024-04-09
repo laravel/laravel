@@ -1,0 +1,35 @@
+@import '../../scss/_bootstrap-extended/functions';
+
+@mixin sweetalert2-theme($background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+
+  .swal2-progress-steps[class] .swal2-progress-step.swal2-active-progress-step,
+  .swal2-progress-steps[class] .swal2-progress-step-line,
+  .swal2-progress-steps[class] .swal2-active-progress-step,
+  .swal2-progress-steps[class] .swal2-progress-step {
+    background: $background;
+    color: $color;
+  }
+
+  .swal2-progress-steps[class] .swal2-progress-step.swal2-active-progress-step ~ .swal2-progress-step,
+  .swal2-progress-steps[class] .swal2-progress-step.swal2-active-progress-step ~ .swal2-progress-step-line {
+    background: mix($white, $background, 85%);
+  }
+}
+
+@mixin sweetalert2-dark-theme($background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+
+  .swal2-progress-steps[class] .swal2-progress-step.swal2-active-progress-step,
+  .swal2-progress-steps[class] .swal2-progress-step-line,
+  .swal2-progress-steps[class] .swal2-active-progress-step,
+  .swal2-progress-steps[class] .swal2-progress-step {
+    background: $background;
+    color: $color;
+  }
+
+  .swal2-progress-steps[class] .swal2-progress-step.swal2-active-progress-step ~ .swal2-progress-step,
+  .swal2-progress-steps[class] .swal2-progress-step.swal2-active-progress-step ~ .swal2-progress-step-line {
+    background: mix($dark, $background, 55%);
+  }
+}

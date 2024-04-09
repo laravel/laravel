@@ -1,0 +1,53 @@
+// Tooltips
+// *******************************************************************************
+
+@each $color, $value in $theme-colors {
+  @if $color != primary and $color != light {
+    @include template-tooltip-variant(
+      '.tooltip-#{$color}, .tooltip-#{$color} > .tooltip, .ngb-tooltip-#{$color} + ngb-tooltip-window',
+      $value
+    );
+  }
+}
+
+// Open modal tooltip z-index
+.modal-open .tooltip {
+  z-index: $zindex-modal + 2;
+}
+
+.tooltip-inner {
+  box-shadow: $tooltip-box-shadow;
+}
+
+// RTL
+// *******************************************************************************
+
+@include rtl-only {
+  .tooltip {
+    text-align: right;
+  }
+  &.bs-tooltip-auto {
+    &[data-popper-placement='right'] {
+      .tooltip-arrow {
+        right: 0;
+        left: inherit;
+        &::before {
+          left: -1px;
+          border-width: ($tooltip-arrow-width * 0.5) 0 ($tooltip-arrow-width * 0.5) $tooltip-arrow-height;
+          border-left-color: $tooltip-arrow-color;
+        }
+      }
+    }
+    &[data-popper-placement='left'] {
+      .tooltip-arrow {
+        left: 0;
+        right: inherit;
+        &::before {
+          right: -1px;
+          border-width: ($tooltip-arrow-width * 0.5) $tooltip-arrow-height ($tooltip-arrow-width * 0.5) 0;
+          border-right-color: $tooltip-arrow-color;
+        }
+      }
+    }
+  }
+}

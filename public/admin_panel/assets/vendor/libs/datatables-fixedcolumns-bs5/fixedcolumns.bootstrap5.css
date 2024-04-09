@@ -1,0 +1,136 @@
+table.dataTable thead tr > .dtfc-fixed-left,
+table.dataTable thead tr > .dtfc-fixed-right,
+table.dataTable tfoot tr > .dtfc-fixed-left,
+table.dataTable tfoot tr > .dtfc-fixed-right {
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  background-color: white;
+}
+
+table.dataTable tbody tr > .dtfc-fixed-left,
+table.dataTable tbody tr > .dtfc-fixed-right {
+  z-index: 1;
+  background-color: white;
+}
+
+div.dtfc-left-top-blocker,
+div.dtfc-right-top-blocker {
+  background-color: white;
+}
+
+div.dtfc-right-top-blocker,
+div.dtfc-left-top-blocker {
+  margin-top: 6px;
+  border-bottom: 0px solid #ddd !important;
+}
+
+table.dataTable.table-bordered.dtfc-has-left {
+  border-left: none;
+}
+
+div.dataTables_scroll.dtfc-has-left table.table-bordered {
+  border-left: none;
+}
+
+div.dataTables_scrollBody {
+  border-left: 1px solid #ddd !important;
+}
+
+div.dataTables_scrollFootInner table.table-bordered tr th:first-child,
+div.dataTables_scrollHeadInner table.table-bordered tr th:first-child {
+  border-left: 1px solid #ddd !important;
+}
+
+div.dataTables_scrollBody thead tr,
+div.DTFC_LeftBodyLiner thead tr {
+  border-top-width: 0;
+  border-bottom-width: 0;
+}
+
+div.dataTables_scrollBody {
+  border: 0 !important;
+}
+
+html:not([dir=rtl]) div.dataTables_scrollFootInner table.table-bordered tr th:first-child,
+html:not([dir=rtl]) div.dataTables_scrollHeadInner table.table-bordered tr th:first-child {
+  border-left: 0 !important;
+}
+
+[dir=rtl] table.dataTable thead th,
+[dir=rtl] table.dataTable thead td,
+[dir=rtl] table.dataTable tfoot th,
+[dir=rtl] table.dataTable tfoot td {
+  text-align: right !important;
+}
+
+.light-style table.DTFC_Cloned tr {
+  border-color: #d4d8dd;
+}
+.light-style div.dataTables_scrollFootInner table.table-bordered tr th:first-child,
+.light-style div.dataTables_scrollHeadInner table.table-bordered tr th:first-child {
+  border-left: 1px solid #d4d8dd;
+}
+.light-style table.dataTable thead tr > .dtfc-fixed-left,
+.light-style table.dataTable thead tr > .dtfc-fixed-right,
+.light-style table.dataTable tbody tr > .dtfc-fixed-left,
+.light-style table.dataTable tbody tr > .dtfc-fixed-right,
+.light-style div.dtfc-right-top-blocker,
+.light-style div.dtfc-left-top-blocker {
+  background-color: #fff;
+}
+.light-style .dt-fixedcolumns thead {
+  border-top-color: #d4d8dd;
+}
+.light-style[dir=rtl] div.dataTables_scrollHead table,
+.light-style[dir=rtl] div.dataTables_scrollBody table {
+  border: 0;
+}
+.light-style[dir=rtl] div.DTFC_LeftBodyLiner {
+  padding-right: 0 !important;
+}
+.light-style[dir=rtl] div.DTFC_RightHeadWrapper table,
+.light-style[dir=rtl] div.DTFC_RightBodyWrapper table {
+  border: 0;
+}
+.light-style[dir=rtl] div.DTFC_RightBodyLiner {
+  padding-left: 0 !important;
+}
+
+.dark-style table.DTFC_Cloned tr {
+  background-color: #283144;
+  border-color: #36445d;
+}
+.dark-style div.dataTables_scrollHead table,
+.dark-style div.DTFC_RightHeadWrapper table {
+  background-color: #283144;
+}
+.dark-style div.dataTables_scrollFootInner table.table-bordered tr th:first-child,
+.dark-style div.dataTables_scrollHeadInner table.table-bordered tr th:first-child {
+  border-left: 1px solid #36445d;
+}
+.dark-style table.dataTable thead tr > .dtfc-fixed-left,
+.dark-style table.dataTable thead tr > .dtfc-fixed-right,
+.dark-style table.dataTable tbody tr > .dtfc-fixed-left,
+.dark-style table.dataTable tbody tr > .dtfc-fixed-right,
+.dark-style div.dtfc-right-top-blocker,
+.dark-style div.dtfc-left-top-blocker {
+  background-color: #283144;
+}
+.dark-style .dt-fixedcolumns thead {
+  border-top-color: #36445d;
+}
+.dark-style[dir=rtl] div.dataTables_scrollHead table,
+.dark-style[dir=rtl] div.dataTables_scrollBody table {
+  border: 0;
+}
+.dark-style[dir=rtl] div.DTFC_LeftBodyLiner {
+  padding-right: 0 !important;
+}
+.dark-style[dir=rtl] div.DTFC_RightHeadWrapper table,
+.dark-style[dir=rtl] div.DTFC_RightBodyWrapper table {
+  border: 0;
+}
+.dark-style[dir=rtl] div.DTFC_RightBodyLiner {
+  padding-left: 0 !important;
+}

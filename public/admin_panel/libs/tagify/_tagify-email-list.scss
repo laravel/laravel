@@ -1,0 +1,83 @@
+.tagify-email-list {
+  display: inline-block;
+  min-width: 0;
+  border: none;
+
+  .tagify__tag {
+    margin: 0;
+    margin: 0 0 $tag-spacer $tag-spacer;
+    > div {
+      padding: $tag-spacer * 0.5 $tag-spacer * 2;
+    }
+  }
+
+  /* Do not show the "remove tag" (x) button when only a single tag remains */
+  .tagify__tag:only-of-type .tagify__tag__removeBtn {
+    display: none;
+  }
+
+  .tagify__tag__removeBtn {
+    opacity: 0;
+    transform: translateX(-6px) scale(0.5);
+    margin-left: -3ch;
+    transition: 0.12s;
+  }
+
+  .tagify__tag:hover .tagify__tag__removeBtn {
+    transform: none;
+    opacity: 1;
+    margin-left: -1ch;
+  }
+
+  .tagify__input {
+    display: none;
+  }
+}
+
+.tagify__tag > div {
+  border-radius: light.$border-radius-sm;
+}
+
+//RTL
+@include app-rtl(false) {
+  .tagify-email-list {
+    .tagify__tag {
+      margin: 0 $tag-spacer $tag-spacer 0;
+      &:hover .tagify__tag__removeBtn {
+        margin-left: auto;
+        margin-right: -1ch;
+      }
+    }
+    .tagify__tag__removeBtn {
+      transform: translateX(6px) scale(0.5);
+      margin-left: auto;
+      margin-right: -3ch;
+    }
+  }
+}
+
+// Light styles
+@if $enable-light-style {
+  .light-style {
+    .tagify-email-list {
+      .tagify__tag {
+        &--editable:not(.tagify--invalid) > div::before {
+          box-shadow: 0 0 0 2px light.$border-color inset !important;
+        }
+      }
+    }
+  }
+}
+
+// Dark styles
+@if $enable-dark-style {
+  .dark-style {
+    .tagify-email-list {
+      .tagify__tag {
+        &--editable:not(.tagify--invalid) > div::before {
+          box-shadow: 0 0 0 2px dark.$border-color inset !important;
+        }
+      }
+    }
+  }
+}

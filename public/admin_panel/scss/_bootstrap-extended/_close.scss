@@ -1,0 +1,12 @@
+// Close buttons
+// *******************************************************************************
+
+.close:focus {
+  outline: 0;
+}
+
+@include rtl-only {
+  .close {
+    float: left;
+  }
+}

@@ -1,0 +1,13 @@
+// * RTL
+// *******************************************************************************
+
+@include rtl-only {
+  #sortable-cards {
+    flex-direction: row-reverse;
+  }
+  #image-list-1,
+  #image-list-2 {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+}

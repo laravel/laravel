@@ -1,0 +1,35 @@
+// Select
+// *******************************************************************************
+
+.form-select {
+  background-clip: padding-box;
+}
+
+// Multiple select RTL Only
+@include rtl-only {
+  .form-select {
+    padding: $form-select-padding-y $form-select-padding-x $form-select-padding-y $form-select-indicator-padding;
+    background-position: left $form-select-padding-x center;
+
+    &[multiple],
+    &[size]:not([size='1']) {
+      padding-left: $form-select-padding-x;
+      background-image: none;
+    }
+  }
+  .form-select-sm {
+    padding-top: $form-select-padding-y-sm;
+    padding-bottom: $form-select-padding-y-sm;
+    padding-right: $form-select-padding-x-sm;
+  }
+  .form-select-lg {
+    padding-top: $form-select-padding-y-lg;
+    padding-bottom: $form-select-padding-y-lg;
+    padding-right: $form-select-padding-x-lg;
+  }
+}
+@if $dark-style {
+  select.form-select option {
+    background-color: $input-bg;
+  }
+}

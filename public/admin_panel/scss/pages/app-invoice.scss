@@ -1,0 +1,34 @@
+// * Invoice
+// *******************************************************************************
+@import '../_bootstrap-extended/include';
+
+// Invoice Edit & Add
+.invoice-edit,
+.invoice-add {
+  @include media-breakpoint-down(sm) {
+    .invoice-preview-card {
+      .invoice-calculations {
+        width: 100%;
+      }
+    }
+  }
+  @include media-breakpoint-up(md) {
+    .repeater-title {
+      position: absolute;
+      top: -1.75rem;
+    }
+  }
+  .invoice-preview-card {
+    .repeater-wrapper {
+      &:not(:last-child) {
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
+  @media print {
+    hr {
+      margin-top: 1rem !important;
+      margin-bottom: 1rem !important;
+    }
+  }
+}

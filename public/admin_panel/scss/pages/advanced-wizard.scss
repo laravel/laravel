@@ -1,0 +1,121 @@
+// * Advanced Wizard
+// *******************************************************************************
+
+@use '../_bootstrap-extended/include' as light;
+@use '../_bootstrap-extended/include-dark' as dark;
+@import '../_custom-variables/pages';
+
+// Checkout-wizard
+.wizard-checkout-example {
+  .content {
+    min-height: 30rem;
+
+    .wizard-header.title {
+      display: none;
+    }
+
+    .card-body {
+      &.offers {
+        border-left-width: 0.25rem !important;
+      }
+
+      .size-qty-inputs input {
+        width: 2.1875rem;
+        text-align: center;
+      }
+    }
+  }
+
+  .order-details {
+    .list-group-item {
+      position: relative;
+
+      .remove-item {
+        font-size: 1.15rem;
+        position: absolute;
+        right: 0;
+        top: 0.3125rem;
+      }
+    }
+
+    i {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+// Property Wizard
+.property-wizard {
+  svg {
+    height: 9.375rem;
+    width: 9.375rem;
+  }
+}
+
+// Loan wizard
+.loan-application-wizard {
+  svg {
+    height: 6.25rem;
+    width: 6.25rem;
+  }
+}
+
+@if $enable-light-style {
+  .light-style {
+    .custom-wizard-header {
+      background-color: light.$white;
+      color: light.$white;
+
+      .app-brand-text {
+        color: light.$white;
+      }
+    }
+
+    @include light.media-breakpoint-up(md) {
+      @if $enable-rtl-support {
+        [dir='rtl'] {
+          .checkout-wizard.wizard {
+            > .steps {
+              li {
+                a {
+                  .step-title {
+                    margin-right: 0;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@if $enable-dark-style {
+  .dark-style {
+    .custom-wizard-header {
+      background-color: dark.$light;
+
+      .app-brand-text {
+        color: dark.$white;
+      }
+    }
+    @include dark.media-breakpoint-up(md) {
+      @if $enable-rtl-support {
+        [dir='rtl'] {
+          .checkout-wizard.wizard {
+            > .steps {
+              li {
+                a {
+                  .step-title {
+                    margin-right: 0;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

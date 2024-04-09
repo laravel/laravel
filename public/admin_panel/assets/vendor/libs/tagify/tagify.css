@@ -1,0 +1,797 @@
+@charset "UTF-8";
+/* Suggestions items */
+.tagify__dropdown.users-list {
+  font-size: 1rem;
+}
+.tagify__dropdown.users-list .tagify__dropdown__item {
+  padding: 0.5em 0.7em;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 1em;
+  grid-template-areas: "avatar name" "avatar email";
+}
+.tagify__dropdown.users-list .tagify__dropdown__item__avatar-wrap {
+  grid-area: avatar;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: 0.1s ease-out;
+}
+.tagify__dropdown.users-list img {
+  width: 100%;
+  vertical-align: top;
+}
+.tagify__dropdown.users-list strong {
+  grid-area: name;
+  width: 100%;
+  align-self: center;
+  font-weight: 500;
+}
+.tagify__dropdown.users-list span {
+  grid-area: email;
+  width: 100%;
+  font-size: 0.9em;
+  opacity: 0.6;
+}
+
+/* Tags items */
+.tagify__tag {
+  white-space: nowrap;
+}
+.tagify__tag .tagify__tag__avatar-wrap {
+  width: 22px;
+  height: 22px;
+  white-space: normal;
+  border-radius: 50%;
+  margin-right: 5px;
+  transition: 0.12s ease-out;
+  vertical-align: middle;
+}
+.tagify__tag img {
+  width: 100%;
+  vertical-align: top;
+}
+
+[dir=rtl] .tagify__tag .tagify__tag__avatar-wrap {
+  margin-left: 5px;
+  margin-right: auto;
+}
+
+.light-style .tagify__dropdown.users-list .tagify__dropdown__item__avatar-wrap {
+  background: #f2f2f6;
+}
+.light-style .tagify__tag .tagify__tag__avatar-wrap {
+  background: #f2f2f6;
+}
+.light-style .tagify__dropdown.users-list .addAll {
+  border-bottom: 1px solid #d4d8dd;
+}
+
+.dark-style .tagify__dropdown.users-list .tagify__dropdown__item__avatar-wrap {
+  background: #1c222f;
+}
+.dark-style .tagify__tag .tagify__tag__avatar-wrap {
+  background: #1c222f;
+}
+.dark-style .tagify__dropdown.users-list .addAll {
+  border-bottom: 1px solid #36445d;
+}
+
+.tags-inline .tagify__dropdown__wrapper {
+  padding: 0 0.375rem 0.375rem 0.375rem;
+}
+.tags-inline .tagify__dropdown__item {
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0.3em 0.5em;
+  margin: 0.375rem 0.375rem 0 0;
+  font-size: 0.85em;
+  transition: 0s;
+}
+
+[dir=rtl] .tags-inline .tagify__dropdown__item {
+  margin: 0.375rem 0 0 0.375rem;
+}
+
+.light-style .tags-inline .tagify__dropdown__item {
+  border: 1px solid #d4d8dd;
+  color: #677788;
+}
+
+.dark-style .tags-inline .tagify__dropdown__item {
+  border: 1px solid #36445d;
+  color: #a1b0cb;
+}
+
+:root {
+  --tagify-dd-color-primary: rgb(53,149,246);
+  --tagify-dd-bg-color: white;
+  --tagify-dd-item-pad: .3em .5em;
+}
+
+.tagify {
+  --tags-disabled-bg: #F1F1F1;
+  --tags-border-color: #DDD;
+  --tags-hover-border-color: #CCC;
+  --tags-focus-border-color: #3595f6;
+  --tag-border-radius: 3px;
+  --tag-bg: #E5E5E5;
+  --tag-hover: #D3E2E2;
+  --tag-text-color: black;
+  --tag-text-color--edit: black;
+  --tag-pad: 0.3em 0.5em;
+  --tag-inset-shadow-size: 1.1em;
+  --tag-invalid-color: #ff5b5c;
+  --tag-invalid-bg: rgba(255, 91, 92, 0.5);
+  --tag-remove-bg: rgba(255, 91, 92, 0.3);
+  --tag-remove-btn-color: black;
+  --tag-remove-btn-bg: none;
+  --tag-remove-btn-bg--hover: #ff4243;
+  --input-color: inherit;
+  --tag--min-width: 1ch;
+  --tag--max-width: auto;
+  --tag-hide-transition: 0.3s;
+  --placeholder-color: rgba(0, 0, 0, 0.4);
+  --placeholder-color-focus: rgba(0, 0, 0, 0.25);
+  --loader-size: .8em;
+  --readonly-striped: 1;
+  display: inline-flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  border: 1px solid var(--tags-border-color);
+  padding: 0;
+  line-height: 0;
+  cursor: text;
+  outline: none;
+  position: relative;
+  box-sizing: border-box;
+  transition: 0.1s;
+}
+@keyframes tags--bump {
+  30% {
+    transform: scale(1.2);
+  }
+}
+@keyframes rotateLoader {
+  to {
+    transform: rotate(1turn);
+  }
+}
+.tagify:hover:not(.tagify--focus):not(.tagify--invalid) {
+  --tags-border-color: var(--tags-hover-border-color);
+}
+.tagify[disabled] {
+  background: var(--tags-disabled-bg);
+  filter: saturate(0);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.tagify[readonly].tagify--select, .tagify[disabled].tagify--select {
+  pointer-events: none;
+}
+.tagify[readonly]:not(.tagify--mix):not(.tagify--select), .tagify[disabled]:not(.tagify--mix):not(.tagify--select) {
+  cursor: default;
+}
+.tagify[readonly]:not(.tagify--mix):not(.tagify--select) > .tagify__input, .tagify[disabled]:not(.tagify--mix):not(.tagify--select) > .tagify__input {
+  visibility: hidden;
+  width: 0;
+  margin: 5px 0;
+}
+.tagify[readonly]:not(.tagify--mix):not(.tagify--select) .tagify__tag > div, .tagify[disabled]:not(.tagify--mix):not(.tagify--select) .tagify__tag > div {
+  padding: var(--tag-pad);
+}
+.tagify[readonly]:not(.tagify--mix):not(.tagify--select) .tagify__tag > div::before, .tagify[disabled]:not(.tagify--mix):not(.tagify--select) .tagify__tag > div::before {
+  animation: readonlyStyles 1s calc(-1s * (var(--readonly-striped) - 1)) paused;
+}
+@keyframes readonlyStyles {
+  0% {
+    background: linear-gradient(45deg, var(--tag-bg) 25%, transparent 25%, transparent 50%, var(--tag-bg) 50%, var(--tag-bg) 75%, transparent 75%, transparent) 0/5px 5px;
+    box-shadow: none;
+    filter: brightness(0.95);
+  }
+}
+.tagify[readonly] .tagify__tag__removeBtn, .tagify[disabled] .tagify__tag__removeBtn {
+  display: none;
+}
+.tagify--loading .tagify__input > br:last-child {
+  display: none;
+}
+.tagify--loading .tagify__input::before {
+  content: none;
+}
+.tagify--loading .tagify__input::after {
+  content: "";
+  vertical-align: middle;
+  opacity: 1;
+  width: 0.7em;
+  height: 0.7em;
+  width: var(--loader-size);
+  height: var(--loader-size);
+  min-width: 0;
+  border: 3px solid;
+  border-color: #EEE #BBB #888 transparent;
+  border-radius: 50%;
+  animation: rotateLoader 0.4s infinite linear;
+  content: "" !important;
+  margin: -2px 0 -2px 0.5em;
+}
+.tagify--loading .tagify__input:empty::after {
+  margin-left: 0;
+}
+.tagify + input,
+.tagify + textarea {
+  position: absolute !important;
+  left: -9999em !important;
+  transform: scale(0) !important;
+}
+.tagify__tag {
+  display: inline-flex;
+  align-items: center;
+  margin: 5px 0 5px 5px;
+  position: relative;
+  z-index: 1;
+  outline: none;
+  line-height: normal;
+  cursor: default;
+  transition: 0.13s ease-out;
+}
+.tagify__tag > div {
+  vertical-align: top;
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: var(--tag-pad);
+  color: var(--tag-text-color);
+  line-height: inherit;
+  border-radius: var(--tag-border-radius);
+  white-space: nowrap;
+  transition: 0.13s ease-out;
+}
+.tagify__tag > div > * {
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: top;
+  min-width: var(--tag--min-width);
+  max-width: var(--tag--max-width);
+  transition: 0.8s ease, 0.1s color;
+}
+.tagify__tag > div > *[contenteditable] {
+  outline: none;
+  user-select: text;
+  cursor: text;
+  margin: -2px;
+  padding: 2px;
+  max-width: 350px;
+}
+.tagify__tag > div::before {
+  content: "";
+  position: absolute;
+  border-radius: inherit;
+  inset: var(--tag-bg-inset, 0);
+  z-index: -1;
+  pointer-events: none;
+  transition: 120ms ease;
+  animation: tags--bump 0.3s ease-out 1;
+  box-shadow: 0 0 0 var(--tag-inset-shadow-size) var(--tag-bg) inset;
+}
+.tagify__tag:hover:not([readonly]) div::before, .tagify__tag:focus div::before {
+  --tag-bg-inset: -2.5px;
+  --tag-bg: var(--tag-hover);
+}
+.tagify__tag--loading {
+  pointer-events: none;
+}
+.tagify__tag--loading .tagify__tag__removeBtn {
+  display: none;
+}
+.tagify__tag--loading::after {
+  --loader-size: .4em;
+  content: "";
+  vertical-align: middle;
+  opacity: 1;
+  width: 0.7em;
+  height: 0.7em;
+  width: var(--loader-size);
+  height: var(--loader-size);
+  min-width: 0;
+  border: 3px solid;
+  border-color: #EEE #BBB #888 transparent;
+  border-radius: 50%;
+  animation: rotateLoader 0.4s infinite linear;
+  margin: 0 0.5em 0 -0.1em;
+}
+.tagify__tag--flash div::before {
+  animation: none;
+}
+.tagify__tag--hide {
+  width: 0 !important;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: 0;
+  margin-right: 0;
+  opacity: 0;
+  transform: scale(0);
+  transition: var(--tag-hide-transition);
+  pointer-events: none;
+}
+.tagify__tag--hide > div > * {
+  white-space: nowrap;
+}
+.tagify__tag.tagify--noAnim > div::before {
+  animation: none;
+}
+.tagify__tag.tagify--notAllowed:not(.tagify__tag--editable) div > span {
+  opacity: 0.5;
+}
+.tagify__tag.tagify--notAllowed:not(.tagify__tag--editable) div::before {
+  --tag-bg: var(--tag-invalid-bg);
+  transition: 0.2s;
+}
+.tagify__tag[readonly] .tagify__tag__removeBtn {
+  display: none;
+}
+.tagify__tag[readonly] > div::before {
+  animation: readonlyStyles 1s calc(-1s * (var(--readonly-striped) - 1)) paused;
+}
+@keyframes readonlyStyles {
+  0% {
+    background: linear-gradient(45deg, var(--tag-bg) 25%, transparent 25%, transparent 50%, var(--tag-bg) 50%, var(--tag-bg) 75%, transparent 75%, transparent) 0/5px 5px;
+    box-shadow: none;
+    filter: brightness(0.95);
+  }
+}
+.tagify__tag--editable > div {
+  color: var(--tag-text-color--edit);
+}
+.tagify__tag--editable > div::before {
+  box-shadow: 0 0 0 2px var(--tag-hover) inset !important;
+}
+.tagify__tag--editable > .tagify__tag__removeBtn {
+  pointer-events: none;
+}
+.tagify__tag--editable > .tagify__tag__removeBtn::after {
+  opacity: 0;
+  transform: translateX(100%) translateX(5px);
+}
+.tagify__tag--editable.tagify--invalid > div::before {
+  box-shadow: 0 0 0 2px var(--tag-invalid-color) inset !important;
+}
+.tagify__tag__removeBtn {
+  order: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  cursor: pointer;
+  font: 14px/1 Arial;
+  background: var(--tag-remove-btn-bg);
+  color: var(--tag-remove-btn-color);
+  width: 14px;
+  height: 14px;
+  margin-right: 4.6666666667px;
+  margin-left: auto;
+  overflow: hidden;
+  transition: 0.2s ease-out;
+}
+.tagify__tag__removeBtn::after {
+  content: "×";
+  transition: 0.3s, color 0s;
+}
+.tagify__tag__removeBtn:hover {
+  color: white;
+  background: var(--tag-remove-btn-bg--hover);
+}
+.tagify__tag__removeBtn:hover + div > span {
+  opacity: 0.5;
+}
+.tagify__tag__removeBtn:hover + div::before {
+  box-shadow: 0 0 0 var(--tag-inset-shadow-size) var(--tag-remove-bg, rgba(255, 91, 92, 0.3)) inset !important;
+  transition: box-shadow 0.2s;
+}
+.tagify:not(.tagify--mix) .tagify__input br {
+  display: none;
+}
+.tagify:not(.tagify--mix) .tagify__input * {
+  display: inline;
+  white-space: nowrap;
+}
+.tagify__input {
+  flex-grow: 1;
+  display: inline-block;
+  min-width: 110px;
+  margin: 5px;
+  padding: var(--tag-pad);
+  line-height: normal;
+  position: relative;
+  white-space: pre-wrap;
+  color: var(--input-color);
+  box-sizing: inherit;
+  /* Seems firefox newer versions don't need this any more
+  @supports ( -moz-appearance:none ){
+      &::before{
+          line-height: inherit;
+          position:relative;
+      }
+  }
+  */
+}
+@-moz-document url-prefix() {}
+.tagify__input:empty::before {
+  position: static;
+}
+.tagify__input:focus {
+  outline: none;
+}
+.tagify__input:focus::before {
+  transition: 0.2s ease-out;
+  opacity: 0;
+  transform: translatex(6px);
+  /* ALL MS BROWSERS: hide placeholder (on focus) otherwise the caret is placed after it, which is weird */
+  /* IE Edge 12+ CSS styles go here */
+}
+@supports (-ms-ime-align: auto) {
+  .tagify__input:focus::before {
+    display: none;
+  }
+}
+.tagify__input:focus:empty::before {
+  transition: 0.2s ease-out;
+  opacity: 1;
+  transform: none;
+  color: rgba(0, 0, 0, 0.25);
+  color: var(--placeholder-color-focus);
+}
+@-moz-document url-prefix() {
+  .tagify__input:focus:empty::after {
+    display: none;
+  }
+}
+.tagify__input::before {
+  content: attr(data-placeholder);
+  height: 1em;
+  line-height: 1em;
+  margin: auto 0;
+  z-index: 1;
+  color: var(--placeholder-color);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  position: absolute;
+}
+.tagify__input::after {
+  content: attr(data-suggest);
+  display: inline-block;
+  vertical-align: middle;
+  position: absolute;
+  min-width: calc(100% - 1.5em);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: pre; /* allows spaces at the beginning */
+  color: var(--tag-text-color);
+  opacity: 0.3;
+  pointer-events: none;
+  max-width: 100px;
+}
+.tagify__input .tagify__tag {
+  margin: 0 1px;
+}
+.tagify--mix {
+  display: block;
+}
+.tagify--mix .tagify__input {
+  padding: 5px;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  line-height: 1.5;
+  display: block;
+}
+.tagify--mix .tagify__input::before {
+  height: auto;
+  display: none;
+  line-height: inherit;
+}
+.tagify--mix .tagify__input::after {
+  content: none;
+}
+.tagify--select::after {
+  content: ">";
+  opacity: 0.5;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  bottom: 0;
+  font: 16px monospace;
+  line-height: 8px;
+  height: 8px;
+  pointer-events: none;
+  transform: translate(-150%, -50%) scaleX(1.2) rotate(90deg);
+  transition: 0.2s ease-in-out;
+}
+.tagify--select[aria-expanded=true]::after {
+  transform: translate(-150%, -50%) rotate(270deg) scaleY(1.2);
+}
+.tagify--select .tagify__tag {
+  position: absolute;
+  top: 0;
+  right: 1.8em;
+  bottom: 0;
+}
+.tagify--select .tagify__tag div {
+  display: none;
+}
+.tagify--select .tagify__input {
+  width: 100%;
+}
+.tagify--empty .tagify__input::before {
+  transition: 0.2s ease-out;
+  opacity: 1;
+  transform: none;
+  display: inline-block;
+  width: auto;
+}
+.tagify--mix .tagify--empty .tagify__input::before {
+  display: inline-block;
+}
+.tagify--focus {
+  --tags-border-color: var(--tags-focus-border-color);
+  transition: 0s;
+}
+.tagify--invalid {
+  --tags-border-color: #ff5b5c;
+}
+.tagify__dropdown {
+  position: absolute;
+  z-index: 9999;
+  transform: translateY(1px);
+  overflow: hidden;
+}
+.tagify__dropdown[placement=top] {
+  margin-top: 0;
+  transform: translateY(-100%);
+}
+.tagify__dropdown[placement=top] .tagify__dropdown__wrapper {
+  border-top-width: 1.1px;
+  border-bottom-width: 0;
+}
+.tagify__dropdown[position=text] {
+  box-shadow: 0 0 0 3px rgba(var(--tagify-dd-color-primary), 0.1);
+  font-size: 0.9em;
+}
+.tagify__dropdown[position=text] .tagify__dropdown__wrapper {
+  border-width: 1px;
+}
+.tagify__dropdown__wrapper {
+  max-height: 300px;
+  overflow: auto;
+  overflow-x: hidden;
+  background: var(--tagify-dd-bg-color);
+  border: 1px solid;
+  border-color: var(--tagify-dd-color-primary);
+  border-bottom-width: 1.5px;
+  border-top-width: 0;
+  box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  transition: 0.25s cubic-bezier(0, 1, 0.5, 1);
+}
+.tagify__dropdown__header:empty {
+  display: none;
+}
+.tagify__dropdown__footer {
+  display: inline-block;
+  margin-top: 0.5em;
+  padding: var(--tagify-dd-item-pad);
+  font-size: 0.7em;
+  font-style: italic;
+  opacity: 0.5;
+}
+.tagify__dropdown__footer:empty {
+  display: none;
+}
+.tagify__dropdown--initial .tagify__dropdown__wrapper {
+  max-height: 20px;
+  transform: translateY(-1em);
+}
+.tagify__dropdown--initial[placement=top] .tagify__dropdown__wrapper {
+  transform: translateY(2em);
+}
+.tagify__dropdown__item {
+  box-sizing: border-box;
+  padding: var(--tagify-dd-item-pad);
+  margin: 1px;
+  cursor: pointer;
+  border-radius: 2px;
+  position: relative;
+  outline: none;
+  max-height: 60px;
+  max-width: 100%;
+  /* custom hidden transition effect is needed for horizontal-layout suggestions */
+}
+.tagify__dropdown__item--active {
+  background: var(--tagify-dd-color-primary);
+  color: white;
+}
+.tagify__dropdown__item:active {
+  filter: brightness(105%);
+}
+.tagify__dropdown__item--hidden {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin: 0 1px;
+  pointer-events: none;
+  overflow: hidden;
+  max-height: 0;
+  transition: var(--tagify-dd-item--hidden-duration, 0.3s) !important;
+}
+.tagify__dropdown__item--hidden > * {
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: inherit;
+}
+
+.tagify.form-control {
+  padding: 0 0.375rem 0.375rem 0.375rem;
+}
+.tagify__tag, .tagify__input {
+  margin: 0.375rem 0.375rem 0 0 !important;
+  line-height: 1;
+}
+.tagify__input {
+  line-height: 1.5rem;
+}
+.tagify__input:empty::before {
+  top: 4px;
+}
+.tagify__tag > div {
+  line-height: 1.5rem;
+  padding: 0 0 0 0.375rem;
+}
+.tagify__tag > div .tagify__tag-text {
+  font-size: 0.8125rem;
+}
+.tagify__tag__removeBtn {
+  margin-right: 0.375rem;
+  margin-left: 0.1875rem;
+  color: #677788;
+}
+.tagify__tag:hover:not([readonly]) div::before, .tagify__tag:focus div::before {
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+.tagify[readonly]:not(.tagify--mix) .tagify__tag > div {
+  padding: 0 0.375rem 0 0.375rem !important;
+}
+.tagify__input {
+  padding: 0;
+}
+
+[dir=rtl] .tagify__tag, [dir=rtl] .tagify__input {
+  margin: 0.375rem 0 0 0.375rem;
+}
+[dir=rtl] .tagify__tag > div {
+  padding: 0 0.375rem 0 0;
+}
+[dir=rtl] .tagify__tag__removeBtn {
+  margin-left: 0.375rem;
+  margin-right: 0.1875rem;
+}
+
+.light-style .tagify__tag > div::before {
+  box-shadow: 0 0 0 1.1em #eeeff1 inset;
+}
+.light-style .tagify__tag .tagify__tag-text {
+  color: #677788;
+}
+.light-style .tagify__tag:hover:not([readonly]) div::before, .light-style .tagify__tag:focus div::before {
+  box-shadow: 0 0 0 1.1em #dce0e4 inset;
+}
+.light-style .tagify:hover:not([readonly]) {
+  border-color: #d4d8dd;
+}
+.light-style .tagify__input::before {
+  color: #a8b1bb !important;
+}
+.light-style .tagify__dropdown {
+  box-shadow: 0 0.25rem 1rem rgba(147, 158, 170, 0.45);
+}
+.light-style .tagify__dropdown__wrapper {
+  background: #fff;
+  border-color: transparent;
+}
+.light-style .tagify__dropdown__item--active {
+  background: rgba(38, 60, 85, 0.06) !important;
+  color: #677788;
+}
+
+.dark-style .tagify__tag > div::before {
+  box-shadow: 0 0 0 1.1em rgba(99, 123, 169, 0.08) inset;
+}
+.dark-style .tagify__tag > div .tagify__tag-text {
+  color: #a1b0cb;
+}
+.dark-style .tagify__tag:hover:not([readonly]) div::before, .dark-style .tagify__tag:focus div::before {
+  box-shadow: 0 0 0 1.1em rgba(99, 123, 169, 0.16) inset;
+}
+.dark-style .tagify__tag__removeBtn {
+  color: #a1b0cb;
+}
+.dark-style .tagify:hover:not([readonly]) {
+  border-color: #546990;
+}
+.dark-style .tagify__input::before {
+  color: #8295ba !important;
+}
+.dark-style .tagify[readonly]:not(.tagify--mix) .tagify__tag > div::before {
+  background: linear-gradient(45deg, #546990 25%, transparent 25%, transparent 50%, #546990 50%, #546990 75%, transparent 75%, transparent) 0/5px 5px;
+  box-shadow: 0 0 0 1.1em rgba(99, 123, 169, 0.16) inset;
+}
+.dark-style .tagify__dropdown {
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.25);
+}
+.dark-style .tagify__dropdown__wrapper {
+  background: #283144;
+  border-color: transparent;
+}
+.dark-style .tagify__dropdown__item--active {
+  background: rgba(99, 123, 169, 0.06) !important;
+  color: #a1b0cb;
+}
+
+.tagify-email-list {
+  display: inline-block;
+  min-width: 0;
+  border: none;
+  /* Do not show the "remove tag" (x) button when only a single tag remains */
+}
+.tagify-email-list .tagify__tag {
+  margin: 0;
+  margin: 0 0 0.375rem 0.375rem;
+}
+.tagify-email-list .tagify__tag > div {
+  padding: 0.1875rem 0.75rem;
+}
+.tagify-email-list .tagify__tag:only-of-type .tagify__tag__removeBtn {
+  display: none;
+}
+.tagify-email-list .tagify__tag__removeBtn {
+  opacity: 0;
+  transform: translateX(-6px) scale(0.5);
+  margin-left: -3ch;
+  transition: 0.12s;
+}
+.tagify-email-list .tagify__tag:hover .tagify__tag__removeBtn {
+  transform: none;
+  opacity: 1;
+  margin-left: -1ch;
+}
+.tagify-email-list .tagify__input {
+  display: none;
+}
+
+.tagify__tag > div {
+  border-radius: 0.1875rem;
+}
+
+[dir=rtl] .tagify-email-list .tagify__tag {
+  margin: 0 0.375rem 0.375rem 0;
+}
+[dir=rtl] .tagify-email-list .tagify__tag:hover .tagify__tag__removeBtn {
+  margin-left: auto;
+  margin-right: -1ch;
+}
+[dir=rtl] .tagify-email-list .tagify__tag__removeBtn {
+  transform: translateX(6px) scale(0.5);
+  margin-left: auto;
+  margin-right: -3ch;
+}
+
+.light-style .tagify-email-list .tagify__tag--editable:not(.tagify--invalid) > div::before {
+  box-shadow: 0 0 0 2px #d4d8dd inset !important;
+}
+
+.dark-style .tagify-email-list .tagify__tag--editable:not(.tagify--invalid) > div::before {
+  box-shadow: 0 0 0 2px #36445d inset !important;
+}

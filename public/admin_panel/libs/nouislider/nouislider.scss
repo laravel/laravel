@@ -1,0 +1,385 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../node_modules/nouislider/dist/nouislider';
+@import '../../scss/_custom-variables/libs';
+@import 'mixins';
+
+$noUiSlider-handle-color: #fff !default;
+$noUiSlider-handle-width: 1rem !default;
+$noUiSlider-handle-height: $noUiSlider-handle-width !default;
+$noUiSlider-bar-height: 0.375rem !default;
+$noUiSlider-vertical-height: 13.125rem !default;
+$noUiSlider-tick-size: 0.5rem !default;
+$noUiSlider-tick-label-font-size: 0.625rem !default;
+
+$noUi-touch-area-width: 0.75rem;
+$noUi-touch-area-height: $noUi-touch-area-width;
+$noUi-touch-area-margin: light.rem-to-px(($noUiSlider-handle-width - $noUi-touch-area-width) * 0.5) - 1px; // Get the exact margin with formula
+
+.noUi-target {
+  direction: ltr !important;
+  position: relative;
+  border-width: 0;
+  box-shadow: none;
+}
+
+.noUi-target,
+.noUi-target * {
+  touch-action: none;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.noUi-connects {
+  height: $noUiSlider-bar-height;
+}
+
+.noUi-base,
+.noUi-connects {
+  z-index: 1;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.noUi-horizontal .noUi-origin {
+  height: 0;
+
+  @include app-ltr {
+    left: auto;
+    right: 0;
+  }
+}
+
+.noUi-vertical .noUi-origin {
+  width: 0;
+}
+
+.noUi-handle {
+  backface-visibility: hidden;
+  outline: none !important;
+  position: absolute;
+  transform-origin: center;
+  transition: transform 0.2s;
+  border-color: transparent;
+
+  &:before,
+  &:after {
+    display: none;
+  }
+
+  &.noUi-active {
+    transform: scale(1.4, 1.4);
+  }
+}
+
+.noUi-horizontal .noUi-handle.noUi-active .noUi-tooltip {
+  transform: translate(-50%, 10%) scale(0.8, 0.8);
+}
+
+.noUi-vertical .noUi-handle.noUi-active .noUi-tooltip {
+  transform: translate(10%, -50%) scale(0.8, 0.8);
+}
+
+.noUi-touch-area {
+  border-radius: 50%;
+  height: $noUi-touch-area-height;
+  width: $noUi-touch-area-width;
+  margin: $noUi-touch-area-margin;
+}
+
+.noUi-state-tap .noUi-connect,
+.noUi-state-tap .noUi-origin {
+  transition: top 0.3s, right 0.3s, bottom 0.3s, left 0.3s;
+}
+
+.noUi-state-drag * {
+  cursor: inherit !important;
+}
+
+// Slider size and handle placement
+
+.noUi-horizontal {
+  height: $noUiSlider-bar-height;
+}
+
+.noUi-horizontal .noUi-handle {
+  left: -($noUiSlider-handle-width * 0.5);
+  width: $noUiSlider-handle-width;
+  height: $noUiSlider-handle-height;
+  top: -5px !important;
+
+  @include app-ltr {
+    right: -($noUiSlider-handle-width * 0.5);
+    left: auto;
+  }
+}
+
+.noUi-vertical {
+  width: $noUiSlider-bar-height;
+}
+
+.noUi-vertical .noUi-handle {
+  left: -(($noUiSlider-handle-height * 0.65) + 0.05);
+  bottom: -($noUiSlider-handle-height);
+  width: $noUiSlider-handle-height;
+  height: $noUiSlider-handle-width;
+}
+
+// Styling
+.noUi-target {
+  border-radius: 10rem;
+}
+
+// Handles and cursors
+.noUi-draggable {
+  cursor: ew-resize;
+}
+
+.noUi-vertical .noUi-draggable {
+  cursor: ns-resize;
+}
+
+.noUi-handle {
+  border-radius: 10rem;
+  background: $noUiSlider-handle-color;
+  cursor: default;
+}
+
+// Disabled state
+[disabled] .noUi-connect {
+  opacity: 0.3;
+}
+
+[disabled] .noUi-handle {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+[disabled].noUi-target,
+[disabled].noUi-handle,
+[disabled] .noUi-handle {
+  cursor: not-allowed;
+}
+
+// Base
+.noUi-pips,
+.noUi-pips * {
+  box-sizing: border-box;
+}
+
+.noUi-pips {
+  color: #999;
+  position: absolute;
+}
+
+// Values
+.noUi-value {
+  position: absolute;
+  white-space: nowrap;
+  text-align: center;
+  font-size: $noUiSlider-tick-label-font-size;
+}
+
+// Markings
+.noUi-marker {
+  position: absolute;
+}
+
+// Horizontal layout
+.noUi-pips-horizontal {
+  left: 0;
+  top: 100%;
+  padding: (($noUiSlider-handle-height - $noUiSlider-bar-height) * 0.5 + 0.375rem) 0 0 0;
+  height: 5rem;
+  width: 100%;
+}
+
+.noUi-value-horizontal {
+  padding-top: 0.125rem;
+  transform: translate(-50%, 50%);
+
+  @include app-rtl {
+    transform: translate(50%, 50%);
+  }
+}
+
+.noUi-marker-horizontal.noUi-marker {
+  height: $noUiSlider-tick-size;
+  width: 1px;
+}
+
+@include app-rtl(false) {
+  .noUi-horizontal {
+    .noUi-origin {
+      left: 0;
+    }
+  }
+}
+
+// Vertical layout
+.noUi-pips-vertical {
+  top: 0;
+  left: 100%;
+  padding: 0 0 0 (($noUiSlider-handle-height - $noUiSlider-bar-height) * 0.5 + 0.375rem);
+  height: 100%;
+
+  @include app-rtl {
+    right: 100%;
+    left: auto;
+  }
+}
+
+.noUi-value-vertical {
+  padding-left: $noUiSlider-tick-size + 0.375rem;
+
+  @include app-rtl {
+    right: 100%;
+    padding-right: $noUiSlider-tick-size + 0.375rem;
+    padding-left: 0;
+  }
+}
+
+@include app-rtl(false) {
+  .noUi-marker-vertical {
+    right: 100%;
+  }
+}
+
+.noUi-marker-vertical.noUi-marker {
+  width: $noUiSlider-tick-size;
+  height: 1px;
+}
+
+// Tooltips
+.noUi-tooltip {
+  position: absolute;
+  display: block;
+  padding: 0.1875rem 0.25rem;
+  border-radius: 2.81rem;
+  font-size: light.$small-font-size;
+  text-align: center;
+  font-weight: 500;
+  line-height: 1;
+  transition: transform 0.2s;
+  box-shadow: none;
+  border-color: transparent;
+  color: light.$white;
+  background: light.$dark;
+}
+
+.noUi-horizontal .noUi-tooltip {
+  bottom: 125%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.noUi-vertical .noUi-tooltip {
+  top: 50%;
+  right: 125%;
+  transform: translate(0, -50%);
+
+  @include app-rtl {
+    right: auto;
+    left: 125%;
+  }
+}
+
+@include app-rtl(false) {
+  .noUi-vertical .noUi-handle.noUi-active .noUi-tooltip {
+    transform: translate(-10%, -50%) scale(0.8, 0.8);
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    $noUiSlider-default-bg: light.$gray-500;
+    $noUiSlider-line-color: light.$form-range-track-bg;
+    $noUiSlider-disabled-line-color: light.$form-range-thumb-disabled-bg;
+    $noUiSlider-tick-label-color: light.$headings-color;
+    $noUiSlider-marker-bg-color: light.$border-color;
+
+    .noUi-target {
+      background: $noUiSlider-line-color;
+    }
+
+    .noUi-handle {
+      box-shadow: light.$box-shadow-sm;
+    }
+
+    .noUi-target[disabled] {
+      background: $noUiSlider-disabled-line-color;
+    }
+
+    .noUi-value {
+      color: $noUiSlider-tick-label-color;
+    }
+
+    .noUi-marker {
+      background: $noUiSlider-marker-bg-color;
+    }
+
+    .noUi-touch-area {
+      background-color: $noUiSlider-default-bg;
+    }
+
+    @include nouislider-variant($noUiSlider-default-bg);
+
+    @each $color, $value in light.$theme-colors {
+      @if $color !=primary {
+        .noUi-#{$color} {
+          @include nouislider-variant($value);
+        }
+      }
+    }
+  }
+}
+
+@if $enable-dark-style {
+  .dark-style {
+    $noUiSlider-default-bg: dark.$gray-500;
+    $noUiSlider-line-color: dark.$form-range-track-bg;
+    $noUiSlider-disabled-line-color: dark.$form-range-thumb-disabled-bg;
+    $noUiSlider-tick-label-color: dark.$headings-color;
+    $noUiSlider-marker-bg-color: dark.rgba-to-hex(dark.$gray-700, dark.$rgba-to-hex-bg);
+
+    .noUi-target {
+      background: $noUiSlider-line-color;
+    }
+
+    .noUi-connect {
+      background: $noUiSlider-default-bg;
+    }
+
+    .noUi-handle {
+      background: dark.rgba-to-hex(dark.$gray-900, dark.$rgba-to-hex-bg);
+      box-shadow: dark.$box-shadow-sm;
+    }
+
+    .noUi-target[disabled] {
+      background: $noUiSlider-disabled-line-color;
+    }
+
+    .noUi-value {
+      color: $noUiSlider-tick-label-color;
+    }
+
+    .noUi-marker {
+      background: $noUiSlider-marker-bg-color;
+    }
+
+    .noUi-touch-area {
+      background-color: $noUiSlider-default-bg;
+    }
+
+    @include nouislider-variant($noUiSlider-default-bg);
+
+    @each $color, $value in dark.$theme-colors {
+      @if $color !=primary {
+        .noUi-#{$color} {
+          @include nouislider-variant($value);
+        }
+      }
+    }
+  }
+}

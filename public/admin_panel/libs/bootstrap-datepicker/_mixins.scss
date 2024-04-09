@@ -1,0 +1,105 @@
+@import '../../scss/_bootstrap-extended/functions';
+
+@mixin bs-datepicker-theme($background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+  $range-bg: rgba-to-hex(rgba($background, 0.08), #fff);
+  $range-color: color-contrast($range-bg);
+
+  .datepicker {
+    table {
+      tr td {
+        &.active,
+        &.active.highlighted,
+        .focused,
+        span.active,
+        span.active.disabled,
+        &.range-start,
+        &.range-end {
+          background: $background !important;
+          color: $color !important;
+        }
+
+        &.range,
+        &.range.highlighted,
+        &.range.today {
+          color: $background !important;
+          background: $range-bg !important;
+          &.focused {
+            background: darken($range-bg, 6%) !important;
+          }
+
+          &.disabled {
+            background: transparentize($range-bg, 0.5) !important;
+            color: transparentize($range-color, 0.5) !important;
+          }
+        }
+
+        &.today:not(.active) {
+          box-shadow: 0 0 0 1px $background;
+        }
+      }
+      th {
+        &.prev,
+        &.next {
+          border: 1px solid $background;
+          &::after {
+            color: $background;
+            border-color: $background;
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin bs-datepicker-dark-theme($background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+  $range-bg: rgba-to-hex(rgba($background, 0.16), #283144);
+  $range-color: color-contrast($range-bg);
+
+  .datepicker {
+    table {
+      tr td {
+        &.active,
+        &.active.highlighted,
+        .focused,
+        span.active,
+        span.active.disabled,
+        &.range-start,
+        &.range-end {
+          color: $color !important;
+          background: $background !important;
+        }
+
+        &.range,
+        &.range.highlighted,
+        &.range.today {
+          color: $background !important;
+          background: $range-bg !important;
+          &.disabled {
+            color: transparentize($range-color, 0.5) !important;
+            background: transparentize($range-bg, 0.5) !important;
+          }
+
+          &.focused {
+            background: darken($range-bg, 6%) !important;
+          }
+        }
+
+        &.today:not(.active) {
+          box-shadow: 0 0 0 1px $background;
+        }
+      }
+      th {
+        &.prev,
+        &.next {
+          border: 1px solid $background;
+          &::after {
+            color: $background;
+            border-color: $background;
+          }
+        }
+      }
+    }
+  }
+}

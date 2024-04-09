@@ -1,0 +1,10 @@
+// Block UI
+// *******************************************************************************
+
+.blockUI {
+  &.blockOverlay,
+  &.blockMsg {
+    z-index: $zindex-modal + 1 !important;
+    color: $white !important;
+  }
+}

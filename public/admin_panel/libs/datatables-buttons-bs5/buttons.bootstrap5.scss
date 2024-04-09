@@ -1,0 +1,95 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+@import '../../node_modules/datatables.net-buttons-bs5/css/buttons.bootstrap5';
+
+// remove 0.5em margin bottom from dt-buttons
+@media screen and (max-width: 767px) {
+  div.dt-buttons {
+    margin-bottom: 0;
+  }
+}
+div.dataTables_wrapper .dt-button-collection {
+  border: 0;
+  border-radius: light.$dropdown-border-radius;
+  padding: light.$dropdown-padding-y light.$dropdown-padding-x;
+  width: auto;
+  > div[role='menu'] {
+    text-align: left;
+  }
+}
+// avoid dropdown to overlap the trigger button
+.dt-button-collection {
+  margin-top: 0.2rem;
+}
+div.dt-button-collection .dt-button:not(.dt-btn-split-drop) {
+  min-width: 8rem;
+}
+
+.dt-down-arrow {
+  display: none;
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    div.dataTables_wrapper .dt-button-collection {
+      background-color: light.$dropdown-bg;
+    }
+    .dataTable a:not([href]):not([tabindex]) {
+      color: map-get(light.$theme-colors, success);
+    }
+    .dt-button-info {
+      box-shadow: light.$floating-component-shadow;
+    }
+    .dt-button-collection {
+      .dropdown-item {
+        padding: light.$dropdown-item-padding-y light.$dropdown-item-padding-x;
+      }
+    }
+  }
+}
+
+// Dark style
+@if $enable-dark-style {
+  .dark-style {
+    div.dataTables_wrapper .dt-button-collection {
+      background-color: dark.$dropdown-bg;
+      > div[role='menu'] {
+        box-shadow: dark.$dropdown-box-shadow;
+      }
+    }
+    .dataTable a:not([href]):not([tabindex]) {
+      color: map-get(dark.$theme-colors, success);
+    }
+    .dt-button-info {
+      box-shadow: dark.$floating-component-shadow;
+    }
+    .dt-button-collection {
+      .dropdown-item {
+        padding: dark.$dropdown-item-padding-y dark.$dropdown-item-padding-x;
+      }
+    }
+  }
+}
+.dt-button-info {
+  border-width: 0 !important;
+  border-radius: light.$border-radius !important;
+  h2 {
+    font-size: light.$h4-font-size !important;
+  }
+}
+.dt-buttons {
+  position: relative;
+  .dt-button-collection .dropdown-item {
+    @include app-rtl {
+      text-align: right;
+    }
+  }
+  &.btn-group {
+    button {
+      border-color: transparent;
+      border-radius: light.$border-radius !important;
+    }
+  }
+}

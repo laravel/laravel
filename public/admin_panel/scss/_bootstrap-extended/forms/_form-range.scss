@@ -1,0 +1,52 @@
+// Range select
+// *******************************************************************************
+
+.form-range {
+  // Chrome specific
+  &::-webkit-slider-thumb {
+    box-shadow: $form-range-thumb-box-shadow;
+    transition: transform 0.2s;
+    transform-origin: center;
+
+    &:focus {
+      box-shadow: $form-range-thumb-focus-box-shadow;
+    }
+
+    &:active {
+      transform: scale(1.4, 1.4);
+    }
+  }
+
+  // Mozilla specific
+  &::-moz-range-thumb {
+    box-shadow: $form-range-thumb-box-shadow;
+    transition: transform 0.2s;
+    transform-origin: center;
+
+    &:focus {
+      box-shadow: $form-range-thumb-focus-box-shadow;
+    }
+
+    &:active {
+      transform: scale(1.4, 1.4);
+    }
+  }
+
+  &:disabled {
+    &::-webkit-slider-runnable-track {
+      background-color: $form-range-track-disabled-bg;
+    }
+
+    &::-moz-range-track {
+      background-color: $form-range-track-disabled-bg;
+      box-shadow: none;
+    }
+
+    &::-webkit-slider-thumb {
+      box-shadow: none;
+    }
+    &::-moz-range-thumb {
+      box-shadow: none;
+    }
+  }
+}

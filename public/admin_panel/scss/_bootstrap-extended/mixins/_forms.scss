@@ -1,0 +1,293 @@
+// * Form controls
+// *******************************************************************************
+
+// Form control
+@mixin template-form-control-theme($color) {
+  .form-control:focus,
+  .form-select:focus {
+    border-color: $color;
+  }
+
+  // Using :focus-within to apply focus border color to default and merged input-group
+  .input-group {
+    &:focus-within {
+      .form-control,
+      .input-group-text {
+        border-color: $color;
+      }
+    }
+  }
+}
+
+// Float labels
+@mixin template-float-label-theme($color) {
+  .form-floating {
+    > .form-control:focus,
+    > .form-control:not(:placeholder-shown),
+    > .form-select {
+      ~ label {
+        color: $color;
+      }
+    }
+
+    > .form-control:-webkit-autofill {
+      ~ label {
+        color: $color;
+      }
+    }
+  }
+}
+
+// Form Switch
+@mixin template-form-switch-theme($background) {
+  $focus-color: $background;
+  $focus-bg-image: str-replace(
+    str-replace($form-switch-focus-bg-image, '#{$form-switch-focus-color}', $focus-color),
+    '#',
+    '%23'
+  );
+
+  $checked-color: $component-active-color;
+  $checked-bg-image: str-replace(
+    str-replace($form-switch-checked-bg-image, '#{$form-switch-checked-color}', $checked-color),
+    '#',
+    '%23'
+  );
+
+  .form-switch {
+    .form-check-input {
+      &:focus {
+        background-image: escape-svg($focus-bg-image);
+      }
+
+      &:checked {
+        @if $enable-gradients {
+          background-image: escape-svg($checked-bg-image), var(--#{$variable-prefix}gradient);
+        } @else {
+          background-image: escape-svg($checked-bg-image);
+        }
+      }
+    }
+  }
+}
+
+// File Input
+@mixin template-file-input-theme($color) {
+  .form-control:focus ~ .form-label {
+    border-color: $color;
+
+    &::after {
+      border-color: inherit;
+    }
+  }
+}
+
+// Form Check
+@mixin template-form-check-variant($parent, $background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+  $focus-border: $background;
+
+  #{$parent} .form-check-input {
+    &:focus {
+      border-color: $focus-border;
+    }
+
+    &:checked {
+      background-color: $background;
+      border-color: $background;
+    }
+
+    &[type='checkbox']:indeterminate {
+      background-color: $background;
+      border-color: $background;
+    }
+  }
+
+  // Custom options
+  #{$parent}.custom-option {
+    &.checked {
+      border: 1px solid $background;
+    }
+  }
+}
+
+@mixin template-form-check-theme($background, $color: null) {
+  @include template-form-check-variant('', $background, $color);
+}
+
+// Form Validation
+
+@mixin form-validation-state(
+  $state: null,
+  $color: null,
+  $icon: null,
+  $tooltip-color: null,
+  $tooltip-bg-color: null,
+  $focus-box-shadow: null
+) {
+}
+
+@mixin template-form-validation-state(
+  $state,
+  $color,
+  $icon,
+  $tooltip-color: color-contrast($color),
+  $tooltip-bg-color: rgba($color, $form-feedback-tooltip-opacity),
+  $focus-box-shadow: 0 0 $input-btn-focus-blur $input-focus-width rgba($color, $input-btn-focus-color-opacity)
+) {
+  .#{$state}-feedback {
+    display: none;
+    width: 100%;
+    margin-top: $form-feedback-margin-top;
+    @include font-size($form-feedback-font-size);
+    font-style: $form-feedback-font-style;
+    color: $color;
+  }
+
+  .#{$state}-tooltip {
+    position: absolute;
+    top: 100%;
+    z-index: 5;
+    display: none;
+    max-width: 100%; // Contain to parent when possible
+    padding: $form-feedback-tooltip-padding-y $form-feedback-tooltip-padding-x;
+    margin-top: 0.1rem;
+    @include font-size($form-feedback-tooltip-font-size);
+    line-height: $form-feedback-tooltip-line-height;
+    color: $tooltip-color;
+    background-color: $tooltip-bg-color;
+    @include border-radius($form-feedback-tooltip-border-radius);
+  }
+
+  @include form-validation-state-selector($state) {
+    ~ .#{$state}-feedback,
+    ~ .#{$state}-tooltip {
+      display: block;
+    }
+  }
+
+  .form-control {
+    @include form-validation-state-selector($state) {
+      border-color: $color;
+
+      .dark-style & {
+        border-color: $color !important;
+      }
+
+      @if $enable-validation-icons {
+        background-image: escape-svg($icon);
+        background-repeat: no-repeat;
+        background-size: $input-height-inner-half $input-height-inner-half;
+
+        @include ltr-style {
+          padding-right: $input-height-inner;
+          background-position: right $input-height-inner-quarter center;
+        }
+        @include rtl-style {
+          padding-left: $input-height-inner;
+          background-position: left $input-height-inner-quarter center;
+        }
+      }
+
+      &:focus {
+        border-color: $color;
+        box-shadow: $focus-box-shadow;
+      }
+    }
+  }
+
+  // stylelint-disable-next-line selector-no-qualifying-type
+  textarea.form-control {
+    @include form-validation-state-selector($state) {
+      @if $enable-validation-icons {
+        @include ltr-style {
+          padding-right: $input-height-inner;
+          background-position: top $input-height-inner-quarter right $input-height-inner-quarter;
+        }
+        @include rtl-style {
+          padding-left: $input-height-inner;
+          background-position: top $input-height-inner-quarter left $input-height-inner-quarter;
+        }
+      }
+    }
+  }
+
+  .form-select {
+    @include form-validation-state-selector($state) {
+      border-color: $color;
+      @if $enable-validation-icons {
+        background-size: $form-select-bg-size, $form-select-feedback-icon-size;
+        @include ltr-style {
+          background-image: escape-svg($form-select-indicator), escape-svg($icon);
+          padding-right: $form-select-feedback-icon-padding-end;
+          background-position: $form-select-bg-position, $form-select-feedback-icon-position;
+        }
+        @include rtl-style {
+          background-image: escape-svg($form-select-indicator-rtl), escape-svg($icon);
+          padding-left: $form-select-feedback-icon-padding-end;
+          background-position: left $form-select-padding-x center, center left $form-select-indicator-padding; // RTL
+        }
+      }
+
+      &:focus {
+        border-color: $color;
+        box-shadow: $focus-box-shadow;
+      }
+    }
+  }
+
+  .form-check-input {
+    @include form-validation-state-selector($state) {
+      border-color: $color;
+
+      &:checked {
+        background-color: $color;
+        border-color: $color;
+      }
+
+      &:focus {
+        box-shadow: $focus-box-shadow;
+        border-color: $color;
+      }
+
+      ~ .form-check-label {
+        color: $color;
+      }
+    }
+  }
+  .form-check-inline .form-check-input {
+    ~ .#{$state}-feedback {
+      @include ltr-style {
+        margin-left: 0.5em;
+      }
+      @include rtl-style {
+        margin-right: 0.5em;
+      }
+    }
+  }
+  // On validation .input-group & .input-group-merged, setup proper border color & box-shadow
+  .input-group {
+    .form-control {
+      @include form-validation-state-selector($state) {
+        ~ .input-group-text {
+          border-color: $color;
+        }
+        &:focus {
+          border-color: $color;
+          box-shadow: none;
+          // ? .input-group has .input-group-text last/sibling
+          ~ .input-group-text {
+            border-color: $color;
+          }
+        }
+      }
+    }
+  }
+
+  .input-group .form-control,
+  .input-group .form-select {
+    @include form-validation-state-selector($state) {
+      z-index: 3;
+    }
+  }
+}

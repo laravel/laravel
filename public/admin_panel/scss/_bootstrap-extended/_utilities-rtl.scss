@@ -1,0 +1,285 @@
+// stylelint-disable indentation
+
+// Utilities
+
+// stylelint-disable-next-line scss/dollar-variable-default
+$utilities: map-merge(
+  $utilities,
+  (
+    'align': null,
+    'overflow': null,
+    'display': null,
+    'shadow': null,
+    'position': null,
+    'top': null,
+    'bottom': null,
+    'border': null,
+    'border-top': null,
+    'border-bottom': null,
+    'border-color': null,
+    'border-width': null,
+    'width': null,
+    'max-width': null,
+    'viewport-width': null,
+    'min-viewport-width': null,
+    'height': null,
+    'max-height': null,
+    'viewport-height': null,
+    'min-viewport-height': null,
+    'flex': null,
+    'flex-direction': null,
+    'flex-grow': null,
+    'flex-shrink': null,
+    'flex-wrap': null,
+    'gap': null,
+    'justify-content': null,
+    'align-items': null,
+    'align-content': null,
+    'align-self': null,
+    'order': null,
+    'margin': null,
+    'margin-x': null,
+    'margin-y': null,
+    'margin-top': null,
+    'margin-bottom': null,
+    'negative-margin': null,
+    'negative-margin-x': null,
+    'negative-margin-y': null,
+    'negative-margin-top': null,
+    'negative-margin-bottom': null,
+    'padding': null,
+    'padding-x': null,
+    'padding-y': null,
+    'padding-top': null,
+    'padding-bottom': null,
+    'font-family': null,
+    'font-size': null,
+    'font-style': null,
+    'font-weight': null,
+    'line-height': null,
+    'text-decoration': null,
+    'text-transform': null,
+    'white-space': null,
+    'word-wrap': null,
+    'color': null,
+    'background-color': null,
+    'transparent': null,
+    'gradient': null,
+    'user-select': null,
+    'pointer-events': null,
+    'rounded': null,
+    'rounded-top': null,
+    'rounded-bottom': null,
+    'visibility': null,
+    'opacity': null,
+    'flex-basis': null,
+    'cursor': null,
+    // scss-docs-start utils-float
+    'float':
+      (
+        responsive: true,
+        property: float,
+        values: (
+          start: right,
+          end: left,
+          none: none
+        )
+      ),
+    // scss-docs-end utils-float
+    // scss-docs-start utils-position
+    'end':
+      (
+        property: left,
+        class: end,
+        values: $position-values
+      ),
+    'start': (
+      property: right,
+      class: start,
+      values: $position-values
+    ),
+    'translate-middle': (
+      property: transform,
+      class: translate-middle,
+      values: (
+        null: translate(50%, -50%),
+        x: translateX(50%),
+        y: translateY(-50%)
+      )
+    ),
+    // scss-docs-end utils-position
+    // scss-docs-start utils-borders
+    'border-end':
+      (
+        property: border-left,
+        class: border-end,
+        values: (
+          null: $border-width solid $border-color,
+          0: 0
+        )
+      ),
+    'border-start': (
+      property: border-right,
+      class: border-start,
+      values: (
+        null: $border-width solid $border-color,
+        0: 0
+      )
+    ),
+    // scss-docs-end utils-borders
+    // scss-docs-start utils-text
+    'text-align':
+      (
+        responsive: true,
+        property: text-align,
+        class: text,
+        values: (
+          start: right,
+          end: left,
+          center: center
+        )
+      ),
+    // scss-docs-end utils-text
+    // scss-docs-start utils-border-radius
+    'rounded-end':
+      (
+        property: border-top-left-radius border-bottom-left-radius,
+        class: rounded-end,
+        values: (
+          null: $border-radius
+        )
+      ),
+    'rounded-start': (
+      property: border-bottom-right-radius border-top-right-radius,
+      class: rounded-start,
+      values: (
+        null: $border-radius
+      )
+    ),
+    'rounded-start-top': (
+      property: border-top-right-radius,
+      class: rounded-start-top,
+      values: (
+        null: $border-radius
+      )
+    ),
+    'rounded-start-bottom': (
+      property: border-bottom-right-radius,
+      class: rounded-start-bottom,
+      values: (
+        null: $border-radius
+      )
+    ),
+    'rounded-end-top': (
+      property: border-top-left-radius,
+      class: rounded-end-top,
+      values: (
+        null: $border-radius
+      )
+    ),
+    'rounded-end-bottom': (
+      property: border-bottom-left-radius,
+      class: rounded-end-bottom,
+      values: (
+        null: $border-radius
+      )
+    ),
+    // scss-docs-end utils-border-radius
+    // Margin utilities
+    // scss-docs-start utils-spacing
+    'margin-end':
+      (
+        responsive: true,
+        property: margin-left,
+        class: me,
+        values:
+          map-merge(
+            $spacers,
+            (
+              auto: auto
+            )
+          )
+      ),
+    'margin-start': (
+      responsive: true,
+      property: margin-right,
+      class: ms,
+      values:
+        map-merge(
+          $spacers,
+          (
+            auto: auto
+          )
+        )
+    ),
+    // Negative margin utilities
+    'negative-margin-end':
+      (
+        responsive: true,
+        property: margin-left,
+        class: me,
+        values: $negative-spacers
+      ),
+    'negative-margin-start': (
+      responsive: true,
+      property: margin-right,
+      class: ms,
+      values: $negative-spacers
+    ),
+    // Padding utilities
+    'padding-end':
+      (
+        responsive: true,
+        property: padding-left,
+        class: pe,
+        values: $spacers
+      ),
+    'padding-start': (
+      responsive: true,
+      property: padding-right,
+      class: ps,
+      values: $spacers
+    ),
+    // scss-docs-end utils-spacing
+    // Custom Utilities
+    // *******************************************************************************
+    // scss-docs-start utils-rotate
+    'rotate':
+      (
+        property: transform,
+        class: rotate,
+        values: (
+          0: rotate(0deg),
+          90: rotate(-90deg),
+          180: rotate(-180deg),
+          270: rotate(-270deg),
+          n90: rotate(90deg),
+          n180: rotate(180deg),
+          n270: rotate(270deg)
+        )
+      ),
+    // scss-docs-end utils-rotate
+    // scss-docs-start utils-scaleX
+    'scaleX':
+      (
+        property: transform,
+        class: scaleX,
+        values: (
+          n1: scaleX(1),
+          n1-rtl: scaleX(-1)
+        )
+      ),
+    // scss-docs-end utils-scaleX
+    // scss-docs-start utils-scaleY
+    'scaleY':
+      (
+        property: transform,
+        class: scaleY,
+        values: (
+          n1: scaleY(1),
+          n1-rtl: scaleY(-1)
+        )
+      )
+      // scss-docs-end utils-scaleY
+  )
+);

@@ -1,0 +1,28 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+@import '../../node_modules/jkanban/dist/jkanban';
+
+// Light layout
+@if $enable-light-style {
+  .light-style {
+    .kanban-board {
+      background: light.$border-color;
+    }
+    .kanban-item {
+      background: light.$card-bg;
+    }
+  }
+}
+
+// Dark layout
+@if $enable-dark-style {
+  .dark-style {
+    .kanban-board {
+      background: dark.$border-color;
+    }
+    .kanban-item {
+      background: dark.$card-bg;
+    }
+  }
+}

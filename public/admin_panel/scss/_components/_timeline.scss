@@ -1,0 +1,477 @@
+// Timeline
+// *******************************************************************************
+
+@import '../../scss/_custom-variables/libs';
+
+.timeline {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  list-style: none;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    height: 100%;
+    width: 1px;
+    border: 0;
+    border-left: 1px solid $timeline-border-color;
+    content: '';
+  }
+
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    > *:first-child {
+      margin-right: 0.5rem;
+    }
+    // d-flex justify-content-between flex-sm-row flex-column
+  }
+  // End Indicator
+  .timeline-end-indicator {
+    position: absolute;
+    bottom: -1.35rem;
+    left: -0.65rem;
+
+    i {
+      font-size: $timeline-end-indicator-font-size;
+      color: $timeline-border-color;
+    }
+  }
+
+  // Label
+  .timeline-label {
+    position: relative;
+    z-index: 2;
+    display: block;
+    text-align: left;
+    margin-left: -1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  // Timeline Border Types
+  @each $type, $style in $timeline-line-border-styles {
+    &.timeline-#{$type} {
+      @include template-timeline-border-style($style);
+    }
+  }
+
+  // Timeline Item
+  .timeline-item {
+    position: relative;
+    padding-left: 3rem;
+
+    .timeline-event {
+      position: relative;
+      top: -1rem;
+      width: 100%;
+      min-height: $timeline-item-min-height;
+      background-color: $timeline-item-bg-color;
+      border-radius: $timeline-item-border-radius;
+      padding: $timeline-item-padding-y $timeline-item-padding-x;
+
+      &:before {
+        position: absolute;
+        top: 0.75rem;
+        left: 32px;
+        right: 100%;
+        width: 0;
+        height: 0;
+        border-top: 1rem solid transparent;
+        border-right: 1rem solid;
+        border-left: 0 solid;
+        border-bottom: 1rem solid transparent;
+        border-left-color: $timeline-item-bg-color;
+        border-right-color: $timeline-item-bg-color;
+        margin-left: -3rem;
+        content: '';
+      }
+
+      &:after {
+        position: absolute;
+        top: 0.75rem;
+        left: -17px;
+        width: 0;
+        height: 0;
+        border-top: 1rem solid transparent;
+        border-right: 1rem solid;
+        border-left: 0 solid;
+        border-bottom: 1rem solid transparent;
+        border-left-color: $timeline-item-bg-color;
+        border-right-color: $border-color;
+        z-index: -1;
+        // content: '';
+      }
+
+      &.timeline-event-shadow {
+        box-shadow: $timeline-event-shadow !important;
+      }
+
+      .timeline-event-time {
+        position: absolute;
+        top: 1.2rem;
+        font-size: $timeline-event-time-size;
+        color: $timeline-event-time-color;
+      }
+    }
+
+    // Timeline indicator with icon when use colored timeline
+    .timeline-indicator {
+      position: absolute;
+      left: -0.6875rem;
+      top: 0;
+      z-index: 2;
+      display: block;
+      height: $timeline-indicator-size;
+      width: $timeline-indicator-size;
+      text-align: center;
+      border-radius: 50%;
+      border: 2px solid $timeline-point-indicator-color;
+      background-color: $body-bg !important;
+      // Icons
+      i {
+        color: $timeline-point-indicator-color;
+        font-size: $timeline-item-icon-font-size;
+        vertical-align: baseline;
+      }
+    }
+
+    // Timeline Point Indicator
+    .timeline-point {
+      position: absolute;
+      left: -0.312rem;
+      top: 0;
+      z-index: 2;
+      display: block;
+      height: $timeline-point-size;
+      width: $timeline-point-size;
+      border-radius: 50%;
+      background-color: $timeline-point-indicator-color;
+    }
+
+    // Transparent Timeline Item
+    &.timeline-item-transparent {
+      .timeline-event {
+        top: -1.4rem;
+        background-color: transparent;
+        @include ltr-style {
+          padding-left: 0;
+        }
+
+        &.timeline-event-shadow {
+          padding-left: 2rem;
+        }
+
+        &:before {
+          display: none;
+        }
+      }
+    }
+  }
+
+  // Timeline Center
+  &.timeline-center {
+    &:before {
+      left: 50%;
+    }
+
+    &:after {
+      left: 50%;
+      margin-left: -0.55rem;
+    }
+
+    .timeline-end-indicator {
+      bottom: -1.4rem;
+      left: 50%;
+      margin-left: 0.55rem;
+    }
+
+    .timeline-label {
+      float: left;
+      width: 100%;
+      text-align: center;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      margin-left: auto;
+      clear: left;
+
+      & + .timeline-item {
+        margin-top: 2rem;
+      }
+    }
+
+    .timeline-item {
+      width: 50%;
+      clear: both;
+
+      &.timeline-item-left,
+      &:nth-of-type(odd):not(.timeline-item-left):not(.timeline-item-right) {
+        float: left;
+        padding-left: 0;
+        padding-right: 3rem;
+
+        .timeline-event {
+          .timeline-event-time {
+            right: -9.5rem;
+          }
+
+          &:before {
+            right: -15px;
+            left: auto;
+            border-left-width: 16px;
+            border-right-width: 0;
+          }
+        }
+
+        .timeline-point {
+          left: 100%;
+        }
+      }
+
+      &.timeline-item-right,
+      &:nth-of-type(even):not(.timeline-item-left):not(.timeline-item-right) {
+        float: right;
+
+        .timeline-event-time {
+          left: -9.5rem;
+        }
+
+        .timeline-point {
+          left: 0;
+        }
+      }
+
+      .timeline-point {
+        left: 50%;
+        margin-left: -0.6875rem;
+      }
+      .timeline-point-indicator {
+        left: 50%;
+        margin-left: -0.3125rem;
+      }
+    }
+  }
+}
+
+// RTL
+@include rtl-only {
+  .timeline:not(.timeline-center) {
+    &:before {
+      right: -1px;
+      left: auto;
+    }
+
+    &:after {
+      left: auto;
+      margin-right: -0.65rem;
+    }
+
+    .timeline-end-indicator {
+      left: auto;
+      right: -0.75rem;
+    }
+
+    .timeline-label {
+      text-align: right;
+      margin-right: -1.5rem;
+    }
+
+    .timeline-item {
+      padding-left: 0;
+      padding-right: 3rem;
+
+      .timeline-event {
+        &:before {
+          right: -1rem;
+          left: auto;
+          border-left-width: 1rem;
+          border-right-width: 0;
+        }
+      }
+
+      &.timeline-item-transparent {
+        .timeline-event {
+          padding-right: 0;
+        }
+      }
+
+      .timeline-point {
+        right: -0.375rem;
+        left: auto;
+      }
+      .timeline-indicator {
+        right: -0.75rem;
+        left: auto;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .timeline.timeline-center .timeline-item {
+    &.timeline-item-left,
+    &:nth-of-type(odd):not(.timeline-item-left):not(.timeline-item-right) {
+      .timeline-indicator {
+        left: calc(100% - calc(#{$timeline-indicator-size}/ 2));
+      }
+      .timeline-event {
+        &:after {
+          transform: rotate(180deg);
+          right: -16px;
+          left: auto;
+        }
+      }
+    }
+  }
+}
+// To Change Timeline Center's Alignment om small Screen
+@include media-breakpoint-down(md) {
+  .timeline {
+    &.timeline-center {
+      &:before {
+        left: 0;
+      }
+
+      &:after {
+        left: 0;
+      }
+
+      .timeline-end-indicator {
+        left: -2px;
+      }
+
+      .timeline-label {
+        text-align: left;
+      }
+
+      .timeline-item {
+        float: left !important;
+        width: 100%;
+        padding-left: 3rem !important;
+        padding-right: 0 !important;
+
+        .timeline-event {
+          &:before {
+            right: 100% !important;
+            border-right-width: 1rem !important;
+            border-left-width: 0 !important;
+          }
+
+          .timeline-event-time {
+            top: -1.7rem;
+            left: 0 !important;
+            right: auto !important;
+          }
+        }
+
+        .timeline-point {
+          left: -0.7rem !important;
+          margin-left: 0 !important;
+        }
+        .timeline-point-indicator {
+          left: 0 !important;
+          margin-left: -0.3125rem !important;
+        }
+      }
+    }
+  }
+
+  // RTL: Timeline Center's Alignment om small Screen
+  @include rtl-only {
+    .timeline {
+      &.timeline-center {
+        &:before {
+          left: auto;
+          right: 0;
+        }
+
+        &:after {
+          right: -0.55rem;
+          left: auto;
+        }
+
+        .timeline-end-indicator {
+          left: auto;
+          right: -12px;
+        }
+
+        .timeline-label {
+          text-align: right;
+        }
+
+        .timeline-item {
+          float: right !important;
+          width: 100%;
+          padding-right: 3rem !important;
+          padding-left: 0 !important;
+
+          .timeline-event {
+            &:before {
+              left: 100% !important;
+              right: -1rem !important;
+              border-left-width: 1rem !important;
+              border-right-width: 0 !important;
+            }
+
+            &:after {
+              transform: rotate(180deg);
+              right: -17px;
+              left: auto;
+            }
+
+            .timeline-event-time {
+              top: -1.2rem;
+              right: 0 !important;
+              left: auto !important;
+            }
+          }
+
+          .timeline-point {
+            right: -0.7rem !important;
+            margin-right: 0 !important;
+          }
+          .timeline-point-indicator {
+            right: 0 !important;
+            margin-right: -0.3125rem !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .timeline .timeline-item .timeline-indicator {
+    @include rtl-style {
+      left: auto;
+      right: -0.6875rem;
+    }
+  }
+}
+@include media-breakpoint-down(sm) {
+  .timeline {
+    .timeline-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}
+// For Contextual Colors
+@each $color, $value in $theme-colors {
+  @if $color !=primary and $color !=light {
+    @include template-timeline-variant('.timeline-item-#{$color}', if($color== 'dark' and $dark-style, $light, $value));
+    @include template-timeline-point-variant(
+      '.timeline-point-#{$color}',
+      if($color== 'dark' and $dark-style, $light, $value)
+    );
+    @include template-timeline-indicator-variant(
+      '.timeline-indicator-#{$color}',
+      if($color== 'dark' and $dark-style, $light, $value)
+    );
+  }
+}

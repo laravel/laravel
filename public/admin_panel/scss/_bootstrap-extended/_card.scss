@@ -1,0 +1,275 @@
+// Cards
+// *******************************************************************************
+
+.card {
+  background-clip: padding-box;
+  box-shadow: $card-box-shadow;
+
+  .card-link {
+    display: inline-block;
+  }
+
+  // ! FIX: to remove padding top from first card-body if used with card-header
+  .card-header + .card-body,
+  .card-header + .card-content > .card-body:first-of-type {
+    padding-top: 0;
+  }
+}
+
+// Card action
+.card-action {
+  // Expand card(fullscreen)
+  &.card-fullscreen {
+    display: block;
+    z-index: 9999;
+    position: fixed;
+    width: 100% !important;
+    height: 100% !important;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow: auto;
+    border: none;
+    border-radius: 0;
+  }
+  // Alert
+  .card-alert {
+    position: absolute;
+    width: 100%;
+    z-index: 999;
+    .alert {
+      border-bottom-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
+  }
+  // Collapsed
+  .card-header {
+    &.collapsed {
+      border-bottom: 0;
+    }
+  }
+
+  // Card header
+  .card-header {
+    display: flex;
+    line-height: $component-line-height;
+    .card-action-title {
+      flex-grow: 1;
+      margin-right: 0.5rem;
+    }
+    .card-action-element {
+      flex-shrink: 0;
+      background-color: inherit;
+      top: 1rem;
+      right: 1.5rem;
+      color: $body-color;
+      a {
+        color: $body-color;
+        .collapse-icon::after {
+          margin-top: -0.15rem;
+        }
+      }
+    }
+  }
+  // Block UI loader
+  .blockUI {
+    .sk-fold {
+      margin: 0 auto;
+    }
+    h5 {
+      color: $body-color;
+      margin: 1rem 0 0 0;
+    }
+  }
+}
+
+// Card inner borders
+.card-header,
+.card-footer {
+  border-color: $card-inner-border-color;
+}
+.card hr {
+  color: $card-inner-border-color;
+}
+
+.card .row-bordered > [class*=' col '],
+.card .row-bordered > [class^='col '],
+.card .row-bordered > [class*=' col-'],
+.card .row-bordered > [class^='col-'],
+.card .row-bordered > [class='col'] {
+  .card .row-bordered > [class$=' col'],
+  &::before,
+  &::after {
+    border-color: $card-inner-border-color;
+  }
+}
+
+//Card header elements
+.card-header.header-elements,
+.card-title.header-elements {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.card-header {
+  &.card-header-elements {
+    padding-top: $card-spacer-y * 0.5;
+    padding-bottom: $card-spacer-y * 0.5;
+  }
+  .card-header-elements {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+}
+
+.card-header-elements,
+.card-title-elements {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  & + &,
+  > * + * {
+    margin-left: 0.25rem;
+    @include rtl-style {
+      margin-left: 0;
+      margin-right: 0.25rem;
+    }
+  }
+}
+
+// * Horizontal card radius issue fix
+.card-img-left {
+  @include border-start-radius($card-inner-border-radius);
+  @include border-end-radius(0);
+  @include media-breakpoint-down(md) {
+    @include border-top-radius($card-inner-border-radius);
+    @include border-bottom-radius(0);
+  }
+}
+
+.card-img-right {
+  @include border-end-radius($card-inner-border-radius);
+  @include border-start-radius(0);
+  @include media-breakpoint-down(md) {
+    @include border-bottom-radius($card-inner-border-radius);
+    @include border-top-radius(0);
+  }
+}
+
+// List groups
+// *******************************************************************************
+
+.card > .list-group .list-group-item {
+  padding-left: $card-spacer-x;
+  padding-right: $card-spacer-x;
+}
+
+// Card Statistics specific separator
+// *******************************************************************************
+.card {
+  .card-separator {
+    @include ltr-style {
+      border-right: $border-width solid $card-border-color;
+    }
+
+    @include rtl-style {
+      border-left: $border-width solid $card-border-color;
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .card {
+    .card-separator {
+      border-bottom: $border-width solid $card-border-color;
+      padding-bottom: $card-spacer-y;
+
+      @include ltr-style {
+        border-right-width: 0 !important;
+      }
+
+      @include rtl-style {
+        border-left-width: 0 !important;
+      }
+    }
+  }
+}
+// RTL
+// *******************************************************************************
+
+@include rtl-only {
+  .card-link + .card-link {
+    margin-right: $card-spacer-x;
+    margin-left: 0;
+  }
+
+  // Card advance
+  .card-action {
+    .card-header {
+      .card-action-title {
+        margin-left: 0.5rem;
+        margin-right: 0;
+      }
+
+      .card-action-element,
+      .card-action-element-toggle {
+        left: 1.5rem;
+        right: auto;
+      }
+    }
+  }
+  // Card group
+  @include media-breakpoint-up(sm) {
+    .card-group > .card {
+      border: $card-border-width solid $card-border-color;
+      border-radius: $card-border-radius;
+
+      .card-img-top,
+      .card-header:first-child {
+        @include border-top-radius($card-inner-border-radius);
+      }
+
+      .card-img-bottom,
+      .card-footer:last-child {
+        @include border-bottom-radius($card-inner-border-radius);
+      }
+
+      + .card {
+        border-right: 0;
+      }
+    }
+
+    // Handle rounded corners
+    @if $enable-rounded {
+      .card-group > .card {
+        &:not(:first-child) {
+          @include border-end-radius(0);
+
+          .card-img-top,
+          .card-header {
+            border-top-right-radius: 0;
+          }
+          .card-img-bottom,
+          .card-footer {
+            border-bottom-right-radius: 0;
+          }
+        }
+        &:not(:last-child) {
+          @include border-start-radius(0);
+
+          .card-img-top,
+          .card-header {
+            border-top-left-radius: 0;
+          }
+          .card-img-bottom,
+          .card-footer {
+            border-bottom-left-radius: 0;
+          }
+        }
+      }
+    }
+  }
+}

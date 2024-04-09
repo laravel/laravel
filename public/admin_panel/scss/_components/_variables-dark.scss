@@ -1,0 +1,22 @@
+// Dark Layout Variables
+
+// ! _variable-dark.scss file overrides _variable.scss file.
+
+// Avatar
+// *******************************************************************************
+$avatar-group-border: $card-bg !default;
+
+// switch
+// *******************************************************************************
+$switch-off-color: $white !default;
+$switch-off-bg: rgba-to-hex($gray-800, $rgba-to-hex-bg) !default;
+$switch-off-border: $switch-off-bg !default;
+
+// Navbar & Footer
+// *******************************************************************************
+$layout-fixed-box-shadow: 6px 4px 30px 0 rgba($black, 0.22) !default;
+
+// Custom Options
+// *******************************************************************************
+
+$custom-option-border-hover-color: rgba-to-hex($gray-700, $rgba-to-hex-bg) !default;

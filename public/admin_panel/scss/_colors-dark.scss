@@ -1,0 +1,136 @@
+@import '_components/include-dark';
+
+// * Custom colors
+// *******************************************************************************
+
+$facebook: #3b5998 !default;
+$twitter: #1da1f2 !default;
+$google-plus: #dd4b39 !default;
+$instagram: #e1306c !default;
+$linkedin: #0077b5 !default;
+$github: #333 !default;
+$dribbble: #ea4c89 !default;
+$pinterest: #cb2027 !default;
+$slack: #4a154b !default;
+$reddit: #ff4500 !default;
+$youtube: #ff0000 !default;
+$vimeo: #1ab7ea !default;
+
+$custom-colors: (
+  'facebook': $facebook,
+  'twitter': $twitter,
+  'google-plus': $google-plus,
+  'instagram': $instagram,
+  'linkedin': $linkedin,
+  'github': $github,
+  'dribbble': $dribbble,
+  'pinterest': $pinterest,
+  'slack': $slack,
+  'reddit': $reddit,
+  'youtube': $youtube,
+  'vimeo': $vimeo
+) !default;
+
+@each $color-name, $color-value in $custom-colors {
+  @include bg-variant('.bg-#{$color-name}', $color-value);
+  @include bg-label-variant('.bg-label-#{$color-name}', $color-value);
+
+  @include template-button-variant('.btn-#{$color-name}', $color-value);
+  @include template-button-label-variant('.btn-label-#{$color-name}', $color-value);
+  @include template-button-outline-variant('.btn-outline-#{$color-name}', $color-value);
+}
+
+// * Bootstrap colors (Uncomment required colors)
+// *******************************************************************************
+
+$bootstrap-colors: (
+  // blue: $blue,
+  // indigo: $indigo,
+  // purple: $purple,
+  // pink: $pink,
+  // orange: $orange,
+  // teal: $teal
+) !default;
+
+@each $color-name, $color-value in $bootstrap-colors {
+  @include bg-variant('.bg-#{$color-name}', $color-value);
+  @include bg-label-variant('.bg-label-#{$color-name}', $color-value);
+
+  .border-#{$color-name} {
+    border-color: $color-value !important;
+  }
+
+  @include template-button-variant('.btn-#{$color-name}', $color-value);
+  @include template-button-label-variant('.btn-label-#{$color-name}', $color-value);
+  @include template-button-outline-variant('.btn-outline-#{$color-name}', $color-value);
+}
+
+// * Buttons
+// *******************************************************************************
+
+@include template-button-variant('.btn-white', $white, $body-color);
+@include template-button-label-variant('.btn-label-white', $white, $body-color);
+@include template-button-outline-variant('.btn-outline-white', $white, $body-color);
+
+// ! ToDo: Custom colors (checkbox & radio)
+// *******************************************************************************
+
+$form-control-colors: (
+  black: #000,
+  white: #fff,
+  silver: #eee,
+  gray: #777,
+  gold: #ffeb3b,
+  pink: #e91e63,
+  red: #f44336
+) !default;
+
+@each $color-name, $color-value in $form-control-colors {
+  @include template-form-check-variant('.form-check-#{$color-name}', $color-value);
+}
+
+// * Navbar
+// *******************************************************************************
+
+@each $color, $value in $theme-colors {
+  @if $color !=primary and $color !=light {
+    @include template-navbar-style('.navbar.bg-#{$color}', $value);
+  }
+}
+
+@include template-navbar-style('.navbar.bg-white', #fff, $color: rgba(0, 0, 0, 0.35), $active-color: #4e5155);
+@include template-navbar-style(
+  '.navbar.bg-light',
+  rgba-to-hex($light, $rgba-to-hex-bg),
+  $color: $body-color,
+  $active-color: $headings-color
+);
+@include template-navbar-style(
+  '.navbar.bg-lighter',
+  rgba-to-hex($gray-50, $rgba-to-hex-bg),
+  $color: $body-color,
+  $active-color: $headings-color
+);
+
+// * Footer
+// *******************************************************************************
+
+@each $color, $value in $theme-colors {
+  @if $color !=primary and $color !=light {
+    @include template-footer-style('.footer.bg-#{$color}', $value);
+  }
+}
+
+@include template-footer-style('.footer.bg-white', #fff, $color: rgba(0, 0, 0, 0.35), $active-color: #4e5155);
+@include template-footer-style(
+  '.footer.bg-light',
+  rgba-to-hex($light, $rgba-to-hex-bg),
+  $color: $body-color,
+  $active-color: $headings-color
+);
+@include template-footer-style(
+  '.footer.bg-lighter',
+  rgba-to-hex($gray-50, $rgba-to-hex-bg),
+  $color: $body-color,
+  $active-color: $headings-color
+);

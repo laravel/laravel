@@ -1,0 +1,132 @@
+// Button groups
+// *******************************************************************************
+
+// * Split button
+// *******************************************************************************
+
+.dropdown-toggle-split,
+.btn-lg + .dropdown-toggle-split,
+.btn-group-lg > .btn + .dropdown-toggle-split,
+.input-group-lg .btn + .dropdown-toggle-split,
+.btn-xl + .dropdown-toggle-split,
+.btn-group-xl > .btn + .dropdown-toggle-split {
+  padding-right: 0.7em;
+  padding-left: 0.7em;
+}
+
+.btn-sm + .dropdown-toggle-split,
+.btn-group-sm > .btn + .dropdown-toggle-split,
+.input-group-sm .btn + .dropdown-toggle-split {
+  padding-right: 0.6em;
+  padding-left: 0.6em;
+}
+
+.btn-xs + .dropdown-toggle-split,
+.btn-group-xs > .btn + .dropdown-toggle-split {
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+}
+
+// * Sizing
+// *******************************************************************************
+
+.btn-group-xs > .btn {
+  @extend .btn-xs;
+}
+
+.btn-group-xl > .btn {
+  @extend .btn-xl;
+}
+
+// Button groups border
+
+.btn-group > .btn-group:first-child > .btn:not([class*='btn-outline-']):first-child,
+.input-group > .btn:not([class*='btn-outline-']):first-child,
+:not(.btn-group):not(.input-group) > .btn-group > .btn:not([class*='btn-outline-']):first-child,
+.input-group > .btn-group:first-child > .btn:not([class*='btn-outline-']):first-child {
+  @include ltr-style {
+    border-left-color: transparent;
+  }
+  @include rtl-style {
+    border-right-color: transparent;
+  }
+}
+
+.btn-group > .btn-group:last-child > .btn:not([class*='btn-outline-']):last-of-type,
+.input-group > .btn:not([class*='btn-outline-']):last-of-type,
+:not(.btn-group):not(.input-group) > .btn-group > .btn:not([class*='btn-outline-']):last-of-type,
+.input-group > .btn-group:last-child > .btn:not([class*='btn-outline-']):last-of-type {
+  @include ltr-style {
+    border-right-color: transparent;
+  }
+  @include rtl-style {
+    border-left-color: transparent;
+  }
+}
+
+// * RTL
+// *******************************************************************************
+
+@include rtl-only {
+  .btn-group .btn[class] {
+    @include border-radius($border-radius);
+  }
+
+  .btn-group .btn-xs[class],
+  .btn-group-xs .btn[class] {
+    @include border-radius($border-radius-xs);
+  }
+
+  .btn-group .btn-sm[class],
+  .btn-group-sm .btn[class] {
+    @include border-radius($border-radius-sm);
+  }
+
+  .btn-group .btn-lg[class],
+  .btn-group-lg .btn[class] {
+    @include border-radius($border-radius-lg);
+  }
+
+  .btn-group .btn-xl[class],
+  .btn-group-xl .btn[class] {
+    @include border-radius($border-radius-xl);
+  }
+
+  .btn-group {
+    // Prevent double borders when buttons are next to each other
+    > .btn:not(:first-child),
+    > .btn-group:not(:first-child) {
+      margin-left: 0;
+      margin-right: -$btn-border-width;
+    }
+
+    // Reset rounded corners
+    > .btn:not(:last-child):not(.dropdown-toggle),
+    > .btn-group:not(:last-child) > .btn {
+      @include border-start-radius(0);
+    }
+
+    // The left radius should be 0 if the button is:
+    // - the "third or more" child
+    // - the second child and the previous element isn't `.btn-check` (making it the first child visually)
+    // - part of a btn-group which isn't the first child
+    > .btn:nth-child(n + 3),
+    > :not(.btn-check) + .btn,
+    > .btn-group:not(:first-child) > .btn {
+      @include border-end-radius(0);
+    }
+  }
+
+  .btn-group-vertical {
+    // Reset rounded corners
+    > .btn:not(:last-child):not(.dropdown-toggle),
+    > .btn-group:not(:last-child) > .btn {
+      @include border-bottom-radius(0);
+    }
+
+    > .btn ~ .btn,
+    > .btn-group:not(:first-child) > .btn {
+      @include border-top-radius(0);
+    }
+  }
+}

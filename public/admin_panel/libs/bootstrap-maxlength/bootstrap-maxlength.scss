@@ -1,0 +1,46 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+.bootstrap-maxlength {
+  line-height: 1;
+  text-align: center;
+  vertical-align: baseline;
+}
+
+// light layout
+@if $enable-light-style {
+  .light-style {
+    .bootstrap-maxlength {
+      background: light.$gray-200;
+      font-size: light.$badge-font-size;
+      font-weight: light.$badge-font-weight;
+      padding: light.$badge-padding-y light.$badge-padding-x;
+
+      @include light.border-bottom-radius(light.$badge-border-radius);
+
+      &.label-danger {
+        color: light.color-contrast(map-get(light.$theme-colors, danger));
+        background: map-get(light.$theme-colors, danger);
+      }
+    }
+  }
+}
+
+// dark layout
+@if $enable-dark-style {
+  .dark-style {
+    .bootstrap-maxlength {
+      background: dark.$body-bg;
+      padding: dark.$badge-padding-y dark.$badge-padding-x;
+      font-size: dark.$badge-font-size;
+      font-weight: dark.$badge-font-weight;
+
+      @include light.border-bottom-radius(dark.$badge-border-radius);
+
+      &.label-danger {
+        color: dark.color-contrast(map-get(dark.$theme-colors, danger));
+        background: map-get(dark.$theme-colors, danger);
+      }
+    }
+  }
+}

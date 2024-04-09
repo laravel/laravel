@@ -1,0 +1,121 @@
+// Typeahead
+// *******************************************************************************
+
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+
+.twitter-typeahead {
+  display: block !important;
+
+  .tt-menu {
+    float: left;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
+    list-style: none;
+    background-clip: padding-box;
+    display: none;
+
+    @include app-rtl {
+      float: right;
+      left: auto !important;
+      right: 0 !important;
+      text-align: right;
+    }
+
+    .tt-suggestion {
+      text-align: inherit;
+      border: 0;
+      width: 100%;
+      display: block;
+      white-space: nowrap;
+      background: none;
+      clear: both;
+      cursor: pointer;
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+  .tt-hint {
+    color: #999;
+  }
+  .tt-input {
+    @include app-rtl {
+      direction: rtl;
+    }
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    .twitter-typeahead {
+      .tt-menu {
+        min-width: light.$dropdown-min-width;
+        padding: light.$dropdown-padding-y 0;
+        font-size: light.$font-size-base;
+        // border: light.$dropdown-border-width solid light.$dropdown-border-color;
+        z-index: light.$zindex-dropdown;
+        margin: light.$dropdown-spacer 0;
+        color: light.$body-color;
+        box-shadow: light.$dropdown-box-shadow;
+        background-color: light.$dropdown-bg;
+        @include light.border-radius(light.$border-radius);
+      }
+      .tt-hint {
+        color: light.$input-placeholder-color;
+      }
+      .tt-suggestion {
+        font-weight: light.$font-weight-normal;
+        color: light.$dropdown-link-color;
+        padding: light.$dropdown-item-padding-y light.$dropdown-item-padding-x;
+
+        &:hover,
+        &:focus {
+          text-decoration: none;
+          color: light.$dropdown-link-hover-color;
+          background-color: light.$dropdown-link-hover-bg;
+        }
+      }
+    }
+  }
+}
+
+// Dark Style
+@if $enable-dark-style {
+  .dark-style {
+    .twitter-typeahead {
+      .tt-menu {
+        color: dark.$body-color;
+        min-width: dark.$dropdown-min-width;
+        padding: dark.$dropdown-padding-y 0;
+        margin: dark.$dropdown-spacer 0;
+        box-shadow: dark.$dropdown-box-shadow;
+        // border: dark.$dropdown-border-width solid dark.$dropdown-border-color;
+        font-size: dark.$font-size-base;
+        background-color: dark.$dropdown-bg;
+        z-index: dark.$zindex-dropdown;
+        @include dark.border-radius(dark.$border-radius);
+        .tt-suggestion {
+          font-weight: dark.$font-weight-normal;
+          color: dark.$dropdown-link-color;
+          padding: dark.$dropdown-item-padding-y dark.$dropdown-item-padding-x;
+
+          &:hover,
+          &:focus {
+            text-decoration: none;
+            color: dark.$dropdown-link-hover-color;
+            background-color: dark.$dropdown-link-hover-bg;
+          }
+        }
+      }
+      .tt-hint {
+        color: dark.$input-placeholder-color;
+      }
+    }
+  }
+}

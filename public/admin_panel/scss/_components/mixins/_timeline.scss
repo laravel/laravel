@@ -1,0 +1,46 @@
+// Timeline
+// *******************************************************************************
+
+// Timeline point
+@mixin template-timeline-point-variant($point-color, $background) {
+  .timeline {
+    #{$point-color} {
+      background-color: $background !important;
+      box-shadow: 0 0 0 0.1875rem rgba($background, 0.16);
+    }
+  }
+}
+
+// Timeline Theme
+@mixin template-timeline-variant($item-color, $background) {
+  .timeline {
+    #{$item-color} {
+      .timeline-event {
+        background-color: rgba($background, 0.1);
+
+        &:before {
+          border-left-color: rgba($background, 0.1) !important;
+          border-right-color: rgba($background, 0.1) !important;
+        }
+      }
+    }
+  }
+}
+
+@mixin template-timeline-indicator-variant($indicator-color, $background) {
+  .timeline {
+    #{$indicator-color} {
+      border-color: $background !important;
+      i {
+        color: $background !important;
+      }
+    }
+  }
+}
+
+// Timeline Border Style
+@mixin template-timeline-border-style($border-style) {
+  &:before {
+    border-style: $border-style;
+  }
+}

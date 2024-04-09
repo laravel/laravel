@@ -1,0 +1,146 @@
+// Pagination
+// *******************************************************************************
+
+// Pagination Mixins
+@each $color, $value in $theme-colors {
+  @if $color != primary and $color != light {
+    @include template-pagination-variant('.pagination-#{$color}', $value);
+  }
+}
+
+// Pagination next, prev, first & last css padding
+.page-item {
+  &:not(.first, .last, .next, .prev, .previous) {
+    background-color: $pagination-bg;
+    &:not(.active, :hover, :focus) {
+      .page-link {
+        background-color: transparent;
+      }
+    }
+  }
+  &.first,
+  &.last,
+  &.next,
+  &.prev,
+  &.previous {
+    .page-link {
+      padding-top: $pagination-padding-y - 0.105rem;
+      padding-bottom: $pagination-padding-y - 0.105rem;
+    }
+  }
+  &.disabled {
+    .page-link {
+      border-color: $pagination-border-color;
+    }
+  }
+}
+
+// Base pagination active, focus, hover & spacing styling mixin
+@include template-pagination-spacing-radius(
+  '.pagination',
+  $pagination-border-radius,
+  $font-size-base,
+  $pagination-padding-y,
+  $pagination-margin-end
+);
+@include template-pagination-spacing-radius(
+  '.pagination.pagination-sm',
+  $pagination-border-radius-sm,
+  $font-size-sm,
+  $pagination-padding-y-sm,
+  $pagination-margin-end-sm
+);
+@include template-pagination-spacing-radius(
+  '.pagination.pagination-lg',
+  $pagination-border-radius-lg,
+  $font-size-lg,
+  $pagination-padding-y-lg,
+  $pagination-margin-end-lg
+);
+
+// Pagination basic style
+.page-link,
+.page-link > a {
+  line-height: $pagination-line-height;
+  text-align: center;
+  min-width: calc(
+    #{'#{($font-size-base * $pagination-line-height) + ($pagination-padding-y * 2)} + #{$pagination-border-width * 2}'}
+  );
+
+  &:focus {
+    color: $pagination-hover-color;
+  }
+}
+
+.page-link.btn-primary {
+  box-shadow: none !important;
+}
+
+// Sizing
+// *******************************************************************************
+
+// Pagination Large
+.pagination-lg .page-link,
+.pagination-lg > li > a:not(.page-link) {
+  min-width: calc(
+    #{'#{($font-size-lg * $pagination-line-height) + ($pagination-padding-y-lg * 2)} + #{$pagination-border-width * 2}'}
+  );
+}
+.pagination-lg > .page-item {
+  &.first,
+  &.last,
+  &.next,
+  &.prev,
+  &.previous {
+    .page-link {
+      padding-top: $pagination-padding-y-lg - 0.075rem;
+      padding-bottom: $pagination-padding-y-lg - 0.075rem;
+    }
+  }
+}
+
+// Pagination Small
+.pagination-sm .page-link,
+.pagination-sm > li > a:not(.page-link) {
+  min-width: calc(
+    #{'#{($font-size-sm * $pagination-line-height) + ($pagination-padding-y-sm * 2)} + #{$pagination-border-width * 2}'}
+  );
+  .tf-icon {
+    font-size: $font-size-base;
+  }
+}
+.pagination-sm > .page-item {
+  &.first,
+  &.last,
+  &.next,
+  &.prev,
+  &.previous {
+    .page-link {
+      padding-top: $pagination-padding-y-sm - 0.065rem;
+      padding-bottom: $pagination-padding-y-sm - 0.065rem;
+    }
+  }
+}
+
+// RTL pagination
+// *******************************************************************************
+
+@include rtl-only {
+  .pagination {
+    padding-right: 0;
+  }
+
+  .page-item {
+    &.first,
+    &.last,
+    &.next,
+    &.prev,
+    &.previous {
+      .page-link {
+        i {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+}

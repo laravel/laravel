@@ -1,0 +1,185 @@
+// List groups
+// *******************************************************************************
+
+// List Group Mixin
+@each $color, $value in $theme-colors {
+  @if $color != primary and $color != light {
+    @include template-list-group-item-variant('.list-group-item-#{$color}', $value);
+    @include template-list-group-timeline-variant('.list-group-timeline-#{$color}', $value);
+  }
+}
+
+.list-group {
+  // Timeline CSS
+  &.list-group-timeline {
+    position: relative;
+    &:before {
+      background-color: $border-color;
+      position: absolute;
+      content: '';
+      width: 1px;
+      height: 100%;
+      top: 0;
+      bottom: 0;
+      left: 0.2rem;
+    }
+    .list-group-item {
+      border: none;
+      padding-left: 1.25rem;
+      &:before {
+        position: absolute;
+        display: block;
+        content: '';
+        width: 7px;
+        height: 7px;
+        left: 0;
+        top: 50%;
+        margin-top: -3.5px;
+        border-radius: 100%;
+      }
+    }
+  }
+
+  .list-group-item.active {
+    h1,
+    .h1,
+    h2,
+    .h2,
+    h3,
+    .h3,
+    h4,
+    .h4,
+    h5,
+    .h5,
+    h6,
+    .h6 {
+      color: $list-group-active-color;
+    }
+  }
+}
+
+// RTL
+// *******************************************************************************
+
+@include rtl-only {
+  .list-group {
+    padding-right: 0;
+
+    // Timeline RTL List group
+    &.list-group-timeline {
+      &:before {
+        left: auto;
+        right: 0.2rem;
+      }
+      .list-group-item {
+        padding-right: 1.25rem;
+        &:before {
+          left: auto;
+          right: 0;
+        }
+      }
+    }
+    // List group horizontal RTL style
+
+    &.list-group-horizontal {
+      .list-group-item {
+        &:first-child {
+          border-radius: 0.25rem;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+        &:last-child {
+          border-radius: 0.25rem;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          border-left-width: 1px;
+        }
+      }
+    }
+    @include media-breakpoint-up(sm) {
+      &.list-group-horizontal-sm {
+        .list-group-item {
+          &:first-child {
+            border-radius: 0.25rem;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+          &:last-child {
+            border-radius: 0.25rem;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-left-width: 1px;
+          }
+        }
+      }
+    }
+    @include media-breakpoint-up(md) {
+      &.list-group-horizontal-md {
+        .list-group-item {
+          &:first-child {
+            border-radius: 0.25rem;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+          &:last-child {
+            border-radius: 0.25rem;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-left-width: 1px;
+          }
+        }
+      }
+    }
+    @include media-breakpoint-up(lg) {
+      &.list-group-horizontal-lg {
+        .list-group-item {
+          &:first-child {
+            border-radius: 0.25rem;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+          &:last-child {
+            border-radius: 0.25rem;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-left-width: 1px;
+          }
+        }
+      }
+    }
+    @include media-breakpoint-up(xl) {
+      &.list-group-horizontal-xl {
+        .list-group-item {
+          &:first-child {
+            border-radius: 0.25rem;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+          &:last-child {
+            border-radius: 0.25rem;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-left-width: 1px;
+          }
+        }
+      }
+    }
+    @include media-breakpoint-up(xxl) {
+      &.list-group-horizontal-xxl {
+        .list-group-item {
+          &:first-child {
+            border-radius: 0.25rem;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+          &:last-child {
+            border-radius: 0.25rem;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-left-width: 1px;
+          }
+        }
+      }
+    }
+  }
+}

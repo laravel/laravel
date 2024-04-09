@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-cz" viewBox="0 0 640 480">
+  <defs>
+    <clipPath id="cz-a">
+      <path fill-opacity=".7" d="M-74 0h682.7v512H-74z"/>
+    </clipPath>
+  </defs>
+  <g fill-rule="evenodd" stroke-width="1pt" clip-path="url(#cz-a)" transform="translate(69.4) scale(.94)">
+    <path fill="#e80000" d="M-74 0h768v512H-74z"/>
+    <path fill="#fff" d="M-74 0h768v256H-74z"/>
+    <path fill="#00006f" d="M-74 0l382.7 255.7L-74 511V0z"/>
+  </g>
+</svg>

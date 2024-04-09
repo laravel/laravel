@@ -1,0 +1,88 @@
+// * FAQ
+// *******************************************************************************
+
+@use '../_bootstrap-extended/include' as light;
+@use '../_bootstrap-extended/include-dark' as dark;
+@import '../_custom-variables/pages';
+
+$faq-header-min-height: 270px !default;
+
+.faq-header {
+  position: relative;
+  background-color: rgba(light.$primary, 0.08);
+  min-height: $faq-header-min-height !important;
+  border-radius: light.$border-radius;
+  overflow: hidden;
+
+  &:before {
+    width: 21rem;
+    height: 21rem;
+    content: ' ';
+    position: absolute;
+    top: -151px;
+    background: url('../../../img/pages/auth-top-left.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    @include app-ltr() {
+      left: -135px;
+    }
+    @include app-rtl() {
+      right: -135px;
+      transform: rotate(90deg);
+    }
+  }
+  &:after {
+    width: 10rem;
+    height: 20rem;
+    content: ' ';
+    position: absolute;
+    bottom: -100px;
+    background-image: url('../../../img/pages/auth-right-bottom.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    @include app-ltr() {
+      right: -1.8rem;
+      transform: rotate(45deg);
+    }
+    @include app-rtl() {
+      left: -1.8rem;
+      transform: rotate(135deg);
+    }
+  }
+
+  .input-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: calc(100% - 45%);
+    .input-group-text,
+    .form-control {
+      border-color: transparent;
+    }
+  }
+
+  @include light.media-breakpoint-down(sm) {
+    .input-wrapper {
+      max-width: calc(100% - 30%);
+    }
+  }
+}
+
+.faq-nav-icon {
+  font-size: 1.25rem;
+}
+
+@if $enable-light-style {
+  .light-style {
+    .bg-faq-section {
+      background-color: light.$gray-50;
+    }
+  }
+}
+
+@if $enable-dark-style {
+  .dark-style {
+    .bg-faq-section {
+      background-color: rgba(dark.$gray-500, 0.08);
+    }
+  }
+}

@@ -1,0 +1,52 @@
+@import '../../scss/_bootstrap-extended/functions';
+
+// Light style
+@mixin plyr-theme($background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+
+  .plyr input[type='range']::-ms-fill-lower {
+    background: $background !important;
+  }
+
+  .plyr input[type='range']:active {
+    &::-webkit-slider-thumb {
+      background: $background !important;
+    }
+    &::-moz-range-thumb {
+      background: $background !important;
+    }
+    &::-ms-thumb {
+      background: $background !important;
+    }
+  }
+  .plyr--video .plyr__control.plyr__control--overlaid,
+  .plyr--video .plyr__controls button.tab-focus:focus,
+  .plyr--video .plyr__control[aria-expanded='true'],
+  .plyr--video .plyr__controls button:hover {
+    background: $background !important;
+    color: $color !important;
+  }
+
+  .plyr--audio .plyr__controls button.tab-focus:focus,
+  .plyr--audio .plyr__control[aria-expanded='true'],
+  .plyr--audio .plyr__controls button:hover {
+    background: $background !important;
+    color: $color !important;
+  }
+
+  .plyr__play-large {
+    background: $background !important;
+    color: $color !important;
+  }
+
+  .plyr__progress--played,
+  .plyr__volume--display {
+    color: $background !important;
+  }
+  .plyr--full-ui input[type='range'] {
+    color: $background !important;
+  }
+  .plyr__menu__container .plyr__control[role='menuitemradio'][aria-checked='true']::before {
+    background: $background !important;
+  }
+}

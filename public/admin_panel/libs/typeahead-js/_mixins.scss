@@ -1,0 +1,9 @@
+@import '../../scss/_bootstrap-extended/functions';
+
+@mixin typeahead-theme($background, $color: null) {
+  .tt-suggestion:active,
+  .tt-cursor {
+    background: rgba($background, 0.08) !important;
+    color: $background !important;
+  }
+}

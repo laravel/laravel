@@ -1,0 +1,9 @@
+$rtl-support: true;
+
+@import '../bootstrap-extended-dark';
+
+// RTL Utilities
+@include rtl-only {
+  @import '../_bootstrap-extended/utilities-rtl';
+  @import '../../node_modules/bootstrap/scss/utilities/api';
+}

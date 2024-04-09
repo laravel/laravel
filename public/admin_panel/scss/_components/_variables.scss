@@ -1,0 +1,182 @@
+// Common
+// *******************************************************************************
+
+$ui-star-size: 1.1em !default;
+$ui-stars-spacer: -0.1em !default;
+$ui-star-filled-color: $yellow !default;
+
+// Navbar (custom navbar)
+// *******************************************************************************
+$navbar-height: 3.875rem !default;
+$navbar-suggestion-width: 96% !default;
+$navbar-suggestion-height: 28rem !default;
+$navbar-suggestion-border-radius: 0.5rem !default;
+$navbar-dropdown-width: 22rem !default;
+$navbar-dropdown-content-height: 27.5rem !default;
+$navbar-notifications-dropdown-item-padding: 1rem !default;
+
+// Navbar & Footer
+// *******************************************************************************
+$layout-fixed-box-shadow: 6px 4px 30px 0 rgba($black, 0.12) !default;
+
+// App Brand
+// *******************************************************************************
+$app-brand-spacer: 1.25rem !default;
+
+// Menu
+// *******************************************************************************
+
+$menu-width: 16.25rem !default;
+$menu-collapsed-width: 5rem !default;
+
+$menu-font-size: $font-size-base !default;
+
+$menu-item-spacer: 0.0625rem !default;
+
+$menu-vertical-link-margin-y: 0rem !default;
+$menu-vertical-link-margin-x: 0.938rem !default;
+
+// Used BoxIcon library's codes
+$menu-toggle-icon: '\eaa3' !default;
+$menu-collapse-toggle-icon: '\ea5c' !default;
+
+$menu-vertical-header-margin-y: 0.938rem !default;
+$menu-vertical-header-margin-x: 0 !default;
+
+$menu-vertical-link-padding-y: 0.625rem !default;
+$menu-vertical-link-padding-x: 0.938rem !default;
+
+$menu-vertical-menu-link-padding-y: 0.625rem !default;
+$menu-vertical-menu-level-spacer: 0.65rem !default;
+
+$menu-horizontal-item-spacer: 0.325rem !default;
+$menu-horizontal-link-padding-y: 0.565rem !default;
+$menu-horizontal-link-padding-x: 1rem !default;
+$menu-horizontal-menu-link-padding-y: 0.625rem !default;
+$menu-horizontal-menu-level-spacer: 2.35rem !default;
+$menu-horizontal-menu-box-shadow: $box-shadow-lg !default;
+
+$menu-sub-width: 14.5rem !default;
+$menu-control-width: 2.25rem !default;
+$menu-control-arrow-size: 0.5rem !default;
+
+$menu-icon-expanded-width: 1.5rem !default;
+$menu-icon-expanded-font-size: 1.25rem !default;
+$menu-icon-expanded-spacer: 0.5rem !default;
+
+$menu-animation-duration: 0.3s !default;
+
+$menu-max-levels: 5 !default;
+
+$menu-dark-border-color: rgba(255, 255, 255, 0.2) !default;
+$menu-dark-menu-bg: rgba(0, 0, 0, 0.06) !default;
+$menu-light-border-color: rgba(0, 0, 0, 0.06) !default;
+$menu-light-menu-bg: rgba(0, 0, 0, 0.05) !default;
+
+// Custom Options
+// *******************************************************************************
+
+$custom-option-padding: 1em !default;
+$custom-option-cursor: pointer !default;
+$custom-option-border-color: $border-color !default;
+$custom-option-border-width: 1px !default;
+$custom-option-image-border-width: 2px !default;
+$custom-option-border-hover-color: rgba-to-hex($gray-300, $rgba-to-hex-bg) !default;
+
+// Switches
+// *******************************************************************************
+
+$switch-font-size: 0.625rem !default;
+$switch-border-radius: 30rem !default;
+
+$switch-width: 2.5rem !default;
+$switch-width-sm: 2rem !default;
+$switch-width-lg: 3.25rem !default;
+
+$switch-height: 1.35rem !default;
+$switch-height-sm: 1.125rem !default;
+$switch-height-lg: 1.75rem !default;
+
+$switch-label-font-size: $font-size-base !default;
+$switch-label-font-size-sm: $font-size-sm !default;
+$switch-label-font-size-lg: $font-size-lg !default;
+
+$switch-label-line-height: 1.4 !default;
+$switch-label-line-height-sm: 1.48 !default;
+$switch-label-line-height-lg: 1.47 !default;
+
+$switch-spacer-x: 0.75rem !default;
+$switch-spacer-y: 0.75rem !default;
+$switch-gutter: 0.5rem !default;
+$switch-inner-spacer: 0.25rem !default;
+
+$switch-square-border-radius: $border-radius !default;
+
+$switch-label-color: $body-color !default;
+$switch-label-disabled-color: $text-muted !default;
+$switch-disabled-opacity: 0.65 !default;
+
+$switch-off-color: $body-color !default;
+$switch-off-bg: rgba-to-hex($gray-100, $rgba-to-hex-bg) !default;
+$switch-off-border: $switch-off-bg !default;
+$switch-holder-bg: $white !default;
+$switch-holder-shadow: -1px 2px 3px 0 rgba(0, 0, 0, 0.2) !default;
+$switch-focus-box-shadow: 0 0 0 0.12rem rgba(rgba-to-hex($gray-500, $rgba-to-hex-bg), 30%) !default;
+
+// Avatars
+// *******************************************************************************
+
+$avatar-size-xl: 4.5rem !default;
+$avatar-size-lg: 4rem !default;
+$avatar-size-md: 3rem !default;
+$avatar-size: 2.375rem !default; // Default
+$avatar-size-sm: 2rem !default;
+$avatar-size-xs: 1.625rem !default;
+
+$avatar-initial-xl: 1.875rem !default;
+$avatar-initial-lg: 1.5rem !default;
+$avatar-initial-md: 1.125rem !default;
+$avatar-initial-sm: 0.75rem !default;
+$avatar-initial-xs: 0.625rem !default;
+
+$avatar-group-border: $white !default;
+
+// Timeline
+// *******************************************************************************
+$timeline-line-border-styles: (
+  solid: solid,
+  dotted: dotted,
+  dashed: dashed,
+  hidden: none
+) !default;
+
+$timeline-border-color: $border-color !default;
+
+$timeline-indicator-size: 1.5rem !default;
+$timeline-point-size: 0.75rem !default;
+$timeline-point-indicator-color: $primary !default;
+$timeline-end-indicator-font-size: 1.5rem !default;
+
+$timeline-item-icon-font-size: 0.85rem !default;
+$timeline-item-min-height: 4rem !default;
+$timeline-item-padding-x: 1.5rem !default;
+$timeline-item-padding-y: 1.25rem !default;
+$timeline-item-bg-color: $card-bg !default;
+$timeline-item-border-radius: $border-radius !default;
+
+$timeline-event-time-size: 0.85rem !default;
+$timeline-event-time-color: $text-muted !default;
+$timeline-event-shadow: 0 0.5rem 1rem rgba($gray-200, 0.075) !default;
+
+// Text Divider
+// *******************************************************************************
+$divider-color: $border-color !default;
+
+$divider-margin-y: 1rem !default;
+$divider-margin-x: 0 !default;
+
+$divider-text-padding-y: 0rem !default;
+$divider-text-padding-x: 1rem !default;
+
+$divider-font-size: 0.8rem !default;
+$divider-icon-size: 1rem !default;

@@ -1,0 +1,147 @@
+// Functions
+// *******************************************************************************
+
+// Lists
+// *******************************************************************************
+@function slice-list($list, $start: 1, $end: length($list)) {
+  $result: null;
+
+  @if type-of($start) != number or type-of($end) != number {
+    @warn "Either $start or $end are not a number for `slice`.";
+  } @else if $start > $end {
+    @warn "The start index has to be lesser than or equals to the end index for `slice`.";
+  } @else if $start < 1 or $end < 1 {
+    @warn "List indexes must be non-zero integers for `slice`.";
+  } @else if $start > length($list) {
+    @warn "List index is #{$start} but list is only #{length($list)} item long for `slice`.";
+  } @else if $end > length($list) {
+    @warn "List index is #{$end} but list is only #{length($list)} item long for `slice`.";
+  } @else {
+    $result: ();
+
+    @for $i from $start through $end {
+      $result: append($result, nth($list, $i));
+    }
+  }
+
+  @return $result;
+}
+
+// * Units
+// *******************************************************************************
+
+// Remove the unit of a length
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return divide($number, ($number * 0 + 1));
+  }
+
+  @return $number;
+}
+
+// Convert size px to rem
+@function px-to-rem($value) {
+  // Assumes the browser default font size = `16px`
+  @return (divide(strip-unit($value), 16)) * 1rem;
+}
+
+// Convert size rem to px
+@function rem-to-px($value) {
+  // Assumes the browser default font size = `16px`
+  @return (strip-unit($value) * 16) * 1px;
+}
+
+// * Colors
+// *******************************************************************************
+
+// ? Override shade, tint and shift function with custom background color option i.e $card-bg to make it similar like design
+// Shade a color: mix a color with background/white
+@function tint-color($color, $weight, $background: null) {
+  $background: if($background, $background, white);
+  @return mix($background, $color, $weight);
+}
+
+// Shade a color: mix a color with background/black
+@function shade-color($color, $weight, $background: null) {
+  $background: if($background, $background, black);
+  @return mix($background, $color, $weight);
+}
+
+// Shade the color if the weight is positive, else tint it
+@function shift-color($color, $weight, $background: null) {
+  @return if($weight > 0, shade-color($color, $weight, $background), tint-color($color, -$weight));
+}
+
+//RGBA to HEX
+@function rgba-to-hex($color, $background: #fff) {
+  @if $color and alpha($color) != 1 {
+    $percent: alpha($color) * 100%;
+    $opaque: opacify($color, 1);
+
+    @return mix($opaque, $background, $percent);
+  } @else {
+    @return $color;
+  }
+}
+
+// Calculating Color Contrast
+@function contrast-value($color) {
+  @if $color == transparent {
+    @return $body-color;
+  } @else if alpha($color) != 1 {
+    $color: rgba-to-hex($color);
+  }
+
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  @return divide((($r * 299) + ($g * 587) + ($b * 114)), 1000);
+}
+
+// * Utilities
+// *******************************************************************************
+
+// Return Nav opacity, contrast-percent, contrast-percent-inverted, bg, color, active-color, disabled-color, muted-color, border
+@function get-navbar-prop($bg, $active-color: null, $inactive-color: null, $border: null) {
+  $bg: rgba-to-hex($bg);
+
+  $active-color: rgba-to-hex($active-color);
+  $active-color: if($active-color, $active-color, color-contrast($bg));
+
+  $contrast-percent: divide(contrast-value($bg), 255);
+  $contrast-percent-inverted: 1 - $contrast-percent;
+
+  $opacity: if($active-color == #fff, 0.6 + (0.4 * $contrast-percent), 0.6 + (0.4 * (1 - $contrast-percent)));
+
+  $color: if(
+    $inactive-color,
+    rgba-to-hex($inactive-color, $bg),
+    rgba-to-hex(rgba($active-color, if($contrast-percent < 0.25, $opacity + 0.2, $opacity)), $bg)
+  );
+  $disabled-color: rgba-to-hex(rgba($color, 0.6), $bg);
+  $muted-color: rgba-to-hex(rgba($color, 0.75), $bg);
+  $border: if(
+    $border,
+    $border,
+    if(
+      $contrast-percent > 0.75,
+      rgba($active-color, divide($opacity, 8)),
+      if($contrast-percent < 0.25, rgba($active-color, 0.06), rgba($active-color, 0.15))
+    )
+  );
+
+  @return (
+    // Metadata
+    opacity: $opacity,
+    contrast-percent: $contrast-percent,
+    contrast-percent-inverted: $contrast-percent-inverted,
+    // Colors
+    bg: $bg,
+    color: $color,
+    active-color: $active-color,
+    disabled-color: $disabled-color,
+    muted-color: $muted-color,
+    border: $border
+  );
+}

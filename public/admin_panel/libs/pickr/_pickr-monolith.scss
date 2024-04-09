@@ -1,0 +1,10 @@
+@import '../../node_modules/@simonwep/pickr/src/scss/themes/monolith.scss';
+
+@include app-rtl(false) {
+  .pcr-app[data-theme='monolith'] .pcr-selection .pcr-color-preview .pcr-last-color {
+    border-radius: 0 0.15em 0.15em 0;
+  }
+  .pcr-app[data-theme='monolith'] .pcr-selection .pcr-color-preview .pcr-current-color {
+    border-radius: 0.15em 0 0 0.15em;
+  }
+}

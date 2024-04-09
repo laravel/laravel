@@ -1,0 +1,731 @@
+// Menu
+// *******************************************************************************
+
+.menu {
+  display: flex;
+
+  .app-brand {
+    width: 100%;
+  }
+
+  //PS Scrollbar
+  .ps__thumb-y,
+  .ps__rail-y {
+    width: 0.125rem !important;
+  }
+
+  .ps__rail-y {
+    right: 0.25rem !important;
+    left: auto !important;
+    background: none !important;
+
+    @include rtl-style {
+      right: auto !important;
+      left: 0.25rem !important;
+    }
+  }
+
+  .ps__rail-y:hover,
+  .ps__rail-y:focus,
+  .ps__rail-y.ps--clicking,
+  .ps__rail-y:hover > .ps__thumb-y,
+  .ps__rail-y:focus > .ps__thumb-y,
+  .ps__rail-y.ps--clicking > .ps__thumb-y {
+    width: 0.375rem !important;
+  }
+}
+
+.menu-inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+.menu-inner-shadow {
+  display: none;
+  position: absolute;
+  top: $navbar-height - 0.65rem;
+  height: 3rem;
+  width: 100%;
+  pointer-events: none;
+  z-index: 2;
+  // Hide menu inner shadow in static layout
+  html:not(.layout-menu-fixed) & {
+    display: none !important;
+  }
+}
+
+// Menu item
+
+.menu-item {
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  &.menu-item-animating {
+    transition: height $menu-animation-duration ease-in-out;
+  }
+}
+
+.menu-item,
+.menu-header,
+.menu-divider,
+.menu-block {
+  flex: 0 0 auto;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.menu-header {
+  opacity: 1;
+  transition: opacity $menu-animation-duration ease-in-out;
+}
+
+// Menu Icon
+.menu-icon {
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-right: $menu-icon-expanded-spacer;
+  font-size: $menu-icon-expanded-font-size;
+  .menu:not(.menu-no-animation) & {
+    transition: margin-right $menu-animation-duration ease;
+  }
+
+  @include rtl-style {
+    margin-right: 0;
+    margin-left: $menu-icon-expanded-spacer;
+    .menu:not(.menu-no-animation) & {
+      transition: margin-left $menu-animation-duration ease;
+    }
+  }
+}
+
+// Menu link
+.menu-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 0 1 auto;
+  margin: 0;
+
+  .menu-item.disabled & {
+    cursor: not-allowed !important;
+  }
+  // link hover animation
+  .menu:not(.menu-no-animation) & {
+    transition-duration: $menu-animation-duration;
+    transition-property: color, background-color;
+  }
+
+  > :not(.menu-icon) {
+    flex: 0 1 auto;
+    opacity: 1;
+  }
+}
+
+// Sub menu
+.menu-sub {
+  display: none;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+
+  .menu:not(.menu-no-animation) & {
+    transition: background-color $menu-animation-duration;
+  }
+
+  .menu-item.open > & {
+    display: flex;
+  }
+}
+
+// Menu toggle open/close arrow
+.menu-toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: $caret-width;
+  height: $caret-width;
+  border: 1.5px solid;
+  border-bottom: 0;
+  border-left: 0;
+  transform: translateY(-50%) rotate(45deg);
+
+  @include rtl-style {
+    border-left: 1.5px solid;
+    border-right: 0;
+    transform: translateY(-50%) rotate(-45deg);
+  }
+
+  .menu-item.open:not(.menu-item-closing) > & {
+    transform: translateY(-50%) rotate(135deg);
+
+    @include rtl-style {
+      transform: translateY(-50%) rotate(-135deg);
+    }
+  }
+
+  .menu:not(.menu-no-animation) & {
+    transition-duration: $menu-animation-duration;
+    transition-property: -webkit-transform, transform;
+  }
+}
+
+// Menu divider
+.menu-divider {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid;
+}
+
+// Vertical Menu
+// *******************************************************************************
+
+.menu-vertical {
+  flex-direction: column;
+  width: $menu-width;
+
+  // menu expand collapse animation
+  &:not(.menu-no-animation) {
+    transition: width $menu-animation-duration;
+  }
+
+  .menu-block,
+  .menu-inner > .menu-item,
+  .menu-inner > .menu-header {
+    width: $menu-width - ($menu-vertical-link-margin-x * 2);
+  }
+
+  .menu-inner {
+    flex-direction: column;
+    flex: 1 1 auto;
+
+    > .menu-item {
+      margin: $menu-item-spacer $menu-vertical-link-margin-x;
+    }
+  }
+
+  .menu-item .menu-link,
+  .menu-block {
+    padding: $menu-vertical-link-padding-y $menu-vertical-link-padding-x;
+  }
+  // Frest menu-header spacing
+  .menu-header {
+    margin: $menu-vertical-header-margin-y 0 $menu-vertical-header-margin-y * 0.5 0;
+    padding: $menu-vertical-link-padding-y $menu-vertical-link-padding-x * 2 $menu-vertical-link-padding-y
+      $menu-vertical-link-padding-x * 2;
+  }
+  .menu-item .menu-link {
+    font-size: $menu-font-size;
+  }
+
+  .menu-item.active > {
+    .menu-link:not(.menu-toggle) {
+      font-weight: $font-weight-semibold;
+    }
+  }
+  .menu-item .menu-toggle {
+    padding-right: calc(#{$menu-vertical-link-padding-x} + #{$caret-width * 3});
+
+    @include rtl-style {
+      padding-right: $menu-vertical-link-padding-x;
+      padding-left: calc(#{$menu-vertical-link-padding-x} + #{$caret-width * 3});
+    }
+
+    &::after {
+      right: $menu-vertical-link-padding-x;
+
+      @include rtl-style {
+        right: auto;
+        left: $menu-vertical-link-padding-x;
+      }
+    }
+  }
+
+  .menu-divider {
+    margin-top: $menu-vertical-link-padding-y;
+    margin-bottom: $menu-vertical-link-padding-y;
+    padding: 0;
+  }
+
+  .menu-sub {
+    padding-top: $menu-item-spacer * 2;
+    .menu-link {
+      padding-top: $menu-vertical-menu-link-padding-y;
+      padding-bottom: $menu-vertical-menu-link-padding-y;
+    }
+  }
+
+  .menu-icon {
+    width: $menu-icon-expanded-width;
+  }
+
+  .menu-sub .menu-icon {
+    margin-right: 0;
+
+    @include media-breakpoint-down(xl) {
+      display: none;
+    }
+
+    @include rtl-style {
+      margin-left: 0;
+    }
+  }
+
+  .menu-horizontal-wrapper {
+    flex: none;
+  }
+
+  // Levels
+  //
+
+  $menu-first-level-spacer: $menu-vertical-link-padding-x + $menu-icon-expanded-width + $menu-icon-expanded-spacer;
+
+  .menu-sub .menu-link {
+    padding-left: $menu-first-level-spacer;
+
+    @include rtl-style {
+      padding-right: $menu-first-level-spacer;
+      padding-left: $menu-vertical-link-padding-x;
+    }
+  }
+  // Menu levels loop for padding left/right
+  @for $i from 2 through $menu-max-levels {
+    $selector: '';
+
+    @for $l from 1 through $i {
+      $selector: '#{$selector} .menu-sub';
+    }
+
+    #{$selector} .menu-link {
+      padding-left: $menu-first-level-spacer + ($menu-vertical-menu-level-spacer * ($i - 1));
+
+      @include rtl-style {
+        padding-right: $menu-first-level-spacer + ($menu-vertical-menu-level-spacer * ($i - 1));
+        padding-left: $menu-vertical-link-padding-x;
+      }
+    }
+  }
+}
+
+// Vertical Menu Collapsed
+// *******************************************************************************
+// ! Updated menu collapsed styles for Frest in this mixin
+@mixin layout-menu-collapsed() {
+  width: $menu-collapsed-width;
+
+  .menu-inner > .menu-item {
+    width: $menu-collapsed-width - ($menu-vertical-link-margin-x * 2);
+  }
+  .menu-inner > .menu-item > .menu-link {
+    padding-left: $menu-vertical-link-margin-x;
+  }
+
+  .menu-inner > .menu-header,
+  .menu-block {
+    position: relative;
+    margin-left: $menu-vertical-link-margin-x;
+    padding-right: ($menu-vertical-link-padding-x * 2) - $menu-icon-expanded-spacer;
+    padding-left: $menu-icon-expanded-spacer;
+    width: $menu-width;
+    text-indent: -9999px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    .menu-header-text {
+      overflow: hidden;
+      opacity: 0;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: ($menu-collapsed-width * 0.5) - $menu-vertical-link-margin-x - 0.5;
+      display: block;
+      width: $menu-collapsed-width * 0.25;
+      text-align: center;
+      top: 1.1875rem;
+      height: 0.125rem;
+    }
+  }
+  .menu-inner > .menu-item div:not(.menu-block) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    opacity: 0;
+  }
+  .menu-inner > .menu-item > .menu-sub,
+  .menu-inner > .menu-item.open > .menu-sub {
+    display: none;
+  }
+  .menu-inner > .menu-item > .menu-toggle::after {
+    display: none;
+  }
+
+  .menu-inner > .menu-item > .menu-link .menu-icon {
+    margin-left: -($menu-vertical-link-margin-x * 2);
+    width: $menu-collapsed-width;
+    text-align: center;
+    margin-right: 0;
+  }
+}
+
+@mixin layout-menu-collapsed-rtl() {
+  .menu-block {
+    width: $menu-collapsed-width !important;
+  }
+  .menu-inner > .menu-item > .menu-link {
+    padding-right: $menu-vertical-link-margin-x;
+    padding-left: $menu-vertical-link-margin-x;
+  }
+
+  .menu-inner > .menu-header,
+  .menu-block {
+    margin-right: $menu-vertical-link-margin-x;
+    margin-left: 0;
+    padding-right: $menu-icon-expanded-spacer;
+    padding-left: ($menu-vertical-link-padding-x * 2) - $menu-icon-expanded-spacer;
+
+    &::before {
+      right: ($menu-collapsed-width * 0.5) - $menu-vertical-link-margin-x - 0.5;
+      left: auto;
+    }
+  }
+
+  .menu-inner > .menu-item > .menu-link .menu-icon {
+    margin-right: -($menu-vertical-link-margin-x * 2);
+    margin-left: 0;
+  }
+}
+// Only for menu example
+.menu-collapsed:not(:hover) {
+  @include layout-menu-collapsed();
+
+  @include rtl-style {
+    @include layout-menu-collapsed-rtl();
+  }
+}
+
+// Horizontal
+// *******************************************************************************
+
+.menu-horizontal {
+  flex-direction: row;
+  width: 100%;
+
+  .menu-inner {
+    overflow: hidden;
+    flex-direction: row;
+    flex: 0 1 100%;
+  }
+
+  .menu-item .menu-link {
+    padding: $menu-horizontal-link-padding-y calc(#{$menu-horizontal-link-padding-x} - #{$menu-item-spacer});
+  }
+
+  .menu-item .menu-toggle {
+    padding-right: calc(#{$menu-horizontal-link-padding-x} + #{$caret-width * 3} - #{$menu-item-spacer});
+
+    @include rtl-style {
+      padding-right: calc(#{$menu-horizontal-link-padding-x} - #{$menu-item-spacer});
+      padding-left: calc(#{$menu-horizontal-link-padding-x} + #{$caret-width * 3} - #{$menu-item-spacer});
+    }
+
+    &::after {
+      right: $menu-horizontal-link-padding-x;
+      transform: translateY(-50%) rotate(45deg) !important;
+
+      @include rtl-style {
+        transform: translateY(-50%) rotate(-45deg) !important;
+        right: auto;
+        left: $menu-horizontal-link-padding-x;
+      }
+    }
+  }
+
+  .menu-inner > .menu-item > .menu-toggle::after {
+    transform: translateY(-50%) rotate(135deg) !important;
+
+    @include rtl-style {
+      transform: translateY(-75%) rotate(-135deg) !important;
+    }
+  }
+  .menu-sub .menu-item.open:not(.menu-item-closing) > .menu-toggle::after {
+    transform: translateY(-50%) rotate(45deg);
+
+    @include rtl-style {
+      transform: translateY(-50%) rotate(-45deg);
+    }
+  }
+
+  .menu-inner > .menu-item:not(.menu-item-closing).open .menu-item.open {
+    position: relative;
+  }
+
+  .menu-header,
+  .menu-divider {
+    display: none !important;
+  }
+
+  .menu-sub {
+    position: absolute;
+    width: $menu-sub-width;
+    padding: $menu-horizontal-item-spacer 0;
+    @include border-radius($border-radius-lg);
+
+    .menu-sub {
+      position: absolute;
+      left: 100%;
+      top: 0;
+      width: 100%;
+      .menu-item .menu-link {
+        @include ltr-style {
+          padding-left: $menu-horizontal-menu-level-spacer;
+        }
+        @include rtl-style {
+          padding-right: $menu-horizontal-menu-level-spacer;
+        }
+      }
+
+      @include rtl-style {
+        left: -100%;
+      }
+    }
+
+    .menu-link {
+      padding-top: $menu-horizontal-menu-link-padding-y;
+      padding-bottom: $menu-horizontal-menu-link-padding-y;
+      border-radius: 0 !important;
+    }
+  }
+
+  .menu-sub .menu-item.active > {
+    .menu-link:not(.menu-toggle) {
+      font-weight: $font-weight-semibold;
+    }
+  }
+
+  &:not(.menu-no-animation) .menu-inner .menu-item.open .menu-sub {
+    animation: menuDropdownShow $menu-animation-duration ease-in-out;
+  }
+
+  // Sub menu link padding left
+  .menu-sub > .menu-sub .menu-link {
+    padding-left: $menu-horizontal-menu-level-spacer;
+
+    @include rtl-style {
+      padding-right: $menu-horizontal-menu-level-spacer;
+      padding-left: $menu-horizontal-link-padding-x;
+    }
+  }
+  @include media-breakpoint-down(lg) {
+    & {
+      display: none;
+    }
+  }
+}
+
+.menu-horizontal-wrapper {
+  overflow: hidden;
+  flex: 0 1 100%;
+  width: 0;
+
+  .menu:not(.menu-no-animation) & .menu-inner {
+    transition: margin $menu-animation-duration;
+  }
+}
+
+.menu-horizontal-prev,
+.menu-horizontal-next {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  width: $menu-control-width;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: $menu-control-arrow-size;
+    height: $menu-control-arrow-size;
+    border: 1px solid;
+    border-top: 0;
+  }
+
+  &.disabled {
+    cursor: not-allowed !important;
+  }
+}
+
+.menu-horizontal-prev::after {
+  border-right: 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+
+  @include rtl-style {
+    transform: translate(-50%, -50%) rotate(-135deg);
+  }
+}
+
+.menu-horizontal-next::after {
+  border-left: 0;
+  transform: translate(-50%, -50%) rotate(-45deg);
+
+  @include rtl-style {
+    transform: translate(-50%, -50%) rotate(135deg);
+  }
+}
+
+@include keyframes(menuDropdownShow) {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Menu light/dark color mode
+// *******************************************************************************
+
+.menu-light {
+  color: $navbar-light-color;
+
+  .menu-link,
+  .menu-horizontal-prev,
+  .menu-horizontal-next {
+    color: $navbar-light-color;
+
+    &:hover,
+    &:focus {
+      color: $navbar-light-hover-color;
+      border-radius: $border-radius-lg;
+    }
+
+    &.active {
+      color: $navbar-light-active-color;
+    }
+  }
+
+  .menu-item.disabled .menu-link {
+    color: $navbar-light-disabled-color !important;
+  }
+
+  .menu-item.open:not(.menu-item-closing) > .menu-toggle,
+  .menu-item.active > .menu-link {
+    color: $navbar-light-active-color;
+  }
+
+  .menu-item.active > .menu-link:not(.menu-toggle) {
+    background: $menu-light-menu-bg;
+  }
+
+  .menu-inner > .menu-item.menu-item-closing .menu-item.open .menu-sub,
+  .menu-inner > .menu-item.menu-item-closing .menu-item.open .menu-toggle {
+    color: $navbar-light-color;
+  }
+
+  .menu-text {
+    color: $navbar-light-active-color;
+  }
+
+  .menu-header {
+    color: $navbar-light-color;
+  }
+
+  hr,
+  .menu-divider,
+  .menu-inner > .menu-item.open > .menu-sub::before {
+    border-color: $menu-light-border-color !important;
+  }
+
+  .menu-inner > .menu-header::before,
+  .menu-block::before {
+    background-color: $navbar-light-disabled-color;
+  }
+
+  .menu-inner > .menu-item.open .menu-item.open > .menu-toggle::before {
+    background-color: $menu-light-border-color;
+  }
+
+  .menu-inner > .menu-item.open .menu-item.active > .menu-link::before {
+    background-color: $navbar-light-active-color;
+  }
+
+  .ps__thumb-y {
+    background: $navbar-light-color !important;
+  }
+}
+
+.menu-dark {
+  color: $navbar-dark-color;
+
+  .menu-link,
+  .menu-horizontal-prev,
+  .menu-horizontal-next {
+    color: $navbar-dark-color;
+
+    &:hover,
+    &:focus {
+      color: $navbar-dark-hover-color;
+    }
+
+    &.active {
+      color: $navbar-dark-active-color;
+    }
+  }
+
+  .menu-item.disabled .menu-link {
+    color: $navbar-dark-disabled-color !important;
+  }
+
+  .menu-item.open:not(.menu-item-closing) > .menu-toggle,
+  .menu-item.active > .menu-link {
+    color: $navbar-dark-active-color;
+  }
+
+  .menu-item.active > .menu-link:not(.menu-toggle) {
+    background: $menu-dark-menu-bg;
+  }
+
+  .menu-inner > .menu-item.menu-item-closing .menu-item.open .menu-sub,
+  .menu-inner > .menu-item.menu-item-closing .menu-item.open .menu-toggle {
+    color: $navbar-dark-color;
+  }
+
+  .menu-text {
+    color: $navbar-dark-active-color;
+  }
+
+  .menu-header {
+    color: $navbar-dark-color;
+  }
+
+  hr,
+  .menu-divider,
+  .menu-inner > .menu-item.open > .menu-sub::before {
+    border-color: $menu-dark-border-color !important;
+  }
+
+  .menu-inner > .menu-header::before,
+  .menu-block::before {
+    background-color: $navbar-dark-disabled-color;
+  }
+
+  .menu-inner > .menu-item.open .menu-item.open > .menu-toggle::before {
+    background-color: $menu-dark-border-color;
+  }
+
+  .menu-inner > .menu-item.open .menu-item.active > .menu-link::before {
+    background-color: $navbar-dark-active-color;
+  }
+
+  .ps__thumb-y {
+    background: $navbar-dark-color !important;
+  }
+}

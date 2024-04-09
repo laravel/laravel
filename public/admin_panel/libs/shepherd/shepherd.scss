@@ -1,0 +1,124 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@charset "UTF-8";
+@import '../../scss/_custom-variables/libs';
+@import '../../node_modules/shepherd.js/dist/css/shepherd';
+@import './mixins';
+
+$shepherd-header-content-padding-x: 1rem !default;
+$shepherd-header-content-padding-y: 0.5rem !default;
+$shepherd-padding-x: 1rem !default;
+$shepherd-padding-y: 0.75rem !default;
+$shepherd-btn-padding-x: 1.125rem !default;
+$shepherd-btn-padding-y: 0.438rem !default;
+$shepherd-container-width: 15rem !default;
+
+.shepherd-element {
+  .shepherd-arrow:before {
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+  }
+  .shepherd-text {
+    padding: $shepherd-padding-y $shepherd-padding-x;
+  }
+  .shepherd-content {
+    min-width: $shepherd-container-width;
+    .shepherd-header {
+      padding: $shepherd-header-content-padding-y $shepherd-header-content-padding-x;
+
+      .shepherd-cancel-icon {
+        position: relative;
+        height: 1.375rem;
+        width: 1.375rem;
+        font-size: 1.5rem;
+        background-color: $white;
+        border-radius: light.$border-radius;
+        &:focus {
+          outline: 0;
+        }
+        span {
+          position: absolute;
+          top: -6px;
+          left: 0;
+          right: 0;
+        }
+      }
+    }
+
+    .shepherd-footer {
+      padding: 0 $shepherd-padding-x $shepherd-padding-y;
+      .shepherd-button {
+        padding: $shepherd-btn-padding-y $shepherd-btn-padding-x;
+      }
+    }
+  }
+  // Ask before submit
+  &[data-popper-placement='bottom'] {
+    margin-top: 0.8rem !important;
+  }
+  &[data-popper-placement='top'] {
+    margin-bottom: 0.8rem !important;
+  }
+  &[data-popper-placement='left'] {
+    margin-right: 0.8rem !important;
+  }
+  &[data-popper-placement='right'] {
+    margin-left: 0.8rem !important;
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    .shepherd-element {
+      box-shadow: light.$box-shadow;
+      .shepherd-arrow:before {
+        border-color: light.$gray-300;
+      }
+    }
+    .shepherd-cancel-icon {
+      span {
+        color: light.$text-muted;
+      }
+    }
+  }
+}
+
+// Dark Style
+@if $enable-dark-style {
+  .dark-style {
+    .shepherd-element {
+      box-shadow: dark.$box-shadow;
+      background: dark.$dark;
+      .shepherd-text {
+        color: dark.$white;
+      }
+      .shepherd-arrow:before {
+        background: dark.$dark;
+        border-color: rgba(dark.$dark, 0.06);
+      }
+    }
+    .shepherd-cancel-icon {
+      span {
+        color: dark.$text-muted;
+      }
+    }
+  }
+}
+
+// RTL
+@if $enable-rtl-support {
+  [dir='rtl'] {
+    .shepherd-element {
+      .btn-next {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+
+@include light.media-breakpoint-down(sm) {
+  .shepherd-element {
+    max-width: 300px !important;
+  }
+}

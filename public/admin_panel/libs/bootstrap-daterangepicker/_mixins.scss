@@ -1,0 +1,121 @@
+@import '../../scss/_bootstrap-extended/functions';
+
+@mixin bs-daterangepicker-theme($background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+
+  $highlighted-bg: rgba-to-hex(rgba($background, 0.08), #fff);
+
+  .daterangepicker table thead {
+    th,
+    td {
+      select {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .daterangepicker td.active:not(.off) {
+    background: $background !important;
+    color: $white;
+  }
+
+  .daterangepicker .calendar-table {
+    th.prev,
+    th.next,
+    th.prev:hover,
+    th.next:hover {
+      border: 1px solid $background;
+
+      span {
+        border-color: $background;
+      }
+    }
+  }
+
+  .daterangepicker {
+    .start-date:not(.end-date):not(.off),
+    .end-date:not(.start-date):not(.off) {
+      background-color: $background;
+      color: $white;
+      border: 0 !important;
+
+      &:hover {
+        background-color: $background !important;
+      }
+    }
+  }
+
+  .daterangepicker .input-mini.active {
+    border-color: $background !important;
+  }
+
+  .daterangepicker td.in-range:not(.start-date):not(.end-date):not(.off) {
+    color: $background !important;
+    background-color: $highlighted-bg !important;
+  }
+
+  .ranges li.active {
+    color: $background !important;
+    background-color: $highlighted-bg !important;
+  }
+}
+
+@mixin bs-daterangepicker-dark-theme($background, $color: null) {
+  $color: if($color, $color, color-contrast($background));
+
+  $highlighted-bg: rgba-to-hex(rgba($background, 0.16), #283144);
+
+  .daterangepicker table thead {
+    th,
+    td {
+      select {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .daterangepicker .calendar-table {
+    th.prev,
+    th.next,
+    th.prev:hover,
+    th.next:hover {
+      border: 1px solid $background;
+
+      span {
+        border-color: $background;
+      }
+    }
+  }
+
+  .daterangepicker td.active:not(.off) {
+    background: $background !important;
+    color: $white;
+  }
+
+  .daterangepicker {
+    .start-date:not(.end-date):not(.off),
+    .end-date:not(.start-date):not(.off) {
+      background-color: $background;
+      color: $white;
+      border: 0 !important;
+
+      &:hover {
+        background-color: $background !important;
+      }
+    }
+  }
+
+  .daterangepicker .input-mini.active {
+    border-color: $background !important;
+  }
+
+  .daterangepicker td.in-range:not(.start-date):not(.end-date):not(.off) {
+    color: $background !important;
+    background-color: $highlighted-bg !important;
+  }
+
+  .ranges li.active {
+    color: $background !important;
+    background-color: $highlighted-bg !important;
+  }
+}

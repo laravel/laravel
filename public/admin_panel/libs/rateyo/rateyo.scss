@@ -1,0 +1,87 @@
+// Rateyo
+// *******************************************************************************
+
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../node_modules/rateyo/src/jquery.rateyo';
+@import '../../scss/_custom-variables/libs';
+
+// Light Style
+@if $enable-light-style {
+  .light-style {
+    $unratedStarColor: light.$gray-200;
+    $ratedStarColor: light.$yellow;
+    @include app-ltr-style {
+      .jq-ry-container {
+        .jq-ry-normal-group {
+          svg {
+            fill: $unratedStarColor;
+          }
+        }
+      }
+      .jq-ry-container:not(.multi-color-ratings) {
+        .jq-ry-rated-group {
+          svg {
+            fill: $ratedStarColor;
+          }
+        }
+      }
+    }
+    @include app-rtl-style {
+      .jq-ry-container:not(.multi-color-ratings) {
+        .jq-ry-normal-group {
+          svg {
+            fill: $ratedStarColor;
+          }
+        }
+      }
+      .jq-ry-container {
+        .jq-ry-rated-group {
+          svg {
+            fill: light.rgba-to-hex($unratedStarColor, light.$rgba-to-hex-bg);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Dark Style
+@if $enable-dark-style {
+  .dark-style {
+    $unratedStarColor: dark.$gray-200;
+    $ratedStarColor: dark.$yellow;
+    @include app-ltr-style {
+      .jq-ry-container {
+        .jq-ry-normal-group {
+          svg {
+            fill: $unratedStarColor;
+          }
+        }
+      }
+      .jq-ry-container:not(.multi-color-ratings) {
+        .jq-ry-rated-group {
+          svg {
+            fill: $ratedStarColor;
+          }
+        }
+      }
+    }
+    @include app-rtl-style {
+      .jq-ry-container:not(.multi-color-ratings) {
+        .jq-ry-normal-group {
+          svg {
+            fill: $ratedStarColor;
+          }
+        }
+      }
+      .jq-ry-container {
+        .jq-ry-rated-group {
+          svg {
+            fill: dark.rgba-to-hex($unratedStarColor, dark.$rgba-to-hex-bg);
+          }
+        }
+      }
+    }
+  }
+}

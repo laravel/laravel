@@ -1,0 +1,221 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+@import '../../node_modules/toastr/toastr.scss';
+
+#toast-container {
+  > div {
+    padding: 1rem 2.5rem 1rem 2.625rem !important;
+    opacity: 1;
+    margin-bottom: light.$toast-spacing;
+    @include app-ltr {
+      background-position: 5% 19px;
+    }
+    @include app-rtl {
+      direction: rtl;
+      padding: 1rem 2.625rem 1rem 2.5rem !important;
+      background-position: 95% 19px;
+    }
+  }
+  &.toast-top-left {
+    @include app-rtl {
+      right: 12px;
+      left: auto;
+    }
+  }
+  &.toast-top-right {
+    @include app-rtl {
+      left: 12px;
+      right: auto;
+    }
+  }
+  &.toast-bottom-left {
+    @include app-rtl {
+      right: 12px;
+      left: auto;
+    }
+  }
+  &.toast-bottom-right {
+    @include app-rtl {
+      left: 12px;
+      right: auto;
+    }
+  }
+  &.toast-top-full-width,
+  &.toast-bottom-full-width {
+    &#toast-container > div {
+      @include app-rtl {
+        left: 0;
+        right: 0;
+      }
+    }
+  }
+  > .toast {
+    max-width: 100%;
+    background-size: 28px;
+    background-repeat: no-repeat;
+  }
+  &.toast-bottom-full-width > div,
+  &.toast-top-full-width > div {
+    width: 100%;
+    border-radius: 0 !important;
+
+    @include app-ltr {
+      background-position: 1% 19px;
+    }
+    @include app-rtl {
+      background-position: 99% 19px;
+    }
+  }
+
+  .toast-progress {
+    bottom: 0;
+    top: auto;
+  }
+
+  > .toast-info {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'%3E%3Cpath fill='#{light.str-replace(#{light.$info},'#','%23')}' d='M256 90c44.3 0 86 17.3 117.4 48.6C404.7 170 422 211.7 422 256s-17.3 86-48.6 117.4C342 404.7 300.3 422 256 422s-86-17.3-117.4-48.6C107.3 342 90 300.3 90 256s17.3-86 48.6-117.4C170 107.3 211.7 90 256 90m0-42C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48z'/%3E%3Cpath fill='#{light.str-replace(#{light.$info},'#','%23')}' d='M277 360h-42V235h42v125zm0-166h-42v-42h42v42z'/%3E%3C/svg%3E") !important;
+    background-size: 1.3rem;
+    .toast-progress {
+      background-color: light.$info;
+      opacity: 1;
+    }
+  }
+  > .toast-error {
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+4q2Q77iPIEljb24tZGFuZ2VyPC90aXRsZT4KICAgIDxnIGlkPSLimpnvuI8tU3ltYm9scyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9IjE3KS1Cb290c3RyYXAtVG9hc3RzLSZhbXA7LVRvYXN0ci9Ub2FzdHItV2l0aC1CdXR0b25zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTYuMDAwMDAwLCAtMTUuMDAwMDAwKSIgZmlsbD0iI0ZGNUI1QyI+CiAgICAgICAgICAgIDxnIGlkPSJieC1ibG9jayIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTYuMDAwMDAwLCAxNS4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik04LDAgQzMuNTg4OCwwIDAsMy41ODg4IDAsOCBDMCwxMi40MTEyIDMuNTg4OCwxNiA4LDE2IEMxMi40MTEyLDE2IDE2LDEyLjQxMTIgMTYsOCBDMTYsMy41ODg4IDEyLjQxMTIsMCA4LDAgWiBNMS42LDggQzEuNiw2LjUyMzIgMi4xMDcyLDUuMTY2NCAyLjk1MDQsNC4wODI0IEwxMS45MTc2LDEzLjA0OTYgQzEwLjgzNDQsMTMuODkyOCA5LjQ3NjgsMTQuNCA4LDE0LjQgQzQuNDcxMiwxNC40IDEuNiwxMS41Mjg4IDEuNiw4IFogTTEzLjA0OTYsMTEuOTE3NiBMNC4wODI0LDIuOTUwNCBDNS4xNjY0LDIuMTA3MiA2LjUyMzIsMS42IDgsMS42IEMxMS41Mjg4LDEuNiAxNC40LDQuNDcxMiAxNC40LDggQzE0LjQsOS40NzY4IDEzLjg5MiwxMC44MzM2IDEzLjA0OTYsMTEuOTE3NiBaIiBpZD0iU2hhcGUiPjwvcGF0aD4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+') !important;
+    background-size: 1rem;
+
+    .toast-progress {
+      background-color: light.$danger;
+      opacity: 1;
+    }
+  }
+  > .toast-success {
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg width='16px' height='16px' viewBox='0 0 16 16' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Ctitle%3E Icon-success%3C/title%3E%3Cg id='Symbols' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='17)-Bootstrap-Toasts-&amp;-Toastr/Toastr-With-Progress-Bar' transform='translate(-16.000000, -15.000000)' fill='%2339DA8A'%3E%3Cg id='bx-check-circle' transform='translate(16.000000, 15.000000)'%3E%3Cpath d='M8,0 C12.4112,0 16,3.5888 16,8 C16,12.4112 12.4112,16 8,16 C3.5888,16 0,12.4112 0,8 C0,3.5888 3.5888,0 8,0 Z M8,1.6 C4.4712,1.6 1.6,4.4712 1.6,8 C1.6,11.5288 4.4712,14.4 8,14.4 C11.5288,14.4 14.4,11.5288 14.4,8 C14.4,4.4712 11.5288,1.6 8,1.6 Z M10.6344,5.0344 L11.7656,6.1656 L6.4008,11.5304 L3.4304,8.5664 L4.56,7.4336 L6.3992,9.2696 L10.6344,5.0344 Z' id='Combined-Shape'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E") !important;
+    background-size: 1rem;
+    .toast-progress {
+      background-color: light.$success;
+      opacity: 1;
+    }
+  }
+
+  > .toast-warning {
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+4q2Q77iPIEljb24td2FybmluZzwvdGl0bGU+CiAgICA8ZyBpZD0i4pqZ77iPLVN5bWJvbHMiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSIxNyktQm9vdHN0cmFwLVRvYXN0cy0mYW1wOy1Ub2FzdHIvVG9hc3RyLURlYnVnIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTYuMDAwMDAwLCAtMTUuMDAwMDAwKSIgZmlsbD0iI0ZEQUM0MSI+CiAgICAgICAgICAgIDxnIGlkPSJieC1oZWxwLWNpcmNsZSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTYuMDAwMDAwLCAxNS4wMDAwMDApIj4KICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik04LDAgQzEyLjQxMTIsMCAxNiwzLjU4ODggMTYsOCBDMTYsMTIuNDExMiAxMi40MTEyLDE2IDgsMTYgQzMuNTg4OCwxNiAwLDEyLjQxMTIgMCw4IEMwLDMuNTg4OCAzLjU4ODgsMCA4LDAgWiBNOCwxLjYgQzQuNDcxMiwxLjYgMS42LDQuNDcxMiAxLjYsOCBDMS42LDExLjUyODggNC40NzEyLDE0LjQgOCwxNC40IEMxMS41Mjg4LDE0LjQgMTQuNCwxMS41Mjg4IDE0LjQsOCBDMTQuNCw0LjQ3MTIgMTEuNTI4OCwxLjYgOCwxLjYgWiBNOC44LDExLjIgTDguOCwxMi44IEw3LjIsMTIuOCBMNy4yLDExLjIgTDguOCwxMS4yIFogTTgsMy4yIEM5LjczNTIsMy4yIDExLjE0NzIsNC42MTIgMTEuMTQ2NDAwMyw2LjM0NzIgQzExLjE0NjQwMDMsNy42MjU2IDEwLjIwMzIsOC4zODggOS41OCw4Ljg5MjggQzkuNDIzMiw5LjAxOTIgOS4yNzIsOS4xMzkyIDkuMTUyLDkuMjU5MiBDOC44MjU2LDkuNTg0OCA4LjgsOS44ODA4IDguNzk5Miw5Ljg5MzYgTDguNzk5Miw5Ljg5MzYgTDguOCwxMC40IEw3LjIsMTAuNCBMNy4yLDkuODY2NCBDNy4yLDkuNzcyIDcuMjIzMiw4LjkyNDggOC4wMjE2LDguMTI3MiBDOC4xNzc2LDcuOTcxMiA4LjM3MDQsNy44MTM2IDguNTc0NCw3LjY0OCBDOS4xNjI0LDcuMTcyOCA5LjU0NzIsNi44MjU2IDkuNTQ3Miw2LjM0NzIgQzkuNTQ3Miw1LjQ5MzYgOC44NTI4LDQuOCA4LDQuOCBDNy4xNDcyLDQuOCA2LjQ1MjgsNS40OTM2IDYuNDUyOCw2LjM0NzIgTDYuNDUyOCw2LjM0NzIgTDQuODUyOCw2LjM0NzIgQzQuODUyOCw0LjYxMiA2LjI2NDgsMy4yIDgsMy4yIFoiIGlkPSJDb21iaW5lZC1TaGFwZSI+PC9wYXRoPgogICAgICAgICAgICA8L2c+CiAgICAgICAgPC9nPgogICAgPC9nPgo8L3N2Zz4=') !important;
+    background-size: 1rem;
+
+    .toast-progress {
+      background-color: light.$warning;
+      opacity: 1;
+    }
+  }
+}
+// for full width toasts
+#toast-container:not(.toast-bottom-full-width, .toast-top-full-width) > div {
+  width: 20em !important;
+}
+
+.toast-title {
+  font-weight: light.$font-weight-semibold;
+}
+
+.toast-progress {
+  position: absolute;
+  bottom: auto;
+  top: 0;
+  opacity: 0.15;
+  height: 0.1875rem;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=15);
+  filter: alpha(opacity=15);
+
+  @include app-rtl {
+    left: auto;
+    right: 0;
+  }
+}
+
+.toast-close-button {
+  position: absolute;
+  top: 0.525rem;
+  text-shadow: none;
+
+  &,
+  &:hover {
+    opacity: 1;
+  }
+
+  @include app-ltr {
+    right: 1rem !important;
+  }
+  @include app-rtl {
+    left: 1rem !important;
+    right: auto;
+  }
+}
+
+@media (max-width: 419.98px) {
+  .toast {
+    width: 300px !important;
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    #toast-container {
+      z-index: light.$zindex-notification;
+
+      .toast-close-button {
+        font-weight: light.$close-font-weight;
+        color: light.$text-muted !important;
+      }
+
+      > div {
+        box-shadow: light.$toast-box-shadow !important;
+        border-radius: light.$border-radius-lg;
+      }
+
+      > .toast-success,
+      > .toast-error,
+      > .toast-info,
+      > .toast-warning {
+        background-color: light.$white !important;
+        color: light.$body-color;
+        a,
+        label {
+          color: light.$body-color;
+        }
+      }
+    }
+  }
+}
+
+// Dark style
+@if $enable-dark-style {
+  .dark-style {
+    #toast-container {
+      z-index: dark.$zindex-notification;
+
+      .toast-close-button {
+        font-weight: dark.$close-font-weight;
+        color: dark.$text-muted !important;
+      }
+
+      > div {
+        box-shadow: dark.$toast-box-shadow !important;
+        border-radius: dark.$border-radius-lg;
+      }
+
+      > .toast-success,
+      > .toast-error,
+      > .toast-info,
+      > .toast-warning {
+        background-color: dark.$card-bg !important;
+        color: dark.$body-color;
+        a,
+        label {
+          color: dark.$body-color;
+        }
+      }
+    }
+  }
+}

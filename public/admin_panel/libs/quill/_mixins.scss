@@ -1,0 +1,115 @@
+@mixin quill-generate-lists($indent) {
+  $quill-list-types: (
+    1: lower-alpha,
+    2: lower-roman,
+    3: decimal,
+    4: lower-alpha,
+    5: lower-roman,
+    6: decimal,
+    7: lower-alpha,
+    8: lower-roman,
+    9: decimal
+  );
+
+  @for $i from 1 through 9 {
+    ol li.ql-indent-#{$i} {
+      counter-increment: list-#{$i};
+
+      @if $i < 9 {
+        $lists: '';
+
+        @for $l from $i + 1 through 9 {
+          $lists: '#{$lists} list-#{$l}';
+        }
+
+        counter-reset: #{$lists};
+      }
+
+      &::before {
+        content: counter(list-#{$i}, map-get($quill-list-types, $i)) '. ';
+      }
+    }
+
+    .ql-indent-#{$i}:not(.ql-direction-rtl) {
+      padding-left: $indent * $i;
+
+      [dir='rtl'] & {
+        padding-right: $indent * $i;
+        padding-left: 0;
+      }
+    }
+    li.ql-indent-#{$i}:not(.ql-direction-rtl) {
+      padding-left: $indent * ($i + 1);
+
+      [dir='rtl'] & {
+        padding-right: $indent * ($i + 1);
+        padding-left: 0;
+      }
+    }
+    .ql-indent-#{$i}.ql-direction-rtl.ql-align-right {
+      padding-right: $indent * $i;
+
+      [dir='rtl'] & {
+        padding-right: 0;
+        padding-left: $indent * $i;
+      }
+    }
+    li.ql-indent-#{$i}.ql-direction-rtl.ql-align-right {
+      padding-right: $indent * ($i + 1);
+
+      [dir='rtl'] & {
+        padding-right: 0;
+        padding-left: $indent * ($i + 1);
+      }
+    }
+  }
+}
+
+@mixin quill-theme($color) {
+  .ql-snow.ql-toolbar,
+  .ql-snow .ql-toolbar {
+    button:hover,
+    button:focus,
+    button.ql-active,
+    .ql-picker-label:hover,
+    .ql-picker-label.ql-active,
+    .ql-picker-item:hover,
+    .ql-picker-item.ql-selected {
+      color: $color !important;
+    }
+
+    button:hover .ql-fill,
+    button:focus .ql-fill,
+    button.ql-active .ql-fill,
+    .ql-picker-label:hover .ql-fill,
+    .ql-picker-label.ql-active .ql-fill,
+    .ql-picker-item:hover .ql-fill,
+    .ql-picker-item.ql-selected .ql-fill,
+    button:hover .ql-stroke.ql-fill,
+    button:focus .ql-stroke.ql-fill,
+    button.ql-active .ql-stroke.ql-fill,
+    .ql-picker-label:hover .ql-stroke.ql-fill,
+    .ql-picker-label.ql-active .ql-stroke.ql-fill,
+    .ql-picker-item:hover .ql-stroke.ql-fill,
+    .ql-picker-item.ql-selected .ql-stroke.ql-fill {
+      fill: $color !important;
+    }
+
+    button:hover .ql-stroke,
+    button:focus .ql-stroke,
+    button.ql-active .ql-stroke,
+    .ql-picker-label:hover .ql-stroke,
+    .ql-picker-label.ql-active .ql-stroke,
+    .ql-picker-item:hover .ql-stroke,
+    .ql-picker-item.ql-selected .ql-stroke,
+    button:hover .ql-stroke-miter,
+    button:focus .ql-stroke-miter,
+    button.ql-active .ql-stroke-miter,
+    .ql-picker-label:hover .ql-stroke-miter,
+    .ql-picker-label.ql-active .ql-stroke-miter,
+    .ql-picker-item:hover .ql-stroke-miter,
+    .ql-picker-item.ql-selected .ql-stroke-miter {
+      stroke: $color !important;
+    }
+  }
+}

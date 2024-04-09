@@ -1,0 +1,63 @@
+// Toasts
+// *******************************************************************************
+// Toast Mixin
+@each $color, $value in $theme-colors {
+  @if $color != primary {
+    @include template-toast-variant('.bg-#{$color}', $value);
+  }
+}
+.toast.bs-toast {
+  z-index: $zindex-toast;
+  background-color: $toast-background-color;
+}
+.toast-container {
+  --#{$prefix}toast-zindex: 9;
+}
+// RTL close btn style
+@include rtl-only {
+  .toast-header {
+    .btn-close {
+      padding: 0.435rem;
+      font-size: 0.7rem;
+      background-color: $white;
+
+      @include ltr-style {
+        margin-left: $toast-padding-x * 0.5;
+      }
+
+      @include rtl-style {
+        margin-left: $toast-padding-x * -0.5;
+        margin-right: $toast-padding-x * 0.5;
+      }
+    }
+  }
+  .toast-body {
+    padding: $toast-padding-y $toast-padding-x;
+  }
+}
+
+// set close btn's bg in light layout
+@include light-layout-only {
+  .toast.bs-toast {
+    .toast-header:not([class*='bg-']) {
+      .btn-close {
+        background-color: rgba-to-hex($gray-100, $rgba-to-hex-bg);
+      }
+    }
+  }
+}
+
+// Bootstrap Toasts Example
+.toast-ex {
+  position: fixed;
+  top: 4.1rem;
+  right: 0.5rem;
+  @include rtl-style {
+    left: 0.5rem;
+    right: auto;
+  }
+}
+// Placement Toast example
+.toast-placement-ex {
+  position: fixed;
+}

@@ -1,0 +1,23 @@
+$boxicons-font-path: 'boxicons';
+$boxicons-font-size-base: 16px;
+
+@import '../node_modules/boxicons/css/boxicons';
+
+.bx {
+  vertical-align: middle;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+// Override font path
+@font-face {
+  font-family: 'boxicons';
+  font-weight: normal;
+  font-style: normal;
+
+  src: url('../fonts/#{$boxicons-font-path}/boxicons.eot');
+  src: url('../fonts/#{$boxicons-font-path}/boxicons.eot') format('embedded-opentype'),
+    url('../fonts/#{$boxicons-font-path}/boxicons.woff2') format('woff2'),
+    url('../fonts/#{$boxicons-font-path}/boxicons.woff') format('woff'),
+    url('../fonts/#{$boxicons-font-path}/boxicons.ttf') format('truetype'),
+    url('../fonts/#{$boxicons-font-path}/boxicons.svg?#boxicons') format('svg');
+}

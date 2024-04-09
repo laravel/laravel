@@ -1,0 +1,288 @@
+.shepherd-button {
+  background: #3288e6;
+  border: 0;
+  border-radius: 3px;
+  color: hsla(0, 0%, 100%, 0.75);
+  cursor: pointer;
+  margin-right: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  transition: all 0.5s ease;
+}
+
+.shepherd-button:not(:disabled):hover {
+  background: #196fcc;
+  color: hsla(0, 0%, 100%, 0.75);
+}
+
+.shepherd-button.shepherd-button-secondary {
+  background: #f1f2f3;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.shepherd-button.shepherd-button-secondary:not(:disabled):hover {
+  background: #d6d9db;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.shepherd-button:disabled {
+  cursor: not-allowed;
+}
+
+.shepherd-footer {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 0.75rem 0.75rem;
+}
+
+.shepherd-footer .shepherd-button:last-child {
+  margin-right: 0;
+}
+
+.shepherd-cancel-icon {
+  background: transparent;
+  border: none;
+  color: hsla(0, 0%, 50%, 0.75);
+  cursor: pointer;
+  font-size: 2em;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  transition: color 0.5s ease;
+}
+
+.shepherd-cancel-icon:hover {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.shepherd-has-title .shepherd-content .shepherd-cancel-icon {
+  color: hsla(0, 0%, 50%, 0.75);
+}
+
+.shepherd-has-title .shepherd-content .shepherd-cancel-icon:hover {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.shepherd-title {
+  color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex: 1 0 auto;
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+.shepherd-header {
+  align-items: center;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  display: flex;
+  justify-content: flex-end;
+  line-height: 2em;
+  padding: 0.75rem 0.75rem 0;
+}
+
+.shepherd-has-title .shepherd-content .shepherd-header {
+  background: #e6e6e6;
+  padding: 1em;
+}
+
+.shepherd-text {
+  color: rgba(0, 0, 0, 0.75);
+  font-size: 1rem;
+  line-height: 1.3em;
+  padding: 0.75em;
+}
+
+.shepherd-text p {
+  margin-top: 0;
+}
+
+.shepherd-text p:last-child {
+  margin-bottom: 0;
+}
+
+.shepherd-content {
+  border-radius: 5px;
+  outline: none;
+  padding: 0;
+}
+
+.shepherd-element {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  opacity: 0;
+  outline: none;
+  transition: opacity 0.3s, visibility 0.3s;
+  visibility: hidden;
+  width: 100%;
+  z-index: 9999;
+}
+
+.shepherd-enabled.shepherd-element {
+  opacity: 1;
+  visibility: visible;
+}
+
+.shepherd-element[data-popper-reference-hidden]:not(.shepherd-centered) {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.shepherd-element, .shepherd-element *, .shepherd-element :after, .shepherd-element :before {
+  box-sizing: border-box;
+}
+
+.shepherd-arrow, .shepherd-arrow:before {
+  height: 16px;
+  position: absolute;
+  width: 16px;
+  z-index: -1;
+}
+
+.shepherd-arrow:before {
+  background: #fff;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.shepherd-element[data-popper-placement^=top] > .shepherd-arrow {
+  bottom: -8px;
+}
+
+.shepherd-element[data-popper-placement^=bottom] > .shepherd-arrow {
+  top: -8px;
+}
+
+.shepherd-element[data-popper-placement^=left] > .shepherd-arrow {
+  right: -8px;
+}
+
+.shepherd-element[data-popper-placement^=right] > .shepherd-arrow {
+  left: -8px;
+}
+
+.shepherd-element.shepherd-centered > .shepherd-arrow {
+  opacity: 0;
+}
+
+.shepherd-element.shepherd-has-title[data-popper-placement^=bottom] > .shepherd-arrow:before {
+  background-color: #e6e6e6;
+}
+
+.shepherd-target-click-disabled.shepherd-enabled.shepherd-target, .shepherd-target-click-disabled.shepherd-enabled.shepherd-target * {
+  pointer-events: none;
+}
+
+.shepherd-modal-overlay-container {
+  height: 0;
+  left: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  transition: all 0.3s ease-out, height 0ms 0.3s, opacity 0.3s 0ms;
+  width: 100vw;
+  z-index: 9997;
+}
+
+.shepherd-modal-overlay-container.shepherd-modal-is-visible {
+  height: 100vh;
+  opacity: 0.5;
+  transform: translateZ(0);
+  transition: all 0.3s ease-out, height 0s 0s, opacity 0.3s 0s;
+}
+
+.shepherd-modal-overlay-container.shepherd-modal-is-visible path {
+  pointer-events: all;
+}
+
+.shepherd-element .shepherd-arrow:before {
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+.shepherd-element .shepherd-text {
+  padding: 0.75rem 1rem;
+}
+.shepherd-element .shepherd-content {
+  min-width: 15rem;
+}
+.shepherd-element .shepherd-content .shepherd-header {
+  padding: 0.5rem 1rem;
+}
+.shepherd-element .shepherd-content .shepherd-header .shepherd-cancel-icon {
+  position: relative;
+  height: 1.375rem;
+  width: 1.375rem;
+  font-size: 1.5rem;
+  background-color: #fff;
+  border-radius: 0.25rem;
+}
+.shepherd-element .shepherd-content .shepherd-header .shepherd-cancel-icon:focus {
+  outline: 0;
+}
+.shepherd-element .shepherd-content .shepherd-header .shepherd-cancel-icon span {
+  position: absolute;
+  top: -6px;
+  left: 0;
+  right: 0;
+}
+.shepherd-element .shepherd-content .shepherd-footer {
+  padding: 0 1rem 0.75rem;
+}
+.shepherd-element .shepherd-content .shepherd-footer .shepherd-button {
+  padding: 0.438rem 1.125rem;
+}
+.shepherd-element[data-popper-placement=bottom] {
+  margin-top: 0.8rem !important;
+}
+.shepherd-element[data-popper-placement=top] {
+  margin-bottom: 0.8rem !important;
+}
+.shepherd-element[data-popper-placement=left] {
+  margin-right: 0.8rem !important;
+}
+.shepherd-element[data-popper-placement=right] {
+  margin-left: 0.8rem !important;
+}
+
+.light-style .shepherd-element {
+  box-shadow: 0 0.25rem 1rem rgba(147, 158, 170, 0.45);
+}
+.light-style .shepherd-element .shepherd-arrow:before {
+  border-color: rgba(38, 60, 85, 0.3);
+}
+.light-style .shepherd-cancel-icon span {
+  color: #a8b1bb;
+}
+
+.dark-style .shepherd-element {
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.25);
+  background: #717784;
+}
+.dark-style .shepherd-element .shepherd-text {
+  color: #fff;
+}
+.dark-style .shepherd-element .shepherd-arrow:before {
+  background: #717784;
+  border-color: rgba(113, 119, 132, 0.06);
+}
+.dark-style .shepherd-cancel-icon span {
+  color: #8295ba;
+}
+
+[dir=rtl] .shepherd-element .btn-next {
+  margin-right: 0.5rem;
+}
+
+@media (max-width: 575.98px) {
+  .shepherd-element {
+    max-width: 300px !important;
+  }
+}

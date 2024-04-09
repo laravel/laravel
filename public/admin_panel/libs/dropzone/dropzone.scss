@@ -1,0 +1,420 @@
+// Dropzone
+
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+
+$dz-box-padding: 1.5rem !default;
+$dz-icon-size: 1.875rem !default;
+$dz-thumbnail-width: 10rem !default;
+$dz-thumbnail-height: 7.5rem !default;
+$dz-preview-padding: 0.625rem !default;
+$dz-progress-height: 0.5rem !default;
+$dz-icon-block-size: 3.75rem !default;
+
+// common styles
+.dropzone {
+  width: 100%;
+  position: relative;
+  padding: $dz-box-padding;
+  cursor: pointer;
+  border-radius: light.$border-radius-lg;
+
+  // Disabled
+  &:not(.dz-clickable) {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // Hover
+  &.dz-drag-hover {
+    border-style: solid;
+
+    .dz-message {
+      opacity: 0.5;
+    }
+  }
+}
+
+.dz-message {
+  font-size: light.$h3-font-size;
+
+  .note {
+    font-size: light.$font-size-base;
+  }
+}
+
+// Fallback
+.dz-browser-not-supported {
+  &.dropzone-box {
+    min-height: auto !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    cursor: default !important;
+    transition: none;
+  }
+
+  .dz-message {
+    display: none !important;
+  }
+}
+
+// Default message
+
+.dz-started .dz-message {
+  display: none;
+}
+
+.dz-message {
+  margin: 5rem 0;
+  font-weight: 500;
+  text-align: center;
+
+  .note {
+    font-weight: 400;
+    display: block;
+    margin-top: 0.625rem;
+  }
+}
+
+// Preview
+.dz-preview {
+  position: relative;
+  vertical-align: top;
+  margin: $dz-box-padding 0 0 $dz-box-padding;
+  background: #fff;
+  font-size: 0.8125rem;
+  box-sizing: content-box;
+  cursor: default;
+}
+
+// File information
+.dz-filename {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  padding: $dz-preview-padding $dz-preview-padding 0 $dz-preview-padding;
+  background: #fff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  &:hover {
+    white-space: normal;
+    text-overflow: inherit;
+  }
+}
+
+.dz-size {
+  padding: 1.875rem $dz-preview-padding $dz-preview-padding $dz-preview-padding;
+  font-size: 0.6875rem;
+  font-style: italic;
+}
+
+// Progressbar
+.dz-preview .progress,
+.dz-preview .progess-bar {
+  height: $dz-progress-height;
+}
+
+.dz-preview .progress {
+  position: absolute;
+  left: 1.25rem;
+  right: 1.25rem;
+  top: 50%;
+  margin-top: -$dz-progress-height * 0.5;
+  z-index: 30;
+}
+
+.dz-complete .progress {
+  display: none;
+}
+
+// Thumbnail
+.dz-thumbnail {
+  position: relative;
+  padding: $dz-preview-padding;
+  height: $dz-thumbnail-height;
+  text-align: center;
+  box-sizing: content-box;
+
+  > img,
+  .dz-nopreview {
+    top: 50%;
+    position: relative;
+    transform: translateY(-50%) scale(1);
+    margin: 0 auto;
+    display: block;
+  }
+
+  > img {
+    max-height: 100%;
+    max-width: 100%;
+  }
+}
+
+.dz-nopreview {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+}
+
+.dz-thumbnail img[src] ~ .dz-nopreview {
+  display: none;
+}
+
+// Remove link
+.dz-remove {
+  display: block;
+  text-align: center;
+  padding: 0.375rem 0;
+  font-size: 0.75rem;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    border-top-color: transparent;
+  }
+}
+
+// error/success states
+.dz-error-mark,
+.dz-success-mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: none;
+  margin-left: -$dz-icon-block-size * 0.5;
+  margin-top: -$dz-icon-block-size * 0.5;
+  height: $dz-icon-block-size;
+  width: $dz-icon-block-size;
+  border-radius: 50%;
+  background-position: center center;
+  background-size: $dz-icon-size $dz-icon-size;
+  background-repeat: no-repeat;
+  box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.06);
+}
+
+.dz-success-mark {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%235cb85c' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3E%3C/svg%3E");
+}
+
+.dz-error-mark {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23d9534f' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23d9534f' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E");
+}
+
+.dz-error-message {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  bottom: -1px;
+  right: -1px;
+  display: none;
+  color: #fff;
+  z-index: 40;
+  padding: 0.75rem;
+  text-align: left;
+  overflow: auto;
+  font-weight: 600;
+
+  @include app-rtl {
+    text-align: right;
+  }
+}
+
+// Error state
+.dz-error {
+  .dz-error-message {
+    display: none;
+  }
+
+  .dz-error-mark {
+    display: block;
+  }
+
+  &:hover {
+    .dz-error-message {
+      display: block;
+    }
+
+    .dz-error-mark {
+      display: none;
+    }
+  }
+}
+
+// Success state
+.dz-success .dz-success-mark {
+  display: block;
+}
+
+// RTL
+@include app-rtl(false) {
+  .dz-hidden-input {
+    left: auto !important;
+    right: 0 !important;
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    $dz-overlay-bg: light.$dark;
+    $dz-thumbnail-bg: light.$gray-25;
+    $dz-border-color: light.$card-border-color;
+
+    .dropzone {
+      border: 2px dashed $dz-border-color;
+    }
+
+    .dz-preview {
+      border: light.$card-border-width solid $dz-border-color;
+      border-radius: light.$border-radius;
+      box-shadow: light.$card-box-shadow;
+    }
+
+    .dz-message {
+      color: light.$headings-color;
+
+      .note {
+        color: light.$body-color;
+      }
+    }
+
+    .dz-thumbnail {
+      border-bottom: 1px solid light.rgba-to-hex($dz-border-color);
+      background: $dz-thumbnail-bg;
+
+      @include light.border-top-radius(if(light.$border-radius, calc(#{light.$border-radius} - 1px), 0));
+    }
+
+    .dz-size {
+      color: light.$text-muted;
+    }
+
+    .dz-remove {
+      color: light.$body-color;
+      border-top: 1px solid light.rgba-to-hex($dz-border-color);
+
+      @include light.border-bottom-radius(if(light.$border-radius, calc(#{light.$border-radius} - 1px), 0));
+
+      &:hover,
+      &:focus {
+        color: light.$body-color;
+        background: light.$gray-100;
+      }
+    }
+
+    .dz-nopreview {
+      color: light.$text-muted;
+    }
+
+    .dz-error-mark,
+    .dz-success-mark {
+      background-color: rgba($dz-overlay-bg, 0.5);
+    }
+
+    .dz-error-message {
+      background: rgba(map-get(light.$theme-colors, danger), 0.8);
+
+      @include light.border-top-radius(light.$border-radius);
+    }
+
+    @include light.media-breakpoint-up(sm) {
+      .dz-preview {
+        display: inline-block;
+        width: $dz-thumbnail-width + ($dz-preview-padding * 2);
+      }
+
+      .dz-thumbnail {
+        width: $dz-thumbnail-width;
+      }
+    }
+  }
+}
+
+// dark style
+@if $enable-dark-style {
+  .dark-style {
+    $dz-overlay-bg: dark.$dark;
+    $dz-thumbnail-bg: dark.$gray-25;
+    $dz-border-color: dark.$card-border-color;
+
+    .dropzone {
+      border: 2px dashed $dz-border-color;
+    }
+
+    .dz-preview {
+      background: dark.$card-bg;
+      border: dark.$card-border-width solid $dz-border-color;
+      border-radius: dark.$border-radius;
+      box-shadow: dark.$card-box-shadow;
+    }
+
+    .dz-message {
+      color: light.$headings-color;
+
+      .note {
+        color: dark.$body-color;
+      }
+    }
+
+    .dz-filename {
+      background: dark.$card-bg;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
+      border-bottom: dark.$card-border-width solid $dz-border-color;
+    }
+
+    .dz-size {
+      color: dark.$text-muted;
+    }
+
+    .dz-thumbnail {
+      border-bottom: 1px solid $dz-border-color;
+      background: $dz-thumbnail-bg;
+
+      @include dark.border-top-radius(if(dark.$border-radius, calc(#{dark.$border-radius} - 1px), 0));
+    }
+
+    .dz-nopreview {
+      color: dark.$text-muted;
+    }
+
+    .dz-remove {
+      color: dark.$body-color;
+      border-top: 1px solid $dz-border-color;
+
+      @include dark.border-bottom-radius(if(dark.$border-radius, calc(#{dark.$border-radius} - 1px), 0));
+
+      &:hover,
+      &:focus {
+        color: dark.$body-color;
+        background: dark.$gray-100;
+      }
+    }
+
+    .dz-error-mark,
+    .dz-success-mark {
+      background-color: rgba($dz-overlay-bg, 0.5);
+    }
+
+    .dz-error-message {
+      background: rgba(map-get(dark.$theme-colors, danger), 0.8);
+
+      @include dark.border-top-radius(dark.$border-radius);
+    }
+
+    @include dark.media-breakpoint-up(sm) {
+      .dz-preview {
+        display: inline-block;
+        width: $dz-thumbnail-width + ($dz-preview-padding * 2);
+      }
+
+      .dz-thumbnail {
+        width: $dz-thumbnail-width;
+      }
+    }
+  }
+}

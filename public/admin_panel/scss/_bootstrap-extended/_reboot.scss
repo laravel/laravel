@@ -1,0 +1,51 @@
+// Reboot
+//
+
+b,
+strong {
+  font-weight: $font-weight-bold;
+}
+
+// Todo: commenting this style as creating issue on toast select and customizer select in windows
+// @if $dark-style {
+//   select:not([multiple]):not([size]),
+//   select[size='1'] {
+//     option {
+//       color: $black;
+//     }
+//   }
+// }
+
+@include rtl-only {
+  caption {
+    text-align: right;
+  }
+  dd {
+    margin-right: 0;
+  }
+}
+
+a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+//! Fix: Autofill input bg and text color issue on different OS and browsers
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+input:-internal-autofill-selected {
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+}

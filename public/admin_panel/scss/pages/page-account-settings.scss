@@ -1,0 +1,16 @@
+// * Account Settings
+// *******************************************************************************
+
+@import '../_custom-variables/pages';
+@import '../_bootstrap-extended/include';
+
+.api-key-actions {
+  position: absolute !important;
+  top: 0.75rem;
+  @include app-ltr() {
+    right: 0.5rem;
+  }
+  @include app-rtl() {
+    left: 0.5rem;
+  }
+}

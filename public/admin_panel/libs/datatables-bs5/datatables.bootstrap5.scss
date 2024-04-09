@@ -1,0 +1,361 @@
+@use '../../scss/_bootstrap-extended/include' as light;
+@use '../../scss/_bootstrap-extended/include-dark' as dark;
+@import '../../scss/_custom-variables/libs';
+@import '../../node_modules/datatables.net-bs5/css/dataTables.bootstrap5';
+
+// Card header inside the datatable
+div.dataTables_wrapper .card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+div.dataTables_wrapper div.dataTables_info {
+  padding-top: light.$spacer * 0.5;
+}
+// Datatable sorting icons opacity
+table.dataTable > thead .sorting:before,
+table.dataTable > thead .sorting:after,
+table.dataTable > thead .sorting_asc:after,
+table.dataTable > thead .sorting_desc:before,
+table.dataTable > thead .sorting_asc_disabled:after,
+table.dataTable > thead .sorting_desc_disabled:before {
+  opacity: 0.5 !important;
+}
+// ? Need to overwrite this as updating opacity
+table.dataTable > thead .sorting_asc:before,
+table.dataTable > thead .sorting_desc:after {
+  opacity: 1 !important;
+}
+table.dataTable > thead .sorting_asc_disabled:before,
+table.dataTable > thead .sorting_desc_disabled:after {
+  opacity: 0 !important;
+}
+
+// Remove left and right border from datatable with table-bordered class
+table.table-bordered.dataTable {
+  tr:first-child th,
+  td {
+    &:first-child {
+      @include app-ltr() {
+        border-left-width: 0;
+      }
+      @include app-rtl() {
+        border-right-width: 0;
+      }
+    }
+    &:last-child {
+      @include app-ltr() {
+        border-right-width: 0;
+      }
+      @include app-rtl() {
+        border-left-width: 0;
+      }
+    }
+  }
+}
+
+// Responsive datatable in desktop screen
+@media screen and (min-width: 1399.98px) {
+  table.table-responsive {
+    display: table;
+  }
+}
+
+// RTL style
+@include app-rtl(false) {
+  div.dataTables_wrapper .dataTables_filter {
+    display: flex;
+    justify-content: flex-end;
+    input {
+      margin-left: 0;
+      margin-right: 0.5rem;
+    }
+  }
+
+  table.table-bordered.dataTable th,
+  table.table-bordered.dataTable td {
+    border-right-width: 0;
+    border-left-width: 1px;
+
+    &:last-child {
+      border-left-width: 0;
+    }
+  }
+}
+
+table.dataTable {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin-bottom: light.$spacer !important;
+  margin-top: 0 !important;
+  @include app-rtl {
+    &.table-sm > thead > tr > th {
+      padding-left: 1.25rem;
+    }
+
+    &.table-sm .sorting:before,
+    &.table-sm .sorting_asc:before,
+    &.table-sm .sorting_desc:before {
+      right: auto !important;
+      left: 0.85em !important;
+    }
+    thead th,
+    thead td,
+    tfoot th,
+    tfoot td {
+      text-align: right;
+    }
+  }
+  // Checkbox height & width for datatables checkboxes
+  .form-check-input {
+    width: light.$form-datatables-check-input-size;
+    height: light.$form-datatables-check-input-size;
+  }
+}
+
+// to add spacing between table and datatable footer elements like pagination & info
+.dataTables_scroll {
+  margin-bottom: 0.75rem;
+}
+
+// Used while complex headers
+table.dataTable thead th {
+  vertical-align: middle;
+}
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+  padding-right: inherit;
+  &::before,
+  &::after {
+    font-family: boxicons !important;
+    font-weight: 500 !important;
+    font-size: 1.2rem !important;
+    width: 10px;
+    height: 10px;
+    content: '' !important;
+    right: 0.8rem !important;
+  }
+
+  &:before {
+    top: 0.5rem !important;
+    content: '\ea57' !important;
+  }
+  &:after {
+    bottom: 0.8rem !important;
+    content: '\ea4a' !important;
+  }
+  @include app-rtl {
+    &::before {
+      right: auto !important;
+      left: 1em !important;
+    }
+
+    &::after {
+      right: auto !important;
+      left: 1em !important;
+    }
+  }
+}
+
+// DataTable within card
+div.card-datatable.dataTable,
+div.card-datatable .dataTable {
+  border-right: 0;
+  border-left: 0;
+}
+
+// Card header inside the datatable
+@media screen and (max-width: 575.98px) {
+  div.dataTables_wrapper .card-header {
+    display: block;
+    .dt-action-buttons {
+      padding-top: 1rem;
+    }
+  }
+
+  .dtr-bs-modal.modal {
+    // padding-left: 0.75rem;
+    .modal-body {
+      padding: 0;
+      overflow: auto;
+    }
+  }
+  .dataTable_select div.dataTables_wrapper div.dataTables_info {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 767.98px) {
+  div.dataTables_wrapper div.dataTables_info {
+    padding-bottom: light.$table-cell-padding-y;
+    padding-top: 0;
+  }
+  div.dataTables_wrapper div.dataTables_length {
+    margin-bottom: 0 !important;
+  }
+}
+div.dataTables_wrapper div.dataTables_length,
+div.dataTables_wrapper div.dataTables_filter {
+  margin-top: light.$spacer;
+  margin-bottom: light.$spacer;
+}
+
+// common style for light / dark
+div.dataTables_wrapper div.dataTables_paginate ul.pagination .page-link {
+  padding: light.$pagination-padding-y light.$pagination-padding-x;
+  min-width: calc(
+    #{'#{(light.$font-size-base * light.$pagination-line-height) + (light.$pagination-padding-y * 2)} + #{light.$pagination-border-width * 2}'}
+  );
+  font-size: light.$font-size-base;
+  line-height: light.$pagination-line-height;
+
+  div:not(.table-responsive) div.dataTables_wrapper .dataTables_paginate {
+    margin-right: 0;
+  }
+}
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+  .next,
+  .previous {
+    .page-link {
+      padding: light.$pagination-padding-y;
+    }
+  }
+}
+
+// Card header inside the datatable
+@media screen and (max-width: 575.98px) {
+  div.dataTables_wrapper div.dataTables_paginate ul.pagination .page-link {
+    min-width: calc(
+      #{'#{(light.$font-size-base * light.$pagination-line-height) + (light.$pagination-padding-y-sm * 2)} + #{light.$pagination-border-width * 2}'}
+    );
+    font-size: light.$font-size-base;
+    line-height: light.$pagination-line-height;
+  }
+}
+
+@include light.media-breakpoint-down(md) {
+  div.dataTables_wrapper div.dataTables_length label,
+  div.dataTables_wrapper div.dataTables_filter label,
+  div.dataTables_wrapper div.dataTables_info,
+  div.dataTables_wrapper div.dataTables_paginate {
+    justify-content: center;
+  }
+}
+
+// DataTable within card
+div.card-datatable {
+  padding-bottom: light.$card-spacer-x-sm; // Check this in site and update if needed
+
+  [class*='col-md-'] {
+    padding-right: light.$card-spacer-x-sm !important;
+    padding-left: light.$card-spacer-x-sm !important;
+  }
+  // length, filter & info, pagination row margin
+  &:not(.table-responsive) .dataTables_wrapper .row {
+    &:first-child,
+    &:last-child {
+      margin: 0;
+    }
+  }
+}
+
+// LTR style
+@include app-ltr(false) {
+  div.card-datatable table.dataTable thead th,
+  div.card-datatable table.dataTable tfoot th {
+    &:first-child {
+      padding-left: light.$card-spacer-x;
+      padding-right: light.$card-spacer-x;
+    }
+
+    &:last-child {
+      padding-right: light.$card-spacer-x-sm;
+    }
+  }
+  div.card-datatable table.dataTable tbody td {
+    &:first-child {
+      padding-left: light.$card-spacer-x;
+      padding-right: light.$card-spacer-x;
+    }
+  }
+}
+
+// RTL Style
+@include app-rtl(false) {
+  table.dataTable.table-sm > thead > tr > th {
+    padding-right: light.$table-cell-padding-x-sm;
+  }
+
+  table.dataTable {
+    thead th,
+    tbody td,
+    tfoot th {
+      padding-right: light.$table-cell-padding-x;
+    }
+
+    &.table-sm thead th,
+    &.table-sm tbody td,
+    &.table-sm tfoot th {
+      padding-right: light.$table-cell-padding-x-sm;
+    }
+  }
+
+  div.card-datatable table.dataTable {
+    thead th,
+    tbody td,
+    tfoot th {
+      &:first-child {
+        padding-right: light.$card-spacer-x;
+      }
+
+      &:last-child {
+        padding-left: light.$card-spacer-x;
+      }
+    }
+  }
+}
+
+// Light style
+@if $enable-light-style {
+  .light-style {
+    div.dataTables_wrapper div.dataTables_info {
+      color: light.$text-muted;
+    }
+
+    div.dataTables_scrollBody table {
+      border-top-color: light.$table-border-color;
+    }
+
+    table.table-bordered.dataTable th,
+    table.table-bordered.dataTable td {
+      border-color: light.$table-border-color !important;
+    }
+  }
+}
+
+// Dark Style
+@if $enable-dark-style {
+  .dark-style {
+    div.dataTables_wrapper div.dataTables_info {
+      color: dark.$text-muted;
+    }
+
+    div.dataTables_scrollBody table {
+      border-top-color: dark.$table-border-color;
+    }
+
+    table.table-bordered.dataTable th,
+    table.table-bordered.dataTable td {
+      border-color: dark.$table-border-color !important;
+    }
+  }
+
+  // div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+  //   .page-item.disabled .page-link {
+  //     background-color: dark.$pagination-bg;
+  //   }
+  // }
+}

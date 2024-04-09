@@ -1,0 +1,11 @@
+// * Wizard checkout
+// *******************************************************************************
+@import '../_custom-variables/pages';
+
+$checkout-wizard-header-width: 800px !default;
+
+#wizard-checkout {
+  .bs-stepper-header {
+    max-width: $checkout-wizard-header-width;
+  }
+}
