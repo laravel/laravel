@@ -32,6 +32,6 @@ const refreshToken = async () => {
   return refreshWasSuccessful;
 };
 
-const MAX_AGE = 10000 as const;
+const MAX_AGE = 10000;
 
 export const memoizedRefreshToken = mem(refreshToken, { maxAge: MAX_AGE });
