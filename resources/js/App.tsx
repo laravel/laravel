@@ -26,18 +26,18 @@ const queryClient = new QueryClient();
 Sentry.init({
   dsn: env.VITE_SENTRY_DSN_PUBLIC,
   integrations: [
-    new Sentry.BrowserTracing({
-      // See docs for support of different versions of variation of react router
-      // https://docs.sentry.io/platforms/javascript/guides/react/configuration/integrations/react-router/
-      routingInstrumentation: Sentry.reactRouterV6Instrumentation(
-        React.useEffect,
-        useLocation,
-        useNavigationType,
-        createRoutesFromChildren,
-        matchRoutes,
-      ),
+    Sentry.reactRouterV6BrowserTracingIntegration({
+      useEffect: React.useEffect,
+      useLocation,
+      useNavigationType,
+      createRoutesFromChildren,
+      matchRoutes,
     }),
-    new Sentry.Replay(),
+    Sentry.replayIntegration({
+      // Additional SDK configuration goes in here, for example:
+      maskAllText: true,
+      blockAllMedia: true,
+    }),
   ],
 
   // Set tracesSampleRate to 1.0 to capture 100%

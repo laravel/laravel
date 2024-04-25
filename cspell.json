@@ -1,5 +1,6 @@
 {
   "ignorePaths": [
+    "artisan",
     "bootstrap/cache",
     "CHANGELOG.md",
     "cspell.json",
@@ -7,6 +8,9 @@
     "docker-compose.yml",
     "node_modules",
     "storage",
+    "reports/",
+    "public/",
+    "resources/views/",
     "tsconfig.tsbuildinfo",
     "vendor"
   ],

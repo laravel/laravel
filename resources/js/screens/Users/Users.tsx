@@ -274,7 +274,7 @@ export const Users = () => {
 
                   <div
                     className={tw(
-                      statuses[item.status as keyof typeof statuses],
+                      statuses[item.status],
                       "flex-none rounded-full p-1",
                     )}
                   >
