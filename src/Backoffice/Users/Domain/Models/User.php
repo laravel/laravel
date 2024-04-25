@@ -86,14 +86,12 @@ class User extends Authenticatable
     public function email(): Attribute
     {
         return Attribute::make(
-            function (mixed $value) {
+            get: static function (mixed $value) {
                 /** @var string $value */
-
                 return strtolower($value);
             },
-            function (mixed $value) {
+            set: static function (mixed $value) {
                 /** @var string $value */
-
                 return strtolower($value);
             },
         );
