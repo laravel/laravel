@@ -9,6 +9,9 @@ use Lightit\Backoffice\Users\Domain\Models\User;
 
 class UserTransformer extends Transformer
 {
+    /**
+     * @return array{id: int, name: string, email: string}
+     */
     public function transform(User $user): array
     {
         return [

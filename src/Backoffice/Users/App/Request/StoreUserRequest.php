@@ -14,6 +14,9 @@ class StoreUserRequest extends FormRequest
     public const EMAIL = 'email';
     public const PASSWORD = 'password';
 
+    /**
+     * @return array<string, mixed>
+     */
     public function rules(): array
     {
         return [
