@@ -24,10 +24,10 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Sentry\Laravel\Integration;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Throwable;
 
 class ExceptionHandler
 {
+    /** @var array<int, string> */
     private array $noConvert = [];
 
     protected function convertDefaultException(Exception $exception): void
@@ -36,7 +36,7 @@ class ExceptionHandler
             AuthenticationException::class => UnauthenticatedException::class,
             AuthorizationException::class => UnauthorizedException::class,
             NotFoundHttpException::class => PageNotFoundException::class,
-            ModelNotFoundException::class => PageNotFoundException::class,
+            ModelNotFoundException::class => ModelNotFoundHttpException::class,
             BaseRelationNotFoundException::class => RelationNotFoundException::class,
             ValidationException::class => function ($exception) {
                 throw new ValidationFailedException($exception->validator);
@@ -44,17 +44,10 @@ class ExceptionHandler
         ], array_flip($this->noConvert)));
     }
 
-    protected function getReportable(Exceptions $exceptions): void
-    {
-        $exceptions->reportable(function (Throwable $e) {
-            Integration::captureUnhandledException($e);
-        });
-    }
-
     public function getClosure(): Closure
     {
         return function (Exceptions $exceptions) {
-            $this->getReportable($exceptions);
+            Integration::handles($exceptions);
 
             $exceptions->render(function (Exception $exception) {
                 $this->convertDefaultException($exception);
