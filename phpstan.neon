@@ -3,6 +3,9 @@ includes:
 
 parameters:
     reportUnmatchedIgnoredErrors: false
+    checkGenericClassInNonGenericObjectType: true
+    checkMissingIterableValueType: true
+
     paths:
         - src
         - database

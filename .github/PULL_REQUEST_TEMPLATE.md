@@ -18,7 +18,7 @@ Please include a summary of the change and which issue is fixed. Please also inc
 Example:
 -->
 
-I've added support for authentication to implement Key Result 2 of OKR1. It includes model, table, controller and test.
+For more background, see ticket **CU-#[in-progress].**
 
 <!--
 ONLY ADD SECTION IF A NEW PACKAGE IS ADDED
@@ -34,7 +34,7 @@ Because of this, you must run `npm i` before starting.
 ## 📷 Screenshots
 
 <!--
-Please include before AND after screenshots of the change.
+Please include before AND after screenshots of the change, or proof of test about your branch
 -->
 
 ### Before
@@ -61,4 +61,5 @@ This
 - [ ] My changes generate no new warnings
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] New and existing unit tests pass locally with my changes
+- [ ] If my task include an endpoint, I add the endpoint to Hopscotch/Postman Project
 - [ ] Any dependent changes have been merged and published in downstream modules
