@@ -34,22 +34,25 @@ return [
     */
 
     'connections' => [
-
-        'sqlite' => [
-            'driver' => 'sqlite',
-            'url' => env('DATABASE_URL'),
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
-            'prefix' => '',
-            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+        'mysql' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'Hotel'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', ''),
+            // ... other configuration options
         ],
-
+    ],
+    
+    
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
+            'database' => env('DB_DATABASE', 'hotel'),
+            'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
@@ -93,7 +96,7 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
-    ],
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -147,5 +150,4 @@ return [
         ],
 
     ],
-
 ];
