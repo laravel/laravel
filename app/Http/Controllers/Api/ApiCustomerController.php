@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
+
+
 class ApiCustomerController extends Controller
 {
     protected $customer;
@@ -42,7 +44,6 @@ class ApiCustomerController extends Controller
         $data=new Customer;
         $data->full_name=$request->full_name;
         $data->email=$request->email;
-        $data->password=sha1($request->password);
         $data->mobile=$request->mobile;
         $data->address=$request->address;
         //$data->$roomtypes=$request->roomtypes;
@@ -61,16 +62,24 @@ class ApiCustomerController extends Controller
        
     // }
     $data = $this->customer->create($request->all());
+  
     return response()->json(['message' => 'Customer  Data Added Successfully', 'data' => $data]);
 
 }
 public function updateCustomer(Request $request){
     $validator = $request->validate([
         'Customer_id' => 'required',
+         'email' => 'required|email',
+         'mobile' => 'required',
+         'address' => 'required',
+         
     ]);
-    $data = $this->customer->find($request->customer);
+    $data = $this->customer->find($request->Customer_id);
+
     $data->update($request->all());
-    return response()->json(['message' => 'Banner Data Updated Successfully', 'data' => $data]);
+    
+  
+    return response()->json(['message' => 'customer Data Updated Successfully', 'data' => $data]);
 }
 
 public function deleteCustomer(Request $request){
@@ -78,6 +87,11 @@ public function deleteCustomer(Request $request){
         'customer_id' => 'required'
     ]);
     $data = $this->customer->find($request->customer_id);
+    if(!$data) {
+        //throw new DataDeletionException("Customer not found.");
+        die("Customer not found.");
+    }else{
     $data->delete();
-    return response()->json(['message' => 'Banner Data Deleted Successfully']);}
+    return response()->json(['message' => 'customer Data Deleted Successfully']);}
+}
 }

@@ -40,8 +40,8 @@
                                             <td><input value="{{$data->description}}" name="description" type="text" class="form-control" /></td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2">
-                                                <a href="{{url('admin/rooms')}}" class="btn btn-primary">submit</a>
+                                            <td colspan="3">
+                                                <input type="submit" class="btn btn-primary">
                                                
                                             </td> 
                                         </tr>

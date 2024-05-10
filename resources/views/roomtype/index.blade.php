@@ -32,9 +32,9 @@
                                                 <td>{{$d->id}}</td>
                                                 <td>{{$d->title}}</td>
                                                 <td>{{$d->price}}RS</td>
-                                                <td>
-                                                    <img src="{{asset('public/uploads/Roomtype/'.$d->img_src)}}" alt="" width="60" hight="100"></td>
-                                                <td>
+                                                
+                                                    <td><img width="100" src="{{asset('storage/app/'.$d->img_src)}}" /></td>
+                                            <td>
                                                     <a href="{{url('admin/roomtype/'.$d->id)}}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                                     <a href="{{url('admin/roomtype/'.$d->id).'/edit'}}" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></a>
                                                     <a onclick="return confirm('Are you sure to delete this data?')" href="{{url('admin/roomtype/'.$d->id).'/delete'}}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>

@@ -93,7 +93,7 @@ Route::post('admin/login',[AdminController::class,'check_login']);
 Route::get('admin/logout',[AdminController::class,'logout']);
 
 // Admin Dashboard
-Route::get('/dashboard',[AdminController::class,'dashboard']);
+Route::get('/admin/dashboard',[AdminController::class,'dashboard']);
 
 // Banner Routes
 Route::get('admin/banner/{id}/delete',[BannerController::class,'destroy']);
@@ -110,6 +110,7 @@ Route::resource('admin/rooms',RoomController::class);
 // Customer
 Route::get('admin/customer/{id}/delete',[CustomerController::class,'destroy']);
 Route::get('admin/customer/{id}/edit',[CustomerController::class,'edit']);
+Route::post('admin/customer/update/{id}',[CustomerController::class,'update']);
 Route::resource('admin/customer',CustomerController::class);
 
 // Delete Image
@@ -132,19 +133,21 @@ Route::resource('admin/staff',StaffController::class);
 // Booking
 
 Route::get('admin/booking',[BookingController::class,'index']);
-Route::get('admin/booking/create',[BookingController::class,'create']);
-Route::post('admin/booking/store',[BookingController::class,'store']);
-Route::post('admin/booking/update/{id}',[BookingController::class,'update']);
-Route::get('admin/booking/delete/{id}',[BookingController::class,'delete']);
+Route::get('admin/booking/create',[BookingController::class ,'create']);
+Route::post('admin/booking',[BookingController::class,'store']);
+Route::get('admin/booking/{id}/edit',[BookingController::class,'edit']);
+Route::post('admin/booking/{id}',[BookingController::class,'update']);
+// Route::post('admin/booking/update/',[BookingController::class]);
+Route::get('admin/booking/{id}',[BookingController::class,'show']);
+Route::get('admin/booking/{id}/delete',[BookingController::class, 'destroy']);
+
+
+
 
 Route::get('login',[CustomerController::class,'login']);
 Route::post('customer/login',[CustomerController::class,'customer_login']);
 Route::get('register',[CustomerController::class,'register']);
 Route::get('logout',[CustomerController::class,'logout']);
-
-Route::get('booking',[BookingController::class,'front_booking']);
-Route::get('booking/success',[BookingController::class,'booking_payment_success']);
-Route::get('booking/fail',[BookingController::class,'booking_payment_fail']);
 
 
 

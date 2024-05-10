@@ -32,22 +32,17 @@
                                             <td><textarea name="detail" class="form-control">{{$data->detail}}</textarea></td>
                                         </tr>
                                         <tr>
-                                            <th>Gallery Images</th>
-                                            <td>
-                                                <table class="table table-bordered mt-3">
-                                                    <tr>
-                                                        <input type="file" name="img_src" /> 
-                                                    </tr>
-                                                        <td class="imgcol{{$img_src->id}}">
-                                                            <img width="150" src="{{asset('storage/app/'.$data->img_src)}}" />
-<p class="mt-2">
-    <button type="button" onclick="return confirm('Are you sure you want to delete this image??')" class="btn btn-danger btn-sm delete-image" data-image-id="{{$img->id}}"><i class="fa fa-trash"></i></button>
-</p>
-                                                        </td>
-                                                    
-                                                    </tr>
-                                                </table>
-                                            </td>
+                                            
+                                                <th> Image<span class="text-danger">*</span></th>
+                                                <td>
+                                                    <input name="img_src" type="file" />
+                                                    <input type="hidden" name="prev_photo" value="{{$data->img_src}}" />
+                                                    <img width="100" src="{{asset('storage/app/'.$data->img_src)}}" />
+                                                </td>
+                                            </tr>
+        </table>
+          
+                                            
                                         </tr>
                                         <tr>
                                             <td colspan="2">

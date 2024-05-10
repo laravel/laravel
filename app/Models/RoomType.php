@@ -12,5 +12,6 @@ class RoomType extends Model
     // function roomtypeimgs(){
     //     return $this->hasMany(Roomtypeimage::class,'room_type_id');
     // }
+    protected $fillable=['title','price','detail','img_src'];
 
 }

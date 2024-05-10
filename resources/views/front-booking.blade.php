@@ -29,7 +29,7 @@
                 </tr>
                 <tr>
                   
-                        <select class="form-control room-list" name="room_id"> --}}
+                        <select class="form-control room-list" name="room_id"> 
                             <tr>
                                 <th>Room Type <span class="text-danger">*</span></th>
                             <td> 

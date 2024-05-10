@@ -7,7 +7,7 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">All Bookings
-                                {{-- <a href="{{url('admin/booking/create')}}" class="float-right btn btn-success btn-sm">Add New</a> --}}
+                                <a href="{{url('admin/booking/create')}}" class="float-right btn btn-success btn-sm">Add New</a>
                             </h6>
                         </div>
                         <div class="card-body">
@@ -19,33 +19,44 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Customer</th>
-                                            <th>Room No.</th>
-                                            <th>CheckIn Date</th>
-                                            <th>CheckOut Date</th>
-                                            <th>Adults</th>
-                                            <th>Children</th>
-                                            <th>payment</th>
+                                            <th>Guest Name</th>
+                                            <th>Guest Email</th>
+                                            <th>Room Type</th>
+                                            <th>Check-in Date</th>
+                                            <th>Check-out Date</th>
+                                            <th>Payment</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                    
                                     </tfoot>
                                     <tbody>
-                                        @foreach($data as $booking)
+
                                         <tr>
-                                            <td>{{$booking->id}}</td>
-                                            <td>{{$booking->customer_name}}</td>
-                                            <td>{{$booking->room_no}}</td> 
-                                            <td>{{$booking->checkin_date}}</td>
-                                            <td>{{$booking->checkout_date}}</td>
-                                            <td>{{$booking->total_adults}}</td>
-                                            <td>{{$booking->total_children}}</td>
-                                            <td>{{$booking->payment}}</td>
                                             
-                                            <td><a href="{{url('admin/booking/'.$booking->id.'/delete')}}" class="text-danger" onclick="return confirm('Are you sure you want to delete this data?')"><i class="fa fa-trash"></i></a></td>
+
+                                         @foreach ($booking as $booking)
+                                             
+                                        
+                                             <td>{{$booking->booking_id}}</td>
+                                            <td>{{$booking->guest_name}}</td>
+                                            <td>{{$booking->guest_email}}</td>
+                                            <?php $room_type_id = DB::table('room_types')->where('id', $booking->room_type_id)->first(); ?>
+                                            <td value="{{$booking->room_type_id}}">{{$room_type_id->title }}</td>
+                                          <td>{{$booking->check_in_date}}</td>                                            
+                                          <td>{{$booking->check_out_date}}</td>                                           
+                                            <td>{{$booking->total_price}}</td>
+                                            
+                                            <td>
+                                                <a href="{{url('admin/booking/'.$booking->booking_id.'/edit')}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i></a>
+                                                <a href="{{url('admin/booking/'.$booking->booking_id)}}" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>
+                                                <a onclick="return confirm('Are you sure to delete this data?')"  href="{{url('admin/booking/'.$booking->booking_id).'/delete'}}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                            
+
                                         </tr>
                                         @endforeach
+                                        
                                     </tbody>
                                 </table>
                             </div>

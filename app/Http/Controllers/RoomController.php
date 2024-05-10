@@ -64,6 +64,7 @@ class RoomController extends Controller
     public function show($id)
     {
         $data=Room::find($id);
+        $data->save();
         return view('room.show',['data'=>$data]);
     }
 
@@ -77,6 +78,7 @@ class RoomController extends Controller
     {   
         $roomtypes=RoomType::all();
         $data=Room::find($id);
+        //dd($data);
         return view('room.edit',['data'=>$data,'roomtypes'=>$roomtypes]);
     }
 

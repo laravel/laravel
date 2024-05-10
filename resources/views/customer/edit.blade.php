@@ -60,7 +60,7 @@
                                         </td> --}}
                                         <tr>
                                             <td colspan="2">
-                                                <input type="submit" class="btn btn-primary" />
+                                                <input type="submit" class="btn btn-primary"  />
                                             </td> 
                                         </tr>
                                     </table>
@@ -73,3 +73,4 @@
                 <!-- /.container-fluid -->
 
 @endsection
+

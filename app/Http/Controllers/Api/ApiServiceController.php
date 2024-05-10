@@ -47,6 +47,9 @@ public function deleteBanner(Request $request){
         'id' => 'required'
     ]);
     $data = $this->service->find($request->id);
+    if($data==null) {
+        return response()->json(['message' => 'service Data Not Found'], 404);
+    }
     $data->delete();
     return response()->json(['message' => 'service Data Deleted Successfully']);
 }

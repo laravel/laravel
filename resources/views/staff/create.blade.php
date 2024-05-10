@@ -15,7 +15,7 @@
                             <p class="text-success">{{session('success')}}</p>
                             @endif
                             <div class="table-responsive">
-                                <form enctype="multipart/form-data" method="post" action="{{url('admin/staff')}}">
+                                <form enctype="multipart/form-data" method="Post" action="{{url('admin/staff')}}">
                                     @csrf
                                     <table class="table table-bordered">
                                         <tr>
@@ -35,7 +35,7 @@
                                         </tr>
                                         <tr>
                                             <th>Photo</th>
-                                            <td><input name="photo" type="file" /></td>
+                                            <td><input name="image_src" type="file" /></td>
                                         </tr>
                                         <tr>
                                             <th>Bio</th>

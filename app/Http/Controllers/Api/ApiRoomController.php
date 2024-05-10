@@ -27,16 +27,26 @@ class ApiRoomController extends Controller
             'description' => 'required',
             'room_type_id' => 'required',
         ]);
-        $data = $this->room->create($request->all());
+         $data=new Room;
+         $data->title=$request->title;
+         $data->description=$request->description;
+         $data->room_type_id=$request->room_type_id;
+         $data->save();
+       // $data = $this->room->create($request->all());
         return response()->json(['message' => 'Room Data Added Successfully', 'data' => $data]);
     }
     
     public function updateroom(Request $request){
         $validator = $request->validate([
             'room_id' => 'required',
+
         ]);
+
+
         $data = $this->room->find($request->banner_id);
+        
         $data->update($request->all());
+        
         return response()->json(['message' => 'Room Data Updated Successfully', 'data' => $data]);
     }
 
@@ -44,7 +54,7 @@ class ApiRoomController extends Controller
         $validator = $request->validate([
             'room_id' => 'required'
         ]);
-        $data = $this->room->find($request->banner_id);
+        $data = $this->room->find($request->room_id);
         $data->delete();
         return response()->json(['message' => 'Room Data Deleted Successfully']);
     }
