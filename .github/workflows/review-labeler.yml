@@ -1,0 +1,29 @@
+name: Review Labeler
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+        - review_requested
+
+jobs:
+  label:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+    - uses: actions/labeler@v5
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        configuration-path: ".github/review-label.yml"
+
+  remove_label:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+        - uses: actions-ecosystem/action-remove-labels@v1
+          with:
+            labels: draft
+

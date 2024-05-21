@@ -33,6 +33,10 @@ class EventServiceProvider extends ServiceProvider
     {
     }
 
+    public function register(): void
+    {
+    }
+
     /**
      * Determine if events and listeners should be automatically discovered.
      */

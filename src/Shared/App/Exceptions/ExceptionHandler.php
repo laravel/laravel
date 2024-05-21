@@ -23,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Sentry\Laravel\Integration;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ExceptionHandler
@@ -35,6 +36,7 @@ class ExceptionHandler
         $this->convert($exception, array_diff_key([
             AuthenticationException::class => UnauthenticatedException::class,
             AuthorizationException::class => UnauthorizedException::class,
+            AccessDeniedHttpException::class => UnauthorizedException::class,
             NotFoundHttpException::class => PageNotFoundException::class,
             ModelNotFoundException::class => ModelNotFoundHttpException::class,
             BaseRelationNotFoundException::class => RelationNotFoundException::class,

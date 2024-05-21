@@ -61,13 +61,13 @@ This step is not necessary when you use Docker.
 1. Clone GitHub repo for this project locally:
 
    ```bash
-   git clone git@github.com:Light-it-labs/lightranet
+   git clone git@github.com:Light-it-labs/laravel
    ```
 
 2. cd into your project and create a copy of your .env file
 
    ```bash
-   cd lightranet
+   cd laravel
    cp .env.example .env
    ```
 
@@ -295,7 +295,7 @@ To access services in local environment with host aliases, add the following ali
 2. Paste the following hosts aliases:
 
    ```bash
-   127.0.0.1       lightranet.test
+   127.0.0.1       laravel.test
    127.0.0.1       db
    127.0.0.1       s3
    127.0.0.1       redis

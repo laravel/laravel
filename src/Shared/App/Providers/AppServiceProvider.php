@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Lightit\Shared\App\Providers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,5 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        DB::prohibitDestructiveCommands($this->app->isProduction());
     }
 }

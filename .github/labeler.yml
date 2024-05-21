@@ -1,0 +1,42 @@
+draft:
+  - changed-files:
+      - any-glob-to-any-file: '**'
+
+feature:
+  - head-branch: ['^feature', 'feature']
+
+bugfix:
+  - head-branch: [ '^bugfix', 'bugfix' ]
+
+hotfix:
+  - head-branch: [ '^hotfix', 'hotfix' ]
+
+release:
+  - base-branch: 'main'
+
+have testing:
+  - changed-files:
+      - any-glob-to-any-file: tests/**
+
+migrations:
+  - changed-files:
+      - any-glob-to-any-file: database/migrations/**
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file: ['composer.**', 'package.**', 'package-lock.**', 'poetry.lock', 'yarn.lock', 'pnpm-lock.**']
+
+change env:
+  - changed-files:
+      - any-glob-to-any-file: '.env.**'
+
+include command:
+  - changed-files:
+      - any-glob-to-any-file: 'src/Shared/App/Console/**'
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file: ['README.**', 'docs/**']
+
+refactor:
+  - head-branch: [ '^refactor', 'refactor' ]

@@ -43,7 +43,8 @@
       },
       { "action": "composer run-script phpstan", "options": [] },
       { "action": "composer run-script rector", "options": [] },
-      { "action": "composer run-script ecs", "options": [] }
+      { "action": "composer run-script ecs", "options": [] },
+      { "action": "vendor/bin/sail composer test" }
     ]
   }
 }
