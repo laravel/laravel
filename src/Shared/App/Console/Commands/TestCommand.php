@@ -21,8 +21,8 @@ class TestCommand extends Command
 
     public function handle(LoggerInterface $logger): int
     {
-        $logger->info("Hi, Im am Logger! How are u?");
-        $this->info("Done");
+        $logger->info('Hi, Im am Logger! How are u?');
+        $this->info('Done');
 
         return Command::SUCCESS;
     }

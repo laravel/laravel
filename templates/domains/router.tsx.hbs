@@ -1,0 +1,13 @@
+import React from "react";
+import { Route } from "react-router-dom";
+
+import { RouterWrapper } from "~/router";
+import { ScreenExample } from "./screens";
+
+export const {{pascalCase name}}Router = () => {
+  return (
+    <RouterWrapper guest>
+      <Route element={<ScreenExample />} path="/{{kebabCase name}}" />
+    </RouterWrapper>
+  );
+};

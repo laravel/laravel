@@ -14,10 +14,10 @@ We help digital health startups, clinics, and medtech companies ideate, design, 
 
 ## Install
 
-Requirements: Php >= 8.2.0 & Composer
+Requirements: Php >= 8.4.0 & Composer
 
-- `brew install php@8.2 composer` Mac OS X with brew
-- `apt-get install php8.2` Ubuntu with apt-get (use sudo if is necessary)
+- `brew install php@8.4 composer` Mac OS X with brew
+- `apt-get install php8.4` Ubuntu with apt-get (use sudo if is necessary)
 
 This step is not necessary when you use Docker.
 
@@ -25,7 +25,7 @@ This step is not necessary when you use Docker.
 
 - Docker
   - Laravel Sail
-- Laravel 11.X & Php 8.2
+- Laravel 11.X & Php 8.4
   - Tools
     - Clockwork Debug Bar
     - Ide Helper
@@ -41,9 +41,9 @@ This step is not necessary when you use Docker.
 - Postcss
 - Prettier
 - Typescript
-- React 18
-- Tailwindcss 3
-- Mysql 8
+- React 19
+- Tailwindcss 4
+- Postgresql 16
 - Redis
 - Meilisearch
 - Minio
@@ -61,17 +61,23 @@ This step is not necessary when you use Docker.
 1. Clone GitHub repo for this project locally:
 
    ```bash
-   git clone git@github.com:Light-it-labs/lightranet
+   git clone git@github.com:Light-it-labs/laravel
    ```
 
 2. cd into your project and create a copy of your .env file
 
    ```bash
-   cd lightranet
+   cd laravel
    cp .env.example .env
    ```
 
-3. If you have Php installed you can install composer dependencies with sail included with
+3. Change your Php local version with de Project Version in composer.json
+
+   ```bash
+    ./pvm.sh
+   ```
+
+4. Install composer dependencies with sail included with
 
     <!-- cspell: disable -->
 
@@ -80,13 +86,13 @@ This step is not necessary when you use Docker.
      -u "$(id -u):$(id -g)" \
      -v $(pwd):/var/www/html \
      -w /var/www/html \
-     laravelsail/php82-composer:latest \
+     laravelsail/php84-composer:latest \
      composer install --ignore-platform-reqs
    ```
 
    <!-- cspell: enable -->
 
-4. After that you can use laravel sail for running your project.
+5. After that you can use laravel sail for running your project.
 
    ```bash
    sail up
@@ -94,7 +100,7 @@ This step is not necessary when you use Docker.
 
    See more detail below.
 
-5. When the app is running, into the bash container (`sail bash`) you can use the following commands:
+6. When the app is running, into the bash container (`sail bash`) you can use the following commands:
 
    ```bash
    php artisan key:generate
@@ -106,21 +112,23 @@ This step is not necessary when you use Docker.
 ### Frontend
 
 You need nvm installed in your machine. <https://github.com/nvm-sh/nvm#install--update-script>
+You need pnpm installed in your machine <https://pnpm.io/es/installation>
 
-For frontend environment you need install npm dependencies with `npm install` and after that to compile assets for Frontend SPA in local you can run: `npm run dev` or `npm run watch`
-In production environment is necessary run `npm run production`
+
+For frontend environment you need install npm dependencies with `pnpm install` and after that to compile assets for Frontend SPA in local you can run: `npm run dev` or `npm run watch`
+In production environment is necessary run `pnpm run production`
 
 1. Install npm dependencies:
 
    ```bash
    nvm use
-   npm install
+   pnpm install
    ```
 
 2. Run the app:
 
    ```bash
-   npm run dev
+   pnpm run dev
    ```
 
 ### Hooks
@@ -175,7 +183,7 @@ To start all the Docker containers in the background, you may start Sail in "det
 sail up -d
 ```
 
-To stop all of the containers, you may simply press Control + C to stop the container's execution. Or, if the containers are running in the background, you may use the stop command:
+To stop all the containers, you may simply press Control + C to stop the container's execution. Or, if the containers are running in the background, you may use the stop command:
 
 ```bash
 sail stop
@@ -218,7 +226,7 @@ To run all test and generate report coverage you can use:
 
 In computer science, code coverage is a measure used to describe the degree to which the source code of a program is tested by a particular test suite. A program with high code coverage has been more thoroughly tested and has a lower chance of containing software bugs than a program with low code coverage.
 
-You can see the report open _index.html_ in the reports folder.
+You can see the report open _index.html_ in the report's folder.
 
 ### Dusk Test
 
@@ -243,7 +251,7 @@ Couple of things to ensure
 
 That’s it. Create a breakpoint somewhere in the project and check that all is working. Once everything is working, you can remove the “Break at first line in PHP scripts”.
 
-<https://laravel.com/docs/10.x/sail#debugging-with-xdebug>
+<https://laravel.com/docs/master/sail#debugging-with-xdebug>
 
 ## Debugbar
 
@@ -295,7 +303,7 @@ To access services in local environment with host aliases, add the following ali
 2. Paste the following hosts aliases:
 
    ```bash
-   127.0.0.1       lightranet.test
+   127.0.0.1       laravel.test
    127.0.0.1       db
    127.0.0.1       s3
    127.0.0.1       redis
@@ -304,7 +312,7 @@ To access services in local environment with host aliases, add the following ali
 
 ## System Requirements
 
-- php: 8.2.x
+- php: 8.4.x
 - php ini configurations:
   - `upload_max_filesize = 100M`
   - `post_max_size = 100M`

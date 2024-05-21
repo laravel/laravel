@@ -14,7 +14,7 @@ class StoreUserRequestFactory extends RequestFactory
             'name' => $this->faker->name,
             'email' => $this->faker->email,
             'password' => 'passw0rd',
-            'password_confirmation' => 'passw0rd'
+            'password_confirmation' => 'passw0rd',
         ];
     }
 }

@@ -1,0 +1,9 @@
+import { z } from "zod";
+
+export const {{camelCase name}}Schema = z.object({
+  id: z.string(),
+  name: z.string(),
+  address: z.string(),
+});
+
+export const create{{camelCase name}}Schema = {{camelCase name}}Schema.omit({ id: true });

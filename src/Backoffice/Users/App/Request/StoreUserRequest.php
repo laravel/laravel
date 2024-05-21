@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace Lightit\Backoffice\Users\App\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Lightit\Backoffice\Users\Domain\DataTransferObjects\UserDto;
+use Lightit\Backoffice\Users\Domain\Models\User;
 
 class StoreUserRequest extends FormRequest
 {
     public const NAME = 'name';
+
     public const EMAIL = 'email';
+
     public const PASSWORD = 'password';
 
     /**
@@ -21,7 +25,7 @@ class StoreUserRequest extends FormRequest
     {
         return [
             self::NAME => ['required'],
-            self::EMAIL => ['required', 'email:strict'],
+            self::EMAIL => ['required', Rule::email()->strict(), Rule::unique((new User())->getTable())],
             self::PASSWORD => ['required', 'confirmed', Password::min(8)->letters()->numbers()],
         ];
     }

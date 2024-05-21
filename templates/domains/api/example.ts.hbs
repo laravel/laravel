@@ -1,0 +1,95 @@
+/**
+ * This file handles user-related API operations with runtime validation using Zod.
+ * Each function includes a type-safe schema (e.g., `{{camelCase name}}Schema`) for parsing and validating
+ * responses, ensuring that the data conforms to the expected structure at runtime.
+ *
+ * Zod is used here to provide robust validation and type inference, improving data integrity
+ * throughout the API response lifecycle.
+ *
+ * We preserve the `ServiceResponse` structure in the return value, allowing the original metadata
+ * (such as status, pagination, etc.) to pass through, while validating the actual `data` payload.
+ *
+ * The `URL.concat(["/", {{camelCase name}}Id].join(""))` approach is used for constructing dynamic URLs
+ * due to limitations with Handlebars, preventing the use of template literals (e.g., `${URL}/whateverId}`).
+ * However, the template literal format is preferred when possible for simplicity and readability.
+ */
+import { z } from "zod";
+
+import type { ServiceResponse } from "~/api";
+import { api } from "~/api";
+import { create{{camelCase name}}Schema, {{camelCase name}}Schema } from "./schemas";
+
+export type {{pascalCase name}} = z.infer<typeof {{camelCase name}}Schema>;
+export type Create{{pascalCase name}} = z.infer<typeof create{{camelCase name}}Schema>;
+
+export type {{pascalCase name}}ListParams = {
+  page?: number;
+};
+
+const URL = "/{{kebabCase name}}";
+
+export const get{{pascalCase name}} = async (params: {{pascalCase name}}ListParams) => {
+  const { data } = await api.get<ServiceResponse<{{pascalCase name}}[]>>(URL, {
+    params,
+  });
+
+  // Runtime type check
+  const parsed = data.data.map((item) => {{camelCase name}}Schema.parse(item));
+
+  return {
+    ...data,
+    data: parsed,
+  };
+};
+
+export const get{{pascalCase name}}ById = async ({{camelCase name}}Id: string) => {
+  const { data } = await api.get<ServiceResponse<{{pascalCase name}}>>(
+    URL.concat(["/", {{camelCase name}}Id].join("")),
+  );
+
+  // Runtime type check
+  const parsed = {{camelCase name}}Schema.parse(data.data);
+
+  return {
+    ...data,
+    data: parsed,
+  };
+};
+
+export const create{{pascalCase name}} = async (body: Create{{pascalCase name}}) => {
+  const { data } = await api.post<ServiceResponse<{{pascalCase name}}>>(
+    URL,
+    body,
+  );
+
+  // Runtime type check
+  const parsed = {{camelCase name}}Schema.parse(data.data);
+
+  return {
+    ...data,
+    data: parsed,
+  };
+};
+
+export const update{{pascalCase name}} = async (body: {{pascalCase name}}) => {
+  const { data } = await api.put<ServiceResponse<{{pascalCase name}}>>(
+    URL.concat(["/", body.id].join("")),
+    body,
+  );
+
+  // Runtime type check
+  const parsed = {{camelCase name}}Schema.parse(data.data);
+
+  return {
+    ...data,
+    data: parsed,
+  };
+};
+
+export const delete{{pascalCase name}} = async ({{camelCase name}}Id: string) => {
+  const { data } = await api.delete<ServiceResponse<void>>(
+    URL.concat(["/", {{camelCase name}}Id].join("")),
+  );
+
+  return data;
+};

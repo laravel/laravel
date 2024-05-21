@@ -1,0 +1,144 @@
+import { createQueryKeys } from "@lukemorales/query-key-factory";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import type {
+  {{pascalCase name}},
+  {{pascalCase name}}ListParams,
+} from "../api/{{kebabCase name}}";
+import {
+  create{{pascalCase name}},
+  delete{{pascalCase name}},
+  get{{pascalCase name}}ById,
+  get{{pascalCase name}},
+  update{{pascalCase name}},
+} from "../api/{{kebabCase name}}";
+
+const {{camelCase name}}Keys = createQueryKeys("{{camelCase name}}", {
+  list: {
+    queryKey: null,
+    queryFn: () => get{{pascalCase name}},
+  },
+  detail: ({{camelCase name}}Id: string) => ({
+    queryKey: [{{camelCase name}}Id],
+    queryFn: () => get{{pascalCase name}}ById({{camelCase name}}Id),
+  }),
+});
+
+const use{{pascalCase name}}Query = (params: {{pascalCase name}}ListParams) =>
+useQuery({
+  ...{{camelCase name}}Keys.list,
+  queryFn: () => get{{pascalCase name}}(params),
+});
+
+const use{{pascalCase name}}DetailQuery = ({{camelCase name}}Id: string) =>
+  useQuery({{camelCase name}}Keys.detail({{camelCase name}}Id));
+
+const usePrefetch{{pascalCase name}}DetailQuery = ({{camelCase name}}Id: string) => {
+  const queryClient = useQueryClient();
+  return queryClient.prefetchQuery({{camelCase name}}Keys.detail({{camelCase name}}Id));
+}
+
+const useCreate{{pascalCase name}}Mutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: create{{pascalCase name}},
+    onSuccess: (new{{pascalCase name}}) => {
+      queryClient.setQueryData(
+        {{camelCase name}}Keys.detail(new{{pascalCase name}}.data.id).queryKey,
+        new{{pascalCase name}},
+      );
+
+      void queryClient.invalidateQueries({
+        queryKey: {{camelCase name}}Keys._def,
+      });
+    },
+  });
+}
+const useUpdate{{pascalCase name}}Mutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: update{{pascalCase name}},
+    onMutate: async (new{{pascalCase name}}) => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries({{camelCase name}}Keys.detail(new{{pascalCase name}}.id));
+
+      // Snapshot the previous value
+      const previousTasks = queryClient.getQueryData(
+        {{camelCase name}}Keys.detail(new{{pascalCase name}}.id).queryKey,
+      );
+
+      // Optimistically update to the new value
+      queryClient.setQueryData(
+        {{camelCase name}}Keys.detail(new{{pascalCase name}}.id).queryKey,
+        new{{pascalCase name}},
+      );
+
+      // Return a context object with the snapshotted value
+      return { previousTasks };
+    },
+    onError: (_err, {{camelCase name}}, context) => {
+      queryClient.setQueryData(
+        {{camelCase name}}Keys.detail({{camelCase name}}.id).queryKey,
+        context?.previousTasks,
+      );
+    },
+    onSuccess: (new{{pascalCase name}}) => {
+      queryClient.setQueryData(
+        {{camelCase name}}Keys.detail(new{{pascalCase name}}.data.id).queryKey,
+        new{{pascalCase name}},
+      );
+
+      void queryClient.invalidateQueries({
+        queryKey: {{camelCase name}}Keys._def,
+      });
+    },
+  });
+}
+
+const useDelete{{pascalCase name}}Mutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: delete{{pascalCase name}},
+    onMutate: async ({{camelCase name}}Id) => {
+      // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries({{camelCase name}}Keys.detail({{camelCase name}}Id));
+
+      // Snapshot the previous value
+      const previousTasks = queryClient.getQueryData(
+        {{camelCase name}}Keys.detail({{camelCase name}}Id).queryKey,
+      );
+
+      // Optimistically update to the new value
+      queryClient.setQueryData(
+        {{camelCase name}}Keys.detail({{camelCase name}}Id).queryKey,
+        (old: {{pascalCase name}}[]) =>
+          old.filter((t: {{pascalCase name}}) => t.id !== {{camelCase name}}Id),
+      );
+
+      // Return a context object with the snapshotted value
+      return { previousTasks };
+    },
+    onError: (_err, {{camelCase name}}Id, context) => {
+      queryClient.setQueryData(
+        {{camelCase name}}Keys.detail({{camelCase name}}Id).queryKey,
+        context?.previousTasks,
+      );
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: {{camelCase name}}Keys._def,
+      });
+    },
+  });
+}
+
+
+
+export {
+  use{{pascalCase name}}Query,
+  use{{pascalCase name}}DetailQuery,
+  usePrefetch{{pascalCase name}}DetailQuery,
+  useCreate{{pascalCase name}}Mutation,
+  useUpdate{{pascalCase name}}Mutation,
+  useDelete{{pascalCase name}}Mutation,
+};

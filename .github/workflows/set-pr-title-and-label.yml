@@ -1,0 +1,73 @@
+name: Set PR title
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  set-title:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    if: github.actor != 'dependabot[bot]'
+    steps:
+      - name: Set PR title
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo, number: pull_number } = context.issue;
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+            const branchName = pr.head.ref;
+            const baseBranch = pr.base.ref;
+
+            const changeTypes = {
+              feature: '- [x] 💎 Feature',
+              bugfix: '- [x] 🐛 Bug Fix',
+              hotfix: '- [x] 🔥 Hot Fix',
+              release: '- [x] 🚀 Release',
+            };
+
+            const format = (str, ...args) => {
+              return str.replace(/{(\d+)}/g, (match, number) => {
+                return typeof args[number] !== 'undefined' ? args[number] : match;
+              });
+            };
+
+            const today = new Date();
+
+            let title = `Invalid branch name 👀 (type/task-id/description)`;
+            let updatedBody = body;
+
+            if (["main", "master"].includes(baseBranch)) {
+              title = `[Release] vX.X.X 🚀 - ${today.toLocaleDateString('en-GB')}`;
+              updatedBody = '';
+            } else if (["main", "master", "staging", "develop", "demo"].includes(branchName)) {
+              title = `Merge from ${branchName} to ${baseBranch}`;
+            } else {
+              try {
+              const [type, id, description] = branchName.split('/');
+              const templateTitle = description.split("-").join(' ').replace(/\b\w/g, (l) => l.toUpperCase());
+              const taskCode = id.startsWith("CU-") ? id.split("CU-").join('') : id;
+              const typeOfChange = changeTypes[type] || '- [ ] Unknown Type';
+              title = `[${id}] ${templateTitle}`;
+
+                updatedBody = format(body, templateTitle, id, taskCode, typeOfChange);
+              } catch (e) {
+
+              }
+            }
+
+            await github.rest.pulls.update({
+              owner,
+              repo,
+              pull_number,
+              title,
+              body: updatedBody
+            });
+
+      - uses: actions/labeler@v5
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
