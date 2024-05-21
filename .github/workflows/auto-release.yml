@@ -1,0 +1,44 @@
+name: Auto Release on Merge to Main
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  create_release:
+    if: >
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.title, '[Release]')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from PR title
+        id: parse
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const title = context.payload.pull_request.title.trim();
+            // Accepts: [Release] v5.10.0 🚀 - 20/08/2025  (or without emoji/date)
+            const m = title.match(/^\[Release\]\s*v?(\d+\.\d+\.\d+)\b/i);
+            if (!m) {
+              core.setFailed(`Could not extract X.Y.Z from PR title: "${title}"`);
+              return;
+            }
+            core.setOutput('tag', m[1]); // "5.10.0"
+            core.info(`Parsed version: ${m[1]}`);
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.parse.outputs.tag }}" \
+            --generate-notes \
+            --target main

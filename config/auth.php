@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -62,7 +64,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', Lightit\Backoffice\Users\Domain\Models\User::class),
+            'model' => env('AUTH_MODEL', \Lightit\Users\Domain\Models\User::class),
         ],
 
         // 'users' => [

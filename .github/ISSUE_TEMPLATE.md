@@ -31,10 +31,10 @@ Please provide detailed steps for reproducing the issue.
 
 Please provide any relevant information about your setup. This is important in case the issue is not reproducible except for under certain conditions.
 
-- Firmware Version:
-- Operating System:
-- SDK version:
-- Toolchain version:
+* Firmware Version:
+* Operating System:
+* SDK version:
+* Toolchain version:
 
 ## Failure Logs
 

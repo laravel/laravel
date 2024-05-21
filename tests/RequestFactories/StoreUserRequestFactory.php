@@ -11,10 +11,10 @@ class StoreUserRequestFactory extends RequestFactory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->email,
-            'password' => 'passw0rd',
-            'password_confirmation' => 'passw0rd'
+            'name' => fake()->name(),
+            'email_address' => fake()->email(),
+            'password' => '>e$pV4chNFcJoAB%X#{',
+            'password_confirmation' => '>e$pV4chNFcJoAB%X#{',
         ];
     }
 }
