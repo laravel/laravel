@@ -1,0 +1,108 @@
+name: Set PR title
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  set-title:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+      id-token: write
+    if: github.actor != 'dependabot[bot]'
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get latest release tag with gh
+        id: latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Try latest release; fallback to latest tag if none
+          set -e
+          LATEST=$(gh release view --json tagName --jq .tagName 2>/dev/null || true)
+          if [ -z "$LATEST" ]; then
+            LATEST=$(git tag --sort=-creatordate | head -n 1)
+          fi
+          echo "tag=$LATEST" >> $GITHUB_OUTPUT
+
+      - name: Set PR title
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo, number: pull_number } = context.issue;
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+            const branchName = pr.head.ref;
+            const baseBranch = pr.base.ref;
+
+            const changeTypes = {
+              feature: '- [x] 💎 Feature',
+              bugfix: '- [x] 🐛 Bug Fix',
+              hotfix: '- [x] 🔥 Hot Fix',
+              release: '- [x] 🚀 Release',
+            };
+
+            const format = (str, ...args) => {
+              return str.replace(/{(\d+)}/g, (match, number) => {
+                return typeof args[number] !== 'undefined' ? args[number] : match;
+              });
+            };
+
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('en-GB');
+
+            const rawLatest = process.env.LATEST_TAG || '${{ steps.latest.outputs.tag }}';
+            const parse = (s) => {
+              if (!s) return null;
+              s = s.trim().replace(/^v/, '');
+              const m = s.match(/^(\d+)\.(\d+)\.(\d+)/);
+              return m ? { major:+m[1], minor:+m[2], patch:+m[3] } : null;
+            };
+
+            const bumpMinor = ({major, minor}) => `${major}.${minor + 1}.0`;
+            const bumpPatch = ({major, minor, patch}) => `${major}.${minor}.${patch + 1}`;
+
+            let title = pr.title; // default
+            let updatedBody = body;
+
+            if (baseBranch === "main") {
+              const latest = parse(rawLatest) ?? { major:0, minor:0, patch:0 };
+              let next = "X.X.X";
+
+              if (branchName === "develop") {
+                next = bumpMinor(latest);
+              } else {
+                next = bumpPatch(latest);
+              }
+
+              title = `[Release] v${next} 🚀 - ${dateStr}`;
+              updatedBody = '';
+            } else if (["main", "staging", "develop", "demo"].includes(branchName)) {
+              title = `[No-task] Backmerge from ${branchName} to ${baseBranch}`;
+            } else {
+              try {
+              const [type, id, description] = branchName.split('/');
+              const templateTitle = description.split("-").join(' ').replace(/\b\w/g, (l) => l.toUpperCase());
+              const taskCode = id.startsWith("CU-") ? id.split("CU-").join('') : id;
+              const typeOfChange = changeTypes[type] || '- [ ] Unknown Type';
+              title = `[${id}] ${templateTitle}`;
+
+                updatedBody = format(body, templateTitle, id, taskCode, typeOfChange);
+              } catch (e) {
+
+              }
+            }
+
+            await github.rest.pulls.update({ owner, repo, pull_number, title, body: updatedBody });
+
+      - uses: actions/labeler@v6
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
