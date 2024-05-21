@@ -6,6 +6,7 @@
 /storage/*.key
 /storage/pail
 /vendor
+.DS_Store
 .env
 .env.backup
 .env.production
@@ -20,12 +21,13 @@ yarn-error.log
 /.idea
 /.nova
 /.vscode
-/.zed
 /_ide_helper.php
 /.phpstorm.meta.php
 /reports/
 /tsconfig.tsbuildinfo
 /.phpunit.cache/
+/.zed
+.DS_Store
 
 # Sentry Config File
 .env.sentry-build-plugin

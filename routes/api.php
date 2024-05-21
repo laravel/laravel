@@ -2,10 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Lightit\Backoffice\Users\App\Controllers\DeleteUserController;
-use Lightit\Backoffice\Users\App\Controllers\GetUserController;
-use Lightit\Backoffice\Users\App\Controllers\ListUserController;
-use Lightit\Backoffice\Users\App\Controllers\StoreUserController;
+use Lightit\Backoffice\Users\App\Controllers\{
+    DeleteUserController, GetUserController, ListUserController, StoreUserController
+};
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ Route::prefix('users')
     ->middleware([])
     ->group(static function () {
         Route::get('/', ListUserController::class);
-        Route::get('/{user}', GetUserController::class);
+        Route::get('/{user}', GetUserController::class)->withTrashed();
         Route::post('/', StoreUserController::class);
         Route::delete('/{user}', DeleteUserController::class);
     });

@@ -1,0 +1,135 @@
+# This workflow will build and push a new container image to Amazon ECR,
+# and then will deploy a new task definition to Amazon ECS, when there is a push to the "master" branch.
+#
+# To use this workflow, you will need to complete the following set-up steps:
+#
+# 1. Create an ECR repository to store your images.
+#    For example: `aws ecr create-repository --repository-name my-ecr-repo --region us-east-2`.
+#    Replace the value of the `ECR_REPOSITORY` environment variable in the workflow below with your repository's name.
+#    Replace the value of the `AWS_REGION` environment variable in the workflow below with your repository's region.
+#
+# 2. Create an ECS task definition, an ECS cluster, and an ECS service.
+#    For example, follow the Getting Started guide on the ECS console:
+#      https://us-east-2.console.aws.amazon.com/ecs/home?region=us-east-2#/firstRun
+#    Replace the value of the `ECS_SERVICE` environment variable in the workflow below with the name you set for the Amazon ECS service.
+#    Replace the value of the `ECS_CLUSTER` environment variable in the workflow below with the name you set for the cluster.
+#
+# 3. Store your ECS task definition as a JSON file in your repository.
+#    The format should follow the output of `aws ecs register-task-definition --generate-cli-skeleton`.
+#    Replace the value of the `ECS_TASK_DEFINITION` environment variable in the workflow below with the path to the JSON file.
+#    Replace the value of the `CONTAINER_NAME` environment variable in the workflow below with the name of the container
+#    in the `containerDefinitions` section of the task definition.
+#
+# 4. Store an IAM user access key in GitHub Actions secrets named `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
+#    See the documentation for each action used below for the recommended IAM policies for this IAM user,
+#    and best practices on handling the access key credentials.
+
+name: Deploy to Amazon ECS DEV
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["develop"]
+
+env:
+  ENVIRONMENT: dev
+  AWS_REGION: us-east-1 # set this to your preferred AWS region, e.g. us-west-1
+  ECR_REPOSITORY: REPLACEPROJECTNAME # set this to your Amazon ECR repository name
+  ECS_CLUSTER: REPLACEPROJECTNAME # set this to your Amazon ECS cluster name
+  # ECS_TASK_DEFINITION: MY_ECS_TASK_DEFINITION # set this to the path to your Amazon ECS task definition
+  # file, e.g. .aws/task-definition.json
+  CONTAINER_NAME:
+    REPLACEPROJECTNAME # set this to the name of the container in the
+    # containerDefinitions section of your task definition
+  DOCKER_PLATFORM: linux/amd64 # set this to the platform you want to build for
+  IMAGE_TAG: ${{ github.run_id }}-${{ github.run_attempt }}
+  REGISTRY_URL: <ECR URL>
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  setup:
+    name: Deploy
+    runs-on: ubuntu-latest
+    # environment: dev # Works only on paid GH orgs
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ vars.AWS_GITHUB_ACTIONS_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: ${{ env.DOCKER_PLATFORM }}
+
+      - name: Set environment
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_VITE_APP_NAME: "${{ vars.VITE_APP_NAME }}"
+          envkey_VITE_SENTRY_DSN: "${{ vars.VITE_SENTRY_DSN }}"
+          envkey_VITE_SENTRY_ENVIRONMENT: "${{ vars.VITE_SENTRY_ENVIRONMENT }}"
+          envkey_VITE_API_URL: "${{ vars.VITE_API_URL }}"
+          envkey_VITE_APP_ENV: "${{ vars.VITE_APP_ENV }}"
+          envkey_VITE_APP_URL: "${{ vars.VITE_APP_URL }}"
+
+          file_name: .env
+
+      - name: Build and push
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          platforms: ${{ env.DOCKER_PLATFORM }}
+          tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+          file: ./deployment/image/Dockerfile
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    needs: setup
+    runs-on: ubuntu-latest
+    # environment: dev # Works only on paid GH orgs
+    strategy:
+      matrix:
+        service: [app]
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ vars.AWS_GITHUB_ACTIONS_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Download task def
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ matrix.service }}_task_definition_${{ env.ECR_REPOSITORY }} --query taskDefinition > task-definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ env.REGISTRY_URL }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ matrix.service }}_service_${{ env.ECR_REPOSITORY }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: false

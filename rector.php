@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\SetList;
+use Rector\TypeDeclaration\Rector\StmtsAwareInterface\IncreaseDeclareStrictTypesRector;
 use Worksome\CodingStyle\WorksomeRectorConfig;
 
 return static function (RectorConfig $rectorConfig): void {
@@ -20,5 +21,5 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     // Register extra a single rules
-    // $rectorConfig->rule(ClassOnObjectRector::class);
+    $rectorConfig->rule(IncreaseDeclareStrictTypesRector::class);
 };
