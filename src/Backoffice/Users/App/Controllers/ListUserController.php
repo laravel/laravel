@@ -5,20 +5,17 @@ declare(strict_types=1);
 namespace Lightit\Backoffice\Users\App\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Lightit\Backoffice\Users\App\Transformers\UserTransformer;
-use Lightit\Backoffice\Users\Domain\Models\User;
-use Spatie\QueryBuilder\QueryBuilder;
+use Lightit\Backoffice\Users\App\Resources\UserResource;
+use Lightit\Backoffice\Users\Domain\Actions\ListUserAction;
 
-class ListUserController
+final readonly class ListUserController
 {
-    public function __invoke(Request $request): JsonResponse
-    {
-        $users = QueryBuilder::for(User::class)
-            ->get();
+    public function __invoke(
+        ListUserAction $action,
+    ): JsonResponse {
+        $users = $action->execute();
 
-        return responder()
-            ->success($users, UserTransformer::class)
-            ->respond();
+        return UserResource::collection($users)
+            ->response();
     }
 }

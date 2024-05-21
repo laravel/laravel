@@ -1,11 +1,17 @@
 <?php
 
-use Illuminate\Http\Request;
+declare(strict_types=1);
+
+use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Support\Facades\Route;
-use Lightit\Backoffice\Users\App\Controllers\DeleteUserController;
-use Lightit\Backoffice\Users\App\Controllers\GetUserController;
-use Lightit\Backoffice\Users\App\Controllers\ListUserController;
-use Lightit\Backoffice\Users\App\Controllers\StoreUserController;
+use Lightit\Backoffice\Users\App\Controllers\{
+    DeleteUserController,
+    GetUserController,
+    ListUserController,
+    StoreUserController,
+    UpdateUserController
+};
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +24,12 @@ use Lightit\Backoffice\Users\App\Controllers\StoreUserController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')
+    ->get('/me', function (#[CurrentUser] $user) {
+        return response()->json([
+            'data' => $user,
+        ]);
+    });
 
 /*
 |--------------------------------------------------------------------------
@@ -29,9 +38,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 */
 Route::prefix('users')
     ->middleware([])
-    ->group(static function () {
+    ->group(static function (): void {
         Route::get('/', ListUserController::class);
-        Route::get('/{user}', GetUserController::class);
+        Route::get('/{user}', GetUserController::class)
+            ->withTrashed()
+            ->whereNumber('user');
         Route::post('/', StoreUserController::class);
-        Route::delete('/{user}', DeleteUserController::class);
+        Route::put('/{user}', UpdateUserController::class)
+            ->whereNumber('user');
+        Route::delete('/{user}', DeleteUserController::class)
+            ->whereNumber('user');
     });

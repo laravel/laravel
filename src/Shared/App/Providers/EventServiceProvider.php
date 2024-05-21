@@ -22,14 +22,18 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         TestEvent::class => [
-            TestListener::class
-        ]
+            TestListener::class,
+        ],
     ];
 
     /**
      * Register any events for your application.
      */
     public function boot(): void
+    {
+    }
+
+    public function register(): void
     {
     }
 

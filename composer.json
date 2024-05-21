@@ -9,10 +9,10 @@
   ],
   "license": "MIT",
   "require": {
-    "php": "^8.2",
-    "flugger/laravel-responder": "^3.4",
+    "php": "^8.4",
+    "dedoc/scramble": "^0.12.14",
     "guzzlehttp/guzzle": "^7.2",
-    "laravel/framework": "^11.31",
+    "laravel/framework": "^12.0",
     "laravel/sanctum": "^4.0",
     "laravel/tinker": "^2.9",
     "sentry/sentry-laravel": "^4.4",
@@ -21,20 +21,22 @@
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^3.0",
     "brianium/paratest": "^7.4",
+    "captainhook/hook-installer": "^1.0",
     "captainhook/plugin-composer": "^5.3",
     "fakerphp/faker": "^1.23",
     "laravel/pail": "^1.1",
     "laravel/pint": "^1.13",
     "laravel/sail": "^1.26",
+    "laravel/telescope": "^5.6",
     "mockery/mockery": "^1.6",
     "nunomaduro/collision": "^8.1",
-    "pestphp/pest": "^2.34",
-    "pestphp/pest-plugin-laravel": "^2.3",
+    "pestphp/pest": "^3.0",
+    "pestphp/pest-plugin-laravel": "^3.0",
     "phpunit/phpunit": "^11.0.1",
+    "sojeda/conventional-commits": "^1.5",
     "spatie/laravel-ignition": "^2.4",
     "webgriffe/captainhook": "^2.1",
-    "sojeda/conventional-commits": "^1.5",
-    "worksome/coding-style": "^2.6",
+    "worksome/coding-style": "^3.0",
     "worksome/request-factories": "^3.3"
   },
   "autoload": {
@@ -73,6 +75,7 @@
     "ecs": "vendor/bin/ecs",
     "ecs:fix": "vendor/bin/ecs --fix",
     "phpstan": "vendor/bin/phpstan analyse --memory-limit=4G",
+    "phpstan:baseline": "vendor/bin/phpstan analyse --memory-limit=4G --generate-baseline",
     "rector": "vendor/bin/rector process --dry-run --ansi",
     "rector:fix": "vendor/bin/rector process --ansi",
     "fixer": "composer ecs:fix && composer phpstan && composer rector:fix"
@@ -91,7 +94,8 @@
       "php-http/discovery": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "worksome/coding-style": true,
-      "captainhook/plugin-composer": true
+      "captainhook/plugin-composer": true,
+      "captainhook/hook-installer": true
     }
   },
   "minimum-stability": "stable",

@@ -6,13 +6,6 @@ namespace Lightit\Shared\App\Exceptions;
 
 use Closure;
 use Exception;
-use Flugg\Responder\Contracts\Responder;
-use Flugg\Responder\Exceptions\Http\HttpException;
-use Flugg\Responder\Exceptions\Http\PageNotFoundException;
-use Flugg\Responder\Exceptions\Http\RelationNotFoundException;
-use Flugg\Responder\Exceptions\Http\UnauthenticatedException;
-use Flugg\Responder\Exceptions\Http\UnauthorizedException;
-use Flugg\Responder\Exceptions\Http\ValidationFailedException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -22,8 +15,19 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Lightit\Shared\App\Exceptions\Http\HttpException;
+use Lightit\Shared\App\Exceptions\Http\InvalidActionException;
+use Lightit\Shared\App\Exceptions\Http\ModelNotFoundHttpException;
+use Lightit\Shared\App\Exceptions\Http\PageNotFoundException;
+use Lightit\Shared\App\Exceptions\Http\RelationNotFoundException;
+use Lightit\Shared\App\Exceptions\Http\UnauthenticatedException;
+use Lightit\Shared\App\Exceptions\Http\UnauthorizedException;
+use Lightit\Shared\App\Exceptions\Http\ValidationFailedException;
 use Sentry\Laravel\Integration;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class ExceptionHandler
 {
@@ -35,22 +39,44 @@ class ExceptionHandler
         $this->convert($exception, array_diff_key([
             AuthenticationException::class => UnauthenticatedException::class,
             AuthorizationException::class => UnauthorizedException::class,
-            NotFoundHttpException::class => PageNotFoundException::class,
-            ModelNotFoundException::class => ModelNotFoundHttpException::class,
+            AccessDeniedHttpException::class => UnauthorizedException::class,
+            NotFoundHttpException::class => function (NotFoundHttpException $exception): void {
+                $message = preg_replace('/\[.*\\\\([^\]]+)\]/', '$1', $exception->getMessage());
+
+                throw new PageNotFoundException($message);
+            },
+            ModelNotFoundException::class => function (ModelNotFoundException $exception): void {
+                $message = preg_replace('/\[.*\\\\([^\]]+)\]/', '$1', $exception->getMessage());
+
+                throw new ModelNotFoundHttpException($message);
+            },
+            MethodNotAllowedHttpException::class => function (MethodNotAllowedHttpException $exception): void {
+                throw new PageNotFoundException($exception->getMessage());
+            },
             BaseRelationNotFoundException::class => RelationNotFoundException::class,
-            ValidationException::class => function ($exception) {
-                throw new ValidationFailedException($exception->validator);
+            ValidationException::class => function (ValidationException $exception): void {
+                throw new ValidationFailedException($exception->getMessage(), $exception->validator);
             },
         ], array_flip($this->noConvert)));
     }
 
     public function getClosure(): Closure
     {
-        return function (Exceptions $exceptions) {
+        return function (Exceptions $exceptions): void {
             Integration::handles($exceptions);
 
-            $exceptions->render(function (Exception $exception) {
-                $this->convertDefaultException($exception);
+            $exceptions->shouldRenderJsonWhen(function (Request $request, Throwable $th) {
+                if ($request->is('api/*')) {
+                    return true;
+                }
+
+                return $request->expectsJson();
+            });
+
+            $exceptions->render(function (Exception $exception, Request $request): void {
+                if ($request->wantsJson() || Str::of($request->path())->startsWith('api')) {
+                    $this->convertDefaultException($exception);
+                }
             });
 
             $exceptions->render(function (HttpException $exception, Request $request) {
@@ -63,12 +89,20 @@ class ExceptionHandler
 
     protected function renderResponse(HttpException $exception): JsonResponse
     {
-        return app(Responder::class)
-            ->error($exception->errorCode(), $exception->message())
-            ->data($exception->data())
-            ->respond($exception->statusCode(), $exception->getHeaders());
+        return response()->json([
+            'error' => [
+                'code' => $exception->errorCode(),
+                'message' => $exception->message(),
+                ...($exception->data() ?? []),
+            ],
+        ], $exception->statusCode(), $exception->getHeaders());
     }
 
+    /**
+     * @param array<class-string<Exception>, callable|class-string<Exception>> $convert
+     *
+     * @throws Exception
+     */
     protected function convert(Exception $exception, array $convert): void
     {
         foreach ($convert as $source => $target) {
@@ -76,7 +110,12 @@ class ExceptionHandler
                 if (is_callable($target)) {
                     $target($exception);
                 }
-                throw new $target();
+
+                if (is_string($target) && is_subclass_of($target, Exception::class)) {
+                    throw new $target();
+                }
+
+                throw new InvalidActionException('Invalid target provided for exception conversion.');
             }
         }
     }
