@@ -1,0 +1,281 @@
+.dark-version {
+  background-color: $dark-version-bg-color !important;
+
+  .main-content {
+    background-color: $dark-version-bg-color !important;
+  }
+
+  &.virtual-reality {
+    > div {
+      background-image: none !important;
+    }
+  }
+
+  .sidenav {
+    background: $dark-version-sidenav-bg-color !important;
+
+    &.bg-transparent {
+      background: transparent !important;
+
+      .navbar-nav {
+        .nav-link {
+          color: $white !important;
+        }
+      }
+      .nav {
+        .nav-link {
+          color: $white !important;
+        }
+      }
+    }
+
+    &.bg-white {
+      background: $white !important;
+
+      .navbar-nav {
+        .nav-link {
+          &.active:after {
+            color: $dark-version-caret-sidebar-color;
+          }
+        }
+      }
+      .collapse {
+        .nav-item {
+          .nav-link:not(.active) {
+            i {
+              color: $dark !important;
+            }
+          }
+          h6 {
+            color: $dark !important;
+          }
+        }
+      }
+    }
+  
+    .collapse {
+      .nav-item {
+        .nav-link {
+          i {
+            color: $white !important;
+          }
+        }
+      }
+    }
+
+    &.bg-white {
+      .collapse {
+        .nav-item {
+          .nav-link {
+            &.active.text-dark {
+              i,
+              .nav-link-text {
+                color: $dark !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .fixed-plugin {
+    .btn {
+      &.bg-gradient-dark,
+      &.btn-outline-dark {
+        color: $white !important;
+        border: 1px solid $white !important;
+      }
+      &.active {
+        background: $white !important;
+        color: $h-color !important;
+      }
+    }
+  }
+
+  .bg-gradient-dark {
+    background-image: linear-gradient(195deg, $dark-gradient-dark, $dark-gradient-state-dark) !important;
+  }
+
+  .dropdown {
+    .dropdown-menu {
+      &:before {
+        color: $dark-version-card-bg-color;
+      }
+
+      .dropdown-item {
+        &:hover,
+        &:focus {
+          background-color: $dark-version-bg-color !important;
+        }
+        i,
+        .material-icons {
+          color: $white;
+        }
+      }
+    }
+  }
+
+  .card,
+  .swal2-popup,
+  .dropdown .dropdown-menu,
+  .kanban-board {
+    background: $dark-version-card-bg-color;
+    box-shadow: $dark-version-card-box-shadow;
+
+    .card-header {
+      background: transparent;
+    }
+
+    p {
+      color: $white !important;
+      opacity: .6;
+    }
+  }
+
+  .kanban-item {
+    background: transparent !important;
+    border: 1px solid;
+  }
+
+  .swal2-html-container {
+    color: $white !important;
+    opacity: .6;
+  }
+
+  h1, .h1,
+  h2, .h2,
+  h3, .h3,
+  h4, .h4,
+  h5, .h5,
+  h6, .h6,
+  a:not(.dropdown-item):not(.choices__item):not(.leaflet-control-zoom-in):not(.leaflet-control-zoom-out):not(.btn):not(.nav-link):not(.fixed-plugin-button),
+  .table thead tr th,
+  .kanban-title-board {
+    color: $white !important;
+  }
+
+  .input-group {
+    &.input-group-dynamic,
+    &.input-group-static {
+      .form-control {
+        background-image: $dark-version-input-bg-image !important;
+        background-size: 0 100%, 100% 100%;
+        &:focus {
+          background-size: 100% 100%, 100% 100%;
+        }
+      }
+    }
+
+    &.input-group-outline {
+      .form-control {
+        border-color: $dark-version-border-color !important;
+      }
+    }
+
+    .is-valid,
+    .is-invalid {
+      border-color: $dark-version-border-color !important;
+    }
+  }
+
+  .accordion {
+    .accordion-button {
+      border-color: $dark-version-border-color !important;
+      color: $white;
+      opacity: .8;
+    }
+  }
+
+  .table > :not(caption) > * > * {
+    border-color: $dark-version-border-color !important;
+    color: $dark-version-table-color !important;
+  }
+
+  label {
+    color: $dark-version-body-color !important;
+  }
+
+  .list-group-item,
+  .multisteps-form__panel {
+    background-color: transparent !important;
+  }
+
+  .nav {
+    &.bg-white {
+      background-color: $dark-version-card-bg-color !important;
+      box-shadow: $dark-version-card-box-shadow;
+    }
+
+    .nav-link[data-scroll]:hover {
+      color: $h-color !important;
+    }
+  }
+
+  .toast {
+    background-color: $dark-version-card-bg-color !important;
+    box-shadow: $dark-version-card-box-shadow;
+
+    .toast-header {
+      background: transparent;
+    }
+
+    span {
+      color: $white;
+    }
+
+    p {
+      color: $white !important;
+      opacity: .6;
+    }
+  }
+
+  .choices {
+    .choices__input {
+      background-color: transparent !important;
+      border-bottom: 1px solid $dark-version-border-color;
+      color: $white;
+    }
+    .choices__list.choices__list--dropdown {
+      background: $dark-version-card-bg-color;
+      box-shadow: $dark-version-card-box-shadow;
+    }
+  }
+
+  // Fullcalendar changes
+  .fc-theme-standard td,
+  .fc-theme-standard th {
+    border-color: $fc-theme-standard-dark-border-color;
+  }
+
+
+  // Datatable changes
+  .dataTable-sorter::after{
+    border-bottom-color: $white;
+  }
+
+  .dataTable-sorter::before{
+    border-top-color: $white;
+  }
+
+  // Quill changes
+  .ql-snow .ql-stroke {
+    stroke: $light;
+  }
+
+  .ql-snow .ql-fill, .ql-snow .ql-stroke.ql-fill{
+    fill: $light;
+  }
+
+  .ql-toolbar.ql-snow .ql-picker-label{
+    color: $light;
+  }
+
+  .form-control {
+    color: $dark-version-body-color !important;
+  }
+}
+
+body.dark-version {
+  color: $dark-version-body-color !important;
+}

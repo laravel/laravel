@@ -1,0 +1,59 @@
+// Horizontal Faded Line
+$hr-bg:                               transparent !default;
+$hr-transform:                        rotate(90deg) !default;
+$hr-bg-image:                         linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1), rgba(255, 255, 255, 0)) !default;
+$hr-bg-dark-image:                    linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, .4), rgba(0, 0, 0, 0)) !default;
+
+
+// Gradient Animation
+$gradient-animation-background:       linear-gradient(-45deg, $info-gradient, $danger, $warning, $primary-gradient, $dark) !default;
+$gradient-animation-bg-size:          400% 400% !default;
+
+// Device Wrapper
+$device-wrapper-radius:               3.5rem !default;
+$device-wrapper-box-shadow:           0 12px 15px rgba(140, 152, 164, 0.1) !default;
+$device-wrapper-animation:            gradient 10s ease infinite !default;
+
+
+// Nav pills
+$nav-pills-link-border-radius:        0.5rem !default;
+$nav-pills-link-box-shadow:           0px 1px 5px 1px #ddd !default;
+$nav-pills-link-active-padding:       7px 15px !default;
+$nav-pills-link-active-margin:        1px !default;
+$nav-pills-link-active-animation:     .2s ease !default;
+
+// Table Progress
+
+$table-progress-width:                120px !default;
+$table-progress-height:               3px !default;
+$table-progress-margin:               0 !default;
+
+// Tooltip Arrow
+
+$tooltip-arrow-left:                  1px !default;
+$tooltip-arrow-right:                 $tooltip-arrow-left !default;
+
+// Footer Link hover animation
+
+$footer-link-animation:               opacity .3 ease !default;
+
+// Blur background
+
+$blur-light-background:               rgba(255, 255, 255, 0.4) !default;
+$blur-dark-background:                rgba(0, 0, 0, 0.3) !default;
+
+// HR w/ opacity
+
+$hr-bg-color:                         transparent !default;
+$hr-width:                            1px !default;
+$hr-margin:                           .75rem 0 !default;
+$hr-horizontal-bg-image-gray-light:   linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, .1), rgba(0, 0, 0, 0)) !default;
+$hr-bg-color-light:                   linear-gradient(90deg,hsla(0,0%,100%,0),#fff,hsla(0,0%,100%,0)) !default;
+$hr-bg-color-dark:                    linear-gradient(90deg,transparent,rgba(0,0,0,.4),transparent) !default;
+
+// border right - pseudo
+
+$border-right-after-top:              3vh !default;
+$border-right-after-height:           70% !default;
+$border-right-after-width:            50% !default;
+$border-right-after-border-color:     #dee2e6 !default;

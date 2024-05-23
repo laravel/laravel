@@ -1,0 +1,60 @@
+.fixed-plugin{
+  .fixed-plugin-button{
+    background: $white;
+    border-radius: $fixed-plugin-radius;
+    bottom: $fixed-plugin-bottom;
+    right: $fixed-plugin-right;
+    font-size: $font-size-xl;
+    z-index: $fixed-plugin-button-z-index;
+    box-shadow: $fixed-plugin-box-shadow;
+    cursor: pointer;
+    i{
+      pointer-events: none;
+    }
+  }
+  .card{
+    position: fixed !important;
+    right: -$fixed-plugin-card-width;
+    top: 0;
+    height: 100%;
+    left: auto!important;
+    transform: unset !important;
+    width: $fixed-plugin-card-width;
+    border-radius: 0;
+    padding: 0 10px;
+    transition: .2s ease;
+    z-index: $fixed-plugin-card-z-index;
+  }
+
+  .badge{
+    border: 1px solid $white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block;
+    height: 23px;
+    margin-right: 5px;
+    position: relative;
+    width: 23px;
+    transition: $transition-base;
+    &:hover,
+    &.active{
+      border-color: $dark;
+    }
+  }
+
+  .btn.bg-gradient-dark:not(:disabled):not(.disabled) {
+    border: 1px solid transparent;
+    &:not(.active) {
+      background-color: transparent;
+      background-image: none;
+      border: 1px solid $dark;
+      color: $dark;
+    }
+  }
+
+  &.show{
+    .card{
+      right: 0;
+    }
+  }
+}

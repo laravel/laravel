@@ -1,0 +1,47 @@
+.form-control {
+  border: none;
+
+  &.is-invalid {
+    border: $input-border-width solid $input-border-color;
+    padding: $form-control-outline-padding;
+    line-height: 1.3 !important;
+
+    &:focus {
+      box-shadow: 0 0 0 2px rgba($form-feedback-invalid-color, .6);
+    }
+  }
+
+  &.is-valid {
+    border: $input-border-width solid $input-border-color;
+    padding: $form-control-outline-padding;
+    line-height: 1.3 !important;
+
+    &:focus {
+      box-shadow: 0 0 0 2px rgba($form-feedback-valid-color, .65);
+    }
+  }
+
+  &[disabled] {
+    padding: $form-control-outline-padding;
+    line-height: 1.45 !important;
+  }
+}
+
+.input-group {
+  .input-group-text {
+    position: absolute;
+    padding: .75rem 0;
+    right: 0;
+    border-right: 0 !important;
+
+    i {
+      color: $gray-600;
+    }
+  }
+
+  &.input-group-static {
+    .input-group-text {
+      bottom: 0;
+    }
+  }
+}

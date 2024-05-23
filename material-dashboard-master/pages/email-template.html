@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: inherit;
+        }
+
+        html {
+            font-size: 62.5%;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-size: 1.6rem;
+            font-family: "Roboto", sans-serif;
+            padding-inline: 2.6rem;
+        }
+
+        .top-block {
+            background: #3D3B40;
+            color: #fff;
+            text-align: center;
+            padding-block: 6rem;
+        }
+
+        .top-block-item__title {
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .mid-block {
+            text-align: center;
+            padding-block: 6rem;
+        }
+
+        .mid-block__title {
+            font-size: 2.6rem;
+            color: #3D3B40;
+        }
+
+        .mid-block__heading {
+            font-family: "Playfair Display", serif;
+            font-size: 7.5rem;
+            font-weight: 300;
+            margin-block: 2.6rem;
+        }
+
+        .mid-block__paragraph {
+            font-size: 2.6rem;
+            font-family: "Merriweather", serif;
+            margin-block: 5.6rem;
+        }
+
+        .mid-block__confirmation {
+            text-decoration: none;
+            text-transform: uppercase;
+            background-color: #29ADB2;
+            color: #fff;
+            font-size: 2.6rem;
+            padding: 2.8rem 3.8rem;
+            letter-spacing: 3px;
+            display: inline-block;
+            border-radius: 1rem;
+            margin-bottom: 5.6rem;
+        }
+
+        .mid-block__thanks {
+            font-size: 2.8rem;
+            font-family: "Playfair Display", serif;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .mid-block__team {
+            font-family: "Playfair Display", serif;
+            font-size: 5.6rem;
+            font-weight: 500;
+            margin-top: 2.8rem;
+            margin-bottom: 4.6rem;
+        }
+
+        .bottom-block {
+            text-align: center;
+            background-color: #f2f2f2;
+            padding-block: 3.6rem;
+        }
+
+        .bottom-block__socials {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: inline-block;
+            text-decoration: none;
+            color: #fff;
+            background-color: #29ADB2;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+        }
+
+        .bottom-block__copyright {
+            margin-top: 2rem;
+            color: #a2a2a2;
+            font-family: "Playfair Display", serif;
+        }
+
+        @media screen and (width < 51.25em) {
+            .mid-block__title {
+                font-size: 2.2rem;
+            }
+
+            .mid-block__heading {
+                font-size: 4.8rem;
+            }
+
+            .mid-block__paragraph {
+                font-size: 1.8rem;
+            }
+
+            .mid-block__confirmation {
+                font-size: 2rem;
+                letter-spacing: 2px;
+                padding: 2.2rem 3.2rem;
+
+            }
+
+            .mid-block__thanks {
+                font-size: 2.4rem;
+            }
+
+            .mid-block__team {
+                font-size: 3.2rem;
+            }
+        }
+
+        @media screen and (width < 26.875em) {
+            .top-block-item__title {
+                font-size: 2rem;
+            }
+
+            .mid-block__title {
+                font-size: 2rem;
+            }
+
+            .mid-block__heading {
+                font-size: 3.2rem;
+            }
+
+            .mid-block__paragraph {
+                font-size: 1.4rem;
+            }
+
+            .mid-block__confirmation {
+                font-size: 1.6rem;
+                letter-spacing: 1px;
+                padding: 1.8rem 2.4rem;
+            }
+
+            .mid-block__thanks {
+                font-size: 2rem;
+            }
+
+            .mid-block__team {
+                font-size: 2.8rem;
+            }
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="top-block">
+        <div class="top-block-item">
+            <div class="top-block-item__logo"></div>
+            <h2 class="top-block-item__title">
+                Ellevest
+            </h2>
+        </div>
+    </div>
+    <div class="mid-block">
+        <div class="mid-block__title">
+            Confirm Your Email
+        </div>
+        <h1 class="mid-block__heading">
+            Thanks for registering <br> with Ellevest!
+        </h1>
+        <p class="mid-block__paragraph">
+            We're exiceted for you to dream big, invest smart and reach your biggest goals. <br>
+            Now, let's complete your registration.
+        </p>
+
+        <a href="#" class="mid-block__confirmation">
+            Confirm Email Address
+        </a>
+
+        <div class="mid-block__thanks">Thanks,</div>
+        <h2 class="mid-block__team">The Ellevest Team</h2>
+
+    </div>
+    <div class="bottom-block">
+        <div class="bottom-block__socials">
+            <a href="#" class="social-link"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+        <div class="bottom-block__copyright">
+            &copy; 2018 Ellevest Inc.
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+// Ripple effect
+
+.ripple {
+  display: block;
+  position: absolute;
+  background: rgba($white, .3);
+  border-radius: 100%;
+  transform:scale(0);
+  animation:ripple 0.65s linear;
+
+}
+
+@keyframes ripple {
+    100% {opacity: 0; transform: scale(2.5);}
+}

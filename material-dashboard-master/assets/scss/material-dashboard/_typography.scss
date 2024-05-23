@@ -1,0 +1,301 @@
+html *{
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+body {
+  font-weight: $font-weight-normal;
+  line-height: $p-line-height;
+}
+
+h1, .h1 {
+  font-size: $h1-font-size;
+  line-height: $h1-line-height;
+  letter-spacing: $btn-letter-spacing;
+
+  @include media-breakpoint-down(sm) {
+    font-size: rfs-fluid-value($h1-font-size);
+  }
+}
+
+h2, .h2 {
+  font-size: $h2-font-size;
+  line-height: $h2-line-height;
+  letter-spacing: $letter-wider;
+
+  @include media-breakpoint-down(sm) {
+    font-size: rfs-fluid-value($h2-font-size);
+  }
+}
+
+h3, .h3 {
+  font-size: $h3-font-size;
+  line-height: $h3-line-height;
+
+  @include media-breakpoint-down(sm) {
+    font-size: rfs-fluid-value($h3-font-size);
+  }
+}
+
+h4, .h4 {
+  font-size: $h4-font-size;
+  line-height: $h4-line-height;
+
+  @include media-breakpoint-down(sm) {
+    font-size: rfs-fluid-value($h4-font-size);
+  }
+}
+
+h5, .h5 {
+  font-size: $h5-font-size;
+  line-height: $h5-line-height;
+
+  @include media-breakpoint-down(sm) {
+    font-size: rfs-fluid-value($h5-font-size);
+  }
+}
+
+h6, .h6 {
+  font-size: $h6-font-size;
+  line-height: $h6-line-height;
+}
+
+p, .p {
+  font-size: $font-size-base;
+  font-weight: $p-font-weight;
+  line-height: $p-line-height;
+}
+
+.lead {
+  font-size: $lead-font-size;
+  font-weight: $lead-font-weight;
+  line-height: $lead-line-height;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3 {
+  font-weight: $font-weight-bold;
+  font-family: $font-family-base;
+}
+
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  font-weight: $font-weight-bold;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4 {
+  letter-spacing: $letter-tighter;
+}
+
+a {
+  letter-spacing: $letter-normal;
+  color: $dark;
+}
+
+.text-sm {
+  line-height: $text-sm-line-height;
+}
+.text-xs {
+  line-height: $text-xs-line-height;
+}
+
+p, .p {
+  @include font-size($p-font-size);
+}
+.lead {
+  @include font-size($lead-font-size);
+}
+.text-lg {
+  @include font-size($font-size-lg !important);
+}
+.text-md {
+  @include font-size($p-font-size !important);
+}
+.text-sm {
+  @include font-size($font-size-sm !important);
+}
+.text-xs {
+  @include font-size($font-size-xs !important);
+}
+.text-xxs {
+  @include font-size($font-size-xxs !important);
+}
+
+p {
+  line-height: 1.625;
+  font-weight: $font-weight-light;
+}
+
+// stylelint-disable declaration-no-important
+//
+// Text
+//
+.text-sans-serif {
+  font-family: $font-family-sans-serif !important;
+}
+.text-monospace {
+  font-family: $font-family-monospace !important;
+}
+
+// Alignment
+.text-justify {
+  text-align: justify !important;
+}
+
+.text-wrap {
+  white-space: normal !important;
+}
+
+.text-nowrap {
+  white-space: nowrap !important;
+}
+
+.text-truncate {
+  @include text-truncate();
+}
+
+// Weight and italics
+.font-weight-light {
+  font-weight: $font-weight-light !important;
+}
+
+.font-weight-lighter {
+  font-weight: $font-weight-lighter !important;
+}
+
+.font-weight-normal {
+  font-weight: $font-weight-normal !important;
+}
+
+.font-weight-bold {
+  font-weight: $font-weight-bold !important;
+}
+
+.font-weight-bolder {
+  font-weight: $font-weight-bolder !important;
+}
+
+.font-italic {
+  font-style: italic !important;
+}
+// Contextual colors
+
+.text-gradient {
+  background-clip: $text-gradient-bg-clip;
+  -webkit-background-clip: $text-gradient-bg-clip;
+  -webkit-text-fill-color: $text-gradient-text-fill;
+  position: $text-gradient-position;
+  z-index: $text-gradient-zindex;
+
+  &.text-primary {
+    background-image: $text-gradient-bg-primary;
+  }
+  &.text-info {
+    background-image: $text-gradient-bg-info;
+  }
+  &.text-success {
+    background-image: $text-gradient-bg-success;
+  }
+  &.text-warning {
+    background-image: $text-gradient-bg-warning;
+  }
+  &.text-danger {
+    background-image: $text-gradient-bg-danger;
+  }
+  &.text-dark {
+    background-image: $text-gradient-bg-dark;
+  }
+}
+
+.blockquote {
+  border-left: 3px solid $text-muted;
+  > span {
+    font-style: italic;
+  }
+}
+
+.text-muted {
+  color: $text-secondary !important;
+}
+
+.text-black-50 {
+  color: rgba($black, .5) !important;
+}
+
+.text-white-50 {
+  color: rgba($white, .5) !important;
+}
+
+.text-decoration-none {
+  text-decoration: none !important;
+}
+
+.text-break {
+  word-wrap: break-word !important;
+}
+// Reset
+.text-reset {
+  color: inherit !important;
+}
+
+// Letter Spacing
+
+.letter-wider {
+  letter-spacing: $letter-wider;
+}
+.letter-normal {
+  letter-spacing: $letter-normal;
+}
+.letter-tighter {
+  letter-spacing: $letter-tighter;
+}
+
+// Font Weight
+
+.text-lighter {
+  font-weight: $font-weight-lighter;
+}
+.text-light {
+  font-weight: $font-weight-light;
+}
+.text-normal {
+  font-weight: $font-weight-normal;
+}
+.text-bold {
+  font-weight: $font-weight-bold;
+}
+.text-bolder {
+  font-weight: $font-weight-bolder;
+}
+
+
+// Font Size
+
+.text-2xl {
+  font-size: $font-size-2xl;
+}
+.text-3xl {
+  font-size: $font-size-3xl;
+}
+.text-4xl {
+  font-size: $font-size-4xl;
+}
+.text-5xl {
+  font-size: $font-size-5xl;
+}
+.text-6xl {
+  font-size: $font-size-6xl;
+}
+.text-7xl {
+  font-size: $font-size-7xl;
+}
+.text-8xl {
+  font-size: $font-size-8xl;
+}
+.text-9xl {
+  font-size: $font-size-9xl;
+}

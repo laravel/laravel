@@ -1,0 +1,11 @@
+// Tilt Animation
+.tilt {
+  -webkit-transform-style: $tilt-transform-style;
+  transform-style: $tilt-transform-style;
+
+  .up {
+    -webkit-transform: $tilt-transform-up-transform;
+    transform: $tilt-transform-up-transform !important;
+    transition: $tilt-transform-up-transition;
+  }
+}

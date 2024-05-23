@@ -1,0 +1,5 @@
+@mixin shadow-big-color($color){
+  // new box shadow optimized for Tablets and Phones
+  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, .14),
+              0 7px 10px -5px rgba($color, 0.4)
+}

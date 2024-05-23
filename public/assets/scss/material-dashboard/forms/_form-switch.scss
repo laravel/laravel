@@ -1,0 +1,43 @@
+.form-switch{
+  .form-check-input{
+    position: relative;
+    background-color: $form-switch-bg-color;
+    height: $form-switch-height;
+    width: $form-switch-width;
+
+    &:after {
+      transition: transform $form-check-transition-time ease-in-out, background-color $form-check-transition-time ease-in-out;
+      content: "";
+      width: $form-switch-check-after-width;
+      height: $form-switch-check-after-width;
+      border-radius: 50%;
+      border: 1px solid $form-switch-check-after-border-color;
+      position: absolute;
+      background-color: $white;
+      transform: translateX($form-switch-translate-x-start);
+      box-shadow: $form-switch-round-box-shadow;
+      top: $form-switch-check-top;
+      left: $form-switch-check-left;
+    }
+
+    &:checked:after {
+      transform: translateX($form-switch-translate-x-end);
+      border-color: $dark-gradient;
+    }
+
+    &:checked {
+      border-color: $dark-gradient;
+      background-color: $dark-gradient;
+      &:active{
+        &:after{
+          box-shadow: $form-switch-check-active-checked-after-shadow;
+        }
+      }
+    }
+    &:active{
+      &:after{
+        box-shadow: $form-switch-check-active-after-shadow;
+      }
+    }
+  }
+}

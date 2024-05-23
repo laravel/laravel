@@ -1,0 +1,312 @@
+.input-group {
+  @include border-radius(0, 0);
+
+  &:not(.has-validation) {
+    > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
+    > .dropdown-toggle:nth-last-child(n + 3) {
+      @include border-end-radius($border-radius-md);
+    }
+  }
+
+  &.has-validation {
+    > :nth-last-child(n + 3):not(.dropdown-toggle):not(.dropdown-menu),
+    > .dropdown-toggle:nth-last-child(n + 4) {
+      @include border-end-radius($border-radius-md);
+    }
+  }
+
+  &,
+  .input-group-text {
+    transition: $input-transition;
+    border: none;
+  }
+
+  & > :not(:first-child):not(.dropdown-menu) {
+    margin-left: 2px;
+  }
+
+  label {
+    transition: $transition-material;
+  }
+
+  &.input-group-dynamic,
+  &.input-group-static {
+    .form-control {
+      background: $input-background;
+      background-size: $input-background-size;
+      transition: $input-transition;
+
+  		&:not(:first-child) {
+  	    border-left: 0;
+  	    padding-left: 0;
+  		}
+  		&:not(:last-child) {
+  			border-right: 0;
+  			padding-right: 0;
+  		}
+
+      & + .input-group-text {
+        border-left: 0;
+        border-right: $input-border-width solid $input-border-color;
+      }
+
+      &,
+      &:focus{
+        background-image: $input-background-image;
+        border-radius: 0 !important;
+      }
+
+      &:focus{
+        background-size: $input-background-size-focus;
+      }
+
+      &[disabled]{
+        cursor: not-allowed;
+        background-image: $input-background-image-disabled !important;
+      }
+  	}
+
+    .input-group-text {
+      border-right: 0;
+    }
+
+    &.is-focused,
+    &.is-filled {
+      .form-label {
+        font-size: $form-label-font-size-focused !important;
+      }
+    }
+
+    &.is-focused {
+      .form-label {
+        top: $form-label-top-focused;
+      }
+      label {
+        color: $primary;
+      }
+      &.is-valid{
+        label{
+          color: $success;
+        }
+
+        .form-control{
+          &,
+          &:focus{
+            background-image: $input-background-image-valid;
+            border-radius: 0 !important;
+          }
+        }
+      }
+      &.is-invalid{
+        label{
+          color: $danger;
+        }
+
+        .form-control{
+          &,
+          &:focus{
+            background-image: $input-background-image-invalid;
+            border-radius: 0 !important;
+          }
+        }
+      }
+    }
+
+    &.is-valid{
+      .form-control{
+        &,
+        &:focus{
+          background-image: $input-background-image-valid;
+          border-radius: 0 !important;
+        }
+      }
+    }
+
+    &.is-invalid{
+      .form-control{
+        &,
+        &:focus{
+          background-image: $input-background-image-invalid;
+          border-radius: 0 !important;
+        }
+      }
+    }
+
+    &.is-filled.is-focused,
+    &.is-filled {
+      .form-label {
+        top: $form-label-top-focused-filled;
+      }
+    }
+  }
+
+  &.input-group-outline {
+    .form-control {
+      background: none;
+      border: $input-border-width solid $input-border-color;
+      border-radius: $input-border-radius;
+      border-top-left-radius: $border-radius-md !important;
+      border-bottom-left-radius: $border-radius-md !important;
+      padding: $form-control-outline-padding !important;
+      line-height: 1.3 !important;
+
+      &.form-control-lg {
+        padding: $input-padding-y-lg $input-padding-x-lg !important;
+      }
+
+      &.form-control-sm{
+        padding: $input-padding-y-sm $input-padding-x-sm !important;
+      }
+
+      &[disabled]{
+        cursor: not-allowed;
+        border-style: dashed;
+      }
+    }
+
+    .form-label {
+      display: flex;
+      line-height: $form-label-outline-line-height !important;
+      top: -$form-label-outline-top;
+      margin-bottom: 0;
+
+      &:before {
+        content: "";
+        margin-right: 4px;
+        border-left: solid 1px transparent;
+        border-radius: 4px 0;
+      }
+
+      &:after {
+        content: "";
+        flex-grow: 1;
+        margin-left: 4px;
+        border-right: solid 1px transparent;
+        border-radius: 0 5px;
+      }
+
+      &:before,
+      &:after {
+        content: "";
+        border-top: solid 1px;
+        border-top-color: $input-border-color;
+        pointer-events: none;
+        margin-top: $form-label-outline-top;
+        box-sizing: border-box;
+        display: block;
+        height: $form-label-outline-after-height;
+        width: $form-label-outline-after-width;
+        border-width: $form-label-outline-after-border-width;
+        border-color: transparent;
+      }
+    }
+
+    &.is-focused,
+    &.is-filled {
+      .form-label + .form-control {
+        border-color: $primary !important;
+        border-top-color: transparent !important;
+        box-shadow: inset 1px 0 $primary, inset -1px 0 $primary, inset 0 -1px $primary;
+      }
+
+      .form-label {
+        width: 100%;
+        height: 100%;
+        font-size: $form-label-font-size-focused !important;
+        color: $primary;
+        display: flex;
+        line-height: $line-height-sm !important;
+
+        &:before,
+        &:after {
+          opacity: 1;
+        }
+
+        &:before,
+        &:after {
+          border-top-color: $primary;
+          box-shadow: inset 0 1px $primary;
+        }
+      }
+    }
+
+    &.is-valid {
+      .form-control {
+        background-image: escape-svg($form-feedback-icon-valid);
+        background-repeat: no-repeat;
+        background-position: right $input-height-inner-quarter center;
+        background-size: $input-height-inner-half $input-height-inner-half;
+      }
+      &.is-focused,
+      &.is-filled {
+        .form-label + .form-control {
+          border-color: $success !important;
+          box-shadow: inset 1px 0 $success, inset -1px 0 $success, inset 0 -1px $success;
+          border-top-color: transparent !important;
+        }
+        .form-label {
+          color: $success;
+
+          &:before,
+          &:after {
+            border-top-color: $success;
+            box-shadow: inset 0 1px $success;
+          }
+        }
+      }
+    }
+
+    &.is-invalid {
+      .form-control {
+        background-image: escape-svg($form-feedback-icon-invalid);
+        background-repeat: no-repeat;
+        background-position: right $input-height-inner-quarter center;
+        background-size: $input-height-inner-half $input-height-inner-half;
+      }
+      &.is-focused,
+      &.is-filled {
+        .form-label + .form-control {
+          border-color: $danger !important;
+          box-shadow: inset 1px 0 $danger, inset -1px 0 $danger, inset 0 -1px $danger;
+          border-top-color: transparent !important;
+        }
+        .form-label {
+          color: $danger;
+
+          &:before,
+          &:after {
+            border-top-color: $danger;
+            box-shadow: inset 0 1px $danger;
+          }
+        }
+      }
+    }
+  }
+
+  &.input-group-outline,
+  &.input-group-dynamic,
+  &.input-group-static {
+    &.input-group-sm{
+      .form-label,
+      label{
+        font-size: $input-group-sm-font-size;
+      }
+    }
+    &.input-group-lg{
+      .form-label,
+      label{
+        font-size: $input-group-lg-font-size;
+      }
+    }
+  }
+
+  &.input-group-static {
+    .form-control {
+      width: 100%;
+    }
+    label {
+      margin-left: 0;
+      margin-bottom: 0;
+    }
+  }
+}

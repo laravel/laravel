@@ -1,0 +1,53 @@
+// General styles
+
+.table {
+  thead th {
+    padding: $table-head-spacer-y $table-head-spacer-x;
+    text-transform: $table-head-text-transform;
+    letter-spacing: $table-head-letter-spacing;
+    border-bottom: $table-border-width solid $table-border-color;
+  }
+
+  th {
+    font-weight: $table-head-font-weight;
+  }
+
+  td {
+    .progress {
+      height: $table-progress-height;
+      width: $table-progress-width;
+      margin: $table-progress-margin;
+
+      .progress-bar {
+        height: $table-progress-height;
+      }
+    }
+  }
+
+  td,
+  th {
+    white-space: nowrap;
+  }
+  // Vetical align table content
+  &.align-items-center {
+    td,
+    th {
+      vertical-align: middle;
+    }
+  }
+  tbody{
+    tr:last-child{
+      td{
+        border-width: 0;
+      }
+    }
+  }
+
+  > :not(:last-child) > :last-child > * {
+    border-bottom-color: $light;
+  }
+
+  > :not(:first-child) {
+    border-top: (1 * $table-border-width) solid $table-group-separator-color;
+  }
+}

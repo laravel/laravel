@@ -1,0 +1,17 @@
+// Navbar toggler icon on responsive styling
+
+$navbar-toggler-bar-display:                      block !default;
+$navbar-toggler-bar-position:                     relative !default;
+$navbar-toggler-bar-width:                        22px !default;
+$navbar-toggler-bar-height:                       1px !default;
+$navbar-toggler-bar-radius:                       1px !default;
+$navbar-toggler-bar-transition:                   all 0.2s !default;
+$navbar-toggler-bar-margin-top:                   7px !default;
+
+$navbar-toggler-bar-1-transform:                  rotate(45deg) !default;
+$navbar-toggler-bar-1-transform-origin:           10% 10% !default;
+$navbar-toggler-bar-1-margin-top:                 4px !default;
+$navbar-toggler-bar-2-opacity:                    0 !default;
+$navbar-toggler-bar-3-transform:                  rotate(-45deg) !default;
+$navbar-toggler-bar-3-transform-origin:           10% 90% !default;
+$navbar-toggler-bar-3-margin-top:                 3px !default;

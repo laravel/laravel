@@ -1,0 +1,123 @@
+.nav {
+  &.nav-pills {
+    background: $nav-pills-background;
+    border-radius: $nav-pills-border-radius;
+    position: relative;
+    &.nav-pills-vertical {
+      border-radius: $nav-pills-vertical-radius;
+      .nav-link {
+        &.active {
+          border-radius: $nav-pills-vertical-link-radius;
+        }
+      }
+    }
+    .nav-link {
+      z-index: 3;
+      color: $dark;
+      border-radius: $nav-pills-link-border-radius;
+      background-color: inherit;
+      &.active {
+        animation: $nav-pills-link-active-animation;
+      }
+      &:hover:not(.active) {
+        color: $dark;
+      }
+    }
+    &.nav-pills-primary {
+      background: $white;
+      color: $white;
+      .nav-link{
+        &.active{
+          color: $white;
+        }
+      }
+      .moving-tab {
+        .nav-link.active {
+          background: $primary-gradient;
+          color: $primary-gradient;
+        }
+      }
+    }
+    &.nav-pills-info {
+      background: $white;
+      color: $white;
+      .nav-link{
+        &.active{
+          color: $white;
+        }
+      }
+      .moving-tab {
+        .nav-link.active {
+          background: $info-gradient;
+          color: $info-gradient;
+        }
+      }
+    }
+    &.nav-pills-success {
+      background: $white;
+      color: $white;
+      .nav-link{
+        &.active{
+          color: $white;
+        }
+      }
+      .moving-tab {
+        .nav-link.active {
+          background: $success-gradient;
+          color: $success-gradient;
+        }
+      }
+    }
+    &.nav-pills-warning {
+      background: $white;
+      color: $white;
+      .nav-link{
+        &.active{
+          color: $white;
+        }
+      }
+      .moving-tab {
+        .nav-link.active {
+          background: $warning-gradient;
+          color: $warning-gradient;
+        }
+      }
+    }
+    &.nav-pills-danger {
+      background: $white;
+      color: $white;
+      .nav-link{
+        &.active{
+          color: $white;
+        }
+      }
+      .moving-tab {
+        .nav-link.active {
+          background: $danger-gradient;
+          color: $danger-gradient;
+        }
+      }
+    }
+    .nav-item{
+      z-index: 3;
+    }
+  }
+}
+.moving-tab {
+  z-index: 1 !important;
+  .nav-link {
+    color: $white;
+    transition: .2s ease;
+    border-radius: $nav-pills-link-border-radius;
+    &.active {
+      color: $white;
+      font-weight: $font-weight-bold;
+      box-shadow: $nav-pills-link-box-shadow;
+      animation: $nav-pills-link-active-animation;
+      background: $white;
+    }
+    &:hover:not(.active) {
+      color: $dark;
+    }
+  }
+}

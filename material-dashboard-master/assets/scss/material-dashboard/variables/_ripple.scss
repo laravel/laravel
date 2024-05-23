@@ -1,0 +1,32 @@
+// RIPPLE Effect
+
+$ripple-position:                   relative !default;
+
+$ripple-container-position:         absolute !default;
+$ripple-container-top:              0 !default;
+$ripple-container-left:             $ripple-container-top !default;
+$ripple-container-z-index:          1 !default;
+$ripple-container-width:            100% !default;
+$ripple-container-height:           $ripple-container-width !default;
+$ripple-container-overflow:         hidden !default;
+$ripple-container-pointer:          none !default;
+$ripple-container-radius:           inherit !default;
+
+$ripple-decorator-position:         $ripple-container-position !default;
+$ripple-decorator-width:            20px !default;
+$ripple-decorator-height:           $ripple-decorator-width !default;
+$ripple-decorator-mt:               -10px !default;
+$ripple-decorator-ml:               $ripple-decorator-mt !default;
+$ripple-decorator-pointer:          $ripple-container-pointer !default;
+$ripple-decorator-bg-color:         rgba($black, 0.05) !default;
+$ripple-decorator-radius:           100% !default;
+$ripple-decorator-opacity:          0 !default;
+$ripple-decorator-transform:        scale(1) !default;
+$ripple-decorator-transform-origin: 50% !default;
+
+$ripple-on-opacity:                 .1 !default;
+$ripple-on-transition:              opacity 0.15s ease-in 0s,
+                                    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s !default;
+
+$ripple-out-opacity:                0 !default;
+$ripple-out-transition:             opacity 0.1s linear 0s !default;

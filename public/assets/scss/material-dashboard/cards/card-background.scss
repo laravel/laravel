@@ -1,0 +1,81 @@
+.card {
+  &.card-background {
+    align-items: $card-bg-align-items;
+
+    .full-background {
+      background-position: $card-full-bg-bg-position;
+      background-size: $card-full-bg-bg-size;
+      margin-bottom: $card-full-bg-mb;
+      width: $card-full-bg-width;
+      height: $card-full-bg-height;
+      position: $card-full-bg-position;
+      border-radius: $card-border-radius;
+    }
+
+    .card-body {
+      color: $white;
+      position: $card-bg-body-position;
+      z-index: $card-bg-body-z-index;
+
+      .content-center,
+      .content-left {
+        min-height: $card-bg-content-min-height;
+        max-width: $card-bg-content-max-width;
+        padding-top: $card-bg-content-pt;
+        padding-bottom: $card-bg-content-pb;
+      }
+      .content-center {
+        text-align: center;
+      }
+      &.body-left {
+        width: $card-bg-body-left-width;
+      }
+
+      .author {
+        .name {
+          span,
+          .stats {
+            color: $white;
+          }
+        }
+      }
+    }
+
+    &:after {
+      position: $card-bg-filter-position;
+      top: $card-bg-filter-top;
+      bottom: $card-bg-filter-bottom;
+      left: $card-bg-filter-left;
+      height: $card-bg-filter-height;
+      width: $card-bg-filter-width;
+      z-index: $card-bg-filter-z-index;
+      display: $card-bg-filter-display;
+      content: $card-bg-filter-content;
+      background: $card-bg-filter-bg;
+      border-radius: $card-border-radius;
+    }
+
+    @each $name, $val in $theme-gradient-colors {
+      &.card-background-mask-#{$name} {
+        &:before {
+          background: $card-bg-filter-mask-bg;
+        }
+
+        &:after {
+          @include gradient-directional(nth($val, 1) 0%, nth($val, -1) 100%, $deg: 195deg);
+          opacity: .85;
+        }
+      }
+    }
+
+    .card-category {
+      font-size: $font-size-sm;
+      font-weight: $font-weight-bold;
+    }
+
+    .card-description {
+      margin-top: $card-bg-description-margin;
+      margin-bottom: $card-bg-description-margin;
+    }
+  }
+}

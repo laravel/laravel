@@ -1,0 +1,25 @@
+.page-header {
+  padding: $page-header-padding;
+  position: $page-header-position;
+  overflow: $page-header-overflow;
+  display: $page-header-display;
+  align-items: $page-header-align-items;
+  background-size: $page-header-bg-size;
+  background-position: $page-header-bg-position;
+
+  .container {
+    z-index: $page-header-conteiner-index;
+  }
+
+  video {
+    position: absolute;
+    top: $header-video-top;
+    left: $header-video-left;
+    min-width: $header-video-min-width;
+    min-height: $header-video-min-height;
+    width: auto;
+    height: auto;
+    z-index: 0;
+    transform: $header-video-min-transform;
+  }
+}

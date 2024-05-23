@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('./assets/line2.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position-y: 100px;
+    }
+    .container {
+      max-width: 600px;
+      margin-top: 50px;
+      margin-inline: auto;
+      padding: 20px;
+    }
+    footer {
+    /* background-color: #333; */
+    color: black;
+    }
+    header, footer {
+      /* color: #fff; */
+      text-align: center;
+      padding: 10px 0;
+    }
+    header img{
+        width: 250px;
+        height: 100px;
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+    footer p{
+        color: black;
+    }
+    form {
+      /* background-color: #f2f2f2; */
+      background-color: #ffeab3f0;
+      padding-inline: 50px;
+      padding-block: 30px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    input{
+        height: 40px;
+        border: 1px solid black;
+    }
+    input[type="text"], input[type="email"], input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      /* border: 1px solid #ccc; */
+      border-radius: 7px;
+    }
+    input[type="password"], input[type="email"], input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      /* border: 1px solid #ccc; */
+      border-radius: 7px;
+    }
+    input[type="submit"] {
+      background-color: #e1310f;
+      color: #fff;
+      padding: 11px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      height: unset;
+      font-size: 12px;
+    }
+    input[type="submit"]:hover {
+      background-color: #555;
+    }
+    .inbox{
+        width: 50%;
+    }
+    .twinbox{
+        display: flex;
+        gap: 20px;
+    }
+    .form-title{
+        text-transform: uppercase;
+        text-align: center;
+    }
+    .container label{
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .sub-btn{
+        text-align: center;
+        margin-block: 10px;
+    }
+    .login-txt{
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .top-mr-2{
+        margin-top: 10px;
+    }
+    .star{
+        color: red;
+    }
+    .backbtn{
+        text-align: end;
+        margin-top: -40px
+    }
+    .login-link{
+        font-size: 12px;
+        font-weight: 800;
+    }
+    .onebox{
+        margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="./assets/logo.gif" alt="Company Logo" height="50"> <!-- Replace "logo.png" with your logo path -->
+</header>
+
+<div class="container">
+  <form action="#" method="POST">
+    <h2 class="form-title">LOGIN</h2>
+    <div class="backbtn">
+        <img style="background-color: white; padding: 3px; border-radius: 50%;" src="./assets/back.png" alt="">
+    </div>
+    <div class="onebox top-mr-2">
+    <label for="name">Email</label><span class="star">*</span>
+    <input type="text" id="name" placeholder="Enter Registered Email" name="name" required>
+    </div>
+    <div class="onebox top-mr-2">
+    <label for="name">Password</label><span class="star">*</span>
+    <input type="password" id="name" placeholder="Your Password" name="name" required>
+    </div>
+    <div class="sub-btn">
+        <input type="submit" value="LOGIN">
+    </div>
+    <div class="login-txt">
+       <p> Don’t you have an account? <a style="color: inherit; text-decoration: inherit;" class="login-link" href="/register.html">SIGN UP</a></p>
+    </div>
+  </form>
+</div>
+
+<!-- <footer>
+  <p>&copy; IIM ATM 2024</p>
+</footer> -->
+
+</body>
+</html>

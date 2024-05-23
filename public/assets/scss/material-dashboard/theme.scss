@@ -1,0 +1,63 @@
+/*!
+
+=========================================================
+* Material Dashboard 2 - v3.1.0
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (site.license)
+
+* Coded by www.creative-tim.com
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+
+// {{ site.product.name }} components
+
+// Variables
+@import "variables/navbar-vertical";
+@import "variables/social-buttons";
+@import "variables/breadcrumb";
+
+// Mixin
+@import "mixins/mixins";
+
+// Core Components - extra styling
+@import "alert";
+@import "avatars";
+@import "badge";
+@import "buttons";
+@import "breadcrumbs";
+@import "cards";
+@import "dark-version";
+@import "dropdown";
+@import "dropup";
+@import "header";
+@import "fixed-plugin";
+@import "forms/forms";
+@import "footer";
+@import "gradients";
+@import "icons";
+@import "info-areas";
+@import "misc";
+@import "navbar";
+@import "navbar-vertical";
+@import "nav";
+@import "pagination";
+@import "popovers";
+@import "progress";
+@import "rtl";
+@import "ripple";
+@import "social-buttons";
+@import "tables";
+@import "timeline";
+@import "tilt";
+@import "tooltips";
+@import "typography";
+
+// Plugins
+@import "plugins/free/plugins";

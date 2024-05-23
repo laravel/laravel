@@ -1,0 +1,125 @@
+// breadcrumb
+
+.rtl {
+  .breadcrumb {
+    .breadcrumb-item + .breadcrumb-item::before {
+      float: right;
+      padding-left: $breadcrumb-item-padding-x;
+      padding-right: 0;
+    }
+  }
+
+  .sidenav {
+    .navbar-nav {
+      width: 100%;
+      padding-right: 0;
+    }
+  }
+
+  .fixed-plugin {
+    .fixed-plugin-button {
+      left: $fixed-plugin-right;
+      right: auto;
+    }
+
+    .card {
+      left: -$fixed-plugin-card-width !important;
+      right: auto;
+    }
+
+    &.show {
+      .card {
+        right: auto;
+        left: 0 !important;
+      }
+    }
+  }
+
+  .timeline {
+    .timeline-content {
+      margin-right: $timeline-content-margin-left;
+      margin-left: 0;
+    }
+
+    .timeline-step {
+      transform: $timeline-step-transform-rtl;
+    }
+
+    &.timeline-one-side {
+      &:before {
+        right: $timeline-left;
+      }
+
+      .timeline-step {
+        right: $timeline-left;
+      }
+    }
+  }
+
+  .form-check {
+    &.form-switch {
+      .form-check-input {
+        &:after {
+          transform: translateX(-$form-switch-translate-x-start);
+        }
+
+        &:checked:after {
+          transform: translateX($form-switch-translate-x-end);
+        }
+      }
+    }
+  }
+
+  .avatar-group {
+    .avatar + .avatar {
+      margin-left: 0;
+      margin-right: $avatar-group-double;
+    }
+  }
+
+  .dropdown {
+    .dropdown-menu {
+      left: 0;
+    }
+  }
+
+  .input-group {
+    &.input-group-outline {
+      .form-label:before {
+        margin-left: 4px;
+        margin-right: 0;
+        border-radius: 0 4px;
+      }
+      .form-label:after {
+        margin-left: 0;
+        margin-right: 4px;
+        border-radius: 5px 0;
+      }
+
+      &.is-valid,
+      &.is-invalid {
+        .form-control {
+          background-position: left 0.75rem center !important;
+        }
+      }
+    }
+
+    .input-group-text {
+      border-left: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    & > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+      margin-right: -1px;
+      border-top-left-radius: $input-border-radius;
+      border-bottom-left-radius: $input-border-radius;
+    }
+
+    &:not(.has-validation) > .dropdown-toggle:nth-last-child(n + 3),
+    &:not(.has-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu) {
+      border-top-right-radius: $input-border-radius;
+      border-bottom-right-radius: $input-border-radius;
+    }
+  }
+}

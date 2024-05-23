@@ -1,0 +1,58 @@
+@mixin transform-translate-y($value) {
+  -webkit-transform: translate3d(0, $value, 0);
+  -moz-transform: translate3d(0, $value, 0);
+  -o-transform: translate3d(0, $value, 0);
+  -ms-transform: translate3d(0, $value, 0);
+  transform: translate3d(0, $value, 0);
+}
+@mixin perspective($value) {
+  -webkit-perspective: $value;
+  -moz-perspective: $value;
+  -o-perspective: $value;
+  -ms-perspective: $value;
+  perspective: $value;
+}
+@mixin transitions($time, $type) {
+  -webkit-transition: all $time $type;
+  -moz-transition: all $time $type;
+  -o-transition: all $time $type;
+  -ms-transition: all $time $type;
+  transition: all $time $type;
+}
+@mixin transitions-property($property, $time, $type) {
+  -webkit-transition: $property $time $type;
+  -moz-transition: $property $time $type;
+  -o-transition: $property $time $type;
+  -ms-transition: $property $time $type;
+  transition: $property $time $type;
+}
+@mixin transform-style($type){
+  -webkit-transform-style: $type;
+  -moz-transform-style: $type;
+  -o-transform-style: $type;
+  -ms-transform-style: $type;
+  transform-style: $type;
+}
+
+@mixin backface-visibility($type){
+    -webkit-backface-visibility: $type;
+    -moz-backface-visibility: $type;
+    -o-backface-visibility: $type;
+    -ms-backface-visibility: $type;
+        backface-visibility: $type;
+}
+
+@mixin rotateY-180() {
+    -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+    -o-transform: rotateY( 180deg );
+    -ms-transform: rotateY(180deg);
+    transform: rotateY( 180deg );
+}
+
+@mixin border-end-radius($radius: $border-radius) {
+  @if $enable-rounded {
+    border-top-right-radius: valid-radius($radius) !important;
+    border-bottom-right-radius: valid-radius($radius) !important;
+  }
+}

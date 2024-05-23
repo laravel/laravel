@@ -1,0 +1,442 @@
+// update <html> tag border
+html {
+  border: none !important;
+}
+
+// Blur effect
+.blur {
+  box-shadow: $blur-box-shadow;
+  -webkit-backdrop-filter: $blur-backdrop-filter;
+  backdrop-filter: $blur-backdrop-filter;
+  background-color: $card-background-blur !important;
+
+  &.saturation-less {
+    -webkit-backdrop-filter: $blur-backdrop-filter-less;
+    backdrop-filter: $blur-backdrop-filter-less;
+  }
+
+  &.blur-rounded {
+    border-radius: $blur-border-radius-rounded;
+  }
+
+  &.blur-light {
+    background-color: $blur-light-background;
+  }
+  &.blur-dark {
+    background-color: $blur-dark-background;
+  }
+}
+
+.shadow-blur {
+  box-shadow: $shadow-blur-box-shadow !important;
+}
+
+.shadow-card {
+  box-shadow: $card-box-shadow !important;
+}
+
+.navbar-blur {
+  -webkit-backdrop-filter: $blur-backdrop-filter;
+  backdrop-filter: $blur-backdrop-filter;
+  background-color: rgba($white, .58) !important;
+}
+
+.blur-section {
+  -webkit-backdrop-filter: $blur-backdrop-filter;
+  backdrop-filter: $blur-backdrop-filter;
+
+  &.blur-gradient-primary {
+    @include gradient-directional(rgba($primary-gradient, .95) 0%, rgba($primary-gradient-state, .95) 100%, $deg: 195deg);
+  }
+}
+
+// Transition on hover
+* {
+  &.move-on-hover {
+    -webkit-transition: $move-transition;
+    transition: $move-transition;
+    overflow: $move-overflow;
+    -webkit-transform-origin: $move-transform-origin;
+    transform-origin: $move-transform-origin;
+    transform-origin: $move-transform-origin;
+    -webkit-transform: $move-transform;
+    transform: $move-transform;
+    -webkit-backface-visibility: $move-backface-visibility;
+    backface-visibility: $move-backface-visibility;
+    will-change: $move-will-change;
+
+    &:hover {
+      -webkit-transform: $move-hover-transform;
+      transform: $move-hover-transform;
+    }
+  }
+
+  &.gradient-animation {
+    background: $gradient-animation-background;
+    background-size: $gradient-animation-bg-size !important;
+    animation: $device-wrapper-animation;
+  }
+}
+
+hr {
+  border-top: none;
+  height: 1px;
+}
+
+// Vertical Line
+hr.vertical {
+  position: absolute;
+  background-color: $hr-bg-color;
+  height: 100%;
+  right: 0;
+  top: 0;
+  width: 1px;
+
+  &.light {
+    background-image: $hr-bg-color-light;
+  }
+
+  &.dark {
+    background-image: $hr-bg-color-dark;
+  }
+
+  &.gray-light {
+    background-image: $hr-horizontal-bg-image-gray-light;
+  }
+}
+
+// Horizontal Line
+hr.horizontal {
+  background-color: $hr-bg-color;
+
+  &.light {
+    background-image: $hr-bg-color-light;
+  }
+  &.dark {
+    background-image: $hr-bg-color-dark;
+  }
+
+  &.gray-light {
+    background-image: $hr-horizontal-bg-image-gray-light;
+  }
+}
+
+// lock style
+.lock-size {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+.border-radius-xs {
+  border-radius: $border-radius-xs;
+}
+
+.border-radius-sm {
+  border-radius: $border-radius-sm;
+}
+
+.border-radius-md {
+  border-radius: $border-radius-md;
+}
+
+.border-radius-lg {
+  border-radius: $border-radius-lg;
+}
+
+.border-radius-xl {
+  border-radius: $border-radius-xl;
+}
+
+.border-radius-2xl {
+  border-radius: $border-radius-2xl;
+}
+
+.border-radius-section {
+  border-radius: $border-radius-section;
+}
+
+.border-bottom-end-radius-0 {
+  border-bottom-right-radius: 0;
+}
+
+.border-top-end-radius-0 {
+  border-top-right-radius: 0;
+}
+
+.border-bottom-start-radius-0 {
+  border-bottom-left-radius: 0;
+}
+
+.border-top-start-radius-0 {
+  border-top-left-radius: 0;
+}
+
+.border-dashed{
+  border-style: dashed;
+}
+
+.z-index-sticky {
+  z-index: $zindex-sticky;
+}
+
+
+// moving waves animation
+.waves {
+  position: $waves-position;
+  width: $waves-width;
+  height: $waves-height;
+  margin-bottom: $waves-margin-bottom;
+  /*Fix for safari gap*/
+  min-height: $waves-min-height;
+  max-height: $waves-max-height;
+
+  &.waves-sm {
+    height: $waves-height-sm;
+    min-height: $waves-min-height-sm;
+  }
+
+  &.no-animation {
+    .moving-waves > use {
+      animation: none;
+    }
+  }
+}
+
+.wave-rotate {
+  transform: $waves-rotate;
+}
+/* Animation for the waves */
+.moving-waves > use {
+  animation: $moving-waves-animation;
+}
+
+.moving-waves > use:nth-child(1) {
+  animation-delay: $moving-waves-child-1-delay;
+  animation-duration: $moving-waves-child-1-duration;
+}
+
+.moving-waves > use:nth-child(2) {
+  animation-delay: $moving-waves-child-2-delay;
+  animation-duration: $moving-waves-child-2-duration;
+}
+
+.moving-waves > use:nth-child(3) {
+  animation-delay: $moving-waves-child-3-delay;
+  animation-duration: $moving-waves-child-3-duration;
+}
+
+.moving-waves > use:nth-child(4) {
+  animation-delay: $moving-waves-child-4-delay;
+  animation-duration: $moving-waves-child-4-duration;
+}
+
+.moving-waves > use:nth-child(5) {
+  animation-delay: $moving-waves-child-5-delay;
+  animation-duration: $moving-waves-child-5-duration;
+}
+
+.moving-waves > use:nth-child(6) {
+  animation-delay: $moving-waves-child-6-delay;
+  animation-duration: $moving-waves-child-6-duration;
+}
+@keyframes move-forever {
+  0% {
+    transform: $moving-waves-keyframe-0;
+  }
+
+  100% {
+    transform: $moving-waves-keyframe-100;
+  }
+}
+/*Shrinking for mobile*/
+@include media-breakpoint-down(md) {
+  .waves {
+    height: $waves-mobile-height;
+    min-height: $waves-mobile-height;
+  }
+
+  hr.horizontal {
+    background-color: $hr-bg;
+
+    &:not(.dark) {
+      background-image: $hr-bg-image;
+    }
+
+    &.vertical {
+      transform: $hr-transform;
+    }
+
+    &.dark {
+      background-image: $hr-bg-dark-image;
+    }
+  }
+}
+
+.overflow-visible {
+  overflow: visible !important;
+}
+
+// popover title
+.popover {
+  .popover-header {
+    font-weight: 600;
+  }
+}
+
+
+// Background Sizes
+.bg-cover{
+  background-size: cover;
+}
+
+// Mask Class
+.mask {
+  position: $mask-position;
+  background-size: $mask-bg-size;
+  background-position: $mask-bg-position;
+  top: $mask-top;
+  left: $mask-left;
+  width: $mask-width;
+  height: $mask-height;
+  opacity: $mask-opacity;
+}
+
+
+// Cursor Pointer Class
+.cursor-pointer {
+  cursor: pointer;
+}
+
+// Translate 50% Class
+.transform-translate-50{
+  transform: translate(0,-50%)
+}
+
+// VR Pages
+
+@include media-breakpoint-up(lg) {
+  .virtual-reality {
+    .sidenav {
+      animation-name: $animation-name;
+      animation-fill-mode: $animation-mode;
+      animation-duration: $animation-duration;
+      transform: $transform-scale;
+      left: $position-left !important;
+      position: absolute;
+    }
+  }
+}
+
+// Selectpicker
+
+.choices {
+  .choices__list {
+    background: $input-background;
+    background-size: $input-background-size;
+    transition: $input-transition;
+
+    &.choices__list--single {
+      .choices__item--selectable {
+        margin-bottom: 0.5rem;
+      }
+
+      &,
+      &:focus {
+        background-image: $input-background-image;
+      }
+
+
+    }
+
+    &.choices__list--dropdown {
+      background: $white;
+    }
+  }
+
+  &.is-focused {
+    .choices__list {
+      background-size: $input-background-size-focus;
+    }
+  }
+}
+
+// Vertical border w/ pseudo elem
+
+.border-right-after:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: $border-right-after-top;
+  height: $border-right-after-height;
+  width: $border-right-after-width;
+  border-right: 1px solid $border-right-after-border-color;
+}
+
+// sidebar caret RTL
+.rotate-caret {
+  .collapse {
+    .nav-link:after {
+      margin-right: auto;
+      margin-left: 0;
+    }
+  }
+}
+
+@media (min-width: 1200px){
+  .g-sidenav-hidden.rtl .main-content {
+    margin-right: 7rem!important; 
+  }
+}
+
+// perfectScrollbar on RTL page
+.rtl {
+  .ps__rail-y {
+    right: auto !important;
+    left: 0;
+  }
+
+  .start-0 {
+    right: 0 !important;
+  }
+  .end-0 {
+    left: 0 !important;
+  }
+}
+
+// Side Bullets - Scroll to section
+
+
+.bullets {
+  position: sticky;
+  top: 30%;
+  height: 0;
+  transform: translate(-50%, -50%);
+  margin-left: auto;
+}
+
+.bullets ul {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  list-style-type: none;
+  margin-right: -1rem;
+}
+
+.bullets ul li .indicator {
+  cursor: pointer;
+  margin-top: 1rem;
+  display: block;
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background-color: $primary;
+}
+
+.bullets ul li .active {
+  transform: scale(1.3);
+  transition: transform 200ms ease-in-out;
+}
+
+.img-material-tw {
+  object-fit: cover;
+}

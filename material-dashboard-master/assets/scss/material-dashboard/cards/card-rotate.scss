@@ -1,0 +1,148 @@
+.rotating-card-container {
+  @include perspective(800px);
+
+  .card-rotate {
+    background: transparent;
+    box-shadow: none;
+
+    &:after {
+      display: none;
+    }
+  }
+
+  .card {
+    @include transitions(0.8s, cubic-bezier(0.34, 1.45, 0.7, 1));
+    @include transform-style(preserve-3d);
+    position: relative;
+
+    .back,
+    .front {
+      @include backface-visibility(hidden);
+      position: absolute;
+      background-color: $white;
+      border-radius: $border-radius-lg;
+      top: 0;
+      left: 0;
+      justify-content: center;
+      align-content: center;
+      display: -webkit-flex;
+      display: -moz-flex;
+      display: -ms-flexbox;
+      display: -o-flex;
+      display: flex;
+      -moz-flex-direction: column;
+      -ms-flex-direction: column;
+      -o-flex-direction: column;
+      flex-direction: column;
+
+      .card-body {
+        justify-content: center;
+        align-content: center;
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox;
+        display: -o-flex;
+        display: flex;
+        -moz-flex-direction: column;
+        -ms-flex-direction: column;
+        -o-flex-direction: column;
+        flex-direction: column;
+      }
+
+      &:after {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        display: block;
+        left: 0;
+        top: 0;
+        content: "";
+        border-radius: $border-radius-lg;
+        background-image: $text-gradient-bg-primary;
+        opacity: .85;
+      }
+    }
+
+    .front {
+      z-index: 2;
+      position: relative;
+    }
+
+    .back {
+      @include rotateY-180();
+      z-index: 5;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+
+      &.back-background {
+        .card-body {
+          position: relative;
+          z-index: 2;
+        }
+      }
+
+      .card-footer {
+        .btn {
+          margin: 0;
+        }
+      }
+
+      .card-body {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+  }
+
+  &:not(.manual-flip):hover {
+    .card {
+      @include rotateY-180();
+    }
+  }
+
+  &.hover.manual-flip {
+    .card {
+      @include rotateY-180();
+    }
+  }
+
+  .card-profile & {
+    .front {
+      text-align: left;
+    }
+  }
+}
+
+.back-background {
+  .card-body {
+    min-height: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+}
+
+/*       Fix bug for IE      */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .rotating-card-container .card .back,
+  .rotating-card-container .card .front {
+    -ms-backface-visibility: visible;
+    backface-visibility: visible;
+  }
+
+  .rotating-card-container .card .back {
+    visibility: hidden;
+    transition: visibility 0.3s cubic-bezier(0.34, 1.45, 0.7, 1);
+  }
+
+  .rotating-card-container .card .front {
+    z-index: 4;
+  }
+
+  .rotating-card-container.manual-flip.hover .card .back,
+  .rotating-card-container:not(.manual-flip):hover .card .back {
+    z-index: 5;
+    visibility: visible;
+  }
+}

@@ -1,0 +1,195 @@
+// on hover transition variables
+$move-transition:               .2s ease-out !default;
+$move-overflow:                 hidden !default;
+$move-transform:                perspective(999px) rotateX(0deg) translate3d(0,0,0) !default;
+$move-transform-origin:         50% 0 !default;
+$move-backface-visibility:      hidden !default;
+$move-will-change:              transform,box-shadow !default;
+$move-hover-transform:          perspective(999px) rotateX(7deg) translate3d(0px,-4px,5px) !default;
+
+// Sections Height Utilities
+$section-height-25-min-height:  25vh !default;
+$section-height-35-min-height:  35vh !default;
+$section-height-45-min-height:  45vh !default;
+$section-height-50-min-height:  50vh !default;
+$section-height-55-min-height:  55vh !default;
+$section-height-65-min-height:  65vh !default;
+$section-height-70-min-height:  70vh !default;
+$section-height-75-min-height:  75vh !default;
+$section-height-80-min-height:  80vh !default;
+$section-height-85-min-height:  85vh !default;
+$section-height-90-min-height:  90vh !default;
+$section-height-95-min-height:  95vh !default;
+$section-height-100-min-height: 100vh !default;
+
+// extra padding utilities variables - CT
+$padding-6:                     4rem !default;
+$padding-7:                     6rem !default;
+$padding-8:                     8rem !default;
+$padding-9:                     10rem !default;
+$padding-10:                    12rem !default;
+$padding-11:                    14rem !default;
+$padding-12:                    16rem !default;
+
+// extra margins utilities variables - CT
+$margin-6:                      4rem !default;
+$margin-7:                      6rem !default;
+$margin-8:                      8rem !default;
+$margin-9:                      10rem !default;
+$margin-10:                     12rem !default;
+$margin-11:                     14rem !default;
+$margin-12:                     16rem !default;
+
+// extra width values variables - CT
+$width-0:                     0% !default;
+$width-1:                     1% !default;
+$width-2:                     2% !default;
+$width-3:                     3% !default;
+$width-4:                     4% !default;
+$width-5:                     5% !default;
+$width-6:                     6% !default;
+$width-7:                     7% !default;
+$width-8:                     8% !default;
+$width-9:                     9% !default;
+$width-10:                    10% !default;
+$width-15:                    15% !default;
+$width-20:                    20% !default;
+$width-25:                    25% !default;
+$width-30:                    30% !default;
+$width-35:                    35% !default;
+$width-40:                    40% !default;
+$width-45:                    45% !default;
+$width-50:                    50% !default;
+$width-55:                    55% !default;
+$width-60:                    60% !default;
+$width-65:                    65% !default;
+$width-70:                    70% !default;
+$width-75:                    75% !default;
+$width-80:                    80% !default;
+$width-85:                    85% !default;
+$width-90:                    90% !default;
+$width-95:                    95% !default;
+$width-100:                   100% !default;
+
+// extra max width values variables - CT
+$max-width-100:                     100px !default;
+$max-width-200:                     200px !default;
+$max-width-300:                     300px !default;
+$max-width-400:                     400px !default;
+$max-width-500:                     500px !default;
+
+// extra height values variables - CT
+$height-100:                        100px !default;
+$height-200:                        200px !default;
+$height-300:                        300px !default;
+$height-400:                        400px !default;
+$height-500:                        500px !default;
+$height-600:                        600px !default;
+
+
+// extra min height values variables - CT
+$min-height-100:                    100px !default;
+$min-height-130:                    130px !default;
+$min-height-140:                    140px !default;
+$min-height-150:                    150px !default;
+$min-height-160:                    160px !default;
+$min-height-200:                    200px !default;
+$min-height-250:                    250px !default;
+$min-height-300:                    300px !default;
+$min-height-400:                    400px !default;
+$min-height-500:                    500px !default;
+$min-height-600:                    600px !default;
+
+// extra min height values variables - CT
+$max-height-100:                    100px !default;
+$max-height-130:                    130px !default;
+$max-height-140:                    140px !default;
+$max-height-150:                    150px !default;
+$max-height-160:                    160px !default;
+$max-height-200:                    200px !default;
+$max-height-250:                    250px !default;
+$max-height-300:                    300px !default;
+$max-height-400:                    400px !default;
+$max-height-500:                    500px !default;
+$max-height-600:                    600px !default;
+
+// extra min height vh values variables - CT
+$max-height-vh-10:                    10vh !default;
+$max-height-vh-20:                    20vh !default;
+$max-height-vh-30:                    30vh !default;
+$max-height-vh-40:                    40vh !default;
+$max-height-vh-50:                    50vh !default;
+$max-height-vh-60:                    60vh !default;
+$max-height-vh-70:                    70vh !default;
+$max-height-vh-80:                    80vh !default;
+$max-height-vh-90:                    90vh !default;
+$max-height-vh-100:                   100vh !default;
+
+// Extra Padding values Map
+$paddings: (
+  "6": $padding-6,
+  "7": $padding-7,
+  "8": $padding-8,
+  "9": $padding-9,
+  "10": $padding-10,
+  "11": $padding-11,
+  "12": $padding-12
+) !default;
+
+// Extra Margins values Map
+$margins: (
+  "6": $margin-6,
+  "7": $margin-7,
+  "8": $margin-8,
+  "9": $margin-9,
+  "10": $margin-10,
+  "11": $margin-11,
+  "12": $margin-12
+) !default;
+
+$width: (
+  "0": $width-0,
+  "1": $width-1,
+  "2": $width-2,
+  "3": $width-3,
+  "4": $width-4,
+  "5": $width-5,
+  "6": $width-6,
+  "7": $width-7,
+  "8": $width-8,
+  "9": $width-9,
+  "10": $width-10,
+  "15": $width-15,
+  "20": $width-20,
+  "25": $width-25,
+  "30": $width-30,
+  "35": $width-35,
+  "40": $width-40,
+  "45": $width-45,
+  "50": $width-50,
+  "55": $width-55,
+  "60": $width-60,
+  "65": $width-65,
+  "70": $width-70,
+  "75": $width-75,
+  "80": $width-80,
+  "85": $width-85,
+  "90": $width-90,
+  "95": $width-95,
+  "100": $width-100,
+  "auto": auto
+) !default;
+
+
+// blur effect variables
+$blur-border-radius-rounded:    40px !default;
+$blur-box-shadow:               inset 0px 0px 2px #fefefed1 !default;
+$blur-backdrop-filter:          saturate(200%) blur(30px) !default;
+$blur-backdrop-filter-less:     saturate(20%) blur(30px) !default;
+
+$shadow-blur-box-shadow:        inset 0 0px 1px 1px rgba(254, 254, 254, .9), 0 20px 27px 0 rgba(0, 0, 0, .05) !default;
+
+// sidebar variables
+
+$sidebar-width: 80px !default;
+$sidebar-transition: 1s ease !default;

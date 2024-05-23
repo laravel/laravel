@@ -1,0 +1,41 @@
+.dropup {
+  .dropdown-menu {
+    box-shadow: $dropdown-box-shadow;
+    transition: $dropdown-transition;
+    cursor: pointer;
+    top: auto !important;
+    bottom: 100% !important;
+    margin-bottom: $dropup-mb !important;
+    display: block;
+    opacity: 0;
+    transform-origin: $dropup-transform-origin;
+    pointer-events: none;
+    transform: $dropup-transform;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform,box-shadow;
+
+    &.show{
+      pointer-events: auto;
+      transform: $dropup-transform-show;
+      opacity: 1;
+
+      &:after {
+        bottom: -($dropup-animation-arrow-bottom-position - 2);
+      }
+    }
+
+    &:after {
+      font-family: "FontAwesome";
+      content: "\f0d7";
+      position: absolute;
+      z-index: -1;
+      bottom: $dropup-animation-arrow-bottom-position;
+      left: $dropdown-animation-arrow-left-position;
+      right: auto;
+      font-size: $dropdown-animation-arrow-font-size;
+      color: $white;
+      transition: $dropup-animation-arrow-transition;
+    }
+  }
+}

@@ -55,6 +55,13 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
+        
+        'abstracts' => [
+            'driver' => 'local',
+            'root' => storage_path('app/abstracts'),
+            'url' => env('APP_URL') . '/storage/abstracts',
+            'visibility' => 'public',
+        ],
 
     ],
 

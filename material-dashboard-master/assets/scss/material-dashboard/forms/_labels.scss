@@ -1,0 +1,21 @@
+//
+// Labels
+//
+
+label,
+.form-label {
+  font-size: $form-label-font-size;
+  font-weight: $form-label-font-weight;
+  margin-bottom: $form-label-margin-bottom;
+  color: $form-label-color;
+  margin-left: $form-label-margin-left;
+}
+
+.input-group{
+  .form-label{
+    position: $form-label-position;
+    top: $form-label-top;
+    margin-left: 0;
+    transition: $form-label-transition;
+  }
+}

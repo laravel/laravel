@@ -1,0 +1,28 @@
+// Card Profile
+$card-profile-body-text-align:      center !default;
+$card-profile-body-padding:         1.25rem 2rem !default;
+$card-profile-avatar-margin:        0 auto !default;
+$card-profile-img-mt:               32px !default;
+$card-profile-img-radius:           50% !default;
+$card-profile-img-width:            130px !default;
+$card-profile-btn-mt:               24px !default;
+$card-profile-p-line-height:        1.778 !default;
+
+// Card Pricing
+$card-pricing-body-padding:         2.25rem !default;
+$card-pricing-line-height:          1.111 !default;
+$card-pricing-title-mb:             $card-bg-description-margin !default;
+$card-pricing-td-line-height:       1.429 !default;
+$card-pricing-icon-height:          4rem !default;
+$card-pricing-icon-width:           $card-pricing-icon-height !default;
+$card-pricing-icon-position:        absolute !default;
+$card-pricing-icon-top:             -22px !default;
+$card-pricing-icon-font-size:       1.25rem !default;
+$card-pricing-icon-lg-font-size:    1.75rem !default;
+$card-pricing-i-padding:            18px !default;
+$card-pricing-badge-padding:        5px !default;
+$card-pricing-badge-font-size:      6px !default;
+$card-pricing-badge-position:       relative !default;
+$card-pricing-badge-top:            -2px !default;
+$card-pricing-border-color:         linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+$card-pricing-border-color-dark:    linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, .4), rgba(0, 0, 0, 0));

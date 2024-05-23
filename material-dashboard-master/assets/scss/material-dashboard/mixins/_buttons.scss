@@ -1,0 +1,12 @@
+@mixin colored-shadows($value){
+  // new box shadow optimized for Tablets and Phones
+  box-shadow: 0 3px 3px 0 rgba($value, .15),
+              0 3px 1px -2px rgba($value, .2),
+              0 1px 5px 0 rgba($value, .15);
+}
+
+@mixin colored-shadows-hover($value){
+    box-shadow: 0 14px 26px -12px rgba($value, .4),
+                0 4px 23px 0 rgba($value, .15),
+                0 8px 10px -5px rgba($value, .2);
+}

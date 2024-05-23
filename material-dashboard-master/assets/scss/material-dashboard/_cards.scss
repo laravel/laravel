@@ -1,0 +1,60 @@
+.card {
+  box-shadow: $card-box-shadow;
+
+  &[data-animation="true"] {
+    .card-header {
+      @include transform-translate-y(0);
+      -webkit-transition: $header-data-animation-transition;
+      -moz-transition: $header-data-animation-transition;
+      -o-transition: $header-data-animation-transition;
+      -ms-transition: $header-data-animation-transition;
+      transition: $header-data-animation-transition;
+    }
+  }
+
+  @include hover {
+    &[data-animation="true"] {
+      .card-header {
+        @include transform-translate-y(-50px);
+      }
+    }
+  }
+
+  .card-header {
+    padding: $card-header-padding;
+  }
+
+  .card-body {
+    font-family: $font-family-sans-serif;
+    padding: $card-body-padding;
+  }
+
+  &.card-plain {
+    background-color: $card-plain-bg-color;
+    box-shadow: $card-plain-box-shadow;
+  }
+
+  .card-footer {
+    padding: $card-footer-padding;
+    background-color: transparent;
+  }
+}
+
+.author {
+  display: $card-author-display;
+
+  .name > span {
+    line-height: $card-author-name-line-height;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-sm;
+    color: $card-author-name-color;
+  }
+
+  .stats {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-normal;
+  }
+}
+
+@import 'cards/card-background';
+@import 'cards/card-rotate';

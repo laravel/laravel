@@ -1,0 +1,13 @@
+{
+    "name": "creativetimofficial/material-dashboard",
+    "description": "Material Dashboard - Free Bootstrap Material Design Admin",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Creative Tim",
+            "email": "hello@creative-tim.com"
+        }
+    ],
+    "require": {}
+}

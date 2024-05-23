@@ -1,0 +1,63 @@
+.avatar-my{
+    width: 175px;
+    height: 178px;
+}
+
+.avatar-qr{
+    width: 150px;
+    height: 150px;
+}
+.personal-info{
+    gap: 80px;
+}
+
+.personal-info p{
+    font-size: 14px;
+    font-weight: 500;
+}
+
+@media only screen and (max-width: 1200px) {
+    .iimlogo-profilepage{
+        display: none;
+    }
+    #navbarfine{
+        margin-top: -45px;
+    }
+    /* #profiledet-ph{
+        justify-content: center;
+    }
+    #profiledet-ph .profile-info-ph{
+        text-align: center;
+    } */
+    /* #profiledet-ph .profile-qr-ph{
+        text-align: start;
+    } */
+}
+
+@media only screen and (max-width: 575px) {
+    #navbarfine{
+        margin-top: -50px;
+    }
+    #navbarfine .pdinline-0{
+        padding-inline: 0 !important;
+    }
+    #profiledet-ph{
+        justify-content: center;
+    }
+    #profiledet-ph .profile-info-ph{
+        text-align: center;
+    }
+    #profiledet-ph .profile-qr-ph{
+        text-align: center;
+    }
+}
+@media only screen and (min-width: 575px) and (max-width: 670px) {
+    #profiledet-ph .profile-qr-ph{
+        text-align: center;
+    }
+}
+@media only screen and (max-width: 670px) and (min-width: 1200px)  {
+    #profiledet-ph .profile-qr-ph{
+        text-align: end;
+    }
+}

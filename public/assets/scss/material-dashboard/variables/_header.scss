@@ -1,0 +1,24 @@
+$page-header-padding:             0 !default;
+$page-header-position:            relative !default;
+$page-header-overflow:            hidden !default;
+$page-header-display:             flex !default;
+$page-header-align-items:         center !default;
+$page-header-bg-size:             cover !default;
+$page-header-bg-position:         50% !default;
+
+$mask-position:                   absolute !default;
+$mask-bg-size:                    cover !default;
+$mask-bg-position:                center center !default;
+$mask-top:                        0 !default;
+$mask-left:                       $mask-top !default;
+$mask-width:                      100% !default;
+$mask-height:                     $mask-width !default;
+$mask-opacity:                    .8 !default;
+
+$page-header-conteiner-index:     1 !default;
+
+$header-video-top:                50% !default;
+$header-video-left:               $header-video-top !default;
+$header-video-min-width:          100% !default;
+$header-video-min-height:         $header-video-min-width !default;
+$header-video-min-transform:      translateX(-50%) translateY(-50%) !default;

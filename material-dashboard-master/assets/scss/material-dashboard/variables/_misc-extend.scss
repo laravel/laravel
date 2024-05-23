@@ -1,0 +1,48 @@
+// Text Border
+$text-border-bg-color:                rgba($secondary,.5) !default;
+$text-border-bg-color-before:         linear-gradient(90deg,transparent,rgba(117,117,117,.4),rgba(117,117,117,.4)) !default;
+$text-border-bg-color-after:          linear-gradient(90deg,rgba(117,117,117,.4),rgba(117,117,117,.4),transparent) !default;
+$text-border-display:                 inline-block !default;
+$text-border-width:                   30% !default;
+$text-border-height:                  1px !default;
+$text-border-position:                relative !default;
+$text-border-vertical-align:          middle !default;
+$text-border-before-right:            .5em !default;
+$text-border-before-ml:               -50% !default;
+$text-border-after-left:              $text-border-before-right !default;
+$text-border-after-mr:                $text-border-before-ml !default;
+
+
+// Header Shapes
+
+$shape-1-width:                       55% !default;
+$shape-1-left:                        15% !default;
+$shape-2-width:                       35% !default;
+$shape-2-left:                        20% !default;
+$shape-3-width:                       50% !default;
+$shape-3-left:                        -28rem !default;
+
+$shape-img-1-right:                   7% !default;
+$shape-img-1-width:                   36% !default;
+$shape-img-1-margin-top:              12% !default;
+
+$shape-img-2-left:                    24% !default;
+$shape-img-2-width:                   27% !default;
+$shape-img-2-margin-top:              10% !default;
+
+// Comming Soon page
+
+$coming-rotate-transform:             rotate(20deg) !default;
+
+
+// Tilt Animation
+
+$tilt-transform-style:                preserve-3d !default;
+$tilt-transform-up-transform:         translateZ(50px) scale(0.7) !default;
+$tilt-transform-up-transition:        all 0.5s !default;
+
+// Round Slider
+
+$round-slider-m-width:                200px !default;
+$round-slider-scale-m-width:          300px !default;
+$round-slider-transition:             all .5s ease-out 0s !default;

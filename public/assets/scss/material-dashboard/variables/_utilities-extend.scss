@@ -1,0 +1,32 @@
+// Colores Shadow on cards
+$colored-shadow-top:            3.5% !default;
+$colored-shadow-blur:           12px !default;
+$colored-shadow-scale:          .94 !default;
+$colored-shadow-scale-avatar:   .87 !default;
+
+// Card Projects
+$card-project-transition:       .4s cubic-bezier(.215,.61,.355,1) !default;
+$card-project-avatar-transform: scale(.8) translateY(-45px) !default;
+$card-project-hover-transform:  translateY(-2px) !default;
+
+// Transform Perspective effect
+$transform-perspective:         scale(1) perspective(1040px) rotateY(-11deg) rotateX(2deg) rotate(2deg) !default;
+$transform-perspective-inverse: scale(1) perspective(1040px) rotateY(11deg) rotateX(-2deg) rotate(-2deg) !default;
+
+// Z index
+$z-index2:                       2 !default;
+
+// Width in PX
+$width-32-px:                     32px !default;
+$width-48-px:                     48px !default;
+$width-64-px:                     64px !default;
+
+// Wizard variants
+$multistep-progress-primary-color:   #f48aaa !default;
+$multistep-progress-success-color:   #9ed1a0 !default;
+$multistep-progress-danger-color:    #f79592 !default;
+$multistep-progress-warning-color:   #ffc483 !default;
+$multistep-progress-info-color:      #88d9e4 !default;
+$multistep-progress-dark-color:      #848486 !default;
+$multistep-progress-secondary-color: #a4a9b2 !default;
+$multistep-progress-light-color:     #ebeef1 !default;

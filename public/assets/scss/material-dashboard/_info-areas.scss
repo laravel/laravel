@@ -1,0 +1,178 @@
+.icon-shape {
+  width: $icon-md-width;
+  height: $icon-md-width;
+  background-position: $icon-shape-bg-position;
+  border-radius: $border-radius-lg;
+
+  i {
+    color: $white;
+    opacity: $icon-shape-icon-opacity;
+    top: $info-icon-top;
+    position: $info-icon-position;
+  }
+
+  .ni {
+    top: 14px;
+  }
+}
+
+.icon-xxs {
+  width: $icon-xxs-width;
+  height: $icon-xxs-height;
+
+  i {
+    top: $info-icon-top-xxs;
+    font-size: $font-size-xxs;
+  }
+}
+
+.icon-xs {
+  width: $icon-xs-width;
+  height: $icon-xs-height;
+
+  i {
+    top: $info-icon-top-xs;
+    font-size: $font-size-xs;
+  }
+}
+
+.icon-sm {
+  width: $icon-sm-width;
+  height: $icon-sm-height;
+
+  i {
+    top: $info-icon-top-sm;
+    font-size: $font-size-sm;
+  }
+}
+
+.icon-md {
+  width: $icon-md-width;
+  height: $icon-md-height;
+
+  i {
+    top: $info-icon-top-md;
+    font-size: $font-size-lg;
+  }
+
+  &.icon-striped {
+    background-position-x: $icon-striped-bg-md;
+    background-position-y: $icon-striped-bg-md;
+
+    i {
+      top: 11%;
+      margin-left: -10px;
+      font-size: $font-size-sm;
+    }
+  }
+}
+
+.icon-lg {
+  width: $icon-lg-width;
+  height: $icon-lg-height;
+  i {
+    top: $info-icon-top-lg;
+    font-size: $font-size-2xl;
+  }
+
+  &.icon-striped {
+    background-position-x: $icon-striped-bg-lg;
+    background-position-y: $icon-striped-bg-lg;
+
+    i {
+      top: 21%;
+      margin-left: -15px;
+    }
+  }
+}
+
+.icon-xl {
+  width: $icon-xl-width;
+  height: $icon-xl-height;
+  border-radius: $border-radius-lg;
+
+  i {
+    top: $info-icon-top-xl;
+    font-size: 2.1rem;
+  }
+
+  &.icon-striped {
+    background-position-x: $icon-striped-bg-xl;
+    background-position-y: $icon-striped-bg-xl;
+
+    i {
+      top: 30%;
+      margin-left: -15px;
+    }
+  }
+}
+
+.info-horizontal {
+  text-align: left !important;
+
+  .icon {
+    float: left;
+  }
+  .description {
+    overflow: hidden;
+  }
+}
+
+// Icon SVG fill color change
+
+svg.text-primary {
+  .color-foreground {
+    fill: $primary-gradient;
+  }
+  .color-background {
+    fill: $primary-gradient-state;
+  }
+}
+svg.text-secondary {
+  .color-foreground {
+    fill: $secondary-gradient;
+  }
+  .color-background {
+    fill: $secondary-gradient-state;
+  }
+}
+svg.text-info {
+  .color-foreground {
+    fill: $info-gradient;
+  }
+  .color-background {
+    fill: $info-gradient-state;
+  }
+}
+svg.text-warning {
+  .color-foreground {
+    fill: $warning-gradient;
+  }
+  .color-background {
+    fill: $warning-gradient-state;
+  }
+}
+svg.text-danger {
+  .color-foreground {
+    fill: $danger-gradient;
+  }
+  .color-background {
+    fill: $danger-gradient-state;
+  }
+}
+svg.text-success {
+  .color-foreground {
+    fill: $success-gradient;
+  }
+  .color-background {
+    fill: $success-gradient-state;
+  }
+}
+svg.text-dark {
+  .color-foreground {
+    fill: $dark-gradient;
+  }
+  .color-background {
+    fill: $dark-gradient-state;
+  }
+}

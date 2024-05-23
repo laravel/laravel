@@ -17,9 +17,15 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'name', 
+        'email', 
+        'phone', 
+        'organization_name', 
+        'designation', 
+        'user_id', 
+        'password', 
+        'whatsapp_number',
+        'qr_code_path', // Add this line
     ];
 
     /**
@@ -28,7 +34,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        'password', // Add this line to hide password
         'remember_token',
     ];
 
@@ -41,7 +47,24 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
         ];
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->role === 'super_admin';
+    }
+
+    public function abstracts()
+    {
+        return $this->hasMany(AbstractUpload::class);
+    }
+
+    /**
+     * Get the abstract uploads associated with the user.
+     */
+    public function abstractUploads()
+    {
+        return $this->hasMany(AbstractUpload::class);
     }
 }

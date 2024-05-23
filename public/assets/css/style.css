@@ -1,0 +1,17 @@
+.avatar-my{
+    width: 175px;
+    height: 178px;
+}
+
+.avatar-qr{
+    width: 150px;
+    height: 150px;
+}
+.personal-info{
+    gap: 80px;
+}
+
+.personal-info p{
+    font-size: 14px;
+    font-weight: 500;
+}

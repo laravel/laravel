@@ -1,0 +1,123 @@
+//
+// Avatar
+//
+
+// General styles
+
+.avatar {
+	color: $white;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: $avatar-font-size;
+	border-radius: $border-radius-pill;
+	height: $avatar-height;
+	width: $avatar-width;
+  transition: all .2s ease-in-out;
+
+    img {
+    	width: 100%;
+    }
+
+	&.rounded-circle {
+		img {
+			@extend .rounded-circle;
+		}
+	}
+
+    + .avatar-content {
+    	display: inline-block;
+    	margin-left: $avatar-content-margin;
+    }
+
+
+  &.avatar-raised {
+    margin-top: -$avatar-height * 0.5;
+  }
+
+  &.avatar-scale-up:hover {
+    transform: scale(1.2);
+
+  }
+}
+
+// Style for the Testimonials Carousel
+.active {
+  .avatar.avatar-scale-up {
+    transform: scale(1.2);
+  }
+}
+
+
+// Avatar size variations
+
+.avatar-xxl {
+	width: $avatar-xxl-width !important;
+	height: $avatar-xxl-height !important;
+
+  &.avatar-raised {
+    margin-top: -$avatar-xxl-height * 0.5;
+  }
+}
+
+.avatar-xl {
+	width: $avatar-xl-width !important;
+	height: $avatar-xl-height !important;
+
+  &.avatar-raised {
+    margin-top: -$avatar-xl-height * 0.5;
+  }
+}
+
+.avatar-lg {
+	width: $avatar-lg-width !important;
+	height: $avatar-lg-height !important;
+	font-size: $font-size-sm;
+
+  &.avatar-raised {
+    margin-top: -$avatar-lg-height * 0.5;
+  }
+}
+
+.avatar-sm {
+	width: $avatar-sm-width !important;
+	height: $avatar-sm-height !important;
+	font-size: $font-size-sm;
+
+  &.avatar-raised {
+    margin-top: -$avatar-sm-height * 0.5;
+  }
+}
+
+.avatar-xs {
+	width: $avatar-xs-width !important;
+	height: $avatar-xs-height !important;
+	font-size: $font-size-xs;
+
+  &.avatar-raised {
+    margin-top: -$avatar-xs-height * 0.5;
+  }
+}
+
+//
+// Avatar group
+//
+
+// General styles
+
+.avatar-group {
+	.avatar {
+		position: relative;
+		z-index: $avatar-group-zindex;
+		border: $avatar-group-border solid $card-bg;
+
+		&:hover {
+			z-index: $avatar-group-zindex-hover;
+		}
+	}
+
+	.avatar + .avatar {
+		margin-left: $avatar-group-double;
+
+	}
+}

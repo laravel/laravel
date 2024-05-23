@@ -1,0 +1,65 @@
+$navbar-light-bg:                          #FBFBFB !default;
+$navbar-light-hover-bg:                    darken($gray-100, 5%) !default;
+$navbar-light-active-bg:                   darken($gray-100, 5%) !default;
+$navbar-light-border-color:                rgba($black, .05) !default;
+$navbar-light-color:                       rgba($black, .6) !default;
+$navbar-light-hover-color:                 rgba($black, .7) !default;
+$navbar-light-active-color:                rgba($black, .9) !default;
+$navbar-light-disabled-color:              rgba($black, .3) !default;
+$navbar-light-toggler-border-color:        transparent !default;
+// Vertical navbar
+$sidenav-header-width:                      4.875rem !default;
+$sidenav-card-opacity:                       .65 !default;
+$navbar-vertical-box-shadow:                0 0 2rem 0 rgba(136, 152, 170, .15) !default;
+$navbar-vertical-border-color:              rgba($black, .05) !default;
+$navbar-vertical-width:                     3.875rem !default;
+$navbar-vertical-open-width:                15.625rem !default;
+$navbar-vertical-padding-x:                 1rem !default;
+$navbar-vertical-nav-link-padding-x:        1rem !default;
+$navbar-vertical-nav-link-padding-y:        .75rem !default;
+$navbar-vertical-sidenav-normal-ml:         4.01rem !default;
+$navbar-vertical-m:                         1rem !default;
+$navbar-vertical-inner:                     calc(100vh - 200px) !default;
+$navbar-icon-min-width:                     1.8rem !default;
+$navbar-icon-margin-left:                   0.15rem !default;
+$navbar-icon-material-margin-left:          2px !default;
+$navbar-breadcrumb-padding-y:               $nav-link-padding-y !default;
+$navbar-breadcrumb-padding-x:               0 !default;
+$navbar-light-border-color:                 $border-color !default;
+$navbar-dark-bg:                           transparent !default;
+$navbar-dark-hover-bg:                     rgba(255, 255, 255, .1) !default;
+$navbar-dark-active-bg:                    rgba(255, 255, 255, .1) !default;
+$navbar-dark-border-color:                 rgba(255, 255, 255, .1) !default;
+$navbar-dark-color:                        rgba($white, .95) !default;
+$navbar-dark-hover-color:                  rgba($white, .65) !default;
+$navbar-dark-active-color:                 rgba($white, .65) !default;
+$navbar-dark-disabled-color:               rgba($white, .25) !default;
+$navbar-dark-toggler-border-color:         transparent !default;
+$navbar-padding-y:                         1rem !default;
+$navbar-padding-x:                         1rem !default;
+$navbar-nav-link-padding-x:                1rem !default;
+$navbar-nav-link-padding-y:                1rem !default;
+$navbar-nav-link-font-size:                .875rem !default;
+$navbar-nav-link-font-weight:              300 !default;
+$navbar-nav-link-text-transform:           normal !default;
+$navbar-nav-link-letter-spacing:           0 !default;
+$navbar-nav-link-border-radius:            $border-radius-md !default;
+$font-size-xs:                             ($font-size-base * .75);
+$transition-base-time:                     .25s;
+$transition-cubic-bezier:                  all $transition-base-time cubic-bezier(.68, -0.55, .265, 1.55) !default;
+
+// Navbar collapse
+
+$navbar-vertical-collapse-margin-left:           1.35rem !default;
+$navbar-vertical-collapse-left:                  -18px !default;
+$navbar-vertical-collapse-top:                   50% !default;
+$navbar-vertical-collapse-translate:             translate(0,-50%) !default;
+$navbar-vertical-hidden-width:                   6rem !default;
+
+// Hover effect
+$navbar-vertical-hover-bg-color:                 rgba(199, 199, 199, 0.2) !default;
+
+// RTL Page
+
+$rtl-sidebar-bullet-right:                       -1.125rem !default;
+$rtl-sidebar-hover-padding-right:                2.5rem !default;

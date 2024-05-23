@@ -1,0 +1,137 @@
+//
+// Timeline
+//
+
+
+.timeline {
+    position: relative;
+
+    // Axis
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: $timeline-left;
+        height: 100%;
+        border-right: $timeline-axis-width solid $timeline-axis-color;
+    }
+
+    &.timeline-dark{
+      &:before {
+        border-right-color: $timeline-axis-color-dark;
+      }
+    }
+}
+
+
+
+// Timeline blocks
+
+.timeline-block {
+    position: relative;
+
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+// Timeline steps
+
+.timeline-step {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    width: $timeline-step-width;
+    height: $timeline-step-height;
+    border-radius: $timeline-step-radius;
+    background: $timeline-step-bg;
+    // border: $timeline-step-border-width solid $timeline-step-border-color;
+    text-align: center;
+    transform: $timeline-step-transform;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    z-index: 1;
+
+    svg, i {
+        line-height: $timeline-step-line-height;
+    }
+}
+
+
+
+// Timeline content and body
+.timeline-content {
+    position: relative;
+    margin-left: $timeline-content-margin-left;
+    padding-top: $timeline-content-padding-top;
+    position: relative;
+    top: $timeline-content-top;
+
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+
+@include media-breakpoint-up(lg) {
+    .timeline {
+        &:before {
+            left: 50%;
+            margin-left: -1px;
+        }
+    }
+
+    .timeline-step {
+        left: 50%;
+    }
+
+    .timeline-content {
+
+        width: 38%;
+    }
+
+    .timeline-block:nth-child(even) .timeline-content {
+        float: right;
+    }
+}
+
+// One side timeline
+
+.timeline-one-side {
+    &:before {
+        left: $timeline-left;
+    }
+
+    .timeline-step {
+        left: $timeline-left;
+    }
+
+    .timeline-content {
+        width: auto;
+    }
+
+    @include media-breakpoint-up(lg) {
+        .timeline-content {
+            max-width: 30rem;
+        }
+    }
+}
+
+.timeline-one-side .timeline-block:nth-child(even) .timeline-content {
+    float: none;
+}

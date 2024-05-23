@@ -1,0 +1,53 @@
+$dropdown-subitem-position:                101% !default;
+$dropdown-transition:                      transform .3s cubic-bezier(.4,0,.2,1),opacity .2s cubic-bezier(.4,0,.2,1) !important !default;
+$dropdown-transform-origin:                0 0 !default;
+$dropdown-transform:                       scale(.95) !important !default;
+$dropdown-transform-show:                  scale(1) !important !default;
+
+$dropdown-multilevel-transform:            scale(.95) !important !default;
+$dropdown-multilevel-transform-show:       scale(1) !important !default;
+
+$dropup-transform-origin:                  bottom !default;
+$dropup-transform:                         scale(.95) !important !default;
+$dropup-transform-show:                    scale(1) !important !default;
+
+$dropdown-icon-margin-right:               .75rem !default;
+
+$dropdown-toggle-arrow-transform:          rotate(180deg) !default;
+$dropdown-toggle-arrow-transition:         .3s ease !default;
+
+$dropdown-button-after-margin-top:         3px !default;
+
+$dropdown-animation-arrow-left-position:   28px !default;
+$dropup-animation-arrow-bottom-position:   22px !default;
+$dropdown-animation-arrow-font-size:       22px !default;
+$dropup-animation-arrow-transition:        bottom .35s ease !default;
+$dropdown-animation-arrow-transition:      top .35s ease !default;
+$dropup-mb:                                .5rem !default;
+
+$dropdown-mt:                              2.8125rem !default;
+$dropdown-hover-after-bottom-pos:          -24px !default;
+$dropdown-hover-after-bottom-pos:          -24px !default;
+$dropdown-hover-arrow-active-top:          -20px !default;
+
+$dropdown-subitem-position-right:          -197px !default;
+$dropdown-subitem-left-hover:              -8px !default;
+$dropdown-subitem-arrow-rotate:            rotate(-90deg) !default;
+
+$dropdown-md-min-width:                    15rem !default;
+$dropdown-lg-min-width:                    23rem !default;
+$dropdown-lg-width-responsive:             19rem !default;
+$dropdown-xl-min-width:                    40rem !default;
+
+$dropdown-subitem-position:                101% !default;
+
+
+// Extend
+$dropdown-subitem-position-right: -197px !default;
+$dropdown-subitem-left-hover:   -8px !default;
+$dropdown-subitem-arrow-rotate:   rotate(-90deg) !default;
+
+$dropdown-md-min-width:         15rem !default;
+$dropdown-lg-min-width:         23rem !default;
+$dropdown-lg-width-responsive:  19rem !default;
+$dropdown-xl-min-width:         40rem !default;
