@@ -30,17 +30,17 @@ return [
     | your mailers below. You may also add additional mailers if needed.
     |
     | Supported: "array", "failover", "log", "mailgun", "postmark",
-    |            "resend", "roundrobin", "sendmail", 
+    |            "resend", "roundrobin", "sendmail",
     |            "ses", "ses-v2", "smtp"
     |
     */
 
     'mailers' => [
-    
+
         'array' => [
             'transport' => 'array',
         ],
-    
+
         'failover' => [
             'transport' => 'failover',
             'mailers' => [
@@ -48,12 +48,12 @@ return [
                 'log',
             ],
         ],
-    
+
         'log' => [
             'transport' => 'log',
             'channel' => env('MAIL_LOG_CHANNEL'),
         ],
-    
+
         'postmark' => [
             'transport' => 'postmark',
             // 'message_stream_id' => env('POSTMARK_MESSAGE_STREAM_ID'),
@@ -61,11 +61,11 @@ return [
             //     'timeout' => 5,
             // ],
         ],
-    
+
         'resend' => [
             'transport' => 'resend',
         ],
-    
+
         'roundrobin' => [
             'transport' => 'roundrobin',
             'mailers' => [
@@ -73,7 +73,7 @@ return [
                 'postmark',
             ],
         ],
-    
+
         'sendmail' => [
             'transport' => 'sendmail',
             'path' => env('MAIL_SENDMAIL_PATH', '/usr/sbin/sendmail -bs -i'),
@@ -82,7 +82,7 @@ return [
         'ses' => [
             'transport' => 'ses',
         ],
-    
+
         'smtp' => [
             'transport' => 'smtp',
             'url' => env('MAIL_URL'),
@@ -94,7 +94,7 @@ return [
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
-    
+
     ],
 
     /*
