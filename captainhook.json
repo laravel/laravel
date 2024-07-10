@@ -16,8 +16,28 @@
         "options": {},
         "conditions": [
           {
-            "exec": "\\CaptainHook\\App\\Hook\\Condition\\OnBranch",
-            "args": ["main", "master", "develop"]
+            "exec": "\\CaptainHook\\App\\Hook\\Condition\\Branch\\On",
+            "args": ["master"]
+          }
+        ]
+      },
+      {
+        "action": "echo 'Cannot push to main branch directly. Please use another branch.'; exit 1",
+        "options": {},
+        "conditions": [
+          {
+            "exec": "\\CaptainHook\\App\\Hook\\Condition\\Branch\\On",
+            "args": ["main"]
+          }
+        ]
+      },
+      {
+        "action": "echo 'Cannot push to develop branch directly. Please use another branch.'; exit 1",
+        "options": {},
+        "conditions": [
+          {
+            "exec": "\\CaptainHook\\App\\Hook\\Condition\\Branch\\On",
+            "args": ["develop"]
           }
         ]
       },
