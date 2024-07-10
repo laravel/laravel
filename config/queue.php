@@ -24,7 +24,7 @@ return [
     | used by your application. An example configuration is provided for
     | each backend supported by Laravel. You're also free to add more.
     |
-    | Drivers: "sync", "database", "beanstalkd", "sqs", "redis", "null"
+    | Drivers: "sync", "database", "beanstalkd", "sqs", "redis", null
     |
     */
 
@@ -99,7 +99,7 @@ return [
     | can control how and where failed jobs are stored. Laravel ships with
     | support for storing failed jobs in a simple file or in a database.
     |
-    | Supported drivers: "database-uuids", "dynamodb", "file", "null"
+    | Supported drivers: "database-uuids", "dynamodb", "file", null
     |
     */
 
