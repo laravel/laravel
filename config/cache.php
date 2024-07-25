@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'limiter' => env('LIMITER_CACHE_STORE'),
+    'limiter' => env('CACHE_LIMITER_STORE'),
 
     /*
     |--------------------------------------------------------------------------
