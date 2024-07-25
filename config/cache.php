@@ -22,9 +22,9 @@ return [
     | Rate Limiter Cache Store
     |--------------------------------------------------------------------------
     |
-    | Defines the cache store used specifically for rate limiting.
-    | If this option is not set, the default cache store will be used.
-    | This helps in isolating rate limiter data from other cache data.
+    | This option specifies the cache store for rate limiting operations. If this
+    | key is not set, the default cache store will be used. Useful for keeping
+    | rate limiter cache separate from other data for better organization.
     |
     */
 
