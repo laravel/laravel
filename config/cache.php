@@ -19,6 +19,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Rate Limiter Cache Store
+    |--------------------------------------------------------------------------
+    |
+    | This option controls the cache store that will be used by the rate limiter.
+    | This can be helpful if you want to separate the rate limiter cache from other
+    | cache data.
+    |
+    */
+
+    'limiter' => env('LIMITER_CACHE_STORE', 'database'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Cache Stores
     |--------------------------------------------------------------------------
     |
