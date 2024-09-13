@@ -43,5 +43,8 @@ jobs:
       - name: Generate app key
         run: php artisan key:generate
 
+      - name: Optimize app
+        run: php artisan optimize
+
       - name: Execute tests
         run: vendor/bin/phpunit
