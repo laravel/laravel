@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+    api-front:
+        build:
+            context: ./docker/php-cli
+        volumes:
+            - ./:/app
+        ports:
+            - "8888:80"
+        command: php artisan serve --host=0.0.0.0 --port=80
+        networks:
+            - default
+        environment:
+            - APP_ENV=${APP_ENV}
+            - APP_DEBUG=${APP_DEBUG}
+            - APP_TIMEZONE=${APP_TIMEZONE}
+        depends_on:
+            -   api-db
+    dev:
+        build:
+            context: ./docker/php-cli
+        volumes:
+            - ./:/app
+        command: tail -f /dev/null
+        environment:
+            - APP_ENV=${APP_ENV}
+            - APP_DEBUG=${APP_DEBUG}
+            - APP_TIMEZONE=${APP_TIMEZONE}
+        networks:
+            - default
+        depends_on:
+            - api-db
+    api-db:
+        image: postgres
+        environment:
+            - 'POSTGRES_PASSWORD=${DB_PASSWORD}'
+            - 'POSTGRES_USER=${DB_USERNAME}'
+            - 'POSTGRES_DB=${DB_DATABASE}'
+        networks:
+            default:
+                aliases:
+                    - nyt-db
+        ports:
+            - "54321:5432"
+
+networks:
+    default:
+        driver: bridge
+
