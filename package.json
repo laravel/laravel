@@ -7,7 +7,7 @@
         "pail": "php artisan pail",
         "queue": "php artisan queue:listen --tries=1",
         "serve": "php artisan serve",
-        "start": "concurrently -k -c \"blue.bold,green.bold,red.bold,yellow.bold\" \"npm:serve\" \"npm:queue\" \"npm:pail\" \"npm:dev\" --names=web,queue,pail,vite"
+        "start": "concurrently -k -c \"blue.bold,cyan.bold,red.bold,yellow.bold\" \"npm:serve\" \"npm:queue\" \"npm:pail\" \"npm:dev\" --names=server,queue,pail,vite"
     },
     "devDependencies": {
         "autoprefixer": "^10.4.20",
