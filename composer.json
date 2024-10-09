@@ -45,6 +45,9 @@
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
+        ],
+        "start": [
+            "concurrently -k -c \"blue.bold,cyan.bold,red.bold,yellow.bold\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail\" \"npm run dev\" --names=server,queue,pail,vite"
         ]
     },
     "extra": {
