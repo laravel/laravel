@@ -13,6 +13,5 @@ class BookSearchFormRequestTest extends TestCase
     public function isbn_length_less_than_ten_fails(): void
     {
         $response = $this->get('/api/v1/nyt/best-sellers', ['isbn' => '1']);
-
     }
 }
