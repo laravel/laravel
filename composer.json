@@ -47,7 +47,7 @@
             "@php artisan migrate --graceful --ansi"
         ],
         "dev": [
-            "npx concurrently -k -c \"blue.bold,cyan.bold,red.bold,yellow.bold\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail\" \"npm run dev\" --names=server,queue,pail,vite"
+            "npx concurrently -k -c \"auto\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail\" \"npm run dev\" --names=server,queue,pail,vite"
         ]
     },
     "extra": {
