@@ -2,8 +2,12 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "build": "vite build",
         "dev": "vite",
-        "build": "vite build"
+        "pail": "php artisan pail",
+        "queue": "php artisan queue:listen --tries=1",
+        "serve": "php artisan serve",
+        "start": "concurrently -k -c \"blue.bold,green.bold,red.bold,yellow.bold\" \"npm:serve\" \"npm:queue\" \"npm:pail\" \"npm:dev\" --names=web,queue,pail,vite"
     },
     "devDependencies": {
         "autoprefixer": "^10.4.20",
