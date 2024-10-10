@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\IsMultipleOfTwenty;
-use App\Rules\IsbnCheckIfEndingWithSemicolonRule;
+use App\Rules\IsbnIsEndingWithSemicolonRule;
 use App\Rules\IsbnLengthRule;
 use App\Traits\ApiResponses;
 use Illuminate\Contracts\Validation\Validator;
@@ -35,7 +35,7 @@ class BookSearchFormRequest extends FormRequest
             'isbn' => [
                 'nullable',
                 'string',
-                new IsbnCheckIfEndingWithSemicolonRule(),
+                new IsbnIsEndingWithSemicolonRule(),
                 new IsbnLengthRule()
             ],
             'offset' => [

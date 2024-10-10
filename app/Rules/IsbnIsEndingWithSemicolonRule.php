@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Str;
 
-class IsbnCheckIfEndingWithSemicolonRule implements ValidationRule
+class IsbnIsEndingWithSemicolonRule implements ValidationRule
 {
     /**
      * Run the validation rule.
