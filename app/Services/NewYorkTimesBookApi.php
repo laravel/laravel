@@ -16,12 +16,16 @@ class NewYorkTimesBookApi implements BookInterface
         $this->client = Http::withOptions([
             'base_uri' => env('API_BASE_URI'),
             'timeout' => 10,
-            'connect_timeout' => 2
-        ])->withToken(env('API_KEY'));;
+            'connect_timeout' => 2,
+            'query' => [
+                'api-key' => env('API_KEY')
+            ]
+        ]);
     }
 
     public function getBestsellers(array $options = []): Response
     {
-        return $this->client->get('/lists/best-sellers/history.json', $options);
+        return $this->client->get('svc/books/v3/lists/best-sellers/history.json', $options);
+
     }
 }
