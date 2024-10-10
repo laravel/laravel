@@ -2,12 +2,18 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\IsMultipleOfTwenty;
+use App\Rules\IsbnCheckIfEndingWithSemicolonRule;
+use App\Rules\IsbnLengthRule;
+use App\Traits\ApiResponses;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Nette\Schema\ValidationException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class BookSearchFormRequest extends FormRequest
 {
+    use ApiResponses;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -26,18 +32,26 @@ class BookSearchFormRequest extends FormRequest
         return [
             'author' => ['nullable', 'string', 'max:2'],
             'title' => ['nullable', 'string'],
-            'isbn' => ['nullable', 'string', 'min:2'],
+            'isbn' => [
+                'nullable',
+                'string',
+                new IsbnCheckIfEndingWithSemicolonRule(),
+                new IsbnLengthRule()
+            ],
             'offset' => [
                 'nullable',
-                'numeric'
+                'numeric',
+                new IsMultipleOfTwenty()
             ]
         ];
     }
 
     public function failedValidation(Validator $validator)
     {
-        throw new ValidationException(response()->json([
-            'errors' => $validator->errors()
-        ], 422));
+        throw new HttpResponseException(
+            $this->error([
+                $validator->errors()
+            ], 422)
+        );
     }
 }

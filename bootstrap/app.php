@@ -3,6 +3,8 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
+use App\Traits\ApiResponses;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,5 +17,14 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->renderable(function(Request $request, Throwable $e){
+            $className = get_class($e);
+            $index = strrpos($className, '\\');
+
+            return response()->json([
+                'type' => substr($className, $index+1),
+                'status' => 0,
+                'message' => $e->getMessage()
+            ]);
+        });
     })->create();

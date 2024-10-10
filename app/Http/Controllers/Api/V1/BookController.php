@@ -5,20 +5,21 @@ namespace App\Http\Controllers\Api\V1;
 use App\Core\Client\HttpClientInterface;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookSearchFormRequest;
+use App\Services\BookInterface;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
 
-    private HttpClientInterface $client;
+    private BookInterface $client;
 
-    public function __construct(HttpClientInterface $client)
+    public function __construct(BookInterface $client)
     {
         $this->client = $client;
     }
 
-    public function search(BookSearchFormRequest $test)
+    public function bestSellers(BookSearchFormRequest $bookSearchFormRequest)
     {
-        dd($test);
+        return $this->client->getBestsellers($bookSearchFormRequest->validated());
     }
 }
