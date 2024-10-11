@@ -32,7 +32,7 @@ Per the assessment requirements this application does the following:
 - Copy `.env.example` to `.env` - Fill in necessary API credentials
 - Run `docker-compose up -d` to bring up the application
 - Exec into the dev container `docker-compose exec dev bash`
-- Install composer dependencies `composer install`, exit container once complete
+- From within the dev container - Install composer dependencies `composer install`, exit container once complete
 - Run migrations `docker-compose run dev php artisan migrate`
 
 ## Running Tests
