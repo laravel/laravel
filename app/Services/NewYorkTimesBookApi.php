@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Exception\ConnectionInterruptionException;
 use App\Traits\ApiResponses;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
@@ -28,6 +30,10 @@ class NewYorkTimesBookApi implements BookInterface
 
     public function getBestsellers(array $options = []): Response
     {
-        return $this->client->get('svc/books/v3/lists/best-sellers/history.json', $options);
+        try{
+            return $this->client->get('svc/books/v3/lists/best-sellers/history.json', $options);
+        } catch(ConnectionException $exception) {
+            throw new ConnectionInterruptionException();
+        }
     }
 }
