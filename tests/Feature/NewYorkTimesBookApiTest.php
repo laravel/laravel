@@ -63,12 +63,13 @@ class NewYorkTimesBookApiTest extends TestCase
         $body = file_get_contents(base_path('tests/Fixtures/Helpers/NytBestSellersFilteredByIsbn13.json'));
 
         Http::fake([
-            urlencode('https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?isbn=9780778316640;') => Http::response($body, 200)
+            urlencode('https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?isbn=9780778316640;9780778316640') => Http::response($body, 200)
         ]);
 
-        $response = $this->get(route('nyt.bestsellers', ['isbn' => '9780778316640']));
+        $response = $this->get(route('nyt.bestsellers', ['isbn' => '9780778316640:9780778316640']));
 
         $response->assertSuccessful();
+        $response->assertSee('9780778316640');
         $response->assertSee('9780778316640');
     }
 

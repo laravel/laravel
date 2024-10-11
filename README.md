@@ -25,6 +25,7 @@ Per the assessment requirements this application does the following:
 ## Error Handling
   - I implemented a trait `ApiResponses` to allow for consist formatting.
   - In previous versions of Laravel there was a global exceptions handler, but in Laravel 11 there is a `withExceptions` method found in `bootstrap/app.php`.  Within that file I implemented an exception handler to catch all `Throwable` exceptions and respond accordingly.
+  - Built custom exception `Exception/ConnectionInterruptionException.php` to allow for custom messaging.
 
 ## Project Setup
 - Clone application
