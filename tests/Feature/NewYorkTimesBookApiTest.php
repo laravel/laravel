@@ -15,7 +15,7 @@ class NewYorkTimesBookApiTest extends TestCase
         $body = file_get_contents(base_path('tests/Fixtures/Helpers/NytBestSellers.json'));
 
         Http::fake([
-            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json' => Http::response($body, 200)
+            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 200)
         ]);
 
         $response = $this->get('api/v1/nyt/best-sellers');

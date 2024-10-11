@@ -2,13 +2,16 @@
 
 namespace App\Services;
 
+use App\Traits\ApiResponses;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Psr\Http\Client\ClientInterface;
+use Throwable;
 
 class NewYorkTimesBookApi implements BookInterface
 {
+    use ApiResponses;
     private PendingRequest $client;
 
     public function __construct()
@@ -26,6 +29,5 @@ class NewYorkTimesBookApi implements BookInterface
     public function getBestsellers(array $options = []): Response
     {
         return $this->client->get('svc/books/v3/lists/best-sellers/history.json', $options);
-
     }
 }

@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->renderable(function(Request $request, Throwable $e){
+        $exceptions->render(function(Throwable $e, Request $request){
             $className = get_class($e);
             $index = strrpos($className, '\\');
 
