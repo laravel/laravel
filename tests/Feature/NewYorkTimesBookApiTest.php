@@ -18,7 +18,7 @@ class NewYorkTimesBookApiTest extends TestCase
             'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 200)
         ]);
 
-        $response = $this->get('api/v1/nyt/best-sellers');
+        $response = $this->get(route('nyt.bestsellers'));
 
         $response->assertSuccessful();
         $response->assertSee('Hamazaki Tatsuya');
@@ -34,7 +34,7 @@ class NewYorkTimesBookApiTest extends TestCase
             'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?isbn=1419726552' => Http::response($body, 200)
         ]);
 
-        $response = $this->get('api/v1/nyt/best-sellers?isbn=1419726552');
+        $response = $this->get(route('nyt.bestsellers', ['isbn' => '1419726552']));
 
         $response->assertSuccessful();
         $response->assertSee('1419726552');
@@ -49,7 +49,7 @@ class NewYorkTimesBookApiTest extends TestCase
             'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?isbn=9780778316640' => Http::response($body, 200)
         ]);
 
-        $response = $this->get('api/v1/nyt/best-sellers?isbn=9780778316640');
+        $response = $this->get(route('nyt.bestsellers', ['isbn' => '9780778316640']));
 
         $response->assertSuccessful();
         $response->assertSee('9780778316640');
