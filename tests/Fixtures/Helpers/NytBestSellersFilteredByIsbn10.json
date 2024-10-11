@@ -1,0 +1,46 @@
+{
+    "status": "OK",
+    "copyright": "Copyright (c) 2024 The New York Times Company.  All Rights Reserved.",
+    "num_results": 1,
+    "results": [
+        {
+            "title": "------, THAT'S DELICIOUS",
+            "description": "",
+            "contributor": "by Action Bronson with Rachel Wharton",
+            "author": "Action Bronson with Rachel Wharton",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Abrams",
+            "isbns": [
+                {
+                    "isbn10": "1419726552",
+                    "isbn13": "9781419726552"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "1419726552",
+                    "primary_isbn13": "9781419726552",
+                    "rank": 9,
+                    "list_name": "Advice How-To and Miscellaneous",
+                    "display_name": "Advice, How-To & Miscellaneous",
+                    "published_date": "2017-10-01",
+                    "bestsellers_date": "2017-09-16",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 1
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        }
+    ]
+}

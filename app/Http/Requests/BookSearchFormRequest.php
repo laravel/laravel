@@ -30,7 +30,7 @@ class BookSearchFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'author' => ['nullable', 'string', 'max:2'],
+            'author' => ['nullable', 'string'],
             'title' => ['nullable', 'string'],
             'isbn' => [
                 'nullable',

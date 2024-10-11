@@ -1,0 +1,788 @@
+{
+    "status": "OK",
+    "copyright": "Copyright (c) 2024 The New York Times Company.  All Rights Reserved.",
+    "num_results": 36388,
+    "results": [
+        {
+            "title": "\"I GIVE YOU MY BODY ...\"",
+            "description": "The author of the Outlander novels gives tips on writing sex scenes, drawing on examples from the books.",
+            "contributor": "by Diana Gabaldon",
+            "author": "Diana Gabaldon",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Dell",
+            "isbns": [
+                {
+                    "isbn10": "0399178570",
+                    "isbn13": "9780399178573"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "0399178570",
+                    "primary_isbn13": "9780399178573",
+                    "rank": 8,
+                    "list_name": "Advice How-To and Miscellaneous",
+                    "display_name": "Advice, How-To & Miscellaneous",
+                    "published_date": "2016-09-04",
+                    "bestsellers_date": "2016-08-20",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "\"MOST BLESSED OF THE PATRIARCHS\"",
+            "description": "A character study that attempts to make sense of Jefferson’s contradictions.",
+            "contributor": "by Annette Gordon-Reed and Peter S. Onuf",
+            "author": "Annette Gordon-Reed and Peter S Onuf",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Liveright",
+            "isbns": [
+                {
+                    "isbn10": "0871404427",
+                    "isbn13": "9780871404428"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "0871404427",
+                    "primary_isbn13": "9780871404428",
+                    "rank": 16,
+                    "list_name": "Hardcover Nonfiction",
+                    "display_name": "Hardcover Nonfiction",
+                    "published_date": "2016-05-01",
+                    "bestsellers_date": "2016-04-16",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 1,
+                    "dagger": 0
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "\"YOU JUST NEED TO LOSE WEIGHT\"",
+            "description": "The co-host of the podcast “Maintenance Phase” examines myths about gaining and losing weight to dismantle anti-fat bias.",
+            "contributor": "by Aubrey Gordon",
+            "author": "Aubrey Gordon",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Beacon",
+            "isbns": [
+                {
+                    "isbn10": "0807006475",
+                    "isbn13": "9780807006474"
+                },
+                {
+                    "isbn10": "0807006483",
+                    "isbn13": "9780807006481"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "0807006475",
+                    "primary_isbn13": "9780807006474",
+                    "rank": 2,
+                    "list_name": "Paperback Nonfiction",
+                    "display_name": "Paperback Nonfiction",
+                    "published_date": "2023-01-29",
+                    "bestsellers_date": "2023-01-14",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "0807006475",
+                    "primary_isbn13": "9780807006474",
+                    "rank": 6,
+                    "list_name": "Combined Print and E-Book Nonfiction",
+                    "display_name": "Combined Print & E-Book Nonfiction",
+                    "published_date": "2023-01-29",
+                    "bestsellers_date": "2023-01-14",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "#ASKGARYVEE",
+            "description": "The entrepreneur expands on subjects addressed on his Internet show, like marketing, management and social media.",
+            "contributor": "by Gary Vaynerchuk",
+            "author": "Gary Vaynerchuk",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "HarperCollins",
+            "isbns": [
+                {
+                    "isbn10": "0062273124",
+                    "isbn13": "9780062273123"
+                },
+                {
+                    "isbn10": "0062273132",
+                    "isbn13": "9780062273130"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "0062273124",
+                    "primary_isbn13": "9780062273123",
+                    "rank": 5,
+                    "list_name": "Business Books",
+                    "display_name": "Business",
+                    "published_date": "2016-04-10",
+                    "bestsellers_date": "2016-03-26",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 1
+                },
+                {
+                    "primary_isbn10": "0062273124",
+                    "primary_isbn13": "9780062273123",
+                    "rank": 6,
+                    "list_name": "Advice How-To and Miscellaneous",
+                    "display_name": "Advice, How-To & Miscellaneous",
+                    "published_date": "2016-03-27",
+                    "bestsellers_date": "2016-03-12",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 1
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "#GIRLBOSS",
+            "description": "An online fashion retailer traces her path to success.",
+            "contributor": "by Sophia Amoruso",
+            "author": "Sophia Amoruso",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Portfolio/Penguin/Putnam",
+            "isbns": [
+                {
+                    "isbn10": "039916927X",
+                    "isbn13": "9780399169274"
+                },
+                {
+                    "isbn10": "1591847931",
+                    "isbn13": "9781591847939"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "1591847931",
+                    "primary_isbn13": "9781591847939",
+                    "rank": 8,
+                    "list_name": "Business Books",
+                    "display_name": "Business",
+                    "published_date": "2016-03-13",
+                    "bestsellers_date": "2016-02-27",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1591847931",
+                    "primary_isbn13": "9781591847939",
+                    "rank": 9,
+                    "list_name": "Business Books",
+                    "display_name": "Business",
+                    "published_date": "2016-01-17",
+                    "bestsellers_date": "2016-01-02",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1591847931",
+                    "primary_isbn13": "9781591847939",
+                    "rank": 9,
+                    "list_name": "Business Books",
+                    "display_name": "Business",
+                    "published_date": "2015-12-13",
+                    "bestsellers_date": "2015-11-28",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1591847931",
+                    "primary_isbn13": "9781591847939",
+                    "rank": 8,
+                    "list_name": "Business Books",
+                    "display_name": "Business",
+                    "published_date": "2015-11-15",
+                    "bestsellers_date": "2015-10-31",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "039916927X",
+                    "primary_isbn13": "9780399169274",
+                    "rank": 10,
+                    "list_name": "Business Books",
+                    "display_name": "Business",
+                    "published_date": "2014-11-09",
+                    "bestsellers_date": "2014-10-25",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "#IMOMSOHARD",
+            "description": "",
+            "contributor": "by Kristin Hensley and Jen Smedley",
+            "author": "Kristin Hensley and Jen Smedley",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "HarperOne",
+            "isbns": [
+                {
+                    "isbn10": "006285769X",
+                    "isbn13": "9780062857699"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "006285769X",
+                    "primary_isbn13": "9780062857699",
+                    "rank": 10,
+                    "list_name": "Advice How-To and Miscellaneous",
+                    "display_name": "Advice, How-To & Miscellaneous",
+                    "published_date": "2019-04-21",
+                    "bestsellers_date": "2019-04-06",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 1
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "#NEVERAGAIN",
+            "description": "Students from Marjory Stoneman Douglas High School describe the Valentine's Day mass shooting and outline ways to prevent similar incidents.",
+            "contributor": "by David Hogg and Lauren Hogg",
+            "author": "David Hogg and Lauren Hogg",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Random House",
+            "isbns": [
+                {
+                    "isbn10": "198480183X",
+                    "isbn13": "9781984801838"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "198480183X",
+                    "primary_isbn13": "9781984801838",
+                    "rank": 9,
+                    "list_name": "Paperback Nonfiction",
+                    "display_name": "Paperback Nonfiction",
+                    "published_date": "2018-07-08",
+                    "bestsellers_date": "2018-06-23",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "$100 STARTUP",
+            "description": "How to build a profitable start up for $100 or less and be your own boss.",
+            "contributor": "by Chris Guillebeau",
+            "author": "Chris Guillebeau",
+            "contributor_note": "",
+            "price": "23.00",
+            "age_group": "",
+            "publisher": "Crown Business",
+            "isbns": [
+                {
+                    "isbn10": "0307951529",
+                    "isbn13": "9780307951526"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "$20 PER GALLON",
+            "description": "",
+            "contributor": "by Christopher Steiner",
+            "author": "Christopher Steiner",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Grand Central",
+            "isbns": [],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "'57, Chicago",
+            "description": null,
+            "contributor": null,
+            "author": "Steve Monroe",
+            "contributor_note": null,
+            "price": "0.00",
+            "age_group": null,
+            "publisher": null,
+            "isbns": [
+                {
+                    "isbn10": "0786867302",
+                    "isbn13": "9780786867301"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": null,
+                    "sunday_review_link": "https://www.nytimes.com/2001/07/29/books/books-in-brief-fiction-poetry-319660.html",
+                    "article_chapter_link": null
+                }
+            ]
+        },
+        {
+            "title": "'ROCK OF AGES: ''ROLLING STONE'' HISTORY OF ROCK AND ROLL'",
+            "description": null,
+            "contributor": null,
+            "author": "GEOFFREY STOKES, KEN TUCKER' 'ED WARD",
+            "contributor_note": null,
+            "price": "0.00",
+            "age_group": null,
+            "publisher": null,
+            "isbns": [
+                {
+                    "isbn10": "0671630687",
+                    "isbn13": "9780671630683"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": null,
+                    "sunday_review_link": "https://www.nytimes.com/1986/12/28/books/three-chord-music-in-a-three-piece-suit.html",
+                    "article_chapter_link": null
+                }
+            ]
+        },
+        {
+            "title": "'THE HIGH ROAD TO CHINA: GEORGE BOGLE, THE PANCHEN LAMA AND THE FIRST BRITISH EXPEDITION TO TIBET'",
+            "description": null,
+            "contributor": null,
+            "author": "KATE TELTSCHER",
+            "contributor_note": null,
+            "price": "0.00",
+            "age_group": null,
+            "publisher": null,
+            "isbns": [
+                {
+                    "isbn10": "0374217009",
+                    "isbn13": "9780374217006"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": null,
+                    "sunday_review_link": "https://www.nytimes.com/2007/04/22/books/review/Stuart.t.html",
+                    "article_chapter_link": null
+                }
+            ]
+        },
+        {
+            "title": "'TIL DEATH",
+            "description": "",
+            "contributor": "by Sharon Sala",
+            "author": "Sharon Sala",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Harlequin Mira",
+            "isbns": [
+                {
+                    "isbn10": "0778314278",
+                    "isbn13": "9780778314271"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "'TIL DEATH DO US PART",
+            "description": "A matchmaker in Victorian England turns to a crime novelist for help when she starts receiving a series of disturbingly personalized trinkets.",
+            "contributor": "by Amanda Quick",
+            "author": "Amanda Quick",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Berkley",
+            "isbns": [
+                {
+                    "isbn10": "069819361X",
+                    "isbn13": "9780698193611"
+                },
+                {
+                    "isbn10": "039917446X",
+                    "isbn13": "9780399174469"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "069819361X",
+                    "primary_isbn13": "9780698193611",
+                    "rank": 15,
+                    "list_name": "Combined Print and E-Book Fiction",
+                    "display_name": "Combined Print & E-Book Fiction",
+                    "published_date": "2016-05-08",
+                    "bestsellers_date": "2016-04-23",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "069819361X",
+                    "primary_isbn13": "9780698193611",
+                    "rank": 9,
+                    "list_name": "E-Book Fiction",
+                    "display_name": "E-Book Fiction",
+                    "published_date": "2016-05-08",
+                    "bestsellers_date": "2016-04-23",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "'Til Faith Do Us Part: How Interfaith Marriage is Transforming America",
+            "description": null,
+            "contributor": null,
+            "author": "Naomi Schaefer Riley",
+            "contributor_note": null,
+            "price": "0.00",
+            "age_group": null,
+            "publisher": null,
+            "isbns": [
+                {
+                    "isbn10": "0199873747",
+                    "isbn13": "9780199873746"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": null,
+                    "sunday_review_link": "https://www.nytimes.com/2013/05/26/books/review/til-faith-do-us-part-by-naomi-schaefer-riley.html",
+                    "article_chapter_link": null
+                }
+            ]
+        },
+        {
+            "title": "'TIS THE SEASON",
+            "description": "Two classic holiday stories — \"Under the Christmas Tree\" (2009) and \"Midnight Confessions\" (2010) — plus the novella \"Backward Glance\" (1991).",
+            "contributor": "by Robyn Carr",
+            "author": "Ron Carr",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Harlequin Mira",
+            "isbns": [
+                {
+                    "isbn10": "0778316645",
+                    "isbn13": "9780778316640"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "0778316645",
+                    "primary_isbn13": "9780778316640",
+                    "rank": 18,
+                    "list_name": "Mass Market Paperback",
+                    "display_name": "Paperback Mass-Market Fiction",
+                    "published_date": "2014-11-30",
+                    "bestsellers_date": "2014-11-15",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "0778316645",
+                    "primary_isbn13": "9780778316640",
+                    "rank": 6,
+                    "list_name": "Mass Market Paperback",
+                    "display_name": "Paperback Mass-Market Fiction",
+                    "published_date": "2014-11-16",
+                    "bestsellers_date": "2014-11-01",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 1,
+                    "dagger": 0
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "(RE)BORN IN THE USA",
+            "description": "The soccer commentator describes how he embraced American popular culture while growing up in Liverpool.",
+            "contributor": "by Roger Bennett",
+            "author": "Roger Bennett",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Dey Street",
+            "isbns": [
+                {
+                    "isbn10": "0062958690",
+                    "isbn13": "9780062958693"
+                },
+                {
+                    "isbn10": "0062958720",
+                    "isbn13": "9780062958723"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "0062958690",
+                    "primary_isbn13": "9780062958693",
+                    "rank": 3,
+                    "list_name": "Combined Print and E-Book Nonfiction",
+                    "display_name": "Combined Print & E-Book Nonfiction",
+                    "published_date": "2021-07-18",
+                    "bestsellers_date": "2021-07-03",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "0062958690",
+                    "primary_isbn13": "9780062958693",
+                    "rank": 1,
+                    "list_name": "Hardcover Nonfiction",
+                    "display_name": "Hardcover Nonfiction",
+                    "published_date": "2021-07-18",
+                    "bestsellers_date": "2021-07-03",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "------, THAT'S DELICIOUS",
+            "description": "",
+            "contributor": "by Action Bronson with Rachel Wharton",
+            "author": "Action Bronson with Rachel Wharton",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Abrams",
+            "isbns": [
+                {
+                    "isbn10": "1419726552",
+                    "isbn13": "9781419726552"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "1419726552",
+                    "primary_isbn13": "9781419726552",
+                    "rank": 9,
+                    "list_name": "Advice How-To and Miscellaneous",
+                    "display_name": "Advice, How-To & Miscellaneous",
+                    "published_date": "2017-10-01",
+                    "bestsellers_date": "2017-09-16",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 1
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "...and the Horse He Rode In On: The People V. Kenneth Starr",
+            "description": null,
+            "contributor": null,
+            "author": "James Carville",
+            "contributor_note": null,
+            "price": "0.00",
+            "age_group": null,
+            "publisher": null,
+            "isbns": [
+                {
+                    "isbn10": "0684857340",
+                    "isbn13": "9780684857343"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": null,
+                    "sunday_review_link": "https://www.nytimes.com/1998/10/18/books/preaching-to-the-converted.html",
+                    "article_chapter_link": null
+                }
+            ]
+        },
+        {
+            "title": ".HACK G.U.   , VOL. 5",
+            "description": "This series, set in the future, is about an online, multiplayer game run amok. This volume concludes the tale.",
+            "contributor": "by Hamazaki Tatsuya",
+            "author": "Hamazaki Tatsuya",
+            "contributor_note": "",
+            "price": "10.99",
+            "age_group": "",
+            "publisher": "TOKYOPOP",
+            "isbns": [],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        }
+    ]
+}

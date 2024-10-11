@@ -1,0 +1,59 @@
+{
+    "status": "OK",
+    "copyright": "Copyright (c) 2024 The New York Times Company.  All Rights Reserved.",
+    "num_results": 1,
+    "results": [
+        {
+            "title": "'TIS THE SEASON",
+            "description": "Two classic holiday stories — \"Under the Christmas Tree\" (2009) and \"Midnight Confessions\" (2010) — plus the novella \"Backward Glance\" (1991).",
+            "contributor": "by Robyn Carr",
+            "author": "Ron Carr",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Harlequin Mira",
+            "isbns": [
+                {
+                    "isbn10": "0778316645",
+                    "isbn13": "9780778316640"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "0778316645",
+                    "primary_isbn13": "9780778316640",
+                    "rank": 18,
+                    "list_name": "Mass Market Paperback",
+                    "display_name": "Paperback Mass-Market Fiction",
+                    "published_date": "2014-11-30",
+                    "bestsellers_date": "2014-11-15",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "0778316645",
+                    "primary_isbn13": "9780778316640",
+                    "rank": 6,
+                    "list_name": "Mass Market Paperback",
+                    "display_name": "Paperback Mass-Market Fiction",
+                    "published_date": "2014-11-16",
+                    "bestsellers_date": "2014-11-01",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 1,
+                    "dagger": 0
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        }
+    ]
+}
