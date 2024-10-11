@@ -1,0 +1,772 @@
+{
+    "status": "OK",
+    "copyright": "Copyright (c) 2024 The New York Times Company.  All Rights Reserved.",
+    "num_results": 36388,
+    "results": [
+        {
+            "title": "1 Ragged Ridge Road",
+            "description": null,
+            "contributor": null,
+            "author": "David Adams Richards",
+            "contributor_note": null,
+            "price": "0.00",
+            "age_group": null,
+            "publisher": null,
+            "isbns": [
+                {
+                    "isbn10": "0671003542",
+                    "isbn13": "9780671003548"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": null,
+                    "sunday_review_link": "https://www.nytimes.com/1997/08/31/books/books-in-brief-fiction-747866.html",
+                    "article_chapter_link": null
+                }
+            ]
+        },
+        {
+            "title": "1,000 PLACES TO SEE BEFORE YOU DIE",
+            "description": "A guide for traveling the world; second edition updated with new entries.",
+            "contributor": "by Patricia Schultz",
+            "author": "Patricia Schultz",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Workman",
+            "isbns": [
+                {
+                    "isbn10": "0761156860",
+                    "isbn13": "9780761156864"
+                },
+                {
+                    "isbn10": "0761104844",
+                    "isbn13": "9780761104841"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "1,000 RECORDINGS TO HEAR BEFORE YOU DIE",
+            "description": "Operas, rock albums, blues, classical music, world music and other essentials, from a musician and music journalist.",
+            "contributor": "by Tom Moon",
+            "author": "Tom Moon",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Workman",
+            "isbns": [],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "1,227 QUITE INTERESTING FACTS TO BLOW YOUR SOCKS OFF",
+            "description": "A compilation of interesting information on subjects ranging from Zeus to Zuckerberg.",
+            "contributor": "by John Lloyd and others",
+            "author": "John Lloyd and others",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Norton",
+            "isbns": [
+                {
+                    "isbn10": "0393241033",
+                    "isbn13": "9780393241037"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "1,339 QUITE INTERESTING FACTS TO MAKE YOUR JAW DROP",
+            "description": "Informative morsels of arcana and triva.",
+            "contributor": "by John Lloyd, John Mitchinson and James Harkin",
+            "author": "John Lloyd, John Mitchinson and James Harkin",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Norton",
+            "isbns": [
+                {
+                    "isbn10": "0393245608",
+                    "isbn13": "9780393245608"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "10 lb Penalty",
+            "description": null,
+            "contributor": null,
+            "author": "Dick Francis",
+            "contributor_note": null,
+            "price": "0.00",
+            "age_group": null,
+            "publisher": null,
+            "isbns": [
+                {
+                    "isbn10": "042519745X",
+                    "isbn13": "9780425197455"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": null,
+                    "sunday_review_link": "https://www.nytimes.com/1997/10/19/books/books-in-brief-fiction-548219.html",
+                    "article_chapter_link": null
+                }
+            ]
+        },
+        {
+            "title": "10 MINDFUL MINUTES",
+            "description": "Helping children develop emotional tools to cope with stress.",
+            "contributor": "by Goldie Hawn with Wendy Holden",
+            "author": "Goldie Hawn with Wendy Holden",
+            "contributor_note": "",
+            "price": "24.00",
+            "age_group": "",
+            "publisher": "Perigee",
+            "isbns": [
+                {
+                    "isbn10": "039953606X",
+                    "isbn13": "9780399536069"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "10 POUNDS IN 10 DAYS",
+            "description": "",
+            "contributor": "by Jackie Warner",
+            "author": "Jackie Warner",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Grand Central Life & Style",
+            "isbns": [
+                {
+                    "isbn10": "1455507415",
+                    "isbn13": "9781455507412"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "10 YEARS LATER",
+            "description": "",
+            "contributor": "by J. Sterling",
+            "author": "J Sterling",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "J. Sterling",
+            "isbns": [],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "10% HAPPIER",
+            "description": "A co-anchor of \"Nightline\" reports on the science and spiritual dimensions of meditation, and describes how it has improved his life.",
+            "contributor": "by Dan Harris",
+            "author": "Dan Harris",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "It Books",
+            "isbns": [
+                {
+                    "isbn10": "0062265423",
+                    "isbn13": "9780062265425"
+                },
+                {
+                    "isbn10": "0062265431",
+                    "isbn13": "9780062265432"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "10% HAPPIER",
+            "description": "In the 10th-anniversary edition of this book, a former co-anchor of \"Nightline\" reports on the science and spiritual dimensions of meditation.",
+            "contributor": "by Dan Harris",
+            "author": "Dan Harris",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Dey Street",
+            "isbns": [
+                {
+                    "isbn10": "0063356473",
+                    "isbn13": "9780063356474"
+                },
+                {
+                    "isbn10": "0062917609",
+                    "isbn13": "9780062917607"
+                },
+                {
+                    "isbn10": "0062977318",
+                    "isbn13": "9780062977311"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "0062917609",
+                    "primary_isbn13": "9780062917607",
+                    "rank": 6,
+                    "list_name": "Paperback Nonfiction",
+                    "display_name": "Paperback Nonfiction",
+                    "published_date": "2024-03-31",
+                    "bestsellers_date": "2024-03-16",
+                    "weeks_on_list": 2,
+                    "rank_last_week": 5,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "0063356473",
+                    "primary_isbn13": "9780063356474",
+                    "rank": 5,
+                    "list_name": "Paperback Nonfiction",
+                    "display_name": "Paperback Nonfiction",
+                    "published_date": "2024-03-24",
+                    "bestsellers_date": "2024-03-09",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "0063356473",
+                    "primary_isbn13": "9780063356474",
+                    "rank": 13,
+                    "list_name": "Combined Print and E-Book Nonfiction",
+                    "display_name": "Combined Print & E-Book Nonfiction",
+                    "published_date": "2024-03-24",
+                    "bestsellers_date": "2024-03-09",
+                    "weeks_on_list": 1,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "10-10-10",
+            "description": "Evaluating decisions based on how they will affect your life in 10 minutes, 10 months and 10 years.",
+            "contributor": "by Suzy Welch",
+            "author": "Suzy Welch",
+            "contributor_note": "",
+            "price": "24.00",
+            "age_group": "",
+            "publisher": "Scribner",
+            "isbns": [],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "10-DAY GREEN SMOOTHIE CLEANSE",
+            "description": "Beverages of combined leafy greens and fruits are the basis for a weight loss and health plan.",
+            "contributor": "by J. J. Smith",
+            "author": "J J Smith",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Atria",
+            "isbns": [
+                {
+                    "isbn10": "0982301820",
+                    "isbn13": "9780982301821"
+                },
+                {
+                    "isbn10": "1501100114",
+                    "isbn13": "9781501100116"
+                },
+                {
+                    "isbn10": "1501100106",
+                    "isbn13": "9781501100109"
+                }
+            ],
+            "ranks_history": [
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 9,
+                    "list_name": "Health",
+                    "display_name": "Health",
+                    "published_date": "2017-01-15",
+                    "bestsellers_date": "2016-12-31",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 6,
+                    "list_name": "Health",
+                    "display_name": "Health",
+                    "published_date": "2016-12-11",
+                    "bestsellers_date": "2016-11-26",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 7,
+                    "list_name": "Food and Fitness",
+                    "display_name": "Food and Diet",
+                    "published_date": "2016-10-09",
+                    "bestsellers_date": "2016-09-24",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 6,
+                    "list_name": "Health",
+                    "display_name": "Health",
+                    "published_date": "2016-10-09",
+                    "bestsellers_date": "2016-09-24",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 7,
+                    "list_name": "Food and Fitness",
+                    "display_name": "Food and Diet",
+                    "published_date": "2016-09-11",
+                    "bestsellers_date": "2016-08-27",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 6,
+                    "list_name": "Health",
+                    "display_name": "Health",
+                    "published_date": "2016-09-11",
+                    "bestsellers_date": "2016-08-27",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 6,
+                    "list_name": "Health",
+                    "display_name": "Health",
+                    "published_date": "2016-08-14",
+                    "bestsellers_date": "2016-07-30",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 6,
+                    "list_name": "Health",
+                    "display_name": "Health",
+                    "published_date": "2016-07-10",
+                    "bestsellers_date": "2016-06-25",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 6,
+                    "list_name": "Food and Fitness",
+                    "display_name": "Food and Diet",
+                    "published_date": "2016-07-10",
+                    "bestsellers_date": "2016-06-25",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 12,
+                    "list_name": "Advice How-To and Miscellaneous",
+                    "display_name": "Advice, How-To & Miscellaneous",
+                    "published_date": "2016-07-10",
+                    "bestsellers_date": "2016-06-25",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 8,
+                    "list_name": "Health",
+                    "display_name": "Health",
+                    "published_date": "2016-06-12",
+                    "bestsellers_date": "2016-05-28",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 7,
+                    "list_name": "Food and Fitness",
+                    "display_name": "Food and Diet",
+                    "published_date": "2016-06-12",
+                    "bestsellers_date": "2016-05-28",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 9,
+                    "list_name": "Health",
+                    "display_name": "Health",
+                    "published_date": "2016-05-15",
+                    "bestsellers_date": "2016-04-30",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 14,
+                    "list_name": "Advice How-To and Miscellaneous",
+                    "display_name": "Advice, How-To & Miscellaneous",
+                    "published_date": "2016-05-01",
+                    "bestsellers_date": "2016-04-16",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 13,
+                    "list_name": "Advice How-To and Miscellaneous",
+                    "display_name": "Advice, How-To & Miscellaneous",
+                    "published_date": "2016-04-24",
+                    "bestsellers_date": "2016-04-09",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 11,
+                    "list_name": "Advice How-To and Miscellaneous",
+                    "display_name": "Advice, How-To & Miscellaneous",
+                    "published_date": "2016-04-17",
+                    "bestsellers_date": "2016-04-02",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                },
+                {
+                    "primary_isbn10": "1501100106",
+                    "primary_isbn13": "9781501100109",
+                    "rank": 4,
+                    "list_name": "Food and Fitness",
+                    "display_name": "Food and Diet",
+                    "published_date": "2016-04-10",
+                    "bestsellers_date": "2016-03-26",
+                    "weeks_on_list": 0,
+                    "rank_last_week": 0,
+                    "asterisk": 0,
+                    "dagger": 0
+                }
+            ],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "100 Billion Suns: The Birth, Life, and Death of the Stars",
+            "description": null,
+            "contributor": null,
+            "author": "Rudolf Kippenhahn",
+            "contributor_note": null,
+            "price": "0.00",
+            "age_group": null,
+            "publisher": null,
+            "isbns": [
+                {
+                    "isbn10": "0691087814",
+                    "isbn13": "9780691087818"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": null,
+                    "sunday_review_link": "https://www.nytimes.com/1983/08/21/books/fires-in-space.html",
+                    "article_chapter_link": null
+                }
+            ]
+        },
+        {
+            "title": "100 BULLETS DELUXE, BOOK 1",
+            "description": "This deluxe edition of the noir series, about a man named Graves who gives wronged people an untraceable gun to exact revenge, collects issues 20 through 36.",
+            "contributor": "by Brian Azzarello and Eduaro Risso",
+            "author": "Brian Azzarello and Eduaro Risso",
+            "contributor_note": "",
+            "price": "49.99",
+            "age_group": "",
+            "publisher": "DC Comics",
+            "isbns": [],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "100 BULLETS, VOL. 13",
+            "description": "No spoilers! The noir series, about vengeance and violence, reaches its conclusion.",
+            "contributor": "by Brian Azzarello and Eduardo Risso",
+            "author": "Brian Azzarello and Eduardo Risso",
+            "contributor_note": "",
+            "price": "19.99",
+            "age_group": "",
+            "publisher": "Vertigo",
+            "isbns": [],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "100 BULLETS: BOOK ONE",
+            "description": "This deluxe edition of the noir series, about a man named Graves who gives wronged people an untraceable gun to exact revenge, collects issues 1 through 19.",
+            "contributor": "by Brian Azzarello and Eduardo Risso",
+            "author": "Brian Azzarello and Eduardo Risso",
+            "contributor_note": "",
+            "price": "49.99",
+            "age_group": "",
+            "publisher": "DC Comics",
+            "isbns": [
+                {
+                    "isbn10": "1401232019",
+                    "isbn13": "9781401232016"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "100 BULLETS: DELUXE EDITION, BOOK FOUR",
+            "description": "This deluxe edition of the noir series, about a man named Graves who gives wronged people an untraceable gun to exact revenge, collects issues 59 through 80.",
+            "contributor": "by Brian Azzarello and Eduardo Risso",
+            "author": "Brian Azzarello and Eduardo Risso",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "DC Comics",
+            "isbns": [
+                {
+                    "isbn10": "1401238076",
+                    "isbn13": "9781401238070"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "100 BULLETS: DELUXE EDITION, BOOK THREE",
+            "description": "This deluxe edition of the noir series, about a man named Graves who gives wronged people an untraceable gun to exact revenge, collects issues 37 through 58.",
+            "contributor": "Brian Azzarello and Edward Risso",
+            "author": "Brian Azzarello and Edward Risso",
+            "contributor_note": "",
+            "price": "49.99",
+            "age_group": "",
+            "publisher": "DC Comics",
+            "isbns": [
+                {
+                    "isbn10": "1401237290",
+                    "isbn13": "9781401237295"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        },
+        {
+            "title": "100 DAYS OF REAL FOOD",
+            "description": "Wholesome, family-friendly recipes that are easy to prepare.",
+            "contributor": "by Lisa Leake",
+            "author": "Lisa Leake",
+            "contributor_note": "",
+            "price": "0.00",
+            "age_group": "",
+            "publisher": "Morrow/HarperCollins",
+            "isbns": [
+                {
+                    "isbn10": "0062252550",
+                    "isbn13": "9780062252555"
+                },
+                {
+                    "isbn10": "0062324098",
+                    "isbn13": "9780062324092"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": "",
+                    "sunday_review_link": "",
+                    "article_chapter_link": ""
+                }
+            ]
+        }
+    ]
+}

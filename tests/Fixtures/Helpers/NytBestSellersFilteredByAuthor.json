@@ -1,0 +1,32 @@
+{
+    "status": "OK",
+    "copyright": "Copyright (c) 2024 The New York Times Company.  All Rights Reserved.",
+    "num_results": 1,
+    "results": [
+        {
+            "title": "'THE HIGH ROAD TO CHINA: GEORGE BOGLE, THE PANCHEN LAMA AND THE FIRST BRITISH EXPEDITION TO TIBET'",
+            "description": null,
+            "contributor": null,
+            "author": "KATE TELTSCHER",
+            "contributor_note": null,
+            "price": "0.00",
+            "age_group": null,
+            "publisher": null,
+            "isbns": [
+                {
+                    "isbn10": "0374217009",
+                    "isbn13": "9780374217006"
+                }
+            ],
+            "ranks_history": [],
+            "reviews": [
+                {
+                    "book_review_link": "",
+                    "first_chapter_link": null,
+                    "sunday_review_link": "https://www.nytimes.com/2007/04/22/books/review/Stuart.t.html",
+                    "article_chapter_link": null
+                }
+            ]
+        }
+    ]
+}

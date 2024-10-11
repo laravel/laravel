@@ -73,6 +73,33 @@ class NewYorkTimesBookApiTest extends TestCase
         $response->assertSee('9780778316640');
     }
 
+    public function get_bestsellers_filtered_by_author(): void
+    {
+        $body = file_get_contents(base_path('tests/Fixtures/Helpers/NytBestSellersFilteredByAuthor.json'));
+
+        Http::fake([
+            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 200)
+        ]);
+
+        $response = $this->get(route('nyt.bestsellers', ['author' => 'KATE TELTSCHER']));
+
+        $response->assertSuccessful();
+        $response->assertSee('KATE TELTSCHER');
+    }
+
+    public function get_bestsellers_with_offset(): void
+    {
+        $body = file_get_contents(base_path('tests/Fixtures/Helpers/NytBestSellersWithOffset.json'));
+
+        Http::fake([
+            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 200)
+        ]);
+
+        $response = $this->get(route('nyt.bestsellers', ['offset' => '20']));
+
+        $response->assertSuccessful();
+    }
+
     /** @test */
     public function properly_handle_connection_interruptions()
     {
