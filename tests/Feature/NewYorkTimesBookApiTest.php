@@ -34,7 +34,7 @@ class NewYorkTimesBookApiTest extends TestCase
         $body = file_get_contents(base_path('tests/Fixtures/Helpers/NytBestSellersFilteredByIsbn10.json'));
 
         Http::fake([
-            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?isbn=1419726552' => Http::response($body, 200)
+            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 200)
         ]);
 
         $response = $this->get(route('nyt.bestsellers', ['isbn' => '1419726552']));
@@ -49,7 +49,7 @@ class NewYorkTimesBookApiTest extends TestCase
         $body = file_get_contents(base_path('tests/Fixtures/Helpers/NytBestSellersFilteredByIsbn13.json'));
 
         Http::fake([
-            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?isbn=9780778316640' => Http::response($body, 200)
+            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 200)
         ]);
 
         $response = $this->get(route('nyt.bestsellers', ['isbn' => '9780778316640']));
@@ -63,7 +63,7 @@ class NewYorkTimesBookApiTest extends TestCase
         $body = file_get_contents(base_path('tests/Fixtures/Helpers/NytBestSellersFilteredByIsbn13.json'));
 
         Http::fake([
-            urlencode('https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?isbn=9780778316640;9780778316640') => Http::response($body, 200)
+            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 200)
         ]);
 
         $response = $this->get(route('nyt.bestsellers', ['isbn' => '9780778316640:9780778316640']));
@@ -76,7 +76,7 @@ class NewYorkTimesBookApiTest extends TestCase
     /** @test */
     public function properly_handle_connection_interruptions()
     {
-        Http::fake(fn() => throw new ConnectionException("test", 0, null));
+        Http::fake(fn() => throw new ConnectionException("Failed to connect", 504, null));
 
         $response = $this->get(route('nyt.bestsellers'));
 
