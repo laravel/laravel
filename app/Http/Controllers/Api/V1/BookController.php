@@ -25,11 +25,11 @@ class BookController extends Controller
         $title = $bookSearchFormRequest->validated('title');
         $offset = $bookSearchFormRequest->validated('offset');
 
-        return $this->client->getBestsellers(
+        return response()->json($this->client->getBestsellers(
             $author,
             $isbn,
             $title,
             $offset
-        );
+        )->json());
     }
 }
