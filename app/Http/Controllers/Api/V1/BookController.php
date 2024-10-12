@@ -20,6 +20,16 @@ class BookController extends Controller
 
     public function bestSellers(BookSearchFormRequest $bookSearchFormRequest)
     {
-        return $this->client->getBestsellers($bookSearchFormRequest->validated());
+        $author = $bookSearchFormRequest->validated('author');
+        $isbn = $bookSearchFormRequest->validated('isbn');
+        $title = $bookSearchFormRequest->validated('title');
+        $offset = $bookSearchFormRequest->validated('offset');
+
+        return $this->client->getBestsellers(
+            $author,
+            $isbn,
+            $title,
+            $offset
+        );
     }
 }

@@ -16,7 +16,7 @@ class BookSearchFormRequestTest extends TestCase
             'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 422)
         ]);
 
-        $response = $this->get(route('nyt.bestsellers', ['isbn' => '12345678912345']), [], 422);
+        $response = $this->get(route('nyt.bestsellers', ['isbn' => ['12345678912345']]), [], 422);
 
         $response->assertSee('isbn');
         $response->assertSee('isbn must have a length of 10 or 13 digits');
@@ -28,10 +28,10 @@ class BookSearchFormRequestTest extends TestCase
         $body = file_get_contents(base_path('tests/Fixtures/Helpers/NytBestSellers.json'));
 
         Http::fake([
-            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 422)
+            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 200)
         ]);
 
-        $response = $this->get(route('nyt.bestsellers', ['isbn' => '1234567891']), [], 200);
+        $response = $this->get(route('nyt.bestsellers', ['isbn' => ['1234567891']]), [], 200);
 
         $response->assertSuccessful();
     }
@@ -42,15 +42,15 @@ class BookSearchFormRequestTest extends TestCase
         $body = file_get_contents(base_path('tests/Fixtures/Helpers/NytBestSellers.json'));
 
         Http::fake([
-            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 422)
+            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 200)
         ]);
 
-        $response = $this->get(route('nyt.bestsellers', ['isbn' => '1234567891234']), [], 200);
+        $response = $this->get(route('nyt.bestsellers', ['isbn' => ['1234567891234']]), [], 200);
 
         $response->assertSuccessful();
     }
 
-    /** @test */
+//    Removed from tests due to it no longer being needed
     public function isbn_fails_if_ending_with_semicolon(): void
     {
         $body = file_get_contents(base_path('tests/Fixtures/Helpers/NytBestSellers.json'));
@@ -59,7 +59,7 @@ class BookSearchFormRequestTest extends TestCase
             'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 422)
         ]);
 
-        $response = $this->get(route('nyt.bestsellers', ['isbn' => '1234567891;']), [], 422);
+        $response = $this->get(route('nyt.bestsellers', ['isbn' => ['1234567891;']]), [], 422);
 
         $response->assertSee('isbn');
         $response->assertSee('isbn cannot end with a semicolon');
@@ -86,10 +86,10 @@ class BookSearchFormRequestTest extends TestCase
         $body = file_get_contents(base_path('tests/Fixtures/Helpers/NytBestSellers.json'));
 
         Http::fake([
-            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 422)
+            'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 200)
         ]);
 
-        $response = $this->get(route('nyt.bestsellers', ['isbn' => '1234567890;0987654321']), [], 200);
+        $response = $this->get(route('nyt.bestsellers', ['isbn' => ['1234567890', '0987654321']]), [], 200);
 
         $response->assertSuccessful();
     }

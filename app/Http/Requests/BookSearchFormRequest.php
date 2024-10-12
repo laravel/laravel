@@ -34,8 +34,8 @@ class BookSearchFormRequest extends FormRequest
             'title' => ['nullable', 'string'],
             'isbn' => [
                 'nullable',
-                'string',
-                new IsbnIsEndingWithSemicolonRule(),
+                'array',
+//                new IsbnIsEndingWithSemicolonRule(),
                 new IsbnLengthRule()
             ],
             'offset' => [

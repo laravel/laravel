@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Exception\ConnectionInterruptionException;
 use App\Traits\ApiResponses;
+use App\Traits\FormatQueryString;
+use GuzzleHttp\Psr7\Query;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
@@ -14,6 +16,7 @@ use Throwable;
 class NewYorkTimesBookApi implements BookInterface
 {
     use ApiResponses;
+    use FormatQueryString;
     private PendingRequest $client;
 
     public function __construct()
@@ -28,10 +31,20 @@ class NewYorkTimesBookApi implements BookInterface
         ]);
     }
 
-    public function getBestsellers(array $options = []): Response
+    public function getBestsellers(?string $author = null, ?array $isbn = null, ?string $title = null, ?int $offset = null): Response
     {
+        // Per NYTimes API documentation, this formats the isbn by semicolon separator
+        if(!empty($isbn)) {
+            $isbn = implode(';', $isbn);
+        }
+
         try{
-            return $this->client->get('svc/books/v3/lists/best-sellers/history.json', $options);
+            return $this->client->get('svc/books/v3/lists/best-sellers/history.json', [
+                'author' => $author,
+                'isbn' => $isbn,
+                'title' => $title,
+                'offset' => $offset
+            ]);
         } catch(ConnectionException $exception) {
             throw new ConnectionInterruptionException();
         }

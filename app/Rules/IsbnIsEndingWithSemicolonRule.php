@@ -15,13 +15,16 @@ class IsbnIsEndingWithSemicolonRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $isbnArray = explode(';', $value);
+        dd($value);
 
-        foreach ($isbnArray as $isbn) {
-            if (empty($isbn)) {
-                $fail("{$attribute} cannot end with a semicolon");
-            }
-        }
+
+//        $isbnArray = explode(';', $value);
+//
+//        foreach ($isbnArray as $isbn) {
+//            if (empty($isbn)) {
+//                $fail("{$attribute} cannot end with a semicolon");
+//            }
+//        }
 
     }
 }

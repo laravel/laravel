@@ -6,5 +6,5 @@ use Illuminate\Http\Client\Response;
 
 interface BookInterface
 {
-    public function getBestsellers(array $options = []): Response;
+    public function getBestsellers(?string $author = null, ?array $isbn = [], ?string $title = null, ?int $offset = null): Response;
 }

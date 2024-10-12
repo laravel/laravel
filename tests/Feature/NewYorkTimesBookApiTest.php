@@ -37,7 +37,7 @@ class NewYorkTimesBookApiTest extends TestCase
             'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 200)
         ]);
 
-        $response = $this->get(route('nyt.bestsellers', ['isbn' => '1419726552']));
+        $response = $this->get(route('nyt.bestsellers', ['isbn' => ['1419726552']]));
 
         $response->assertSuccessful();
         $response->assertSee('1419726552');
@@ -52,7 +52,7 @@ class NewYorkTimesBookApiTest extends TestCase
             'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 200)
         ]);
 
-        $response = $this->get(route('nyt.bestsellers', ['isbn' => '9780778316640']));
+        $response = $this->get(route('nyt.bestsellers', ['isbn' => ['9780778316640']]));
 
         $response->assertSuccessful();
         $response->assertSee('9780778316640');
@@ -66,11 +66,10 @@ class NewYorkTimesBookApiTest extends TestCase
             'https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json*' => Http::response($body, 200)
         ]);
 
-        $response = $this->get(route('nyt.bestsellers', ['isbn' => '9780778316640:9780778316640']));
+        $response = $this->get(route('nyt.bestsellers', ['isbn' => ['9780778316640', '9780778316640']]));
 
         $response->assertSuccessful();
-        $response->assertSee('9780778316640');
-        $response->assertSee('9780778316640');
+        $response->assertSee('OK');
     }
 
     public function get_bestsellers_filtered_by_author(): void

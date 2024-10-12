@@ -10,14 +10,11 @@ class IsbnLengthRule implements ValidationRule
     /**
      * Run the validation rule.
      *
-     * @param  \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @param \Closure(string, ?string=): \Illuminate\Translation\PotentiallyTranslatedString $fail
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $isbnArray = explode(';', $value);
-
-        foreach ($isbnArray as $isbn) {
-
+        foreach ($value as $isbn) {
             $isbnLength = strlen($isbn);
 
             if (10 !== $isbnLength && 13 !== $isbnLength) {
