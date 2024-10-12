@@ -16,6 +16,10 @@ Per the assessment requirements this application does the following:
     - `Must be a mutliple of 20. Zero is a valid offset.`
 - Setup Dockerfile
 
+## Note:
+- Please note that I was unable to get the NYTimes API to return when sending semicolon separated ISBN's.  I tried using 
+Postman to hit the endpoint directly and it still didn't return data. 
+
 ## Tests:
   - You will find both Unit and Feature Tests.
     - The unit tests are centered around the API's functionality

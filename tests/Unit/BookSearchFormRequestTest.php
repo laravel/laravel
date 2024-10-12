@@ -50,7 +50,7 @@ class BookSearchFormRequestTest extends TestCase
         $response->assertSuccessful();
     }
 
-//    Removed from tests due to it no longer being needed
+    /** @test */
     public function isbn_fails_if_ending_with_semicolon(): void
     {
         $body = file_get_contents(base_path('tests/Fixtures/Helpers/NytBestSellers.json'));
