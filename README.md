@@ -7,7 +7,7 @@ Per the assessment requirements this application does the following:
 - Exposes Endpoint: `GET /api/1/nyt/best-sellers`
 - Follows Parameter Criteria:
   - `author: string`
-  - `isbn: string`
+  - `isbn[]: string`
     - `Length: 10 or 13`
     - `Separator: ;`
     - `Cannot end with a semicolon`
@@ -24,7 +24,7 @@ Postman to hit the endpoint directly and it still didn't return data.
   - You will find both Unit and Feature Tests.
     - The unit tests are centered around the API's functionality
     - The feature test around the FormRequests handling their validations properly
-  - All tests pass without internet connection and utilize 'Http::fake' in order to not hit the endpoint.  There is also a series of fixtures that simulate the expected return data.
+  - All tests pass without internet connection and utilize `Http::fake` in order to not hit the endpoint.  There is also a series of fixtures that simulate the expected return data.
 
 ## Error Handling
   - I implemented a trait `ApiResponses` to allow for consist formatting.
