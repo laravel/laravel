@@ -123,4 +123,17 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Code editor
+    |--------------------------------------------------------------------------
+    |
+    | Laravel commands are powerful and allow you to quickly generate files.
+    | Telling it which editor you prefer, Laravel will automatically open
+    | the files for you. Just provide your favorite code editor's path.
+    |
+    */
+
+    'editor' => env('APP_EDITOR'),
+
 ];
