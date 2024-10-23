@@ -1,0 +1,44 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - 11.x
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: login dockerhub
+      run: docker login -u ${{secrets.DOCKER_USER}} -p ${{secrets.DOCKER_PASS}}
+
+    - name: Build Docker Image
+      run: |
+       docker build . -t ${{ secrets.DOCKER_USER }}/abi:latest
+       docker push ${{ secrets.DOCKER_USER }}/abi:latest
+        
+
+    - name: print key
+      run: echo "${{ secrets.EC2_KEY }}" > EC2_KEY.pem
+  
+    - name: Set Permissions for Private Key
+      run: chmod 400 EC2_KEY
+
+      
+    - name: Deploy to EC2
+      run: |
+         ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} '
+            docker pull ${{ secrets.DOCKER_USER }}/abi:latest
+            docker stop laravel-app || true &&
+            docker rm laravel-app || true &&
+            docker run -d --restart=always -p 9000:9000 --name laravel-app abi:latest'
