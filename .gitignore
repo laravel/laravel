@@ -18,5 +18,6 @@ npm-debug.log
 yarn-error.log
 /.fleet
 /.idea
+/.nova
 /.vscode
 /.zed
