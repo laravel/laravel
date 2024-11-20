@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Laravel is a web ecosystem full of delightful tools that are supercharged for developer happiness and productivity.">
 
         <title>Laravel</title>
 
