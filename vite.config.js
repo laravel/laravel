@@ -10,7 +10,7 @@ export default defineConfig({
     ],
     server: {
         watch: {
-            ignored: ['**/storage/**'],
+            ignored: ['storage/**'],
         },
     },
 });
