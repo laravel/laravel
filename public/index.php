@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+// Define the start time for performance monitoring...
 define('LARAVEL_START', microtime(true));
 
 // Determine if the application is in maintenance mode...

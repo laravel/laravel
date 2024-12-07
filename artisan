@@ -3,6 +3,7 @@
 
 use Symfony\Component\Console\Input\ArgvInput;
 
+// Define the start time for performance monitoring...
 define('LARAVEL_START', microtime(true));
 
 // Register the Composer autoloader...
