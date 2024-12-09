@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/python:3.8  # Choose your preferred base image (could be python, node, or another)
+      - image: circleci/php:8.2  # Use PHP 8.2 for your build job
     steps:
       - checkout
       - run:
@@ -17,13 +17,13 @@ jobs:
 
   deploy:
     machine:
-      image: amazon/amazon-linux-2-x86_64  # Use an appropriate Amazon Linux 2 machine image for EC2
+      image: amazon/amazon-linux-2-x86_64  # Keep Amazon Linux for EC2 deployment
     steps:
       - run:
           name: Set up SSH
           command: |
             mkdir -p ~/.ssh
-            echo "$EC2_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa  # Add your private key to CircleCI as an environment variable
+            echo "$EC2_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan -H 98.81.168.142 >> ~/.ssh/known_hosts
       - run:
