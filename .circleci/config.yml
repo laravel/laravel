@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     machine:
-      image: ami-0453ec754f44f9a4a  # Use a Linux machine instead of Docker
+      image: al2023-ami-2023.6.20241121.0-kernel-6.1-x86_64  # Use a Linux machine instead of Docker
     steps:
       - checkout
       - run:
@@ -23,28 +23,8 @@ jobs:
           command: |
             php artisan test
 
-  deploy:
-    machine:
-      image: ubuntu-2004:2023.08.1
-    steps:
-      - run:
-          name: Deploy Application
-          command: |
-            scp -i "mykey.pem" -r ./ ec2-user@98.81.168.142:/var/www/html/laravel
-            ssh -i "mykey.pem" ec2-user@98.81.168.142 <<'EOF'
-              cd /var/www/html/laravel
-              composer install --no-dev --optimize-autoloader
-              php artisan key:generate
-              php artisan migrate --force
-              sudo chown -R apache:apache /var/www/html/laravel
-              sudo chmod -R 775 storage bootstrap/cache
-            EOF
-
 workflows:
   version: 2
-  build_and_deploy:
+  build_only:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
