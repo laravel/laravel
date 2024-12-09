@@ -1,27 +1,29 @@
 version: 2.1
+
 jobs:
   build:
     docker:
-      - image: circleci/python:3.8  # Or your preferred image
+      - image: circleci/python:3.8  # Choose your preferred base image (could be python, node, or another)
     steps:
       - checkout
       - run:
           name: Install Dependencies
           command: |
-            sudo apt-get update && sudo apt-get install -y zip unzip php-cli php-mbstring php-xml php-bcmath php-zip
+            sudo apt-get update
+            sudo apt-get install -y zip unzip php-cli php-mbstring php-xml php-bcmath php-zip
             curl -sS https://getcomposer.org/installer | php
             sudo mv composer.phar /usr/local/bin/composer
             composer install --no-dev --optimize-autoloader
 
   deploy:
     machine:
-      image: amazon/amazon-linux-2-x86_64  # Optional: Use this or adjust to your needs
+      image: amazon/amazon-linux-2-x86_64  # Use an appropriate Amazon Linux 2 machine image for EC2
     steps:
       - run:
           name: Set up SSH
           command: |
             mkdir -p ~/.ssh
-            echo "$EC2_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+            echo "$EC2_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa  # Add your private key to CircleCI as an environment variable
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan -H 98.81.168.142 >> ~/.ssh/known_hosts
       - run:
