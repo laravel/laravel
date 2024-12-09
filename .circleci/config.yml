@@ -16,10 +16,12 @@ jobs:
             sudo mv composer.phar /usr/local/bin/composer
       - run:
           name: Install Dependencies
-          command: composer install --no-dev --optimize-autoloader
+          command: |
+            composer install --no-dev --optimize-autoloader
       - run:
           name: Run Tests
-          command: php artisan test
+          command: |
+            php artisan test
 
   deploy:
     machine:
@@ -29,7 +31,7 @@ jobs:
           name: Deploy Application
           command: |
             scp -r ./ ec2-user@98.81.168.142:/var/www/html/laravel
-            ssh ec2-user@98.81.168.142 <<EOF
+            ssh ec2-user@98.81.168.142 <<'EOF'
               cd /var/www/html/laravel
               composer install --no-dev --optimize-autoloader
               php artisan key:generate
