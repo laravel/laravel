@@ -1,0 +1,47 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/php:8.2-node-browsers # Replace with your PHP version
+    steps:
+      - checkout
+      - run:
+          name: Install PHP Extensions
+          command: sudo apt-get update && sudo apt-get install -y zip unzip php-mbstring php-xml php-bcmath php-zip
+      - run:
+          name: Install Composer Dependencies
+          command: composer install --no-dev --optimize-autoloader
+      - run:
+          name: Run Tests
+          command: php artisan test
+      - run:
+          name: Prepare for Deployment
+          command: |
+            tar -czf laravel.tar.gz ./*
+            mkdir -p /tmp/deployment
+            mv laravel.tar.gz /tmp/deployment
+
+  deploy:
+    docker:
+      - image: circleci/python:3.9
+    steps:
+      - run:
+          name: Deploy to Production
+          command: |
+            scp /tmp/deployment/laravel.tar.gz user@your-server-ip:/tmp/laravel.tar.gz
+            ssh user@your-server-ip <<EOF
+              tar -xzf /tmp/laravel.tar.gz -C /var/www/html/laravel
+              cd /var/www/html/laravel
+              composer install --no-dev --optimize-autoloader
+              php artisan key:generate
+              php artisan migrate --force
+            EOF
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
