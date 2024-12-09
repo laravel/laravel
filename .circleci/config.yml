@@ -1,27 +1,39 @@
 version: 2.1
 jobs:
   build:
-    machine:
-      image: amazon/amazon-linux-2-x86_64  # Official Amazon Linux 2 Image
+    docker:
+      - image: circleci/python:3.8  # Or your preferred image
     steps:
       - checkout
       - run:
-          name: Check PHP Version
-          command: php -v
-      - run:
           name: Install Dependencies
           command: |
-            sudo yum update -y
-            sudo yum install -y php-cli php-mbstring php-xml php-bcmath php-zip
+            sudo apt-get update && sudo apt-get install -y zip unzip php-cli php-mbstring php-xml php-bcmath php-zip
             curl -sS https://getcomposer.org/installer | php
             sudo mv composer.phar /usr/local/bin/composer
             composer install --no-dev --optimize-autoloader
+
+  deploy:
+    machine:
+      image: amazon/amazon-linux-2-x86_64  # Optional: Use this or adjust to your needs
+    steps:
       - run:
-          name: Run Tests
-          command: php artisan test
+          name: Set up SSH
+          command: |
+            mkdir -p ~/.ssh
+            echo "$EC2_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            ssh-keyscan -H 98.81.168.142 >> ~/.ssh/known_hosts
+      - run:
+          name: Deploy to EC2
+          command: |
+            ssh -o StrictHostKeyChecking=no ec2-user@98.81.168.142 "cd /var/www/html/laravel && composer install --no-dev --optimize-autoloader && php artisan migrate --force"
 
 workflows:
   version: 2
-  build_only:
+  build_and_deploy:
     jobs:
       - build
+      - deploy:
+          requires:
+            - build
