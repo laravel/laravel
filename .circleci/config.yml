@@ -2,9 +2,12 @@ version: 2.1
 jobs:
   build:
     machine:
-      image: ami-0453ec754f44f9a4a  # Use a Linux machine instead of Docker
+      image: ami-0453ec754f44f9a4a  # Custom AMI ID
     steps:
       - checkout
+      - run:
+          name: Check PHP Version
+          command: php -v
       - run:
           name: Update System and Install PHP Extensions
           command: |
@@ -15,9 +18,9 @@ jobs:
             curl -sS https://getcomposer.org/installer | php
             sudo mv composer.phar /usr/local/bin/composer
       - run:
-          name: Install Dependencies
+          name: Install Dependencies with Verbosity
           command: |
-            composer install --no-dev --optimize-autoloader
+            composer install --no-dev --optimize-autoloader -vvv
       - run:
           name: Run Tests
           command: |
