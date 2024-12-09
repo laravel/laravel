@@ -30,8 +30,8 @@ jobs:
       - run:
           name: Deploy Application
           command: |
-            scp -r ./ ec2-user@98.81.168.142:/var/www/html/laravel
-            ssh ec2-user@98.81.168.142 <<'EOF'
+            scp -i "mykey.pem" -r ./ ec2-user@98.81.168.142:/var/www/html/laravel
+            ssh -i "mykey.pem" ec2-user@98.81.168.142 <<'EOF'
               cd /var/www/html/laravel
               composer install --no-dev --optimize-autoloader
               php artisan key:generate
