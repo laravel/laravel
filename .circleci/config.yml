@@ -1,0 +1,41 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: circleci/php:8.2  # Use PHP 8.2 for your build job
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y zip unzip php-cli php-mbstring php-xml php-bcmath php-zip
+            curl -sS https://getcomposer.org/installer | php
+            sudo mv composer.phar /usr/local/bin/composer
+            composer install --no-dev --optimize-autoloader
+
+  deploy:
+    machine:
+      image: amazon/amazon-linux-2-x86_64  # Keep Amazon Linux for EC2 deployment
+    steps:
+      - run:
+          name: Set up SSH
+          command: |
+            mkdir -p ~/.ssh
+            echo "$EC2_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            ssh-keyscan -H 98.81.168.142 >> ~/.ssh/known_hosts
+      - run:
+          name: Deploy to EC2
+          command: |
+            ssh -o StrictHostKeyChecking=no ec2-user@98.81.168.142 "cd /var/www/html/laravel && composer install --no-dev --optimize-autoloader && php artisan migrate --force"
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
