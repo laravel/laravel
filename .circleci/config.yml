@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     machine:
-      image: al2023-ami-2023.6.20241121.0-kernel-6.1-x86_64  # Use a Linux machine instead of Docker
+      image: ami-0453ec754f44f9a4a  # Use a Linux machine instead of Docker
     steps:
       - checkout
       - run:
