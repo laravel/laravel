@@ -2,29 +2,23 @@ version: 2.1
 jobs:
   build:
     machine:
-      image: ami-0453ec754f44f9a4a  # Custom AMI ID
+      image: amazon/amazon-linux-2-x86_64  # Official Amazon Linux 2 Image
     steps:
       - checkout
       - run:
           name: Check PHP Version
           command: php -v
       - run:
-          name: Update System and Install PHP Extensions
+          name: Install Dependencies
           command: |
-            sudo apt-get update && sudo apt-get install -y zip unzip php-cli php-mbstring php-xml php-bcmath php-zip
-      - run:
-          name: Install Composer
-          command: |
+            sudo yum update -y
+            sudo yum install -y php-cli php-mbstring php-xml php-bcmath php-zip
             curl -sS https://getcomposer.org/installer | php
             sudo mv composer.phar /usr/local/bin/composer
-      - run:
-          name: Install Dependencies with Verbosity
-          command: |
-            composer install --no-dev --optimize-autoloader -vvv
+            composer install --no-dev --optimize-autoloader
       - run:
           name: Run Tests
-          command: |
-            php artisan test
+          command: php artisan test
 
 workflows:
   version: 2
