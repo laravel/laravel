@@ -5,7 +5,8 @@ services:
       dockerfile: Dockerfile
     container_name: workspace
     ports:
-      - "8000:80"
+      - "8000:80" # Laravel
+      - "5173:5173" # Vite
     volumes:
       - .:/var/www/html
     environment:

@@ -11,9 +11,10 @@ export default defineConfig({
         react(),
     ],
     server: {
-        host: true,
+        host: '0.0.0.0', // Permite conexões externas
+        port: 5173, // Garante que a porta correta seja usada
         hmr: {
-            host: 'localhost'
+            host: 'localhost', // Substitua por seu endereço IP público, se necessário
         },
-    }
+    },
 });
