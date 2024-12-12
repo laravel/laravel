@@ -68,6 +68,7 @@ return [
     | `storage:link` Artisan command is executed. The array keys should be
     | the target directories of the symbolic links and the values should be
     | the source directories.
+    |
     */
 
     'links' => [
