@@ -66,7 +66,7 @@ return [
     |
     | Here you may configure the symbolic links that will be created when the
     | `storage:link` Artisan command is executed. The array keys should be
-    | the target directories of the symbolic links and the values should be 
+    | the target directories of the symbolic links and the values should be
     | the source directories.
     */
 
