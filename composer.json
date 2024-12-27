@@ -16,12 +16,7 @@
         "laravel/pint": "^1.13",
         "laravel/sail": "dev-develop",
         "mockery/mockery": "^1.6",
-<<<<<<< HEAD
-        "phpunit/phpunit": "^10.5"
-=======
-        "nunomaduro/collision": "^8.1",
-        "phpunit/phpunit": "^11.0.1"
->>>>>>> 11.x
+        "phpunit/phpunit": "^11.3.6"
     },
     "autoload": {
         "psr-4": {
