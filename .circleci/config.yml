@@ -1,0 +1,59 @@
+# This config was automatically generated from your source code
+# Stacks detected: cicd:github-actions:.github/workflows,deps:node:.,deps:php:.
+version: 2.1
+orbs:
+  node: circleci/node@5
+  php: circleci/php@1
+jobs:
+  build-node:
+    # Build node project
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          cache-path: ~/project/node_modules
+          override-ci-command: npm install
+      - run:
+          command: npm run build
+      - run:
+          name: Create the ~/artifacts directory if it doesn't exist
+          command: mkdir -p ~/artifacts
+      # Copy output to artifacts dir
+      - run:
+          name: Copy artifacts
+          command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
+      - store_artifacts:
+          path: ~/artifacts
+          destination: node-build
+  test-php:
+    # Install php packages and run tests
+    docker:
+      - image: cimg/php:8.2-node
+    steps:
+      - checkout
+      - php/install-packages
+      - run:
+          name: run tests
+          command: ./vendor/bin/phpunit
+  deploy:
+    # This is an example deploy job, not actually used by the workflow
+    docker:
+      - image: cimg/base:stable
+    steps:
+      # Replace this with steps to deploy to users
+      - run:
+          name: deploy
+          command: '#e.g. ./deploy.sh'
+      - run:
+          name: found github actions config
+          command: ':'
+workflows:
+  build-and-test:
+    jobs:
+      - build-node:
+          requires:
+            - test-php
+      - test-php
+    # - deploy:
+    #     requires:
+    #       - build-node
