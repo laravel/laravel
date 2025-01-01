@@ -14,7 +14,12 @@ jobs:
           cache-path: ~/project/node_modules
           override-ci-command: npm install
       - run:
+          name: Generate Laravel Application Key
+          command: php artisan key:generate --no-interaction
+
+      - run:
           command: npm run build
+      
       - run:
           name: Create the ~/artifacts directory if it doesn't exist
           command: mkdir -p ~/artifacts
