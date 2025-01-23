@@ -4,7 +4,7 @@
 @source "../views/**/*.blade.php";
 
 @theme {
-    --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: Figtree, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 /*
@@ -16,7 +16,11 @@ If we ever want to remove these styles, we need to add an explicit border
 color utility to any element that depends on these defaults.
 */
 @layer base {
-    *, ::after, ::before, ::backdrop, ::file-selector-button {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
         border-color: var(--color-gray-200, currentColor);
     }
 }
