@@ -12,7 +12,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/pail": "^1.1",
+        "laravel/pail": "dev-develop",
         "laravel/pint": "^1.13",
         "laravel/sail": "dev-develop",
         "mockery/mockery": "^1.6",
