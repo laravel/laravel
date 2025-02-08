@@ -22,7 +22,7 @@ class HelperServiceProvider extends ServiceProvider
     public function __construct($app)
     {
         parent::__construct($app);
-        
+
         // Initialize helperPaths with one or more directories.
         $this->helperPaths = [
             app_path('Helpers'),
@@ -52,7 +52,7 @@ class HelperServiceProvider extends ServiceProvider
 
             // Load all PHP files from the current helper directory recursively.
             collect(File::allFiles($path))
-                ->each(fn($file) => require_once $file->getRealPath());
+                ->each(fn ($file) => require_once $file->getRealPath());
         }
     }
 }
