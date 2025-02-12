@@ -4,8 +4,7 @@ on:
   release:
     types: [released]
 
-permissions:
-  contents: write
+permissions: {}
 
 jobs:
   update:
