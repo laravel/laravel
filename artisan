@@ -1,4 +1,5 @@
 #!/usr/bin/env php
+//just for demostrating purpose
 <?php
 
 use Illuminate\Foundation\Application;
