@@ -42,10 +42,7 @@
                 ]
             },
             { "action": "composer run-script ecs:fix", "options": [] },
-            { "action": "composer run-script rector:fix ", "options": [] },
-            { "action": "npm run format:check", "options": [] },
-            { "action": "npm run lint", "options": [] },
-            { "action": "npm run spell-checker:staged", "options": [] }
+            { "action": "composer run-script rector:fix ", "options": [] }
         ]
     },
     "pre-push": {

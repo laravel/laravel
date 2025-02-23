@@ -136,7 +136,7 @@ In production environment is necessary run `pnpm run production`
 You must activate the hooks in your local git repository. To do so, just run the following command.
 
 ```bash
-vendor/bin/captainhook install
+vendor/bin/captainhook install --force
 ```
 
 Executing this will create the hook script located in your .git/hooks directory, for each hook you choose to install while running the command. So now every time git triggers a hook, CaptainHook gets executed.

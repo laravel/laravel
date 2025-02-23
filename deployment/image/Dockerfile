@@ -56,16 +56,6 @@ RUN composer dump-autoload
 # RUN php artisan optimize:clear
 
 ##########################################################################################
-FROM node:22.11.0-alpine AS node1
-WORKDIR /app
-RUN npm install -g pnpm
-COPY package.json pnpm-lock.yaml ./
-ENV APP_ENV=production
-RUN pnpm install
-COPY . .
-RUN npm run build
-
-##########################################################################################
 
 
 FROM server1
@@ -73,8 +63,6 @@ FROM server1
 WORKDIR /var/www/REPLACEPROJECTNAME
 
 COPY --from=composer1 /app/vendor ./vendor
-
-COPY --from=node1 --chown=nginx:nginx /app .
 
 COPY deployment/image/dockerconfig/nginx.conf /etc/nginx/nginx.conf
 COPY deployment/image/dockerconfig/default.conf /etc/nginx/conf.d/default.conf
