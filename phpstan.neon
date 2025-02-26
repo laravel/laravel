@@ -1,0 +1,11 @@
+parameters:
+    level: 3
+    tmpDir: storage/framework/cache
+    paths:
+        - ./app
+        - ./artisan
+        - ./bootstrap
+        - ./config
+        - ./database
+        - ./public
+        - ./tests
