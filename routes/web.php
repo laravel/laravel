@@ -9,5 +9,7 @@ Route::get('/', function () {
    });
 
 
-   Route::get('/product', [ProdcutController::class, 'index'])->name('products.index');
+   Route::get('/product', [ProdcutController::class, 'index'])->name('product.index');
+   Route::get('/product/create', [ProdcutController::class, 'create'])->name('product.create');
+   Route::post('/product', [ProdcutController::class, 'store'])->name('product.store');
 
