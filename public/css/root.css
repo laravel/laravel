@@ -1,0 +1,155 @@
+/*x-tailwind-polaris.css-def starts*/
+#menu-button.active-modifier {
+    box-shadow: -0.0625rem 0rem 0.0625rem 0rem rgba(26, 26, 26, 0.122) inset,
+    0.0625rem 0rem 0.0625rem 0rem rgba(26, 26, 26, 0.122) inset,
+    0rem 0.125rem 0.0625rem 0rem rgba(26, 26, 26, 0.2) inset;
+    background-color: #d4d4d4;
+}
+
+.boxShadowNormal {
+    box-shadow: 0rem -0.0625rem 0rem 0rem #b5b5b5 inset,
+    0rem 0rem 0rem 0.0625rem rgba(0, 0, 0, 0.1) inset,
+    0rem 0.03125rem 0rem 0.09375rem #fff inset;
+}
+
+.boxShadowNormal:active {
+    box-shadow: -0.0625rem 0rem 0.0625rem 0rem rgba(26, 26, 26, 0.122) inset,
+    0.0625rem 0rem 0.0625rem 0rem rgba(26, 26, 26, 0.122) inset,
+    0rem 0.125rem 0.0625rem 0rem rgba(26, 26, 26, 0.2) inset;
+}
+
+.primaryButtonShadow {
+    box-shadow: 0rem -0.0625rem 0rem 0.0625rem rgba(0, 0, 0, 0.8) inset,
+    0rem 0rem 0rem 0.0625rem #303030 inset,
+    0rem 0.03125rem 0rem 0.09375rem hsla(0, 0%, 100%, 0.25) inset;
+}
+
+.indigoButtonShadow {
+    box-shadow: 0rem -0.0625rem 0rem 0.0625rem rgba(49, 46, 129, 0.8) inset,
+    0rem 0rem 0rem 0.0625rem #4f46e5 inset,
+    0rem 0.03125rem 0rem 0.09375rem rgba(199, 210, 254, 0.25) inset;
+}
+
+.dangerButtonShadow {
+    box-shadow: 0rem -0.0625rem 0rem 0.0625rem rgba(153, 27, 27, 0.8) inset,
+    0rem 0rem 0rem 0.0625rem #dc2626 inset,
+    0rem 0.03125rem 0rem 0.09375rem rgba(254, 202, 202, 0.25) inset;
+}
+
+.primaryButtonShadow:active,
+.indigoButtonShadow:active {
+    box-shadow: 0rem 0.1875rem 0rem 0rem #000 inset;
+}
+
+.buttonPressable:active {
+    transform: translate3d(0, 0.0625rem, 0);
+}
+
+.iconMargin {
+    margin: calc(0.125rem * -1) 0;
+}
+
+.primary-button {
+    background-color: #303030;
+    background-image: linear-gradient(180deg, rgba(48, 48, 48, 0) 63.53%, hsla(0, 0%, 100%, 0.15));
+}
+
+.indigo-button {
+    background-color: #4f46e5;
+    background-image: linear-gradient(180deg, rgba(79, 70, 229, 0) 63.53%, hsla(0, 0%, 100%, 0.15));
+}
+
+.primary-button:hover,
+.primary-button:active {
+    background-color: #1a1a1a;
+    background-image: linear-gradient(180deg, rgba(48, 48, 48, 0) 63.53%, hsla(0, 0%, 100%, 0.15));
+}
+
+.indigo-button:hover,
+.indigo-button:active {
+    background-color: #4338ca;
+    background-image: linear-gradient(180deg, rgba(79, 70, 229, 0) 63.53%, hsla(0, 0%, 100%, 0.15));
+}
+
+.text {
+    font-size: 0.8125rem;
+}
+
+.text-color {
+    color: #303030;
+}
+
+.turquoiseButtonShadow {
+    box-shadow: 0rem -0.0625rem 0rem 0.0625rem rgba(13, 148, 136, 0.8) inset,
+    0rem 0rem 0rem 0.0625rem #14b8a6 inset,
+    0rem 0.03125rem 0rem 0.09375rem rgba(204, 251, 241, 0.25) inset;
+}
+
+.turquoiseButtonShadow:active {
+    box-shadow: 0rem 0.1875rem 0rem 0rem #0d9488 inset;
+}
+
+.turquoise-button {
+    background-color: #14b8a6;
+    background-image: linear-gradient(180deg, rgba(20, 184, 166, 0) 63.53%, hsla(0, 0%, 100%, 0.15));
+}
+
+.turquoise-button:hover,
+.turquoise-button:active {
+    background-color: #0d9488;
+    background-image: linear-gradient(180deg, rgba(20, 184, 166, 0) 63.53%, hsla(0, 0%, 100%, 0.15));
+}
+
+/* ///////////////// */
+.complex-learn-card-dropdown {
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.clcd-check {
+    cursor: pointer;
+    max-height: 40px;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.clcd-check:hover {
+    background-color: rgb(243, 244, 246);
+}
+
+.clcd-check.expanded {
+    max-height: 400px;
+    background-color: rgb(243, 244, 246);
+}
+
+#completed-text {
+    display: inline-block;
+    padding: 3px;
+    font-size: 12px;
+}
+
+.checkdisplay {
+    display: none;
+}
+
+#menu-button:hover,
+.droplid:hover {
+    background-color: rgb(243 244 246);
+}
+/*x-tailwind-polaris.css-def ends*/
+
+
+/*extra starts*/
+.bar {
+    z-index: 99 !important;
+}
+
+.fi-il {
+    display: none !important;
+}
+
+.filepond--credits {
+    display: none !important;
+}
+/*extra ends*/
