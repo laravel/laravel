@@ -85,5 +85,5 @@ return [
     */
 
     'livewire_loading_delay' => 'default',
-
+'webauthn' => false,
 ];

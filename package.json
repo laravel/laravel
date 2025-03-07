@@ -6,16 +6,21 @@
         "dev": "vite"
     },
     "devDependencies": {
-        "@tailwindcss/forms": "^0.5.10",
+        "@tailwindcss/forms": "^0.5.2",
         "@tailwindcss/typography": "^0.5.16",
         "@tailwindcss/vite": "^4.0.0",
-        "autoprefixer": "^10.4.20",
+        "alpinejs": "^3.4.2",
+        "autoprefixer": "^10.4.2",
         "concurrently": "^9.0.1",
         "daisyui": "^5.0.0",
         "laravel-vite-plugin": "^1.2.0",
-        "postcss": "^8.5.3",
+        "postcss": "^8.4.31",
         "postcss-nesting": "^13.0.1",
-        "tailwindcss": "^3.4.17",
+        "tailwindcss": "^3.1.0",
         "vite": "^6.0.11"
+    },
+    "dependencies": {
+        "axios": "^1.8.1",
+        "chart.js": "^4.4.8"
     }
 }
