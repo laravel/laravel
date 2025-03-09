@@ -126,6 +126,7 @@ return [
 
         'testing' => [
             'driver' => 'monolog',
+            'level' => 'debug',
             'handler' => TestHandler::class,
         ],
 
