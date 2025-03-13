@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      contents: read
+      id-token: write
     if: github.actor != 'dependabot[bot]'
     steps:
       - name: Set PR title
