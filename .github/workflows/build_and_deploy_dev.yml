@@ -97,8 +97,6 @@ jobs:
           platforms: ${{ env.DOCKER_PLATFORM }}
           tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
           file: ./deployment/image/Dockerfile
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
   deploy:
     needs: setup
