@@ -62,7 +62,7 @@ FROM server1
 
 WORKDIR /var/www/REPLACEPROJECTNAME
 
-COPY --from=composer1 /app/vendor ./vendor
+COPY --from=composer1 --chown=nginx:nginx /app .
 
 COPY deployment/image/dockerconfig/nginx.conf /etc/nginx/nginx.conf
 COPY deployment/image/dockerconfig/default.conf /etc/nginx/conf.d/default.conf
