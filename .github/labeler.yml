@@ -1,6 +1,3 @@
-draft:
-  - changed-files:
-      - any-glob-to-any-file: '**'
 
 feature:
   - head-branch: ['^feature', 'feature']
