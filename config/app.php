@@ -104,7 +104,9 @@ return [
             explode(',', env('APP_PREVIOUS_KEYS', ''))
         ),
     ],
+    
 
+    'lang' => resource_path('lang'),
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
