@@ -106,7 +106,6 @@ return [
     ],
     
 
-    'lang' => resource_path('lang'),
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
@@ -124,5 +123,7 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
-
+     
+      // Add the 'lang' key correctly
+    'lang' => resource_path('lang'),
 ];
