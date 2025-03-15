@@ -14,8 +14,8 @@ function user(): User
         throw new Exception('The current user is not authenticated.');
     }
 
-    if (!$currentUser instanceof User) {
-        throw new Exception('The currently authenticated user is not an instance of ' . User::class);
+    if (! $currentUser instanceof User) {
+        throw new Exception('The currently authenticated user is not an instance of '.User::class);
     }
 
     return $currentUser;
