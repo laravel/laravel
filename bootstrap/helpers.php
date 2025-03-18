@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Auth\AuthenticationException;
 
 /**
  * Get the currently authenticated user model.
