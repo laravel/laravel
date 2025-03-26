@@ -16,8 +16,14 @@ COPY . .
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-dev --optimize-autoloader
 
-# Expone el puerto que usa Laravel
-EXPOSE 8000
+# Genera APP_KEY automáticamente
+RUN php artisan key:generate
+
+# Asigna permisos a las carpetas necesarias
+RUN chmod -R 777 storage bootstrap/cache
+
+# Expone el puerto correcto para Render
+EXPOSE 10000
 
 # Comando para ejecutar Laravel cuando el contenedor inicie
-CMD php artisan serve --host=0.0.0.0 --port=8000
+CMD php artisan serve --host=0.0.0.0 --port=10000
