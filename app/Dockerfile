@@ -20,7 +20,7 @@ RUN composer install --no-dev --optimize-autoloader
 RUN php artisan key:generate
 
 # Asigna permisos a las carpetas necesarias
-RUN chmod -R 777 storage bootstrap/cache
+#RUN chmod -R 777 storage bootstrap/cache
 
 # Expone el puerto correcto para Render
 EXPOSE 10000
