@@ -1,66 +1,159 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# نظام وكالات السفر (RTLA)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![إصدار النظام](https://img.shields.io/badge/الإصدار-1.0.0-blue)
+![Laravel](https://img.shields.io/badge/Laravel-v12.7.2-red)
+![الترخيص](https://img.shields.io/badge/الترخيص-MIT-green)
 
-## About Laravel
+## نظرة عامة
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+نظام وكالات السفر (RTLA) هو منصة متكاملة لإدارة وكالات السفر، تتيح إدارة الوكلاء الرئيسيين والسبوكلاء والعملاء في بيئة موحدة. يدعم النظام اللغة العربية بالكامل واتجاه العرض من اليمين إلى اليسار (RTL).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## المميزات الرئيسية
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **واجهة عربية كاملة** مع دعم RTL (من اليمين إلى اليسار).
+- **تعدد المستخدمين** (وكيل رئيسي، سبوكيل، عميل) مع صلاحيات مختلفة.
+- **نظام متعدد المستأجرين** (Multi-Tenant) يمكن كل وكالة من العمل في مساحة منفصلة.
+- **إدارة متكاملة للخدمات** (موافقات أمنية، نقل بري، حج وعمرة، تذاكر طيران، إصدار جوازات).
+- **نظام طلبات متقدم** يضمن خصوصية المعلومات بين الوكلاء والسبوكلاء والعملاء.
+- **إدارة عروض الأسعار** مع آلية اعتماد للوكيل الرئيسي.
+- **نظام مالي متكامل** لإدارة العمولات والمدفوعات.
+- **أرشفة وإدارة المستندات** مع خيارات مختلفة للرؤية.
 
-## Learning Laravel
+## متطلبات النظام
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP >= 8.2
+- MySQL >= 5.7 أو SQLite
+- Composer
+- Node.js و NPM
+- Git
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## خطوات التثبيت
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. نسخ المشروع
 
-## Laravel Sponsors
+```bash
+git clone [رابط المستودع] rtla-app
+cd rtla-app
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. تثبيت اعتماديات PHP
 
-### Premium Partners
+```bash
+composer install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 3. إعداد ملف البيئة
 
-## Contributing
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. إعداد قاعدة البيانات
 
-## Code of Conduct
+قم بتعديل إعدادات قاعدة البيانات في ملف `.env`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan migrate --seed
+```
 
-## Security Vulnerabilities
+### 5. تثبيت وتجميع الأصول الأمامية
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+npm install
+npm run dev
+```
 
-## License
+### 6. تشغيل المشروع
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan serve
+```
+
+بعد ذلك، يمكن الوصول إلى النظام من خلال: `http://localhost:8000`
+
+## أنواع المستخدمين
+
+### 1. الوكيل الرئيسي
+- إدارة كاملة للوكالة
+- إدارة السبوكلاء والعملاء
+- إدارة الخدمات والطلبات
+- مراجعة وموافقة على عروض الأسعار
+- تقارير مالية وإحصائية
+
+### 2. السبوكيل
+- استعراض الخدمات المتاحة له
+- عرض طلبات الأسعار
+- تقديم عروض أسعار
+- متابعة المستحقات المالية
+
+### 3. العميل
+- استعراض الخدمات
+- تقديم طلبات جديدة
+- متابعة حالة الطلبات
+- اختيار عروض الأسعار المناسبة
+
+## هيكل المشروع
+
+```
+app/
+├── Http/
+│   ├── Controllers/         # كنترولرات التطبيق
+│   │   ├── Agency/          # كنترولرات خاصة بالوكيل
+│   │   ├── Subagent/        # كنترولرات خاصة بالسبوكيل
+│   │   └── Customer/        # كنترولرات خاصة بالعميل
+│   ├── Middleware/          # الوسائط
+│   └── Requests/            # طلبات النماذج
+├── Models/                  # نماذج التطبيق
+└── Providers/               # مزودي الخدمات
+resources/
+├── css/                     # ملفات CSS
+├── js/                      # ملفات JavaScript
+└── views/                   # القوالب
+    ├── agency/              # واجهات الوكيل الرئيسي
+    ├── subagent/            # واجهات السبوكيل
+    ├── customer/            # واجهات العميل
+    ├── layouts/             # القوالب الرئيسية
+    └── partials/            # أجزاء الواجهة المشتركة
+```
+
+## تطوير التطبيق
+
+### إعادة تجميع الأصول أثناء التطوير
+
+```bash
+npm run dev
+```
+
+### تشغيل الاختبارات
+
+```bash
+php artisan test
+```
+
+## إعداد الوكيل الأساسي الأول
+
+1. قم بالتسجيل كوكيل أساسي من صفحة التسجيل.
+2. قم بإدخال بيانات الوكالة واسم المستخدم وكلمة المرور.
+3. بعد التسجيل، سيتم توجيهك إلى لوحة تحكم الوكيل.
+4. من هناك يمكنك إضافة الخدمات والسبوكلاء والبدء في استخدام النظام.
+
+## المساهمة في المشروع
+
+نرحب بمساهماتكم في تطوير هذا المشروع! يرجى اتباع الخطوات التالية:
+
+1. انسخ المستودع (Fork)
+2. أنشئ فرعًا جديدًا (`git checkout -b feature/amazing-feature`)
+3. قم بعمل التغييرات المطلوبة
+4. أضف التغييرات (`git add .`)
+5. قم بعمل commit (`git commit -m 'إضافة ميزة رائعة'`)
+6. ارفع التغييرات إلى الفرع الخاص بك (`git push origin feature/amazing-feature`)
+7. افتح طلب سحب (Pull Request)
+
+## الترخيص
+
+هذا المشروع مرخص تحت رخصة MIT - انظر ملف LICENSE للمزيد من التفاصيل.
+
+## الدعم
+
+لأي استفسارات أو مشاكل، يرجى فتح issue في صفحة المشروع على GitHub.
