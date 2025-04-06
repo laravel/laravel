@@ -11,6 +11,7 @@
             <h1 class="mb-4">لوحة تحكم الوكيل</h1>
             
             <div class="row">
+                <!-- إحصائيات سريعة -->
                 <div class="col-md-3">
                     <div class="card text-white bg-primary mb-4">
                         <div class="card-body">
@@ -61,6 +62,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="alert alert-info">
+                <h5><i class="fas fa-info-circle me-2"></i> مرحباً بك في نظام إدارة وكالات السفر!</h5>
+                <p>من هنا يمكنك إدارة وكالتك، السبوكلاء، العملاء، الخدمات، وغيرها.</p>
             </div>
             
             <div class="row mt-4">

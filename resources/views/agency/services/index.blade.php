@@ -18,8 +18,20 @@
         </div>
     </div>
 
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <div class="row">
-        <!-- خدمات الموافقات الأمنية -->
+        <!-- قسم خدمات الموافقات الأمنية -->
         <div class="col-md-6 mb-4">
             <div class="card shadow h-100">
                 <div class="card-header bg-primary text-white">
@@ -39,9 +51,7 @@
                             </thead>
                             <tbody>
                                 @php
-                                    $securityServices = \App\Models\Service::where('agency_id', auth()->user()->agency_id)
-                                        ->where('type', 'security_approval')
-                                        ->get();
+                                    $securityServices = $services->where('type', 'security_approval');
                                 @endphp
                                 
                                 @forelse($securityServices as $service)
@@ -64,6 +74,13 @@
                                                 <a href="{{ route('agency.services.show', $service) }}" class="btn btn-sm btn-info">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
+                                                <form action="{{ route('agency.services.toggle-status', $service) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn btn-sm btn-{{ $service->status == 'active' ? 'danger' : 'success' }}">
+                                                        <i class="fas fa-{{ $service->status == 'active' ? 'ban' : 'check' }}"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -79,7 +96,7 @@
             </div>
         </div>
         
-        <!-- خدمات النقل البري -->
+        <!-- قسم خدمات النقل البري -->
         <div class="col-md-6 mb-4">
             <div class="card shadow h-100">
                 <div class="card-header bg-success text-white">
@@ -99,9 +116,7 @@
                             </thead>
                             <tbody>
                                 @php
-                                    $transportServices = \App\Models\Service::where('agency_id', auth()->user()->agency_id)
-                                        ->where('type', 'transportation')
-                                        ->get();
+                                    $transportServices = $services->where('type', 'transportation');
                                 @endphp
                                 
                                 @forelse($transportServices as $service)
@@ -124,6 +139,13 @@
                                                 <a href="{{ route('agency.services.show', $service) }}" class="btn btn-sm btn-info">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
+                                                <form action="{{ route('agency.services.toggle-status', $service) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn btn-sm btn-{{ $service->status == 'active' ? 'danger' : 'success' }}">
+                                                        <i class="fas fa-{{ $service->status == 'active' ? 'ban' : 'check' }}"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -139,125 +161,7 @@
             </div>
         </div>
         
-        <!-- خدمات الحج والعمرة -->
-        <div class="col-md-6 mb-4">
-            <div class="card shadow h-100">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0"><i class="fas fa-kaaba me-1"></i> خدمات الحج والعمرة</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>الخدمة</th>
-                                    <th>السعر الأساسي</th>
-                                    <th>العمولة (%)</th>
-                                    <th>الحالة</th>
-                                    <th>الإجراءات</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $hajjServices = \App\Models\Service::where('agency_id', auth()->user()->agency_id)
-                                        ->where('type', 'hajj_umrah')
-                                        ->get();
-                                @endphp
-                                
-                                @forelse($hajjServices as $service)
-                                    <tr>
-                                        <td>{{ $service->name }}</td>
-                                        <td>{{ $service->base_price }} ر.س</td>
-                                        <td>{{ $service->commission_rate }}%</td>
-                                        <td>
-                                            @if($service->status == 'active')
-                                                <span class="badge bg-success">نشط</span>
-                                            @else
-                                                <span class="badge bg-danger">غير نشط</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <a href="{{ route('agency.services.edit', $service) }}" class="btn btn-sm btn-warning">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="{{ route('agency.services.show', $service) }}" class="btn btn-sm btn-info">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center">لا توجد خدمات حج وعمرة حتى الآن</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- خدمات تذاكر الطيران -->
-        <div class="col-md-6 mb-4">
-            <div class="card shadow h-100">
-                <div class="card-header bg-warning text-white">
-                    <h5 class="mb-0"><i class="fas fa-plane me-1"></i> خدمات تذاكر الطيران</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-striped">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>الخدمة</th>
-                                    <th>السعر الأساسي</th>
-                                    <th>العمولة (%)</th>
-                                    <th>الحالة</th>
-                                    <th>الإجراءات</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $flightServices = \App\Models\Service::where('agency_id', auth()->user()->agency_id)
-                                        ->where('type', 'flight')
-                                        ->get();
-                                @endphp
-                                
-                                @forelse($flightServices as $service)
-                                    <tr>
-                                        <td>{{ $service->name }}</td>
-                                        <td>{{ $service->base_price }} ر.س</td>
-                                        <td>{{ $service->commission_rate }}%</td>
-                                        <td>
-                                            @if($service->status == 'active')
-                                                <span class="badge bg-success">نشط</span>
-                                            @else
-                                                <span class="badge bg-danger">غير نشط</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <div class="btn-group" role="group">
-                                                <a href="{{ route('agency.services.edit', $service) }}" class="btn btn-sm btn-warning">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="{{ route('agency.services.show', $service) }}" class="btn btn-sm btn-info">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="5" class="text-center">لا توجد خدمات تذاكر طيران حتى الآن</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Añade más secciones para otros tipos de servicios como vuelos, hajj, etc. -->
     </div>
 </div>
 @endsection

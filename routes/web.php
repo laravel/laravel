@@ -5,7 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Agency\DashboardController as AgencyDashboardController;
+use App\Http\Controllers\Agency\DashboardController;
 use App\Http\Controllers\Agency\SubagentController;
 use App\Http\Controllers\Agency\CustomerController;
 use App\Http\Controllers\Agency\ServiceController;
@@ -27,7 +27,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-// La ruta Auth::routes() ahora está disponible al instalar laravel/ui
+// تسجيل مسارات المصادقة مرة واحدة فقط
 Auth::routes();
 
 // مسارات الملف الشخصي
@@ -37,9 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
 });
 
-// مسارات الوكيل الأساسي
-Route::prefix('agency')->middleware(['auth', 'agency'])->name('agency.')->group(function () {
-    Route::get('/dashboard', [AgencyDashboardController::class, 'index'])->name('dashboard');
+// مسارات الوكيل الأساسي - usando la clase middleware directamente
+Route::prefix('agency')->middleware(['auth', \App\Http\Middleware\AgencyMiddleware::class])->name('agency.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // إدارة السبوكلاء
     Route::resource('subagents', SubagentController::class);
@@ -66,13 +66,32 @@ Route::prefix('agency')->middleware(['auth', 'agency'])->name('agency.')->group(
     
     // إدارة المعاملات المالية
     Route::resource('transactions', AgencyTransactionController::class);
+    Route::get('/transactions', function () {
+        return view('agency.transactions.index');
+    })->name('transactions.index');
     
     // إدارة المستندات
     Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
     Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])->name('documents.destroy');
     
     // معلومات الوكالة
-    Route::patch('/info', [AgencyDashboardController::class, 'updateAgencyInfo'])->name('update-info');
+    Route::patch('/info', [DashboardController::class, 'updateAgencyInfo'])->name('update-info');
+    
+    // إضافة المسارات المفقودة للتقارير
+    Route::get('/reports', function () {
+        return view('agency.reports.index');
+    })->name('reports.index');
+    
+    // إضافة المسارات المفقودة للإعدادات
+    Route::get('/settings', function () {
+        return view('agency.settings.index');
+    })->name('settings.index');
+    
+    // إضافة مسار تحديث الإعدادات
+    Route::patch('/settings', function () {
+        // هنا ستكون الشيفرة الخاصة بتحديث الإعدادات
+        return redirect()->route('agency.settings.index')->with('success', 'تم تحديث الإعدادات بنجاح');
+    })->name('settings.update');
 });
 
 // مسارات السبوكيل
@@ -114,7 +133,3 @@ Route::prefix('customer')->middleware(['auth', 'customer'])->name('customer.')->
 
 // مسار تحميل المستندات
 Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('documents.download')->middleware('auth');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

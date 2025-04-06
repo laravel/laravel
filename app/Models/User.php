@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-// use Laravel\Sanctum\HasApiTokens; // Comentado hasta que se instale Sanctum
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable; // Versión temporal sin Sanctum
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'name', 'email', 'phone', 'password', 'user_type', 'agency_id', 'parent_id', 'is_active'
@@ -54,16 +54,25 @@ class User extends Authenticatable
         return $this->hasMany(Quote::class, 'subagent_id');
     }
 
+    /**
+     * تحديد ما إذا كان المستخدم وكيلاً
+     */
     public function isAgency()
     {
         return $this->user_type === 'agency';
     }
 
+    /**
+     * تحديد ما إذا كان المستخدم سبوكيلاً
+     */
     public function isSubagent()
     {
         return $this->user_type === 'subagent';
     }
 
+    /**
+     * تحديد ما إذا كان المستخدم عميلاً
+     */
     public function isCustomer()
     {
         return $this->user_type === 'customer';
