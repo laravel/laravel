@@ -11,11 +11,12 @@
             <h1 class="mb-4">لوحة تحكم السبوكيل</h1>
             
             <div class="row">
-                <div class="col-md-4">
+                <!-- إحصائيات سريعة -->
+                <div class="col-md-3">
                     <div class="card text-white bg-primary mb-4">
                         <div class="card-body">
                             <h5 class="card-title">الخدمات المتاحة</h5>
-                            <p class="card-text display-4">{{ auth()->user()->services->count() }}</p>
+                            <p class="card-text display-4">{{ $services }}</p>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text-white stretched-link" href="{{ route('subagent.services.index') }}">عرض التفاصيل</a>
@@ -23,15 +24,38 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                
+                <div class="col-md-3">
+                    <div class="card text-white bg-success mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">العروض المعتمدة</h5>
+                            <p class="card-text display-4">{{ $approvedQuotes }}</p>
+                        </div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <a class="small text-white stretched-link" href="{{ route('subagent.quotes.index', ['status' => 'approved']) }}">عرض التفاصيل</a>
+                            <div class="small text-white"><i class="fas fa-angle-left"></i></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
                     <div class="card text-white bg-warning mb-4">
                         <div class="card-body">
-                            <h5 class="card-title">طلبات عروض الأسعار</h5>
-                            <p class="card-text display-4">{{ \App\Models\Request::whereHas('service', function($query) {
-                                $query->whereHas('subagents', function($q) {
-                                    $q->where('users.id', auth()->id());
-                                });
-                            })->count() }}</p>
+                            <h5 class="card-title">العروض المعلقة</h5>
+                            <p class="card-text display-4">{{ $pendingQuotes }}</p>
+                        </div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <a class="small text-white stretched-link" href="{{ route('subagent.quotes.index', ['status' => 'pending']) }}">عرض التفاصيل</a>
+                            <div class="small text-white"><i class="fas fa-angle-left"></i></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card text-white bg-info mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">طلبات متاحة</h5>
+                            <p class="card-text display-4">{{ $availableRequests }}</p>
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text-white stretched-link" href="{{ route('subagent.requests.index') }}">عرض التفاصيل</a>
@@ -39,168 +63,103 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card text-white bg-success mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">عروضي المقبولة</h5>
-                            <p class="card-text display-4">{{ \App\Models\Quote::where('subagent_id', auth()->id())->whereIn('status', ['agency_approved', 'customer_approved'])->count() }}</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-8 mb-4">
+                    <div class="card shadow">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="fas fa-tag me-2"></i> آخر عروض الأسعار</h5>
                         </div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <a class="small text-white stretched-link" href="{{ route('subagent.quotes.index') }}">عرض التفاصيل</a>
-                            <div class="small text-white"><i class="fas fa-angle-left"></i></div>
+                        <div class="card-body">
+                            @if($recentQuotes->isEmpty())
+                                <div class="alert alert-info">
+                                    لم تقم بتقديم أي عروض أسعار حتى الآن.
+                                </div>
+                            @else
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>الطلب</th>
+                                                <th>الخدمة</th>
+                                                <th>السعر</th>
+                                                <th>الحالة</th>
+                                                <th>تاريخ التقديم</th>
+                                                <th>الإجراءات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($recentQuotes as $quote)
+                                                <tr>
+                                                    <td>{{ $quote->id }}</td>
+                                                    <td>#{{ $quote->request_id }}</td>
+                                                    <td>{{ $quote->request->service->name }}</td>
+                                                    <td>{{ $quote->price }} ر.س</td>
+                                                    <td>
+                                                        @if($quote->status == 'pending')
+                                                            <span class="badge bg-warning">بانتظار الموافقة</span>
+                                                        @elseif($quote->status == 'agency_approved')
+                                                            <span class="badge bg-info">معتمد من الوكالة</span>
+                                                        @elseif($quote->status == 'agency_rejected')
+                                                            <span class="badge bg-danger">مرفوض من الوكالة</span>
+                                                        @elseif($quote->status == 'customer_approved')
+                                                            <span class="badge bg-success">مقبول من العميل</span>
+                                                        @elseif($quote->status == 'customer_rejected')
+                                                            <span class="badge bg-danger">مرفوض من العميل</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $quote->created_at->format('Y-m-d') }}</td>
+                                                    <td>
+                                                        <a href="{{ route('subagent.quotes.show', $quote) }}" class="btn btn-sm btn-info">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-3">
+                                    <a href="{{ route('subagent.quotes.index') }}" class="btn btn-outline-primary">عرض كل العروض</a>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i> إجراءات سريعة</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <a href="{{ route('subagent.requests.index') }}" class="btn btn-primary w-100 py-3">
+                                    <i class="fas fa-search me-2"></i> استعراض الطلبات المتاحة
+                                </a>
+                            </div>
+                            <div class="mb-4">
+                                <a href="{{ route('subagent.services.index') }}" class="btn btn-info w-100 py-3">
+                                    <i class="fas fa-cogs me-2"></i> استعراض الخدمات المتاحة
+                                </a>
+                            </div>
+                            <div>
+                                <a href="{{ route('subagent.quotes.index') }}" class="btn btn-warning w-100 py-3">
+                                    <i class="fas fa-tag me-2"></i> عروض الأسعار المقدمة
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="row mt-4">
-                <div class="col-md-8">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                            أحدث طلبات عروض الأسعار
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>الخدمة</th>
-                                            <th>الأولوية</th>
-                                            <th>الحالة</th>
-                                            <th>تاريخ الطلب</th>
-                                            <th>الإجراءات</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php
-                                            $requests = \App\Models\Request::whereHas('service', function($query) {
-                                                $query->whereHas('subagents', function($q) {
-                                                    $q->where('users.id', auth()->id());
-                                                });
-                                            })->latest()->take(5)->get();
-                                        @endphp
-                                        
-                                        @forelse($requests as $request)
-                                            <tr>
-                                                <td>{{ $request->id }}</td>
-                                                <td>{{ $request->service->name }}</td>
-                                                <td>
-                                                    @if($request->priority == 'normal')
-                                                        <span class="badge bg-info">عادي</span>
-                                                    @elseif($request->priority == 'urgent')
-                                                        <span class="badge bg-warning">مستعجل</span>
-                                                    @else
-                                                        <span class="badge bg-danger">طارئ</span>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if($request->status == 'pending')
-                                                        <span class="badge bg-warning">قيد الانتظار</span>
-                                                    @elseif($request->status == 'in_progress')
-                                                        <span class="badge bg-info">قيد التنفيذ</span>
-                                                    @elseif($request->status == 'completed')
-                                                        <span class="badge bg-success">مكتمل</span>
-                                                    @else
-                                                        <span class="badge bg-danger">ملغي</span>
-                                                    @endif
-                                                </td>
-                                                <td>{{ $request->created_at->format('Y-m-d') }}</td>
-                                                <td>
-                                                    <a href="{{ route('subagent.requests.show', $request) }}" class="btn btn-sm btn-primary">عرض</a>
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td colspan="6" class="text-center">لا توجد طلبات عروض أسعار حتى الآن</td>
-                                            </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <a href="{{ route('subagent.requests.index') }}" class="btn btn-sm btn-primary">عرض كل الطلبات</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-chart-bar me-1"></i>
-                            عروضي حسب الحالة
-                        </div>
-                        <div class="card-body">
-                            <canvas id="quotesChart" width="100%" height="200"></canvas>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-money-bill me-1"></i>
-                            ملخص المستحقات المالية
-                        </div>
-                        <div class="card-body">
-                            <div class="row text-center">
-                                <div class="col-md-6 mb-3">
-                                    <div class="h5">المستحقات</div>
-                                    <div class="h3 text-success">
-                                        {{ \App\Models\Transaction::where('user_id', auth()->id())->where('type', 'commission')->where('status', 'completed')->sum('amount') }} ر.س
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <div class="h5">قيد التسوية</div>
-                                    <div class="h3 text-warning">
-                                        {{ \App\Models\Transaction::where('user_id', auth()->id())->where('type', 'commission')->where('status', 'pending')->sum('amount') }} ر.س
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="{{ route('subagent.transactions.index') }}" class="btn btn-primary btn-sm d-block mt-2">تفاصيل الحساب</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="alert alert-info">
+                <h5><i class="fas fa-info-circle me-2"></i> مرحباً {{ auth()->user()->name }}!</h5>
+                <p>من هنا يمكنك إدارة عروض الأسعار المقدمة منك ومتابعة حالتها واستعراض الطلبات المتاحة وتقديم عروض جديدة.</p>
             </div>
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // بيانات وهمية للرسم البياني
-        var ctx = document.getElementById('quotesChart').getContext('2d');
-        var myBarChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['قيد الانتظار', 'معتمد (وكيل)', 'معتمد (عميل)', 'مرفوض'],
-                datasets: [{
-                    label: 'عدد العروض',
-                    data: [
-                        {{ \App\Models\Quote::where('subagent_id', auth()->id())->where('status', 'pending')->count() }},
-                        {{ \App\Models\Quote::where('subagent_id', auth()->id())->where('status', 'agency_approved')->count() }},
-                        {{ \App\Models\Quote::where('subagent_id', auth()->id())->where('status', 'customer_approved')->count() }},
-                        {{ \App\Models\Quote::where('subagent_id', auth()->id())->whereIn('status', ['agency_rejected', 'customer_rejected'])->count() }}
-                    ],
-                    backgroundColor: [
-                        'rgba(255, 193, 7, 0.8)',
-                        'rgba(23, 162, 184, 0.8)',
-                        'rgba(40, 167, 69, 0.8)',
-                        'rgba(220, 53, 69, 0.8)'
-                    ],
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0
-                        }
-                    }
-                }
-            }
-        });
-    });
-</script>
 @endsection

@@ -95,7 +95,7 @@ Route::prefix('agency')->middleware(['auth', \App\Http\Middleware\AgencyMiddlewa
 });
 
 // مسارات السبوكيل
-Route::prefix('subagent')->middleware(['auth', 'subagent'])->name('subagent.')->group(function () {
+Route::prefix('subagent')->middleware(['auth', \App\Http\Middleware\SubagentMiddleware::class])->name('subagent.')->group(function () {
     Route::get('/dashboard', [SubagentDashboardController::class, 'index'])->name('dashboard');
     
     // الخدمات المتاحة
@@ -114,7 +114,7 @@ Route::prefix('subagent')->middleware(['auth', 'subagent'])->name('subagent.')->
 });
 
 // مسارات العميل
-Route::prefix('customer')->middleware(['auth', 'customer'])->name('customer.')->group(function () {
+Route::prefix('customer')->middleware(['auth', \App\Http\Middleware\CustomerMiddleware::class])->name('customer.')->group(function () {
     Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard');
     
     // الخدمات المتاحة

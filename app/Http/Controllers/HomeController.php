@@ -7,19 +7,24 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
-     * إنشاء نموذج تحكم جديد.
+     * Create a new controller instance.
+     *
+     * @return void
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // لا نحتاج إلى middleware auth هنا لأننا نريد عرض الصفحة الرئيسية للزوار غير المسجلين أيضاً
+        // $this->middleware('auth');
     }
 
     /**
-     * عرض لوحة التحكم الرئيسية.
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
-        // توجيه المستخدم حسب نوعه
+        // إذا كان المستخدم مسجل الدخول، توجيهه للصفحة المناسبة حسب نوعه
         if (auth()->check()) {
             if (auth()->user()->isAgency()) {
                 return redirect()->route('agency.dashboard');
@@ -30,6 +35,7 @@ class HomeController extends Controller
             }
         }
         
+        // إذا المستخدم غير مسجل دخول أو له نوع غير معروف، عرض الصفحة الرئيسية
         return view('welcome');
     }
 }

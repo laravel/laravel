@@ -4,84 +4,60 @@ namespace App\Http\Controllers\Subagent;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Quote;
 use App\Models\Service;
-use App\Models\Transaction;
+use App\Models\Quote;
 use App\Models\Request as ServiceRequest;
 
 class DashboardController extends Controller
 {
     /**
-     * عرض لوحة تحكم السبوكيل
+     * عرض لوحة تحكم السبوكيل.
      */
     public function index()
     {
-        $subagentId = auth()->id();
+        // الخدمات المتاحة للسبوكيل
+        $services = Service::join('service_subagent', 'services.id', '=', 'service_subagent.service_id')
+                         ->where('service_subagent.user_id', auth()->id())
+                         ->where('service_subagent.is_active', true)
+                         ->count();
         
-        // الخدمات المتاحة
-        $servicesCount = auth()->user()->services->count();
+        // إحصائيات عروض الأسعار
+        $pendingQuotes = Quote::where('subagent_id', auth()->id())
+                            ->where('status', 'pending')
+                            ->count();
         
-        // طلبات عروض الأسعار
-        $requestsCount = ServiceRequest::whereHas('service', function($query) use ($subagentId) {
-            $query->whereHas('subagents', function($q) use ($subagentId) {
-                $q->where('users.id', $subagentId);
-            });
-        })->count();
+        $approvedQuotes = Quote::where('subagent_id', auth()->id())
+                             ->whereIn('status', ['agency_approved', 'customer_approved'])
+                             ->count();
         
-        // العروض المقبولة
-        $approvedQuotesCount = Quote::where('subagent_id', $subagentId)
-            ->whereIn('status', ['agency_approved', 'customer_approved'])
-            ->count();
+        $rejectedQuotes = Quote::where('subagent_id', auth()->id())
+                             ->whereIn('status', ['agency_rejected', 'customer_rejected'])
+                             ->count();
         
-        // آخر الطلبات المتاحة
-        $latestRequests = ServiceRequest::whereHas('service', function($query) use ($subagentId) {
-            $query->whereHas('subagents', function($q) use ($subagentId) {
-                $q->where('users.id', $subagentId);
-            });
-        })
-        ->latest()
-        ->take(5)
-        ->get();
+        // آخر عروض الأسعار
+        $recentQuotes = Quote::where('subagent_id', auth()->id())
+                           ->with(['request', 'request.service'])
+                           ->latest()
+                           ->take(5)
+                           ->get();
         
-        // بيانات الرسم البياني
-        $pendingQuotesCount = Quote::where('subagent_id', $subagentId)
-            ->where('status', 'pending')
-            ->count();
-            
-        $agencyApprovedQuotesCount = Quote::where('subagent_id', $subagentId)
-            ->where('status', 'agency_approved')
-            ->count();
-            
-        $customerApprovedQuotesCount = Quote::where('subagent_id', $subagentId)
-            ->where('status', 'customer_approved')
-            ->count();
-            
-        $rejectedQuotesCount = Quote::where('subagent_id', $subagentId)
-            ->whereIn('status', ['agency_rejected', 'customer_rejected'])
-            ->count();
-        
-        // المستحقات المالية
-        $completedCommissions = Transaction::where('user_id', $subagentId)
-            ->where('type', 'commission')
-            ->where('status', 'completed')
-            ->sum('amount');
-            
-        $pendingCommissions = Transaction::where('user_id', $subagentId)
-            ->where('type', 'commission')
-            ->where('status', 'pending')
-            ->sum('amount');
+        // الطلبات المتاحة لعروض الأسعار
+        $availableRequests = ServiceRequest::whereHas('service', function($query) {
+                                  $query->whereHas('subagents', function($q) {
+                                      $q->where('users.id', auth()->id())
+                                        ->where('service_subagent.is_active', true);
+                                  });
+                              })
+                              ->where('status', 'pending')
+                              ->count();
         
         return view('subagent.dashboard', compact(
-            'servicesCount',
-            'requestsCount',
-            'approvedQuotesCount',
-            'latestRequests',
-            'pendingQuotesCount',
-            'agencyApprovedQuotesCount',
-            'customerApprovedQuotesCount',
-            'rejectedQuotesCount',
-            'completedCommissions',
-            'pendingCommissions'
+            'services',
+            'pendingQuotes',
+            'approvedQuotes',
+            'rejectedQuotes',
+            'recentQuotes',
+            'availableRequests'
         ));
     }
 }

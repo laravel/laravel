@@ -84,6 +84,10 @@ class RegisterController extends Controller
 
     /**
      * Redirect based on user type after registration
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
      */
     protected function registered(Request $request, $user)
     {
@@ -95,6 +99,6 @@ class RegisterController extends Controller
             return redirect()->route('customer.dashboard');
         }
         
-        return redirect()->route('home');
+        return redirect($this->redirectPath());
     }
 }

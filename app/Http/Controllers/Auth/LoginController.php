@@ -29,7 +29,11 @@ class LoginController extends Controller
     }
 
     /**
-     * Redirect based on user type after authentication
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
      */
     protected function authenticated(Request $request, $user)
     {
@@ -41,6 +45,6 @@ class LoginController extends Controller
             return redirect()->route('customer.dashboard');
         }
         
-        return redirect()->route('home');
+        return redirect()->intended($this->redirectPath());
     }
 }
