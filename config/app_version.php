@@ -11,9 +11,9 @@ return [
     |
     */
 
-    'version' => '1.0.0',
-    'version_date' => '2024-04-30',
-    'release_name' => 'الإصدار الأول',
+    'version' => env('APP_VERSION', '1.0.0'),
+    'version_date' => env('APP_VERSION_DATE', '2024-04-30'),
+    'release_name' => env('APP_RELEASE_NAME', 'الإصدار الأول'),
     
     // معلومات للنسخة 2.0 (تحت التطوير)
     'next_version' => '2.0.0-dev',
