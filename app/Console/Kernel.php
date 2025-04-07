@@ -34,6 +34,8 @@ class Kernel extends ConsoleKernel
     {
         return array_merge(parent::getCommands(), [
             \App\Console\Commands\SafeMigrate::class,
+            \App\Console\Commands\DatabaseBackup::class,
+            \App\Console\Commands\SeedDemoData::class,
         ]);
     }
 }
