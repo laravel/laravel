@@ -42,4 +42,33 @@ class Quote extends Model
     {
         return $this->hasMany(QuoteAttachment::class);
     }
+    
+    /**
+     * Get the badge color based on status.
+     */
+    public function getStatusBadgeAttribute()
+    {
+        return match($this->status) {
+            'pending' => 'warning',
+            'agency_approved' => 'info',
+            'customer_approved' => 'success',
+            'agency_rejected', 'customer_rejected' => 'danger',
+            default => 'secondary',
+        };
+    }
+    
+    /**
+     * Get the status text in Arabic.
+     */
+    public function getStatusTextAttribute()
+    {
+        return match($this->status) {
+            'pending' => 'بانتظار الموافقة',
+            'agency_approved' => 'معتمد من الوكالة',
+            'customer_approved' => 'مقبول من العميل',
+            'agency_rejected' => 'مرفوض من الوكالة',
+            'customer_rejected' => 'مرفوض من العميل',
+            default => $this->status,
+        };
+    }
 }

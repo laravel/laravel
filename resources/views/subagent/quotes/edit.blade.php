@@ -72,7 +72,25 @@
                         
                         <div class="mb-3">
                             <label class="form-label">المرفقات الحالية</label>
-                            <p class="text-muted">لا توجد مرفقات حالية</p>
+                            @if(isset($quote->attachments) && method_exists($quote->attachments, 'count') && $quote->attachments->count() > 0)
+                                <div class="list-group">
+                                    @foreach($quote->attachments as $attachment)
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-file me-2"></i>
+                                                {{ $attachment->name }}
+                                            </div>
+                                            <div>
+                                                <a href="{{ Storage::url($attachment->file_path) }}" class="btn btn-sm btn-info" target="_blank">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <p class="text-muted">لا توجد مرفقات حالية</p>
+                            @endif
                         </div>
                         
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -90,12 +108,12 @@
                     <h5 class="mb-0">معلومات الطلب</h5>
                 </div>
                 <div class="card-body">
-                    <h6 class="card-title mb-3">{{ $quote->request->service->name }}</h6>
-                    <p class="card-text text-muted small">{{ $quote->request->service->description }}</p>
+                    <h6 class="card-title mb-3">{{ $quote->request->service->name ?? 'الخدمة غير متاحة' }}</h6>
+                    <p class="card-text text-muted small">{{ $quote->request->service->description ?? 'لا يوجد وصف متاح' }}</p>
                     
                     <div class="mb-3">
                         <h6 class="text-muted mb-1">تفاصيل الطلب</h6>
-                        <p>{{ $quote->request->details }}</p>
+                        <p>{{ $quote->request->details ?? 'لا توجد تفاصيل' }}</p>
                     </div>
                     
                     <div class="mb-3">
@@ -112,14 +130,23 @@
                     
                     <div class="mb-3">
                         <h6 class="text-muted mb-1">العميل</h6>
-                        <p>{{ $quote->request->customer->name }}</p>
+                        <p>{{ $quote->request->customer->name ?? 'غير محدد' }}</p>
                     </div>
-                    
-                    <div class="text-center mt-3">
-                        <a href="{{ route('subagent.requests.show', $quote->request_id) }}" class="btn btn-outline-primary">
-                            <i class="fas fa-eye me-1"></i> عرض الطلب الكامل
-                        </a>
-                    </div>
+                </div>
+            </div>
+            
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">إرشادات تقديم العروض</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">تأكد من إدخال السعر النهائي شاملاً جميع الرسوم والضرائب.</li>
+                        <li class="list-group-item">اكتب التفاصيل بوضوح وشمولية.</li>
+                        <li class="list-group-item">أرفق المستندات الضرورية التي تدعم عرضك.</li>
+                        <li class="list-group-item">تأكد من أن العرض متوافق مع متطلبات العميل.</li>
+                        <li class="list-group-item">العروض المعدلة تحتاج إلى موافقة الوكالة مرة أخرى.</li>
+                    </ul>
                 </div>
             </div>
         </div>

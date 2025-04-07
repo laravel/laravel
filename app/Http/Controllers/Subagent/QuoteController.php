@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Quote;
 use App\Models\Request as ServiceRequest;
+use App\Models\QuoteAttachment;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Schema;
 
 class QuoteController extends Controller
 {
@@ -106,9 +109,17 @@ class QuoteController extends Controller
      */
     public function show(Quote $quote)
     {
-        // التحقق من أن عرض السعر ينتمي للسبوكيل
-        if ($quote->subagent_id !== auth()->id()) {
+        // التحقق من أن عرض السعر ينتمي للسبوكيل الحالي
+        if ($quote->subagent_id !== Auth::id()) {
             abort(403, 'غير مصرح لك بالوصول إلى هذا العرض');
+        }
+        
+        // تحميل البيانات المرتبطة
+        $quote->load(['request.service', 'request.customer']);
+        
+        // تحميل المرفقات إذا كان الجدول موجودًا
+        if (Schema::hasTable('quote_attachments')) {
+            $quote->load('attachments');
         }
         
         return view('subagent.quotes.show', compact('quote'));
@@ -130,9 +141,13 @@ class QuoteController extends Controller
                             ->with('error', 'لا يمكن تعديل هذا العرض في حالته الحالية');
         }
 
-        // تحميل بيانات الطلب والخدمة المرتبطة فقط
-        // تجنب تحميل علاقة 'attachments' لأن الجدول غير موجود بعد
+        // تحميل البيانات المرتبطة
         $quote->load(['request.service', 'request.customer']);
+        
+        // تحميل المرفقات إذا كان الجدول موجودًا
+        if (Schema::hasTable('quote_attachments')) {
+            $quote->load('attachments');
+        }
         
         return view('subagent.quotes.edit', compact('quote'));
     }
@@ -160,22 +175,33 @@ class QuoteController extends Controller
             'currency_code' => 'required|string|exists:currencies,code',
         ]);
 
+        // حساب العمولة
+        $commissionRate = 10; // قيمة افتراضية
+        if (Auth::user()->commission_rate) {
+            $commissionRate = Auth::user()->commission_rate;
+        }
+        
+        $commissionAmount = ($request->price * $commissionRate) / 100;
+
         // تحديث عرض السعر
         $quote->update([
             'price' => $request->price,
             'details' => $request->details,
             'currency_code' => $request->currency_code,
+            'commission_amount' => $commissionAmount,
             'status' => 'pending', // إعادة الحالة إلى "قيد المراجعة" بعد التعديل
         ]);
 
-        // تحديث مرفقات عرض السعر إذا وجدت
-        if ($request->hasFile('attachments')) {
+        // إضافة المرفقات الجديدة إذا وجدت والجدول موجود
+        if (Schema::hasTable('quote_attachments') && $request->hasFile('attachments')) {
             foreach ($request->file('attachments') as $index => $file) {
-                $quote->attachments()->create([
-                    'name' => $request->attachment_names[$index] ?? 'مرفق ' . ($index + 1),
-                    'file_path' => $file->store('quote_attachments', 'public'),
-                    'file_type' => $file->getClientOriginalExtension(),
-                ]);
+                if ($file->isValid()) {
+                    $quote->attachments()->create([
+                        'name' => $request->attachment_names[$index] ?? 'مرفق ' . ($index + 1),
+                        'file_path' => $file->store('quote_attachments', 'public'),
+                        'file_type' => $file->getClientOriginalExtension(),
+                    ]);
+                }
             }
         }
 
@@ -220,6 +246,16 @@ class QuoteController extends Controller
         if (!in_array($quote->status, ['pending', 'agency_rejected'])) {
             return redirect()->route('subagent.quotes.index')
                             ->with('error', 'لا يمكن حذف هذا العرض في حالته الحالية');
+        }
+
+        // حذف المرفقات إذا كان الجدول موجودًا
+        if (Schema::hasTable('quote_attachments') && $quote->attachments->count() > 0) {
+            foreach ($quote->attachments as $attachment) {
+                // حذف الملف من التخزين
+                if (Storage::disk('public')->exists($attachment->file_path)) {
+                    Storage::disk('public')->delete($attachment->file_path);
+                }
+            }
         }
 
         // حذف عرض السعر
