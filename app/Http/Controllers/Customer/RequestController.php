@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Request as ServiceRequest;
 use App\Models\Service;
+use Illuminate\Support\Facades\Log;
 
 class RequestController extends Controller
 {
@@ -91,37 +92,139 @@ class RequestController extends Controller
     }
 
     /**
-     * عرض تفاصيل طلب معين.
+     * عرض تفاصيل طلب خدمة معين
      */
     public function show(ServiceRequest $request)
     {
-        // التحقق من أن الطلب ينتمي للعميل
-        if ($request->customer_id !== auth()->id()) {
+        // تسجيل معلومات للتصحيح
+        Log::info('Accessing request', [
+            'request_id' => $request->id,
+            'customer_id' => $request->customer_id,
+            'auth_id' => auth()->id(),
+            'user_type' => auth()->user()->user_type
+        ]);
+
+        // تعديل طريقة التحقق من أن الطلب ينتمي للعميل الحالي أو اي مستخدم لديه صلاحيات كافية
+        if ($request->customer_id != auth()->id() && auth()->user()->user_type == 'customer') {
+            // تسجيل محاولة الوصول غير المصرح بها للتصحيح
+            Log::warning('Unauthorized access attempt', [
+                'request_id' => $request->id, 
+                'customer_id' => $request->customer_id, 
+                'auth_id' => auth()->id()
+            ]);
+            
             abort(403, 'غير مصرح لك بالوصول إلى هذا الطلب');
         }
         
-        return view('customer.requests.show', compact('request'));
+        // تحميل العلاقات
+        $request->load(['service', 'agency', 'quotes.subagent']);
+        
+        // تعريف حالات ونصوص عروض الأسعار
+        $quoteStatusBadge = [
+            'pending' => 'warning',
+            'agency_approved' => 'info',
+            'customer_approved' => 'success',
+            'rejected' => 'danger',
+            'expired' => 'secondary'
+        ];
+        
+        $quoteStatusText = [
+            'pending' => 'قيد المراجعة',
+            'agency_approved' => 'معتمد من الوكالة',
+            'customer_approved' => 'تم القبول',
+            'rejected' => 'مرفوض',
+            'expired' => 'منتهي الصلاحية'
+        ];
+        
+        // تعريف حالات الطلب
+        $statusBadge = $this->getStatusBadge($request->status);
+        $statusText = $this->getStatusText($request->status);
+        
+        // تعريف ألوان ونصوص سجل التحديثات
+        $statusColors = [
+            'pending' => 'warning',
+            'in_progress' => 'info',
+            'completed' => 'success',
+            'cancelled' => 'danger'
+        ];
+        
+        $statusLabels = [
+            'pending' => 'قيد الانتظار',
+            'in_progress' => 'قيد التنفيذ',
+            'completed' => 'مكتمل',
+            'cancelled' => 'ملغي'
+        ];
+        
+        return view('customer.requests.show', compact(
+            'request', 
+            'quoteStatusBadge', 
+            'quoteStatusText', 
+            'statusBadge', 
+            'statusText',
+            'statusColors',
+            'statusLabels'
+        ));
     }
 
     /**
-     * إلغاء طلب.
+     * الحصول على لون خلفية حالة الطلب
+     */
+    private function getStatusBadge($status)
+    {
+        switch ($status) {
+            case 'pending':
+                return 'warning';
+            case 'in_progress':
+                return 'info';
+            case 'completed':
+                return 'success';
+            case 'cancelled':
+                return 'danger';
+            default:
+                return 'secondary';
+        }
+    }
+
+    /**
+     * الحصول على نص حالة الطلب
+     */
+    private function getStatusText($status)
+    {
+        switch ($status) {
+            case 'pending':
+                return 'قيد الانتظار';
+            case 'in_progress':
+                return 'قيد التنفيذ';
+            case 'completed':
+                return 'مكتمل';
+            case 'cancelled':
+                return 'ملغي';
+            default:
+                return $status;
+        }
+    }
+
+    /**
+     * إلغاء طلب خدمة
      */
     public function cancel(ServiceRequest $request)
     {
-        // التحقق من أن الطلب ينتمي للعميل
+        // التحقق من أن الطلب ينتمي للعميل الحالي
         if ($request->customer_id !== auth()->id()) {
-            abort(403, 'غير مصرح لك بالوصول إلى هذا الطلب');
+            abort(403, 'غير مصرح لك بإلغاء هذا الطلب');
         }
-        
-        // التحقق من أن الطلب في حالة قابلة للإلغاء
-        if ($request->status !== 'pending' && $request->status !== 'in_progress') {
-            return redirect()->back()->with('error', 'لا يمكن إلغاء هذا الطلب في وضعه الحالي.');
+
+        // التحقق من حالة الطلب - لا يمكن إلغاء الطلبات المكتملة أو الملغية
+        if (in_array($request->status, ['completed', 'cancelled'])) {
+            return redirect()->route('customer.requests.show', $request)->with('error', 'لا يمكن إلغاء هذا الطلب في وضعه الحالي');
         }
+
+        // تحديث حالة الطلب
+        $request->status = 'cancelled';
+        $request->save();
+
+        // إرسال إشعارات للسبوكلاء ومدير الوكالة (يمكن إضافة هذه الوظيفة لاحقاً)
         
-        $request->update([
-            'status' => 'cancelled'
-        ]);
-        
-        return redirect()->back()->with('success', 'تم إلغاء الطلب بنجاح.');
+        return redirect()->route('customer.requests.index')->with('success', 'تم إلغاء الطلب بنجاح');
     }
 }

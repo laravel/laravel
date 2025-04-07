@@ -24,6 +24,7 @@ use App\Http\Controllers\Customer\DashboardController as CustomerDashboardContro
 use App\Http\Controllers\Customer\ServiceController as CustomerServiceController;
 use App\Http\Controllers\Customer\RequestController as CustomerRequestController;
 use App\Http\Controllers\Customer\QuoteController as CustomerQuoteController;
+use App\Http\Controllers\Customer\ProfileController as CustomerProfileController;
 use App\Http\Controllers\NotificationController;
 
 // صفحة الترحيب
@@ -137,12 +138,21 @@ Route::prefix('customer')->middleware(['auth', \App\Http\Middleware\CustomerMidd
     
     // إدارة الطلبات
     Route::resource('requests', CustomerRequestController::class);
+    Route::post('/requests/{request}/cancel', [CustomerRequestController::class, 'cancel'])->name('requests.cancel');
     
     // عروض الأسعار
     Route::get('/quotes', [CustomerQuoteController::class, 'index'])->name('quotes.index');
     Route::get('/quotes/{quote}', [CustomerQuoteController::class, 'show'])->name('quotes.show');
     Route::post('/quotes/{quote}/approve', [CustomerQuoteController::class, 'approve'])->name('quotes.approve');
     Route::post('/quotes/{quote}/reject', [CustomerQuoteController::class, 'reject'])->name('quotes.reject');
+    
+    // الملف الشخصي
+    Route::get('/profile', [CustomerProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [CustomerProfileController::class, 'update'])->name('profile.update');
+    
+    // الدعم الفني
+    Route::get('/support', [App\Http\Controllers\Customer\SupportController::class, 'index'])->name('support');
+    Route::post('/support', [App\Http\Controllers\Customer\SupportController::class, 'submit'])->name('support.submit');
 });
 
 // مسار تحميل المستندات
