@@ -50,6 +50,10 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
 });
 
+// مسارات متعددة اللغات
+Route::post('/change-language', [App\Http\Controllers\LanguageController::class, 'changeLanguage'])
+    ->name('change.language');
+
 // مسارات الوكيل الأساسي - usando la clase middleware directamente
 Route::prefix('agency')->middleware(['auth', \App\Http\Middleware\AgencyMiddleware::class])->name('agency.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
