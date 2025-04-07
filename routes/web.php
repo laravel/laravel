@@ -74,6 +74,8 @@ Route::prefix('agency')->middleware(['auth', \App\Http\Middleware\AgencyMiddlewa
     
     // إدارة عروض الأسعار
     Route::resource('quotes', AgencyQuoteController::class);
+    Route::get('/quotes', [AgencyQuoteController::class, 'index'])->name('quotes.index');
+    Route::get('/quotes/{quote}', [AgencyQuoteController::class, 'show'])->name('quotes.show');
     Route::post('/quotes/{quote}/approve', [AgencyQuoteController::class, 'approve'])->name('quotes.approve');
     Route::post('/quotes/{quote}/reject', [AgencyQuoteController::class, 'reject'])->name('quotes.reject');
     
@@ -107,6 +109,20 @@ Route::prefix('agency')->middleware(['auth', \App\Http\Middleware\AgencyMiddlewa
     Route::patch('/settings/currencies/{currency}/toggle', [CurrencyController::class, 'toggleStatus'])->name('settings.currencies.toggle-status');
     Route::patch('/settings/currencies/{currency}/default', [CurrencyController::class, 'setAsDefault'])->name('settings.currencies.set-default');
     Route::delete('/settings/currencies/{currency}', [CurrencyController::class, 'destroy'])->name('settings.currencies.destroy');
+    
+    // الخدمات
+    Route::get('/services', [App\Http\Controllers\Agency\ServiceController::class, 'index'])->name('services.index');
+    Route::get('/services/create', [App\Http\Controllers\Agency\ServiceController::class, 'create'])->name('services.create');
+    Route::post('/services', [App\Http\Controllers\Agency\ServiceController::class, 'store'])->name('services.store');
+    Route::get('/services/{service}', [App\Http\Controllers\Agency\ServiceController::class, 'show'])->name('services.show');
+    Route::get('/services/{service}/edit', [App\Http\Controllers\Agency\ServiceController::class, 'edit'])->name('services.edit');
+    Route::put('/services/{service}', [App\Http\Controllers\Agency\ServiceController::class, 'update'])->name('services.update');
+    Route::delete('/services/{service}', [App\Http\Controllers\Agency\ServiceController::class, 'destroy'])->name('services.destroy');
+    
+    // الإشعارات
+    Route::get('/notifications', [App\Http\Controllers\Agency\NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/mark-read', [App\Http\Controllers\Agency\NotificationController::class, 'markRead'])->name('notifications.mark-read');
+    Route::delete('/notifications/{id}', [App\Http\Controllers\Agency\NotificationController::class, 'destroy'])->name('notifications.destroy');
 });
 
 // مسارات السبوكيل
@@ -130,6 +146,11 @@ Route::prefix('subagent')->middleware(['auth', \App\Http\Middleware\SubagentMidd
     Route::put('/quotes/{quote}', [SubagentQuoteController::class, 'update'])->name('quotes.update');
     Route::delete('/quotes/{quote}', [SubagentQuoteController::class, 'destroy'])->name('quotes.destroy');
     Route::delete('/quotes/{quote}/cancel', [SubagentQuoteController::class, 'destroy'])->name('quotes.cancel');
+    
+    // الإشعارات
+    Route::get('/notifications', [App\Http\Controllers\Subagent\NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/mark-read', [App\Http\Controllers\Subagent\NotificationController::class, 'markRead'])->name('notifications.mark-read');
+    Route::delete('/notifications/{id}', [App\Http\Controllers\Subagent\NotificationController::class, 'destroy'])->name('notifications.destroy');
 });
 
 // مسارات العميل
@@ -157,6 +178,11 @@ Route::prefix('customer')->middleware(['auth', \App\Http\Middleware\CustomerMidd
     // الدعم الفني
     Route::get('/support', [App\Http\Controllers\Customer\SupportController::class, 'index'])->name('support');
     Route::post('/support', [App\Http\Controllers\Customer\SupportController::class, 'submit'])->name('support.submit');
+    
+    // الإشعارات
+    Route::get('/notifications', [App\Http\Controllers\Customer\NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/mark-read', [App\Http\Controllers\Customer\NotificationController::class, 'markRead'])->name('notifications.mark-read');
+    Route::delete('/notifications/{id}', [App\Http\Controllers\Customer\NotificationController::class, 'destroy'])->name('notifications.destroy');
 });
 
 // مسار تحميل المستندات
