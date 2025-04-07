@@ -55,6 +55,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the user's notifications.
+     */
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    /**
      * تحديد ما إذا كان المستخدم وكيلاً
      */
     public function isAgency()

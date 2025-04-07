@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             RequestSeeder::class,
             QuoteSeeder::class,
+            CurrencySeeder::class,
         ]);
     }
 }

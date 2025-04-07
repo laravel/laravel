@@ -56,29 +56,24 @@ class ServiceController extends Controller
             'description' => 'required|string',
             'type' => 'required|in:security_approval,transportation,hajj_umrah,flight,passport,other',
             'base_price' => 'required|numeric|min:0',
+            'currency_code' => 'required|exists:currencies,code',
             'commission_rate' => 'required|numeric|min:0|max:100',
             'status' => 'required|in:active,inactive',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $service = new Service([
-            'name' => $request->name,
-            'description' => $request->description,
-            'type' => $request->type,
-            'base_price' => $request->base_price,
-            'commission_rate' => $request->commission_rate,
-            'status' => $request->status,
-            'agency_id' => auth()->user()->agency_id,
-        ]);
+        $data = $request->except('image');
+        $data['agency_id'] = auth()->user()->agency_id;
 
+        // تحميل الصورة إذا وجدت
         if ($request->hasFile('image')) {
-            $service->image_path = $request->file('image')->store('service_images', 'public');
+            $data['image_path'] = $request->file('image')->store('services', 'public');
         }
 
-        $service->save();
+        Service::create($data);
 
         return redirect()->route('agency.services.index')
-                        ->with('success', 'تم إنشاء الخدمة بنجاح.');
+                         ->with('success', 'تم إنشاء الخدمة بنجاح');
     }
 
     /**
@@ -122,31 +117,23 @@ class ServiceController extends Controller
             'description' => 'required|string',
             'type' => 'required|in:security_approval,transportation,hajj_umrah,flight,passport,other',
             'base_price' => 'required|numeric|min:0',
+            'currency_code' => 'required|exists:currencies,code',
             'commission_rate' => 'required|numeric|min:0|max:100',
             'status' => 'required|in:active,inactive',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $service->name = $request->name;
-        $service->description = $request->description;
-        $service->type = $request->type;
-        $service->base_price = $request->base_price;
-        $service->commission_rate = $request->commission_rate;
-        $service->status = $request->status;
+        $data = $request->except('image');
 
+        // تحميل الصورة الجديدة إذا وجدت
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($service->image_path) {
-                Storage::disk('public')->delete($service->image_path);
-            }
-            
-            $service->image_path = $request->file('image')->store('service_images', 'public');
+            $data['image_path'] = $request->file('image')->store('services', 'public');
         }
 
-        $service->save();
+        $service->update($data);
 
         return redirect()->route('agency.services.index')
-                        ->with('success', 'تم تحديث الخدمة بنجاح.');
+                         ->with('success', 'تم تحديث الخدمة بنجاح');
     }
 
     /**

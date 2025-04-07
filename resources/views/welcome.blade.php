@@ -95,9 +95,9 @@
     <div class="col-md-4 mb-4">
         <div class="card feature-card h-100">
             <div class="card-body text-center p-4">
-                <i class="fas fa-mobile-alt feature-icon"></i>
-                <h4>واجهة سهلة الاستخدام</h4>
-                <p class="text-muted">واجهة مستخدم سهلة وبسيطة تعمل على جميع الأجهزة بما فيها الجوالات واللوحيات.</p>
+                <i class="fas fa-globe feature-icon"></i>
+                <h4>دعم تعدد العملات</h4>
+                <p class="text-muted">دعم للعديد من العملات العالمية مثل الريال السعودي والدولار واليورو وغيرها للتعامل مع عملاء من مختلف الدول.</p>
             </div>
         </div>
     </div>

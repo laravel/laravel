@@ -109,6 +109,14 @@
                 margin-bottom: 20px;
             }
         }
+        .icon-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -242,18 +250,23 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-bell"></i>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger notification-badge">
-                                        3
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger notification-badge" style="{{ auth()->user()->notifications()->unread()->count() ? '' : 'display: none;' }}">
+                                        {{ auth()->user()->notifications()->unread()->count() }}
                                     </span>
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
+                                <ul class="dropdown-menu dropdown-menu-end notification-dropdown" style="width: 300px; max-height: 400px; overflow-y: auto;">
                                     <li><span class="dropdown-item-text fw-bold">الإشعارات</span></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">تم الموافقة على الطلب #123</a></li>
-                                    <li><a class="dropdown-item" href="#">لديك عرض سعر جديد</a></li>
-                                    <li><a class="dropdown-item" href="#">تم تسجيل عميل جديد</a></li>
+                                    <div id="notifications-container">
+                                        <!-- سيتم تحميل الإشعارات هنا -->
+                                        <div class="text-center p-3">
+                                            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                                <span class="visually-hidden">جاري التحميل...</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item text-center" href="#">عرض كل الإشعارات</a></li>
+                                    <li><a class="dropdown-item text-center" href="{{ route('notifications.index') }}">عرض كل الإشعارات</a></li>
                                 </ul>
                             </li>
                         @endguest
@@ -331,5 +344,61 @@
             </div>
         </footer>
     </div>
+
+    @push('scripts')
+    <script>
+        // تحميل الإشعارات عند فتح القائمة المنسدلة
+        document.addEventListener('DOMContentLoaded', function() {
+            const notificationDropdown = document.querySelector('.notification-dropdown');
+            const notificationsContainer = document.getElementById('notifications-container');
+            
+            // تحميل الإشعارات عند النقر على أيقونة الإشعارات
+            document.querySelector('.nav-link[data-bs-toggle="dropdown"]').addEventListener('click', function() {
+                fetch('{{ route("notifications.unread") }}')
+                    .then(response => response.json())
+                    .then(data => {
+                        let html = '';
+                        
+                        if (data.notifications.length === 0) {
+                            html = '<div class="dropdown-item text-center text-muted">لا توجد إشعارات جديدة</div>';
+                        } else {
+                            data.notifications.forEach(notification => {
+                                let typeClass = '';
+                                switch (notification.type) {
+                                    case 'success':
+                                        typeClass = 'text-success';
+                                        break;
+                                    case 'warning':
+                                        typeClass = 'text-warning';
+                                        break;
+                                    case 'danger':
+                                        typeClass = 'text-danger';
+                                        break;
+                                    default:
+                                        typeClass = 'text-primary';
+                                }
+                                
+                                html += `
+                                    <a href="${notification.action_url}" class="dropdown-item notification-item d-flex align-items-center" data-id="${notification.id}">
+                                        <div class="me-3">
+                                            <div class="icon-circle bg-${notification.type === 'danger' ? 'danger' : (notification.type === 'warning' ? 'warning' : (notification.type === 'success' ? 'success' : 'primary'))}">
+                                                <i class="fas ${notification.type === 'danger' ? 'fa-exclamation' : (notification.type === 'warning' ? 'fa-exclamation-triangle' : (notification.type === 'success' ? 'fa-check' : 'fa-info'))} text-white"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="small text-muted">${new Date(notification.created_at).toLocaleString()}</div>
+                                            <span class="${typeClass}">${notification.title}</span>
+                                        </div>
+                                    </a>
+                                `;
+                            });
+                        }
+                        
+                        notificationsContainer.innerHTML = html;
+                    });
+            });
+        });
+    </script>
+    @endpush
 </body>
 </html>

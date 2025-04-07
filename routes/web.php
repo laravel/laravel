@@ -13,6 +13,9 @@ use App\Http\Controllers\Agency\RequestController as AgencyRequestController;
 use App\Http\Controllers\Agency\QuoteController as AgencyQuoteController;
 use App\Http\Controllers\Agency\TransactionController as AgencyTransactionController;
 use App\Http\Controllers\Agency\DocumentController;
+use App\Http\Controllers\Agency\SettingsController;
+use App\Http\Controllers\Agency\CurrencyController;
+use App\Http\Controllers\Agency\ReportController;
 use App\Http\Controllers\Subagent\DashboardController as SubagentDashboardController;
 use App\Http\Controllers\Subagent\ServiceController as SubagentServiceController;
 use App\Http\Controllers\Subagent\RequestController as SubagentRequestController;
@@ -21,6 +24,7 @@ use App\Http\Controllers\Customer\DashboardController as CustomerDashboardContro
 use App\Http\Controllers\Customer\ServiceController as CustomerServiceController;
 use App\Http\Controllers\Customer\RequestController as CustomerRequestController;
 use App\Http\Controllers\Customer\QuoteController as CustomerQuoteController;
+use App\Http\Controllers\NotificationController;
 
 // صفحة الترحيب
 Route::get('/', function () {
@@ -35,6 +39,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.update-password');
+});
+
+// إشعارات المستخدمين (مشتركة لجميع الأنواع)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/unread', [NotificationController::class, 'unread'])->name('notifications.unread');
+    Route::patch('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
+    Route::patch('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
 });
 
 // مسارات الوكيل الأساسي - usando la clase middleware directamente
@@ -77,21 +89,23 @@ Route::prefix('agency')->middleware(['auth', \App\Http\Middleware\AgencyMiddlewa
     // معلومات الوكالة
     Route::patch('/info', [DashboardController::class, 'updateAgencyInfo'])->name('update-info');
     
-    // إضافة المسارات المفقودة للتقارير
-    Route::get('/reports', function () {
-        return view('agency.reports.index');
-    })->name('reports.index');
+    // مسارات التقارير
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/revenue-by-service', [ReportController::class, 'revenueByService'])->name('reports.revenue-by-service');
+    Route::get('/reports/revenue-by-subagent', [ReportController::class, 'revenueBySubagent'])->name('reports.revenue-by-subagent');
+    Route::get('/reports/export', [ReportController::class, 'export'])->name('reports.export');
     
-    // إضافة المسارات المفقودة للإعدادات
-    Route::get('/settings', function () {
-        return view('agency.settings.index');
-    })->name('settings.index');
+    // إدارة الإعدادات
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
     
-    // إضافة مسار تحديث الإعدادات
-    Route::patch('/settings', function () {
-        // هنا ستكون الشيفرة الخاصة بتحديث الإعدادات
-        return redirect()->route('agency.settings.index')->with('success', 'تم تحديث الإعدادات بنجاح');
-    })->name('settings.update');
+    // إدارة العملات
+    Route::get('/settings/currencies', [CurrencyController::class, 'index'])->name('settings.currencies');
+    Route::post('/settings/currencies', [CurrencyController::class, 'store'])->name('settings.currencies.store');
+    Route::put('/settings/currencies/{currency}', [CurrencyController::class, 'update'])->name('settings.currencies.update');
+    Route::patch('/settings/currencies/{currency}/toggle', [CurrencyController::class, 'toggleStatus'])->name('settings.currencies.toggle-status');
+    Route::patch('/settings/currencies/{currency}/default', [CurrencyController::class, 'setAsDefault'])->name('settings.currencies.set-default');
+    Route::delete('/settings/currencies/{currency}', [CurrencyController::class, 'destroy'])->name('settings.currencies.destroy');
 });
 
 // مسارات السبوكيل

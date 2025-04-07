@@ -53,22 +53,35 @@
                 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="base_price" class="form-label">السعر الأساسي (ر.س)*</label>
-                        <input type="number" step="0.01" min="0" class="form-control @error('base_price') is-invalid @enderror" id="base_price" name="base_price" value="{{ old('base_price') }}" required>
-                        @error('base_price')
-                            <div class="invalid-feedback">
-                                {{ $message }}
+                        <div class="mb-3">
+                            <label for="base_price" class="form-label">السعر الأساسي</label>
+                            <div class="input-group">
+                                <input type="number" step="0.01" min="0" class="form-control @error('base_price') is-invalid @enderror" id="base_price" name="base_price" value="{{ old('base_price') }}" required>
+                                <select class="form-select" name="currency_code" id="currency_code">
+                                    @foreach(\App\Models\Currency::where('is_active', true)->get() as $currency)
+                                        <option value="{{ $currency->code }}" {{ $currency->is_default ? 'selected' : '' }}>
+                                            {{ $currency->code }} ({{ $currency->symbol }})
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
-                        @enderror
+                            @error('base_price')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
+                    
                     <div class="col-md-6">
-                        <label for="commission_rate" class="form-label">نسبة العمولة (%)*</label>
-                        <input type="number" step="0.01" min="0" max="100" class="form-control @error('commission_rate') is-invalid @enderror" id="commission_rate" name="commission_rate" value="{{ old('commission_rate') }}" required>
-                        @error('commission_rate')
-                            <div class="invalid-feedback">
-                                {{ $message }}
+                        <div class="mb-3">
+                            <label for="commission_rate" class="form-label">نسبة العمولة (%)</label>
+                            <div class="input-group">
+                                <input type="number" step="0.1" min="0" max="100" class="form-control @error('commission_rate') is-invalid @enderror" id="commission_rate" name="commission_rate" value="{{ old('commission_rate', auth()->user()->agency->default_commission_rate ?? 10) }}" required>
+                                <span class="input-group-text">%</span>
                             </div>
-                        @enderror
+                            @error('commission_rate')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
                 
