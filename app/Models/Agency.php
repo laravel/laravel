@@ -11,6 +11,7 @@ class Agency extends Model
 
     protected $fillable = [
         'name',
+        'email',
         'default_currency',
         'default_commission_rate',
         'phone',
