@@ -14,115 +14,107 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // جلب الوكالات المنشأة سابقاً
-        $yemenAgency = Agency::where('email', 'info@yemen-travel.com')->first();
-        $gulfAgency = Agency::where('email', 'info@gulf-travel.com')->first();
-        
-        if ($yemenAgency) {
-            // إنشاء مستخدم وكيل لوكالة اليمن
-            $agencyAdmin = User::create([
+        // الحصول على معرفات الوكالات
+        $yemenTravelId = Agency::where('email', 'info@yemen-travel.com')->first()->id ?? 1;
+        $gulfTravelId = Agency::where('email', 'info@gulf-travel.com')->first()->id ?? 2;
+
+        // إنشاء مديري الوكالات
+        User::updateOrCreate(
+            ['email' => 'admin@yemen-travel.com'],
+            [
                 'name' => 'مدير وكالة اليمن',
-                'email' => 'admin@yemen-travel.com',
                 'password' => Hash::make('password123'),
                 'phone' => '777100100',
                 'user_type' => 'agency',
-                'agency_id' => $yemenAgency->id,
+                'agency_id' => $yemenTravelId,
                 'is_active' => true,
-            ]);
-            
-            // إنشاء سبوكلاء لوكالة اليمن
-            $subagent1 = User::create([
-                'name' => 'أحمد محمد',
-                'email' => 'ahmed@yemen-travel.com',
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'admin@gulf-travel.com'],
+            [
+                'name' => 'مدير وكالة الخليج',
                 'password' => Hash::make('password123'),
                 'phone' => '777200200',
-                'user_type' => 'subagent',
-                'agency_id' => $yemenAgency->id,
-                'parent_id' => $agencyAdmin->id,
-                'is_active' => true,
-            ]);
-            
-            $subagent2 = User::create([
-                'name' => 'محمد علي',
-                'email' => 'mohammed@yemen-travel.com',
-                'password' => Hash::make('password123'),
-                'phone' => '777300300',
-                'user_type' => 'subagent',
-                'agency_id' => $yemenAgency->id,
-                'parent_id' => $agencyAdmin->id,
-                'is_active' => true,
-            ]);
-            
-            // إنشاء عملاء لوكالة اليمن
-            User::create([
-                'name' => 'سالم علي',
-                'email' => 'salem@example.com',
-                'password' => Hash::make('password123'),
-                'phone' => '777400400',
-                'user_type' => 'customer',
-                'agency_id' => $yemenAgency->id,
-                'parent_id' => $agencyAdmin->id,
-                'is_active' => true,
-            ]);
-            
-            User::create([
-                'name' => 'فاطمة أحمد',
-                'email' => 'fatima@example.com',
-                'password' => Hash::make('password123'),
-                'phone' => '777500500',
-                'user_type' => 'customer',
-                'agency_id' => $yemenAgency->id,
-                'parent_id' => $agencyAdmin->id,
-                'is_active' => true,
-            ]);
-        }
-        
-        if ($gulfAgency) {
-            // إنشاء مستخدم وكيل لوكالة الخليج
-            $gulfAdmin = User::create([
-                'name' => 'مدير وكالة الخليج',
-                'email' => 'admin@gulf-travel.com',
-                'password' => Hash::make('password123'),
-                'phone' => '777600600',
                 'user_type' => 'agency',
-                'agency_id' => $gulfAgency->id,
+                'agency_id' => $gulfTravelId,
                 'is_active' => true,
-            ]);
-            
-            // إنشاء سبوكيل لوكالة الخليج
-            User::create([
-                'name' => 'خالد حسن',
-                'email' => 'khaled@gulf-travel.com',
+            ]
+        );
+
+        // إنشاء السبوكلاء
+        User::updateOrCreate(
+            ['email' => 'ahmed@yemen-travel.com'],
+            [
+                'name' => 'أحمد محمد',
                 'password' => Hash::make('password123'),
-                'phone' => '777700700',
+                'phone' => '777101201',
                 'user_type' => 'subagent',
-                'agency_id' => $gulfAgency->id,
-                'parent_id' => $gulfAdmin->id,
+                'agency_id' => $yemenTravelId,
                 'is_active' => true,
-            ]);
-            
-            // إنشاء عميل لوكالة الخليج
-            User::create([
-                'name' => 'عبد الله محمد',
-                'email' => 'abdullah@example.com',
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'mohammed@yemen-travel.com'],
+            [
+                'name' => 'محمد علي',
                 'password' => Hash::make('password123'),
-                'phone' => '777800800',
-                'user_type' => 'customer',
-                'agency_id' => $gulfAgency->id,
-                'parent_id' => $gulfAdmin->id,
+                'phone' => '777102202',
+                'user_type' => 'subagent',
+                'agency_id' => $yemenTravelId,
                 'is_active' => true,
-            ]);
-        }
-        
-        // إنشاء مستخدم متميز للاختبار السريع
-        User::create([
-            'name' => 'مستخدم اختباري',
-            'email' => 'test@example.com',
-            'password' => Hash::make('123456'),
-            'phone' => '777999999',
-            'user_type' => 'agency',
-            'agency_id' => $yemenAgency ? $yemenAgency->id : 1,
-            'is_active' => true,
-        ]);
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'khaled@gulf-travel.com'],
+            [
+                'name' => 'خالد حسن',
+                'password' => Hash::make('password123'),
+                'phone' => '777201301',
+                'user_type' => 'subagent',
+                'agency_id' => $gulfTravelId,
+                'is_active' => true,
+            ]
+        );
+
+        // إنشاء العملاء
+        User::updateOrCreate(
+            ['email' => 'salem@example.com'],
+            [
+                'name' => 'سالم علي',
+                'password' => Hash::make('password123'),
+                'phone' => '777301401',
+                'user_type' => 'customer',
+                'agency_id' => $yemenTravelId,
+                'is_active' => true,
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'fatima@example.com'],
+            [
+                'name' => 'فاطمة أحمد',
+                'password' => Hash::make('password123'),
+                'phone' => '777302402',
+                'user_type' => 'customer',
+                'agency_id' => $yemenTravelId,
+                'is_active' => true,
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'abdullah@example.com'],
+            [
+                'name' => 'عبد الله محمد',
+                'password' => Hash::make('password123'),
+                'phone' => '777303403',
+                'user_type' => 'customer',
+                'agency_id' => $gulfTravelId,
+                'is_active' => true,
+            ]
+        );
     }
 }

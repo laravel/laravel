@@ -53,6 +53,16 @@ class SettingsController extends Controller
     }
 
     /**
+     * عرض معلومات النظام
+     *
+     * @return \Illuminate\View\View
+     */
+    public function systemInfo()
+    {
+        return view('agency.settings.system_info');
+    }
+
+    /**
      * تحديث معلومات الوكالة
      */
     private function updateAgencyInfo(Request $request, Agency $agency)

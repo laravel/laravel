@@ -105,6 +105,7 @@ Route::prefix('agency')->middleware(['auth', \App\Http\Middleware\AgencyMiddlewa
     // إدارة الإعدادات
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+    Route::get('/settings/system-info', [SettingsController::class, 'systemInfo'])->name('settings.system-info');
     
     // إدارة العملات
     Route::get('/settings/currencies', [CurrencyController::class, 'index'])->name('settings.currencies');
@@ -114,19 +115,21 @@ Route::prefix('agency')->middleware(['auth', \App\Http\Middleware\AgencyMiddlewa
     Route::patch('/settings/currencies/{currency}/default', [CurrencyController::class, 'setAsDefault'])->name('settings.currencies.set-default');
     Route::delete('/settings/currencies/{currency}', [CurrencyController::class, 'destroy'])->name('settings.currencies.destroy');
     
-    // الخدمات
-    Route::get('/services', [App\Http\Controllers\Agency\ServiceController::class, 'index'])->name('services.index');
-    Route::get('/services/create', [App\Http\Controllers\Agency\ServiceController::class, 'create'])->name('services.create');
-    Route::post('/services', [App\Http\Controllers\Agency\ServiceController::class, 'store'])->name('services.store');
-    Route::get('/services/{service}', [App\Http\Controllers\Agency\ServiceController::class, 'show'])->name('services.show');
-    Route::get('/services/{service}/edit', [App\Http\Controllers\Agency\ServiceController::class, 'edit'])->name('services.edit');
-    Route::put('/services/{service}', [App\Http\Controllers\Agency\ServiceController::class, 'update'])->name('services.update');
-    Route::delete('/services/{service}', [App\Http\Controllers\Agency\ServiceController::class, 'destroy'])->name('services.destroy');
-    
     // الإشعارات
     Route::get('/notifications', [App\Http\Controllers\Agency\NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/mark-read', [App\Http\Controllers\Agency\NotificationController::class, 'markRead'])->name('notifications.mark-read');
     Route::delete('/notifications/{id}', [App\Http\Controllers\Agency\NotificationController::class, 'destroy'])->name('notifications.destroy');
+    
+    // الفواتير
+    Route::get('/invoices', [App\Http\Controllers\Agency\InvoiceController::class, 'index'])->name('invoices.index');
+    Route::get('/invoices/create', [App\Http\Controllers\Agency\InvoiceController::class, 'create'])->name('invoices.create');
+    Route::post('/invoices', [App\Http\Controllers\Agency\InvoiceController::class, 'store'])->name('invoices.store');
+    Route::get('/invoices/{invoice}', [App\Http\Controllers\Agency\InvoiceController::class, 'show'])->name('invoices.show');
+    Route::get('/invoices/{invoice}/edit', [App\Http\Controllers\Agency\InvoiceController::class, 'edit'])->name('invoices.edit');
+    Route::put('/invoices/{invoice}', [App\Http\Controllers\Agency\InvoiceController::class, 'update'])->name('invoices.update');
+    Route::delete('/invoices/{invoice}', [App\Http\Controllers\Agency\InvoiceController::class, 'destroy'])->name('invoices.destroy');
+    Route::get('/invoices/{invoice}/download', [App\Http\Controllers\Agency\InvoiceController::class, 'download'])->name('invoices.download');
+    Route::post('/invoices/{invoice}/send', [App\Http\Controllers\Agency\InvoiceController::class, 'send'])->name('invoices.send');
 });
 
 // مسارات السبوكيل
@@ -187,6 +190,14 @@ Route::prefix('customer')->middleware(['auth', \App\Http\Middleware\CustomerMidd
     Route::get('/notifications', [App\Http\Controllers\Customer\NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/mark-read', [App\Http\Controllers\Customer\NotificationController::class, 'markRead'])->name('notifications.mark-read');
     Route::delete('/notifications/{id}', [App\Http\Controllers\Customer\NotificationController::class, 'destroy'])->name('notifications.destroy');
+    
+    // الفواتير والمدفوعات
+    Route::get('/invoices', [App\Http\Controllers\Customer\InvoiceController::class, 'index'])->name('invoices.index');
+    Route::get('/invoices/{invoice}', [App\Http\Controllers\Customer\InvoiceController::class, 'show'])->name('invoices.show');
+    Route::get('/invoices/{invoice}/download', [App\Http\Controllers\Customer\InvoiceController::class, 'download'])->name('invoices.download');
+    
+    Route::get('/invoices/{invoice}/pay', [App\Http\Controllers\Customer\PaymentController::class, 'showPaymentPage'])->name('payments.show');
+    Route::post('/invoices/{invoice}/pay', [App\Http\Controllers\Customer\PaymentController::class, 'processPayment'])->name('payments.process');
 });
 
 // مسار تحميل المستندات
