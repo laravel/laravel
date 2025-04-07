@@ -344,61 +344,24 @@
             </div>
         </footer>
     </div>
-
-    @push('scripts')
+    
+    <!-- Scripts -->
+    @stack('scripts')
+    <script src="{{ asset('js/app.js') }}"></script>
+    
     <script>
-        // تحميل الإشعارات عند فتح القائمة المنسدلة
+        // حل مشكلة استمرار حالة التحميل في المتصفح
         document.addEventListener('DOMContentLoaded', function() {
-            const notificationDropdown = document.querySelector('.notification-dropdown');
-            const notificationsContainer = document.getElementById('notifications-container');
-            
-            // تحميل الإشعارات عند النقر على أيقونة الإشعارات
-            document.querySelector('.nav-link[data-bs-toggle="dropdown"]').addEventListener('click', function() {
-                fetch('{{ route("notifications.unread") }}')
-                    .then(response => response.json())
-                    .then(data => {
-                        let html = '';
-                        
-                        if (data.notifications.length === 0) {
-                            html = '<div class="dropdown-item text-center text-muted">لا توجد إشعارات جديدة</div>';
-                        } else {
-                            data.notifications.forEach(notification => {
-                                let typeClass = '';
-                                switch (notification.type) {
-                                    case 'success':
-                                        typeClass = 'text-success';
-                                        break;
-                                    case 'warning':
-                                        typeClass = 'text-warning';
-                                        break;
-                                    case 'danger':
-                                        typeClass = 'text-danger';
-                                        break;
-                                    default:
-                                        typeClass = 'text-primary';
-                                }
-                                
-                                html += `
-                                    <a href="${notification.action_url}" class="dropdown-item notification-item d-flex align-items-center" data-id="${notification.id}">
-                                        <div class="me-3">
-                                            <div class="icon-circle bg-${notification.type === 'danger' ? 'danger' : (notification.type === 'warning' ? 'warning' : (notification.type === 'success' ? 'success' : 'primary'))}">
-                                                <i class="fas ${notification.type === 'danger' ? 'fa-exclamation' : (notification.type === 'warning' ? 'fa-exclamation-triangle' : (notification.type === 'success' ? 'fa-check' : 'fa-info'))} text-white"></i>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="small text-muted">${new Date(notification.created_at).toLocaleString()}</div>
-                                            <span class="${typeClass}">${notification.title}</span>
-                                        </div>
-                                    </a>
-                                `;
-                            });
-                        }
-                        
-                        notificationsContainer.innerHTML = html;
-                    });
-            });
+            // التأكد من إيقاف مؤشر التحميل بعد فترة معينة
+            setTimeout(function() {
+                if (document.readyState !== 'complete') {
+                    console.log('إيقاف حالة التحميل المستمرة');
+                    window.stop();
+                    document.dispatchEvent(new Event('readystatechange'));
+                    window.dispatchEvent(new Event('load'));
+                }
+            }, 8000);
         });
     </script>
-    @endpush
 </body>
 </html>

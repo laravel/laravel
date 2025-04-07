@@ -122,10 +122,14 @@ Route::prefix('subagent')->middleware(['auth', \App\Http\Middleware\SubagentMidd
     Route::get('/requests/{request}', [SubagentRequestController::class, 'show'])->name('requests.show');
     
     // إدارة عروض الأسعار
-    Route::post('/quotes', [SubagentQuoteController::class, 'store'])->name('quotes.store');
     Route::get('/quotes', [SubagentQuoteController::class, 'index'])->name('quotes.index');
+    Route::get('/quotes/create/{request}', [SubagentQuoteController::class, 'create'])->name('quotes.create');
+    Route::post('/quotes', [SubagentQuoteController::class, 'store'])->name('quotes.store');
     Route::get('/quotes/{quote}', [SubagentQuoteController::class, 'show'])->name('quotes.show');
+    Route::get('/quotes/{quote}/edit', [SubagentQuoteController::class, 'edit'])->name('quotes.edit');
     Route::put('/quotes/{quote}', [SubagentQuoteController::class, 'update'])->name('quotes.update');
+    Route::delete('/quotes/{quote}', [SubagentQuoteController::class, 'destroy'])->name('quotes.destroy');
+    Route::delete('/quotes/{quote}/cancel', [SubagentQuoteController::class, 'destroy'])->name('quotes.cancel');
 });
 
 // مسارات العميل

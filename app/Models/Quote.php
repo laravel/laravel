@@ -10,21 +10,36 @@ class Quote extends Model
     use HasFactory;
 
     protected $fillable = [
-        'request_id', 'subagent_id', 'price', 'commission_amount', 'details', 'status'
+        'request_id',
+        'subagent_id',
+        'price',
+        'commission_amount',
+        'details',
+        'status',
+        'currency_code',
     ];
 
+    /**
+     * Get the request that owns the quote.
+     */
     public function request()
     {
         return $this->belongsTo(Request::class);
     }
 
+    /**
+     * Get the subagent that owns the quote.
+     */
     public function subagent()
     {
         return $this->belongsTo(User::class, 'subagent_id');
     }
 
-    public function transactions()
+    /**
+     * Get the attachments for the quote.
+     */
+    public function attachments()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(QuoteAttachment::class);
     }
 }

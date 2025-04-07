@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Quote;
 use App\Models\Request as ServiceRequest;
+use Illuminate\Support\Facades\Auth;
 
 class QuoteController extends Controller
 {
@@ -58,6 +59,49 @@ class QuoteController extends Controller
     }
 
     /**
+     * عرض نموذج إنشاء عرض سعر جديد.
+     */
+    public function create(ServiceRequest $request)
+    {
+        return view('subagent.quotes.create', compact('request'));
+    }
+
+    /**
+     * تخزين عرض سعر جديد.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'request_id' => 'required|exists:requests,id',
+            'price' => 'required|numeric|min:0',
+            'details' => 'required|string',
+            'currency_code' => 'required|string|exists:currencies,code',
+        ]);
+
+        $quote = Quote::create([
+            'subagent_id' => Auth::id(),
+            'request_id' => $request->request_id,
+            'price' => $request->price,
+            'details' => $request->details,
+            'currency_code' => $request->currency_code,
+            'status' => 'pending',
+        ]);
+
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $index => $file) {
+                $quote->attachments()->create([
+                    'name' => $request->attachment_names[$index] ?? 'مرفق ' . ($index + 1),
+                    'file_path' => $file->store('quote_attachments', 'public'),
+                    'file_type' => $file->getClientOriginalExtension(),
+                ]);
+            }
+        }
+
+        return redirect()->route('subagent.quotes.index')
+                        ->with('success', 'تم إنشاء عرض السعر بنجاح');
+    }
+
+    /**
      * عرض تفاصيل عرض سعر معين.
      */
     public function show(Quote $quote)
@@ -75,16 +119,20 @@ class QuoteController extends Controller
      */
     public function edit(Quote $quote)
     {
-        // التحقق من أن عرض السعر ينتمي للسبوكيل
-        if ($quote->subagent_id !== auth()->id()) {
-            abort(403, 'غير مصرح لك بالوصول إلى هذا العرض');
+        // التحقق من أن عرض السعر ينتمي للسبوكيل الحالي
+        if ($quote->subagent_id !== Auth::id()) {
+            abort(403, 'غير مصرح لك بتعديل هذا العرض');
         }
-        
-        // التحقق من أن العرض في حالة تسمح بالتعديل
-        if ($quote->status !== 'pending' && $quote->status !== 'agency_rejected') {
+
+        // التحقق من أن حالة عرض السعر تسمح بالتعديل
+        if (!in_array($quote->status, ['pending', 'agency_rejected'])) {
             return redirect()->route('subagent.quotes.show', $quote)
-                            ->with('error', 'لا يمكن تعديل هذا العرض في وضعه الحالي.');
+                            ->with('error', 'لا يمكن تعديل هذا العرض في حالته الحالية');
         }
+
+        // تحميل بيانات الطلب والخدمة المرتبطة فقط
+        // تجنب تحميل علاقة 'attachments' لأن الجدول غير موجود بعد
+        $quote->load(['request.service', 'request.customer']);
         
         return view('subagent.quotes.edit', compact('quote'));
     }
@@ -94,43 +142,45 @@ class QuoteController extends Controller
      */
     public function update(Request $request, Quote $quote)
     {
-        // التحقق من أن عرض السعر ينتمي للسبوكيل
-        if ($quote->subagent_id !== auth()->id()) {
-            abort(403, 'غير مصرح لك بالوصول إلى هذا العرض');
+        // التحقق من أن عرض السعر ينتمي للسبوكيل الحالي
+        if ($quote->subagent_id !== Auth::id()) {
+            abort(403, 'غير مصرح لك بتعديل هذا العرض');
         }
-        
-        // التحقق من أن العرض في حالة تسمح بالتعديل
-        if ($quote->status !== 'pending' && $quote->status !== 'agency_rejected') {
+
+        // التحقق من أن حالة عرض السعر تسمح بالتعديل
+        if (!in_array($quote->status, ['pending', 'agency_rejected'])) {
             return redirect()->route('subagent.quotes.show', $quote)
-                            ->with('error', 'لا يمكن تعديل هذا العرض في وضعه الحالي.');
+                            ->with('error', 'لا يمكن تعديل هذا العرض في حالته الحالية');
         }
-        
+
+        // التحقق من البيانات
         $request->validate([
             'price' => 'required|numeric|min:0',
             'details' => 'required|string',
+            'currency_code' => 'required|string|exists:currencies,code',
         ]);
-        
-        // الحصول على معدل العمولة المخصص للسبوكيل على هذه الخدمة
-        $serviceSubagent = $quote->request->service->subagents()
-                                ->where('users.id', auth()->id())
-                                ->first();
-        
-        $commissionRate = $serviceSubagent ? $serviceSubagent->pivot->custom_commission_rate : $quote->request->service->commission_rate;
-        
-        // حساب مبلغ العمولة
-        $commissionAmount = $request->price * ($commissionRate / 100);
-        
+
         // تحديث عرض السعر
         $quote->update([
             'price' => $request->price,
             'details' => $request->details,
-            'status' => 'pending', // إعادة تعيين الحالة إلى "قيد الانتظار"
-            'commission_amount' => $commissionAmount,
-            'commission_rate' => $commissionRate,
+            'currency_code' => $request->currency_code,
+            'status' => 'pending', // إعادة الحالة إلى "قيد المراجعة" بعد التعديل
         ]);
-        
-        return redirect()->route('subagent.quotes.index')
-                        ->with('success', 'تم تحديث عرض السعر بنجاح. بانتظار مراجعته من قبل الوكالة.');
+
+        // تحديث مرفقات عرض السعر إذا وجدت
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $index => $file) {
+                $quote->attachments()->create([
+                    'name' => $request->attachment_names[$index] ?? 'مرفق ' . ($index + 1),
+                    'file_path' => $file->store('quote_attachments', 'public'),
+                    'file_type' => $file->getClientOriginalExtension(),
+                ]);
+            }
+        }
+
+        return redirect()->route('subagent.quotes.show', $quote)
+                        ->with('success', 'تم تحديث عرض السعر بنجاح');
     }
 
     /**
@@ -154,5 +204,28 @@ class QuoteController extends Controller
         
         return redirect()->route('subagent.quotes.index')
                         ->with('success', 'تم إلغاء عرض السعر بنجاح.');
+    }
+
+    /**
+     * حذف عرض سعر.
+     */
+    public function destroy(Quote $quote)
+    {
+        // التحقق من أن عرض السعر ينتمي للسبوكيل الحالي
+        if ($quote->subagent_id !== Auth::id()) {
+            abort(403, 'غير مصرح لك بحذف هذا العرض');
+        }
+
+        // التحقق من أن حالة عرض السعر تسمح بالحذف
+        if (!in_array($quote->status, ['pending', 'agency_rejected'])) {
+            return redirect()->route('subagent.quotes.index')
+                            ->with('error', 'لا يمكن حذف هذا العرض في حالته الحالية');
+        }
+
+        // حذف عرض السعر
+        $quote->delete();
+
+        return redirect()->route('subagent.quotes.index')
+                        ->with('success', 'تم حذف عرض السعر بنجاح');
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Request as ServiceRequest;
 use App\Models\Service;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class RequestController extends Controller
 {
@@ -15,26 +16,35 @@ class RequestController extends Controller
      */
     public function index(Request $request)
     {
-        $query = ServiceRequest::where('customer_id', auth()->id());
-
-        // تطبيق عوامل التصفية
-        if ($request->has('status') && !empty($request->status)) {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->has('service_id') && !empty($request->service_id)) {
-            $query->where('service_id', $request->service_id);
-        }
-
-        // ترتيب وتصنيف النتائج
-        $requests = $query->latest()->paginate(10);
+        // استخدام التخزين المؤقت لتسريع عرض البيانات
+        $cacheKey = 'customer_requests_' . auth()->id() . '_' . md5($request->fullUrl());
         
-        // الحصول على الخدمات للتصفية
-        $services = Service::where('agency_id', auth()->user()->agency_id)
-                         ->where('status', 'active')
-                         ->get();
-                         
-        return view('customer.requests.index', compact('requests', 'services'));
+        return Cache::remember($cacheKey, now()->addMinutes(5), function() use ($request) {
+            $query = ServiceRequest::where('customer_id', auth()->id());
+
+            // تحديد الحقول المطلوبة فقط لتحسين الأداء
+            $query->select('id', 'service_id', 'customer_id', 'agency_id', 'status', 'priority', 'created_at');
+
+            // تطبيق عوامل التصفية
+            if ($request->has('status') && !empty($request->status)) {
+                $query->where('status', $request->status);
+            }
+
+            if ($request->has('service_id') && !empty($request->service_id)) {
+                $query->where('service_id', $request->service_id);
+            }
+
+            // ترتيب وتصنيف النتائج
+            $requests = $query->latest()->paginate(10);
+            
+            // الحصول على الخدمات للتصفية (تحسين الاستعلام)
+            $services = Service::where('agency_id', auth()->user()->agency_id)
+                            ->where('status', 'active')
+                            ->select('id', 'name', 'type')
+                            ->get();
+                            
+            return view('customer.requests.index', compact('requests', 'services'));
+        });
     }
 
     /**
