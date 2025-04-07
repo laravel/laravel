@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'dashboard' => 'لوحة التحكم',
+    'services' => 'الخدمات',
+    'requests' => 'الطلبات',
+    'quotes' => 'عروض الأسعار',
+    'customers' => 'العملاء',
+    'subagents' => 'السبوكلاء',
+    'settings' => 'الإعدادات',
+    'notifications' => 'الإشعارات',
+    'profile' => 'الملف الشخصي',
+    'logout' => 'تسجيل الخروج',
+    'save' => 'حفظ',
+    'cancel' => 'إلغاء',
+    'edit' => 'تعديل',
+    'delete' => 'حذف',
+    'create' => 'إنشاء',
+    'search' => 'بحث',
+    'filter' => 'تصفية',
+    'show' => 'عرض',
+    'back' => 'رجوع',
+    'status' => 'الحالة',
+    'date' => 'التاريخ',
+    'actions' => 'الإجراءات',
+];

@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'dashboard' => 'Dashboard',
+    'services' => 'Services',
+    'requests' => 'Requests',
+    'quotes' => 'Quotes',
+    'customers' => 'Customers',
+    'subagents' => 'Subagents',
+    'settings' => 'Settings',
+    'notifications' => 'Notifications',
+    'profile' => 'Profile',
+    'logout' => 'Logout',
+    'save' => 'Save',
+    'cancel' => 'Cancel',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'create' => 'Create',
+    'search' => 'Search',
+    'filter' => 'Filter',
+    'show' => 'Show',
+    'back' => 'Back',
+    'status' => 'Status',
+    'date' => 'Date',
+    'actions' => 'Actions',
+];

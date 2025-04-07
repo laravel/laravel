@@ -41,4 +41,15 @@ class Kernel extends HttpKernel
         'subagent' => \App\Http\Middleware\SubagentMiddleware::class,
         'customer' => \App\Http\Middleware\CustomerMiddleware::class,
     ];
+
+    /**
+     * The application's middleware groups.
+     *
+     * @var array<string, array<int, class-string|string>>
+     */
+    protected $middlewareGroups = [
+        'web' => [
+            \App\Http\Middleware\SetLocale::class,
+        ],
+    ];
 }
