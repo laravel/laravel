@@ -66,6 +66,21 @@ class QuoteController extends Controller
      */
     public function create(ServiceRequest $request)
     {
+        // التحقق من أن السبوكيل لديه حق الوصول للخدمة
+        $hasAccess = Auth::user()->services()->where('service_id', $request->service_id)->exists();
+        if (!$hasAccess) {
+            abort(403, 'غير مصرح لك بتقديم عروض لهذه الخدمة');
+        }
+
+        // التحقق من أن الطلب لم يتم تقديم عرض له من قبل هذا السبوكيل
+        $exists = Quote::where('request_id', $request->id)
+                      ->where('subagent_id', Auth::id())
+                      ->exists();
+        if ($exists) {
+            return redirect()->route('subagent.quotes.index')
+                           ->with('error', 'لقد قمت بتقديم عرض سعر لهذا الطلب من قبل');
+        }
+
         return view('subagent.quotes.create', compact('request'));
     }
 
@@ -81,27 +96,45 @@ class QuoteController extends Controller
             'currency_code' => 'required|string|exists:currencies,code',
         ]);
 
+        // التحقق من أن السبوكيل لديه حق الوصول للخدمة
+        $serviceRequest = ServiceRequest::findOrFail($request->request_id);
+        $hasAccess = Auth::user()->services()->where('service_id', $serviceRequest->service_id)->exists();
+        if (!$hasAccess) {
+            abort(403, 'غير مصرح لك بتقديم عروض لهذه الخدمة');
+        }
+
+        // حساب العمولة
+        $commissionRate = Auth::user()->commission_rate ?? 10; // القيمة الافتراضية هي 10%
+        $commissionAmount = ($request->price * $commissionRate) / 100;
+
+        // إنشاء عرض السعر
         $quote = Quote::create([
-            'subagent_id' => Auth::id(),
             'request_id' => $request->request_id,
+            'subagent_id' => Auth::id(),
             'price' => $request->price,
+            'commission_amount' => $commissionAmount,
             'details' => $request->details,
             'currency_code' => $request->currency_code,
             'status' => 'pending',
         ]);
 
-        if ($request->hasFile('attachments')) {
+        // إضافة المرفقات إذا وجدت والجدول موجود
+        if (Schema::hasTable('quote_attachments') && $request->hasFile('attachments')) {
             foreach ($request->file('attachments') as $index => $file) {
-                $quote->attachments()->create([
-                    'name' => $request->attachment_names[$index] ?? 'مرفق ' . ($index + 1),
-                    'file_path' => $file->store('quote_attachments', 'public'),
-                    'file_type' => $file->getClientOriginalExtension(),
-                ]);
+                if ($file->isValid()) {
+                    $quote->attachments()->create([
+                        'name' => $request->attachment_names[$index] ?? 'مرفق ' . ($index + 1),
+                        'file_path' => $file->store('quote_attachments', 'public'),
+                        'file_type' => $file->getClientOriginalExtension(),
+                    ]);
+                }
             }
         }
 
-        return redirect()->route('subagent.quotes.index')
-                        ->with('success', 'تم إنشاء عرض السعر بنجاح');
+        // إرسال إشعار للوكالة (سيتم تنفيذه لاحقاً)
+
+        return redirect()->route('subagent.quotes.show', $quote)
+                        ->with('success', 'تم إنشاء عرض السعر بنجاح وإرساله للمراجعة');
     }
 
     /**

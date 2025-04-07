@@ -17,6 +17,7 @@ class Quote extends Model
         'details',
         'status',
         'currency_code',
+        'rejection_reason',
     ];
 
     /**
