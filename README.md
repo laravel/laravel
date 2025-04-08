@@ -1,66 +1,502 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# نظام وكالات السفر (RTLA)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![إصدار النظام](https://img.shields.io/badge/الإصدار-1.0.0-blue)
+![Laravel](https://img.shields.io/badge/Laravel-v12.7.2-red)
+![الترخيص](https://img.shields.io/badge/الترخيص-MIT-green)
 
-## About Laravel
+## نظرة عامة
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+نظام وكالات السفر (RTLA) هو منصة متكاملة لإدارة وكالات السفر، تتيح إدارة الوكلاء الرئيسيين والسبوكلاء والعملاء في بيئة موحدة. يدعم النظام اللغة العربية بالكامل واتجاه العرض من اليمين إلى اليسار (RTL).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## المميزات الرئيسية
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **واجهة عربية كاملة** مع دعم RTL (من اليمين إلى اليسار).
+- **تعدد المستخدمين** (وكيل رئيسي، سبوكيل، عميل) مع صلاحيات مختلفة.
+- **نظام متعدد المستأجرين** (Multi-Tenant) يمكن كل وكالة من العمل في مساحة منفصلة.
+- **دعم تعدد العملات** يتيح التعامل بعملات متعددة (ريال سعودي، دولار أمريكي، يورو، وغيرها) مع تحويل تلقائي للأسعار.
+- **إدارة متكاملة للخدمات** (موافقات أمنية، نقل بري، حج وعمرة، تذاكر طيران، إصدار جوازات).
+- **نظام طلبات متقدم** يضمن خصوصية المعلومات بين الوكلاء والسبوكلاء والعملاء.
+- **إدارة عروض الأسعار** مع آلية اعتماد للوكيل الرئيسي.
+- **نظام مالي متكامل** لإدارة العمولات والمدفوعات.
+- **أرشفة وإدارة المستندات** مع خيارات مختلفة للرؤية.
 
-## Learning Laravel
+## المميزات المتقدمة في النظام
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. نظام الإشعارات المتكامل
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+النظام يوفر آلية إشعارات متكاملة تُبقي جميع الأطراف على اطلاع بالمستجدات:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **إشعارات فورية** للمستخدمين عند وجود تحديثات تخصهم
+- **إشعارات البريد الإلكتروني** للتنبيهات المهمة
+- **لوحة إشعارات** مركزية لكل مستخدم
 
-## Laravel Sponsors
+### 2. نظام التقارير والإحصائيات
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+توفر لوحة التحكم إحصائيات مفصلة وتقارير قابلة للتخصيص:
 
-### Premium Partners
+- **تقارير الإيرادات** حسب الخدمة، السبوكيل، أو الفترة الزمنية
+- **تقارير الأداء** للسبوكلاء والخدمات
+- **تصدير التقارير** بصيغ مختلفة (Excel, PDF)
+- **رسومات بيانية** تفاعلية لعرض البيانات بشكل مرئي
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 3. نظام إدارة المستندات
 
-## Contributing
+نظام إدارة مستندات آمن ومرن:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **رفع المستندات** وربطها بالطلبات أو العروض أو المستخدمين
+- **تنظيم المستندات** في مجلدات افتراضية
+- **إدارة الصلاحيات** للمستندات (خاص، عام، للوكالة فقط)
+- **استعراض وتحميل** المستندات حسب الصلاحيات
 
-## Code of Conduct
+### 4. الواجهة البرمجية (API)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+يوفر النظام واجهة برمجية للتكامل مع الأنظمة الأخرى:
 
-## Security Vulnerabilities
+- **API للخدمات**: استعلام وتحديث بيانات الخدمات
+- **API للطلبات**: إنشاء ومتابعة الطلبات
+- **API للعملاء**: إدارة حسابات العملاء
+- **API للمعاملات المالية**: تتبع وإدارة المعاملات المالية
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## متطلبات النظام
 
-## License
+- PHP >= 8.2
+- MySQL >= 5.7 أو SQLite
+- Composer
+- Node.js و NPM
+- Git
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## خطوات التثبيت
+
+### التثبيت السريع باستخدام سكريبت التثبيت الآلي
+
+للتثبيت السريع، يمكنك استخدام سكريبت التثبيت الآلي:
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+سيقوم السكريبت بتوجيهك خلال عملية التثبيت وطرح الأسئلة اللازمة.
+
+### التثبيت اليدوي
+
+#### 1. نسخ المشروع
+
+```bash
+git clone [رابط المستودع] rtla-app
+cd rtla-app
+```
+
+#### 2. تثبيت اعتماديات PHP
+
+```bash
+composer install
+```
+
+#### 3. إعداد ملف البيئة
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+#### 4. إعداد قاعدة البيانات
+
+قم بتعديل إعدادات قاعدة البيانات في ملف `.env`
+
+```bash
+php artisan migrate --seed
+```
+
+#### 5. تثبيت وتجميع الأصول الأمامية
+
+```bash
+npm install
+npm run dev
+```
+
+#### 6. تشغيل المشروع
+
+```bash
+php artisan serve
+```
+
+بعد ذلك، يمكن الوصول إلى النظام من خلال: `http://localhost:8000`
+
+## أنواع المستخدمين
+
+### 1. الوكيل الرئيسي
+- إدارة كاملة للوكالة
+- إدارة السبوكلاء والعملاء
+- إدارة الخدمات والطلبات
+- مراجعة وموافقة على عروض الأسعار
+- تقارير مالية وإحصائية
+- إدارة العملات وأسعار الصرف
+
+### 2. السبوكيل
+- استعراض الخدمات المتاحة له
+- عرض طلبات الأسعار
+- تقديم عروض أسعار
+- متابعة المستحقات المالية
+
+### 3. العميل
+- استعراض الخدمات
+- تقديم طلبات جديدة
+- متابعة حالة الطلبات
+- اختيار عروض الأسعار المناسبة
+
+## هيكل المشروع
+
+```
+app/
+├── Http/
+│   ├── Controllers/         # كنترولرات التطبيق
+│   │   ├── Agency/          # كنترولرات خاصة بالوكيل
+│   │   ├── Subagent/        # كنترولرات خاصة بالسبوكيل
+│   │   └── Customer/        # كنترولرات خاصة بالعميل
+│   ├── Middleware/          # الوسائط
+│   └── Requests/            # طلبات النماذج
+├── Models/                  # نماذج التطبيق
+└── Providers/               # مزودي الخدمات
+resources/
+├── css/                     # ملفات CSS
+├── js/                      # ملفات JavaScript
+└── views/                   # القوالب
+    ├── agency/              # واجهات الوكيل الرئيسي
+    ├── subagent/            # واجهات السبوكيل
+    ├── customer/            # واجهات العميل
+    ├── layouts/             # القوالب الرئيسية
+    └── partials/            # أجزاء الواجهة المشتركة
+```
+
+## تطوير التطبيق
+
+### إعادة تجميع الأصول أثناء التطوير
+
+```bash
+npm run dev
+```
+
+### إدارة التحديثات وقاعدة البيانات
+
+#### تحديث المشروع
+
+```bash
+git pull
+composer install
+npm install
+npm run build
+```
+
+#### إدارة المايغريشن
+
+لتطبيق التحديثات على قاعدة البيانات:
+
+```bash
+php artisan migrate
+```
+
+في حال ظهور خطأ بأن الجدول موجود مسبقاً، يمكن:
+
+1. استخدام أمر الترحيل الآمن (يتخطى الجداول الموجودة مسبقاً):
+```bash
+php artisan migrate:safe
+```
+
+2. تجاهل الجدول الموجود مسبقاً وترحيل ملف محدد:
+```bash
+php artisan migrate --path=database/migrations/specific_migration_file.php
+```
+
+3. إعادة إنشاء الهيكل بالكامل (تنبيه: سيتم حذف جميع البيانات):
+```bash
+php artisan migrate:fresh --seed
+```
+
+4. إضافة النسخ الاحتياطي أولاً:
+```bash
+php artisan app:database-backup  # تأكد من تثبيت حزمة النسخ الاحتياطي أولاً
+php artisan migrate:fresh --seed
+```
+
+#### تصحيح مشاكل الذاكرة المؤقتة وإدارة المايغريشن
+
+لتصحيح مشاكل الذاكرة المؤقتة:
+
+```bash
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+php artisan cache:clear
+php artisan optimize:clear
+```
+
+#### استخدام النسخ الاحتياطي للبيانات
+
+هناك عدة خيارات للنسخ الاحتياطي للبيانات:
+
+##### 1. النسخ الاحتياطي المباشر للقاعدة (الطريقة الأبسط)
+
+```bash
+# لقواعد بيانات SQLite
+cp database/database.sqlite database/database.sqlite.backup
+
+# لقواعد بيانات MySQL
+mysqldump -u [username] -p [database_name] > backup.sql
+```
+
+##### 2. استخدام حزمة خارجية (يتطلب إضافات PHP)
+
+للاستخدام في بيئات الإنتاج، يُنصح بتثبيت حزمة `spatie/laravel-backup` (تتطلب تثبيت إضافات PHP مثل ext-zip و ext-pcntl):
+
+```bash
+# قد تحتاج إلى تثبيت الإضافات المطلوبة أولاً
+apt-get install php-zip php-pcntl  # للأنظمة المعتمدة على Ubuntu/Debian
+
+# ثم تثبيت الحزمة
+composer require spatie/laravel-backup
+```
+
+> ملاحظة: إذا كنت تستخدم بيئة تطوير مُقيّدة (مثل Gitpod أو GitHub Codespaces)، 
+> قد تواجه صعوبات في تثبيت إضافات PHP. في هذه الحالة، استخدم الطرق الأخرى للنسخ الاحتياطي.
+
+### تشغيل الاختبارات
+
+```bash
+php artisan test
+```
+
+## إعداد الوكيل الأساسي الأول
+
+1. قم بالتسجيل كوكيل أساسي من صفحة التسجيل.
+2. قم بإدخال بيانات الوكالة واسم المستخدم وكلمة المرور.
+3. بعد التسجيل، سيتم توجيهك إلى لوحة تحكم الوكيل.
+4. من هناك يمكنك إضافة الخدمات والسبوكلاء والبدء في استخدام النظام.
+
+## نظام تعدد العملات
+
+يوفر النظام دعماً كاملاً لتعدد العملات بالمميزات التالية:
+
+### الميزات الرئيسية لنظام تعدد العملات
+
+- **دعم العملات المتعددة**: يمكن إضافة وإدارة أي عدد من العملات (ريال سعودي، دولار أمريكي، يورو، إلخ).
+- **تحديد العملة الافتراضية**: كل وكالة يمكنها تحديد العملة الافتراضية الخاصة بها.
+- **أسعار صرف قابلة للتحديث**: إمكانية تحديث أسعار صرف العملات يدوياً أو عبر API خارجي.
+- **التحويل التلقائي للعملات**: يتم تحويل الأسعار تلقائياً بين العملات المختلفة عند عرضها.
+- **تسعير الخدمات بعملات مختلفة**: يمكن تسعير كل خدمة بالعملة المناسبة لها.
+- **عروض أسعار متعددة العملات**: يمكن للسبوكلاء تقديم عروض بعملات مختلفة.
+- **تقارير مالية بعملات متعددة**: عرض التقارير المالية بالعملة المفضلة أو تجميعها بعملة موحدة.
+
+### إدارة العملات
+
+يمكن للوكيل الرئيسي إدارة العملات من خلال:
+
+1. الانتقال إلى قائمة "الإعدادات" ثم "إدارة العملات".
+2. إضافة عملات جديدة مع تحديد الرمز (ISO)، الاسم، والرمز المرئي.
+3. تعيين أسعار الصرف مقابل العملة الافتراضية.
+4. تحديد العملة الافتراضية للوكالة.
+5. تفعيل أو تعطيل العملات حسب الحاجة.
+
+### العملات الافتراضية في النظام
+
+النظام يأتي مع العملات التالية مضبوطة مسبقاً:
+
+- **ريال سعودي (SAR)**: العملة الافتراضية
+- **دولار أمريكي (USD)**
+- **يورو (EUR)**
+- **ريال يمني (YER)**
+
+يمكن إضافة المزيد من العملات حسب احتياجات الوكالة.
+
+## البيانات الافتراضية للتجربة
+
+يمكنك إضافة بيانات افتراضية للتجربة باستخدام الأمر التالي:
+
+```bash
+php artisan app:seed-demo
+```
+
+هذا الأمر سيقوم بإنشاء:
+- وكالات افتراضية
+- مستخدمين من مختلف الأنواع (وكلاء، سبوكلاء، عملاء)
+- خدمات متنوعة (موافقات أمنية، نقل بري، تذاكر طيران، ...)
+- طلبات متنوعة
+- عروض أسعار تجريبية
+
+### استكشاف أخطاء البيانات التجريبية
+
+إذا واجهت مشاكل عند تشغيل أمر `app:seed-demo`، تأكد من:
+
+1. وجود جميع الحقول المطلوبة في قاعدة البيانات (حقول مثل phone وemail قد تكون إلزامية).
+2. عدم وجود تعارض في البيانات الفريدة (مثل البريد الإلكتروني المستخدم مسبقاً).
+3. تشغيل جميع المايغريشن قبل تشغيل الأمر باستخدام `php artisan migrate`.
+
+يمكن إصلاح مشاكل NOT NULL constraint بالتأكد من وجود قيمة لكل حقل مطلوب في ملف الـ seeder.
+
+### بيانات الدخول الافتراضية للتجربة السريعة
+
+```
+البريد الإلكتروني: test@example.com
+كلمة المرور: 123456
+```
+
+### الوكالات والمستخدمين الافتراضيين
+
+1. **وكالة اليمن للسفر والسياحة**
+   - مدير الوكالة: admin@yemen-travel.com / password123
+   - السبوكلاء:
+     - أحمد محمد: ahmed@yemen-travel.com / password123
+     - محمد علي: mohammed@yemen-travel.com / password123
+   - العملاء:
+     - سالم علي: salem@example.com / password123
+     - فاطمة أحمد: fatima@example.com / password123
+
+2. **وكالة الخليج للسفريات**
+   - مدير الوكالة: admin@gulf-travel.com / password123
+   - السبوكلاء:
+     - خالد حسن: khaled@gulf-travel.com / password123
+     - ليلى عمر: layla@gulf-travel.com / password123
+     - عمر سعيد: omar@gulf-travel.com / password123
+   - العملاء:
+     - عبد الله محمد: abdullah@example.com / password123
+     - نورة أحمد: noura@example.com / password123
+     - حسين علي: hussein@example.com / password123
+
+3. **وكالة المستقبل للسياحة**
+   - مدير الوكالة: admin@future-travel.com / password123
+   - السبوكلاء:
+     - سعيد محمد: saeed@future-travel.com / password123
+     - نادية حسن: nadia@future-travel.com / password123
+   - العملاء:
+     - يوسف خالد: yousef@example.com / password123
+     - منى سعيد: mona@example.com / password123
+
+## الخدمات الافتراضية في النظام
+
+تشمل البيانات التجريبية الخدمات التالية للاختبار:
+
+1. **موافقات أمنية**
+   - موافقة أمنية للسفر إلى مصر
+   - موافقة أمنية للسفر إلى الأردن
+   - موافقة أمنية للسفر إلى تركيا
+
+2. **نقل بري**
+   - نقل بري من صنعاء إلى عدن
+   - نقل بري من الرياض إلى جدة
+   - نقل بري من دبي إلى أبو ظبي
+
+3. **حج وعمرة**
+   - باقة عمرة اقتصادية
+   - باقة عمرة مميزة
+   - باقة حج كاملة
+
+4. **تذاكر طيران**
+   - رحلات مباشرة
+   - رحلات بترانزيت
+   - درجة رجال الأعمال
+
+5. **خدمات إصدار جوازات وتأشيرات**
+   - تجديد جواز سفر
+   - استخراج تأشيرة سياحية
+   - استخراج تأشيرة عمل
+
+## دليل المستخدمين
+
+### دليل الوكيل الرئيسي
+
+بصفتك وكيلاً رئيسياً، يمكنك الوصول إلى كافة ميزات النظام:
+
+#### إعداد الوكالة
+1. قم بتسجيل الدخول باستخدام بياناتك
+2. انتقل إلى "الإعدادات" > "معلومات الوكالة" لإكمال ملف الوكالة
+3. قم بتعيين العملة الرئيسية وضبط إعدادات النظام
+
+#### إدارة السبوكلاء
+1. انتقل إلى "السبوكلاء" > "إضافة سبوكيل جديد"
+2. أدخل المعلومات المطلوبة (الاسم، البريد الإلكتروني، رقم الهاتف)
+3. حدد الخدمات المسموح للسبوكيل بتقديمها
+4. حدد نسبة العمولة الخاصة بالسبوكيل
+
+#### إدارة الخدمات
+1. انتقل إلى "الخدمات" > "إضافة خدمة جديدة"
+2. أدخل تفاصيل الخدمة (الاسم، الوصف، السعر الأساسي)
+3. حدد السبوكلاء المسموح لهم بالوصول إلى هذه الخدمة
+4. حدد نسبة العمولة لهذه الخدمة
+
+#### مراجعة عروض الأسعار
+1. انتقل إلى "عروض الأسعار" > "بانتظار الموافقة"
+2. راجع تفاصيل العرض المقدم من السبوكيل
+3. وافق على العرض أو ارفضه (مع إضافة سبب الرفض)
+4. عند الموافقة، سيظهر العرض للعميل في قائمة العروض المتاحة
+
+#### التقارير المالية
+1. انتقل إلى "التقارير" > "التقارير المالية"
+2. حدد الفترة الزمنية (اليوم، الأسبوع، الشهر، مخصص)
+3. حدد نوع التقرير (الإيرادات، العمولات، الأرباح)
+4. اختر تصدير التقرير بصيغة Excel أو PDF
+
+### دليل السبوكيل
+
+كسبوكيل، دورك الأساسي هو الاطلاع على طلبات العملاء وتقديم عروض أسعار:
+
+#### استعراض الخدمات المتاحة
+1. بعد تسجيل الدخول، ستجد قائمة بالخدمات المتاحة لك
+2. اختر الخدمات التي ترغب في تفعيلها في حسابك
+
+#### تقديم عروض الأسعار
+1. انتقل إلى "الطلبات" > "الطلبات الجديدة"
+2. اختر طلباً لمراجعة تفاصيله
+3. انقر على "تقديم عرض" وأدخل السعر والتفاصيل
+4. يمكنك إضافة مرفقات داعمة لعرضك (مستندات، صور، إلخ)
+5. اضغط "إرسال العرض" ليتم مراجعته من قبل الوكالة
+
+#### متابعة العروض
+1. انتقل إلى "عروض الأسعار" لمراجعة حالة عروضك
+2. ستظهر العروض بحالات مختلفة (بانتظار الموافقة، موافق عليه، مرفوض)
+3. يمكنك تعديل العروض في حالة "بانتظار الموافقة" أو "مرفوض من الوكالة"
+
+#### تتبع العمولات
+1. انتقل إلى "الحساب المالي" لمراجعة العمولات المستحقة
+2. يمكنك تصفية العمولات حسب الفترة الزمنية أو الحالة
+3. يمكنك طلب تسوية العمولات المستحقة
+
+### دليل العميل
+
+كعميل، يمكنك استعراض الخدمات وتقديم الطلبات واختيار العروض المناسبة:
+
+#### استعراض الخدمات
+1. بعد تسجيل الدخول، استعرض الخدمات المتاحة
+2. اختر خدمة لعرض تفاصيلها ومميزاتها والأسعار التقريبية
+
+#### تقديم طلب خدمة
+1. انقر على "طلب الخدمة" للخدمة المطلوبة
+2. أدخل تفاصيل الطلب (التاريخ، المتطلبات الخاصة، إلخ)
+3. أرفق أي مستندات مطلوبة
+4. اضغط "إرسال الطلب" ليتم توجيهه للسبوكلاء
+
+#### مراجعة عروض الأسعار
+1. انتقل إلى "عروض الأسعار" لمراجعة العروض المقدمة لطلباتك
+2. قارن بين العروض المختلفة من حيث السعر والتفاصيل
+3. اختر العرض المناسب بالضغط على "قبول العرض"
+
+#### متابعة الطلبات
+1. انتقل إلى "طلباتي" لمتابعة حالة طلباتك
+2. اطلع على تفاصيل الطلب وتواصل مع الوكالة إذا لزم الأمر
+3. بعد اكتمال الخدمة، يمكنك تقييم الخدمة وإضافة ملاحظات
+
+## واجهة برمجة التطبيقات API
+
+يوفر النظام واجهة برمجية (API) تتيح التكامل مع أنظمة أخرى. لاستخدام الـ API، اتبع الخطوات التالية:
+
+### الحصول على مفتاح API
+
+1. سجل الدخول كوكيل رئيسي
+2. انتقل إلى "الإعدادات" > "إعدادات التكامل"
+3. قم بتفعيل "الوصول للـ API"
+4. انقر على "إنشاء مفتاح جديد" واحتفظ بالمفتاح الناتج
+
+### استخدام الـ API
+
+جميع طلبات API يجب أن تتضمن رأس التفويض (Authorization header) بالصيغة التالية:
+```
+```

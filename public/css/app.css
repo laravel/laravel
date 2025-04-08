@@ -1,0 +1,240 @@
+@charset "UTF-8";
+
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+}
+
+/* عام */
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #f8f9fa;
+    text-align: right;
+    padding-top: 60px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* التخطيط العام */
+.container-fluid {
+    padding: 0 20px;
+}
+
+/* الشريط العلوي */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* القائمة الجانبية */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 250px;
+    background-color: #343a40;
+    color: #fff;
+    padding-top: 70px;
+    z-index: 100;
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.75);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    margin: 2px 0;
+}
+
+.sidebar .nav-link:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .nav-link.active {
+    color: #fff;
+    background-color: var(--primary-color);
+}
+
+.sidebar .nav-link i {
+    width: 24px;
+    text-align: center;
+    margin-left: 8px;
+}
+
+.sidebar-heading {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    margin-top: 15px;
+}
+
+/* البطاقات */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: none;
+}
+
+.card-header {
+    border-radius: 10px 10px 0 0 !important;
+    padding: 12px 20px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* الجداول */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table th {
+    font-weight: 600;
+    border-top: none;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* الأزرار */
+.btn {
+    border-radius: 5px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+/* Badge */
+.badge {
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+    border-radius: 5px;
+}
+
+/* إصلاحات RTL */
+.ms-auto {
+    margin-right: auto !important;
+    margin-left: 0 !important;
+}
+
+.me-auto {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+
+.ms-1, .ms-2, .ms-3, .ms-4, .ms-5 {
+    margin-right: 0.25rem !important;
+    margin-left: 0 !important;
+}
+
+.me-1, .me-2, .me-3, .me-4, .me-5 {
+    margin-left: 0.25rem !important;
+    margin-right: 0 !important;
+}
+
+.dropdown-menu {
+    text-align: right;
+}
+
+.text-end {
+    text-align: left !important;
+}
+
+.text-start {
+    text-align: right !important;
+}
+
+/* الإحصاءات في لوحة التحكم */
+.dashboard-stat {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-stat h3 {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.dashboard-stat p {
+    margin-bottom: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* تخطيط الصفحة */
+main {
+    flex: 1;
+    margin-bottom: 30px;
+}
+
+footer {
+    margin-top: auto;
+    padding: 20px 0;
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}
+
+/* التصميم المستجيب */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding-top: 0;
+    }
+    
+    .ms-md-auto, .me-md-auto {
+        margin: 0 !important;
+    }
+    
+    .text-md-end {
+        text-align: center !important;
+    }
+    
+    .text-md-start {
+        text-align: center !important;
+    }
+}
