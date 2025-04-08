@@ -78,6 +78,97 @@
    php artisan view:clear
    ```
 
+## الترقية من نسخة 2.0 إلى 2.1
+
+### الخطوات العامة للترقية
+
+1. **عمل نسخة احتياطية كاملة**:
+   ```bash
+   php artisan app:database-backup
+   ```
+
+2. **تحديث ملفات المشروع**:
+   ```bash
+   git fetch origin
+   git checkout v2.1.0
+   ```
+
+3. **تحديث الاعتماديات**:
+   ```bash
+   composer update
+   npm update
+   ```
+
+4. **تطبيق التحديثات على قاعدة البيانات**:
+   ```bash
+   php artisan migrate
+   ```
+
+5. **تنظيف الذاكرة المؤقتة**:
+   ```bash
+   php artisan optimize:clear
+   ```
+
+6. **إعادة تجميع الأصول**:
+   ```bash
+   npm run build
+   ```
+
+### معالجة تحذيرات Sass المهملة
+
+تستخدم النسخة 2.1 صيغة Sass الحديثة لتجنب التحذيرات المتعلقة بالوظائف المهملة. إذا كنت تستخدم ملفات Sass مخصصة، يجب عليك تحديثها كما يلي:
+
+1. **استبدال قواعد `@import` بقواعد `@use` و `@forward`**:
+   ```scss
+   // قبل
+   @import 'variables';
+   @import 'bootstrap/scss/bootstrap';
+
+   // بعد
+   @use 'variables';
+   @use 'bootstrap/scss/bootstrap';
+   ```
+
+2. **استبدال دوال الألوان المهملة بنسختها الحديثة**:
+   ```scss
+   // قبل
+   $color-rgb: red($color), green($color), blue($color);
+
+   // بعد
+   @use "sass:color";
+   $color-rgb: color.channel($color, "red"), color.channel($color, "green"), color.channel($color, "blue");
+   ```
+
+3. **استبدال دوال الدمج والوحدات**:
+   ```scss
+   // قبل
+   $mixed-color: mix(white, $color, 10%);
+   $is-percent: unit($value) == "%";
+
+   // بعد
+   @use "sass:color";
+   @use "sass:math";
+   $mixed-color: color.mix(white, $color, 10%);
+   $is-percent: math.unit($value) == "%";
+   ```
+
+### التغييرات الرئيسية في الإصدار 2.1
+
+#### تحسينات على نظام الدفع
+- دعم المزيد من بوابات الدفع المحلية والعالمية
+- تحسين واجهة إدارة المدفوعات
+- دعم تقارير المدفوعات المتقدمة
+
+#### تحسينات متعددة اللغات
+- إضافة لغات جديدة: الألمانية، الإسبانية
+- تحسين آلية الترجمة الديناميكية للبيانات
+- دعم تغيير اللغة في الوقت الفعلي دون إعادة تحميل الصفحة
+
+#### تحليل البيانات المتقدم
+- لوحات تحكم ذكية للتحليلات
+- تقارير مرئية متقدمة
+- مؤشرات الأداء الرئيسية للوكالات
+
 ## إصلاح المشاكل الشائعة بعد الترقية
 
 ### مشكلة: ظهور خطأ "Class not found"
