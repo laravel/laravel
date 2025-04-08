@@ -12,30 +12,35 @@ class AgencySeeder extends Seeder
      */
     public function run(): void
     {
-        // وكالة افتراضية للتجربة
-        Agency::create([
-            'name' => 'وكالة اليمن للسفر والسياحة',
-            'email' => 'info@yemen-travel.com',
-            'phone' => '777123456',
-            'address' => 'صنعاء - شارع جمال عبد الناصر',
-            'is_active' => true,
-        ]);
+        // Use firstOrCreate to avoid duplicate entries
+        Agency::firstOrCreate(
+            ['email' => 'info@yemen-travel.com'],
+            [
+                'name' => 'وكالة اليمن للسفر والسياحة',
+                'phone' => '777123456',
+                'address' => 'صنعاء - شارع جمال عبد الناصر',
+                'is_active' => true
+            ]
+        );
 
-        Agency::create([
-            'name' => 'وكالة الخليج للسفريات',
-            'email' => 'info@gulf-travel.com',
-            'phone' => '777654321',
-            'address' => 'عدن - المنصورة',
-            'is_active' => true,
-        ]);
+        Agency::firstOrCreate(
+            ['email' => 'info@gulf-travel.com'],
+            [
+                'name' => 'وكالة الخليج للسفريات',
+                'phone' => '777654321',
+                'address' => 'عدن - المنصورة',
+                'is_active' => true
+            ]
+        );
 
-        // إضافة وكالات اختبارية إضافية (يمكن التعليق عليها في حالة عدم الرغبة)
-        Agency::create([
-            'name' => 'وكالة الشرق للسفر',
-            'email' => 'info@east-travel.com',
-            'phone' => '777111222',
-            'address' => 'حضرموت - المكلا',
-            'is_active' => true,
-        ]);
+        Agency::firstOrCreate(
+            ['email' => 'info@east-travel.com'],
+            [
+                'name' => 'وكالة الشرق للسفر',
+                'phone' => '777111222',
+                'address' => 'حضرموت - المكلا',
+                'is_active' => true
+            ]
+        );
     }
 }
