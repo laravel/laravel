@@ -96,6 +96,10 @@
    # إنشاء فرع version-2.1 جديد
    git checkout -b version-2.1
    
+   # تنزيل سكريبت الإعداد
+   curl -O https://raw.githubusercontent.com/jaksws/laravel-v2-1/main/VERSION-2-1-SETUP.sh
+   chmod +x VERSION-2-1-SETUP.sh
+   
    # تشغيل سكريبت إعداد النسخة 2.1
    bash VERSION-2-1-SETUP.sh
    ```
