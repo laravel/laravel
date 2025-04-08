@@ -81,6 +81,8 @@ class SeedDemoData extends Command
         $agency = Agency::firstOrCreate(
             ['name' => 'وكالة التجربة السريعة'],
             [
+                'phone' => '+9665xxxxxxxx', // Add default phone number
+                'email' => 'agency@example.com', // Add email field
                 'default_currency' => 'SAR',
                 'default_commission_rate' => 10,
                 'price_decimals' => 2,
@@ -113,6 +115,8 @@ class SeedDemoData extends Command
         $agency = Agency::firstOrCreate(
             ['name' => 'وكالة اليمن للسفر والسياحة'],
             [
+                'phone' => '+9677xxxxxxxx', // Add default phone number
+                'email' => 'info@yemen-travel.com', // Add email field
                 'default_currency' => 'SAR',
                 'default_commission_rate' => 15,
                 'price_decimals' => 2,
@@ -201,6 +205,8 @@ class SeedDemoData extends Command
         $agency = Agency::firstOrCreate(
             ['name' => 'وكالة الخليج للسفريات'],
             [
+                'phone' => '+9665xxxxxxxx', // Add default phone number
+                'email' => 'info@gulf-travel.com', // Add email field
                 'default_currency' => 'SAR',
                 'default_commission_rate' => 12,
                 'price_decimals' => 2,
