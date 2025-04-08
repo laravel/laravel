@@ -89,8 +89,15 @@
 
 2. **تحديث ملفات المشروع**:
    ```bash
-   git fetch origin
-   git checkout v2.1.0
+   # تأكد من وجودك على فرع version-2.0 وتحديثه
+   git checkout version-2.0
+   git pull origin version-2.0
+   
+   # إنشاء فرع version-2.1 جديد
+   git checkout -b version-2.1
+   
+   # تشغيل سكريبت إعداد النسخة 2.1
+   bash VERSION-2-1-SETUP.sh
    ```
 
 3. **تحديث الاعتماديات**:
