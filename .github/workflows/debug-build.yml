@@ -10,17 +10,46 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
+      # Add PHP setup step before Node.js setup
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+          coverage: none
+          tools: composer:v2
+          
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
           cache: 'npm'
           
-      - name: Install Dependencies
+      - name: Install PHP dependencies
+        timeout-minutes: 10
+        run: |
+          echo "PHP Version: $(php -v)"
+          echo "Composer Version: $(composer -V)"
+          echo "Memory Limit: $(php -r 'echo ini_get("memory_limit");')"
+          echo "Installing Composer dependencies..."
+          
+          # Try with increased memory limit
+          php -d memory_limit=-1 $(which composer) install --prefer-dist --no-interaction --no-progress
+          
+          # Verify composer installation completed successfully
+          if [ $? -eq 0 ]; then
+            echo "✅ Composer install completed successfully"
+          else
+            echo "❌ Composer install failed"
+            exit 1
+          fi
+          
+      - name: Install Node.js Dependencies
         run: npm ci
         
       - name: Debug Environment
         run: |
+          php --version
           node --version
           npm --version
           ls -la

@@ -10,11 +10,13 @@ export default defineConfig({
         }),
     ],
     build: {
+        // Specify the manifest should go in the root build directory
         manifest: true,
         outDir: 'public/build',
         rollupOptions: {
             output: {
-                manualChunks: undefined,
+                // Ensure manifest.json is placed in public/build/ instead of public/build/.vite/
+                manifest: 'manifest.json',
             },
         },
     },
