@@ -1,4 +1,3 @@
-````yaml
 name: Tests
 
 on:
@@ -55,6 +54,13 @@ jobs:
 
       - name: Build assets
         run: npm run build
+
+      - name: Verify manifest file exists
+        run: |
+          if [ ! -f public/build/manifest.json ]; then
+            echo "manifest.json was not generated"
+            exit 1
+          fi
 
       - name: Execute tests
         run: php artisan test
