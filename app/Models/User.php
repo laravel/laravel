@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Schema;
 
 class User extends Authenticatable
 {
@@ -89,6 +90,18 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+    }
+
+    /**
+     * Get the requests for the customer.
+     */
+    public function requests()
+    {
+        if (Schema::hasTable('service_requests')) {
+            return $this->hasMany(Request::class, 'customer_id')->getQuery()->from('service_requests');
+        }
+        
+        return $this->hasMany(Request::class, 'customer_id');
     }
 
     /**

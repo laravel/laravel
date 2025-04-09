@@ -8,6 +8,7 @@ use App\Models\Request as ServiceRequest;
 use App\Models\Service;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
 
 class RequestController extends Controller
 {
@@ -16,8 +17,12 @@ class RequestController extends Controller
      */
     public function index(Request $request)
     {
-        // Eliminar uso de caché para evitar el error de serialización
+
+        // تم إزالة التخزين المؤقت لمنع مشكلة Serialization of 'Closure'
         $query = ServiceRequest::where('customer_id', auth()->id());
+
+        // تحديد الحقول المطلوبة فقط لتحسين الأداء
+        $query->select('id', 'service_id', 'customer_id', 'agency_id', 'status', 'priority', 'created_at');
 
         // تطبيق عوامل التصفية
         if ($request->has('status') && !empty($request->status)) {
@@ -28,8 +33,6 @@ class RequestController extends Controller
             $query->where('service_id', $request->service_id);
         }
 
-        // تحديد الحقول المطلوبة فقط لتحسين الأداء
-        $query->select('id', 'service_id', 'customer_id', 'agency_id', 'status', 'priority', 'created_at');
 
         // ترتيب وتصنيف النتائج
         $requests = $query->latest()->paginate(10);

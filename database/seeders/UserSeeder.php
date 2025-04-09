@@ -20,109 +20,127 @@ class UserSeeder extends Seeder
         
         if ($yemenAgency) {
             // إنشاء مستخدم وكيل لوكالة اليمن
-            $agencyAdmin = User::create([
-                'name' => 'مدير وكالة اليمن',
-                'email' => 'admin@yemen-travel.com',
-                'password' => Hash::make('password123'),
-                'phone' => '777100100',
-                'user_type' => 'agency',
-                'agency_id' => $yemenAgency->id,
-                'is_active' => true,
-            ]);
+            $agencyAdmin = User::firstOrCreate(
+                ['email' => 'admin@yemen-travel.com'],
+                [
+                    'name' => 'مدير وكالة اليمن',
+                    'password' => Hash::make('password123'),
+                    'phone' => '777100100',
+                    'user_type' => 'agency',
+                    'agency_id' => $yemenAgency->id,
+                    'is_active' => true,
+                ]
+            );
             
             // إنشاء سبوكلاء لوكالة اليمن
-            $subagent1 = User::create([
-                'name' => 'أحمد محمد',
-                'email' => 'ahmed@yemen-travel.com',
-                'password' => Hash::make('password123'),
-                'phone' => '777200200',
-                'user_type' => 'subagent',
-                'agency_id' => $yemenAgency->id,
-                'parent_id' => $agencyAdmin->id,
-                'is_active' => true,
-            ]);
+            $subagent1 = User::firstOrCreate(
+                ['email' => 'ahmed@yemen-travel.com'],
+                [
+                    'name' => 'أحمد محمد',
+                    'password' => Hash::make('password123'),
+                    'phone' => '777200200',
+                    'user_type' => 'subagent',
+                    'agency_id' => $yemenAgency->id,
+                    'parent_id' => $agencyAdmin->id,
+                    'is_active' => true,
+                ]
+            );
             
-            $subagent2 = User::create([
-                'name' => 'محمد علي',
-                'email' => 'mohammed@yemen-travel.com',
-                'password' => Hash::make('password123'),
-                'phone' => '777300300',
-                'user_type' => 'subagent',
-                'agency_id' => $yemenAgency->id,
-                'parent_id' => $agencyAdmin->id,
-                'is_active' => true,
-            ]);
+            $subagent2 = User::firstOrCreate(
+                ['email' => 'mohammed@yemen-travel.com'],
+                [
+                    'name' => 'محمد علي',
+                    'password' => Hash::make('password123'),
+                    'phone' => '777300300',
+                    'user_type' => 'subagent',
+                    'agency_id' => $yemenAgency->id,
+                    'parent_id' => $agencyAdmin->id,
+                    'is_active' => true,
+                ]
+            );
             
             // إنشاء عملاء لوكالة اليمن
-            User::create([
-                'name' => 'سالم علي',
-                'email' => 'salem@example.com',
-                'password' => Hash::make('password123'),
-                'phone' => '777400400',
-                'user_type' => 'customer',
-                'agency_id' => $yemenAgency->id,
-                'parent_id' => $agencyAdmin->id,
-                'is_active' => true,
-            ]);
+            User::firstOrCreate(
+                ['email' => 'salem@example.com'],
+                [
+                    'name' => 'سالم علي',
+                    'password' => Hash::make('password123'),
+                    'phone' => '777400400',
+                    'user_type' => 'customer',
+                    'agency_id' => $yemenAgency->id,
+                    'parent_id' => $agencyAdmin->id,
+                    'is_active' => true,
+                ]
+            );
             
-            User::create([
-                'name' => 'فاطمة أحمد',
-                'email' => 'fatima@example.com',
-                'password' => Hash::make('password123'),
-                'phone' => '777500500',
-                'user_type' => 'customer',
-                'agency_id' => $yemenAgency->id,
-                'parent_id' => $agencyAdmin->id,
-                'is_active' => true,
-            ]);
+            User::firstOrCreate(
+                ['email' => 'fatima@example.com'],
+                [
+                    'name' => 'فاطمة أحمد',
+                    'password' => Hash::make('password123'),
+                    'phone' => '777500500',
+                    'user_type' => 'customer',
+                    'agency_id' => $yemenAgency->id,
+                    'parent_id' => $agencyAdmin->id,
+                    'is_active' => true,
+                ]
+            );
         }
         
         if ($gulfAgency) {
             // إنشاء مستخدم وكيل لوكالة الخليج
-            $gulfAdmin = User::create([
-                'name' => 'مدير وكالة الخليج',
-                'email' => 'admin@gulf-travel.com',
-                'password' => Hash::make('password123'),
-                'phone' => '777600600',
-                'user_type' => 'agency',
-                'agency_id' => $gulfAgency->id,
-                'is_active' => true,
-            ]);
+            $gulfAdmin = User::firstOrCreate(
+                ['email' => 'admin@gulf-travel.com'],
+                [
+                    'name' => 'مدير وكالة الخليج',
+                    'password' => Hash::make('password123'),
+                    'phone' => '777600600',
+                    'user_type' => 'agency',
+                    'agency_id' => $gulfAgency->id,
+                    'is_active' => true,
+                ]
+            );
             
             // إنشاء سبوكيل لوكالة الخليج
-            User::create([
-                'name' => 'خالد حسن',
-                'email' => 'khaled@gulf-travel.com',
-                'password' => Hash::make('password123'),
-                'phone' => '777700700',
-                'user_type' => 'subagent',
-                'agency_id' => $gulfAgency->id,
-                'parent_id' => $gulfAdmin->id,
-                'is_active' => true,
-            ]);
+            User::firstOrCreate(
+                ['email' => 'khaled@gulf-travel.com'],
+                [
+                    'name' => 'خالد حسن',
+                    'password' => Hash::make('password123'),
+                    'phone' => '777700700',
+                    'user_type' => 'subagent',
+                    'agency_id' => $gulfAgency->id,
+                    'parent_id' => $gulfAdmin->id,
+                    'is_active' => true,
+                ]
+            );
             
             // إنشاء عميل لوكالة الخليج
-            User::create([
-                'name' => 'عبد الله محمد',
-                'email' => 'abdullah@example.com',
-                'password' => Hash::make('password123'),
-                'phone' => '777800800',
-                'user_type' => 'customer',
-                'agency_id' => $gulfAgency->id,
-                'parent_id' => $gulfAdmin->id,
-                'is_active' => true,
-            ]);
+            User::firstOrCreate(
+                ['email' => 'abdullah@example.com'],
+                [
+                    'name' => 'عبد الله محمد',
+                    'password' => Hash::make('password123'),
+                    'phone' => '777800800',
+                    'user_type' => 'customer',
+                    'agency_id' => $gulfAgency->id,
+                    'parent_id' => $gulfAdmin->id,
+                    'is_active' => true,
+                ]
+            );
         }
         
         // إنشاء مستخدم متميز للاختبار السريع
-        User::create([
-            'name' => 'مستخدم اختباري',
-            'email' => 'test@example.com',
-            'password' => Hash::make('123456'),
-            'phone' => '777999999',
-            'user_type' => 'agency',
-            'agency_id' => $yemenAgency ? $yemenAgency->id : 1,
-            'is_active' => true,
-        ]);
+        User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'مستخدم اختباري',
+                'password' => Hash::make('123456'),
+                'phone' => '777999999',
+                'user_type' => 'agency',
+                'agency_id' => $yemenAgency ? $yemenAgency->id : 1,
+                'is_active' => true,
+            ]
+        );
     }
 }

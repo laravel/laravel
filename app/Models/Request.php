@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 
 class Request extends Model
 {
@@ -12,6 +13,20 @@ class Request extends Model
     protected $fillable = [
         'service_id', 'customer_id', 'agency_id', 'details', 'priority', 'status', 'requested_date'
     ];
+
+    /**
+     * Get the table associated with the model.
+     *
+     * @return string
+     */
+    public function getTable()
+    {
+        if (Schema::hasTable('service_requests')) {
+            return 'service_requests';
+        }
+        
+        return 'requests';
+    }
 
     public function service()
     {

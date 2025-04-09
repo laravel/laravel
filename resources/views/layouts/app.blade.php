@@ -340,6 +340,9 @@
                 <hr>
                 <div class="text-center">
                     <p class="mb-0">&copy; {{ date('Y') }} وكالات السفر. جميع الحقوق محفوظة.</p>
+                    <div class="version">
+                        Version: {{ config('app.version') }}
+                    </div>
                 </div>
             </div>
         </footer>
@@ -358,10 +361,10 @@
                     console.log('إيقاف حالة التحميل المستمرة');
                     window.stop();
                     document.dispatchEvent(new Event('readystatechange'));
-                    window.dispatchEvent(new Event('load'));
-                }
-            }, 8000);
-        });
+        });         window.dispatchEvent(new Event('load'));
+    </script>   }
+</body>     }, 8000);
+</html> });
     </script>
 </body>
 </html>
