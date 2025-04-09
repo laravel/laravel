@@ -6,16 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Quote;
 use App\Models\Request as ServiceRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\QuoteStatusChanged;
 
 class QuoteController extends Controller
 {
     /**
-     * عرض قائمة عروض الأسعار المقدمة للعميل.
+     * عرض قائمة عروض الأسعار للعميل
      */
     public function index(Request $request)
     {
         $query = Quote::whereHas('request', function($q) {
-            $q->where('customer_id', auth()->id());
+            $q->where('customer_id', Auth::id());
         });
 
         // تطبيق عوامل التصفية
@@ -23,88 +26,121 @@ class QuoteController extends Controller
             $query->where('status', $request->status);
         }
 
-        if ($request->has('request_id') && !empty($request->request_id)) {
-            $query->where('request_id', $request->request_id);
+        if ($request->has('service_id') && !empty($request->service_id)) {
+            $query->whereHas('request', function($q) use ($request) {
+                $q->where('service_id', $request->service_id);
+            });
         }
 
         // ترتيب وتصنيف النتائج
-        $quotes = $query->latest()->paginate(10);
-        
-        // الحصول على الطلبات للتصفية
-        $requests = ServiceRequest::where('customer_id', auth()->id())->get();
-                         
-        return view('customer.quotes.index', compact('quotes', 'requests'));
+        $quotes = $query->with(['request.service', 'subagent'])
+                       ->latest()
+                       ->paginate(10);
+
+        // الحصول على الخدمات للتصفية
+        $services = \App\Models\Service::whereHas('requests', function($q) {
+            $q->where('customer_id', Auth::id());
+        })->get();
+
+        return view('customer.quotes.index', compact('quotes', 'services'));
     }
 
     /**
-     * عرض تفاصيل عرض سعر معين.
+     * عرض تفاصيل عرض سعر معين
      */
     public function show(Quote $quote)
     {
         // التحقق من أن عرض السعر ينتمي للعميل
-        if ($quote->request->customer_id !== auth()->id()) {
+        if ($quote->request->customer_id !== Auth::id()) {
             abort(403, 'غير مصرح لك بالوصول إلى هذا العرض');
         }
-        
+
+        // تحميل العلاقات
+        $quote->load(['request.service', 'subagent', 'attachments']);
+
         return view('customer.quotes.show', compact('quote'));
     }
 
     /**
-     * قبول عرض سعر.
+     * قبول عرض سعر
      */
     public function approve(Quote $quote)
     {
         // التحقق من أن عرض السعر ينتمي للعميل
-        if ($quote->request->customer_id !== auth()->id()) {
+        if ($quote->request->customer_id !== Auth::id()) {
             abort(403, 'غير مصرح لك بالوصول إلى هذا العرض');
         }
-        
-        // التحقق من أن العرض معتمد من الوكالة
+
+        // التحقق من أن حالة عرض السعر تسمح بالقبول
         if ($quote->status !== 'agency_approved') {
-            return redirect()->back()->with('error', 'لا يمكن قبول عرض لم يتم اعتماده من الوكالة.');
+            return redirect()->route('customer.quotes.show', $quote)
+                           ->with('error', 'لا يمكن قبول هذا العرض في حالته الحالية');
         }
-        
-        // تغيير حالة العرض إلى مقبول من العميل
+
+        // تحديث حالة عرض السعر
         $quote->update([
-            'status' => 'customer_approved'
+            'status' => 'customer_approved',
         ]);
-        
-        // تغيير حالة الطلب إلى قيد التنفيذ
+
+        // تحديث حالة الطلب إلى قيد التنفيذ
         $quote->request->update([
-            'status' => 'in_progress'
+            'status' => 'in_progress',
         ]);
-        
-        // رفض باقي العروض المقدمة لنفس الطلب
-        Quote::where('request_id', $quote->request_id)
-            ->where('id', '!=', $quote->id)
-            ->where('status', 'agency_approved')
-            ->update([
-                'status' => 'customer_rejected'
-            ]);
-        
-        return redirect()->back()->with('success', 'تم قبول العرض بنجاح. سيتم العمل على طلبك قريباً.');
+
+        // إرسال إشعارات
+        try {
+            $quote->subagent->notify(new QuoteStatusChanged($quote));
+            // إشعار للوكالة
+            $agency = \App\Models\User::where('agency_id', $quote->request->agency_id)
+                               ->where('user_type', 'agency')
+                               ->first();
+            if ($agency) {
+                $agency->notify(new QuoteStatusChanged($quote));
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error sending notification: ' . $e->getMessage());
+        }
+
+        return redirect()->route('customer.quotes.show', $quote)
+                        ->with('success', 'تم قبول عرض السعر بنجاح وسيبدأ العمل على طلبك قريباً');
     }
 
     /**
-     * رفض عرض سعر.
+     * رفض عرض سعر
      */
     public function reject(Quote $quote)
     {
         // التحقق من أن عرض السعر ينتمي للعميل
-        if ($quote->request->customer_id !== auth()->id()) {
+        if ($quote->request->customer_id !== Auth::id()) {
             abort(403, 'غير مصرح لك بالوصول إلى هذا العرض');
         }
-        
-        // التحقق من أن العرض معتمد من الوكالة
+
+        // التحقق من أن حالة عرض السعر تسمح بالرفض
         if ($quote->status !== 'agency_approved') {
-            return redirect()->back()->with('error', 'لا يمكن رفض عرض لم يتم اعتماده من الوكالة.');
+            return redirect()->route('customer.quotes.show', $quote)
+                           ->with('error', 'لا يمكن رفض هذا العرض في حالته الحالية');
         }
-        
-        // تغيير حالة العرض إلى مرفوض من العميل
+
+        // تحديث حالة عرض السعر
         $quote->update([
-            'status' => 'customer_rejected'
+            'status' => 'customer_rejected',
         ]);
-        
-        return redirect()->back()->with('success', 'تم رفض العرض بنجاح.');
+
+        // إرسال إشعارات
+        try {
+            $quote->subagent->notify(new QuoteStatusChanged($quote));
+            // إشعار للوكالة
+            $agency = \App\Models\User::where('agency_id', $quote->request->agency_id)
+                               ->where('user_type', 'agency')
+                               ->first();
+            if ($agency) {
+                $agency->notify(new QuoteStatusChanged($quote));
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error sending notification: ' . $e->getMessage());
+        }
+
+        return redirect()->route('customer.quotes.show', $quote)
+                        ->with('success', 'تم رفض عرض السعر بنجاح');
     }
 }

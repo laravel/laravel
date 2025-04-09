@@ -2,23 +2,17 @@
 
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('agency.dashboard') }}">لوحة التحكم</a></li>
-    <li class="breadcrumb-item active">إدارة عروض الأسعار</li>
+    <li class="breadcrumb-item active">عروض الأسعار</li>
 @endsection
 
 @section('content')
 <div class="container-fluid">
     <div class="row mb-4">
-        <div class="col-md-6">
-            <h2><i class="fas fa-tags me-2"></i> إدارة عروض الأسعار</h2>
-        </div>
-        <div class="col-md-6 text-md-end">
-            <a href="{{ route('agency.quotes.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus-circle me-1"></i> إنشاء عرض سعر
-            </a>
+        <div class="col-12">
+            <h2><i class="fas fa-file-invoice-dollar me-2"></i> إدارة عروض الأسعار</h2>
         </div>
     </div>
 
-    <!-- رسائل النجاح والخطأ -->
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -31,20 +25,20 @@
         </div>
     @endif
 
-    <div class="card shadow">
+    <div class="card shadow-sm mb-4">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0"><i class="fas fa-search me-1"></i> بحث وتصفية</h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('agency.quotes.index') }}" method="GET" class="row g-3">
+            <form action="{{ route('agency.quotes.index') }}" method="GET" class="row">
                 <div class="col-md-3">
                     <label for="status" class="form-label">الحالة</label>
                     <select class="form-select" id="status" name="status">
                         <option value="">كل الحالات</option>
                         <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>بانتظار الموافقة</option>
-                        <option value="agency_approved" {{ request('status') == 'agency_approved' ? 'selected' : '' }}>معتمد من الوكيل</option>
-                        <option value="agency_rejected" {{ request('status') == 'agency_rejected' ? 'selected' : '' }}>مرفوض من الوكيل</option>
-                        <option value="customer_approved" {{ request('status') == 'customer_approved' ? 'selected' : '' }}>معتمد من العميل</option>
+                        <option value="agency_approved" {{ request('status') == 'agency_approved' ? 'selected' : '' }}>معتمد من الوكالة</option>
+                        <option value="customer_approved" {{ request('status') == 'customer_approved' ? 'selected' : '' }}>مقبول من العميل</option>
+                        <option value="agency_rejected" {{ request('status') == 'agency_rejected' ? 'selected' : '' }}>مرفوض من الوكالة</option>
                         <option value="customer_rejected" {{ request('status') == 'customer_rejected' ? 'selected' : '' }}>مرفوض من العميل</option>
                     </select>
                 </div>
@@ -75,11 +69,11 @@
         </div>
     </div>
 
-    <div class="card shadow mt-4">
+    <div class="card shadow-sm">
         <div class="card-body">
             @if($quotes->isEmpty())
                 <div class="alert alert-info">
-                    <i class="fas fa-info-circle me-1"></i> لا توجد عروض أسعار متاحة حالياً.
+                    <i class="fas fa-info-circle me-1"></i> لا توجد عروض أسعار متطابقة مع معايير البحث.
                 </div>
             @else
                 <div class="table-responsive">
@@ -87,13 +81,14 @@
                         <thead class="table-dark">
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">رقم الطلب</th>
+                                <th scope="col">الطلب</th>
                                 <th scope="col">الخدمة</th>
                                 <th scope="col">السبوكيل</th>
+                                <th scope="col">العميل</th>
                                 <th scope="col">السعر</th>
                                 <th scope="col">العمولة</th>
                                 <th scope="col">الحالة</th>
-                                <th scope="col">تاريخ العرض</th>
+                                <th scope="col">تاريخ التقديم</th>
                                 <th scope="col">الإجراءات</th>
                             </tr>
                         </thead>
@@ -101,48 +96,77 @@
                             @foreach($quotes as $quote)
                                 <tr>
                                     <td>{{ $quote->id }}</td>
-                                    <td>{{ $quote->request->id }}</td>
+                                    <td><a href="{{ route('agency.requests.show', $quote->request_id) }}">#{{ $quote->request_id }}</a></td>
                                     <td>{{ $quote->request->service->name }}</td>
                                     <td>{{ $quote->subagent->name }}</td>
-                                    <td>{{ $quote->price }} ر.س</td>
-                                    <td>{{ $quote->commission_amount }} ر.س</td>
+                                    <td>{{ $quote->request->customer->name }}</td>
+                                    <td>{{ number_format($quote->price, 2) }} {{ $quote->currency_code }}</td>
+                                    <td>{{ number_format($quote->commission_amount, 2) }} {{ $quote->currency_code }}</td>
                                     <td>
-                                        @if($quote->status == 'pending')
-                                            <span class="badge bg-warning">بانتظار الموافقة</span>
-                                        @elseif($quote->status == 'agency_approved')
-                                            <span class="badge bg-info">معتمد من الوكيل</span>
-                                        @elseif($quote->status == 'agency_rejected')
-                                            <span class="badge bg-danger">مرفوض من الوكيل</span>
-                                        @elseif($quote->status == 'customer_approved')
-                                            <span class="badge bg-success">معتمد من العميل</span>
-                                        @elseif($quote->status == 'customer_rejected')
-                                            <span class="badge bg-danger">مرفوض من العميل</span>
-                                        @endif
+                                        <span class="badge bg-{{ $quote->status_badge }}">{{ $quote->status_text }}</span>
                                     </td>
                                     <td>{{ $quote->created_at->format('Y-m-d') }}</td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <a href="{{ route('agency.quotes.show', $quote) }}" class="btn btn-sm btn-info">
+                                            <a href="{{ route('agency.quotes.show', $quote) }}" class="btn btn-sm btn-primary">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a href="{{ route('agency.quotes.edit', $quote) }}" class="btn btn-sm btn-warning">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            
                                             @if($quote->status == 'pending')
-                                                <form action="{{ route('agency.quotes.approve', $quote) }}" method="POST" class="d-inline">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-sm btn-success">
-                                                        <i class="fas fa-check"></i>
-                                                    </button>
-                                                </form>
+                                                <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#approveModal{{ $quote->id }}">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal{{ $quote->id }}">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
                                                 
-                                                <form action="{{ route('agency.quotes.reject', $quote) }}" method="POST" class="d-inline">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-sm btn-danger">
-                                                        <i class="fas fa-times"></i>
-                                                    </button>
-                                                </form>
+                                                <!-- Modal تأكيد الموافقة -->
+                                                <div class="modal fade" id="approveModal{{ $quote->id }}" tabindex="-1" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">تأكيد الموافقة على عرض السعر</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>هل أنت متأكد من الموافقة على عرض السعر هذا؟</p>
+                                                                <p>سيتم عرض هذا العرض للعميل للموافقة عليه.</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                                                                <form action="{{ route('agency.quotes.approve', $quote) }}" method="POST">
+                                                                    @csrf
+                                                                    <button type="submit" class="btn btn-success">تأكيد الموافقة</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- Modal تأكيد الرفض -->
+                                                <div class="modal fade" id="rejectModal{{ $quote->id }}" tabindex="-1" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">رفض عرض السعر</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <form action="{{ route('agency.quotes.reject', $quote) }}" method="POST">
+                                                                @csrf
+                                                                <div class="modal-body">
+                                                                    <div class="mb-3">
+                                                                        <label for="rejection_reason{{ $quote->id }}" class="form-label">سبب الرفض</label>
+                                                                        <textarea class="form-control" id="rejection_reason{{ $quote->id }}" name="rejection_reason" rows="3" required></textarea>
+                                                                        <small class="form-text text-muted">سيتم إرسال هذا السبب إلى السبوكيل</small>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                                                                    <button type="submit" class="btn btn-danger">تأكيد الرفض</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             @endif
                                         </div>
                                     </td>

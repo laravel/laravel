@@ -17,6 +17,7 @@ class RequestController extends Controller
      */
     public function index(Request $request)
     {
+
         // تم إزالة التخزين المؤقت لمنع مشكلة Serialization of 'Closure'
         $query = ServiceRequest::where('customer_id', auth()->id());
 
@@ -31,6 +32,7 @@ class RequestController extends Controller
         if ($request->has('service_id') && !empty($request->service_id)) {
             $query->where('service_id', $request->service_id);
         }
+
 
         // ترتيب وتصنيف النتائج
         $requests = $query->latest()->paginate(10);

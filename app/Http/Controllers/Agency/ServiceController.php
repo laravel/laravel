@@ -5,182 +5,177 @@ namespace App\Http\Controllers\Agency;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Service;
-use Illuminate\Support\Facades\Storage;
+use App\Helpers\ServiceTypeHelper;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
     /**
-     * Display a listing of services.
+     * عرض قائمة الخدمات
      */
-    public function index(Request $request)
+    public function index()
     {
-        $query = Service::where('agency_id', auth()->user()->agency_id);
-
-        // Aplicar filtros
-        if ($request->has('search') && !empty($request->search)) {
-            $query->where(function($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('description', 'like', '%' . $request->search . '%');
-            });
-        }
-
-        if ($request->has('type') && !empty($request->type)) {
-            $query->where('type', $request->type);
-        }
-
-        if ($request->has('status') && !empty($request->status)) {
-            $query->where('status', $request->status);
-        }
-
-        // Ordenar y paginar
-        $services = $query->latest()->paginate(10);
-
+        $services = Service::where('agency_id', Auth::user()->agency_id)
+                         ->latest()
+                         ->paginate(15);
+        
         return view('agency.services.index', compact('services'));
     }
 
     /**
-     * Show the form for creating a new service.
+     * عرض نموذج إنشاء خدمة جديدة
      */
     public function create()
     {
-        return view('agency.services.create');
+        $serviceTypes = ServiceTypeHelper::getTypes();
+        $subagents = \App\Models\User::where('agency_id', Auth::user()->agency_id)
+                                   ->where('user_type', 'subagent')
+                                   ->get();
+        $currencies = \App\Models\Currency::where('is_active', true)->get();
+        
+        return view('agency.services.create', compact('serviceTypes', 'subagents', 'currencies'));
     }
 
     /**
-     * Store a newly created service in storage.
+     * تخزين خدمة جديدة
      */
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'type' => 'required|in:security_approval,transportation,hajj_umrah,flight,passport,other',
+            'description' => 'nullable|string',
+            'type' => 'required|string',
             'base_price' => 'required|numeric|min:0',
             'currency_code' => 'required|exists:currencies,code',
             'commission_rate' => 'required|numeric|min:0|max:100',
             'status' => 'required|in:active,inactive',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'subagents' => 'nullable|array',
+            'subagents.*' => 'exists:users,id',
         ]);
 
-        $data = $request->except('image');
-        $data['agency_id'] = auth()->user()->agency_id;
+        $service = Service::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'agency_id' => Auth::user()->agency_id,
+            'type' => $request->type,
+            'base_price' => $request->base_price,
+            'currency_code' => $request->currency_code,
+            'commission_rate' => $request->commission_rate,
+            'status' => $request->status,
+        ]);
 
-        // تحميل الصورة إذا وجدت
-        if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('services', 'public');
+        // إرفاق السبوكلاء إذا تم تحديدهم
+        if ($request->has('subagents')) {
+            foreach ($request->subagents as $subagentId) {
+                $service->subagents()->attach($subagentId, ['is_active' => true]);
+            }
         }
 
-        Service::create($data);
-
         return redirect()->route('agency.services.index')
-                         ->with('success', 'تم إنشاء الخدمة بنجاح');
+                        ->with('success', 'تم إنشاء الخدمة بنجاح');
     }
 
     /**
-     * Display the specified service.
+     * عرض تفاصيل خدمة معينة
      */
     public function show(Service $service)
     {
-        // Verificar que el servicio pertenece a la agencia
-        if ($service->agency_id !== auth()->user()->agency_id) {
+        // التحقق من أن الخدمة تنتمي للوكالة
+        if ($service->agency_id !== Auth::user()->agency_id) {
             abort(403, 'غير مصرح لك بالوصول إلى هذه الخدمة');
         }
 
+        $service->load('subagents');
+        
         return view('agency.services.show', compact('service'));
     }
 
     /**
-     * Show the form for editing the specified service.
+     * عرض نموذج تعديل خدمة
      */
     public function edit(Service $service)
     {
-        // Verificar que el servicio pertenece a la agencia
-        if ($service->agency_id !== auth()->user()->agency_id) {
+        // التحقق من أن الخدمة تنتمي للوكالة
+        if ($service->agency_id !== Auth::user()->agency_id) {
             abort(403, 'غير مصرح لك بالوصول إلى هذه الخدمة');
         }
 
-        return view('agency.services.edit', compact('service'));
+        $serviceTypes = ServiceTypeHelper::getTypes();
+        $subagents = \App\Models\User::where('agency_id', Auth::user()->agency_id)
+                                   ->where('user_type', 'subagent')
+                                   ->get();
+        $currencies = \App\Models\Currency::where('is_active', true)->get();
+        
+        $selectedSubagents = $service->subagents->pluck('id')->toArray();
+        
+        return view('agency.services.edit', compact('service', 'serviceTypes', 'subagents', 'selectedSubagents', 'currencies'));
     }
 
     /**
-     * Update the specified service in storage.
+     * تحديث خدمة معينة
      */
     public function update(Request $request, Service $service)
     {
-        // Verificar que el servicio pertenece a la agencia
-        if ($service->agency_id !== auth()->user()->agency_id) {
+        // التحقق من أن الخدمة تنتمي للوكالة
+        if ($service->agency_id !== Auth::user()->agency_id) {
             abort(403, 'غير مصرح لك بالوصول إلى هذه الخدمة');
         }
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'type' => 'required|in:security_approval,transportation,hajj_umrah,flight,passport,other',
+            'description' => 'nullable|string',
+            'type' => 'required|string',
             'base_price' => 'required|numeric|min:0',
             'currency_code' => 'required|exists:currencies,code',
             'commission_rate' => 'required|numeric|min:0|max:100',
             'status' => 'required|in:active,inactive',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'subagents' => 'nullable|array',
+            'subagents.*' => 'exists:users,id',
         ]);
 
-        $data = $request->except('image');
+        $service->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'type' => $request->type,
+            'base_price' => $request->base_price,
+            'currency_code' => $request->currency_code,
+            'commission_rate' => $request->commission_rate,
+            'status' => $request->status,
+        ]);
 
-        // تحميل الصورة الجديدة إذا وجدت
-        if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('services', 'public');
+        // تحديث السبوكلاء
+        $service->subagents()->detach();
+        if ($request->has('subagents')) {
+            foreach ($request->subagents as $subagentId) {
+                $service->subagents()->attach($subagentId, ['is_active' => true]);
+            }
         }
 
-        $service->update($data);
-
-        return redirect()->route('agency.services.index')
-                         ->with('success', 'تم تحديث الخدمة بنجاح');
+        return redirect()->route('agency.services.show', $service)
+                        ->with('success', 'تم تحديث الخدمة بنجاح');
     }
 
     /**
-     * Remove the specified service from storage.
+     * حذف خدمة معينة
      */
     public function destroy(Service $service)
     {
-        // Verificar que el servicio pertenece a la agencia
-        if ($service->agency_id !== auth()->user()->agency_id) {
+        // التحقق من أن الخدمة تنتمي للوكالة
+        if ($service->agency_id !== Auth::user()->agency_id) {
             abort(403, 'غير مصرح لك بالوصول إلى هذه الخدمة');
         }
 
-        // Check if service has associated requests or subagents
-        if ($service->requests()->count() > 0) {
+        // التحقق من عدم وجود طلبات مرتبطة بالخدمة
+        $hasRequests = \App\Models\Request::where('service_id', $service->id)->exists();
+        if ($hasRequests) {
             return redirect()->route('agency.services.index')
-                            ->with('error', 'لا يمكن حذف الخدمة لارتباطها بطلبات.');
+                           ->with('error', 'لا يمكن حذف الخدمة لوجود طلبات مرتبطة بها');
         }
 
-        // Delete image if exists
-        if ($service->image_path) {
-            Storage::disk('public')->delete($service->image_path);
-        }
-
-        // Detach all subagents
         $service->subagents()->detach();
-
-        // Delete service
         $service->delete();
 
         return redirect()->route('agency.services.index')
-                        ->with('success', 'تم حذف الخدمة بنجاح.');
-    }
-
-    /**
-     * Toggle service status (active/inactive).
-     */
-    public function toggleStatus(Service $service)
-    {
-        // Verificar que el servicio pertenece a la agencia
-        if ($service->agency_id !== auth()->user()->agency_id) {
-            abort(403, 'غير مصرح لك بالوصول إلى هذه الخدمة');
-        }
-
-        $service->status = $service->status === 'active' ? 'inactive' : 'active';
-        $service->save();
-
-        $status = $service->status === 'active' ? 'تفعيل' : 'تعطيل';
-        return redirect()->back()->with('success', "تم {$status} الخدمة بنجاح.");
+                        ->with('success', 'تم حذف الخدمة بنجاح');
     }
 }
