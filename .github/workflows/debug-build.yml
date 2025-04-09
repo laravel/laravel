@@ -1,0 +1,46 @@
+name: Debug Vite Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install Dependencies
+        run: npm ci
+        
+      - name: Debug Environment
+        run: |
+          node --version
+          npm --version
+          ls -la
+          cat package.json
+          
+      - name: Build Assets
+        run: |
+          npm run build
+          echo "Checking build output:"
+          mkdir -p public/build
+          ls -la public/build/
+          
+      - name: Verify Manifest
+        run: |
+          if [ -f "public/build/manifest.json" ]; then
+            echo "✅ manifest.json exists!"
+            cat public/build/manifest.json
+          else
+            echo "❌ ERROR: manifest.json not found!"
+            echo "Directory contents:"
+            find public -type f | sort
+            exit 1
+          fi
