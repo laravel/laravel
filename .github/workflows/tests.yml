@@ -1,3 +1,4 @@
+````yaml
 name: Tests
 
 on:
@@ -37,7 +38,14 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
-      - name: Set up Node.js
+      - name: Copy environment file
+        run: cp .env.example .env
+
+      - name: Generate app key
+        run: php artisan key:generate
+
+      # Add Node.js and Vite build steps
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
@@ -47,12 +55,6 @@ jobs:
 
       - name: Build assets
         run: npm run build
-
-      - name: Copy environment file
-        run: cp .env.example .env
-
-      - name: Generate app key
-        run: php artisan key:generate
 
       - name: Execute tests
         run: php artisan test
