@@ -62,7 +62,7 @@ class RegisterController extends Controller
             // إنشاء وكالة جديدة أولاً
             $agency = Agency::create([
                 'name' => $data['agency_name'] ?? $data['name'],
-                'email' => $data['email'],
+                'email' => $data['email'], // Make sure this is properly assigned
                 'phone' => $data['phone'],
             ]);
             
