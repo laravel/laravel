@@ -30,16 +30,24 @@ jobs:
         run: |
           npm run build
           echo "Checking build output:"
-          mkdir -p public/build
           ls -la public/build/
+          
+          # Check .vite subdirectory where manifest is actually located
+          echo "Checking .vite subdirectory:"
+          ls -la public/build/.vite/
           
       - name: Verify Manifest
         run: |
-          if [ -f "public/build/manifest.json" ]; then
-            echo "✅ manifest.json exists!"
-            cat public/build/manifest.json
+          # Check for manifest in the .vite subdirectory where Vite v6+ places it
+          if [ -f "public/build/.vite/manifest.json" ]; then
+            echo "✅ manifest.json exists in .vite subdirectory!"
+            cat public/build/.vite/manifest.json
+            
+            # Copy manifest to parent directory if needed by your application
+            echo "Copying manifest to parent directory for compatibility"
+            cp public/build/.vite/manifest.json public/build/manifest.json
           else
-            echo "❌ ERROR: manifest.json not found!"
+            echo "❌ ERROR: manifest.json not found in .vite subdirectory!"
             echo "Directory contents:"
             find public -type f | sort
             exit 1
