@@ -48,16 +48,26 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: 'npm'
 
       - name: Install NPM dependencies
         run: npm ci
 
+      - name: Copy debug Vite config
+        run: cp vite.config.debug.js vite.config.js
+
       - name: Build assets
         run: |
-          cp vite.config.debug.js vite.config.js || echo "Debug config not available"
           npm run build
-          ls -la public/build || echo "Directory not found"
-          find public -name "manifest.json" || echo "Manifest not found"
+          echo "Checking build output:"
+          ls -la public/build/
+          if [ -f "public/build/manifest.json" ]; then
+            echo "manifest.json exists!"
+            cat public/build/manifest.json
+          else
+            echo "ERROR: manifest.json not found!"
+            exit 1
+          fi
 
       - name: Execute tests
         run: php artisan test
