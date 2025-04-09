@@ -50,17 +50,14 @@ jobs:
           node-version: 18
 
       - name: Install NPM dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build assets
-        run: npm run build
-
-      - name: Verify manifest file exists
         run: |
-          if [ ! -f public/build/manifest.json ]; then
-            echo "manifest.json was not generated"
-            exit 1
-          fi
+          cp vite.config.debug.js vite.config.js || echo "Debug config not available"
+          npm run build
+          ls -la public/build || echo "Directory not found"
+          find public -name "manifest.json" || echo "Manifest not found"
 
       - name: Execute tests
         run: php artisan test

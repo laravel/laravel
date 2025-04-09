@@ -1,9 +1,22 @@
 php:
   preset: laravel
+
+  enabled:
+    - length_ordered_imports
+    - alpha_ordered_imports
+
   disabled:
-    - no_unused_imports
+    - unused_use
+
   finder:
+    exclude:
+      - "tests"
+      - "node_modules"
+      - "storage"
+      - "vendor"
+    name: "*.php"
     not-name:
-      - index.php
+      - "*.blade.php"
+
 js: true
 css: true
