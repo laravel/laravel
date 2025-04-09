@@ -1,0 +1,76 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* V2 Custom Styles */
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #4f46e5;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --info-color: #3b82f6;
+}
+
+.dark {
+    --primary-color: #3b82f6;
+    --secondary-color: #6366f1;
+    --success-color: #34d399;
+    --warning-color: #fbbf24;
+    --danger-color: #f87171;
+    --info-color: #60a5fa;
+}
+
+/* RTL Specific Styles */
+[dir="rtl"] {
+    font-family: 'Tajawal', sans-serif;
+}
+
+/* LTR Specific Styles */
+[dir="ltr"] {
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn {
+    @apply px-4 py-2 rounded-md focus:outline-none focus:ring-2 transition-colors;
+}
+
+.btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-400;
+}
+
+.btn-secondary {
+    @apply bg-gray-600 hover:bg-gray-700 text-white focus:ring-gray-300 dark:bg-gray-500 dark:hover:bg-gray-600 dark:focus:ring-gray-400;
+}
+
+.input {
+    @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-800 dark:border-gray-700 dark:text-white;
+}
+
+.card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden;
+}
+
+.card-header {
+    @apply px-4 py-3 border-b border-gray-200 dark:border-gray-700 font-semibold;
+}
+
+.card-body {
+    @apply p-4;
+}
+
+.badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.badge-primary {
+    @apply bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300;
+}
+
+.badge-success {
+    @apply bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300;
+}
+
+.badge-danger {
+    @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300;
+}
