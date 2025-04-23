@@ -1,0 +1,1 @@
+@include('crud::fields.checkbox')
