@@ -1,0 +1,13 @@
+{
+    "name": "ZentroTraderBot",
+    "alias": "zentrotraderbot",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ZentroTraderBot\\Providers\\ZentroTraderBotServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -10,6 +10,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "amenadiel/jpgraph": "*",
+        "phpoffice/phpspreadsheet": "^1.29",
         "nwidart/laravel-modules": "^8.6",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1"
@@ -28,7 +30,12 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "Database\\Seeders\\": "database/seeders/",
+            "Modules\\TelegramBot\\": "Modules/TelegramBot/",
+            "Modules\\GutoTradeBot\\": "Modules/GutoTradeBot/",
+            "Modules\\ZentroCriptoBot\\": "Modules/ZentroCriptoBot/",
+            "Modules\\ZentroOwnerBot\\": "Modules/ZentroOwnerBot/",
+            "Modules\\ZentroTraderBot\\": "Modules/ZentroTraderBot/"
         },
         "files": [
             "app/Helpers/ModuleHelper.php"

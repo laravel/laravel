@@ -1,0 +1,13 @@
+{
+    "name": "GutoTradeBot",
+    "alias": "gutotradebot",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GutoTradeBot\\Providers\\GutoTradeBotServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

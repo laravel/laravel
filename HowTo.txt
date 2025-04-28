@@ -1,3 +1,123 @@
 composer dump-autoload
 php artisan migrate:fresh --seed
 php artisan modules:migrate-seed
+
+
+
+Formato de alertas recibidas desde TV:
+----------------------------------------------------------------------------------------
+{"text":"{{strategy.order.comment}}","chat":{"id":"816767995"},"additionalData":{"interval":"{{interval}}","commision_percent":"0.12","basecurrency":"{{syminfo.basecurrency}}","currency":"{{syminfo.currency}}","time":"{{time}}","ticker":"{{ticker}}","volume":"{{volume}}","close":"{{close}}","open":"{{open}}","high":"{{high}}","low":"{{low}}","position_size":"{{strategy.position_size}}","action":"{{strategy.order.action}}","contracts":"{{strategy.order.contracts}}","price":"{{strategy.order.price}}","id":"{{strategy.order.id}}"}}
+----------------------------------------------------------------------------------------
+{{strategy.order.alert_message}}
+
+Formato de URL a las q TV envia alertas:
+----------------------------------------------------------------------------------------
+https://micalme.com/tradingview/community
+https://micalme.com/tradingview/client/816767995
+
+
+
+Probar recibir señal de TV ficticia con CURL en localhost:
+----------------------------------------------------------------------------------------
+
+curl -H "Content-Type: application/json; charset=utf-8" -d "{\"text\":\"SOL 1H ST: SHORT\",\"chat\":{\"id\":\"816767995\"},\"additionalData\":{\"interval\":\"60\",\"commision_percent\":\"0.12\",\"basecurrency\":\"SOL\",\"currency\":\"USDT\",\"time\":\"2024-07-11T16:00:00Z\",\"ticker\":\"SOLUSDT\",\"volume\":\"0.1264\",\"close\":\"138.466\",\"open\":\"138.466\",\"high\":\"138.466\",\"low\":\"138.466\",\"position_size\":\"-0.078\",\"action\":\"sell\",\"contracts\":\"0.155\",\"price\":\"138.465\",\"id\":\"SHORT\"}}" -X POST http://localhost/micalme/tradingview/client/816767995
+
+curl -H "Content-Type: application/json; charset=utf-8" -d "{\"text\":\"SOL 5M QFL: D155-O3\",\"additionalData\":{\"interval\":\"5\",\"commision_percent\":\"0.12\",\"basecurrency\":\"SOL\",\"currency\":\"USDT\",\"time\":\"2024-07-11T19:30:00Z\",\"ticker\":\"SOLUSDT\",\"volume\":\"0.5398\",\"close\":\"136.881\",\"open\":\"136.881\",\"high\":\"136.881\",\"low\":\"136.881\",\"position_size\":\"0.216\",\"action\":\"buy\",\"contracts\":\"0.073\",\"price\":\"136.881\",\"id\":\"D155-O3\"},\"demo\":null,\"user\":null,\"alert\":\"community\"} " -X POST http://localhost/micalme/tradingview/client/816767995
+
+BTC-USDT&side=BUY&size=0.01&price=24012.0
+
+
+Probar mensaje del bot con CURL en localhost:
+----------------------------------------------------------------------------------------
+curl -H "Content-Type: application/json; charset=utf-8" -d "{\"message\": {\"text\": \"menu\",\"chat\":{\"id\":\"816767995\"},\"message_id\": \"\"},\"demo\":true}" -X POST http://localhost/micalme/telegram-message
+curl -H "Content-Type: application/json; charset=utf-8" -d "{\"message\": {\"text\": \"menu\",\"chat\":{\"id\":\"816767995\"},\"message_id\": \"\"}}" -X POST http://localhost/micalme/telegram-message
+
+curl -H "Content-Type: application/json; charset=utf-8" -d "{\"callback_query\": {\"data\": \"getbingx\", \"message\": {\"chat\":{\"id\":\"816767995\"},\"message_id\": \"\"}}}" -X POST http://localhost/micalme/telegram-message
+curl -H "Content-Type: application/json; charset=utf-8" -d "{\"message\": {\"text\": \"F3pw0O44pv5QhGGuKzY9AyHZq60NYf3THq5QlfIaq98sS1KBIROzeLB2aUI7U7bUqUSnjMDfw3licUQDdhcbQ\",\"chat\":{\"id\":\"816767995\"},\"message_id\": \"\"}}" -X POST http://localhost/micalme/telegram-message
+curl -H "Content-Type: application/json; charset=utf-8" -d "{\"message\": {\"text\": \"DzLfyysYVDVQYVtEDe4z8AixcI0eDfNbBuYt4gJBm68jdR3D7PoCCxLG4PRnIokZEOyvl11PtuQBg06ORQ\",\"chat\":{\"id\":\"816767995\"},\"message_id\": \"\"}}" -X POST http://localhost/micalme/telegram-message
+
+curl -X POST http://localhost/micalme/telegram/bot/ZentroCriptoBot -H "Content-Type: application/json" -d "{\"message\": {\"text\": \"0xcca3e26be51b8905f1a01872524f17eb55bd02fb\",\"chat\":{\"id\":\"816767995\",\"type\":\"private\"},\"from\":{\"id\":\"816767995\",\"username\":\"dvzambrano\"},\"message_id\": \"\"}}"
+
+curl -X POST http://localhost/micalme/telegram/bot/ZentroCriptoBot -H "Content-Type: application/json" -d "{\"message\": {\"text\": \"/sol 6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN\",\"chat\":{\"id\":\"816767995\",\"type\":\"private\"},\"from\":{\"id\":\"816767995\",\"username\":\"dvzambrano\"},\"message_id\": \"\"},\"demo\":true}"
+
+curl -X POST http://localhost/micalme/telegram/bot/ZentroTraderBot -H "Content-Type: application/json" -d "{\"message\": {\"text\": \"/start\",\"chat\":{\"id\":\"816767995\",\"type\":\"private\"},\"from\":{\"id\":\"816767995\",\"username\":\"dvzambrano\"},\"message_id\": \"\"},\"demo\":true}"
+
+curl -X POST http://localhost/micalme/tradingview/community -H "Content-Type: application/json" -d "{\"text\":\"SOL 5M QFL: D155-O3\",\"additionalData\":{\"interval\":\"5\",\"commision_percent\":\"0.12\",\"basecurrency\":\"SOL\",\"currency\":\"USDT\",\"time\":\"2024-07-11T19:30:00Z\",\"ticker\":\"SOLUSDT\",\"volume\":\"0.5398\",\"close\":\"136.881\",\"open\":\"136.881\",\"high\":\"136.881\",\"low\":\"136.881\",\"position_size\":\"0.216\",\"action\":\"buy\",\"contracts\":\"0.073\",\"price\":\"136.881\",\"id\":\"D155-O3\"},\"demo\":{\"result\": \"ok\"},\"user\":null,\"alert\":\"community\"}"
+
+
+
+
+
+curl -X POST http://localhost/micalme/telegram/bot/ZentroOwnerBot -H "Content-Type: application/json" -d "{\"message\": {\"text\": \"/start\",\"chat\":{\"id\":\"816767995\",\"type\":\"private\"},\"from\":{\"id\":\"816767995\",\"username\":\"dvzambrano\"},\"message_id\": \"\"},\"demo\":true}"
+
+curl -X POST http://localhost/micalme/telegram/bot/ZentroOwnerBot -H "Content-Type: application/json" -d "{\"message\": {\"text\": \"google\",\"chat\":{\"id\":\"816767995\",\"type\":\"private\"},\"from\":{\"id\":\"816767995\",\"username\":\"dvzambrano\"},\"message_id\": \"\"},\"demo\":true}"
+
+
+
+curl -H "Content-Type: application/json; charset=utf-8" -d "{\"message\": {\"text\": \"menu\",\"chat\":{\"id\":\"816767995\"},\"message_id\": \"\"},\"demo\":true}" -X POST http://localhost/guto/index.php/telegram-message
+
+curl -H "Content-Type: application/json; charset=utf-8" -d "{\"message\": {\"text\": \"findpaymentsmenu\",\"chat\":{\"id\":\"816767995\"},\"message_id\": \"\"},\"demo\":true}" -X POST http://localhost/guto/index.php/telegram-message
+curl -H "Content-Type: application/json; charset=utf-8" -d "{\"message\": {\"text\": \"promptpaymentid\",\"chat\":{\"id\":\"816767995\"},\"message_id\": \"\"},\"demo\":true}" -X POST http://localhost/guto/index.php/telegram-message
+curl -H "Content-Type: application/json; charset=utf-8" -d "{\"message\": {\"text\": \"1044\",\"chat\":{\"id\":\"816767995\"},\"message_id\": \"\"},\"demo\":true}" -X POST http://localhost/guto/index.php/telegram-message
+
+
+
+https://micalme.com/tradingview/client/816767995
+
+
+{"text":"SOL 1H ST: {{strategy.order.comment}}","chat":{"id":"816767995"},"additionalData":{"interval":"{{interval}}","commision_percent":"0.12","basecurrency":"{{syminfo.basecurrency}}","currency":"{{syminfo.currency}}","time":"{{time}}","ticker":"{{ticker}}","volume":"{{volume}}","close":"{{close}}","open":"{{open}}","high":"{{high}}","low":"{{low}}","position_size":"{{strategy.position_size}}","action":"{{strategy.order.action}}","contracts":"{{strategy.order.contracts}}","price":"{{strategy.order.price}}","id":"{{strategy.order.id}}"}}
+
+
+
+{"exchanges":{"bingx":{"api_key":"F3pw0O44pv5QhGGuKzY9AyHZq60NYf3THq5QlfIaq98sS1KBIROzeLB2aUI7U7bUqUSnjMDfw3licUQDdhcbQ","secret_key":"DzLfyysYVDVQYVtEDe4z8AixcI0eDfNbBuYt4gJBm68jdR3D7PoCCxLG4PRnIokZEOyvl11PtuQBg06ORQ"},"apexpromainnet":[],"apexprotestnet":{"account_id":"582635608690655601","api_key":"2e705f3e-1b37-3224-9977-9cfa5b17b1c2","api_key_passphrase":"MBQBXf9WXwKDB991TGGh","api_key_secret":"2AhyVMp8ZZ2SI6NeJlQq7tw65-hj8PxfkR2MNZ_P","stark_key_private":"0x07ead10517457b1a57f17bda2a7253962457e39ce22d4b469468f1f6dde1434b","stark_key_public":"0x0678a0b412a405b276ff2ce43c5bab96f49a86a7be1e9bde0941e5b3a37070f1","stark_key_public_key_y_coordinate":"0x05cf53cfd299bb9452bf0f750de4935e672500fa11474acfb042fce4d1f1f2d3"},"active":{"0":"apexprotestnet","2":"bingx","3":"apexpromainnet"}},"admin_level":2,"suscription_level":2,"base_order_size":10,"last_bot_callback_data":"","last_bot_message_id":2133}
+
+
+
+{"exchanges":{"bingx":{"api_key":"","secret_key":""},"apexpromainnet":{"account_id":"","api_key":"","api_key_passphrase":"","api_key_secret":"","stark_key_private":"","stark_key_public":"","stark_key_public_key_y_coordinate":""},"apexprotestnet":{"account_id":"","api_key":"","api_key_passphrase":"","api_key_secret":"","stark_key_private":"","stark_key_public":"","stark_key_public_key_y_coordinate":""}},"admin_level":0,"suscription_level":0,"base_order_size":10,"last_bot_callback_data":"","last_bot_message_id":1874}
+
+
+
+
+Donel SOL 1H Supertrend
+
+{"text":"SOL 1H ST: {{strategy.order.comment}}","chat":{"id":"816767995"},"additionalData":{"interval":"{{interval}}","commision_percent":"0.12","basecurrency":"{{syminfo.basecurrency}}","currency":"{{syminfo.currency}}","time":"{{time}}","ticker":"{{ticker}}","volume":"{{volume}}","close":"{{close}}","open":"{{open}}","high":"{{high}}","low":"{{low}}","position_size":"{{strategy.position_size}}","action":"{{strategy.order.action}}","contracts":"{{strategy.order.contracts}}","price":"{{strategy.order.price}}","id":"{{strategy.order.id}}"}}
+
+https://micalme.com/tradingview/client/816767995
+
+
+
+Donel SOL 5M QFL
+
+{"text":"SOL 5M QFL: {{strategy.order.comment}}","chat":{"id":"816767995"},"additionalData":{"interval":"{{interval}}","commision_percent":"0.12","basecurrency":"{{syminfo.basecurrency}}","currency":"{{syminfo.currency}}","time":"{{time}}","ticker":"{{ticker}}","volume":"{{volume}}","close":"{{close}}","open":"{{open}}","high":"{{high}}","low":"{{low}}","position_size":"{{strategy.position_size}}","action":"{{strategy.order.action}}","contracts":"{{strategy.order.contracts}}","price":"{{strategy.order.price}}","id":"{{strategy.order.id}}"}}
+
+https://micalme.com/tradingview/community
+
+
+
+
+composer require nwidart/laravel-modules
+
+php artisan module:make NombreDelModulo
+php artisan module:make-migration create_nombre_tabla --module=NombreDelModulo
+php artisan module:make-migration create_nombre_tabla NombreDelModulo
+php artisan module:migrate NombreDelModulo
+php artisan module:make-controller NombreDelControlador --module=NombreDelModulo
+
+php artisan module:make-model NombreDelModelo --module=NombreDelModulo
+php artisan module:make-seed NombreDelSeeder NombreDelModulo
+
+
+php artisan module:migrate TelegramBot
+php artisan module:seed TelegramBot
+
+php artisan module:migrate-fresh --seed TelegramBot
+
+php artisan migrate --path=modules/TelegramBot/Database/Migrations
+php artisan db:seed --class=Modules\\TelegramBot\\Database\\Seeders\\ActorsSeeder
+
+
+https://api.telegram.org/bot5797151131:AAF0o1P3C9wK8zx3OczGej9QmkILZmekJKc/getWebhookinfo
+curl -F "url=https://micalme.com/telegram/bot/ZentroCriptoBot"  https://api.telegram.org/bot5797151131:AAF0o1P3C9wK8zx3OczGej9QmkILZmekJKc/setWebhook
+
+https://api.telegram.org/bot6989103595:AAH-qQww_v01UnAt9Ex0ZfmVp3qAIR9KXrE/getWebhookinfo
+curl -F "url=https://micalme.com/telegram/bot/ZentroTraderBot"  https://api.telegram.org/bot6989103595:AAH-qQww_v01UnAt9Ex0ZfmVp3qAIR9KXrE/setWebhook

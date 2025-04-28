@@ -1,0 +1,21 @@
+{
+    "name": "dvzambrano/gutotradebot",
+    "description": "",
+    "authors": [
+        {
+            "name": "Donel Vazquez Zambrano",
+            "email": "dvzambrano@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\GutoTradeBot\\": ""
+        }
+    }
+}

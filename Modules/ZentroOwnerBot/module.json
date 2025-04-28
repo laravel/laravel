@@ -1,0 +1,14 @@
+{
+    "name": "ZentroOwnerBot",
+    "alias": "ZentroOwnerBot",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+
+    "providers": [
+        "Modules\\ZentroOwnerBot\\Providers\\ZentroOwnerBotServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -1,0 +1,62 @@
+{
+    "GutoTradeBot": {
+        "admin_level": 1,
+        "time_zone": "-4",
+        "metadatas": { "wallet": "0xFAcD960564531bd336ed94fBBd0911408288FCF2" },
+        "config_delete_prev_messages": true
+    },
+    "ZentroTraderBot": {
+        "exchanges": {
+            "bingx": {
+                "api_key": "F3pw0O44pv5QhGGuKzY9AyHZq60NYf3THq5QlfIaq98sS1KBIROzeLB2aUI7U7bUqUSnjMDfw3licUQDdhcbQ",
+                "secret_key": "DzLfyysYVDVQYVtEDe4z8AixcI0eDfNbBuYt4gJBm68jdR3D7PoCCxLG4PRnIokZEOyvl11PtuQBg06ORQ",
+                "base_order_size": 10
+            },
+            "apexpromainnet": {
+                "account_id": "582636658558500973",
+                "api_key": "7db9ecef-ae49-919c-1846-d940915038f3",
+                "api_key_passphrase": "LE28zjRYnLxCg6gSwNt6",
+                "api_key_secret": "vaDMMnqqpaAw2zuM8PFLz7APToQ0u67HmIIaoaCg",
+                "stark_key_private": "0x075ad444fa7b1192d97a7d70d41e0e84aecb5ab24e94cfd66ff132c6fa080371",
+                "stark_key_public": "0x02ca7badf2d37abdc8e3b750f4f73a817e0a6baf309fb668d00b96e840cb58ed",
+                "stark_key_public_key_y_coordinate": "0x04b45a88a2c5f7692ce9f1bb025fb182300925d3111e903d68d72fea660fb668",
+                "base_order_size": 1
+            },
+            "apexprotestnet": {
+                "account_id": "582635608690655601",
+                "api_key": "2e705f3e-1b37-3224-9977-9cfa5b17b1c2",
+                "api_key_passphrase": "MBQBXf9WXwKDB991TGGh",
+                "api_key_secret": "2AhyVMp8ZZ2SI6NeJlQq7tw65-hj8PxfkR2MNZ_P",
+                "stark_key_private": "0x07ead10517457b1a57f17bda2a7253962457e39ce22d4b469468f1f6dde1434b",
+                "stark_key_public": "0x0678a0b412a405b276ff2ce43c5bab96f49a86a7be1e9bde0941e5b3a37070f1",
+                "stark_key_public_key_y_coordinate": "0x05cf53cfd299bb9452bf0f750de4935e672500fa11474acfb042fce4d1f1f2d3",
+                "base_order_size": 5
+            },
+            "active": ["apexprotestnet", "apexpromainnet", "bingx"]
+        },
+        "admin_level": 2,
+        "suscription_level": 2,
+        "last_bot_callback_data": ""
+    },
+    "telegram": {
+        "id": 816767995,
+        "first_name": "Donel",
+        "last_name": "Vazquez Zambrano",
+        "username": "dvzambrano",
+        "type": "private",
+        "can_send_gift": true,
+        "active_usernames": ["dvzambrano"],
+        "bio": "Programador, Emprendedor y Entusiasta de las criptomonedas",
+        "has_private_forwards": true,
+        "photo": "AgACAgEAAxUAAWfYoYEdQ8w5SEV3rAk5CLaX3zd_AAKtpzEb--OuMAMFCQeYxcDPAQADAgADYwADNgQ",
+        "pinned_message": false,
+        "max_reaction_count": 11,
+        "accent_color_id": 1,
+        "full_name": "\ud83d\udc64 Donel Vazquez Zambrano",
+        "formated_username": "dvzambrano",
+        "full_info": "\ud83d\udc64 Donel Vazquez Zambrano \n\u2709\ufe0f @dvzambrano \n\ud83c\udd94 `816767995`"
+    },
+    "ZentroOwnerBot": { "admin_level": 0, "last_bot_callback_data": "" },
+    "GutoTradeTestBot": { "admin_level": 1 },
+    "IrelandPaymentsBot": { "admin_level": 1 }
+}

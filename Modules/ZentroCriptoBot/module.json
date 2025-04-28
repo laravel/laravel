@@ -1,0 +1,14 @@
+{
+    "name": "ZentroCriptoBot",
+    "alias": "ZentroCriptoBot",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+
+    "providers": [
+        "Modules\\ZentroCriptoBot\\Providers\\ZentroCriptoBotServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
