@@ -3,10 +3,14 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "nwidart/laravel-modules": "^8.6",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1"
     },
@@ -25,7 +29,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helpers/ModuleHelper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
