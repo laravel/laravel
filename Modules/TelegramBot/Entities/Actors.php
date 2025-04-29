@@ -81,7 +81,7 @@ class Actors extends Model
     public function getLocalDateTime($date, $botname)
     {
         if (isset($this->data[$botname]["time_zone"])) {
-            $date = Carbon::createFromFormat("Y-m-d H:i:s", $date)->addHours($this->data[$botname]["time_zone"])->format("Y-m-d H:i:s");
+            //$date = Carbon::createFromFormat("Y-m-d H:i:s", $date)->addHours($this->data[$botname]["time_zone"])->format("Y-m-d H:i:s");
         }
         return $date;
     }
