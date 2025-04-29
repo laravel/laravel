@@ -675,6 +675,13 @@ class PaymentsController extends MoneysController
                 if (isset($response['result']['formated_username'])) {
                     $text .= "\n\n👉 @{$response['result']['formated_username']}";
                 }
+                if (
+                    isset($subject->data[$bot->telegram["username"]]["metadatas"]) &&
+                    isset($subject->data[$bot->telegram["username"]]["metadatas"]["wallet"]) &&
+                    $subject->data[$bot->telegram["username"]]["metadatas"]["wallet"] != ""
+                ) {
+                    $text .= "\n💰 `" . $subject->data[$bot->telegram["username"]]["metadatas"]["wallet"] . "`";
+                }
 
             }
 
