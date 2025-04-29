@@ -675,7 +675,7 @@ class PaymentsController extends MoneysController
                 if (isset($response['result']['formated_username'])) {
                     $text .= "\n\n👉 @{$response['result']['formated_username']}";
                 }
-                Log::info("PaymentsController getUnliquidated subject: " . json_encode($subject->data[$bot->telegram["username"]]));
+                //Log::info("PaymentsController getUnliquidated subject: " . json_encode($subject->data[$bot->telegram["username"]]));
                 if (
                     isset($subject->data[$bot->telegram["username"]]["metadatas"]) &&
                     isset($subject->data[$bot->telegram["username"]]["metadatas"]["wallet"]) &&
