@@ -1045,7 +1045,7 @@ class GutoTradeBotController extends JsonsController
                 if (count($commandarray) > 1)
                     $command = $commandarray[0];
 
-                Log::info("GutoTradeBotController photo command='{$command}'");
+                //Log::info("GutoTradeBotController photo command='{$command}'");
                 switch ($command) {
                     case "getsenderpaymentscreenshot":
                         $reply = $this->PaymentsController->processMoney($this, 2, 2);

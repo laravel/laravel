@@ -5,6 +5,7 @@ namespace Modules\TelegramBot\Entities;
 use App\Traits\UsesModuleConnection;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Actors extends Model
 {
@@ -81,6 +82,7 @@ class Actors extends Model
     public function getLocalDateTime($date, $botname)
     {
         if (isset($this->data[$botname]["time_zone"])) {
+            Log::info("GutoTradeBotController photo command='" . $this->data[$botname]["time_zone"] . "'");
             //$date = Carbon::createFromFormat("Y-m-d H:i:s", $date)->addHours($this->data[$botname]["time_zone"])->format("Y-m-d H:i:s");
         }
         return $date;
