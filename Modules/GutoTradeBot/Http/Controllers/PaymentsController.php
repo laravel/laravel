@@ -718,6 +718,7 @@ class PaymentsController extends MoneysController
         $total = 0;
         foreach ($senders as $sender) {
             $sender = (new Agents())->newInstance($sender->getAttributes(), true);
+            $suscriptor = $bot->AgentsController->getSuscriptor($bot, $sender->user_id, true);
             $amount = $sender->liquidatedMoneys($bot, $this);
             if ($amount > 0) {
                 $total += $amount;
@@ -727,7 +728,7 @@ class PaymentsController extends MoneysController
                     ]);
                 }
 
-                array_push($menu, [["text" => $sender->getTelegramInfo($bot, "full_name") . "- " . Moneys::format($bot->ProfitsController->getUSDTtoSendWithActiveRate($amount)) . " 💵", "callback_data" => "unliquidatedpayments-{$sender->user_id}"]]);
+                array_push($menu, [["text" => $suscriptor->getTelegramInfo($bot, "full_name") . "- " . Moneys::format($bot->ProfitsController->getUSDTtoSendWithActiveRate($amount)) . " 💵", "callback_data" => "unliquidatedpayments-{$sender->user_id}"]]);
             }
         }
         if (count($menu) > 0) {
