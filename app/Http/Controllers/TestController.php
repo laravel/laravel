@@ -25,6 +25,13 @@ class TestController extends Controller
     public function test(Request $request)
     {
         $bot = new GutoTradeBotController("GutoTradeBot");
+
+        $amount = 100;
+        $reply = $bot->ProfitsController->getSpended($amount);
+        dd($reply);
+        die;
+
+
         $ac = new ActorsController();
         $actor = $ac->getFirst(Actors::class, 'user_id', '=', "816767995");
         $reply = $bot->notifyStats($actor);

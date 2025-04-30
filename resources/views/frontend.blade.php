@@ -40,7 +40,18 @@
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
 
-            <a href="#about" class="get-started-btn scrollto">Get Started</a>
+            @if (Route::has('login'))
+                <nav class="flex items-center justify-end gap-4">
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="get-started-btn scrollto">Dashboard</a>
+                    @else
+                        <a href="{{ route('login') }}" class="get-started-btn scrollto">Log in</a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="get-started-btn scrollto">Register</a>
+                        @endif
+                    @endauth
+                </nav>
+            @endif
 
         </div>
     </header><!-- End Header -->

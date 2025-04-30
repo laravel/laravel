@@ -144,7 +144,11 @@ class ProfitsController extends JsonsController
         $salary = $this->getFirst(Profits::class, "name", "=", "salary");
         $profit = $this->getFirst(Profits::class, "name", "=", "profit");
 
-        $procesados = $amount / (1 + ($salary->value + $profit->value) / 100);
+        //$procesados = $amount / (1 + ($salary->value + $profit->value) / 100);
+        $rate = $salary->value + $profit->value;
+        $procesados = $amount / (1 + $rate / 100);
+        if ($rate < 0)
+            $procesados = $amount * (1 + abs($rate) / 100);
 
         return $procesados;
     }
