@@ -81,8 +81,8 @@ class Moneys extends Jsons
                     $actor->isLevel(4, $bot->telegram["username"])
                 )
             ) {
-                $response = json_decode($bot->TelegramController->getUserInfo($this->supervisor_id, $bot->getToken($bot->telegram["username"])), true);
-                $text .= "🕵️‍♂️ Asignado a:\n" . $response["result"]["full_info"] . "\n\n";
+                $suscriptor = $bot->AgentsController->getSuscriptor($bot, $this->supervisor_id, true);
+                $text .= "🕵️‍♂️ Asignado a:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
             }
         }
         $text .= "🗓 *Actualizado*: {$updated_at}\n\n";

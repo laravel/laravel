@@ -97,8 +97,7 @@ class AgentsController extends JsonsController
         array_push($array["menu"], [["text" => "🏷 Añadir metadato", "callback_data" => "/usermetadata {$suscriptor->user_id}"]]);
         array_push($array["menu"], [["text" => "❌ Eliminar", "callback_data" => "confirmation|deleteuser-{$suscriptor->user_id}|adminmenu"]]);
 
-        $response = json_decode($bot->TelegramController->getUserInfo($suscriptor->user_id, $bot->getToken($bot->telegram["username"])), true);
-        $text = $response["result"]["full_info"] . "\n" . $array["role"];
+        $text = $suscriptor->getTelegramInfo($bot, "full_info") . "\n" . $array["role"];
 
         // mostrar los meadatos definidos para este suscriptor
         if (isset($suscriptor->data[$bot->telegram["username"]]) && isset($suscriptor->data[$bot->telegram["username"]]["metadatas"]))
