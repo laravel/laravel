@@ -739,7 +739,7 @@ class GutoTradeBotController extends JsonsController
                 case "/assign":
                     $id = $this->getIdOfRepliedMessage();
                     if ($id && $id > 0) {
-                        $suscriptor = $this->AgentsController->getSuscriptor($this, $array["message"]);
+                        $suscriptor = $this->AgentsController->getSuscriptor($this, $array["message"], true);
                         if ($suscriptor) {
                             $payment = $this->PaymentsController->getFirst(Payments::class, "id", "=", $id);
                             $payment->sender_id = $suscriptor->user_id;

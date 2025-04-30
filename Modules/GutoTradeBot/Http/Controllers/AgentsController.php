@@ -7,7 +7,7 @@ use Modules\TelegramBot\Entities\Actors;
 
 class AgentsController extends JsonsController
 {
-    public function getSuscriptor($bot, $user_id)
+    public function getSuscriptor($bot, $user_id, $any_bot = false)
     {
         $suscriptor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", $user_id);
         if (!$suscriptor) {
@@ -24,7 +24,10 @@ class AgentsController extends JsonsController
         }
 
         if ($suscriptor) {
-            if (isset($suscriptor->data[$bot->telegram["username"]])) {
+            if (
+                $any_bot ||
+                isset($suscriptor->data[$bot->telegram["username"]])
+            ) {
                 return $suscriptor;
             }
 
@@ -119,7 +122,7 @@ class AgentsController extends JsonsController
         $array = [
             "message" => [
                 "text" => $text,
-                "photo" => $show_photo && $suscriptor->data["telegram"]["photo"] ? $suscriptor->data["telegram"]["photo"] : null,
+                "photo" => $show_photo && isset($suscriptor->data["telegram"]) && $suscriptor->data["telegram"]["photo"] ? $suscriptor->data["telegram"]["photo"] : null,
                 "chat" => [
                     "id" => $actor->user_id,
                 ],
