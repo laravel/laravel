@@ -54,6 +54,26 @@ class Actors extends Model
         return false;
     }
 
+    public function getTelegramInfo($bot, $key = false)
+    {
+        $telegram = false;
+        if (isset($this->data["telegram"]))
+            $telegram = $this->data["telegram"];
+        else {
+            $response = json_decode($bot->TelegramController->getUserInfo($this->user_id, $bot->getToken($bot->telegram["username"])), true);
+            $telegram = $response["result"];
+        }
+
+        if (
+            $telegram &&
+            $key &&
+            isset($telegram[$key])
+        )
+            return $telegram[$key];
+
+        return $telegram;
+    }
+
     public function isLevel($level, $bot)
     {
         $result = false;

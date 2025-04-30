@@ -726,8 +726,8 @@ class PaymentsController extends MoneysController
                         ["text" => "👥 Todos", "callback_data" => "unliquidatedpayments-all"],
                     ]);
                 }
-                $response = json_decode($bot->TelegramController->getUserInfo($sender->user_id, $bot->getToken($bot->telegram["username"])), true);
-                array_push($menu, [["text" => $response["result"]["full_name"] . " " . Moneys::format($bot->ProfitsController->getUSDTtoSendWithActiveRate($amount)) . " 💵", "callback_data" => "unliquidatedpayments-{$sender->user_id}"]]);
+
+                array_push($menu, [["text" => $sender->getTelegramInfo($bot, "full_name") . " " . Moneys::format($bot->ProfitsController->getUSDTtoSendWithActiveRate($amount)) . " 💵", "callback_data" => "unliquidatedpayments-{$sender->user_id}"]]);
             }
         }
         if (count($menu) > 0) {
