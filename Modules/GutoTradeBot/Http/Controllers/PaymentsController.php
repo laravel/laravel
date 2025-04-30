@@ -25,7 +25,11 @@ class PaymentsController extends MoneysController
 {
     public function create($bot, $amount, $comment, $screenshot, $sender_id, $supervisor_id, $data = array())
     {
-        $data["rate"] = $bot->ProfitsController->getProfit(100);
+        $data["rate"] = array(
+            "internal" => $bot->ProfitsController->getProfit(100),
+            "oracle" => CoingeckoController::getRate(),
+            "receiver" => 0
+        );
         $data["capital"] = $bot->ProfitsController->getSpended($amount);
         /*
         Log::info("PaymentsController create args " . json_encode([

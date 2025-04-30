@@ -172,8 +172,11 @@ class MoneysController extends JsonsController
                 try {
                     switch ($type) {
                         case 1:
-                            // incluyendo el rate al q debe haberse adquirido este capital segun Coingecko
-                            $data["rate"] = CoingeckoController::getRate();
+                            $data["rate"] = array(
+                                "internal" => 1,
+                                "oracle" => CoingeckoController::getRate(),
+                                "receiver" => 1
+                            );
                             $data["fullname"] = strtolower($caption["fullname"]);
                             $data["profit"] = [
                                 "salary" => $bot->ProfitsController->getSalary(),

@@ -40,8 +40,12 @@ class Moneys extends Jsons
         } else {
             $text .= "🟨⬜️";
         }
-        if (isset($this->data["rate"]) && is_string($this->data["rate"])) {
-            $text .= " {$this->data["rate"]}➗";
+        if (
+            isset($this->data["rate"]) &&
+            isset($this->data["rate"]["oracle"]) &&
+            isset($this->data["rate"]["oracle"]["internal"])
+        ) {
+            $text .= " {$this->data["rate"]["oracle"]["internal"]}➗";
         }
 
         $text .= "\n\n";

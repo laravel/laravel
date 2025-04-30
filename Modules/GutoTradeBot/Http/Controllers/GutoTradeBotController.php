@@ -252,7 +252,7 @@ class GutoTradeBotController extends JsonsController
                         $amount = 100;
                         $rate = CoingeckoController::getRate();
 
-                        $flow = $this->ProfitsController->calculateFlow($amount, $rate["inverse"]);
+                        $flow = $this->ProfitsController->calculateFlow($amount, $rate["oracle"]["inverse"]);
 
                         $capitals = Capitals::query()
                             ->select([
@@ -280,10 +280,10 @@ class GutoTradeBotController extends JsonsController
 
                         $symbol = "➰";
                         if (count($capitals) > 0 && isset($capitals[0]["data"]["rate"])) {
-                            if ($rate["inverse"] > $capitals[0]["data"]["rate"]["inverse"]) {
+                            if ($rate["oracle"]["inverse"] > $capitals[0]["data"]["rate"]["oracle"]["inverse"]) {
                                 $symbol = "📈";
                             }
-                            if ($rate["inverse"] < $capitals[0]["data"]["rate"]["inverse"]) {
+                            if ($rate["oracle"]["inverse"] < $capitals[0]["data"]["rate"]["oracle"]["inverse"]) {
                                 $symbol = "📉";
                             }
                         }
@@ -294,7 +294,7 @@ class GutoTradeBotController extends JsonsController
 
                         $text = "ℹ️ *Estadísticas del sistema*\n_Este es el comportamiento del mercado HOY:_\n\n" .
                             "💰  *100.00* 💶 _Capital inicial_\n" .
-                            "{$symbol}  " . Moneys::format($rate["inverse"], 4) . " 💱 _" . $rate["direct"] . "_\n" .
+                            "{$symbol}  " . Moneys::format($rate["oracle"]["inverse"], 4) . " 💱 _" . $rate["oracle"]["direct"] . "_\n" .
                             "🛬  *" . Moneys::format($flow["arrival"]) . "* 💵 _Netos_\n" .
                             "➰    - " . Moneys::format($flow["waste"]["amount"]) . " 💵 _Gastos " . $flow["waste"]["percent"] . "%_\n" .
                             "🏭  *" . Moneys::format($flow["capital"]) . "* 💵 _Procesable_\n" .
@@ -311,14 +311,14 @@ class GutoTradeBotController extends JsonsController
                             if (isset($capitals[$i]["data"]["rate"])) {
                                 $symbol = "〰️";
                                 if ($i < count($capitals) - 1) {
-                                    $next = $capitals[$i + 1]["data"]["rate"]["inverse"];
-                                    if ($capitals[$i]["data"]["rate"]["inverse"] > $next) {
+                                    $next = $capitals[$i + 1]["data"]["rate"]["oracle"]["inverse"];
+                                    if ($capitals[$i]["data"]["rate"]["oracle"]["inverse"] > $next) {
                                         $symbol = "📈";
                                     } else {
                                         $symbol = "📉";
                                     }
                                 }
-                                $flow = $this->ProfitsController->calculateFlow($amount, $capitals[$i]["data"]["rate"]["inverse"], $capitals[$i]["data"]["profit"]["salary"], $capitals[$i]["data"]["profit"]["profit"]);
+                                $flow = $this->ProfitsController->calculateFlow($amount, $capitals[$i]["data"]["rate"]["oracle"]["inverse"], $capitals[$i]["data"]["profit"]["salary"], $capitals[$i]["data"]["profit"]["profit"]);
 
                                 $dates[] = $capitals[$i]["date"];
                                 $percent = $flow["profit"]["percent"];
@@ -339,7 +339,7 @@ class GutoTradeBotController extends JsonsController
                                 }
 
                                 $date = Carbon::createFromDate($capitals[$i]["date"]);
-                                $text .= $symbol . " " . $date->format("Y-m-d") . " 💱 " . Moneys::format($capitals[$i]["data"]["rate"]["inverse"], 4) . " 👉 " . Moneys::format($percent) . "%\n";
+                                $text .= $symbol . " " . $date->format("Y-m-d") . " 💱 " . Moneys::format($capitals[$i]["data"]["rate"]["oracle"]["inverse"], 4) . " 👉 " . Moneys::format($percent) . "%\n";
                             }
                         }
 
