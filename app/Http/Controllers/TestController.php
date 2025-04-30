@@ -28,57 +28,6 @@ class TestController extends Controller
     public function test(Request $request)
     {
         $bot = new GutoTradeBotController("GutoTradeBot");
-        $pc = new PaymentsController();
-        $payments = $pc->get(Payments::class, "id", ">", 0);
-
-        $dates = array();
-        foreach ($payments as $payment) {
-            $array = $payment->data;
-
-            $date = Carbon::createFromFormat("Y-m-d H:i:s", $payment->created_at);
-
-            if (!isset($dates[$date->format("d-m-Y")]))
-                $dates[$date->format("d-m-Y")] = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
-
-            $array["rate"] = array(
-                "internal" => $array["rate"],
-                "oracle" => $dates[$date->format("d-m-Y")],
-                "receiver" => 0
-            );
-
-
-            $payment->data = $array;
-            $payment->save();
-        }
-
-
-
-        $pc = new CapitalsController();
-        $payments = $pc->get(Capitals::class, "id", ">", 0);
-
-        $dates = array();
-        foreach ($payments as $payment) {
-            $array = $payment->data;
-
-            $date = Carbon::createFromFormat("Y-m-d H:i:s", $payment->created_at);
-
-            if (!isset($dates[$date->format("d-m-Y")]))
-                $dates[$date->format("d-m-Y")] = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
-
-            $array["rate"] = array(
-                "internal" => 1,
-                "oracle" => $dates[$date->format("d-m-Y")],
-                "receiver" => 1
-            );
-
-
-            $payment->data = $array;
-            $payment->save();
-        }
-
-        dd($payments->toArray());
-        die;
-
         $amount = 100;
         $reply = $bot->ProfitsController->getSpended($amount);
         dd($reply);
