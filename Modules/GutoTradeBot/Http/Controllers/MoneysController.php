@@ -577,7 +577,6 @@ class MoneysController extends JsonsController
                 }
                 foreach ($supervisors as $supervisor) {
                     if ($supervisor->user_id != $money->supervisor_id) {
-                        $response = json_decode($bot->TelegramController->getUserInfo($supervisor->user_id, $bot->getToken($bot->telegram["username"])), true);
                         $callback = "asignsupervisor";
                         if (stripos($clase, "payment") > -1) {
                             $callback = "asignpaymentsupervisor-{$supervisor->user_id}-{$money->id}";
@@ -585,7 +584,8 @@ class MoneysController extends JsonsController
                         if (stripos($clase, "capital") > -1) {
                             $callback = "asigncapitalsupervisor-{$supervisor->user_id}-{$money->id}";
                         }
-                        array_push($menu, [["text" => $response["result"]["full_name"], "callback_data" => $callback]]);
+                        $suscriptor = $bot->AgentsController->getSuscriptor($bot, $supervisor->sender_id, true);
+                        array_push($menu, [["text" => $suscriptor->getTelegramInfo($bot, "full_name"), "callback_data" => $callback]]);
                     }
                 }
             } else {
@@ -601,26 +601,6 @@ class MoneysController extends JsonsController
             array_push($menu, [
                 ["text" => "❌ Eliminar", "callback_data" => "confirmation|delete{$type}-{$money->id}|menu"],
             ]);
-
-            /*
-        // Si esta trabajando un admin1 y es un pago flotante le pongo los remesadores para q puedan asignarselo a alguien
-        if (!$money->sender_id || $money->sender_id == null) {
-        $senders = $bot->ActorsController->getData(Actors::class, [
-        [
-        "contain" => true,
-        "name" => "admin_level",
-        "value" => 2,
-        ],
-        ]);
-        foreach ($senders as $sender) {
-        $response = json_decode($bot->TelegramController->getUserInfo($sender->user_id, $bot->getToken($bot->telegram["username"])), true);
-        array_push($menu, [
-        ["text" => $response["result"]["full_name"], "callback_data" => "asign{$type}sender-{$sender->user_id}-{$money->id}"],
-        ]);
-
-        }
-        }
-         */
         }
 
         array_push($menu, [["text" => "🔃 Volver a cargar", "callback_data" => "/buscar {$money->id}"]]);
@@ -658,12 +638,12 @@ class MoneysController extends JsonsController
         $text .= "📅 *Fecha*: {$money->created_at}\n\n";
 
         if ($show_owner_id) {
-            $response = json_decode($bot->TelegramController->getUserInfo($money->sender_id, $bot->getToken($bot->telegram["username"])), true);
-            $text .= "👨🏻‍💻 Reportado por:\n" . $response["result"]["full_info"] . "\n\n";
+            $suscriptor = $bot->AgentsController->getSuscriptor($bot, $money->sender_id, true);
+            $text .= "👨🏻‍💻 Reportado por:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
 
             if ($money->supervisor_id && $money->supervisor_id > 0) {
-                $response = json_decode($bot->TelegramController->getUserInfo($money->supervisor_id, $bot->getToken($bot->telegram["username"])), true);
-                $text .= "🕵️‍♂️ Asignado a:\n" . $response["result"]["full_info"] . "\n\n";
+                $suscriptor = $bot->AgentsController->getSuscriptor($bot, $money->supervisor_id, true);
+                $text .= "🕵️‍♂️ Asignado a:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
             }
         }
 

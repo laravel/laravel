@@ -44,9 +44,9 @@ class Actors extends Model
         return $descendants;
     }
 
-    public function isDescendantOf($bot, $user_id)
+    public function isDescendantOf($bot)
     {
-        $descendants = $this->getDescendants($bot, $user_id);
+        $descendants = $this->getDescendants($bot, $bot->actor->user_id);
         if (in_array($this->user_id, $descendants)) {
             return true;
         }

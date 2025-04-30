@@ -220,9 +220,9 @@ class AgentsController extends JsonsController
         $array = $bot->AgentsController->getRoleMenu($user_id, $role_id);
 
         // obteniendo datos del usuario de telegram
-        $response = json_decode($bot->TelegramController->getUserInfo($user_id, $this->getToken($bot->telegram["username"])), true);
+        $suscriptor = $bot->AgentsController->getSuscriptor($bot, $user_id, true);
         $reply = [
-            "text" => "🆗 *Rol de usuario modificado*\n\n" . $response["result"]["full_info"] . "\n" . $array["role"] . "\n\n👇 Qué desea hacer ahora?",
+            "text" => "🆗 *Rol de usuario modificado*\n\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n" . $array["role"] . "\n\n👇 Qué desea hacer ahora?",
             "markup" => json_encode([
                 "inline_keyboard" => $array["menu"],
             ]),

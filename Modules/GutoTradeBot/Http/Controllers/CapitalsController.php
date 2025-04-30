@@ -372,8 +372,8 @@ class CapitalsController extends MoneysController
             ["text" => "👥 Todos", "callback_data" => "unconfirmedcapitals-all"],
         ]);
         foreach ($senders as $sender) {
-            $response = json_decode($bot->TelegramController->getUserInfo($sender->user_id, $bot->getToken($bot->telegram["username"])), true);
-            array_push($menu, [["text" => $response["result"]["full_name"], "callback_data" => "unconfirmedcapitals-{$sender->user_id}"]]);
+            $suscriptor = $bot->AgentsController->getSuscriptor($bot, $sender->user_id, true);
+            array_push($menu, [["text" => $suscriptor->getTelegramInfo($bot, "full_name"), "callback_data" => "unconfirmedcapitals-{$sender->user_id}"]]);
         }
         array_push($menu, [
             ["text" => "↖️ Volver al menú principal", "callback_data" => "menu"],
@@ -404,8 +404,8 @@ class CapitalsController extends MoneysController
             ["text" => "👥 Todos", "callback_data" => "allcapitals-all"],
         ]);
         foreach ($senders as $sender) {
-            $response = json_decode($bot->TelegramController->getUserInfo($sender->user_id, $bot->getToken($bot->telegram["username"])), true);
-            array_push($menu, [["text" => $response["result"]["full_name"], "callback_data" => "allcapitals-{$sender->user_id}"]]);
+            $suscriptor = $bot->AgentsController->getSuscriptor($bot, $sender->user_id, true);
+            array_push($menu, [["text" => $suscriptor->getTelegramInfo($bot, "full_name"), "callback_data" => "allcapitals-{$sender->user_id}"]]);
         }
         array_push($menu, [
             ["text" => "↖️ Volver al menú principal", "callback_data" => "menu"],
@@ -553,9 +553,9 @@ class CapitalsController extends MoneysController
     public function notifyAfterAsign($bot, $user_id)
     {
         // obteniendo datos del usuario de telegram
-        $response = json_decode($bot->TelegramController->getUserInfo($user_id, $bot->getToken($bot->telegram["username"])), true);
+        $suscriptor = $bot->AgentsController->getSuscriptor($bot, $user_id, true);
         $reply = array(
-            "text" => "🆗 *Aporte de capital asignado*\n\n" . $response["result"]["full_info"] . "\n\n\n👇 Qué desea hacer ahora?",
+            "text" => "🆗 *Aporte de capital asignado*\n\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n\n👇 Qué desea hacer ahora?",
             "markup" => json_encode([
                 "inline_keyboard" => [
                     [

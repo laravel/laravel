@@ -191,8 +191,8 @@ class PaymentsController extends MoneysController
             if (!isset($actors[$payments[$i]->sender_id])) {
                 $actors[$payments[$i]->sender_id] = "";
                 if ($payments[$i]->sender_id && $payments[$i]->sender_id > 0) {
-                    $response = json_decode($bot->TelegramController->getUserInfo($payments[$i]->sender_id, $bot->getToken($bot->telegram["username"])), true);
-                    $actors[$payments[$i]->sender_id] = $response["result"]["full_name"];
+                    $suscriptor = $bot->AgentsController->getSuscriptor($bot, $payments[$i]->sender_id, true);
+                    $actors[$payments[$i]->sender_id] = $suscriptor->getTelegramInfo($bot, "full_name");
                 }
             }
             $sheet->setCellValue("E" . ($i + 2), $actors[$payments[$i]->sender_id]);
@@ -200,8 +200,8 @@ class PaymentsController extends MoneysController
                 if (!isset($actors[$payments[$i]->supervisor_id])) {
                     $actors[$payments[$i]->supervisor_id] = "";
                     if ($payments[$i]->supervisor_id && $payments[$i]->supervisor_id > 0) {
-                        $response = json_decode($bot->TelegramController->getUserInfo($payments[$i]->supervisor_id, $bot->getToken($bot->telegram["username"])), true);
-                        $actors[$payments[$i]->supervisor_id] = $response["result"]["full_name"];
+                        $suscriptor = $bot->AgentsController->getSuscriptor($bot, $payments[$i]->supervisor_id, true);
+                        $actors[$payments[$i]->supervisor_id] = $suscriptor->getTelegramInfo($bot, "full_name");
                     }
                 }
 
@@ -442,7 +442,8 @@ class PaymentsController extends MoneysController
             ),
         );
         if ($subject && $subject->id > 0) {
-            $response = json_decode($bot->TelegramController->getUserInfo($subject->user_id, $bot->getToken($bot->telegram["username"])), true);
+            $suscriptor = $bot->AgentsController->getSuscriptor($bot, $subject->user_id, true);
+            $response["result"]["full_name"] = $suscriptor->getTelegramInfo($bot, "full_name");
         }
 
         if (!$to_id) {
@@ -544,8 +545,8 @@ class PaymentsController extends MoneysController
                         ["text" => "👥 Todos", "callback_data" => "unconfirmedpayments-all"],
                     ]);
                 }
-                $response = json_decode($bot->TelegramController->getUserInfo($sender->user_id, $bot->getToken($bot->telegram["username"])), true);
-                array_push($menu, [["text" => $response["result"]["full_name"] . " " . Moneys::format($amount) . " 💶", "callback_data" => "unconfirmedpayments-{$sender->user_id}"]]);
+                $suscriptor = $bot->AgentsController->getSuscriptor($bot, $sender->user_id, true);
+                array_push($menu, [["text" => $suscriptor->getTelegramInfo($bot, "full_name") . " " . Moneys::format($amount) . " 💶", "callback_data" => "unconfirmedpayments-{$sender->user_id}"]]);
             }
         }
         if (count($menu) > 0) {
@@ -587,7 +588,8 @@ class PaymentsController extends MoneysController
             ),
         );
         if ($subject && $subject->id > 0) {
-            $response = json_decode($bot->TelegramController->getUserInfo($subject->user_id, $bot->getToken($bot->telegram["username"])), true);
+            $suscriptor = $bot->AgentsController->getSuscriptor($bot, $subject->user_id, true);
+            $response["result"]["full_name"] = $suscriptor->getTelegramInfo($bot, "full_name");
         }
 
         if (!$to_id) {
@@ -845,8 +847,8 @@ class PaymentsController extends MoneysController
         }
 
         foreach ($senders as $sender) {
-            $response = json_decode($bot->TelegramController->getUserInfo($sender->user_id, $bot->getToken($bot->telegram["username"])), true);
-            array_push($menu, [["text" => $response["result"]["full_name"], "callback_data" => "allpayments-{$sender->user_id}"]]);
+            $suscriptor = $bot->AgentsController->getSuscriptor($bot, $sender->user_id, true);
+            array_push($menu, [["text" => $suscriptor->getTelegramInfo($bot, "full_name"), "callback_data" => "allpayments-{$sender->user_id}"]]);
         }
         array_push($menu, [
             ["text" => "↖️ Volver al menú de pagos", "callback_data" => "/payments"],
@@ -1011,9 +1013,9 @@ class PaymentsController extends MoneysController
     public function notifyAfterAsign($bot, $user_id)
     {
         // obteniendo datos del usuario de telegram
-        $response = json_decode($bot->TelegramController->getUserInfo($user_id, $bot->getToken($bot->telegram["username"])), true);
+        $suscriptor = $bot->AgentsController->getSuscriptor($bot, $user_id, true);
         $reply = array(
-            "text" => "🆗 *Reporte de pago asignado*\n\n" . $response["result"]["full_info"] . "\n\n\n👇 Qué desea hacer ahora?",
+            "text" => "🆗 *Reporte de pago asignado*\n\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n\n👇 Qué desea hacer ahora?",
             "markup" => json_encode([
                 "inline_keyboard" => [
                     [
@@ -1290,7 +1292,8 @@ class PaymentsController extends MoneysController
                         // si es el q lo subio
                     ($payment->sender_id == $bot->actor->user_id || $payment->supervisor_id == $bot->actor->user_id) ||
                         // si quien lo subio, es descendiente del actor
-                    ($owner && $owner->id > 0 && $owner->isDescendantOf($bot->actor->user_id))
+
+                    ($owner && $owner->id > 0 && $owner->isDescendantOf($bot))
                 ) {
                     // preparar el menu de opciones sobre este pago
                     $menu = $this->getOptionsMenuForThisOne($bot, $payment, $bot->actor->data[$bot->telegram["username"]]["admin_level"]);

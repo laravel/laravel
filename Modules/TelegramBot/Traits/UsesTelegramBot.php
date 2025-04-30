@@ -226,8 +226,7 @@ trait UsesTelegramBot
 
     public function notifyUserWithNoRole($user_id, $array)
     {
-        $actor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $user_id);
-        $response = json_decode($this->TelegramController->getUserInfo($actor->user_id, $this->getToken($this->telegram["username"])), true);
+        $actor = $this->AgentsController->getSuscriptor($this, $user_id, true);
 
         // notificando a los administradores de q hay un nuevo usuario por si quieren cambiarle el rol
         $admins = $this->ActorsController->getData(Actors::class, [
@@ -243,11 +242,11 @@ trait UsesTelegramBot
         ]);
 
         for ($i = 0; $i < count($admins); $i++) {
-            $text = "🆕 *Nuevo usuario suscrito al bot*\n\n" . $response["result"]["full_info"] . "\n\n";
+            $text = "🆕 *Nuevo usuario suscrito al bot*\n\n" . $actor->getTelegramInfo($this, "full_info") . "\n\n";
             if ($actor && $actor->id > 0 && isset($actor->data[$this->telegram["username"]]["parent_id"]) && $actor->data[$this->telegram["username"]]["parent_id"] > 0) {
-                // obteniendo datos del usuario de telegram
-                $response = json_decode($this->TelegramController->getUserInfo($actor->data[$this->telegram["username"]]["parent_id"], $this->getToken($this->telegram["username"])), true);
-                $text .= "🫡 Invitado por:\n" . $response["result"]["full_info"] . "\n\n";
+                // obteniendo datos del usuario padre en telegram
+                $parent = $this->AgentsController->getSuscriptor($this, $actor->data[$this->telegram["username"]]["parent_id"], true);
+                $text .= "🫡 Invitado por:\n" . $parent->getTelegramInfo($this, "full_info") . "\n\n";
             }
             $text .= "👇 Qué desea hacer ahora?";
 

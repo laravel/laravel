@@ -50,8 +50,8 @@ class CommentsController extends JsonsController
                 break;
             case 2:
             case "2":
-                $response = json_decode($bot->TelegramController->getUserInfo($comment->sender_id, $bot->getToken($bot->telegram["username"])), true);
-                $fullname = $response["result"]["full_name"];
+                $suscriptor = $bot->AgentsController->getSuscriptor($bot, $comment->sender_id, true);
+                $fullname = $suscriptor->getTelegramInfo($bot, "full_name");
                 break;
             case 3:
             case "3":
