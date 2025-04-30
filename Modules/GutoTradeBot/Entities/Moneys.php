@@ -69,8 +69,8 @@ class Moneys extends Jsons
 
         if ($show_owner_id) {
             if ($this->sender_id && $this->sender_id > 0) {
-                $response = json_decode($bot->TelegramController->getUserInfo($this->sender_id, $bot->getToken($bot->telegram["username"])), true);
-                $text .= "👨🏻‍💻 Reportado por:\n" . $response["result"]["full_info"] . "\n\n";
+                $suscriptor = $bot->AgentsController->getSuscriptor($bot, $this->sender_id, true);
+                $text .= "👨🏻‍💻 Reportado por:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
             }
 
             if (
