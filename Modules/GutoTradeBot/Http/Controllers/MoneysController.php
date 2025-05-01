@@ -585,7 +585,8 @@ class MoneysController extends JsonsController
                             $callback = "asigncapitalsupervisor-{$supervisor->user_id}-{$money->id}";
                         }
                         $suscriptor = $bot->AgentsController->getSuscriptor($bot, $supervisor->sender_id, true);
-                        array_push($menu, [["text" => $suscriptor->getTelegramInfo($bot, "full_name"), "callback_data" => $callback]]);
+                        if ($suscriptor && $suscriptor->id && $suscriptor->id > 0)
+                            array_push($menu, [["text" => $suscriptor->getTelegramInfo($bot, "full_name"), "callback_data" => $callback]]);
                     }
                 }
             } else {
