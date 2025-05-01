@@ -260,7 +260,7 @@ class GutoTradeBotController extends JsonsController
                         $amount = 100;
                         $rate = CoingeckoController::getRate();
 
-                        $flow = $this->ProfitsController->calculateFlow($amount, $rate["oracle"]["inverse"]);
+                        $flow = $this->ProfitsController->calculateFlow($amount, $rate["inverse"]);
 
                         $capitals = Capitals::query()
                             ->select([
@@ -288,10 +288,10 @@ class GutoTradeBotController extends JsonsController
 
                         $symbol = "➰";
                         if (count($capitals) > 0 && isset($capitals[0]["data"]["rate"])) {
-                            if ($rate["oracle"]["inverse"] > $capitals[0]["data"]["rate"]["oracle"]["inverse"]) {
+                            if ($rate["inverse"] > $capitals[0]["data"]["rate"]["oracle"]["inverse"]) {
                                 $symbol = "📈";
                             }
-                            if ($rate["oracle"]["inverse"] < $capitals[0]["data"]["rate"]["oracle"]["inverse"]) {
+                            if ($rate["inverse"] < $capitals[0]["data"]["rate"]["oracle"]["inverse"]) {
                                 $symbol = "📉";
                             }
                         }
@@ -302,7 +302,7 @@ class GutoTradeBotController extends JsonsController
 
                         $text = "ℹ️ *Estadísticas del sistema*\n_Este es el comportamiento del mercado HOY:_\n\n" .
                             "💰  *100.00* 💶 _Capital inicial_\n" .
-                            "{$symbol}  " . Moneys::format($rate["oracle"]["inverse"], 4) . " 💱 _" . $rate["oracle"]["direct"] . "_\n" .
+                            "{$symbol}  " . Moneys::format($rate["inverse"], 4) . " 💱 _" . $rate["direct"] . "_\n" .
                             "🛬  *" . Moneys::format($flow["arrival"]) . "* 💵 _Netos_\n" .
                             "➰    - " . Moneys::format($flow["waste"]["amount"]) . " 💵 _Gastos " . $flow["waste"]["percent"] . "%_\n" .
                             "🏭  *" . Moneys::format($flow["capital"]) . "* 💵 _Procesable_\n" .
