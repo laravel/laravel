@@ -589,7 +589,7 @@ class PaymentsController extends MoneysController
         );
         if ($subject && $subject->id > 0) {
             $suscriptor = $bot->AgentsController->getSuscriptor($bot, $subject->user_id, true);
-            $response["result"]["full_name"] = $suscriptor->getTelegramInfo($bot, "full_name");
+            $response["result"] = $suscriptor->getTelegramInfo($bot);
         }
 
         if (!$to_id) {
