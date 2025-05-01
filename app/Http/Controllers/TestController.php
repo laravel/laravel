@@ -36,6 +36,8 @@ class TestController extends Controller
                 ->orderBy('id', "desc")
                 ->limit(10)
                 ->get();
+            if (count($capitals) == 0)
+                $value = 0;
             foreach ($capitals as $capital) {
                 $array = $capital->data;
 
@@ -65,6 +67,8 @@ class TestController extends Controller
                 ->orderBy('id', "desc")
                 ->limit(10)
                 ->get();
+            if (count($payments) == 0)
+                $value = 0;
 
             foreach ($payments as $payment) {
                 $array = $payment->data;
