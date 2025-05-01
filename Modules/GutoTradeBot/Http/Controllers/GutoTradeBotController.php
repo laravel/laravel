@@ -122,6 +122,13 @@ class GutoTradeBotController extends JsonsController
 
                 case "/buscar":
                     if ($array["message"] && strlen($array["message"]) > 1) {
+
+                        $reply = $this->PaymentsController->renderPaymentsByAny(
+                            $this,
+                            $array["message"],
+                            "Reporte de pago encontrado"
+                        );
+                        /*
                         try {
                             $reply = $this->PaymentsController->renderPaymentsByAny(
                                 $this,
@@ -136,6 +143,7 @@ class GutoTradeBotController extends JsonsController
                                 "text" => "😬 *Ha ocurrido un error {$th->getCode()}*\n_{$th->getMessage()}_",
                             ];
                         }
+                        */
                     } else {
                         $reply = $this->notifyShortSearchParameter($this->actor->user_id, $array["message"]);
                     }
