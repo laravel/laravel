@@ -29,8 +29,9 @@ class TestController extends Controller
         $dates = array();
 
 
+        $value = 1;
         $capitalcount = 0;
-        do {
+        while ($value > 0) {
             $capitals = Capitals::whereRaw("JSON_EXTRACT(data, '$.rate.oracle.direct') = ?", [0])
                 ->orderBy('id', "desc")
                 ->limit(10)
@@ -40,8 +41,10 @@ class TestController extends Controller
 
                 $date = Carbon::createFromFormat("Y-m-d H:i:s", $capital->created_at);
 
-                if (!isset($dates[$date->format("d-m-Y")]))
-                    $dates[$date->format("d-m-Y")] = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
+                if (!isset($dates[$date->format("d-m-Y")])) {
+                    $value = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
+                    $dates[$date->format("d-m-Y")] = $value;
+                }
 
                 if ($dates[$date->format("d-m-Y")]["direct"] > 0) {
                     $array["rate"]["oracle"] = $dates[$date->format("d-m-Y")];
@@ -50,13 +53,14 @@ class TestController extends Controller
                     $capitalcount++;
                 }
             }
-        } while ($capitalcount > 0);
+        }
 
 
 
 
+        $value = 1;
         $paymentcount = 0;
-        do {
+        while ($value > 0) {
             $payments = Payments::whereRaw("JSON_EXTRACT(data, '$.rate.oracle.direct') = ?", [0])
                 ->orderBy('id', "desc")
                 ->limit(10)
@@ -67,8 +71,10 @@ class TestController extends Controller
 
                 $date = Carbon::createFromFormat("Y-m-d H:i:s", $payment->created_at);
 
-                if (!isset($dates[$date->format("d-m-Y")]))
-                    $dates[$date->format("d-m-Y")] = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
+                if (!isset($dates[$date->format("d-m-Y")])) {
+                    $value = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
+                    $dates[$date->format("d-m-Y")] = $value;
+                }
 
                 if ($dates[$date->format("d-m-Y")]["direct"] > 0) {
                     $array["rate"]["oracle"] = $dates[$date->format("d-m-Y")];
@@ -77,7 +83,8 @@ class TestController extends Controller
                     $paymentcount++;
                 }
             }
-        } while ($paymentcount > 0);
+        }
+
 
         echo "Payments: {$paymentcount}, Capitals: {$capitalcount}<hr/>";
         dd($dates);
