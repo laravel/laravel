@@ -20,9 +20,14 @@ class JsonsController extends Controller
         return $model::where($field, $symbol, $value)->first();
     }
 
-    public function get($model, $field, $symbol, $value)
+    public function get($model, $field, $symbol, $value, $limit = false, $order = false)
     {
-        return $model::where($field, $symbol, $value)->get();
+        $query = $model::where($field, $symbol, $value);
+        if ($order)
+            $query = $query->orderBy('id', $order);
+        if ($limit)
+            $query = $query->limit($limit);
+        return $query->get();
     }
 
     public function getLatest($model)
