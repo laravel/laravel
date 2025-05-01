@@ -43,16 +43,18 @@ class TestController extends Controller
                 if (!isset($dates[$date->format("d-m-Y")]))
                     $dates[$date->format("d-m-Y")] = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
 
-                $array["rate"] = array(
-                    "internal" => $array["rate"],
-                    "oracle" => $dates[$date->format("d-m-Y")],
-                    "receiver" => 0
-                );
+                if ($dates[$date->format("d-m-Y")]["direct"] > 0) {
+                    $array["rate"] = array(
+                        "internal" => $array["rate"],
+                        "oracle" => $dates[$date->format("d-m-Y")],
+                        "receiver" => 0
+                    );
 
 
-                $payment->data = $array;
-                $payment->save();
-                $paymentcount++;
+                    $payment->data = $array;
+                    $payment->save();
+                    $paymentcount++;
+                }
             }
 
 
@@ -76,16 +78,18 @@ class TestController extends Controller
                 if (!isset($dates[$date->format("d-m-Y")]))
                     $dates[$date->format("d-m-Y")] = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
 
-                $array["rate"] = array(
-                    "internal" => $array["rate"],
-                    "oracle" => $dates[$date->format("d-m-Y")],
-                    "receiver" => 0
-                );
+                if ($dates[$date->format("d-m-Y")]["direct"] > 0) {
+                    $array["rate"] = array(
+                        "internal" => $array["rate"],
+                        "oracle" => $dates[$date->format("d-m-Y")],
+                        "receiver" => 0
+                    );
 
 
-                $payment->data = $array;
-                $payment->save();
-                $capitalcount++;
+                    $payment->data = $array;
+                    $payment->save();
+                    $paymentcount++;
+                }
             }
         }
 
