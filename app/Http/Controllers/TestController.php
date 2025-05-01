@@ -44,13 +44,7 @@ class TestController extends Controller
                     $dates[$date->format("d-m-Y")] = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
 
                 if ($dates[$date->format("d-m-Y")]["direct"] > 0) {
-                    $array["rate"] = array(
-                        "internal" => $array["rate"],
-                        "oracle" => $dates[$date->format("d-m-Y")],
-                        "receiver" => 0
-                    );
-
-
+                    $array["rate"]["oracle"] = $dates[$date->format("d-m-Y")];
                     $payment->data = $array;
                     $payment->save();
                     $paymentcount++;
@@ -79,13 +73,7 @@ class TestController extends Controller
                     $dates[$date->format("d-m-Y")] = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
 
                 if ($dates[$date->format("d-m-Y")]["direct"] > 0) {
-                    $array["rate"] = array(
-                        "internal" => $array["rate"],
-                        "oracle" => $dates[$date->format("d-m-Y")],
-                        "receiver" => 0
-                    );
-
-
+                    $array["rate"]["oracle"] = $dates[$date->format("d-m-Y")];
                     $payment->data = $array;
                     $payment->save();
                     $paymentcount++;
