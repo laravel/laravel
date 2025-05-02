@@ -76,6 +76,7 @@ class TestController extends Controller
 
 
         echo "Payments: {$paymentcount}, Capitals: {$capitalcount}<hr/>";
+        dd($dates);
         die;
 
 
