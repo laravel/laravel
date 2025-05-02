@@ -64,7 +64,9 @@ class Actors extends Model
             $telegram = $response["result"];
         }
 
-        $telegram["formated_username"] = $bot->TelegramController->escapeText4Url($telegram["username"]);
+        $telegram["formated_username"] = "";
+        if (isset($telegram["username"]))
+            $telegram["formated_username"] = $bot->TelegramController->escapeText4Url($telegram["username"]);
 
         if (
             $telegram &&
