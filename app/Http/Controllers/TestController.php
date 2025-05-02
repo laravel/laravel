@@ -26,7 +26,6 @@ class TestController extends Controller
 
     public function test(Request $request)
     {
-        $dates = array();
 
 
         $value = 1;
@@ -36,20 +35,15 @@ class TestController extends Controller
                 ->orderBy('id', "desc")
                 ->limit(10)
                 ->get();
-            if (count($capitals) == 0)
-                $value = 0;
+            $value = count($capitals);
             foreach ($capitals as $capital) {
                 $array = $capital->data;
 
                 $date = Carbon::createFromFormat("Y-m-d H:i:s", $capital->created_at);
 
-                if (!isset($dates[$date->format("d-m-Y")])) {
-                    $value = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
-                    $dates[$date->format("d-m-Y")] = $value;
-                }
-
-                if ($dates[$date->format("d-m-Y")]["direct"] > 0) {
-                    $array["rate"]["oracle"] = $dates[$date->format("d-m-Y")];
+                $value = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
+                if ($value["direct"] > 0) {
+                    $array["rate"]["oracle"] = $value;
                     $capital->data = $array;
                     $capital->save();
                     $capitalcount++;
@@ -67,21 +61,15 @@ class TestController extends Controller
                 ->orderBy('id', "desc")
                 ->limit(10)
                 ->get();
-            if (count($payments) == 0)
-                $value = 0;
-
+            $value = count($payments);
             foreach ($payments as $payment) {
                 $array = $payment->data;
 
                 $date = Carbon::createFromFormat("Y-m-d H:i:s", $payment->created_at);
 
-                if (!isset($dates[$date->format("d-m-Y")])) {
-                    $value = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
-                    $dates[$date->format("d-m-Y")] = $value;
-                }
-
-                if ($dates[$date->format("d-m-Y")]["direct"] > 0) {
-                    $array["rate"]["oracle"] = $dates[$date->format("d-m-Y")];
+                $value = CoingeckoController::getHistory("eur", "tether", $date->format("Y-m-d"));
+                if ($value["direct"] > 0) {
+                    $array["rate"]["oracle"] = $value;
                     $payment->data = $array;
                     $payment->save();
                     $paymentcount++;
@@ -91,7 +79,6 @@ class TestController extends Controller
 
 
         echo "Payments: {$paymentcount}, Capitals: {$capitalcount}<hr/>";
-        dd($dates);
         die;
 
 
