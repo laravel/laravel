@@ -727,12 +727,13 @@ class PaymentsController extends MoneysController
             // calculando la cantidad q se le debe a este 
             $amount = $sender->liquidatedMoneys($bot, $this);
             // sumando las cantidades de sus hijos
+            $descendants_amount = 0;
             foreach ($descendants as $id) {
                 $descendant = (new Agents())->newInstance($bot->AgentsController->getSuscriptor($bot, $id)->getAttributes(), true);
-                $amount += $descendant->liquidatedMoneys($bot, $this);
+                $descendants_amount += $descendant->liquidatedMoneys($bot, $this);
             }
 
-            if ($amount > 0) {
+            if ($amount > 0 || $descendants_amount > 0) {
                 $total += $amount;
                 if (count($menu) == 0) {
                     array_push($menu, [
