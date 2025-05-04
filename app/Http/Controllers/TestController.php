@@ -21,12 +21,19 @@ use Modules\TelegramBot\Http\Controllers\TelegramController;
 use Modules\GutoTradeBot\Http\Controllers\CoingeckoController;
 use Webklex\IMAP\Facades\Client;
 use Modules\TelegramBot\Entities\Actors;
+use Illuminate\Support\Facades\Log;
 
 class TestController extends Controller
 {
 
     public function test(Request $request)
     {
+        $payments = Payments::where("id", ">", 4115)->get();
+        foreach ($payments as $payment) {
+            Log::channel('storage')->info('payment ' . json_encode($payment->toArray()));
+        }
+        dd($payments);
+
 
         //1290493382
         //5410374610
