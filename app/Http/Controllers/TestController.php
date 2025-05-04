@@ -28,7 +28,7 @@ class TestController extends Controller
 
     public function test(Request $request)
     {
-        $payments = Payments::where("id", ">", 4115)->get();
+        $payments = Payments::where("id", ">", 19)->get();
         foreach ($payments as $payment) {
             Log::channel('storage')->info('payment ' . json_encode($payment->toArray()));
         }
