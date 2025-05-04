@@ -726,7 +726,7 @@ class PaymentsController extends MoneysController
             // comprobando q los hijos tengan pagos
             $descendants = $sender->getDescendants($bot);
             foreach ($descendants as $id) {
-                $descendant = $bot->AgentsController->getSuscriptor($bot, $sender->user_id, true);
+                $descendant = $bot->AgentsController->getSuscriptor($bot, $id);
                 $amount += $descendant->liquidatedMoneys($bot, $this);
             }
 
