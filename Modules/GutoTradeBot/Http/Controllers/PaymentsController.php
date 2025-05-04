@@ -27,7 +27,7 @@ class PaymentsController extends MoneysController
     {
         $data["rate"] = array(
             "internal" => $bot->ProfitsController->getProfit(100),
-            "oracle" => CoingeckoController::getRate(),
+            "oracle" => $bot->CoingeckoController->getRate(Carbon::now()->format("Y-m-d")),
             "receiver" => 0
         );
         $data["capital"] = $bot->ProfitsController->getSpended($amount);

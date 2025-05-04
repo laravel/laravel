@@ -174,7 +174,7 @@ class MoneysController extends JsonsController
                         case 1:
                             $data["rate"] = array(
                                 "internal" => 1,
-                                "oracle" => CoingeckoController::getRate(),
+                                "oracle" => $bot->CoingeckoController->getRate(Carbon::now()->format("Y-m-d")),
                                 "receiver" => 1
                             );
                             $data["fullname"] = strtolower($caption["fullname"]);

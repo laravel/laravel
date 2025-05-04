@@ -28,13 +28,6 @@ class TestController extends Controller
 
     public function test(Request $request)
     {
-        $bot = new GutoTradeBotController("GutoTradeBot");
-
-        $actor = $bot->ActorsController->getFirst(Actors::class, 'user_id', '=', "816767995");
-        $reply = $bot->notifyStats($actor);
-        dd($reply);
-
-        //{"IrelandPaymentsBot":{"admin_level":2}}
         $uniqueDates = Payments::select(DB::raw('DATE(created_at) as date'))
             ->whereNotExists(function ($query) {
                 $query->select(DB::raw(1))
@@ -42,12 +35,43 @@ class TestController extends Controller
                     ->whereRaw('DATE(payments.created_at) = rates.date');
             })
             ->groupBy(DB::raw('DATE(created_at)'))
-            ->limit(5)
+            ->limit(10)
             ->orderBy('date', 'desc')
             ->get()
             ->pluck('date');
         $dates = $uniqueDates->toArray();
         //dd($dates);
+        //die;
+
+        $last = "";
+        $amount = 0;
+        foreach ($dates as $date) {
+            $array = CoingeckoController::getHistory("eur", "tether", $date);
+            $value = $array["direct"];
+            if ($value == 0)
+                break;
+            else {
+                Rates::create([
+                    'date' => $date,
+                    'base' => "tether",
+                    'coin' => "eur",
+                    'rate' => $value,
+                ]);
+                $last = $date;
+                $amount++;
+            }
+        }
+        echo "{$amount} / last = {$last}";
+        dd($dates);
+        die;
+
+
+
+
+
+
+
+
         //die;
         $value = 1;
         //while ($value > 0) {
@@ -140,6 +164,14 @@ class TestController extends Controller
 
 
 
+
+
+
+        $bot = new GutoTradeBotController("GutoTradeBot");
+
+        $actor = $bot->ActorsController->getFirst(Actors::class, 'user_id', '=', "816767995");
+        $reply = $bot->notifyStats($actor);
+        dd($reply);
 
 
         $bot = new GutoTradeBotController("GutoTradeBot");

@@ -31,6 +31,7 @@ class GutoTradeBotController extends JsonsController
     public $AgentsController;
     public $TextController;
     public $PenaltiesController;
+    public $CoingeckoController;
 
     public static $STOLEN_FUNDS = 700;
     public static $NOTIFY_FOR_DEBUG = false;
@@ -48,6 +49,7 @@ class GutoTradeBotController extends JsonsController
         $this->CapitalsController = new CapitalsController();
         $this->ProfitsController = new ProfitsController();
         $this->AgentsController = new AgentsController();
+        $this->CoingeckoController = new CoingeckoController();
 
         if (!$instance)
             $instance = $botname;
@@ -258,7 +260,7 @@ class GutoTradeBotController extends JsonsController
                         $this->actor->isLevel(4, $this->telegram["username"])
                     ) {
                         $amount = 100;
-                        $rate = CoingeckoController::getRate();
+                        $rate = $this->CoingeckoController->getRate(Carbon::now()->format("Y-m-d"));
 
                         $flow = $this->ProfitsController->calculateFlow($amount, $rate["inverse"]);
 
