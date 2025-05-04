@@ -28,18 +28,7 @@ class TestController extends Controller
 
     public function test(Request $request)
     {
-        $payments = Payments::where("id", ">", 19)->get();
-        foreach ($payments as $payment) {
-            Log::channel('storage')->info('payment ' . json_encode($payment->toArray()));
-        }
-        dd($payments);
-
-
-        //1290493382
-        //5410374610
         $bot = new GutoTradeBotController("GutoTradeBot");
-        $payments = $bot->PaymentsController->getUnliquidatedPayments($bot, "1290493382");
-        dd($payments->toArray());
 
         $actor = $bot->ActorsController->getFirst(Actors::class, 'user_id', '=', "816767995");
         $reply = $bot->notifyStats($actor);
