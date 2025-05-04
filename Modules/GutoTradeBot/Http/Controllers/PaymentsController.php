@@ -721,7 +721,15 @@ class PaymentsController extends MoneysController
         foreach ($senders as $sender) {
             $sender = (new Agents())->newInstance($sender->getAttributes(), true);
             $suscriptor = $bot->AgentsController->getSuscriptor($bot, $sender->user_id, true);
+            // calculando la cantidad q se le debe a este 
             $amount = $sender->liquidatedMoneys($bot, $this);
+            // comprobando q los hijos tengan pagos
+            $descendants = $sender->getDescendants($bot);
+            foreach ($descendants as $id) {
+                $descendant = $bot->AgentsController->getSuscriptor($bot, $sender->user_id, true);
+                $amount += $descendant->liquidatedMoneys($bot, $this);
+            }
+
             if ($amount > 0) {
                 $total += $amount;
                 if (count($menu) == 0) {

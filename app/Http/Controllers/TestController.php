@@ -11,6 +11,7 @@ use Modules\GutoTradeBot\Entities\Capitals;
 use Modules\GutoTradeBot\Entities\Moneys;
 use Modules\GutoTradeBot\Entities\Profits;
 use Modules\GutoTradeBot\Entities\Payments;
+use Modules\GutoTradeBot\Entities\Rates;
 use Modules\GutoTradeBot\Http\Controllers\CapitalsController;
 use Modules\GutoTradeBot\Http\Controllers\GutoTradeBotController;
 use Modules\GutoTradeBot\Http\Controllers\PaymentsController;
@@ -26,6 +27,68 @@ class TestController extends Controller
 
     public function test(Request $request)
     {
+
+        //1290493382
+        //5410374610
+        $bot = new GutoTradeBotController("GutoTradeBot");
+        $payments = $bot->PaymentsController->getUnliquidatedPayments($bot, "1290493382");
+        dd($payments->toArray());
+
+        $actor = $bot->ActorsController->getFirst(Actors::class, 'user_id', '=', "816767995");
+        $reply = $bot->notifyStats($actor);
+        dd($reply);
+
+        //{"IrelandPaymentsBot":{"admin_level":2}}
+        $uniqueDates = Payments::select(DB::raw('DATE(created_at) as date'))
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('rates')
+                    ->whereRaw('DATE(payments.created_at) = rates.date');
+            })
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->limit(5)
+            ->orderBy('date', 'desc')
+            ->get()
+            ->pluck('date');
+        $dates = $uniqueDates->toArray();
+        //dd($dates);
+        //die;
+        $value = 1;
+        //while ($value > 0) {
+        foreach ($dates as $date) {
+            $array = CoingeckoController::getHistory("eur", "tether", $date);
+            $value = $array["direct"];
+            if ($value == 0)
+                break;
+            else {
+                Rates::create([
+                    'date' => $date,
+                    'base' => "tether",
+                    'coin' => "eur",
+                    'rate' => $value,
+                ]);
+                sleep(2);
+            }
+        }
+        //}
+        dd($uniqueDates->toArray());
+        die;
+
+
+        $date = "29-04-2025";
+        $array = CoingeckoController::getHistory("eur", "tether", $date);
+        dd($array);
+        die;
+
+
+
+        $paymentsWithMissingRates = Payments::whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                ->from('rates')
+                ->whereRaw('DATE(payments.created_at) = rates.created_at');
+        })->get();
+        dd($paymentsWithMissingRates->toArray());
+        die;
 
 
         $dates = array();

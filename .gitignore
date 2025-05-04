@@ -3,6 +3,7 @@
 /public/build
 /public/hot
 /public/storage
+/public/autodestroy
 /storage/*.key
 /storage/pail
 /vendor
