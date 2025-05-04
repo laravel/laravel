@@ -9,7 +9,7 @@ class FileController extends Controller
 {
 
     public static $AUTODESTROY_DIR = "/autodestroy";
-    public static $TEMPFILE_DURATION_HOURS = 48;
+    public static $TEMPFILE_DURATION_HOURS = 168;
 
     public function renderAndDestroy($format, $name)
     {
