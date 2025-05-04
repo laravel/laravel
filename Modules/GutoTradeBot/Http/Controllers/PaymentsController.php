@@ -201,7 +201,8 @@ class PaymentsController extends MoneysController
                     $actors[$payments[$i]->supervisor_id] = "";
                     if ($payments[$i]->supervisor_id && $payments[$i]->supervisor_id > 0) {
                         $suscriptor = $bot->AgentsController->getSuscriptor($bot, $payments[$i]->supervisor_id, true);
-                        $actors[$payments[$i]->supervisor_id] = $suscriptor->getTelegramInfo($bot, "full_name");
+                        if ($suscriptor && $suscriptor->id > 0)
+                            $actors[$payments[$i]->supervisor_id] = $suscriptor->getTelegramInfo($bot, "full_name");
                     }
                 }
 
