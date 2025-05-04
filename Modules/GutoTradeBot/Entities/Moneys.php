@@ -82,7 +82,8 @@ class Moneys extends Jsons
                 )
             ) {
                 $suscriptor = $bot->AgentsController->getSuscriptor($bot, $this->supervisor_id, true);
-                $text .= "🕵️‍♂️ Asignado a:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
+                if ($suscriptor && $suscriptor->id > 0)
+                    $text .= "🕵️‍♂️ Asignado a:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
             }
         }
         $text .= "🗓 *Actualizado*: {$updated_at}\n\n";
