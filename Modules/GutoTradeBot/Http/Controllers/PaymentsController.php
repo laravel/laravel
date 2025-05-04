@@ -719,14 +719,14 @@ class PaymentsController extends MoneysController
         $menu = array();
         $total = 0;
         foreach ($senders as $sender) {
+            // buscando los descendientes de este actor por si tienen pagos
             $descendants = $sender->getDescendants($bot);
-            Log::error("PaymentsController getUnliquidatedMenuForUsers descendants: " . json_encode($descendants));
 
             $sender = (new Agents())->newInstance($sender->getAttributes(), true);
             $suscriptor = $bot->AgentsController->getSuscriptor($bot, $sender->user_id, true);
             // calculando la cantidad q se le debe a este 
             $amount = $sender->liquidatedMoneys($bot, $this);
-            // comprobando q los hijos tengan pagos
+            // sumando las cantidades de sus hijos
             foreach ($descendants as $id) {
                 $descendant = (new Agents())->newInstance($bot->AgentsController->getSuscriptor($bot, $id)->getAttributes(), true);
                 $amount += $descendant->liquidatedMoneys($bot, $this);
