@@ -28,59 +28,14 @@ class TestController extends Controller
 
     public function test(Request $request)
     {
-        $paymentsByDate = Payments::select(
-            DB::raw('DATE(created_at) as date'),
-            DB::raw('SUM(amount) as total')
-        )->groupBy('date')->get();
 
-        $capitalsByDate = Capitals::select(
-            DB::raw('DATE(created_at) as date'),
-            DB::raw('SUM(amount) as tosend'),
-            DB::raw('SUM(comment) as received')
-        )->groupBy('date')->get();
+        $bot = new GutoTradeBotController("GutoTradeBot");
+        $results = $bot->PaymentsController->getCashFlow();
+        $array = $bot->PaymentsController->exportCashFlow($results);
+        $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
 
-        // Crear una colección combinada
-        $combined = collect();
-
-        // Procesar payments usando el método put correctamente
-        $paymentsByDate->each(function ($payment) use ($combined) {
-            $combined->put($payment->date, [
-                'date' => $payment->date,
-                'payments' => $payment->total,
-                'tosend' => 0,
-                'received' => 0
-            ]);
-        });
-
-        // Procesar capitals
-        $capitalsByDate->each(function ($capital) use ($combined) {
-            if ($combined->has($capital->date)) {
-                // Usar merge para actualizar el valor existente
-                $combined->put($capital->date, array_merge(
-                    $combined->get($capital->date),
-                    ['tosend' => $capital->tosend, 'received' => $capital->received]
-                ));
-            } else {
-                $combined->put($capital->date, [
-                    'date' => $capital->date,
-                    'payments' => 0,
-                    'tosend' => $capital->tosend,
-                    'received' => $capital->received
-                ]);
-            }
-        });
-
-        // Ordenar por fecha y obtener valores
-        $results = $combined->sortBy('date')->values();
-        $balancetosend = 0;
-        $balancereceived = 0;
-        foreach ($results as $array) {
-            $balancereceived += $array["received"] - $array["payments"];
-            $balancetosend += $array["tosend"] - $array["payments"];
-        }
-
-        echo $balancereceived . " -> " . $balancetosend;
-        dd($results->toArray());
+        echo $xlspath;
+        dd($results);
         die;
 
         $uniqueDates = Payments::select(DB::raw('DATE(created_at) as date'))
@@ -221,8 +176,6 @@ class TestController extends Controller
 
 
 
-
-        $bot = new GutoTradeBotController("GutoTradeBot");
 
         $actor = $bot->ActorsController->getFirst(Actors::class, 'user_id', '=', "816767995");
         $reply = $bot->notifyStats($actor);

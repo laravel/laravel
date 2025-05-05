@@ -417,6 +417,16 @@ class GutoTradeBotController extends JsonsController
                     }
                     break;
 
+                case "/cashflow":
+                    $reply = $this->mainMenu($this->actor);
+                    if (
+                        $this->actor->isLevel(1, $this->telegram["username"]) ||
+                        $this->actor->isLevel(4, $this->telegram["username"])
+                    ) {
+                        $reply = $this->PaymentsController->getAllCash($this);
+                    }
+                    break;
+
                 case "/flow":
                     $reply = $this->mainMenu($this->actor);
                     if (
@@ -1220,6 +1230,7 @@ class GutoTradeBotController extends JsonsController
             case "1":
             case 1:
                 array_push($menu, [["text" => "🧮 Estadísticas", "callback_data" => "/stats"]]);
+                array_push($menu, [["text" => "💹 Flujo de Caja", "callback_data" => "/cashflow"]]);
                 array_push($menu, [["text" => "🚨 Anuncio", "callback_data" => "sendannouncement"]]);
                 array_push($menu, [["text" => "🤑 Ajustar ganancias", "callback_data" => "/profit"]]);
                 array_push($menu, [["text" => "🫂 Usuarios suscritos", "callback_data" => "/users"]]);
@@ -1227,6 +1238,7 @@ class GutoTradeBotController extends JsonsController
             case "4":
             case 4:
                 array_push($menu, [["text" => "🧮 Estadísticas", "callback_data" => "/stats"]]);
+                array_push($menu, [["text" => "💹 Flujo de Caja", "callback_data" => "/cashflow"]]);
                 array_push($menu, [["text" => "🚨 Anuncio", "callback_data" => "sendannouncement"]]);
                 break;
             default:

@@ -14,6 +14,12 @@ use Modules\TelegramBot\Http\Controllers\ActorsController;
 use Modules\TelegramBot\Http\Controllers\TelegramBotController;
 use Modules\TelegramBot\Http\Controllers\TelegramController;
 use Illuminate\Support\Facades\Log;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use App\Http\Controllers\FileController;
 
 class MoneysController extends JsonsController
 {
@@ -992,6 +998,129 @@ class MoneysController extends JsonsController
                 "inline_keyboard" => [
                     [["text" => "✋ Cancelar", "callback_data" => "menu"]],
                 ],
+            ]),
+        );
+
+        return $reply;
+    }
+
+
+
+    public function getCashFlow()
+    {
+        $paymentsByDate = Payments::select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('SUM(amount) as total')
+        )->groupBy('date')->get();
+
+        $capitalsByDate = Capitals::select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('SUM(amount) as tosend'),
+            DB::raw('SUM(comment) as received')
+        )->groupBy('date')->get();
+
+        // Crear una colección combinada
+        $combined = collect();
+
+        // Procesar payments usando el método put correctamente
+        $paymentsByDate->each(function ($payment) use ($combined) {
+            $combined->put($payment->date, [
+                'date' => $payment->date,
+                'payments' => $payment->total,
+                'tosend' => 0,
+                'received' => 0
+            ]);
+        });
+
+        // Procesar capitals
+        $capitalsByDate->each(function ($capital) use ($combined) {
+            if ($combined->has($capital->date)) {
+                // Usar merge para actualizar el valor existente
+                $combined->put($capital->date, array_merge(
+                    $combined->get($capital->date),
+                    ['tosend' => $capital->tosend, 'received' => $capital->received]
+                ));
+            } else {
+                $combined->put($capital->date, [
+                    'date' => $capital->date,
+                    'payments' => 0,
+                    'tosend' => $capital->tosend,
+                    'received' => $capital->received
+                ]);
+            }
+        });
+
+        // Ordenar por fecha y obtener valores
+        $results = $combined->sortBy('date')->values()->toArray();
+        $balance = 0;
+        for ($i = 0; $i < count($results); $i++) {
+            $balance += $results[$i]["tosend"] - $results[$i]["payments"];
+            $results[$i]["balance"] = $balance;
+        }
+
+        return $results;
+    }
+
+    public function exportCashFlow($cashflow)
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue("A1", "Fecha");
+        $sheet->setCellValue("B1", "Recibido");
+        $sheet->setCellValue("C1", "A enviar");
+        $sheet->setCellValue("D1", "Enviado");
+        $sheet->setCellValue("E1", "Balance");
+
+        for ($i = 0; $i < count($cashflow); $i++) {
+            $sheet->setCellValue("A" . ($i + 2), $cashflow[$i]["date"]);
+            $sheet->setCellValue("B" . ($i + 2), $cashflow[$i]["received"]);
+            $sheet->setCellValue("C" . ($i + 2), $cashflow[$i]["tosend"]);
+            $sheet->setCellValue("D" . ($i + 2), $cashflow[$i]["payments"]);
+            $sheet->setCellValue("E" . ($i + 2), $cashflow[$i]["balance"]);
+        }
+
+        $sheet->getColumnDimension('A')->setWidth(15);
+        $sheet->getColumnDimension('B')->setWidth(15);
+        $sheet->getColumnDimension('C')->setWidth(15);
+        $sheet->getColumnDimension('D')->setWidth(15);
+        $sheet->getColumnDimension('E')->setWidth(15);
+        $sheet->setTitle("Flujo");
+
+        $writer = new Xlsx($spreadsheet);
+        $filename = time() . ".xlsx";
+
+        $path = public_path() . FileController::$AUTODESTROY_DIR;
+        // Si la carpeta no existe, crearla
+        if (!is_dir($path)) {
+            mkdir($path, 0755, true);
+        }
+        // Guardar el archivo en el sistema
+        $writer->save($path . "/" . $filename);
+
+        $array = explode(".", $filename);
+        return array(
+            "filename" => $array[0],
+            "extension" => $array[1],
+        );
+    }
+
+    public function getAllCash($bot)
+    {
+        $results = $bot->PaymentsController->getCashFlow();
+        $array = $bot->PaymentsController->exportCashFlow($results);
+        $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
+
+        $text = "👆 *Flujo de caja*\n_Estos son los movimientos hasta el momento.";
+        $menu = [
+            [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]],
+        ];
+        $text .= "_\n\n📎 Se ha generado un excel con los datos aquí:\n{$xlspath}\n_Este archivo solo estará disponible por " . FileController::$TEMPFILE_DURATION_HOURS . " hrs._";
+
+        $reply = array(
+            "text" => $text,
+            "markup" => json_encode([
+                "inline_keyboard" => $menu,
             ]),
         );
 
