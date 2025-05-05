@@ -79,6 +79,7 @@ class Moneys extends Jsons
 
             if (
                 $this->supervisor_id && $this->supervisor_id > 0 &&
+                $actor && $actor->id > 0 &&
                 (
                     $actor->isLevel(1, $bot->telegram["username"]) ||
                     $actor->isLevel(3, $bot->telegram["username"]) ||
