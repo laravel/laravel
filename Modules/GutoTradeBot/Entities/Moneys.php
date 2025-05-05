@@ -62,110 +62,107 @@ class Moneys extends Jsons
             $text .= "*🖍 Movimiento:\n🛬 Se reciben: {$this->comment} 💰\n🛫 Se enviarán: {$this->amount} 💶*\n";
         }
 
-        // Personalizando fecha y hora en dependencia de la zona horaria del actor
-        $created_at = $this->created_at;
-        $updated_at = $this->updated_at;
         if ($actor && $actor->id > 0) {
+            // Personalizando fecha y hora en dependencia de la zona horaria del actor
             $created_at = $actor->getLocalDateTime($this->created_at, $bot->telegram["username"]);
             $updated_at = $actor->getLocalDateTime($this->updated_at, $bot->telegram["username"]);
-        }
-        $text .= "📅 *Fecha*: {$created_at}\n\n";
+            $text .= "📅 *Fecha*: {$created_at}\n\n";
 
-        if ($show_owner_id) {
-            if ($this->sender_id && $this->sender_id > 0) {
-                $suscriptor = $bot->AgentsController->getSuscriptor($bot, $this->sender_id, true);
-                $text .= "👨🏻‍💻 Reportado por:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
-            }
+            if ($show_owner_id) {
+                if ($this->sender_id && $this->sender_id > 0) {
+                    $suscriptor = $bot->AgentsController->getSuscriptor($bot, $this->sender_id, true);
+                    $text .= "👨🏻‍💻 Reportado por:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
+                }
 
-            if (
-                $this->supervisor_id && $this->supervisor_id > 0 &&
-                $actor && $actor->id > 0 &&
-                (
-                    $actor->isLevel(1, $bot->telegram["username"]) ||
-                    $actor->isLevel(3, $bot->telegram["username"]) ||
-                    $actor->isLevel(4, $bot->telegram["username"])
-                )
-            ) {
-                $suscriptor = $bot->AgentsController->getSuscriptor($bot, $this->supervisor_id, true);
-                if ($suscriptor && $suscriptor->id > 0)
-                    $text .= "🕵️‍♂️ Asignado a:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
-            }
-        }
-        $text .= "🗓 *Actualizado*: {$updated_at}\n\n";
-
-        if ($menu && count($menu) > 0) {
-            $text .= "👇 Qué desea hacer?";
-        }
-
-        if (isset($this->data["previous_screenshot"])) {
-            $extra_screenshots = array();
-            if (is_array($this->data["previous_screenshot"])) {
-                // si las capturas previas estan en array las tomo
-                $extra_screenshots = $this->data["previous_screenshot"];
-            } else if ($this->data["previous_screenshot"] != "") {
-                // si es solo una y esta en formato texto
-                $extra_screenshots[] = $this->data["previous_screenshot"];
-            }
-            array_unshift($extra_screenshots, $this->screenshot);
-
-            $array = array();
-            foreach ($extra_screenshots as $screenshot) {
-                if ($screenshot != "") {
-                    // si llegamos a 10 se para por restriccion cantidad de imagenes de la funcion sendMediaGroup
-                    if (count($array) > 10) {
-                        break;
-                    }
-
-                    $array[] = array(
-                        "type" => "photo",
-                        "media" => $screenshot,
-                        "caption" => "🆔 {$this->id} 👤 *{$this->comment}*: {$this->amount} 💶\n📅 Fecha: {$created_at}",
-                        "parse_mode" => "Markdown",
-                    );
+                if (
+                    $this->supervisor_id && $this->supervisor_id > 0 &&
+                    (
+                        $actor->isLevel(1, $bot->telegram["username"]) ||
+                        $actor->isLevel(3, $bot->telegram["username"]) ||
+                        $actor->isLevel(4, $bot->telegram["username"])
+                    )
+                ) {
+                    $suscriptor = $bot->AgentsController->getSuscriptor($bot, $this->supervisor_id, true);
+                    if ($suscriptor && $suscriptor->id > 0)
+                        $text .= "🕵️‍♂️ Asignado a:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
                 }
             }
+            $text .= "🗓 *Actualizado*: {$updated_at}\n\n";
 
-            $array = array(
-                "demo" => $demo ? true : null,
-                "message" => array(
-                    "media" => json_encode($array),
-                    "chat" => array(
-                        "id" => $actor->user_id,
-                    ),
-                ),
-            );
-            $response = json_decode($bot->TelegramController->sendMediaGroup($array, $bot->getToken($bot->telegram["username"])), true);
-            $array = array(
-                "demo" => $demo ? true : null,
-                "message" => array(
-                    "text" => $text,
-                    "chat" => array(
-                        "id" => $actor->user_id,
-                    ),
-                    "reply_to_message_id" => isset($response["result"][0]) ? $response["result"][0]["message_id"] : null,
-                    "reply_markup" => json_encode([
-                        "inline_keyboard" => $menu ? $menu : array(),
-                    ]),
-                ),
-            );
+            if ($menu && count($menu) > 0) {
+                $text .= "👇 Qué desea hacer?";
+            }
 
-            $bot->TelegramController->sendMessage($array, $bot->getToken($bot->telegram["username"]));
+            if (isset($this->data["previous_screenshot"])) {
+                $extra_screenshots = array();
+                if (is_array($this->data["previous_screenshot"])) {
+                    // si las capturas previas estan en array las tomo
+                    $extra_screenshots = $this->data["previous_screenshot"];
+                } else if ($this->data["previous_screenshot"] != "") {
+                    // si es solo una y esta en formato texto
+                    $extra_screenshots[] = $this->data["previous_screenshot"];
+                }
+                array_unshift($extra_screenshots, $this->screenshot);
 
-        } else {
-            $array = array(
-                "demo" => $demo ? true : null,
-                "message" => array(
-                    "text" => $text,
-                    "photo" => $this->screenshot,
-                    "chat" => array(
-                        "id" => $actor->user_id,
+                $array = array();
+                foreach ($extra_screenshots as $screenshot) {
+                    if ($screenshot != "") {
+                        // si llegamos a 10 se para por restriccion cantidad de imagenes de la funcion sendMediaGroup
+                        if (count($array) > 10) {
+                            break;
+                        }
+
+                        $array[] = array(
+                            "type" => "photo",
+                            "media" => $screenshot,
+                            "caption" => "🆔 {$this->id} 👤 *{$this->comment}*: {$this->amount} 💶\n📅 Fecha: {$created_at}",
+                            "parse_mode" => "Markdown",
+                        );
+                    }
+                }
+
+                $array = array(
+                    "demo" => $demo ? true : null,
+                    "message" => array(
+                        "media" => json_encode($array),
+                        "chat" => array(
+                            "id" => $actor->user_id,
+                        ),
                     ),
-                    "reply_markup" => json_encode([
-                        "inline_keyboard" => $menu ? $menu : array(),
-                    ]),
-                ),
-            );
-            $bot->TelegramController->sendPhoto($array, $bot->getToken($bot->telegram["username"]));
+                );
+                $response = json_decode($bot->TelegramController->sendMediaGroup($array, $bot->getToken($bot->telegram["username"])), true);
+                $array = array(
+                    "demo" => $demo ? true : null,
+                    "message" => array(
+                        "text" => $text,
+                        "chat" => array(
+                            "id" => $actor->user_id,
+                        ),
+                        "reply_to_message_id" => isset($response["result"][0]) ? $response["result"][0]["message_id"] : null,
+                        "reply_markup" => json_encode([
+                            "inline_keyboard" => $menu ? $menu : array(),
+                        ]),
+                    ),
+                );
+
+                $bot->TelegramController->sendMessage($array, $bot->getToken($bot->telegram["username"]));
+
+            } else {
+                $array = array(
+                    "demo" => $demo ? true : null,
+                    "message" => array(
+                        "text" => $text,
+                        "photo" => $this->screenshot,
+                        "chat" => array(
+                            "id" => $actor->user_id,
+                        ),
+                        "reply_markup" => json_encode([
+                            "inline_keyboard" => $menu ? $menu : array(),
+                        ]),
+                    ),
+                );
+                $bot->TelegramController->sendPhoto($array, $bot->getToken($bot->telegram["username"]));
+            }
         }
     }
 
