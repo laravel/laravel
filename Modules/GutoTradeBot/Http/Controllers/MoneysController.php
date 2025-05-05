@@ -19,6 +19,7 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 use App\Http\Controllers\FileController;
 
 class MoneysController extends JsonsController
@@ -1081,11 +1082,19 @@ class MoneysController extends JsonsController
         }
 
         $sheet->getColumnDimension('A')->setWidth(15);
-        $sheet->getColumnDimension('B')->setWidth(15);
-        $sheet->getColumnDimension('C')->setWidth(15);
-        $sheet->getColumnDimension('D')->setWidth(15);
-        $sheet->getColumnDimension('E')->setWidth(15);
+        $sheet->getColumnDimension('B')->setWidth(10);
+        $sheet->getColumnDimension('C')->setWidth(10);
+        $sheet->getColumnDimension('D')->setWidth(10);
+        $sheet->getColumnDimension('E')->setWidth(10);
+        $sheet->freezePane('B2');
         $sheet->setTitle("Flujo");
+
+        // Opcional: estilo para los encabezados
+        $headerStyle = [
+            'font' => ['bold' => true],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'FFD9D9D9']]
+        ];
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray($headerStyle);
 
         $writer = new Xlsx($spreadsheet);
         $filename = time() . ".xlsx";

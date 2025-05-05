@@ -16,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class CapitalsController extends MoneysController
 {
@@ -155,7 +156,15 @@ class CapitalsController extends MoneysController
         $sheet->getColumnDimension('A')->setWidth(15);
         $sheet->getColumnDimension('B')->setWidth(10);
         $sheet->getColumnDimension('C')->setWidth(10);
+        $sheet->freezePane('B2');
         $sheet->setTitle("Recibos");
+
+        // Opcional: estilo para los encabezados
+        $headerStyle = [
+            'font' => ['bold' => true],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'FFD9D9D9']]
+        ];
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray($headerStyle);
 
         $writer = new Xlsx($spreadsheet);
         $filename = time() . ".xlsx";

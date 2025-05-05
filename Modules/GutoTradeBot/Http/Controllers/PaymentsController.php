@@ -227,7 +227,16 @@ class PaymentsController extends MoneysController
             $sheet->getColumnDimension('F')->setWidth(17);
         }
 
+        $sheet->freezePane('C2');
         $sheet->setTitle("Pagos");
+
+        // Opcional: estilo para los encabezados
+        $headerStyle = [
+            'font' => ['bold' => true],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'FFD9D9D9']]
+        ];
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray($headerStyle);
+
 
         $writer = new Xlsx($spreadsheet);
         $filename = time() . ".xlsx";
