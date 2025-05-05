@@ -1111,7 +1111,7 @@ class MoneysController extends JsonsController
         $array = $bot->PaymentsController->exportCashFlow($results);
         $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
 
-        $text = "👆 *Flujo de caja*\n_Estos son los movimientos hasta el momento.";
+        $text = "💹 *Flujo de caja*\n_Estos son los movimientos hasta el momento.";
         $menu = [
             [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]],
         ];
