@@ -29,7 +29,7 @@ class TestController extends Controller
     public function test(Request $request)
     {
         $count = 0;
-        $payments = Payments::where('id', '>', 0)->get();
+        $payments = Capitals::where('id', '>', 0)->get();
         foreach ($payments as $key => $payment) {
             $date = Carbon::createFromFormat("Y-m-d H:i:s", $payment->created_at)->format("Y-m-d");
             $rate = Rates::where('date', '=', $date)->first();
