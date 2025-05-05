@@ -28,8 +28,31 @@ class TestController extends Controller
 
     public function test(Request $request)
     {
+        $count = 0;
+        $payments = Payments::where('id', '>', 0)->get();
+        foreach ($payments as $key => $payment) {
+            $date = Carbon::createFromFormat("Y-m-d H:i:s", $payment->created_at)->format("Y-m-d");
+            $rate = Rates::where('date', '=', $date)->first();
+
+            if ($rate && $rate->id > 0) {
+                $array = $payment->data;
+                $array["rate"]["oracle"] = array(
+                    "direct" => $rate->rate,
+                    "inverse" => 1 / $rate->rate,
+                );
+                $payment->data = $array;
+                $payment->save();
+                $count++;
+            }
+        }
+        echo $count;
+        dd($payments->toArray());
+        die;
+
+
 
         $bot = new GutoTradeBotController("GutoTradeBot");
+
         $results = $bot->PaymentsController->getCashFlow();
         $array = $bot->PaymentsController->exportCashFlow($results);
         $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
