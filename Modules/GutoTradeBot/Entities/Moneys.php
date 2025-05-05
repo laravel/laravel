@@ -63,8 +63,12 @@ class Moneys extends Jsons
         }
 
         // Personalizando fecha y hora en dependencia de la zona horaria del actor
-        $created_at = $actor->getLocalDateTime($this->created_at, $bot->telegram["username"]);
-        $updated_at = $actor->getLocalDateTime($this->updated_at, $bot->telegram["username"]);
+        $created_at = $this->created_at;
+        $updated_at = $this->updated_at;
+        if ($actor && $actor->id > 0) {
+            $created_at = $actor->getLocalDateTime($this->created_at, $bot->telegram["username"]);
+            $updated_at = $actor->getLocalDateTime($this->updated_at, $bot->telegram["username"]);
+        }
         $text .= "📅 *Fecha*: {$created_at}\n\n";
 
         if ($show_owner_id) {
