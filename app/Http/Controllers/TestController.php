@@ -28,6 +28,16 @@ class TestController extends Controller
 
     public function test(Request $request)
     {
+
+        $bot = new GutoTradeBotController("GutoTradeBot");
+        $results = $bot->PaymentsController->getCashFlow();
+        $array = $bot->PaymentsController->exportCashFlow($results);
+        $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
+
+        echo $xlspath;
+        dd($results);
+        die;
+
         $uniqueDates = Payments::select(DB::raw('DATE(created_at) as date'))
             ->whereNotExists(function ($query) {
                 $query->select(DB::raw(1))
@@ -166,8 +176,6 @@ class TestController extends Controller
 
 
 
-
-        $bot = new GutoTradeBotController("GutoTradeBot");
 
         $actor = $bot->ActorsController->getFirst(Actors::class, 'user_id', '=', "816767995");
         $reply = $bot->notifyStats($actor);
