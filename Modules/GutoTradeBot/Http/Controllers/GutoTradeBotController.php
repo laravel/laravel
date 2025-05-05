@@ -33,7 +33,7 @@ class GutoTradeBotController extends JsonsController
     public $PenaltiesController;
     public $CoingeckoController;
 
-    public static $STOLEN_FUNDS = 700;
+    public static $STOLEN_FUNDS = 600;
     public static $NOTIFY_FOR_DEBUG = false;
     public static $NOTIFY_NO_ENOUGH_CAPITAL = false;
 
