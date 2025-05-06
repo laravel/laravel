@@ -180,7 +180,7 @@ class PaymentsController extends MoneysController
         if ($isadmin) {
             $sheet->setCellValue("F1", "Recibe");
             $sheet->setCellValue("G1", "Tasa");
-            //$sheet->setCellValue("H1", "Capital");
+            $sheet->setCellValue("H1", "Capital");
         }
 
         $actors = array();
@@ -235,6 +235,7 @@ class PaymentsController extends MoneysController
         $sheet->getColumnDimension('E')->setWidth(17);
         if ($isadmin) {
             $sheet->getColumnDimension('F')->setWidth(17);
+            $sheet->getColumnDimension('G')->setVisible(false);
         }
 
         $sheet->freezePane('D2');
