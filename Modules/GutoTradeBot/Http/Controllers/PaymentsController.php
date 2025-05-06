@@ -648,6 +648,7 @@ class PaymentsController extends MoneysController
 
         if (count($payments) > 0) {
             $amount = 0;
+            $liquidate_amount = 0;
             $count = 0;
             $penalized = array();
 
@@ -664,6 +665,8 @@ class PaymentsController extends MoneysController
                 );
 
                 $amount += $payment->amount;
+                // ajustando la cantidad a pagar en base al cambio vigente en el pago
+                $liquidate_amount += $bot->ProfitsController->getSpended($payment->amount, $payment->data["rate"]["internal"], 0);
                 $count += 1;
 
                 $penalty = $bot->PenaltiesController->getForAmount($payment->amount);
@@ -675,9 +678,8 @@ class PaymentsController extends MoneysController
                 }
             }
 
-            // ajustando la cantidad a pagar en base al cambio vigente
-            $liquidate_amount = Moneys::format(MathController::round($bot->ProfitsController->getUSDTtoSendWithActiveRate($amount), 2, true));
             $amount = Moneys::format($amount);
+            $liquidate_amount = Moneys::format($liquidate_amount);
 
             $array = $this->export($bot, $payments, $actor);
             $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
