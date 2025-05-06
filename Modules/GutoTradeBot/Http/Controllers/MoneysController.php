@@ -1053,9 +1053,10 @@ class MoneysController extends JsonsController
 
         // Ordenar por fecha y obtener valores
         $results = $combined->sortBy('date')->values()->toArray();
-        $balance = 0;
         for ($i = 0; $i < count($results); $i++) {
-            $balance += $results[$i]["tosend"] - $results[$i]["payments"];
+            $balance = $results[$i]["tosend"] - $results[$i]["payments"];
+            if ($i > 0)
+                $balance += $results[$i - 1]["balance"];
             $results[$i]["balance"] = $balance;
         }
 
@@ -1078,7 +1079,11 @@ class MoneysController extends JsonsController
             $sheet->setCellValue("B" . ($i + 2), $cashflow[$i]["received"]);
             $sheet->setCellValue("C" . ($i + 2), $cashflow[$i]["tosend"]);
             $sheet->setCellValue("D" . ($i + 2), $cashflow[$i]["payments"]);
-            $sheet->setCellValue("E" . ($i + 2), $cashflow[$i]["balance"]);
+
+            $formula = "=C" . ($i + 2) . "-D" . ($i + 2);
+            if ($i > 0)
+                $formula = "=C" . ($i + 2) . "-D" . ($i + 2) . "+E" . ($i + 1);
+            $sheet->setCellValue("E" . ($i + 2), $formula);
         }
 
         $sheet->getColumnDimension('A')->setWidth(15);
@@ -1086,6 +1091,7 @@ class MoneysController extends JsonsController
         $sheet->getColumnDimension('C')->setWidth(10);
         $sheet->getColumnDimension('D')->setWidth(10);
         $sheet->getColumnDimension('E')->setWidth(10);
+        $sheet->getColumnDimension('B')->setVisible(false);
         $sheet->freezePane('B2');
         $sheet->setTitle("Flujo");
 
@@ -1095,6 +1101,8 @@ class MoneysController extends JsonsController
             'fill' => ['fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'FFD9D9D9']]
         ];
         $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray($headerStyle);
+        // Agregar filtros automáticos a los encabezados (desde A1 hasta F1)
+        $sheet->setAutoFilter('A1:E1');
 
         $writer = new Xlsx($spreadsheet);
         $filename = time() . ".xlsx";

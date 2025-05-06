@@ -139,13 +139,20 @@ class ProfitsController extends JsonsController
     }
 
     // calculo de USDT procesados dada la cantidad de Euros enviados
-    public function getSpended($amount)
+    public function getSpended($amount, $percent = false, $salary_percent = false)
     {
-        $salary = $this->getFirst(Profits::class, "name", "=", "salary");
-        $profit = $this->getFirst(Profits::class, "name", "=", "profit");
 
-        //$procesados = $amount / (1 + ($salary->value + $profit->value) / 100);
-        $rate = $salary->value + $profit->value;
+        if ($percent === false) {
+            $profit = $this->getFirst(Profits::class, "name", "=", "profit");
+            $percent = $profit->value;
+        }
+
+        if ($salary_percent === false) {
+            $salary = $this->getFirst(Profits::class, "name", "=", "salary");
+            $salary_percent = $salary->value;
+        }
+
+        $rate = $salary_percent + $percent;
         $procesados = $amount / (1 + $rate / 100);
         if ($rate < 0)
             $procesados = $amount * (1 + abs($rate) / 100);

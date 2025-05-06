@@ -28,6 +28,11 @@ class TestController extends Controller
 
     public function test(Request $request)
     {
+        $bot = new GutoTradeBotController("GutoTradeBot");
+        $reply = $bot->PaymentsController->getAllList($bot, "all", "816767995");
+        dd($reply);
+        die;
+
         $count = 0;
         $payments = Capitals::where('id', '>', 0)->get();
         foreach ($payments as $key => $payment) {
@@ -51,7 +56,6 @@ class TestController extends Controller
 
 
 
-        $bot = new GutoTradeBotController("GutoTradeBot");
 
         $results = $bot->PaymentsController->getCashFlow();
         $array = $bot->PaymentsController->exportCashFlow($results);

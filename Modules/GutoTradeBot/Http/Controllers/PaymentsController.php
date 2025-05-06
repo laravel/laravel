@@ -179,6 +179,8 @@ class PaymentsController extends MoneysController
         $sheet->setCellValue("E1", "Envia");
         if ($isadmin) {
             $sheet->setCellValue("F1", "Recibe");
+            $sheet->setCellValue("G1", "Tasa");
+            //$sheet->setCellValue("H1", "Capital");
         }
 
         $actors = array();
@@ -192,7 +194,8 @@ class PaymentsController extends MoneysController
                 $actors[$payments[$i]->sender_id] = "";
                 if ($payments[$i]->sender_id && $payments[$i]->sender_id > 0) {
                     $suscriptor = $bot->AgentsController->getSuscriptor($bot, $payments[$i]->sender_id, true);
-                    $actors[$payments[$i]->sender_id] = $suscriptor->getTelegramInfo($bot, "full_name");
+                    if ($suscriptor && $suscriptor->id > 0)
+                        $actors[$payments[$i]->sender_id] = $suscriptor->getTelegramInfo($bot, "full_name");
                 }
             }
             $sheet->setCellValue("E" . ($i + 2), $actors[$payments[$i]->sender_id]);
@@ -206,7 +209,14 @@ class PaymentsController extends MoneysController
                     }
                 }
 
+
                 $sheet->setCellValue("F" . ($i + 2), $actors[$payments[$i]->supervisor_id]);
+                $sheet->setCellValue("G" . ($i + 2), $payments[$i]->data["rate"]["internal"]);
+                $formula = "=C" . ($i + 2) . "*((100-G" . ($i + 2) . ")/100)";
+                $sheet->setCellValue("H" . ($i + 2), $formula);
+
+                //$sheet->setCellValue("H" . ($i + 2), $payments[$i]->data["capital"]);
+                //$sheet->setCellValue("I" . ($i + 2), $bot->ProfitsController->getSpended($payments[$i]->amount, $payments[$i]->data["rate"]["internal"], 0));
             }
 
             if (!$payments[$i]->isLiquidated()) {
@@ -227,7 +237,7 @@ class PaymentsController extends MoneysController
             $sheet->getColumnDimension('F')->setWidth(17);
         }
 
-        $sheet->freezePane('C2');
+        $sheet->freezePane('D2');
         $sheet->setTitle("Pagos");
 
         // Opcional: estilo para los encabezados
