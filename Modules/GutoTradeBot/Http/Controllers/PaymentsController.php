@@ -213,10 +213,10 @@ class PaymentsController extends MoneysController
 
 
                 $sheet->setCellValue("F" . ($i + 2), $actors[$payments[$i]->supervisor_id]);
-                if (isset($payments[$i]->data["rate"]["confirmation_date"]))
-                    $sheet->setCellValue("G" . ($i + 2), $payments[$i]->data["rate"]["confirmation_date"]);
-                if (isset($payments[$i]->data["rate"]["liquidation_date"]))
-                    $sheet->setCellValue("H" . ($i + 2), $payments[$i]->data["rate"]["liquidation_date"]);
+                if (isset($payments[$i]->data["confirmation_date"]))
+                    $sheet->setCellValue("G" . ($i + 2), $payments[$i]->data["confirmation_date"]);
+                if (isset($payments[$i]->data["liquidation_date"]))
+                    $sheet->setCellValue("H" . ($i + 2), $payments[$i]->data["liquidation_date"]);
                 $sheet->setCellValue("I" . ($i + 2), $payments[$i]->data["rate"]["internal"]);
                 $formula = "=C" . ($i + 2) . "*((100-I" . ($i + 2) . ")/100)";
                 $sheet->setCellValue("J" . ($i + 2), $formula);
@@ -235,12 +235,15 @@ class PaymentsController extends MoneysController
         $sheet->getColumnDimension('B')->setWidth(15);
         $sheet->getColumnDimension('C')->setWidth(10);
         $sheet->getColumnDimension('D')->setWidth(33);
-        $sheet->getColumnDimension('E')->setWidth(17);
+        $sheet->getColumnDimension('E')->setWidth(20);
         if ($isadmin) {
-            $sheet->getColumnDimension('F')->setWidth(17);
+            $sheet->getColumnDimension('F')->setWidth(20);
+            $sheet->getColumnDimension('G')->setWidth(25);
             $sheet->getColumnDimension('G')->setVisible(false);
+            $sheet->getColumnDimension('H')->setWidth(25);
             $sheet->getColumnDimension('H')->setVisible(false);
             $sheet->getColumnDimension('I')->setVisible(false);
+            $sheet->getColumnDimension('J')->setWidth(10);
         }
 
         $sheet->freezePane('D2');
