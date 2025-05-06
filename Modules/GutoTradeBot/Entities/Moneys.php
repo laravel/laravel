@@ -42,10 +42,9 @@ class Moneys extends Jsons
         }
         if (
             isset($this->data["rate"]) &&
-            isset($this->data["rate"]["oracle"]) &&
-            isset($this->data["rate"]["oracle"]["internal"])
+            isset($this->data["rate"]["internal"])
         ) {
-            $text .= " {$this->data["rate"]["oracle"]["internal"]}➗";
+            $text .= " {$this->data["rate"]["internal"]}➗";
         }
 
         $text .= "\n\n";

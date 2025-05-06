@@ -783,6 +783,35 @@ class GutoTradeBotController extends JsonsController
                     }
                     break;
 
+                case "/rate":
+                    $id = $this->getIdOfRepliedMessage();
+                    if ($id && $id > 0) {
+                        $rate = $array["message"];
+                        if (is_numeric($rate)) {
+                            $payment = $this->PaymentsController->getFirst(Payments::class, "id", "=", $id);
+                            $array = $payment->data;
+                            $array["rate"]["internal"] = $rate;
+                            $payment->data = $array;
+                            $payment->save();
+                            $payment = $this->PaymentsController->getFirst(Payments::class, "id", "=", $id);
+                            // preparar el menu de opciones sobre este pago
+                            $menu = $this->PaymentsController->getOptionsMenuForThisOne($this, $payment, $this->actor->data[$this->telegram["username"]]["admin_level"]);
+                            $payment->sendAsTelegramMessage(
+                                $this,
+                                $this->actor,
+                                "Reporte de pago ACTUALIZADO",
+                                "⚠️ _Este pago ha sido actualizado_",
+                                true,
+                                $menu
+                            );
+                            // Haciendo q no haya respuesta adicional
+                            $reply = [
+                                "text" => "",
+                            ];
+                        }
+                    }
+                    break;
+
                 default:
                     $array = $this->actor->data;
                     if (isset($array[$this->telegram["username"]]["last_bot_callback_data"])) {
