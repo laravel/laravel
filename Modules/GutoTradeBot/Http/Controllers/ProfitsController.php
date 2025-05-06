@@ -153,7 +153,7 @@ class ProfitsController extends JsonsController
         }
 
         $rate = $salary_percent + $percent;
-        $procesados = $amount / (1 + $rate / 100);
+        $procesados = $amount * ((100 - $rate) / 100);
         if ($rate < 0)
             $procesados = $amount * (1 + abs($rate) / 100);
 

@@ -29,6 +29,9 @@ class TestController extends Controller
     public function test(Request $request)
     {
         $bot = new GutoTradeBotController("GutoTradeBot");
+        dd($bot->ProfitsController->getSpended(100, 5, 0));
+        die;
+
         $reply = $bot->PaymentsController->getAllList($bot, "all", "816767995");
         dd($reply);
         die;
