@@ -179,8 +179,10 @@ class PaymentsController extends MoneysController
         $sheet->setCellValue("E1", "Envia");
         if ($isadmin) {
             $sheet->setCellValue("F1", "Recibe");
-            $sheet->setCellValue("G1", "Tasa");
-            $sheet->setCellValue("H1", "Capital");
+            $sheet->setCellValue("G1", "Confirmado");
+            $sheet->setCellValue("H1", "Liquidado");
+            $sheet->setCellValue("I1", "Tasa");
+            $sheet->setCellValue("J1", "Capital");
         }
 
         $actors = array();
@@ -211,12 +213,13 @@ class PaymentsController extends MoneysController
 
 
                 $sheet->setCellValue("F" . ($i + 2), $actors[$payments[$i]->supervisor_id]);
-                $sheet->setCellValue("G" . ($i + 2), $payments[$i]->data["rate"]["internal"]);
-                $formula = "=C" . ($i + 2) . "*((100-G" . ($i + 2) . ")/100)";
-                $sheet->setCellValue("H" . ($i + 2), $formula);
-
-                //$sheet->setCellValue("H" . ($i + 2), $payments[$i]->data["capital"]);
-                //$sheet->setCellValue("I" . ($i + 2), $bot->ProfitsController->getSpended($payments[$i]->amount, $payments[$i]->data["rate"]["internal"], 0));
+                if (isset($payments[$i]->data["rate"]["confirmation_date"]))
+                    $sheet->setCellValue("G" . ($i + 2), $payments[$i]->data["rate"]["confirmation_date"]);
+                if (isset($payments[$i]->data["rate"]["liquidation_date"]))
+                    $sheet->setCellValue("H" . ($i + 2), $payments[$i]->data["rate"]["liquidation_date"]);
+                $sheet->setCellValue("I" . ($i + 2), $payments[$i]->data["rate"]["internal"]);
+                $formula = "=C" . ($i + 2) . "*((100-I" . ($i + 2) . ")/100)";
+                $sheet->setCellValue("J" . ($i + 2), $formula);
             }
 
             if (!$payments[$i]->isLiquidated()) {
@@ -236,6 +239,8 @@ class PaymentsController extends MoneysController
         if ($isadmin) {
             $sheet->getColumnDimension('F')->setWidth(17);
             $sheet->getColumnDimension('G')->setVisible(false);
+            $sheet->getColumnDimension('H')->setVisible(false);
+            $sheet->getColumnDimension('I')->setVisible(false);
         }
 
         $sheet->freezePane('D2');
