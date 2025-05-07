@@ -165,6 +165,8 @@ class CapitalsController extends MoneysController
             'fill' => ['fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'FFD9D9D9']]
         ];
         $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray($headerStyle);
+        // Agregar filtros automáticos a los encabezados (desde A1 hasta F1)
+        $sheet->setAutoFilter('A1:C1');
 
         $writer = new Xlsx($spreadsheet);
         $filename = time() . ".xlsx";
