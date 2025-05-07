@@ -1258,16 +1258,20 @@ class GutoTradeBotController extends JsonsController
         switch ($actor->data[$this->telegram["username"]]["admin_level"]) {
             case "1":
             case 1:
-                array_push($menu, [["text" => "🧮 Estadísticas", "callback_data" => "/stats"]]);
-                array_push($menu, [["text" => "💹 Flujo de Caja", "callback_data" => "/cashflow"]]);
+                array_push($menu, [
+                    ["text" => "💹 Estadísticas", "callback_data" => "/stats"],
+                    ["text" => "🧮 Flujo de Caja", "callback_data" => "/cashflow"]
+                ]);
                 array_push($menu, [["text" => "🚨 Anuncio", "callback_data" => "sendannouncement"]]);
                 array_push($menu, [["text" => "🤑 Ajustar ganancias", "callback_data" => "/profit"]]);
                 array_push($menu, [["text" => "🫂 Usuarios suscritos", "callback_data" => "/users"]]);
                 break;
             case "4":
             case 4:
-                array_push($menu, [["text" => "🧮 Estadísticas", "callback_data" => "/stats"]]);
-                array_push($menu, [["text" => "💹 Flujo de Caja", "callback_data" => "/cashflow"]]);
+                array_push($menu, [
+                    ["text" => "💹 Estadísticas", "callback_data" => "/stats"],
+                    ["text" => "🧮 Flujo de Caja", "callback_data" => "/cashflow"]
+                ]);
                 array_push($menu, [["text" => "🚨 Anuncio", "callback_data" => "sendannouncement"]]);
                 break;
             default:

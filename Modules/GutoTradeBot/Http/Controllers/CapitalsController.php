@@ -17,6 +17,8 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class CapitalsController extends MoneysController
 {
@@ -152,6 +154,30 @@ class CapitalsController extends MoneysController
             }
 
         }
+        // Obtener la última fila con datos en la columna C
+        $lastRow = $sheet->getHighestDataRow('C');
+        // Agregar la fórmula SUM en la siguiente fila
+        $sheet->setCellValue('A' . ($lastRow + 1), "TOTAL:");
+        $sheet->getStyle('A' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sheet->setCellValue('B' . ($lastRow + 1), '=SUM(B2:B' . $lastRow . ')');
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('B' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->setCellValue('C' . ($lastRow + 1), '=SUM(C2:C' . $lastRow . ')');
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('C' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
 
         $sheet->getColumnDimension('A')->setWidth(15);
         $sheet->getColumnDimension('B')->setWidth(10);

@@ -32,15 +32,20 @@ class TestController extends Controller
         $actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");
 
 
-
-        $payments = Capitals::where('id', '>', 0)->get();
-        $array = $bot->PaymentsController->export($bot, $payments, $actor);
-        echo "<a href='" . request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"] . "'>" . $array["filename"] . "</a>";
-        dd($array);
-
         $results = $bot->PaymentsController->getAllCash($bot);
         dd($results);
         die;
+
+
+        $items = Payments::where('id', '>', 0)->get();
+        //$array = $bot->PaymentsController->export($bot, $items, $actor);
+        //echo "<a href='" . request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"] . "'>Pagos: " . $array["filename"] . "</a><br/><br/>";
+
+        $items = Capitals::where('id', '>', 0)->get();
+        $array = $bot->CapitalsController->export($bot, $items, $actor);
+        echo "<a href='" . request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"] . "'>Capitales: " . $array["filename"] . "</a><br/><br/>";
+        die;
+
 
 
         dd($bot->ProfitsController->getSpended(100, 5, 0));
