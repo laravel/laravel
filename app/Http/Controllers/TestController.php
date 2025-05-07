@@ -28,6 +28,10 @@ class TestController extends Controller
 
     public function test(Request $request)
     {
+        dd(config('database.default'));
+
+
+
         $bot = new GutoTradeBotController("GutoTradeBot");
         $results = $bot->PaymentsController->getAllCash($bot);
         dd($results);
