@@ -28,11 +28,6 @@ class TestController extends Controller
 
     public function test(Request $request)
     {
-        $results = DB::select("SELECT VERSION() as version");
-        dd($results);
-
-
-
         $bot = new GutoTradeBotController("GutoTradeBot");
         $results = $bot->PaymentsController->getAllCash($bot);
         dd($results);
