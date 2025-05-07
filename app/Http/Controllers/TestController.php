@@ -28,7 +28,8 @@ class TestController extends Controller
 
     public function test(Request $request)
     {
-        dd(config('database.default'));
+        $results = DB::select("SELECT VERSION() as version");
+        dd($results);
 
 
 
