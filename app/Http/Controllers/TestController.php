@@ -29,7 +29,7 @@ class TestController extends Controller
     public function test(Request $request)
     {
         $bot = new GutoTradeBotController("GutoTradeBot");
-        $results = $bot->PaymentsController->getCashFlow();
+        $results = $bot->PaymentsController->getAllCash($bot);
         dd($results);
         die;
 

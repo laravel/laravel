@@ -1011,52 +1011,92 @@ class MoneysController extends JsonsController
     {
         $paymentsByDate = Payments::select(
             DB::raw('DATE(created_at) as date'),
-            DB::raw('SUM(amount) as total')
+            DB::raw('SUM(amount) as eur'),
+            DB::raw('SUM(amount * CASE 
+            WHEN CAST(data->>"$.rate.internal" AS DECIMAL) > 0 THEN 1 - (CAST(data->>"$.rate.internal" AS DECIMAL)/100)
+            WHEN CAST(data->>"$.rate.internal" AS DECIMAL) < 0 THEN 1 + (ABS(CAST(data->>"$.rate.internal" AS DECIMAL))/100)
+            ELSE 1
+            END) as usdt')
         )->groupBy('date')->get();
+        //dd($paymentsByDate->toArray());
 
         $capitalsByDate = Capitals::select(
             DB::raw('DATE(created_at) as date'),
             DB::raw('SUM(amount) as tosend'),
-            DB::raw('SUM(comment) as received')
+            DB::raw('SUM(comment) as received'),
+            DB::raw('SUM(amount * CASE 
+            WHEN CAST(data->>"$.profit.salary"+data->>"$.profit.profit" AS DECIMAL) > 0 THEN 1 - (CAST(data->>"$.profit.salary"+data->>"$.profit.profit" AS DECIMAL)/100)
+            WHEN CAST(data->>"$.profit.salary"+data->>"$.profit.profit" AS DECIMAL) < 0 THEN 1 + (ABS(CAST(data->>"$.profit.salary"+data->>"$.profit.profit" AS DECIMAL))/100)
+            ELSE 1
+            END) as usdt')
+            /*
+            DB::raw('SUM(amount * 
+                CASE 
+                    WHEN JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) = "1" 
+                    THEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.oracle.direct")) AS DECIMAL(20,15))
+                    ELSE CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.receiver")) AS DECIMAL(20,15))
+                END
+            ) as usdtmejor')
+             */
         )->groupBy('date')->get();
+        //dd($capitalsByDate->toArray());
 
         // Crear una colección combinada
         $combined = collect();
-
         // Procesar payments usando el método put correctamente
         $paymentsByDate->each(function ($payment) use ($combined) {
             $combined->put($payment->date, [
                 'date' => $payment->date,
-                'payments' => $payment->total,
-                'tosend' => 0,
-                'received' => 0
+                'payments' => $payment->toArray(),
+                'capitals' => array(
+                    "date" => $payment->date,
+                    "tosend" => 0,
+                    "received" => 0,
+                    "usdt" => 0
+                )
             ]);
         });
-
         // Procesar capitals
         $capitalsByDate->each(function ($capital) use ($combined) {
             if ($combined->has($capital->date)) {
                 // Usar merge para actualizar el valor existente
                 $combined->put($capital->date, array_merge(
                     $combined->get($capital->date),
-                    ['tosend' => $capital->tosend, 'received' => $capital->received]
+                    ['capitals' => $capital->toArray()]
                 ));
             } else {
                 $combined->put($capital->date, [
                     'date' => $capital->date,
-                    'payments' => 0,
-                    'tosend' => $capital->tosend,
-                    'received' => $capital->received
+                    'payments' => array(
+                        "date" => $capital->date,
+                        "eur" => 0,
+                        "usdt" => 0,
+                    ),
+                    'capitals' => $capital->toArray()
                 ]);
             }
         });
+        //dd($combined->toArray());
 
         // Ordenar por fecha y obtener valores
         $results = $combined->sortBy('date')->values()->toArray();
         for ($i = 0; $i < count($results); $i++) {
-            $balance = $results[$i]["tosend"] - $results[$i]["payments"];
-            if ($i > 0)
-                $balance += $results[$i - 1]["balance"];
+            $balance = array(
+                "eur" => 0,
+                "usdt" => 0
+            );
+            if (isset($results[$i]["capitals"])) {
+                $balance["eur"] += $results[$i]["capitals"]["tosend"];
+                $balance["usdt"] += $results[$i]["capitals"]["usdt"];
+            }
+            if (isset($results[$i]["payments"])) {
+                $balance["eur"] -= $results[$i]["payments"]["eur"];
+                $balance["usdt"] -= $results[$i]["payments"]["usdt"];
+            }
+            if ($i > 0) {
+                $balance["eur"] += $results[$i - 1]["balance"]["eur"];
+                $balance["usdt"] += $results[$i - 1]["balance"]["usdt"];
+            }
             $results[$i]["balance"] = $balance;
         }
 
@@ -1069,29 +1109,38 @@ class MoneysController extends JsonsController
         $sheet = $spreadsheet->getActiveSheet();
 
         $sheet->setCellValue("A1", "Fecha");
-        $sheet->setCellValue("B1", "Recibido");
-        $sheet->setCellValue("C1", "A enviar");
-        $sheet->setCellValue("D1", "Enviado");
-        $sheet->setCellValue("E1", "Balance");
+        $sheet->setCellValue("B1", "Recibido USDT");
+        $sheet->setCellValue("C1", "Enviar EUR");
+        $sheet->setCellValue("D1", "Enviado EUR");
+        $sheet->setCellValue("E1", "Enviar USDT");
+        $sheet->setCellValue("F1", "Enviado USDT");
+        $sheet->setCellValue("G1", "Balance USDT");
+        $sheet->setCellValue("H1", "Balance USDT");
 
         for ($i = 0; $i < count($cashflow); $i++) {
             $sheet->setCellValue("A" . ($i + 2), $cashflow[$i]["date"]);
-            $sheet->setCellValue("B" . ($i + 2), $cashflow[$i]["received"]);
-            $sheet->setCellValue("C" . ($i + 2), $cashflow[$i]["tosend"]);
-            $sheet->setCellValue("D" . ($i + 2), $cashflow[$i]["payments"]);
-
-            $formula = "=C" . ($i + 2) . "-D" . ($i + 2);
+            $sheet->setCellValue("B" . ($i + 2), $cashflow[$i]["capitals"]["received"]);
+            $sheet->setCellValue("C" . ($i + 2), $cashflow[$i]["capitals"]["tosend"]);
+            $sheet->setCellValue("D" . ($i + 2), $cashflow[$i]["payments"]["eur"]);
+            $sheet->setCellValue("E" . ($i + 2), $cashflow[$i]["capitals"]["usdt"]);
+            $sheet->setCellValue("F" . ($i + 2), $cashflow[$i]["payments"]["usdt"]);
+            $sheet->setCellValue("G" . ($i + 2), $cashflow[$i]["balance"]["usdt"]);
+            $formula = "=E" . ($i + 2) . "-F" . ($i + 2);
             if ($i > 0)
-                $formula = "=C" . ($i + 2) . "-D" . ($i + 2) . "+E" . ($i + 1);
-            $sheet->setCellValue("E" . ($i + 2), $formula);
+                $formula = "=E" . ($i + 2) . "-F" . ($i + 2) . "+H" . ($i + 1);
+            $sheet->setCellValue("H" . ($i + 2), $formula);
         }
 
         $sheet->getColumnDimension('A')->setWidth(15);
-        $sheet->getColumnDimension('B')->setWidth(10);
-        $sheet->getColumnDimension('C')->setWidth(10);
-        $sheet->getColumnDimension('D')->setWidth(10);
-        $sheet->getColumnDimension('E')->setWidth(10);
-        $sheet->getColumnDimension('B')->setVisible(false);
+        $sheet->getColumnDimension('B')->setWidth(15);
+        $sheet->getColumnDimension('C')->setWidth(15);
+        $sheet->getColumnDimension('D')->setWidth(15);
+        $sheet->getColumnDimension('E')->setWidth(15);
+        $sheet->getColumnDimension('F')->setWidth(15);
+        $sheet->getColumnDimension('G')->setWidth(15);
+        $sheet->getColumnDimension('H')->setWidth(15);
+        $sheet->getColumnDimension('D')->setVisible(false);
+        $sheet->getColumnDimension('G')->setVisible(false);
         $sheet->freezePane('B2');
         $sheet->setTitle("Flujo");
 
@@ -1102,7 +1151,7 @@ class MoneysController extends JsonsController
         ];
         $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray($headerStyle);
         // Agregar filtros automáticos a los encabezados (desde A1 hasta F1)
-        $sheet->setAutoFilter('A1:E1');
+        $sheet->setAutoFilter('A1:H1');
 
         $writer = new Xlsx($spreadsheet);
         $filename = time() . ".xlsx";
