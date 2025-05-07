@@ -19,6 +19,8 @@ use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class PaymentsController extends MoneysController
@@ -230,6 +232,51 @@ class PaymentsController extends MoneysController
             }
 
         }
+        // Obtener la última fila con datos en la columna C
+        $lastRow = $sheet->getHighestDataRow('C');
+        $sheet->getStyle('A' . ($lastRow + 1))->applyFromArray([
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        // Agregar la fórmula SUM en la siguiente fila
+        $sheet->setCellValue('B' . ($lastRow + 1), "TOTAL:");
+        $sheet->getStyle('B' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sheet->setCellValue('C' . ($lastRow + 1), '=SUM(C2:C' . $lastRow . ')');
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('C' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->getStyle('D' . ($lastRow + 1))->applyFromArray([
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->getStyle('E' . ($lastRow + 1))->applyFromArray([
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->getStyle('F' . ($lastRow + 1))->applyFromArray([
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->getStyle('G' . ($lastRow + 1))->applyFromArray([
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->getStyle('H' . ($lastRow + 1))->applyFromArray([
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->getStyle('I' . ($lastRow + 1))->applyFromArray([
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->setCellValue('J' . ($lastRow + 1), '=SUM(J2:J' . $lastRow . ')');
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('J' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
 
         $sheet->getColumnDimension('A')->setWidth(8);
         $sheet->getColumnDimension('B')->setWidth(15);
@@ -243,7 +290,7 @@ class PaymentsController extends MoneysController
             $sheet->getColumnDimension('H')->setWidth(25);
             $sheet->getColumnDimension('H')->setVisible(false);
             $sheet->getColumnDimension('I')->setVisible(false);
-            $sheet->getColumnDimension('J')->setWidth(10);
+            $sheet->getColumnDimension('J')->setWidth(15);
         }
 
         $sheet->freezePane('D2');
