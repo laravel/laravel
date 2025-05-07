@@ -1012,10 +1012,16 @@ class MoneysController extends JsonsController
         $paymentsByDate = Payments::select(
             DB::raw('DATE(created_at) as date'),
             DB::raw('SUM(amount) as eur'),
-            DB::raw('SUM(amount * CASE 
-            WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL) > 0 THEN 1 - (CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL)/100)
-            WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL) < 0 THEN 1 + (ABS(CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL))/100)
-            ELSE 1
+            DB::raw('SUM(CASE 
+                WHEN JSON_EXTRACT(data, "$.confirmation_date") IS NOT NULL THEN
+                    amount * CASE 
+                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL) > 0 
+                            THEN 1 - (CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL)/100)
+                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL) < 0 
+                            THEN 1 + (ABS(CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL))/100)
+                        ELSE 1
+                    END
+                ELSE 0
             END) as usdt')
         )->groupBy('date')->get();
         //dd($paymentsByDate->toArray());
@@ -1024,12 +1030,16 @@ class MoneysController extends JsonsController
             DB::raw('DATE(created_at) as date'),
             DB::raw('SUM(amount) as tosend'),
             DB::raw('SUM(comment) as received'),
-
-            // CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL)
-            DB::raw('SUM(amount * CASE 
-            WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL) > 0 THEN 1 - (CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL)/100)
-            WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL) < 0 THEN 1 + (ABS(CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL))/100)
-            ELSE 1
+            DB::raw('SUM(CASE 
+                WHEN JSON_EXTRACT(data, "$.confirmation_date") IS NOT NULL THEN
+                    amount * CASE 
+                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL) > 0 
+                            THEN 1 - (CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL)/100)
+                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL) < 0 
+                            THEN 1 + (ABS(CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL))/100)
+                        ELSE 1
+                    END
+                ELSE 0
             END) as usdt')
             /*
             DB::raw('SUM(amount * 
