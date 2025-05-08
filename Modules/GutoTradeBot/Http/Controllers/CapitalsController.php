@@ -135,11 +135,8 @@ class CapitalsController extends MoneysController
         }
     }
 
-    public function export($bot, $capitals, $actor)
+    public function getCapitalsSheet($bot, $capitals, $actor, $sheet)
     {
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-
         $sheet->setCellValue("A1", "Fecha");
         $sheet->setCellValue("B1", "Recibido");
         $sheet->setCellValue("C1", "A enviar");
@@ -193,6 +190,13 @@ class CapitalsController extends MoneysController
         $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray($headerStyle);
         // Agregar filtros automáticos a los encabezados (desde A1 hasta F1)
         $sheet->setAutoFilter('A1:C1');
+    }
+
+    public function export($bot, $capitals, $actor)
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $this->getCapitalsSheet($bot, $capitals, $actor, $sheet);
 
         $writer = new Xlsx($spreadsheet);
         $filename = time() . ".xlsx";

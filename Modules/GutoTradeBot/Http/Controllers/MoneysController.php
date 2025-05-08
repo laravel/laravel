@@ -1117,11 +1117,8 @@ class MoneysController extends JsonsController
         return $results;
     }
 
-    public function exportCashFlow($cashflow)
+    public function getCashFlowSheet($cashflow, $sheet)
     {
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-
         $sheet->setCellValue("A1", "Fecha");
         $sheet->setCellValue("B1", "Recibido USDT");
         $sheet->setCellValue("C1", "Enviar EUR");
@@ -1217,6 +1214,13 @@ class MoneysController extends JsonsController
         $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray($headerStyle);
         // Agregar filtros automáticos a los encabezados (desde A1 hasta F1)
         $sheet->setAutoFilter('A1:H1');
+    }
+
+    public function exportCashFlow($cashflow)
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $this->getCashFlowSheet($cashflow, $sheet);
 
         $writer = new Xlsx($spreadsheet);
         $filename = time() . ".xlsx";

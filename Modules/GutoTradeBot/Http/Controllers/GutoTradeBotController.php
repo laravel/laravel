@@ -18,6 +18,15 @@ use Modules\TelegramBot\Http\Controllers\ActorsController;
 use Modules\TelegramBot\Http\Controllers\TelegramController;
 use Modules\TelegramBot\Traits\UsesTelegramBot;
 
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+
 class GutoTradeBotController extends JsonsController
 {
     use UsesTelegramBot;
@@ -414,6 +423,16 @@ class GutoTradeBotController extends JsonsController
                         }
                         //$reply = $this->PaymentsController->matchAny($this, $array[0], $array[1]);
                         $reply = $this->notifyStats($this->actor, $current_date, $days);
+                    }
+                    break;
+
+                case "/export":
+                    $reply = $this->mainMenu($this->actor);
+                    if (
+                        $this->actor->isLevel(1, $this->telegram["username"]) ||
+                        $this->actor->isLevel(4, $this->telegram["username"])
+                    ) {
+                        $reply = $this->getSystemInfo();
                     }
                     break;
 
@@ -1657,5 +1676,60 @@ class GutoTradeBotController extends JsonsController
 
         return $id;
 
+    }
+
+    public function getSystemInfo()
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $this->PaymentsController->getCashFlowSheet(
+            $this->PaymentsController->getCashFlow(),
+            $sheet
+        );
+
+        $sheet_payments = $spreadsheet->createSheet();
+        $this->PaymentsController->getPaymentsSheet(
+            $this,
+            Payments::where('id', '>', 0)->get(),
+            $this->actor,
+            $sheet_payments
+        );
+
+        $sheet_capitals = $spreadsheet->createSheet();
+        $this->CapitalsController->getCapitalsSheet(
+            $this,
+            Capitals::where('id', '>', 0)->get(),
+            $this->actor,
+            $sheet_capitals
+        );
+
+        $writer = new Xlsx($spreadsheet);
+        $filename = time() . ".xlsx";
+
+        $path = public_path() . FileController::$AUTODESTROY_DIR;
+        // Si la carpeta no existe, crearla
+        if (!is_dir($path)) {
+            mkdir($path, 0755, true);
+        }
+        // Guardar el archivo en el sistema
+        $writer->save($path . "/" . $filename);
+
+        $array = explode(".", $filename);
+        $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
+
+        $text = "📋 *Datos del sistema*\n_Estos son los datos registrado hasta el momento.";
+        $menu = [
+            [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]],
+        ];
+        $text .= "_\n\n📎 Se ha generado un excel con los datos aquí:\n{$xlspath}\n_Este archivo solo estará disponible por " . FileController::$TEMPFILE_DURATION_HOURS . " hrs._";
+
+        $reply = array(
+            "text" => $text,
+            "markup" => json_encode([
+                "inline_keyboard" => $menu,
+            ]),
+        );
+
+        return $reply;
     }
 }

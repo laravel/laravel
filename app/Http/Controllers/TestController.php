@@ -31,9 +31,13 @@ class TestController extends Controller
         $bot = new GutoTradeBotController("GutoTradeBot");
         $actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");
 
+        $results = $bot->getSystemInfo();
+        dd($results);
+        die;
 
         $paymentsByDate = Payments::select(
             DB::raw('DATE(created_at) as date'),
+            DB::raw('TIME(created_at) as time'),
             DB::raw('CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL(10,2)) as rate'),
             DB::raw('SUM(amount) as eur'),
             DB::raw('SUM(CASE 
@@ -48,14 +52,13 @@ class TestController extends Controller
                 ELSE 0
             END) as usdt')
         )
-            ->groupBy('rate', 'date')
-            ->orderBy('date')
-            ->orderBy('rate')
+            ->groupBy('rate', 'date', 'time')
+            ->orderBy('time')
             ->get();
-
 
         $capitalsByDate = Capitals::select(
             DB::raw('DATE(created_at) as date'),
+            DB::raw('CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL) as rate'),
             DB::raw('SUM(amount) as tosend'),
             DB::raw('SUM(comment) as received'),
             DB::raw('SUM(CASE 
@@ -69,14 +72,31 @@ class TestController extends Controller
                     END
                 ELSE 0
             END) as usdt')
-        )->groupBy('date')->get();
+        )
+            ->groupBy('rate', 'date')
+            ->orderBy('date')
+            ->orderBy('rate')
+            ->get();
+        dd($capitalsByDate->toArray(), $paymentsByDate->toArray());
 
         $array = array();
         $items = $paymentsByDate->toArray();
         foreach ($items as $item) {
-            if (!isset($array[$item["rate"]]))
-                $array[$item["rate"]] = array();
-            $array[$item["rate"]][$item["date"]] = $item;
+            $index = floatval($item["rate"]);
+            if (!isset($array[$index]))
+                $array[$index] = array();
+            if (!isset($array[$index][$item["date"]]))
+                $array[$index][$item["date"]] = array();
+            $array[$index][$item["date"]]["payments"] = $item;
+        }
+        $items = $capitalsByDate->toArray();
+        foreach ($items as $item) {
+            $index = floatval($item["rate"]);
+            if (!isset($array[$index]))
+                $array[$index] = array();
+            if (!isset($array[$index][$item["date"]]))
+                $array[$index][$item["date"]] = array();
+            $array[$index][$item["date"]]["capitals"] = $item;
         }
         dd($array);
 

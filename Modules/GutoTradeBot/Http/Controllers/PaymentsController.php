@@ -167,12 +167,9 @@ class PaymentsController extends MoneysController
         }
     }
 
-    public function export($bot, $payments, $actor)
+    public function getPaymentsSheet($bot, $payments, $actor, $sheet)
     {
         $isadmin = $actor->isLevel(1, $bot->telegram["username"]) || $actor->isLevel(4, $bot->telegram["username"]);
-
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
 
         $sheet->setCellValue("A1", "ID");
         $sheet->setCellValue("B1", "Fecha");
@@ -304,7 +301,15 @@ class PaymentsController extends MoneysController
         $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray($headerStyle);
         // Agregar filtros automáticos a los encabezados (desde A1 hasta F1)
         $sheet->setAutoFilter('A1:J1');
+    }
 
+    public function export($bot, $payments, $actor)
+    {
+        $isadmin = $actor->isLevel(1, $bot->telegram["username"]) || $actor->isLevel(4, $bot->telegram["username"]);
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $this->getPaymentsSheet($bot, $payments, $actor, $sheet);
 
         $writer = new Xlsx($spreadsheet);
         $filename = time() . ".xlsx";
