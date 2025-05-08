@@ -1703,6 +1703,9 @@ class GutoTradeBotController extends JsonsController
             $sheet_capitals
         );
 
+        // Volver a la primera hoja como activa
+        $spreadsheet->setActiveSheetIndex(0);
+
         $writer = new Xlsx($spreadsheet);
         $filename = time() . ".xlsx";
 
