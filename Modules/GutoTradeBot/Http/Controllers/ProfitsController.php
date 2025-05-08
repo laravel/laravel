@@ -173,25 +173,44 @@ class ProfitsController extends JsonsController
     }
 
     // calculos de EUROS a enviar dada la cantidad de USDT recibida
-    public function getEURtoSendWithActiveRate($amount)
+    public function getEURtoSendWithActiveRate($amount, $percent = false, $salary_percent = false)
     {
-        $salary = $this->getFirst(Profits::class, "name", "=", "salary");
-        $profit = $this->getFirst(Profits::class, "name", "=", "profit");
+        if ($percent === false) {
+            $profit = $this->getFirst(Profits::class, "name", "=", "profit");
+            $percent = $profit->value;
+        }
+
+        if ($salary_percent === false) {
+            $salary = $this->getFirst(Profits::class, "name", "=", "salary");
+            $salary_percent = $salary->value;
+        }
 
         // este es el valor q se va a enviar luego de descontar el 1% del pago de mi salario
-        $value = $amount - ($amount * $salary->value / 100);
-        $value = $value + ($value * ($profit->value + $salary->value) / 100);
+        $value = $amount - ($amount * $salary_percent / 100);
+        $value = $value + ($value * ($percent + $salary_percent) / 100);
 
         return $value;
     }
 
     // calculos de USDT a enviar dada la cantidad de EUROS recibida
-    public function getUSDTtoSendWithActiveRate($amount)
+    public function getUSDTtoSendWithActiveRate($amount, $percent = false, $salary_percent = false)
     {
-        $salary = $this->getFirst(Profits::class, "name", "=", "salary");
-        $profit = $this->getFirst(Profits::class, "name", "=", "profit");
+        if ($percent === false) {
+            $profit = $this->getFirst(Profits::class, "name", "=", "profit");
+            $percent = $profit->value;
+        }
 
-        return $amount * ((100 - ($salary->value + $profit->value)) / 100);
+        if ($salary_percent === false) {
+            $salary = $this->getFirst(Profits::class, "name", "=", "salary");
+            $salary_percent = $salary->value;
+        }
+
+        $rate = $salary_percent + $percent;
+        $procesados = $amount * ((100 - $rate) / 100);
+        if ($rate < 0)
+            $procesados = $amount * (1 + abs($rate) / 100);
+
+        return $procesados;
     }
 
     // calculo de USDT recibidos dada la cantidad de Euros enviados

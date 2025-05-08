@@ -1261,4 +1261,230 @@ class MoneysController extends JsonsController
 
         return $reply;
     }
+
+    public function getCashFlowNew($bot)
+    {
+        $paymentsByDate = Payments::select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL(10,2)) as rate'),
+            DB::raw('SUM(amount) as eur'),
+            DB::raw('SUM(CASE 
+                WHEN JSON_EXTRACT(data, "$.confirmation_date") IS NOT NULL THEN
+                    amount * CASE 
+                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL) > 0 
+                            THEN 1 - (CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL)/100)
+                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL) < 0 
+                            THEN 1 + (ABS(CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL))/100)
+                        ELSE 1
+                    END
+                ELSE 0
+            END) as usdt')
+        )
+            ->groupBy('date', 'rate')
+            ->orderBy('date')
+            ->get();
+
+        $capitalsByDate = Capitals::select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL) as rate'),
+            DB::raw('SUM(amount) as tosend'),
+            DB::raw('SUM(comment) as received'),
+            DB::raw('SUM(CASE 
+                WHEN JSON_EXTRACT(data, "$.confirmation_date") IS NOT NULL THEN
+                    amount * CASE 
+                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL) > 0 
+                            THEN 1 - (CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL)/100)
+                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL) < 0 
+                            THEN 1 + (ABS(CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL))/100)
+                        ELSE 1
+                    END
+                ELSE 0
+            END) as usdt')
+        )
+            ->groupBy('rate', 'date')
+            ->orderBy('date')
+            ->orderBy('rate')
+            ->get();
+        //dd($capitalsByDate->toArray(), $paymentsByDate->toArray());
+
+        $array = array();
+        $items = $paymentsByDate->toArray();
+        foreach ($items as $item) {
+            $index = $item["date"];
+            if (!isset($array[$index]))
+                $array[$index] = array(
+                    "payments" => array(),
+                    "capitals" => array(),
+                );
+            //unset($item["date"]);
+            $array[$index]["payments"][] = $item;
+        }
+        $items = $capitalsByDate->toArray();
+        foreach ($items as $item) {
+            $index = $item["date"];
+            if (!isset($array[$index]))
+                $array[$index] = array(
+                    "payments" => array(),
+                    "capitals" => array(),
+                );
+            unset($item["date"]);
+            $array[$index]["capitals"][] = $item;
+        }
+        uksort($array, function ($a, $b) {
+            return strtotime($a) - strtotime($b);
+        });
+
+        $activerate = false;
+        foreach ($array as $key => $day) {
+            if ($activerate === false && isset($day["capitals"])) {
+                $activerate = $day["capitals"][0]["rate"];
+            }
+
+            foreach ($day["capitals"] as $capital) {
+                if ($activerate > 0) {
+                    if ($capital["rate"] < $activerate)
+                        $activerate = $capital["rate"];
+                } else if ($activerate < 0) {
+                    if ($capital["rate"] > $activerate)
+                        $activerate = $capital["rate"];
+                }
+            }
+
+            $array[$key]["activerate"] = $activerate;
+
+            foreach ($day["payments"] as $payment) {
+                if (floatval($payment["rate"]) != (floatval($activerate))) {
+                    $amount = $payment["eur"];
+                    $negative = -1 * $amount;
+                    $tosend = $bot->ProfitsController->getEURtoSendWithActiveRate($amount, $activerate);
+                    $array[$key]["capitals"][] = array(
+                        "rate" => $activerate,
+                        "tosend" => -1 * $tosend,
+                        "received" => $negative,
+                        "usdt" => -1 * $bot->ProfitsController->getUSDTtoSendWithActiveRate($tosend, $activerate),
+                    );
+                    $tosend = $bot->ProfitsController->getEURtoSendWithActiveRate($amount, $payment["rate"]);
+                    $array[$key]["capitals"][] = array(
+                        "rate" => $payment["rate"],
+                        "tosend" => $tosend,
+                        "received" => $amount,
+                        "usdt" => $bot->ProfitsController->getUSDTtoSendWithActiveRate($tosend, $payment["rate"]),
+                    );
+                }
+            }
+        }
+
+        return $array;
+    }
+
+    public function getCashFlowSheetNew($cashflow, $sheet)
+    {
+        $sheet->setCellValue("A1", "Fecha");
+        $sheet->setCellValue("B1", "Recibido USDT");
+        $sheet->setCellValue("C1", "Enviar EUR");
+        $sheet->setCellValue("D1", "Enviado EUR");
+        $sheet->setCellValue("E1", "Enviar USDT");
+        $sheet->setCellValue("F1", "Enviado USDT");
+        $sheet->setCellValue("G1", "Balance USDT");
+        $sheet->setCellValue("H1", "Balance USDT");
+
+        foreach ($cashflow as $date => $day) {
+            // Obtener la última fila con datos en la columna A
+            $row = $sheet->getHighestDataRow('A');
+            $max = count($day["payments"]);
+            if (count($day["payments"]) < count($day["capitals"]))
+                $max = count($day["capitals"]);
+            for ($i = 0; $i < $max; $i++) {
+                $sheet->setCellValue("A" . ($row + 1 + $i), $date);
+                if (isset($day["capitals"][$i])) {
+                    $sheet->setCellValue("B" . ($row + 1 + $i), $day["capitals"][$i]["received"]);
+                    $sheet->setCellValue("C" . ($row + 1 + $i), $day["capitals"][$i]["tosend"]);
+                }
+                if (isset($day["payments"][$i]))
+                    $sheet->setCellValue("D" . ($row + 1 + $i), $day["payments"][$i]["eur"]);
+                if (isset($day["capitals"][$i]))
+                    $sheet->setCellValue("E" . ($row + 1 + $i), $day["capitals"][$i]["usdt"]);
+                if (isset($day["payments"][$i]))
+                    $sheet->setCellValue("F" . ($row + 1 + $i), $day["payments"][$i]["usdt"]);
+                //$sheet->setCellValue("G" . ($row + 1 + $i), $day["balance"][$i]["usdt"]);
+                $formula = "=E" . ($row + 1 + $i) . "-F" . ($row + 1 + $i);
+                if ($row > 1)
+                    $formula = "=E" . ($row + 1 + $i) . "-F" . ($row + 1 + $i) . "+H" . ($row + $i);
+                $sheet->setCellValue("H" . ($row + 1 + $i), $formula);
+            }
+        }
+        // Obtener la última fila con datos en la columna A
+        $lastRow = $sheet->getHighestDataRow('A');
+        // Agregar la fórmula SUM en la siguiente fila
+        $sheet->setCellValue('A' . ($lastRow + 1), "TOTAL:");
+        $sheet->getStyle('A' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sheet->setCellValue('B' . ($lastRow + 1), '=SUM(B2:B' . $lastRow . ')');
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('B' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->setCellValue('C' . ($lastRow + 1), '=SUM(C2:C' . $lastRow . ')');
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('C' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->setCellValue('D' . ($lastRow + 1), '=SUM(D2:D' . $lastRow . ')');
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('D' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->setCellValue('E' . ($lastRow + 1), '=SUM(E2:E' . $lastRow . ')');
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('E' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->setCellValue('F' . ($lastRow + 1), '=SUM(F2:F' . $lastRow . ')');
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('F' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->setCellValue('G' . ($lastRow + 1), '=SUM(G2:G' . $lastRow . ')');
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('G' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->getStyle('H' . ($lastRow + 1))->applyFromArray([
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+
+        $sheet->getColumnDimension('A')->setWidth(15);
+        $sheet->getColumnDimension('B')->setWidth(15);
+        $sheet->getColumnDimension('C')->setWidth(15);
+        $sheet->getColumnDimension('D')->setWidth(15);
+        $sheet->getColumnDimension('E')->setWidth(15);
+        $sheet->getColumnDimension('F')->setWidth(15);
+        $sheet->getColumnDimension('G')->setWidth(15);
+        $sheet->getColumnDimension('H')->setWidth(15);
+        $sheet->getColumnDimension('D')->setVisible(false);
+        $sheet->getColumnDimension('G')->setVisible(false);
+        $sheet->freezePane('B2');
+        $sheet->setTitle("Flujo");
+
+        // Opcional: estilo para los encabezados
+        $headerStyle = [
+            'font' => ['bold' => true],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'FFD9D9D9']]
+        ];
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray($headerStyle);
+        // Agregar filtros automáticos a los encabezados (desde A1 hasta F1)
+        $sheet->setAutoFilter('A1:H1');
+    }
 }

@@ -185,7 +185,8 @@ class PaymentsController extends MoneysController
         }
 
         $actors = array();
-
+        $unconfirmed = 0;
+        $unliquidated = 0;
         for ($i = 0; $i < count($payments); $i++) {
             $sheet->setCellValue("A" . ($i + 2), $payments[$i]->id);
             $sheet->setCellValue("B" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $actor->getLocalDateTime($payments[$i]->created_at, $bot->telegram["username"]))->toDateString());
@@ -222,9 +223,11 @@ class PaymentsController extends MoneysController
             }
 
             if (!$payments[$i]->isLiquidated()) {
+                $unliquidated += $payments[$i]->amount;
                 $sheet->getStyle("C" . ($i + 2) . ":C" . ($i + 2))->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB(Color::COLOR_YELLOW);
             }
             if (!$payments[$i]->isConfirmed()) {
+                $unconfirmed += $payments[$i]->amount;
                 $sheet->getStyle("D" . ($i + 2) . ":D" . ($i + 2))->getFont()->getColor()->setARGB(Color::COLOR_RED);
             }
 
@@ -275,6 +278,35 @@ class PaymentsController extends MoneysController
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
         ]);
 
+        // Agregar sin confirmar
+        $sheet->setCellValue('B' . ($lastRow + 2), "Sin confirmar:");
+        $sheet->getStyle('B' . ($lastRow + 2))->applyFromArray([
+            'font' => ['bold' => true],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sheet->setCellValue('C' . ($lastRow + 2), $unconfirmed);
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('C' . ($lastRow + 2))->applyFromArray([
+            'font' => ['bold' => true]
+        ]);
+        // Agregar sin liquidar
+        $sheet->setCellValue('B' . ($lastRow + 3), "Sin liquidar:");
+        $sheet->getStyle('B' . ($lastRow + 3))->applyFromArray([
+            'font' => ['bold' => true],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sheet->setCellValue('C' . ($lastRow + 3), $unliquidated);
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('C' . ($lastRow + 3))->applyFromArray([
+            'font' => ['bold' => true]
+        ]);
+
         $sheet->getColumnDimension('A')->setWidth(8);
         $sheet->getColumnDimension('B')->setWidth(15);
         $sheet->getColumnDimension('C')->setWidth(10);
@@ -305,8 +337,6 @@ class PaymentsController extends MoneysController
 
     public function export($bot, $payments, $actor)
     {
-        $isadmin = $actor->isLevel(1, $bot->telegram["username"]) || $actor->isLevel(4, $bot->telegram["username"]);
-
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $this->getPaymentsSheet($bot, $payments, $actor, $sheet);
