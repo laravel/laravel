@@ -1715,6 +1715,7 @@ class GutoTradeBotController extends JsonsController
         $writer->save($path . "/" . $filename);
 
         $array = explode(".", $filename);
+        Log::error("getSystemInfo: " . json_encode($array));
         $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
 
         $text = "📋 *Datos del sistema*\n_Estos son los datos registrado hasta el momento.";
