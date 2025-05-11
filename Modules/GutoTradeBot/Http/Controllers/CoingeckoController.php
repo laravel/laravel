@@ -73,7 +73,7 @@ class CoingeckoController extends JsonsController
                 $rate["direct"] = $array["market_data"]["current_price"][$coin];
                 $rate["inverse"] = 1 / $rate["direct"];
             } else {
-                $date = Carbon::createFromFormat("d-m-Y", $date)->subDay()->format("d-m-Y");
+                $date = Carbon::createFromFormat("d-m-Y", $date)->subDay()->format("Y-m-d");
                 return CoingeckoController::getHistory("eur", "tether", $date);
             }
 
