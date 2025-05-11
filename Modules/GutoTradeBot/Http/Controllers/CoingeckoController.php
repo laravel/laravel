@@ -59,6 +59,7 @@ class CoingeckoController extends JsonsController
         );
 
         try {
+            //https://api.coingecko.com/api/v3/coins/tether/history?date=11-05-2025&localization=false
             $url = "https://api.coingecko.com/api/v3/coins/{$base}/history?date={$date}&localization=false";
             $response = file_get_contents($url, false, stream_context_create([
                 'http' => [
@@ -68,8 +69,12 @@ class CoingeckoController extends JsonsController
                 ],
             ]));
             $array = json_decode($response, true);
-            $rate["direct"] = $array["market_data"]["current_price"][$coin];
-            $rate["inverse"] = 1 / $rate["direct"];
+            if (isset($array["market_data"])) {
+                $rate["direct"] = $array["market_data"]["current_price"][$coin];
+                $rate["inverse"] = 1 / $rate["direct"];
+            } else {
+                return CoingeckoController::getHistory("eur", "tether");
+            }
 
         } catch (\Throwable $th) {
             Log::error("CoingeckoController getHistory ERROR CODE {$th->getCode()} line {$th->getLine()}: {$th->getMessage()}");

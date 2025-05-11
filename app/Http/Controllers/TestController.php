@@ -39,27 +39,27 @@ class TestController extends Controller
     {
         $bot = new GutoTradeBotController("GutoTradeBot");
         $actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");
+        /*
+                $cashflow1 = $bot->PaymentsController->getCashFlow();
 
-        $cashflow1 = $bot->PaymentsController->getCashFlow();
+                $spreadsheet = new Spreadsheet();
+                $sheet = $spreadsheet->getActiveSheet();
+                $bot->PaymentsController->getCashFlowSheet($cashflow1, $sheet);
 
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $bot->PaymentsController->getCashFlowSheet($cashflow1, $sheet);
+                $writer = new Xlsx($spreadsheet);
+                $filename = time() . "1.xlsx";
 
-        $writer = new Xlsx($spreadsheet);
-        $filename = time() . "1.xlsx";
+                $path = public_path() . FileController::$AUTODESTROY_DIR;
+                // Si la carpeta no existe, crearla
+                if (!is_dir($path)) {
+                    mkdir($path, 0755, true);
+                }
+                // Guardar el archivo en el sistema
+                $writer->save($path . "/" . $filename);
 
-        $path = public_path() . FileController::$AUTODESTROY_DIR;
-        // Si la carpeta no existe, crearla
-        if (!is_dir($path)) {
-            mkdir($path, 0755, true);
-        }
-        // Guardar el archivo en el sistema
-        $writer->save($path . "/" . $filename);
-
-        $array = explode(".", $filename);
-        $report = request()->root() . "/report/" . $array[1] . "/" . $array[0];
-
+                $array = explode(".", $filename);
+                $report = request()->root() . "/report/" . $array[1] . "/" . $array[0];
+        */
 
         $cashflow2 = $bot->PaymentsController->getCashFlowNew($bot);
 
@@ -80,11 +80,7 @@ class TestController extends Controller
 
         $array = explode(".", $filename);
         $reportnew = request()->root() . "/report/" . $array[1] . "/" . $array[0];
-        dd($report, $reportnew);
-
-
-        dd($cashflow1, $cashflow2);
-        die;
+        dd($reportnew);
 
 
         $items = Payments::where('id', '>', 0)->get();

@@ -1266,6 +1266,7 @@ class MoneysController extends JsonsController
     {
         $paymentsByDate = Payments::select(
             DB::raw('DATE(created_at) as date'),
+            DB::raw('DATE(JSON_UNQUOTE(JSON_EXTRACT(data, "$.liquidation_date"))) as liquidation_date'),
             DB::raw('CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL(10,2)) as rate'),
             DB::raw('SUM(amount) as eur'),
             DB::raw('SUM(CASE 
@@ -1278,46 +1279,60 @@ class MoneysController extends JsonsController
                         ELSE 1
                     END
                 ELSE 0
-            END) as usdt')
+            END) as usdt'),
+            DB::raw('id'),
         )
-            ->groupBy('date', 'rate')
+            //->whereNotNull(DB::raw("JSON_EXTRACT(data, '$.confirmation_date')"))
+            ->groupBy('date', 'rate', 'liquidation_date', 'id')
             ->orderBy('date')
             ->get();
+        //dd($paymentsByDate->toArray());
 
         $capitalsByDate = Capitals::select(
+            //DB::raw('DATE(JSON_UNQUOTE(JSON_EXTRACT(data, "$.confirmation_date"))) as date'),
             DB::raw('DATE(created_at) as date'),
             DB::raw('CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL) as rate'),
             DB::raw('SUM(amount) as tosend'),
             DB::raw('SUM(comment) as received'),
-            DB::raw('SUM(CASE 
-                WHEN JSON_EXTRACT(data, "$.confirmation_date") IS NOT NULL THEN
-                    amount * CASE 
-                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL) > 0 
-                            THEN 1 - (CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL)/100)
-                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL) < 0 
-                            THEN 1 + (ABS(CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL))/100)
-                        ELSE 1
-                    END
-                ELSE 0
-            END) as usdt')
         )
+            //->whereNotNull(DB::raw("JSON_EXTRACT(data, '$.confirmation_date')"))
             ->groupBy('rate', 'date')
             ->orderBy('date')
             ->orderBy('rate')
             ->get();
+        //dd($capitalsByDate->toArray());
         //dd($capitalsByDate->toArray(), $paymentsByDate->toArray());
 
         $array = array();
         $items = $paymentsByDate->toArray();
         foreach ($items as $item) {
-            $index = $item["date"];
-            if (!isset($array[$index]))
-                $array[$index] = array(
+            if (!isset($array[$item["date"]]))
+                $array[$item["date"]] = array(
                     "payments" => array(),
                     "capitals" => array(),
+                    "liquidation" => array(
+                        "amount" => 0,
+                        "payments" => array(),
+                    ),
+                );
+            if (
+                isset($item["liquidation_date"]) &&
+                !isset($array[$item["liquidation_date"]])
+            )
+                $array[$item["liquidation_date"]] = array(
+                    "payments" => array(),
+                    "capitals" => array(),
+                    "liquidation" => array(
+                        "amount" => 0,
+                        "payments" => array(),
+                    ),
                 );
             //unset($item["date"]);
-            $array[$index]["payments"][] = $item;
+            $array[$item["date"]]["payments"][] = $item;
+            if (isset($item["liquidation_date"])) {
+                $array[$item["liquidation_date"]]["liquidation"]["amount"] += $item["usdt"];
+                $array[$item["liquidation_date"]]["liquidation"]["payments"][] = $item["id"];
+            }
         }
         $items = $capitalsByDate->toArray();
         foreach ($items as $item) {
@@ -1336,9 +1351,13 @@ class MoneysController extends JsonsController
 
         $activerate = false;
         foreach ($array as $key => $day) {
-            if ($activerate === false && isset($day["capitals"])) {
+            if (
+                isset($day["capitals"][0]) &&
+                $activerate === false &&
+                isset($day["capitals"])
+            )
                 $activerate = $day["capitals"][0]["rate"];
-            }
+
 
             foreach ($day["capitals"] as $capital) {
                 if ($activerate > 0) {
@@ -1361,18 +1380,17 @@ class MoneysController extends JsonsController
                         "rate" => $activerate,
                         "tosend" => -1 * $tosend,
                         "received" => $negative,
-                        "usdt" => -1 * $bot->ProfitsController->getUSDTtoSendWithActiveRate($tosend, $activerate),
                     );
                     $tosend = $bot->ProfitsController->getEURtoSendWithActiveRate($amount, $payment["rate"]);
                     $array[$key]["capitals"][] = array(
                         "rate" => $payment["rate"],
                         "tosend" => $tosend,
                         "received" => $amount,
-                        "usdt" => $bot->ProfitsController->getUSDTtoSendWithActiveRate($tosend, $payment["rate"]),
                     );
                 }
             }
         }
+        dd($array);
 
         return $array;
     }
@@ -1381,12 +1399,13 @@ class MoneysController extends JsonsController
     {
         $sheet->setCellValue("A1", "Fecha");
         $sheet->setCellValue("B1", "Recibido USDT");
-        $sheet->setCellValue("C1", "Enviar EUR");
-        $sheet->setCellValue("D1", "Enviado EUR");
-        $sheet->setCellValue("E1", "Enviar USDT");
-        $sheet->setCellValue("F1", "Enviado USDT");
-        $sheet->setCellValue("G1", "Balance USDT");
-        $sheet->setCellValue("H1", "Balance USDT");
+        $sheet->setCellValue("C1", "Tasa");
+        $sheet->setCellValue("D1", "Enviar EUR");
+        $sheet->setCellValue("E1", "Enviado EUR");
+        $sheet->setCellValue("F1", "Balance EUR");
+        $sheet->setCellValue("G1", "Tasa");
+        $sheet->setCellValue("H1", "Pagar USDT");
+        $sheet->setCellValue("I1", "Balance USDT");
 
         foreach ($cashflow as $date => $day) {
             // Obtener la última fila con datos en la columna A
@@ -1398,19 +1417,38 @@ class MoneysController extends JsonsController
                 $sheet->setCellValue("A" . ($row + 1 + $i), $date);
                 if (isset($day["capitals"][$i])) {
                     $sheet->setCellValue("B" . ($row + 1 + $i), $day["capitals"][$i]["received"]);
-                    $sheet->setCellValue("C" . ($row + 1 + $i), $day["capitals"][$i]["tosend"]);
+                    $sheet->setCellValue("C" . ($row + 1 + $i), $day["capitals"][$i]["rate"]);
                 }
-                if (isset($day["payments"][$i]))
-                    $sheet->setCellValue("D" . ($row + 1 + $i), $day["payments"][$i]["eur"]);
-                if (isset($day["capitals"][$i]))
-                    $sheet->setCellValue("E" . ($row + 1 + $i), $day["capitals"][$i]["usdt"]);
-                if (isset($day["payments"][$i]))
-                    $sheet->setCellValue("F" . ($row + 1 + $i), $day["payments"][$i]["usdt"]);
-                //$sheet->setCellValue("G" . ($row + 1 + $i), $day["balance"][$i]["usdt"]);
-                $formula = "=E" . ($row + 1 + $i) . "-F" . ($row + 1 + $i);
+
+                //     =B2*(1-(ABS(C2)/100))          (1 - ($day["capitals"][$i]["rate"]/100))
+                $formula = "=B" . ($row + 1 + $i) . "*(1+(C" . ($row + 1 + $i) . "/100))";
+                $sheet->setCellValue("D" . ($row + 1 + $i), $formula);
+
+                $formula = "=D" . ($row + 1 + $i) . "-E" . ($row + 1 + $i);
                 if ($row > 1)
-                    $formula = "=E" . ($row + 1 + $i) . "-F" . ($row + 1 + $i) . "+H" . ($row + $i);
-                $sheet->setCellValue("H" . ($row + 1 + $i), $formula);
+                    $formula = "=F" . ($row + $i) . "+D" . ($row + 1 + $i) . "-E" . ($row + 1 + $i);
+                $sheet->setCellValue("F" . ($row + 1 + $i), $formula);
+
+
+                if (isset($day["payments"][$i])) {
+                    $sheet->setCellValue("E" . ($row + 1 + $i), $day["payments"][$i]["eur"]);
+                    /*
+                    $sheet->setCellValue("F" . ($row + 1 + $i), $day["payments"][$i]["rate"]);
+                    //                                    (1 - ($day["payments"][$i]["rate"]/100))
+                    $formula = "=E" . ($row + 1 + $i) . "*(1-(F" . ($row + 1 + $i) . "/100))";
+                    if ($day["payments"][$i]["rate"] < 0)
+                        //                                    (1 + (ABS($day["payments"][$i]["rate"])/100))
+                        $formula = "=E" . ($row + 1 + $i) . "*(1+(ABS(F" . ($row + 1 + $i) . ")/100))";
+                    $sheet->setCellValue("G" . ($row + 1 + $i), $formula);
+                    */
+
+                }
+                /*
+                                $formula = "=B" . ($row + 1 + $i) . "-G" . ($row + 1 + $i);
+                                if ($row > 1)
+                                    $formula = "=H" . ($row + $i) . "+B" . ($row + 1 + $i) . "-G" . ($row + 1 + $i);
+                                $sheet->setCellValue("H" . ($row + 1 + $i), $formula);
+                  */
             }
         }
         // Obtener la última fila con datos en la columna A
@@ -1431,7 +1469,7 @@ class MoneysController extends JsonsController
             'font' => ['bold' => true],
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
         ]);
-        $sheet->setCellValue('C' . ($lastRow + 1), '=SUM(C2:C' . $lastRow . ')');
+        //$sheet->setCellValue('C' . ($lastRow + 1), '=SUM(C2:C' . $lastRow . ')');
         // Opcional: aplicar formato a la celda de total
         $sheet->getStyle('C' . ($lastRow + 1))->applyFromArray([
             'font' => ['bold' => true],
@@ -1467,14 +1505,16 @@ class MoneysController extends JsonsController
 
         $sheet->getColumnDimension('A')->setWidth(15);
         $sheet->getColumnDimension('B')->setWidth(15);
-        $sheet->getColumnDimension('C')->setWidth(15);
+        $sheet->getColumnDimension('C')->setWidth(8);
+        //$sheet->getColumnDimension('C')->setVisible(false);
         $sheet->getColumnDimension('D')->setWidth(15);
+        //$sheet->getColumnDimension('D')->setVisible(false);
         $sheet->getColumnDimension('E')->setWidth(15);
         $sheet->getColumnDimension('F')->setWidth(15);
         $sheet->getColumnDimension('G')->setWidth(15);
         $sheet->getColumnDimension('H')->setWidth(15);
-        $sheet->getColumnDimension('D')->setVisible(false);
-        $sheet->getColumnDimension('G')->setVisible(false);
+        //$sheet->getColumnDimension('D')->setVisible(false);
+        //$sheet->getColumnDimension('G')->setVisible(false);
         $sheet->freezePane('B2');
         $sheet->setTitle("Flujo");
 
