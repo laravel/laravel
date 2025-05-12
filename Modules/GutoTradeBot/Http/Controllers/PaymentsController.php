@@ -793,7 +793,10 @@ class PaymentsController extends MoneysController
                     $text .= "\n🆔 `" . $penalty["payment"]->id . "`:     ▪️ *{$penalized_amount}* 💶   /   ▫️ _" . Moneys::format($penalty["payment"]->amount) . "_ 💶";
                 }
 
-                if (isset($response['result']['formated_username'])) {
+                if (
+                    isset($response['result']['formated_username']) &&
+                    $response['result']['formated_username'] != ""
+                ) {
                     $text .= "\n\n👉 @{$response['result']['formated_username']}";
                 }
                 //Log::info("PaymentsController getUnliquidated subject: " . json_encode($subject->data[$bot->telegram["username"]]));
