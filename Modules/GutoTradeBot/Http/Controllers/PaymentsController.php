@@ -770,7 +770,7 @@ class PaymentsController extends MoneysController
 
             $text = "👆 *Pagos pendientes*\n_Estos son {$count} pagos confirmados de Ud y que aún no han sido liquidados. Total: {$amount}_  💶\n\n*A liquidar: {$liquidate_amount}* 💵";
             if ($isadmin) {
-                $text = "👆 *Pagos pendientes*\n_Estos {$count} pagos han sido confirmados a {$response['result']['full_name']} y aún no han sido liquidados. Total: {$amount}_  💶\\n\n*A liquidar: {$liquidate_amount}* 💵";
+                $text = "👆 *Pagos pendientes*\n_Estos {$count} pagos han sido confirmados a {$response['result']['full_name']} y aún no han sido liquidados. Total: {$amount}_  💶\n\n*A liquidar: {$liquidate_amount}* 💵";
             }
             $menu = [
                 [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]],
