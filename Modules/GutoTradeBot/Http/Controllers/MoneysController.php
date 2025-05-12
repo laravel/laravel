@@ -1007,215 +1007,6 @@ class MoneysController extends JsonsController
         return $reply;
     }
 
-
-
-    public function getCashFlow()
-    {
-        $paymentsByDate = Payments::select(
-            DB::raw('DATE(created_at) as date'),
-            DB::raw('SUM(amount) as eur'),
-            DB::raw('SUM(CASE 
-                WHEN JSON_EXTRACT(data, "$.confirmation_date") IS NOT NULL THEN
-                    amount * CASE 
-                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL) > 0 
-                            THEN 1 - (CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL)/100)
-                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL) < 0 
-                            THEN 1 + (ABS(CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL))/100)
-                        ELSE 1
-                    END
-                ELSE 0
-            END) as usdt')
-        )->groupBy('date')->get();
-        //dd($paymentsByDate->toArray());
-
-        $capitalsByDate = Capitals::select(
-            DB::raw('DATE(created_at) as date'),
-            DB::raw('SUM(amount) as tosend'),
-            DB::raw('SUM(comment) as received'),
-            DB::raw('SUM(CASE 
-                WHEN JSON_EXTRACT(data, "$.confirmation_date") IS NOT NULL THEN
-                    amount * CASE 
-                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL) > 0 
-                            THEN 1 - (CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL)/100)
-                        WHEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL) < 0 
-                            THEN 1 + (ABS(CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.salary"))+JSON_UNQUOTE(JSON_EXTRACT(data, "$.profit.profit")) AS DECIMAL))/100)
-                        ELSE 1
-                    END
-                ELSE 0
-            END) as usdt')
-            /*
-            DB::raw('SUM(amount * 
-                CASE 
-                    WHEN JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) = "1" 
-                    THEN CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.oracle.direct")) AS DECIMAL(20,15))
-                    ELSE CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.receiver")) AS DECIMAL(20,15))
-                END
-            ) as usdtmejor')
-             */
-        )->groupBy('date')->get();
-        //dd($capitalsByDate->toArray());
-
-        // Crear una colección combinada
-        $combined = collect();
-        // Procesar payments usando el método put correctamente
-        $paymentsByDate->each(function ($payment) use ($combined) {
-            $combined->put($payment->date, [
-                'date' => $payment->date,
-                'payments' => $payment->toArray(),
-                'capitals' => array(
-                    "date" => $payment->date,
-                    "tosend" => 0,
-                    "received" => 0,
-                    "usdt" => 0
-                )
-            ]);
-        });
-        // Procesar capitals
-        $capitalsByDate->each(function ($capital) use ($combined) {
-            if ($combined->has($capital->date)) {
-                // Usar merge para actualizar el valor existente
-                $combined->put($capital->date, array_merge(
-                    $combined->get($capital->date),
-                    ['capitals' => $capital->toArray()]
-                ));
-            } else {
-                $combined->put($capital->date, [
-                    'date' => $capital->date,
-                    'payments' => array(
-                        "date" => $capital->date,
-                        "eur" => 0,
-                        "usdt" => 0,
-                    ),
-                    'capitals' => $capital->toArray()
-                ]);
-            }
-        });
-        //dd($combined->toArray());
-
-        // Ordenar por fecha y obtener valores
-        $results = $combined->sortBy('date')->values()->toArray();
-        for ($i = 0; $i < count($results); $i++) {
-            $balance = array(
-                "eur" => 0,
-                "usdt" => 0
-            );
-            if (isset($results[$i]["capitals"])) {
-                $balance["eur"] += $results[$i]["capitals"]["tosend"];
-                $balance["usdt"] += $results[$i]["capitals"]["usdt"];
-            }
-            if (isset($results[$i]["payments"])) {
-                $balance["eur"] -= $results[$i]["payments"]["eur"];
-                $balance["usdt"] -= $results[$i]["payments"]["usdt"];
-            }
-            if ($i > 0) {
-                $balance["eur"] += $results[$i - 1]["balance"]["eur"];
-                $balance["usdt"] += $results[$i - 1]["balance"]["usdt"];
-            }
-            $results[$i]["balance"] = $balance;
-        }
-
-        return $results;
-    }
-
-    public function getCashFlowSheet($cashflow, $sheet)
-    {
-        $sheet->setCellValue("A1", "Fecha");
-        $sheet->setCellValue("B1", "Recibido USDT");
-        $sheet->setCellValue("C1", "Enviar EUR");
-        $sheet->setCellValue("D1", "Enviado EUR");
-        $sheet->setCellValue("E1", "Enviar USDT");
-        $sheet->setCellValue("F1", "Enviado USDT");
-        $sheet->setCellValue("G1", "Balance USDT");
-        $sheet->setCellValue("H1", "Balance USDT");
-
-        for ($i = 0; $i < count($cashflow); $i++) {
-            $sheet->setCellValue("A" . ($i + 2), $cashflow[$i]["date"]);
-            $sheet->setCellValue("B" . ($i + 2), $cashflow[$i]["capitals"]["received"]);
-            $sheet->setCellValue("C" . ($i + 2), $cashflow[$i]["capitals"]["tosend"]);
-            $sheet->setCellValue("D" . ($i + 2), $cashflow[$i]["payments"]["eur"]);
-            $sheet->setCellValue("E" . ($i + 2), $cashflow[$i]["capitals"]["usdt"]);
-            $sheet->setCellValue("F" . ($i + 2), $cashflow[$i]["payments"]["usdt"]);
-            $sheet->setCellValue("G" . ($i + 2), $cashflow[$i]["balance"]["usdt"]);
-            $formula = "=E" . ($i + 2) . "-F" . ($i + 2);
-            if ($i > 0)
-                $formula = "=E" . ($i + 2) . "-F" . ($i + 2) . "+H" . ($i + 1);
-            $sheet->setCellValue("H" . ($i + 2), $formula);
-        }
-        // Obtener la última fila con datos en la columna A
-        $lastRow = $sheet->getHighestDataRow('A');
-        // Agregar la fórmula SUM en la siguiente fila
-        $sheet->setCellValue('A' . ($lastRow + 1), "TOTAL:");
-        $sheet->getStyle('A' . ($lastRow + 1))->applyFromArray([
-            'font' => ['bold' => true],
-            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_RIGHT,
-                'vertical' => Alignment::VERTICAL_CENTER
-            ]
-        ]);
-        $sheet->setCellValue('B' . ($lastRow + 1), '=SUM(B2:B' . $lastRow . ')');
-        // Opcional: aplicar formato a la celda de total
-        $sheet->getStyle('B' . ($lastRow + 1))->applyFromArray([
-            'font' => ['bold' => true],
-            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
-        ]);
-        $sheet->setCellValue('C' . ($lastRow + 1), '=SUM(C2:C' . $lastRow . ')');
-        // Opcional: aplicar formato a la celda de total
-        $sheet->getStyle('C' . ($lastRow + 1))->applyFromArray([
-            'font' => ['bold' => true],
-            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
-        ]);
-        $sheet->setCellValue('D' . ($lastRow + 1), '=SUM(D2:D' . $lastRow . ')');
-        // Opcional: aplicar formato a la celda de total
-        $sheet->getStyle('D' . ($lastRow + 1))->applyFromArray([
-            'font' => ['bold' => true],
-            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
-        ]);
-        $sheet->setCellValue('E' . ($lastRow + 1), '=SUM(E2:E' . $lastRow . ')');
-        // Opcional: aplicar formato a la celda de total
-        $sheet->getStyle('E' . ($lastRow + 1))->applyFromArray([
-            'font' => ['bold' => true],
-            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
-        ]);
-        $sheet->setCellValue('F' . ($lastRow + 1), '=SUM(F2:F' . $lastRow . ')');
-        // Opcional: aplicar formato a la celda de total
-        $sheet->getStyle('F' . ($lastRow + 1))->applyFromArray([
-            'font' => ['bold' => true],
-            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
-        ]);
-        $sheet->setCellValue('G' . ($lastRow + 1), '=SUM(G2:G' . $lastRow . ')');
-        // Opcional: aplicar formato a la celda de total
-        $sheet->getStyle('G' . ($lastRow + 1))->applyFromArray([
-            'font' => ['bold' => true],
-            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
-        ]);
-        $sheet->getStyle('H' . ($lastRow + 1))->applyFromArray([
-            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
-        ]);
-
-        $sheet->getColumnDimension('A')->setWidth(15);
-        $sheet->getColumnDimension('B')->setWidth(15);
-        $sheet->getColumnDimension('C')->setWidth(15);
-        $sheet->getColumnDimension('D')->setWidth(15);
-        $sheet->getColumnDimension('E')->setWidth(15);
-        $sheet->getColumnDimension('F')->setWidth(15);
-        $sheet->getColumnDimension('G')->setWidth(15);
-        $sheet->getColumnDimension('H')->setWidth(15);
-        $sheet->getColumnDimension('D')->setVisible(false);
-        $sheet->getColumnDimension('G')->setVisible(false);
-        $sheet->freezePane('B2');
-        $sheet->setTitle("Flujo");
-
-        // Opcional: estilo para los encabezados
-        $headerStyle = [
-            'font' => ['bold' => true],
-            'fill' => ['fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'FFD9D9D9']]
-        ];
-        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray($headerStyle);
-        // Agregar filtros automáticos a los encabezados (desde A1 hasta F1)
-        $sheet->setAutoFilter('A1:H1');
-    }
-
     public function exportCashFlow($cashflow)
     {
         $spreadsheet = new Spreadsheet();
@@ -1242,7 +1033,7 @@ class MoneysController extends JsonsController
 
     public function getAllCash($bot)
     {
-        $results = $bot->PaymentsController->getCashFlow();
+        $results = $bot->PaymentsController->getCashFlow($bot);
         $array = $bot->PaymentsController->exportCashFlow($results);
         $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
 
@@ -1262,9 +1053,10 @@ class MoneysController extends JsonsController
         return $reply;
     }
 
-    public function getCashFlowNew($bot)
+    public function getCashFlow($bot)
     {
         $paymentsByDate = Payments::select(
+            DB::raw('GROUP_CONCAT(id SEPARATOR ", ") as id'),
             DB::raw('DATE(created_at) as date'),
             DB::raw('MAX(DATE(JSON_UNQUOTE(JSON_EXTRACT(data, "$.liquidation_date")))) as liquidation_date'),
             DB::raw('CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL(10,2)) as rate'),
@@ -1280,7 +1072,6 @@ class MoneysController extends JsonsController
                     END
                 ELSE 0
             END) as usdt'),
-            DB::raw('SUM(id) as id'),
         )
             //->whereNotNull(DB::raw("JSON_EXTRACT(data, '$.confirmation_date')"))
             ->groupBy('date', 'rate')
@@ -1399,7 +1190,7 @@ class MoneysController extends JsonsController
         return $array;
     }
 
-    public function getCashFlowSheetNew($cashflow, $sheet)
+    public function getCashFlowSheet($cashflow, $sheet)
     {
         $sheet->setCellValue("A1", "Fecha");
         $sheet->setCellValue("B1", "Recibido USDT");
@@ -1454,8 +1245,18 @@ class MoneysController extends JsonsController
                     $formula = "=I" . ($row + $i) . "+B" . ($row + 1 + $i) . "-H" . ($row + 1 + $i);
                 $sheet->setCellValue("I" . ($row + 1 + $i), $formula);
 
-                if ($day["liquidation"]["amount"] > 0) {
+                if (
+                    $day["liquidation"]["amount"] > 0 &&
+                    $i == 0
+                ) {
                     $sheet->setCellValue("J" . ($row + 1 + $i), $day["liquidation"]["amount"]);
+                    $sheet->setCellValue("K" . ($row + 1 + $i), implode(", ", $day["liquidation"]["payments"]));
+                    $sheet->getStyle('K' . ($row + 1 + $i))->applyFromArray([
+                        'alignment' => [
+                            'horizontal' => Alignment::HORIZONTAL_CENTER,
+                            'vertical' => Alignment::VERTICAL_CENTER
+                        ]
+                    ]);
                 }
 
             }
@@ -1473,8 +1274,16 @@ class MoneysController extends JsonsController
                 'vertical' => Alignment::VERTICAL_CENTER
             ]
         ]);
-        $sheet->setCellValue('A' . ($lastRow + 2), "Diferencia:");
+        $sheet->setCellValue('A' . ($lastRow + 2), "Plan:");
         $sheet->getStyle('A' . ($lastRow + 2))->applyFromArray([
+            'font' => ['bold' => true],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sheet->setCellValue('A' . ($lastRow + 3), "Real:");
+        $sheet->getStyle('A' . ($lastRow + 3))->applyFromArray([
             'font' => ['bold' => true],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_RIGHT,
@@ -1530,10 +1339,22 @@ class MoneysController extends JsonsController
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
         ]);
 
+        $sheet->setCellValue('J' . ($lastRow + 1), '=SUM(J2:J' . $lastRow . ')');
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('J' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+
         $formula = "=B" . ($lastRow + 1) . "-H" . ($lastRow + 1);
         $sheet->setCellValue("B" . ($lastRow + 2), $formula);
-
         $sheet->getStyle('B' . ($lastRow + 2))->applyFromArray([
+            'font' => ['bold' => true],
+        ]);
+
+        $formula = "=B" . ($lastRow + 1) . "-J" . ($lastRow + 1);
+        $sheet->setCellValue("B" . ($lastRow + 3), $formula);
+        $sheet->getStyle('B' . ($lastRow + 3))->applyFromArray([
             'font' => ['bold' => true],
         ]);
 
@@ -1551,6 +1372,8 @@ class MoneysController extends JsonsController
         $sheet->getColumnDimension('G')->setVisible(false);
         $sheet->getColumnDimension('H')->setWidth(15);
         $sheet->getColumnDimension('I')->setWidth(15);
+        $sheet->getColumnDimension('J')->setWidth(15);
+        $sheet->getColumnDimension('K')->setWidth(25);
         $sheet->freezePane('B2');
         $sheet->setTitle("Flujo");
 

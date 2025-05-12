@@ -1683,7 +1683,7 @@ class GutoTradeBotController extends JsonsController
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $this->PaymentsController->getCashFlowSheet(
-            $this->PaymentsController->getCashFlow(),
+            $this->PaymentsController->getCashFlow($this),
             $sheet
         );
 

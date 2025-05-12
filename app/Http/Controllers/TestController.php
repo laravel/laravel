@@ -39,33 +39,12 @@ class TestController extends Controller
     {
         $bot = new GutoTradeBotController("GutoTradeBot");
         $actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");
-        /*
-                $cashflow1 = $bot->PaymentsController->getCashFlow();
 
-                $spreadsheet = new Spreadsheet();
-                $sheet = $spreadsheet->getActiveSheet();
-                $bot->PaymentsController->getCashFlowSheet($cashflow1, $sheet);
-
-                $writer = new Xlsx($spreadsheet);
-                $filename = time() . "1.xlsx";
-
-                $path = public_path() . FileController::$AUTODESTROY_DIR;
-                // Si la carpeta no existe, crearla
-                if (!is_dir($path)) {
-                    mkdir($path, 0755, true);
-                }
-                // Guardar el archivo en el sistema
-                $writer->save($path . "/" . $filename);
-
-                $array = explode(".", $filename);
-                $report = request()->root() . "/report/" . $array[1] . "/" . $array[0];
-        */
-
-        $cashflow2 = $bot->PaymentsController->getCashFlowNew($bot);
+        $cashflow2 = $bot->PaymentsController->getCashFlow($bot);
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
-        $bot->PaymentsController->getCashFlowSheetNew($cashflow2, $sheet);
+        $bot->PaymentsController->getCashFlowSheet($cashflow2, $sheet);
 
         $writer = new Xlsx($spreadsheet);
         $filename = time() . "2.xlsx";
@@ -135,16 +114,6 @@ class TestController extends Controller
         dd($payments->toArray());
         die;
 
-
-
-
-        $results = $bot->PaymentsController->getCashFlow();
-        $array = $bot->PaymentsController->exportCashFlow($results);
-        $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
-
-        echo $xlspath;
-        dd($results);
-        die;
 
         $uniqueDates = Payments::select(DB::raw('DATE(created_at) as date'))
             ->whereNotExists(function ($query) {
