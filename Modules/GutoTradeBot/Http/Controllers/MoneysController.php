@@ -1056,7 +1056,7 @@ class MoneysController extends JsonsController
     public function getCashFlow($bot)
     {
         $paymentsByDate = Payments::select(
-            DB::raw('GROUP_CONCAT(id SEPARATOR ", ") as id'),
+            DB::raw('GROUP_CONCAT(id SEPARATOR "; ") as id'),
             DB::raw('DATE(created_at) as date'),
             DB::raw('MAX(DATE(JSON_UNQUOTE(JSON_EXTRACT(data, "$.liquidation_date")))) as liquidation_date'),
             DB::raw('CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL(10,2)) as rate'),
@@ -1250,7 +1250,7 @@ class MoneysController extends JsonsController
                     $i == 0
                 ) {
                     $sheet->setCellValue("J" . ($row + 1 + $i), $day["liquidation"]["amount"]);
-                    $sheet->setCellValue("K" . ($row + 1 + $i), implode(", ", $day["liquidation"]["payments"]));
+                    $sheet->setCellValue("K" . ($row + 1 + $i), implode("; ", $day["liquidation"]["payments"]));
                     $sheet->getStyle('K' . ($row + 1 + $i))->applyFromArray([
                         'alignment' => [
                             'horizontal' => Alignment::HORIZONTAL_CENTER,

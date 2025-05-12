@@ -309,7 +309,7 @@ class PaymentsController extends MoneysController
 
         $sheet->getColumnDimension('A')->setWidth(8);
         $sheet->getColumnDimension('B')->setWidth(15);
-        $sheet->getColumnDimension('C')->setWidth(10);
+        $sheet->getColumnDimension('C')->setWidth(15);
         $sheet->getColumnDimension('D')->setWidth(33);
         $sheet->getColumnDimension('E')->setWidth(20);
         if ($isadmin) {

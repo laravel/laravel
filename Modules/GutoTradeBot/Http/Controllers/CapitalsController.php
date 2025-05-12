@@ -177,8 +177,8 @@ class CapitalsController extends MoneysController
         ]);
 
         $sheet->getColumnDimension('A')->setWidth(15);
-        $sheet->getColumnDimension('B')->setWidth(10);
-        $sheet->getColumnDimension('C')->setWidth(10);
+        $sheet->getColumnDimension('B')->setWidth(15);
+        $sheet->getColumnDimension('C')->setWidth(15);
         $sheet->freezePane('B2');
         $sheet->setTitle("Recibos");
 
