@@ -931,11 +931,9 @@ class PaymentsController extends MoneysController
             $array = $this->export($bot, $payments, $actor);
             $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
 
+            $amount = Moneys::format($amount);
             $fileinfo = "*Total: {$amount}* 💶\n\n📎 Se ha generado un excel con los datos aquí:\n{$xlspath}\n_Este archivo estará disponible por " . FileController::$TEMPFILE_DURATION_HOURS . " hrs._";
             $text = "👆 *Pagos flotantes*\n_Estos son {$count} pagos flotantes._\n\n{$fileinfo}";
-            if ($isadmin) {
-                $text = "👆 *Pagos flotantes*\n_Estos {$count} pagos flotantes._\n\n{$fileinfo}";
-            }
             $menu = [
                 [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]],
             ];
