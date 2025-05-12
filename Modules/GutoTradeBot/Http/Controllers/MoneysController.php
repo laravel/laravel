@@ -1046,7 +1046,7 @@ class MoneysController extends JsonsController
         $menu = [
             [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]],
         ];
-        $text .= "_\n\n📎 Se ha generado un excel con los datos aquí:\n{$xlspath}\n_Este archivo estará disponible por " . FileController::getTempFileDurationText() . "._";
+        $text .= "_\n\n" . $bot->getReportFileText($xlspath);
 
         $reply = array(
             "text" => $text,

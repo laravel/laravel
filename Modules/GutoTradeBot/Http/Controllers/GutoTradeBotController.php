@@ -1722,11 +1722,11 @@ class GutoTradeBotController extends JsonsController
         $array = explode(".", $filename);
         $xlspath = request()->root() . "/report/" . $array[1] . "/" . $array[0];
 
-        $text = "📋 *Datos del sistema*\n_Estos son los datos registrado hasta el momento.";
+        $text = "📋 *Datos del sistema*\n_Estos son los datos registrado hasta el momento._";
         $menu = [
             [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]],
         ];
-        $text .= "_\n\n📎 Se ha generado un excel con los datos aquí:\n{$xlspath}\n_Este archivo estará disponible por " . FileController::getTempFileDurationText() . "._";
+        $text .= "\n\n" . $this->getReportFileText($xlspath);
 
         $reply = array(
             "text" => $text,
@@ -1736,5 +1736,13 @@ class GutoTradeBotController extends JsonsController
         );
 
         return $reply;
+    }
+
+    public function getReportFileText($path)
+    {
+        $text = "📎 Se ha generado un excel con los datos aquí:\n" .
+            $path . "\n" .
+            "_Este archivo estará disponible por " . FileController::getTempFileDurationText() . "._";
+        return $text;
     }
 }
