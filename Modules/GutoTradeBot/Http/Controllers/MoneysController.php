@@ -611,8 +611,8 @@ class MoneysController extends JsonsController
                 }
             }
 
-            // Opcion para q un admin1 pueda eliminar un money si no ha sido liquidado
-            if (!$money->isLiquidated())
+            // Opcion para q un admin1 pueda eliminar un money si no ha sido confirmado
+            if (!$money->isConfirmed())
                 array_push($menu, [
                     ["text" => "❌ Eliminar", "callback_data" => "confirmation|delete{$type}-{$money->id}|menu"],
                 ]);
