@@ -372,16 +372,16 @@ class CapitalsController extends MoneysController
             $array = $this->export($bot, $capitals, $actor);
             $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
 
-            $text = "👆 *Aportes de capital pendientes*\n_Estos son {$count} aportes de capital reportados por Ud y que aún no han sido confirmados._\n*Total: {$amount}* 💰\n\n📎 Se ha generado un excel con los datos aquí:\n{$xlspath}\n_Este archivo solo estará disponible por " . FileController::$TEMPFILE_DURATION_HOURS . " hrs._";
+            $text = "👆 *Aportes de capital pendientes*\n_Estos son {$count} aportes de capital reportados por Ud y que aún no han sido confirmados._\n*Total: {$amount}* 💰\n\n📎 Se ha generado un excel con los datos aquí:\n{$xlspath}\n_Este archivo estará disponible por " . FileController::$TEMPFILE_DURATION_HOURS . " hrs._";
             if ($isadmin) {
-                $text = "👆 *Aportes de capital pendientes*\n_Estos {$count} aportes de capital han sido reportados y aún no han sido confirmados._\n*Total: {$amount}* 💰\n\n📎 Se ha generado un excel con los datos aquí:\n{$xlspath}\n_Este archivo solo estará disponible por " . FileController::$TEMPFILE_DURATION_HOURS . " hrs._";
+                $text = "👆 *Aportes de capital pendientes*\n_Estos {$count} aportes de capital han sido reportados y aún no han sido confirmados._\n*Total: {$amount}* 💰\n\n📎 Se ha generado un excel con los datos aquí:\n{$xlspath}\n_Este archivo estará disponible por " . FileController::$TEMPFILE_DURATION_HOURS . " hrs._";
             }
             $menu = [
                 [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]],
             ];
 
             if ($user_id != $to_id) {
-                $text = "👆 *Aportes de capital pendientes*\n_Estos {$count} aportes de capital han sido reportados y aún no han sido confirmados._\n*Total: {$amount}* 💰\n\n📎 Se ha generado un excel con los datos aquí:\n{$xlspath}\n_Este archivo solo estará disponible por " . FileController::$TEMPFILE_DURATION_HOURS . " hrs._";
+                $text = "👆 *Aportes de capital pendientes*\n_Estos {$count} aportes de capital han sido reportados y aún no han sido confirmados._\n*Total: {$amount}* 💰\n\n📎 Se ha generado un excel con los datos aquí:\n{$xlspath}\n_Este archivo estará disponible por " . FileController::$TEMPFILE_DURATION_HOURS . " hrs._";
                 $menu = [
                     [["text" => "↖️ Volver al menú de usuarios", "callback_data" => "getadminunconfirmedcapitalsmenu"]],
                 ];
@@ -512,7 +512,7 @@ class CapitalsController extends MoneysController
                 ];
             }
 
-            $text .= "_\n*Total: {$amount}* 💶\n\n📎 Se ha generado un excel con los datos aquí:\n{$xlspath}\n_Este archivo solo estará disponible por " . FileController::$TEMPFILE_DURATION_HOURS . " hrs._";
+            $text .= "_\n*Total: {$amount}* 💶\n\n📎 Se ha generado un excel con los datos aquí:\n{$xlspath}\n_Este archivo estará disponible por " . FileController::$TEMPFILE_DURATION_HOURS . " hrs._";
 
             $reply = array(
                 "text" => $text,
