@@ -522,11 +522,14 @@ class MoneysController extends JsonsController
         array_unshift($menu, $commentsmenu);
 
         if ($role == 1) {
-            // Opcion para q pueda ajustarse el monto del money
-            array_push($menu, [
-                ["text" => "✒ Renombrar", "callback_data" => "promptmoneycomment-{$money->id}"],
-                ["text" => "🎲 Revalorizar", "callback_data" => "promptmoneyamount-{$money->id}"],
-            ]);
+            // Opcion para q pueda ajustarse el nombre del money
+            $ajustmentsmenu = array(
+                ["text" => "✒ Renombrar", "callback_data" => "promptmoneycomment-{$money->id}"]
+            );
+            // Opcion para q pueda ajustarse el monto del money si no esta liquidado
+            if (!$money->isLiquidated())
+                array_push($ajustmentsmenu, ["text" => "🎲 Revalorizar", "callback_data" => "promptmoneyamount-{$money->id}"]);
+            array_push($menu, $ajustmentsmenu);
 
             // Si el pago no esta confirmado se puede hacer match con un flotante
             // Si es un flotante se puede hacer match con uno no confirmado
@@ -601,16 +604,18 @@ class MoneysController extends JsonsController
             } else {
                 // Opcion para q un admin1 pueda desconfirmar
                 if ($money->sender_id != null) {
-                    array_push($menu, [
-                        ["text" => "♨️ Desconfirmar", "callback_data" => "confirmation|unconfirm{$type}-{$money->id}|menu"],
-                    ]);
+                    if (!$money->isLiquidated())
+                        array_push($menu, [
+                            ["text" => "♨️ Desconfirmar", "callback_data" => "confirmation|unconfirm{$type}-{$money->id}|menu"],
+                        ]);
                 }
             }
 
-            // Opcion para q un admin1 pueda eliminar un money
-            array_push($menu, [
-                ["text" => "❌ Eliminar", "callback_data" => "confirmation|delete{$type}-{$money->id}|menu"],
-            ]);
+            // Opcion para q un admin1 pueda eliminar un money si no ha sido liquidado
+            if (!$money->isLiquidated())
+                array_push($menu, [
+                    ["text" => "❌ Eliminar", "callback_data" => "confirmation|delete{$type}-{$money->id}|menu"],
+                ]);
         }
 
         array_push($menu, [["text" => "🔃 Volver a cargar", "callback_data" => "/buscar {$money->id}"]]);
