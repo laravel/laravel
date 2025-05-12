@@ -535,7 +535,7 @@ class PaymentsController extends MoneysController
             array_push($menu, [["text" => "↖️ Volver al menú de administrador", "callback_data" => "adminmenu"]]);
 
             $reply = array(
-                "text" => "💶 *Menú de pagos*!\n\n_Aquí encontrará las opciones sobre los pagos realizados_\n\n👇 Qué desea hacer ahora?",
+                "text" => "💶 *Menú de pagos*!\n_Aquí encontrará las opciones sobre los pagos realizados_\n\n👇 Qué desea hacer ahora?",
                 "markup" => json_encode([
                     "inline_keyboard" => $menu,
                 ]),

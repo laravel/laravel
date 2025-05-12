@@ -654,6 +654,8 @@ class GutoTradeBotController extends JsonsController
                 case "unliquidatedpayments":
                     $reply = $this->PaymentsController->getUnliquidated($this, $array["pieces"][1], $this->actor->user_id);
                     break;
+                case "/float":
+                    $array["pieces"][1] = "all";
                 case "floatingpayments":
                     $reply = $this->PaymentsController->getFloating($this, $array["pieces"][1], $this->actor->user_id);
                     break;

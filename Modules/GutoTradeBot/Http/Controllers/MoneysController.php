@@ -938,7 +938,7 @@ class MoneysController extends JsonsController
         $bot->ActorsController->updateData(Actors::class, "user_id", $bot->actor->user_id, "last_bot_callback_data", $method, $bot->telegram["username"]);
 
         $reply = array(
-            "text" => "🔎 *Buscar registro en la BD*\n\n_Ud puede escribir el ID, la cantidad, o parte del nombre del remitente para buscarlo. Sin embargo tenga en cuenta que criterios muy cortos pueden generar muchos resultados._\n\n👇 Escriba el valor por el que desea buscar:",
+            "text" => "🔎 *Buscar registro en la BD*\n_Ud puede escribir el ID, la cantidad, o parte del nombre del remitente para buscarlo. Tenga en cuenta que criterios muy cortos pueden generar muchos resultados._\n\n👇 Escriba el valor por el que desea buscar:",
             "markup" => json_encode([
                 "inline_keyboard" => [
                     [$backoption],
