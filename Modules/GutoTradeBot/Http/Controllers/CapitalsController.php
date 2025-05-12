@@ -299,7 +299,7 @@ class CapitalsController extends MoneysController
             array_push($menu, [["text" => "↖️ Volver al menú de administrador", "callback_data" => "adminmenu"]]);
 
             $reply = array(
-                "text" => "💰 *Menú de aportes de capital*!\n\n_Aquí encontrará las opciones sobre los aportes de capital realizados_\n\n👇 Qué desea hacer ahora?",
+                "text" => "💰 *Menú de aportes de capital*!\n_Aquí encontrará las opciones sobre los aportes de capital realizados_\n\n👇 Qué desea hacer ahora?",
                 "markup" => json_encode([
                     "inline_keyboard" => $menu,
                 ]),

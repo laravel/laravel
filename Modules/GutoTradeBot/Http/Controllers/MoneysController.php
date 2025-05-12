@@ -954,7 +954,7 @@ class MoneysController extends JsonsController
         $bot->ActorsController->updateData(Actors::class, "user_id", $bot->actor->user_id, "last_bot_callback_data", $method, $bot->telegram["username"]);
 
         $reply = array(
-            "text" => "🔎 *Buscar registros en la BD*\n\n_Es posible buscar registros con cierta cantidad de días de antigüedad. Si escribe un valor positivo, se sumará esa cantidad de días a le fecha actual; si por el contrario el número escrito es negativo, se resta a la fecha actual los días especificados._\n\n👇 Escriba cuántos días desea buscar:",
+            "text" => "🔎 *Buscar registros en la BD*\n_Es posible buscar registros con cierta cantidad de días de antigüedad. Si escribe un valor positivo, se sumará esa cantidad de días a le fecha actual; si por el contrario el número escrito es negativo, se resta a la fecha actual los días especificados._\n\n👇 Escriba cuántos días desea buscar:",
             "markup" => json_encode([
                 "inline_keyboard" => [
                     [$backoption],
