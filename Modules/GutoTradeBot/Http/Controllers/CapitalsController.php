@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Modules\GutoTradeBot\Entities\Capitals;
+use Modules\GutoTradeBot\Entities\Moneys;
 use Modules\TelegramBot\Entities\Actors;
 use Modules\TelegramBot\Http\Controllers\ActorsController;
 use Modules\TelegramBot\Http\Controllers\TelegramBotController;
@@ -512,6 +513,7 @@ class CapitalsController extends MoneysController
                 ];
             }
 
+            $amount = Moneys::format($amount);
             $text .= "_\n*Total: {$amount}* 💶\n\n" . $bot->getReportFileText($xlspath);
 
             $reply = array(

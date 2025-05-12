@@ -689,6 +689,7 @@ class GutoTradeBotController extends JsonsController
 
                             ]
                         );
+                        Log::channel('storage')->info('payment ' . json_encode($payment->toArray()));
                     }
                     //$bot, $actor, $title, $message = false, $show_owner_id = true, $menu = false, $demo = false
                     $payment->delete();
