@@ -1301,7 +1301,7 @@ class GutoTradeBotController extends JsonsController
         array_push($menu, [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]]);
 
         $reply = [
-            "text" => "👮‍♂️ *Menú de administrador*!\n\n_Aquí encontrará herramientas útiles para la gestión integral del bot_\n\n👇 Qué desea hacer ahora?",
+            "text" => "👮‍♂️ *Menú de administrador*!\n_Aquí encontrará herramientas útiles para la gestión integral del bot_\n\n👇 Qué desea hacer ahora?",
             "markup" => json_encode([
                 "inline_keyboard" => $menu,
             ]),
@@ -1343,7 +1343,7 @@ class GutoTradeBotController extends JsonsController
         array_push($menu, [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]]);
 
         $reply = [
-            "text" => "⚙️ *Menú de configuraciones*!\n\n_Aquí encontrará ajustes del comportamiento del bot_\n\n👇 Qué desea hacer ahora?",
+            "text" => "⚙️ *Menú de configuraciones*!\n_Aquí encontrará ajustes del comportamiento del bot_\n\n👇 Qué desea hacer ahora?",
             "markup" => json_encode([
                 "inline_keyboard" => $menu,
             ]),

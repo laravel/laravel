@@ -421,7 +421,7 @@ class CapitalsController extends MoneysController
         ]);
 
         $reply = array(
-            "text" => "💰 *Aportes de capital sin confirmar por usuarios*\n\n_Aquí puede obtener el reporte de aportes de capital sin confirmar de uno o todos los usuarios_\n\n👇 De quién desea ver?",
+            "text" => "💰 *Aportes de capital sin confirmar por usuarios*\n_Aquí puede obtener el reporte de aportes de capital sin confirmar de uno o todos los usuarios_\n\n👇 De quién desea ver?",
             "markup" => json_encode([
                 "inline_keyboard" => $menu,
             ]),
@@ -453,7 +453,7 @@ class CapitalsController extends MoneysController
         ]);
 
         $reply = array(
-            "text" => "💰 *Aportes de capital por usuarios*\n\n_Aquí puede obtener el reporte de aportes de capital de uno o todos los usuarios_\n\n👇 De quién desea ver?",
+            "text" => "💰 *Aportes de capital por usuarios*\n_Aquí puede obtener el reporte de aportes de capital de uno o todos los usuarios_\n\n👇 De quién desea ver?",
             "markup" => json_encode([
                 "inline_keyboard" => $menu,
             ]),

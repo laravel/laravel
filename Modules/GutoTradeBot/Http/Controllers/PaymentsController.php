@@ -982,7 +982,7 @@ class PaymentsController extends MoneysController
         ]);
 
         $reply = array(
-            "text" => "💶 *Pagos por usuarios*\n\n_Aquí puede obtener el reporte de pagos de uno o todos los usuarios_\n\n👇 De quién desea ver?",
+            "text" => "💶 *Pagos por usuarios*\n_Aquí puede obtener el reporte de pagos de uno o todos los usuarios_\n\n👇 De quién desea ver?",
             "markup" => json_encode([
                 "inline_keyboard" => $menu,
             ]),
