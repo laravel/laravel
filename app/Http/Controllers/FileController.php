@@ -11,6 +11,23 @@ class FileController extends Controller
     public static $AUTODESTROY_DIR = "/autodestroy";
     public static $TEMPFILE_DURATION_HOURS = 168;
 
+    public static function getTempFileDurationText()
+    {
+        // Calcular días y horas restantes
+        $days = floor(FileController::$TEMPFILE_DURATION_HOURS / 24);
+        $hours = FileController::$TEMPFILE_DURATION_HOURS % 24;
+        //dd($days, $hours);
+
+        // Formatear el texto según la cantidad
+        $daystext = $days == 1 ? 'día' : 'días';
+        $hourstext = $hours == 1 ? 'hora' : 'horas';
+
+        $text = "$days $daystext";
+        if ($hours > 0)
+            $text .= " y $hours $hourstext";
+        return $text;
+    }
+
     public function renderAndDestroy($format, $name)
     {
         $this->deleteOldTempFiles(public_path() . FileController::$AUTODESTROY_DIR);
