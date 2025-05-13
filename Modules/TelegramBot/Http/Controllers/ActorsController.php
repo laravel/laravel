@@ -90,8 +90,6 @@ class ActorsController extends JsonsController
 
     public function notifyAfterUTCChange($timezone)
     {
-        Log::error("ActorsController notifyAfterUTCChange {$timezone}");
-
         $now = Carbon::now()->addHours(intval($timezone));
         $date = $now->format("Y-m-d H:i:s");
         $reply = [
