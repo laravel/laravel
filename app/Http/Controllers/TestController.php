@@ -40,8 +40,6 @@ class TestController extends Controller
         $bot = new GutoTradeBotController("GutoTradeBot");
         $actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");
 
-        die(FileController::getTempFileDurationText());
-
         $cashflow2 = $bot->PaymentsController->getCashFlow($bot);
 
         $spreadsheet = new Spreadsheet();

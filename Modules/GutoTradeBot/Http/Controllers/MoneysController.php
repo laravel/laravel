@@ -1061,9 +1061,20 @@ class MoneysController extends JsonsController
     public function getCashFlow($bot)
     {
         $paymentsByDate = Payments::select(
-            DB::raw('GROUP_CONCAT(id SEPARATOR "; ") as id'),
+            DB::raw('GROUP_CONCAT(id SEPARATOR "; ") as ids'),
             DB::raw('DATE(created_at) as date'),
-            DB::raw('MAX(DATE(JSON_UNQUOTE(JSON_EXTRACT(data, "$.liquidation_date")))) as liquidation_date'),
+            DB::raw('CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL(10,2)) as rate'),
+            DB::raw('SUM(amount) as eur'),
+        )
+            //->whereNotNull(DB::raw("JSON_EXTRACT(data, '$.confirmation_date')"))
+            ->groupBy('date', 'rate')
+            ->orderBy('date')
+            ->get();
+        //dd($paymentsByDate->toArray());
+
+        $liquidationByDate = Payments::select(
+            DB::raw('GROUP_CONCAT(id SEPARATOR "; ") as ids'),
+            DB::raw('DATE(JSON_UNQUOTE(JSON_EXTRACT(data, "$.liquidation_date"))) as liquidation_date'),
             DB::raw('CAST(JSON_UNQUOTE(JSON_EXTRACT(data, "$.rate.internal")) AS DECIMAL(10,2)) as rate'),
             DB::raw('SUM(amount) as eur'),
             DB::raw('SUM(CASE 
@@ -1078,11 +1089,11 @@ class MoneysController extends JsonsController
                 ELSE 0
             END) as usdt'),
         )
-            //->whereNotNull(DB::raw("JSON_EXTRACT(data, '$.confirmation_date')"))
-            ->groupBy('date', 'rate')
-            ->orderBy('date')
+            ->whereNotNull(DB::raw("JSON_EXTRACT(data, '$.liquidation_date')"))
+            ->groupBy('liquidation_date', 'rate')
+            ->orderBy('liquidation_date')
             ->get();
-        //dd($paymentsByDate->toArray());
+        // dd($liquidationByDate->toArray());
 
         $capitalsByDate = Capitals::select(
             //DB::raw('DATE(JSON_UNQUOTE(JSON_EXTRACT(data, "$.confirmation_date"))) as date'),
@@ -1111,10 +1122,13 @@ class MoneysController extends JsonsController
                         "payments" => array(),
                     ),
                 );
-            if (
-                isset($item["liquidation_date"]) &&
-                !isset($array[$item["liquidation_date"]])
-            )
+            //unset($item["date"]);
+            $array[$item["date"]]["payments"][] = $item;
+        }
+        //dd($array);
+        $items = $liquidationByDate->toArray();
+        foreach ($items as $item) {
+            if (!isset($array[$item["liquidation_date"]]))
                 $array[$item["liquidation_date"]] = array(
                     "payments" => array(),
                     "capitals" => array(),
@@ -1123,13 +1137,10 @@ class MoneysController extends JsonsController
                         "payments" => array(),
                     ),
                 );
-            //unset($item["date"]);
-            $array[$item["date"]]["payments"][] = $item;
-            if (isset($item["liquidation_date"])) {
-                $array[$item["liquidation_date"]]["liquidation"]["amount"] += $item["usdt"];
-                $array[$item["liquidation_date"]]["liquidation"]["payments"][] = $item["id"];
-            }
+            $array[$item["liquidation_date"]]["liquidation"]["amount"] += $item["usdt"];
+            $array[$item["liquidation_date"]]["liquidation"]["payments"][] = $item["ids"];
         }
+        //dd($array);
         $items = $capitalsByDate->toArray();
         foreach ($items as $item) {
             $index = $item["date"];
@@ -1378,7 +1389,7 @@ class MoneysController extends JsonsController
         $sheet->getColumnDimension('H')->setWidth(15);
         $sheet->getColumnDimension('I')->setWidth(15);
         $sheet->getColumnDimension('J')->setWidth(15);
-        $sheet->getColumnDimension('K')->setWidth(25);
+        $sheet->getColumnDimension('K')->setWidth(45);
         $sheet->freezePane('B2');
         $sheet->setTitle("Flujo");
 
