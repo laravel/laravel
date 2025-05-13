@@ -5,6 +5,7 @@ use App\Http\Controllers\JsonsController;
 use Carbon\Carbon;
 use Modules\TelegramBot\Entities\Actors;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ActorsController extends JsonsController
 {
@@ -89,7 +90,9 @@ class ActorsController extends JsonsController
 
     public function notifyAfterUTCChange($timezone)
     {
-        $now = Carbon::now()->addHours($timezone);
+        Log::error("ActorsController notifyAfterUTCChange {$timezone}");
+
+        $now = Carbon::now()->addHours(intval($timezone));
         $date = $now->format("Y-m-d H:i:s");
         $reply = [
             "text" => "⏰ *Zona horaria actualizada*\n_Se ha actualizado su zona horaria satisfactoriamente._\n\nAhora son las {$date}.\n\n👇 Qué desea hacer ahora?",
