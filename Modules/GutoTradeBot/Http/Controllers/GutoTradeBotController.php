@@ -1121,7 +1121,7 @@ class GutoTradeBotController extends JsonsController
                     $command = $array[$this->telegram["username"]]["last_bot_callback_data"];
 
                 $commandarray = $this->getCommand($command);
-                Log::info("GutoTradeBotController photo commandarray = " . json_encode($commandarray));
+                Log::info("GutoTradeBotController photo command = {$command}, commandarray = " . json_encode($commandarray));
                 $commandarray = $commandarray["pieces"];
                 if (count($commandarray) > 1)
                     $command = $commandarray[0];
