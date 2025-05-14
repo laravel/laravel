@@ -1292,7 +1292,7 @@ class PaymentsController extends MoneysController
                         $bot,
                         $payment,
                         $payment->sender_id,
-                        "Reporte de pago en revisión",
+                        "Reenvio de pago en revisión",
                         false,
                         true,
                         []
