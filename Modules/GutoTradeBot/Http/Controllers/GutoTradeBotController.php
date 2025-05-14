@@ -1114,7 +1114,7 @@ class GutoTradeBotController extends JsonsController
             if ($this->actor && $this->actor->id > 0 && !isset($this->message["animation"])) {
                 $array = $this->actor->data;
 
-                Log::info("GutoTradeBotController photo actor->data = " . json_encode($array));
+                //Log::info("GutoTradeBotController photo actor->data = " . json_encode($array));
 
                 //$array = $this->getCommand($this->message["text"]);
                 $command = "";
@@ -1122,6 +1122,7 @@ class GutoTradeBotController extends JsonsController
                     $command = $array[$this->telegram["username"]]["last_bot_callback_data"];
 
                 $commandarray = $this->getCommand($command);
+                Log::info("GutoTradeBotController photo commandarray = " . json_encode($commandarray));
                 $commandarray = $commandarray["pieces"];
                 if (count($commandarray) > 1)
                     $command = $commandarray[0];
