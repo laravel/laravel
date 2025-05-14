@@ -1295,7 +1295,12 @@ class PaymentsController extends MoneysController
                         "Reenvio de pago en revisión",
                         false,
                         true,
-                        []
+                        [
+                            [
+                                ["text" => "↖️ Volver al menú principal", "callback_data" => "menu"],
+                            ],
+
+                        ]
                     );
                     $reply = $reply["message"];
                     $reply["markup"] = $reply["reply_markup"];
