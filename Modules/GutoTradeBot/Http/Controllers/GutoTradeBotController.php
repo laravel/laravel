@@ -1185,6 +1185,8 @@ class GutoTradeBotController extends JsonsController
 
                         if ($this->actor->isLevel(1, $this->telegram["username"]))
                             $reply = $this->PaymentsController->processMoney($this, 1);
+                        if ($this->actor->isLevel(2, $this->telegram["username"]))
+                            $reply = $this->PaymentsController->processMoney($this);
                         if (
                             $this->actor->isLevel(3, $this->telegram["username"]) ||
                             $this->actor->isLevel(4, $this->telegram["username"])
