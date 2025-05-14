@@ -1214,15 +1214,15 @@ class MoneysController extends JsonsController
     public function getCashFlowSheet($cashflow, $sheet)
     {
         $sheet->setCellValue("A1", "Fecha");
-        $sheet->setCellValue("B1", "Recibido USDT");
+        $sheet->setCellValue("B1", "Recibido");
         $sheet->setCellValue("C1", "Tasa");
-        $sheet->setCellValue("D1", "Enviar EUR");
-        $sheet->setCellValue("E1", "Enviado EUR");
-        $sheet->setCellValue("F1", "Balance EUR");
-        $sheet->setCellValue("G1", "Tasa");
-        $sheet->setCellValue("H1", "Pagar USDT");
-        $sheet->setCellValue("I1", "Balance USDT");
-        $sheet->setCellValue("J1", "Liquidado");
+        $sheet->setCellValue("D1", "A Enviar");
+        $sheet->setCellValue("E1", "Enviado");
+        $sheet->setCellValue("F1", "Tasa");
+        $sheet->setCellValue("G1", "A Pagar");
+        $sheet->setCellValue("H1", "Liquidado");
+        $sheet->setCellValue("I1", "Balance");
+        $sheet->setCellValue("J1", "ID");
 
         foreach ($cashflow as $date => $day) {
             // Obtener la última fila con datos en la columna A
@@ -1237,48 +1237,40 @@ class MoneysController extends JsonsController
                     $sheet->setCellValue("C" . ($row + 1 + $i), $day["capitals"][$i]["rate"]);
                 }
 
-                //     =B2*(1-(ABS(C2)/100))          (1 - ($day["capitals"][$i]["rate"]/100))
                 $formula = "=B" . ($row + 1 + $i) . "*(1+(C" . ($row + 1 + $i) . "/100))";
                 $sheet->setCellValue("D" . ($row + 1 + $i), $formula);
-
-                $formula = "=D" . ($row + 1 + $i) . "-E" . ($row + 1 + $i);
-                if ($row > 1)
-                    $formula = "=F" . ($row + $i) . "+D" . ($row + 1 + $i) . "-E" . ($row + 1 + $i);
-                $sheet->setCellValue("F" . ($row + 1 + $i), $formula);
-
 
                 if (isset($day["payments"][$i])) {
                     $sheet->setCellValue("E" . ($row + 1 + $i), $day["payments"][$i]["eur"]);
 
-                    $sheet->setCellValue("G" . ($row + 1 + $i), $day["payments"][$i]["rate"]);
+                    $sheet->setCellValue("F" . ($row + 1 + $i), $day["payments"][$i]["rate"]);
                     //                                    (1 - ($day["payments"][$i]["rate"]/100))
-                    $formula = "=E" . ($row + 1 + $i) . "*(1-(G" . ($row + 1 + $i) . "/100))";
+                    $formula = "=E" . ($row + 1 + $i) . "*(1-(F" . ($row + 1 + $i) . "/100))";
                     if ($day["payments"][$i]["rate"] < 0)
                         //                                    (1 + (ABS($day["payments"][$i]["rate"])/100))
-                        $formula = "=E" . ($row + 1 + $i) . "*(1+(ABS(G" . ($row + 1 + $i) . ")/100))";
-                    $sheet->setCellValue("H" . ($row + 1 + $i), $formula);
-
+                        $formula = "=E" . ($row + 1 + $i) . "*(1+(ABS(F" . ($row + 1 + $i) . ")/100))";
+                    $sheet->setCellValue("G" . ($row + 1 + $i), $formula);
 
                 }
-
-                $formula = "=B" . ($row + 1 + $i) . "-H" . ($row + 1 + $i);
-                if ($row > 1)
-                    $formula = "=I" . ($row + $i) . "+B" . ($row + 1 + $i) . "-H" . ($row + 1 + $i);
-                $sheet->setCellValue("I" . ($row + 1 + $i), $formula);
 
                 if (
                     $day["liquidation"]["amount"] > 0 &&
                     $i == 0
                 ) {
-                    $sheet->setCellValue("J" . ($row + 1 + $i), $day["liquidation"]["amount"]);
-                    $sheet->setCellValue("K" . ($row + 1 + $i), implode("; ", $day["liquidation"]["payments"]));
-                    $sheet->getStyle('K' . ($row + 1 + $i))->applyFromArray([
+                    $sheet->setCellValue("H" . ($row + 1 + $i), $day["liquidation"]["amount"]);
+                    $sheet->setCellValue("J" . ($row + 1 + $i), implode("; ", $day["liquidation"]["payments"]));
+                    $sheet->getStyle('J' . ($row + 1 + $i))->applyFromArray([
                         'alignment' => [
                             'horizontal' => Alignment::HORIZONTAL_LEFT,
                             'vertical' => Alignment::VERTICAL_CENTER
                         ]
                     ]);
                 }
+
+                $formula = "=B" . ($row + 1 + $i) . "-H" . ($row + 1 + $i);
+                if ($row > 1)
+                    $formula = "=I" . ($row + $i) . "+B" . ($row + 1 + $i) . "-H" . ($row + 1 + $i);
+                $sheet->setCellValue("I" . ($row + 1 + $i), $formula);
 
             }
         }
@@ -1295,16 +1287,8 @@ class MoneysController extends JsonsController
                 'vertical' => Alignment::VERTICAL_CENTER
             ]
         ]);
-        $sheet->setCellValue('A' . ($lastRow + 2), "Plan:");
+        $sheet->setCellValue('A' . ($lastRow + 2), "Balance:");
         $sheet->getStyle('A' . ($lastRow + 2))->applyFromArray([
-            'font' => ['bold' => true],
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_RIGHT,
-                'vertical' => Alignment::VERTICAL_CENTER
-            ]
-        ]);
-        $sheet->setCellValue('A' . ($lastRow + 3), "Real:");
-        $sheet->getStyle('A' . ($lastRow + 3))->applyFromArray([
             'font' => ['bold' => true],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_RIGHT,
@@ -1344,6 +1328,7 @@ class MoneysController extends JsonsController
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
         ]);
 
+        $sheet->setCellValue('G' . ($lastRow + 1), '=SUM(G2:G' . $lastRow . ')');
         $sheet->getStyle('G' . ($lastRow + 1))->applyFromArray([
             'font' => ['bold' => true],
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
@@ -1360,7 +1345,6 @@ class MoneysController extends JsonsController
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
         ]);
 
-        $sheet->setCellValue('J' . ($lastRow + 1), '=SUM(J2:J' . $lastRow . ')');
         // Opcional: aplicar formato a la celda de total
         $sheet->getStyle('J' . ($lastRow + 1))->applyFromArray([
             'font' => ['bold' => true],
@@ -1373,29 +1357,23 @@ class MoneysController extends JsonsController
             'font' => ['bold' => true],
         ]);
 
-        $formula = "=B" . ($lastRow + 1) . "-J" . ($lastRow + 1);
-        $sheet->setCellValue("B" . ($lastRow + 3), $formula);
-        $sheet->getStyle('B' . ($lastRow + 3))->applyFromArray([
-            'font' => ['bold' => true],
-        ]);
-
         $sheet->getColumnDimension('A')->setWidth(15);
-        $sheet->getColumnDimension('B')->setWidth(15);
-        $sheet->getColumnDimension('C')->setWidth(8);
+        $sheet->getColumnDimension('B')->setWidth(10);
+        $sheet->getColumnDimension('C')->setWidth(7);
         $sheet->getColumnDimension('C')->setVisible(false);
-        $sheet->getColumnDimension('D')->setWidth(15);
+        $sheet->getColumnDimension('D')->setWidth(10);
         $sheet->getColumnDimension('D')->setVisible(false);
-        $sheet->getColumnDimension('E')->setWidth(15);
-        $sheet->getColumnDimension('E')->setVisible(false);
-        $sheet->getColumnDimension('F')->setWidth(15);
+        $sheet->getColumnDimension('E')->setWidth(10);
+        $sheet->getColumnDimension('F')->setWidth(7);
         $sheet->getColumnDimension('F')->setVisible(false);
-        $sheet->getColumnDimension('G')->setWidth(8);
-        $sheet->getColumnDimension('G')->setVisible(false);
-        $sheet->getColumnDimension('H')->setWidth(15);
+        $sheet->getColumnDimension('G')->setWidth(10);
+        //$sheet->getColumnDimension('G')->setVisible(false);
+        $sheet->getColumnDimension('H')->setWidth(10);
+        //$sheet->getColumnDimension('H')->setVisible(false);
         $sheet->getColumnDimension('I')->setWidth(15);
-        $sheet->getColumnDimension('J')->setWidth(15);
-        $sheet->getColumnDimension('K')->setWidth(60);
-        $sheet->getColumnDimension('K')->setVisible(false);
+        //$sheet->getColumnDimension('I')->setVisible(false);
+        $sheet->getColumnDimension('J')->setWidth(60);
+        $sheet->getColumnDimension('J')->setVisible(false);
         $sheet->freezePane('B2');
         $sheet->setTitle("Flujo");
 

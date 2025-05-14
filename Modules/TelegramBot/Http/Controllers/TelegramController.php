@@ -222,6 +222,7 @@ class TelegramController extends Controller
 
     public function getBotInfo($bot_token)
     {
+        $response = false;
         $url = "https://api.telegram.org/bot" .
             $bot_token .
             "/getMe";

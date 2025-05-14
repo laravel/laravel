@@ -38,7 +38,10 @@ class TestController extends Controller
     public function test(Request $request)
     {
         $bot = new GutoTradeBotController("GutoTradeBot");
-        $actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");
+        $bot->actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");
+
+        $reply = $bot->getSystemInfo();
+        dd($reply);
 
         $cashflow2 = $bot->PaymentsController->getCashFlow($bot);
 
@@ -63,7 +66,7 @@ class TestController extends Controller
 
 
         $items = Payments::where('id', '>', 0)->get();
-        $array = $bot->PaymentsController->export($bot, $items, $actor);
+        $array = $bot->PaymentsController->export($bot, $items, $bot->actor);
         echo "<a href='" . request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"] . "'>Pagos: " . $array["filename"] . "</a><br/><br/>";
         die;
 

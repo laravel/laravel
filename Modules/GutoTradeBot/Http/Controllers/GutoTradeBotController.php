@@ -60,9 +60,16 @@ class GutoTradeBotController extends JsonsController
         $this->AgentsController = new AgentsController();
         $this->CoingeckoController = new CoingeckoController();
 
-        if (!$instance)
+        if ($instance === false)
             $instance = $botname;
         $response = json_decode($this->TelegramController->getBotInfo($this->getToken($instance)), true);
+        if (!$response)
+            $response = array(
+                "result" => array(
+                    "username" => $instance
+                )
+            );
+
         $this->telegram = $response["result"];
     }
 
