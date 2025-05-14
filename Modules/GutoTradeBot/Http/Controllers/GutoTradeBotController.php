@@ -1684,13 +1684,7 @@ class GutoTradeBotController extends JsonsController
     public function getSystemInfo()
     {
         $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $this->PaymentsController->getCashFlowSheet(
-            $this->PaymentsController->getCashFlow($this),
-            $sheet
-        );
-
-        $sheet_payments = $spreadsheet->createSheet();
+        $sheet_payments = $spreadsheet->getActiveSheet();
         $this->PaymentsController->getPaymentsSheet(
             $this,
             Payments::where('id', '>', 0)->get(),
@@ -1704,6 +1698,12 @@ class GutoTradeBotController extends JsonsController
             Capitals::where('id', '>', 0)->get(),
             $this->actor,
             $sheet_capitals
+        );
+
+        $sheet_flow = $spreadsheet->createSheet();
+        $this->PaymentsController->getCashFlowSheet(
+            $this->PaymentsController->getCashFlow($this),
+            $sheet_flow
         );
 
         // Volver a la primera hoja como activa

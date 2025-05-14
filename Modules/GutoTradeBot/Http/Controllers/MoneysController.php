@@ -1172,16 +1172,21 @@ class MoneysController extends JsonsController
 
             foreach ($day["capitals"] as $capital) {
                 if ($activerate > 0) {
-                    if ($capital["rate"] < $activerate)
+                    if (
+                        isset($capital["rate"]) &&
+                        $capital["rate"] < $activerate
+                    )
                         $activerate = $capital["rate"];
                 } else if ($activerate < 0) {
-                    if ($capital["rate"] > $activerate)
+                    if (
+                        isset($capital["rate"]) &&
+                        $capital["rate"] > $activerate
+                    )
                         $activerate = $capital["rate"];
                 }
             }
 
             $array[$key]["activerate"] = $activerate;
-
             foreach ($day["payments"] as $payment) {
                 if (floatval($payment["rate"]) != (floatval($activerate))) {
                     $amount = $payment["eur"];
@@ -1269,7 +1274,7 @@ class MoneysController extends JsonsController
                     $sheet->setCellValue("K" . ($row + 1 + $i), implode("; ", $day["liquidation"]["payments"]));
                     $sheet->getStyle('K' . ($row + 1 + $i))->applyFromArray([
                         'alignment' => [
-                            'horizontal' => Alignment::HORIZONTAL_CENTER,
+                            'horizontal' => Alignment::HORIZONTAL_LEFT,
                             'vertical' => Alignment::VERTICAL_CENTER
                         ]
                     ]);
@@ -1389,7 +1394,8 @@ class MoneysController extends JsonsController
         $sheet->getColumnDimension('H')->setWidth(15);
         $sheet->getColumnDimension('I')->setWidth(15);
         $sheet->getColumnDimension('J')->setWidth(15);
-        $sheet->getColumnDimension('K')->setWidth(45);
+        $sheet->getColumnDimension('K')->setWidth(60);
+        $sheet->getColumnDimension('K')->setVisible(false);
         $sheet->freezePane('B2');
         $sheet->setTitle("Flujo");
 
