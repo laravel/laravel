@@ -269,6 +269,11 @@ class GutoTradeBotController extends JsonsController
                     $reply = $this->ActorsController->getApplyMetadataPrompt($this, "promptusermetadata-" . $array["message"], $this->getBackOptions($this->actor, "✋ Cancelar"));
                     break;
 
+                case "/suscribe":
+                    $this->ActorsController->suscribe($this, $this->telegram["username"], $array["message"], null);
+                    $reply = $this->AgentsController->findSuscriptor($this, $array["message"]);
+                    break;
+
                 case "/market":
                     $reply = $this->mainMenu($this->actor);
                     if (
