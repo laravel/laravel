@@ -1183,7 +1183,13 @@ class GutoTradeBotController extends JsonsController
 
                         $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "getforwardedpaymentscreenshot", $this->telegram["username"]);
 
-                        $reply = $this->PaymentsController->processMoney($this, 1);
+                        if ($this->actor->isLevel(1, $this->telegram["username"]))
+                            $reply = $this->PaymentsController->processMoney($this, 1);
+                        if (
+                            $this->actor->isLevel(3, $this->telegram["username"]) ||
+                            $this->actor->isLevel(4, $this->telegram["username"])
+                        )
+                            $reply = $this->PaymentsController->processMoney($this, 3);
 
                         break;
                     default:
