@@ -1437,30 +1437,37 @@ class GutoTradeBotController extends JsonsController
         $stats .= "\n\n🤷🏻‍♂️ *Sin confirmar*: " . Moneys::format($array["unconfirmed"]) . " 💶" .
             "\n🫰🏻 *Sin liquidar*: " . Moneys::format($array["unsettled"]) . " 💶";
 
-        $stats .= "\n\n💰 *USDT Físico*: " . Moneys::format($array["stock"]) . " 💵";
+        switch (strtolower($this->telegram["username"])) {
+            case "gutotradebot":
+                $stats .= "\n\n💰 *USDT Físico*: " . Moneys::format($array["stock"]) . " 💵";
 
-        $value = $array["stock"] + $this->ProfitsController->getProfit($array["stock"]);
+                $value = $array["stock"] + $this->ProfitsController->getProfit($array["stock"]);
 
-        $stats .= "\n💱 *Equivalentes a*: " . Moneys::format($value) . " 💶";
+                $stats .= "\n💱 *Equivalentes a*: " . Moneys::format($value) . " 💶";
 
-        if ($actor->isLevel(1, $this->telegram["username"])) {
-            $stats .= "\n\n☑ *Debería tener*: " . Moneys::format($array["should"]) . " 💵";
-            if ($array["having"] >= $array["should"]) {
-                $stats .= "\n✅ ";
-            } else {
-                if ($array["having"] >= $array["unsettled"]) {
-                    $stats .= "\n😳 ";
-                } else {
-                    $stats .= "\n🥵 ";
+                if ($actor->isLevel(1, $this->telegram["username"])) {
+                    $stats .= "\n\n☑ *Debería tener*: " . Moneys::format($array["should"]) . " 💵";
+                    if ($array["having"] >= $array["should"]) {
+                        $stats .= "\n✅ ";
+                    } else {
+                        if ($array["having"] >= $array["unsettled"]) {
+                            $stats .= "\n😳 ";
+                        } else {
+                            $stats .= "\n🥵 ";
+                        }
+                    }
+
+                    $stats .= "*Tengo*: " . Moneys::format($array["having"]) . " 💵";
                 }
-            }
 
-            $stats .= "*Tengo*: " . Moneys::format($array["having"]) . " 💵";
+                $debt = $this->getDebt();
+                if ($debt > 0)
+                    $stats .= "\n\n🩸 *A recuperar*: " . Moneys::format($debt) . " 💵";
+                break;
+
+            default:
+                break;
         }
-
-        $debt = $this->getDebt();
-        if ($debt > 0)
-            $stats .= "\n\n🩸 *A recuperar*: " . Moneys::format($debt) . " 💵";
 
         $records = $this->PaymentsController->getRecords($from_date, $to_date);
         if (count($records["dates"]) == 0) {
