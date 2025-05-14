@@ -1113,7 +1113,6 @@ class GutoTradeBotController extends JsonsController
             // si es una animacion no es un pago, es un mal manejo
             if ($this->actor && $this->actor->id > 0 && !isset($this->message["animation"])) {
                 $array = $this->actor->data;
-
                 //Log::info("GutoTradeBotController photo actor->data = " . json_encode($array));
 
                 //$array = $this->getCommand($this->message["text"]);
