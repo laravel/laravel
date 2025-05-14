@@ -654,11 +654,13 @@ class MoneysController extends JsonsController
 
         if ($show_owner_id) {
             $suscriptor = $bot->AgentsController->getSuscriptor($bot, $money->sender_id, true);
-            $text .= "👨🏻‍💻 Reportado por:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
+            if ($suscriptor && $suscriptor->id > 0)
+                $text .= "👨🏻‍💻 Reportado por:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
 
             if ($money->supervisor_id && $money->supervisor_id > 0) {
                 $suscriptor = $bot->AgentsController->getSuscriptor($bot, $money->supervisor_id, true);
-                $text .= "🕵️‍♂️ Asignado a:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
+                if ($suscriptor && $suscriptor->id > 0)
+                    $text .= "🕵️‍♂️ Asignado a:\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n\n";
             }
         }
 
