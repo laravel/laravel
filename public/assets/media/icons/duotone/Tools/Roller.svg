@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Tools-/-Roller" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <rect id="Rectangle-78" fill="#000000" x="3" y="2" width="15" height="5" rx="1"></rect>
+        <rect id="Rectangle-78-Copy" fill="#000000" x="9" y="12" width="4" height="10" rx="1"></rect>
+        <path d="M12,12 L10,12 L10,11 C10,9.8954305 10.8954305,9 12,9 L19,9 L19,5.5 L18,5.5 L18,3.5 L19,3.5 C20.1045695,3.5 21,4.3954305 21,5.5 L21,9 C21,10.1045695 20.1045695,11 19,11 L12,11 L12,12 Z" id="Path-40" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+    </g>
+</svg>

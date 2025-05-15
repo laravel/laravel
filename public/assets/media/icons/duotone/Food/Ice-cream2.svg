@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Food-/-Ice-cream2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <path d="M12,2 L12,2 C15.3137085,2 18,4.6862915 18,8 L18,16 C18,16.5522847 17.5522847,17 17,17 L7,17 C6.44771525,17 6,16.5522847 6,16 L6,8 C6,4.6862915 8.6862915,2 12,2 Z" id="Rectangle-115" fill="#000000"></path>
+        <path d="M10.5,19 L13.5,19 L13.5,21.5 C13.5,22.3284271 12.8284271,23 12,23 L12,23 C11.1715729,23 10.5,22.3284271 10.5,21.5 L10.5,19 Z" id="Rectangle" fill="#000000" opacity="0.3"></path>
+    </g>
+</svg>

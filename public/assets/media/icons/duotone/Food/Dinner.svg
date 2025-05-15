@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Food-/-Dinner" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <path d="M12,8 C10.8954305,8 10,7.1045695 10,6 C10,4.8954305 10.8954305,4 12,4 C13.1045695,4 14,4.8954305 14,6 C14,7.1045695 13.1045695,8 12,8 Z M3,18 L21,18 C21.5522847,18 22,18.4477153 22,19 C22,19.5522847 21.5522847,20 21,20 L3,20 C2.44771525,20 2,19.5522847 2,19 C2,18.4477153 2.44771525,18 3,18 Z" id="Combined-Shape" fill="#000000" opacity="0.3"></path>
+        <path d="M21,16 C21,11.0294373 16.9705627,7 12,7 C7.02943725,7 3,11.0294373 3,16 C3,16 21,16 21,16 Z" id="Oval-38" fill="#000000"></path>
+    </g>
+</svg>

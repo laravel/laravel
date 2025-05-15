@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Layout-/-Layout-4-blocks" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    	<rect x="5" y="5" width="5" height="5" rx="1" fill="#000000"/>
+        <rect x="14" y="5" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />
+		<rect x="5" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />
+		<rect x="14" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />
+    </g>
+</svg>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Home-/-Weight2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <rect id="Rectangle" fill="#000000" opacity="0.3" transform="translate(12.023129, 11.752757) rotate(33.000000) translate(-12.023129, -11.752757) " x="11.0231287" y="7.92751491" width="2" height="7.65048405" rx="1"></rect>
+        <path d="M7.5,3 L16.5,3 C18.9852814,3 21,5.01471863 21,7.5 L21,15.5 C21,17.9852814 18.9852814,20 16.5,20 L7.5,20 C5.01471863,20 3,17.9852814 3,15.5 L3,7.5 C3,5.01471863 5.01471863,3 7.5,3 Z M6,7.88235294 L8.57142857,12 L15.4285714,12 L18,7.88235294 C17,5.96078431 15,5 12,5 C9,5 7,5.96078431 6,7.88235294 Z" id="Combined-Shape" fill="#000000"></path>
+    </g>
+</svg>

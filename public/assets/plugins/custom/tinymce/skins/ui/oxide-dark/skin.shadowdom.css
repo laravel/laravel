@@ -1,0 +1,37 @@
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ * For commercial licenses see https://www.tiny.cloud/
+ */
+body.tox-dialog__disable-scroll {
+  overflow: hidden;
+}
+.tox-fullscreen {
+  border: 0;
+  height: 100%;
+  left: 0;
+  margin: 0;
+  overflow: hidden;
+  -ms-scroll-chaining: none;
+      overscroll-behavior: none;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  touch-action: pinch-zoom;
+  width: 100%;
+}
+.tox.tox-tinymce.tox-fullscreen .tox-statusbar__resize-handle {
+  display: none;
+}
+.tox.tox-tinymce.tox-fullscreen {
+  background-color: transparent;
+  z-index: 1200;
+}
+.tox-shadowhost.tox-fullscreen {
+  z-index: 1200;
+}
+.tox-fullscreen .tox.tox-tinymce-aux,
+.tox-fullscreen ~ .tox.tox-tinymce-aux {
+  z-index: 1201;
+}

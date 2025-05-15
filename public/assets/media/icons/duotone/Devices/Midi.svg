@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+       <path d="M4,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,18 C22,18.5522847 21.5522847,19 21,19 L4,19 C3.44771525,19 3,18.5522847 3,18 L3,7 C3,6.44771525 3.44771525,6 4,6 Z" id="Combined-Shape" fill="#000000" opacity="0.3"></path>
+        <rect id="Rectangle" fill="#000000" opacity="0.3" x="7" y="13" width="1" height="6"></rect>
+        <rect id="Rectangle-Copy" fill="#000000" opacity="0.3" x="12" y="13" width="1" height="6"></rect>
+        <rect id="Rectangle-Copy-2" fill="#000000" opacity="0.3" x="17" y="13" width="1" height="6"></rect>
+        <path d="M6,6 L9,6 L9,12 C9,12.5522847 8.55228475,13 8,13 L7,13 C6.44771525,13 6,12.5522847 6,12 L6,6 Z" id="Rectangle-54" fill="#000000"></path>
+        <path d="M11,6 L14,6 L14,12 C14,12.5522847 13.5522847,13 13,13 L12,13 C11.4477153,13 11,12.5522847 11,12 L11,6 Z" id="Rectangle-54-Copy" fill="#000000"></path>
+        <path d="M16,6 L19,6 L19,12 C19,12.5522847 18.5522847,13 18,13 L17,13 C16.4477153,13 16,12.5522847 16,12 L16,6 Z" id="Rectangle-54-Copy-2" fill="#000000"></path>
+    
+</svg>

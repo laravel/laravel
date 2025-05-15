@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Home-/-Lamp1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <path d="M10,19 L14,19 C15.1045695,19 16,19.8954305 16,21 L8,21 L8,21 C8,19.8954305 8.8954305,19 10,19 Z" id="Rectangle-98-Copy" fill="#000000"></path>
+        <rect id="Rectangle" fill="#000000" opacity="0.3" x="11" y="12" width="2" height="6" rx="1"></rect>
+        <rect id="Rectangle-132" fill="#FFFFFF" transform="translate(16.612973, 8.673634) rotate(-15.000000) translate(-16.612973, -8.673634) " x="15.6129734" y="6.17363361" width="2" height="5" rx="1"></rect>
+        <path d="M7.44151844,4 L16.5584816,4 C17.4193424,4 18.1836201,4.55086019 18.4558482,5.36754447 L21,13 L3,13 L5.54415184,5.36754447 C5.81637994,4.55086019 6.58065762,4 7.44151844,4 Z" id="Rectangle-98" fill="#000000"></path>
+    </g>
+</svg>

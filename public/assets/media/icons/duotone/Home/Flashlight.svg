@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Home-/-Flashlight" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <path d="M6,10 L6,6 L18,6 L18,10 C16,11.5197922 15,12.8531255 15,14 L15,18 L15,20 C15,21.1045695 14.1045695,22 13,22 L11,22 C9.8954305,22 9,21.1045695 9,20 L9,18 L9,14 C9,12.3333333 8,11 6,10 Z M12,11 C10.8954305,11 10,11.8954305 10,13 L10,15 C10,16.1045695 10.8954305,17 12,17 C13.1045695,17 14,16.1045695 14,15 L14,13 C14,11.8954305 13.1045695,11 12,11 Z M12,14 C11.4477153,14 11,13.5522847 11,13 C11,12.4477153 11.4477153,12 12,12 C12.5522847,12 13,12.4477153 13,13 C13,13.5522847 12.5522847,14 12,14 Z" id="Combined-Shape" fill="#000000"></path>
+        <path d="M7,2 L17,2 C17.5522847,2 18,2.44771525 18,3 L18,4 L6,4 L6,3 C6,2.44771525 6.44771525,2 7,2 Z" id="Rectangle" fill="#000000" opacity="0.3"></path>
+    </g>
+</svg>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <rect id="Rectangle" fill="#000000" opacity="0.3" x="3" y="3" width="18" height="18" rx="1"></rect>
+        <path d="M11,11 L11,13 L13,13 L13,11 L11,11 Z M10,9 L14,9 C14.5522847,9 15,9.44771525 15,10 L15,14 C15,14.5522847 14.5522847,15 14,15 L10,15 C9.44771525,15 9,14.5522847 9,14 L9,10 C9,9.44771525 9.44771525,9 10,9 Z" id="Rectangle-2" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+        <rect id="Rectangle-3" fill="#000000" opacity="0.3" x="5" y="5" width="2" height="2" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy-8" fill="#000000" opacity="0.3" x="5" y="9" width="2" height="2" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy-9" fill="#000000" opacity="0.3" x="5" y="13" width="2" height="2" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy" fill="#000000" opacity="0.3" x="9" y="5" width="2" height="2" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy-2" fill="#000000" opacity="0.3" x="13" y="5" width="2" height="2" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy-3" fill="#000000" opacity="0.3" x="17" y="5" width="2" height="2" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy-10" fill="#000000" opacity="0.3" x="17" y="9" width="2" height="2" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy-11" fill="#000000" opacity="0.3" x="17" y="13" width="2" height="2" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy-7" fill="#000000" opacity="0.3" x="5" y="17" width="2" height="2" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy-6" fill="#000000" opacity="0.3" x="9" y="17" width="2" height="2" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy-5" fill="#000000" opacity="0.3" x="13" y="17" width="2" height="2" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy-4" fill="#000000" opacity="0.3" x="17" y="17" width="2" height="2" rx="0.5"></rect>
+</svg>

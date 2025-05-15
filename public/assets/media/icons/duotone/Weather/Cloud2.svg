@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Weather-/-Cloud2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+        <circle id="Oval-2" fill="#000000" opacity="0.3" cx="16" cy="10" r="5"></circle>
+        <path d="M5.74714567,18.0425758 C4.09410362,16.9740356 3,15.1147886 3,13 C3,9.6862915 5.6862915,7 9,7 C11.7957591,7 14.1449096,8.91215918 14.8109738,11.5 L17.25,11.5 C19.3210678,11.5 21,13.1789322 21,15.25 C21,17.3210678 19.3210678,19 17.25,19 L8.25,19 C7.28817895,19 6.41093178,18.6378962 5.74714567,18.0425758 Z" id="Combined-Shape" fill="#000000"></path>
+    </g>
+</svg>

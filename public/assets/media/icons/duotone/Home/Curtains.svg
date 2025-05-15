@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Home-/-Сurtains" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <path d="M3,4 C3,3.44771525 3.44771525,3 4,3 L11,3 L11,5 C11,9.418278 7.418278,13 3,13 L3,4 Z M21,4 L21,13 C16.581722,13 13,9.418278 13,5 L13,3 L20,3 C20.5522847,3 21,3.44771525 21,4 Z" id="Combined-Shape" fill="#000000" opacity="0.3"></path>
+        <path d="M4,21 C3.44771525,21 3,20.5522847 3,20 L3,13 C6.3137085,13 9,15.6862915 9,19 L9,21 L4,21 Z M20,21 L15,21 L15,19 C15,15.6862915 17.6862915,13 21,13 L21,20 C21,20.5522847 20.5522847,21 20,21 Z" id="Combined-Shape" fill="#000000"></path>
+    </g>
+</svg>

@@ -1,0 +1,29 @@
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ * For commercial licenses see https://www.tiny.cloud/
+ */
+.tinymce-mobile-unfocused-selections .tinymce-mobile-unfocused-selection {
+  /* Note: this file is used inside the content, so isn't part of theming */
+  background-color: green;
+  display: inline-block;
+  opacity: 0.5;
+  position: absolute;
+}
+body {
+  -webkit-text-size-adjust: none;
+}
+body img {
+  /* this is related to the content margin */
+  max-width: 96vw;
+}
+body table img {
+  max-width: 95%;
+}
+body {
+  font-family: sans-serif;
+}
+table {
+  border-collapse: collapse;
+}

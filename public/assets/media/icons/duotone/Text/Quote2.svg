@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Text-/-Quote2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <polygon id="“" fill="#000000" transform="translate(16.500000, 12.500000) rotate(-180.000000) translate(-16.500000, -12.500000) " points="19 7 17 13 19 13 19 18 14 18 14 13 16 7"></polygon>
+        <polygon id="Path" fill="#000000" opacity="0.3" transform="translate(8.500000, 12.500000) rotate(-180.000000) translate(-8.500000, -12.500000) " points="11 7 9 13 11 13 11 18 6 18 6 13 8 7"></polygon>
+    </g>
+</svg>
