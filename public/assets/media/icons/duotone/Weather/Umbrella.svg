@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Weather-/-Umbrella" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <path d="M11.5,3 L11.5,3 C16.1944204,3 20,6.80557963 20,11.5 L20,12 L3,12 L3,11.5 C3,6.80557963 6.80557963,3 11.5,3 Z" id="Rectangle-64" fill="#000000"></path>
+        <path d="M11,12 L13,12 L13,18.75 C13,20.5449254 11.5449254,22 9.75,22 C7.95507456,22 6.5,20.5449254 6.5,18.75 L6.5,18 L8.5,18 L8.5,18.75 C8.5,19.4403559 9.05964406,20 9.75,20 C10.4403559,20 11,19.4403559 11,18.75 L11,12 Z" id="Path-32" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+    </g>
+</svg>

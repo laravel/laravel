@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+       <path d="M7.13888889,4 L7.13888889,19 L16.8611111,19 L16.8611111,4 L7.13888889,4 Z M7.83333333,1 L16.1666667,1 C17.5729473,1 18.25,1.98121694 18.25,3.5 L18.25,20.5 C18.25,22.0187831 17.5729473,23 16.1666667,23 L7.83333333,23 C6.42705272,23 5.75,22.0187831 5.75,20.5 L5.75,3.5 C5.75,1.98121694 6.42705272,1 7.83333333,1 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero"></path>
+        <polygon id="Combined-Shape" fill="#000000" opacity="0.3" points="7 4 7 19 17 19 17 4"></polygon>
+        <circle id="Oval" fill="#000000" cx="12" cy="21" r="1"></circle>
+   
+</svg>

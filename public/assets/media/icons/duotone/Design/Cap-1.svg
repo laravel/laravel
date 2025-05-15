@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13,19 L13,15.8999819 C15.2822403,15.4367116 17,13.4189579 17,11 C17,8.23857625 14.7614237,6 12,6 C9.23857625,6 7,8.23857625 7,11 C7,13.4189579 8.71775968,15.4367116 11,15.8999819 L11,19 L4,19 L4,4 L20,4 L20,19 L13,19 Z" id="Combined-Shape" fill="#000000"></path>
+        <circle id="Oval" fill="#000000" opacity="0.3" cx="12" cy="11" r="2"></circle>
+</svg>

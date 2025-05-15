@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Navigation-/-Arrow-from-right" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+        <rect id="Rectangle" fill="#000000" opacity="0.5" transform="translate(10.000000, 12.000000) scale(-1, 1) rotate(-90.000000) translate(-10.000000, -12.000000) " x="9" y="5" width="2" height="14" rx="1"></rect>
+        <rect id="Rectangle-199-Copy" fill="#000000" opacity="0.5" x="19" y="3" width="2" height="18" rx="1"></rect>
+        <path d="M1.7071045,15.7071045 C1.3165802,16.0976288 0.683415225,16.0976288 0.292890933,15.7071045 C-0.0976333589,15.3165802 -0.0976333589,14.6834152 0.292890933,14.2928909 L6.29289093,8.29289093 C6.67146987,7.914312 7.28105631,7.90106637 7.67572234,8.26284357 L13.6757223,13.7628436 C14.0828413,14.136036 14.1103443,14.7686034 13.7371519,15.1757223 C13.3639594,15.5828413 12.7313921,15.6103443 12.3242731,15.2371519 L7.03007346,10.3841355 L1.7071045,15.7071045 Z" id="Path-94" fill="#000000" fill-rule="nonzero" transform="translate(7.000001, 11.999997) scale(-1, -1) rotate(90.000000) translate(-7.000001, -11.999997) "></path>
+    </g>
+</svg>

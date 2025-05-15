@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Food-/-Pizza" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <path d="M2.88070511,5.66588911 C5.49624739,3.97895289 8.61140593,3 11.9552112,3 C15.2990164,3 18.4141749,3.97895289 21.0297172,5.66588911 L11.9552112,22 L2.88070511,5.66588911 Z" id="Combined-Shape" fill="#000000" opacity="0.3"></path>
+        <circle id="Oval-52" fill="#000000" opacity="0.3" cx="9.5" cy="9.5" r="1.5"></circle>
+        <circle id="Oval-52-Copy" fill="#000000" opacity="0.3" cx="15.5" cy="7.5" r="1.5"></circle>
+        <circle id="Oval-52-Copy-2" fill="#000000" opacity="0.3" cx="12.5" cy="15.5" r="1.5"></circle>
+    </g>
+</svg>

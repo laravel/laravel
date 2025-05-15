@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Text-/-H1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <polygon id="H1" fill="#000000" points="4.634 19 4.634 5.51 6.363 5.51 6.363 11.267 13.811 11.267 13.811 5.51 15.54 5.51 15.54 19 13.811 19 13.811 12.939 6.363 12.939 6.363 19"></polygon>
+        <polygon id="Path" fill="#000000" opacity="0.3" points="18.998 19 18.998 6.992 20.632 5.358 20.632 19"></polygon>
+    </g>
+</svg>

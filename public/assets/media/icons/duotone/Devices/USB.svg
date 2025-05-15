@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+       <rect id="Rectangle-69" fill="#000000" x="4" y="9" width="16" height="9" rx="2"></rect>
+        <path d="M7,3 L17,3 L17,9 L7,9 L7,3 Z M9,5 L9,7 L11,7 L11,5 L9,5 Z M13,5 L13,7 L15,7 L15,5 L13,5 Z" id="Combined-Shape" fill="#000000" opacity="0.3"></path>
+        <path d="M10,18 L14,18 L14,20 C14,20.5522847 13.5522847,21 13,21 L11,21 C10.4477153,21 10,20.5522847 10,20 L10,18 Z" id="Rectangle-3" fill="#000000" opacity="0.3"></path>
+    
+</svg>

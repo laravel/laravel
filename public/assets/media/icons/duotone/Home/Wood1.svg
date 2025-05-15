@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Home-/-Wood1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <path d="M12,19 C15.8659932,19 19,15.8659932 19,12 C19,9.42267117 16.6666667,6.08933783 12,2 C7.33333333,6.08933783 5,9.42267117 5,12 C5,15.8659932 8.13400675,19 12,19 Z" id="Oval-2" fill="#000000" opacity="0.3"></path>
+        <rect id="Rectangle" fill="#000000" x="11" y="11" width="2" height="11" rx="1"></rect>
+    </g>
+</svg>

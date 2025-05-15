@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g id="Stockholm-icons-/-Design-/-Anchor-right" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <circle id="Oval-Copy" fill="#000000" opacity="0.3" cx="19" cy="12" r="3"></circle>
+        <g id="ic_type-copy-6" transform="translate(2.000000, 4.000000)">
+            <rect id="bound" x="0" y="0" width="16" height="16"></rect>
+            <path d="M9,5 L9,12 C9,12.5522847 8.55228475,13 8,13 L8,13 C7.44771525,13 7,12.5522847 7,12 L7,5 L5,5 C4.44771525,5 4,4.55228475 4,4 L4,4 C4,3.44771525 4.44771525,3 5,3 L11,3 C11.5522847,3 12,3.44771525 12,4 L12,4 C12,4.55228475 11.5522847,5 11,5 L9,5 Z" id="T" fill="#000000"></path>
+        </g>
+    </g>
+</svg>

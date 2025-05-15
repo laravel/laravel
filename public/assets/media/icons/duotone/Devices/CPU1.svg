@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <rect id="Rectangle" fill="#000000" opacity="0.3" x="4" y="4" width="16" height="16" rx="2"></rect>
+        <rect id="Rectangle-2" fill="#000000" opacity="0.3" x="9" y="9" width="6" height="6"></rect>
+        <path d="M20,7 L21,7 C21.5522847,7 22,7.44771525 22,8 L22,8 C22,8.55228475 21.5522847,9 21,9 L20,9 L20,7 Z" id="Rectangle-3" fill="#000000"></path>
+        <path d="M20,11 L21,11 C21.5522847,11 22,11.4477153 22,12 L22,12 C22,12.5522847 21.5522847,13 21,13 L20,13 L20,11 Z" id="Rectangle-3-Copy-6" fill="#000000"></path>
+        <path d="M20,15 L21,15 C21.5522847,15 22,15.4477153 22,16 L22,16 C22,16.5522847 21.5522847,17 21,17 L20,17 L20,15 Z" id="Rectangle-3-Copy-7" fill="#000000"></path>
+        <path d="M3,7 L4,7 L4,9 L3,9 C2.44771525,9 2,8.55228475 2,8 L2,8 C2,7.44771525 2.44771525,7 3,7 Z" id="Rectangle-3-Copy-5" fill="#000000"></path>
+        <path d="M3,11 L4,11 L4,13 L3,13 C2.44771525,13 2,12.5522847 2,12 L2,12 C2,11.4477153 2.44771525,11 3,11 Z" id="Rectangle-3-Copy-8" fill="#000000"></path>
+        <path d="M3,15 L4,15 L4,17 L3,17 C2.44771525,17 2,16.5522847 2,16 L2,16 C2,15.4477153 2.44771525,15 3,15 Z" id="Rectangle-3-Copy-9" fill="#000000"></path>
+</svg>

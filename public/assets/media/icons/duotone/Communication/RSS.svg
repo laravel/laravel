@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <circle id="Oval-40" fill="#000000" cx="6" cy="18" r="3"></circle>
+        <path d="M16.5,21 L13.5,21 C13.5,15.2010101 8.79898987,10.5 3,10.5 L3,7.5 C10.4558441,7.5 16.5,13.5441559 16.5,21 Z" id="Oval-53" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+        <path d="M22.5,21 L19.5,21 C19.5,12.163444 11.836556,4.5 3,4.5 L3,1.5 C13.4934102,1.5 22.5,10.5065898 22.5,21 Z" id="Oval-53-Copy" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+</svg>

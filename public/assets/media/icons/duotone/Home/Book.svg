@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <path d="M20,18 L8,18 C7.44771525,18 7,18.4477153 7,19 C7,19.5522847 7.44771525,20 8,20 L20,20 L20,21 C20,21.626904 19.6418278,22 19,22 L7,22 C5.2536027,22 4,20.6941639 4,19 L4,5 C4,3.30583615 5.2536027,2 7,2 L19,2 C19.6418278,2 20,2.37309604 20,3 L20,18 Z" id="path-1"></path>
+    </defs>
+    <g id="Stockholm-icons-/-Home-/-Book" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Combined-Shape" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+    </g>
+</svg>

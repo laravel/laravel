@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Stockholm-icons-/-Food-/-Bottle2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+        <path d="M8,18 L8,22 C8,22.5522847 8.44771525,23 9,23 L15,23 C15.5522847,23 16,22.5522847 16,22 L16,10.4142136 C16,10.1489971 15.8946432,9.89464316 15.7071068,9.70710678 L14.2928932,8.29289322 C14.1053568,8.10535684 14,7.85100293 14,7.58578644 L14,5 C14,4.44771525 13.5522847,4 13,4 L11,4 C10.4477153,4 10,4.44771525 10,5 L10,7.58578644 C10,7.85100293 9.89464316,8.10535684 9.70710678,8.29289322 L8.29289322,9.70710678 C8.10535684,9.89464316 8,10.1489971 8,10.4142136 L8,13 L12,13 L12,18 L8,18 Z" id="Path-73" fill="#000000"></path>
+        <rect id="Rectangle" fill="#000000" opacity="0.3" x="10" y="1" width="4" height="2" rx="1"></rect>
+    </g>
+</svg>
