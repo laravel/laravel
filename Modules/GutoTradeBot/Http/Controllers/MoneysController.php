@@ -175,8 +175,10 @@ class MoneysController extends JsonsController
                     $data["confirmation_message"] = request("message")["message_id"];
                 }
                 // para los pagos reenviados por mi al bot
-                if ($type == 2 && $sender == 1 && isset(request("message")["from"]))
+                if ($type == 2 && $sender == 1 && isset(request("message")["from"])) {
                     $sender_id = request("message")["from"]["id"];
+                    $sender = 2;
+                }
 
                 try {
                     switch ($type) {
