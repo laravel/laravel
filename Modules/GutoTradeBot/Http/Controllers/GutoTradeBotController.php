@@ -1126,12 +1126,11 @@ class GutoTradeBotController extends JsonsController
                     $command = $array[$this->telegram["username"]]["last_bot_callback_data"];
 
                 $commandarray = $this->getCommand($command);
-                Log::info("GutoTradeBotController photo command = {$command}, commandarray = " . json_encode($commandarray));
+                Log::info("GutoTradeBotController photo command = '{$command}', commandarray = " . json_encode($commandarray));
                 $commandarray = $commandarray["pieces"];
                 if (count($commandarray) > 1)
                     $command = $commandarray[0];
 
-                //Log::info("GutoTradeBotController photo command='{$command}'");
                 switch ($command) {
                     case "getsenderpaymentscreenshot":
                         $reply = $this->PaymentsController->processMoney($this, 2, 2);
@@ -1170,6 +1169,8 @@ class GutoTradeBotController extends JsonsController
                     case "":
                         // NO BORRAR ESTE CASE: Sirve para reenviar pagos desde otras cuentas de telegram
                         $message = request()->input('message', []);
+
+                        Log::info("GutoTradeBotController getforwardedpaymentscreenshot message = " . json_encode($message));
 
                         unset($message["text"]);
                         if (!isset($message["message_id"]))

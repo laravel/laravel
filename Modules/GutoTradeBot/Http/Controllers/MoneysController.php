@@ -32,7 +32,8 @@ class MoneysController extends JsonsController
     {
         $money = false;
         if (isset($data["message_id"])) {
-            $money = $model::where("data", "LIKE", "%" . $data["message_id"] . "%")->first();
+            // comente esto porq produce el bug de pagos nuevos q no habia encontrado
+            //$money = $model::where("data", "LIKE", "%" . $data["message_id"] . "%")->first();
         }
 
         if (!$money) {
