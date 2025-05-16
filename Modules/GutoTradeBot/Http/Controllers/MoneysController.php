@@ -34,6 +34,8 @@ class MoneysController extends JsonsController
         if (isset($data["message_id"])) {
             // comente esto porq produce el bug de pagos nuevos q no habia encontrado
             //$money = $model::where("data", "LIKE", "%" . $data["message_id"] . "%")->first();
+            // lo ajuste asi para retomar la validacion y sin generar bug
+            $money = $model::where("data", "LIKE", "%\"message_id\":" . $data["message_id"] . "%")->first();
         }
 
         if (!$money) {
