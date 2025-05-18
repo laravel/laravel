@@ -63,37 +63,37 @@ class MoneysController extends JsonsController
             "success" => true,
         ];
 
-        // Patrón actualizado para nombres y cantidades en diferentes formatos
-        $pattern = '/([\p{L}\p{M}\.\s]+)\s+((€\s?[\d,.]+)|([\d,.]+\s?€)|([\d,.]+\s?euros)|([\d,.]+))/u';
+        // Patrón con cantidad opcional
+        $pattern = '/^([\p{L}\p{M}\.\s]+)(?:\s+((€\s?[\d,.]+)|([\d,.]+\s?€)|([\d,.]+\s?euros)|([\d,.]+)))?$/u';
 
         // Comprobar si el texto cumple con el patrón
         if (preg_match($pattern, $text, $matches)) {
             // Si hay coincidencias, extraemos nombre completo
             $array["fullname"] = trim($matches[1]);
 
-            // Intentamos procesar la cantidad
-            $amount = preg_replace('/[^\d,\.]/', '', $matches[2]);
+            // Inicializar amount a 0 por defecto
+            $array["amount"] = 0;
 
-            // Validar si el valor es numérico antes de continuar
-            if ($amount === '' || !is_numeric(str_replace([',', '.'], '', $amount))) {
-                // Si no es numérico, devolver un mensaje de advertencia o un valor predeterminado
-                $array["success"] = false;
-                $array["amount"] = 0;
-                return $array;
+            // Si existe la cantidad, procesarla
+            if (isset($matches[2]) && $matches[2] !== '') {
+                $amount = preg_replace('/[^\d,\.]/', '', $matches[2]);
+
+                // Validar si el valor es numérico
+                if ($amount !== '' && is_numeric(str_replace([',', '.'], '', $amount))) {
+                    // Manejo de formatos europeos y americanos
+                    if (strpos($amount, ',') !== false && strpos($amount, '.') === false) {
+                        $amount = str_replace(',', '.', $amount);
+                    } elseif (strpos($amount, ',') !== false && strpos($amount, '.') !== false) {
+                        $amount = str_replace('.', '', $amount);
+                        $amount = str_replace(',', '.', $amount);
+                    }
+                    $array["amount"] = $amount;
+                } else {
+                    $array["success"] = false;
+                }
             }
-
-            // Manejo de formatos europeos y americanos
-            if (strpos($amount, ',') !== false && strpos($amount, '.') === false) {
-                $amount = str_replace(',', '.', $amount); // Convertir coma en separador decimal
-            } elseif (strpos($amount, ',') !== false && strpos($amount, '.') !== false) {
-                $amount = str_replace('.', '', $amount);  // Eliminar separador de miles
-                $amount = str_replace(',', '.', $amount); // Convertir coma en separador decimal
-            }
-
-            // Asignamos el valor procesado
-            $array["amount"] = $amount;
         } else {
-            // Si no coincide con el patrón, retornar valores predeterminados
+            // Si no coincide con el patrón, retornar error
             $array["success"] = false;
             $array["fullname"] = "";
             $array["amount"] = 0;
