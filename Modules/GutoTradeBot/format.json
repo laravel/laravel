@@ -1,5 +1,5 @@
 {
-    "message_id": 1693,
+    "message_id": 1302,
     "from": {
         "id": 816767995,
         "is_bot": false,
@@ -15,9 +15,9 @@
         "username": "dvzambrano",
         "type": "private"
     },
-    "date": 1747588847,
+    "date": 1745851122,
     "reply_to_message": {
-        "message_id": 1681,
+        "message_id": 1300,
         "from": {
             "id": 7543090584,
             "is_bot": true,
@@ -31,48 +31,97 @@
             "username": "dvzambrano",
             "type": "private"
         },
-        "date": 1747583459,
+        "date": 1745850148,
         "photo": [
             {
-                "file_id": "AgACAgEAAxkBAAIGkGgqAeJAhzn0cy4xQ3Q5NzdUnZoWAAIDrjEbmBNRRWjPMhzO_IBqAQADAgADcwADNgQ",
-                "file_unique_id": "AQADA64xG5gTUUV4",
-                "file_size": 874,
-                "width": 53,
+                "file_id": "AgACAgEAAxkBAAIE8mgPh3_GrYOB5H0orpwuY6vQvCP2AALBrTEbPAl4RPh5wv7sYt9qAQADAgADcwADNgQ",
+                "file_unique_id": "AQADwa0xGzwJeER4",
+                "file_size": 966,
+                "width": 44,
                 "height": 90
             },
             {
-                "file_id": "AgACAgEAAxkBAAIGkGgqAeJAhzn0cy4xQ3Q5NzdUnZoWAAIDrjEbmBNRRWjPMhzO_IBqAQADAgADbQADNgQ",
-                "file_unique_id": "AQADA64xG5gTUUVy",
-                "file_size": 12660,
-                "width": 187,
+                "file_id": "AgACAgEAAxkBAAIE8mgPh3_GrYOB5H0orpwuY6vQvCP2AALBrTEbPAl4RPh5wv7sYt9qAQADAgADbQADNgQ",
+                "file_unique_id": "AQADwa0xGzwJeERy",
+                "file_size": 14685,
+                "width": 158,
                 "height": 320
             },
             {
-                "file_id": "AgACAgEAAxkBAAIGkGgqAeJAhzn0cy4xQ3Q5NzdUnZoWAAIDrjEbmBNRRWjPMhzO_IBqAQADAgADeAADNgQ",
-                "file_unique_id": "AQADA64xG5gTUUV9",
-                "file_size": 43017,
-                "width": 467,
+                "file_id": "AgACAgEAAxkBAAIE8mgPh3_GrYOB5H0orpwuY6vQvCP2AALBrTEbPAl4RPh5wv7sYt9qAQADAgADeAADNgQ",
+                "file_unique_id": "AQADwa0xGzwJeER9",
+                "file_size": 52447,
+                "width": 394,
                 "height": 800
             },
             {
-                "file_id": "AgACAgEAAxkBAAIGkGgqAeJAhzn0cy4xQ3Q5NzdUnZoWAAIDrjEbmBNRRWjPMhzO_IBqAQADAgADeQADNgQ",
-                "file_unique_id": "AQADA64xG5gTUUV-",
-                "file_size": 72010,
-                "width": 748,
+                "file_id": "AgACAgEAAxkBAAIE8mgPh3_GrYOB5H0orpwuY6vQvCP2AALBrTEbPAl4RPh5wv7sYt9qAQADAgADeQADNgQ",
+                "file_unique_id": "AQADwa0xGzwJeER-",
+                "file_size": 93463,
+                "width": 630,
                 "height": 1280
             }
         ],
-        "caption": "\ud83d\udcb0 Reenvio de pago en revisi\u00f3n\n\ud83c\udd94 140\n\n\ud83e\udeaa A nombre de:\n\ud83d\udc64 El\u00edas Mendoza: 0 \ud83d\udcb6\n\ud83d\udcc5 Fecha: 2025-05-18 15:50:59\n\n\ud83d\udc68\ud83c\udffb\u200d\ud83d\udcbb Reportado por:\n\ud83d\udc64 Donel Vazquez Zambrano \n\u2709\ufe0f @dvzambrano \n\ud83c\udd94 816767995\n\n\ud83d\udc47 Qu\u00e9 desea hacer?",
+        "caption": "\ud83d\udcb0 Reporte de pago encontrado\n\ud83c\udd94 36  \ud83d\udfe8\u2b1c\ufe0f\n\n\ud83e\udeaa A nombre de:\n\ud83d\udc64 M Beraclides Miclin Villalon: 250.00 \ud83d\udcb6\n\ud83d\udcc5 Fecha: 2025-04-28 09:49:51\n\n\ud83d\udc68\ud83c\udffb\u200d\ud83d\udcbb Reportado por:\n\ud83d\udc64 Crypto Dev \n\u2709\ufe0f @criptodev1981 \n\ud83c\udd94 1741391257\n\n\ud83d\uddd3 Actualizado: 2025-04-28 10:11:01\n\n\ud83d\udc47 Qu\u00e9 desea hacer?",
         "caption_entities": [
-            { "offset": 3, "length": 27, "type": "bold" },
-            { "offset": 34, "length": 3, "type": "code" },
-            { "offset": 39, "length": 38, "type": "bold" },
-            { "offset": 81, "length": 5, "type": "bold" },
-            { "offset": 162, "length": 11, "type": "mention" },
-            { "offset": 178, "length": 9, "type": "code" }
+            { "offset": 3, "length": 26, "type": "bold" },
+            { "offset": 33, "length": 2, "type": "code" },
+            { "offset": 43, "length": 58, "type": "bold" },
+            { "offset": 105, "length": 5, "type": "bold" },
+            { "offset": 174, "length": 14, "type": "mention" },
+            { "offset": 193, "length": 10, "type": "code" },
+            { "offset": 208, "length": 11, "type": "bold" }
         ],
         "reply_markup": {
             "inline_keyboard": [
+                [
+                    {
+                        "text": "\ud83d\udcac Comentar",
+                        "callback_data": "commentpayment-36"
+                    },
+                    {
+                        "text": "\ud83d\udde3 Ver comentarios",
+                        "callback_data": "requestpaymentcomments-36"
+                    }
+                ],
+                [
+                    {
+                        "text": "\ud83d\udc4d Confirmarlo",
+                        "callback_data": "confirmpayment-36"
+                    },
+                    {
+                        "text": "\ud83e\udd37\ud83c\udffb\u200d\u2642\ufe0f Nada a\u00fan",
+                        "callback_data": "notyetpayment-36"
+                    }
+                ],
+                [
+                    {
+                        "text": "\ud83c\udf86 Cambiar captura",
+                        "callback_data": "changepaymentscreenshot-36"
+                    }
+                ],
+                [
+                    {
+                        "text": "\u2712 Renombrar",
+                        "callback_data": "promptmoneycomment-36"
+                    },
+                    {
+                        "text": "\ud83c\udfb2 Revalorizar",
+                        "callback_data": "promptmoneyamount-36"
+                    }
+                ],
+                [
+                    {
+                        "text": "\u274c Eliminar",
+                        "callback_data": "confirmation|deletepayment-36|menu"
+                    }
+                ],
+                [
+                    {
+                        "text": "\ud83d\udd03 Volver a cargar",
+                        "callback_data": "/buscar 36"
+                    }
+                ],
                 [
                     {
                         "text": "\u2196\ufe0f Volver al men\u00fa principal",
@@ -82,6 +131,6 @@
             ]
         }
     },
-    "text": "/asign N3WBi3",
-    "entities": [{ "offset": 0, "length": 6, "type": "bot_command" }]
+    "text": "/comment este es un comentario inline",
+    "entities": [{ "offset": 0, "length": 8, "type": "bot_command" }]
 }
