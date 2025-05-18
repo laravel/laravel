@@ -13,9 +13,18 @@ class TextController extends Controller
         $text = mb_strtolower($text, 'UTF-8');
         // Eliminar tildes y acentos
         $text = strtr($text, [
-            'á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u',
-            'Á' => 'A', 'É' => 'E', 'Í' => 'I', 'Ó' => 'O', 'Ú' => 'U',
-            'ñ' => 'n', 'Ñ' => 'N',
+            'á' => 'a',
+            'é' => 'e',
+            'í' => 'i',
+            'ó' => 'o',
+            'ú' => 'u',
+            'Á' => 'A',
+            'É' => 'E',
+            'Í' => 'I',
+            'Ó' => 'O',
+            'Ú' => 'U',
+            'ñ' => 'n',
+            'Ñ' => 'N',
         ]);
         // Eliminar espacios adicionales
         $text = trim(preg_replace('/\s+/', ' ', $text));
@@ -45,4 +54,38 @@ class TextController extends Controller
 
         return $percentage;
     }
+    public function numberAsEmoji($number)
+    {
+        // Mapeo de dígitos a emojis (versión de Telegram)
+        $map = [
+            "0" => "0️⃣",
+            "1" => "1️⃣",
+            "2" => "2️⃣",
+            "3" => "3️⃣",
+            "4" => "4️⃣",
+            "5" => "5️⃣",
+            "6" => "6️⃣",
+            "7" => "7️⃣",
+            "8" => "8️⃣",
+            "9" => "9️⃣",
+            "." => "🔹",
+            "-" => "➖"
+        ];
+
+        $string = (string) $number;
+        $text = "";
+
+        for ($i = 0; $i < strlen($string); $i++) {
+            $char = $string[$i];
+
+            if (isset($map[$char])) {
+                $text .= $map[$char];
+            } else {
+                $text .= $char; // Si no hay emoji, mantener el carácter original
+            }
+        }
+
+        return $text;
+    }
+
 }

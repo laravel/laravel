@@ -1431,8 +1431,8 @@ class GutoTradeBotController extends JsonsController
         //if ($current_date) {
         $stats .= "🛬 *Recibido*: " . Moneys::format($array["received"]["amount"]) . " 💵" .
             "\n🏷 *A enviar*: " . Moneys::format($array["received"]["tosend"]) . " 💶" .
-            "\n🛫 *Enviado*: " . Moneys::format($array["sent"]["amount"]) . " 💶 (" . Moneys::format($array["sent"]["percent"]) . "%)" .
-            "\n🏭 *Pendiente*: " . Moneys::format($array["pending"]["amount"]) . " 💶 (" . Moneys::format($array["pending"]["percent"]) . "%)";
+            "\n🛫 *Enviado*: " . Moneys::format($array["sent"]["amount"]) . " 💶 " . $this->TextController->numberAsEmoji($array["sent"]["percent"]) . "%" .
+            "\n🏭 *Pendiente*: " . Moneys::format($array["pending"]["amount"]) . " 💶 " . $this->TextController->numberAsEmoji($array["pending"]["percent"]) . "%";
         //}
 
         $stats .= "\n\n🤷🏻‍♂️ *Sin confirmar*: " . Moneys::format($array["unconfirmed"]) . " 💶" .

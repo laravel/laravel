@@ -38,6 +38,7 @@ class TestController extends Controller
     public function test(Request $request)
     {
         $bot = new GutoTradeBotController("GutoTradeBot");
+        dd($bot->TextController->numberAsEmoji(123));
         $bot->actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");
 
         $reply = $bot->getSystemInfo();
