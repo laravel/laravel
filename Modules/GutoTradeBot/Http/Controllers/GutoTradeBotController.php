@@ -1241,7 +1241,10 @@ class GutoTradeBotController extends JsonsController
         switch ($actor->data[$this->telegram["username"]]["admin_level"]) {
             case "0":
             case 0:
-                $this->notifyUserWithNoRole($actor->user_id, $this->AgentsController->getRoleMenu($actor->user_id, 0));
+                $array = $this->AgentsController->getRoleMenu($actor->user_id, 0);
+                array_push($array["menu"], [["text" => "❌ Eliminar", "callback_data" => "confirmation|deleteuser-{$actor->user_id}|menu"]]);
+                $this->notifyUserWithNoRole($actor->user_id, $array);
+
                 $text .= "🤔 *Por alguna razón ud aun no tiene rol asignado. Le hemos enviado notficación a los administradores para que lo corrijan*.\n\n";
                 break;
             case "1":
