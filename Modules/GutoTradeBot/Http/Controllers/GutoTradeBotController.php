@@ -76,6 +76,14 @@ class GutoTradeBotController extends JsonsController
 
     public function processMessage()
     {
+        // validando q el usuario tenga un @username
+        if (
+            !isset($this->actor->data["telegram"]) ||
+            !isset($this->actor->data["telegram"]["username"]) ||
+            trim($this->actor->data["telegram"]["username"]) == ""
+        ) {
+            return $this->notifyUsernameRequired($this->actor->user_id);
+        }
         $reply = [
             "text" => "🙇🏻 No se que responderle a “{$this->message['text']}”.\n Ud puede interactuar con este bot usando /menu o chequee /ayuda para temas de ayuda.",
         ];
@@ -1179,6 +1187,7 @@ class GutoTradeBotController extends JsonsController
                             $message["caption"] = "SIN DATOS 0";
                         if (isset($message["forward_from"]))
                             $message["from"]["id"] = $message["forward_from"]["id"];
+
 
                         request()->merge(['message' => $message]);
 

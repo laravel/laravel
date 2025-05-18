@@ -23,7 +23,6 @@ class ActorsController extends JsonsController
     }
     public function suscribe($bot, $botname, $user_id, $parent_id)
     {
-
         // Valorando suscripcion del actor q nos esta escribiendo
         $actor = $this->getFirst(Actors::class, "user_id", "=", $user_id);
         // si no esta suscrito lo agregamos a la BD
@@ -39,7 +38,11 @@ class ActorsController extends JsonsController
             $actor->save();
         }
         // Chequeando si se han obtenido los datos desde Telegram
-        if (!isset($actor->data["telegram"]) && !isset($actor->data["telegram"]["id"])) {
+        if (
+            !isset($actor->data["telegram"]) ||
+            !isset($actor->data["telegram"]["username"]) ||
+            trim($actor->data["telegram"]["username"]) == ""
+        ) {
             $array = $actor->data;
 
             $response = json_decode($bot->TelegramController->getUserInfo($actor->user_id, $this->getToken($botname)), true);
