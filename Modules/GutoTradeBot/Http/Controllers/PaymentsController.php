@@ -34,6 +34,7 @@ class PaymentsController extends MoneysController
         );
         $data["capital"] = $bot->ProfitsController->getSpended($amount);
 
+        /*
         Log::info("PaymentsController create args " . json_encode([
             'amount' => $amount,
             'comment' => $comment,
@@ -42,6 +43,7 @@ class PaymentsController extends MoneysController
             'supervisor_id' => $supervisor_id,
             'data' => $data,
         ]) . "\n");
+        */
 
         $payment = parent::createByModel(Payments::class, $amount, $comment, $screenshot, $sender_id, $supervisor_id, $data);
         Log::channel('storage')->info('payment ' . json_encode($payment->toArray()));
