@@ -36,8 +36,6 @@ class ActorsController extends JsonsController
             $array[$botname] = Actors::getTemplate(0, $parent_id);
             $actor->data = $array;
             $actor->save();
-
-            $bot->notifyUserWithNoRole($actor->user_id, $bot->AgentsController->getRoleMenu($actor->user_id, 0));
         }
         // Chequeando si se han obtenido los datos desde Telegram
         if (
