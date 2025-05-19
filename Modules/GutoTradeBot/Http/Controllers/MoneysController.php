@@ -64,7 +64,7 @@ class MoneysController extends JsonsController
         ];
 
         // Patrón con cantidad opcional
-        $pattern = '/^([\p{L}\p{M}\.\s]+)(?:\s+((€\s?[\d,.]+)|([\d,.]+\s?€)|([\d,.]+\s?euros)|([\d,.]+)))?$/u';
+        $pattern = '/^([\p{L}\p{M}\.]+(?:\s[\p{L}\p{M}\.]+)*)(?:\s+((€\s?[\d,.]+)|([\d,.]+\s?€)|([\d,.]+\s?euros)|([\d,.]+)))?$/u';
 
         // Comprobar si el texto cumple con el patrón
         if (preg_match($pattern, $text, $matches)) {

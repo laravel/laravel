@@ -291,7 +291,7 @@ class AccountsSeeder extends Seeder
         'detail' => "QNTOESB2XXX",
         'is_active' => false,
         ]);
-         */
+         
 
         Accounts::create([
             'bank' => "ING",
@@ -332,6 +332,25 @@ class AccountsSeeder extends Seeder
             'detail' => "CAZRES2Z",
             'is_active' => true,
         ]);
+        */
+
+
+        Accounts::create([
+            'bank' => "Modulr Finance, Ireland Branch",
+            'name' => "Bridge Building Sp.z.o.o.",
+            'number' => "IE11MODR99035506793800",
+            'detail' => "MODRIE22XXX",
+            'is_active' => true,
+        ]);
+
+        Accounts::create([
+            'bank' => "Modulr Finance, Ireland Branch",
+            'name' => "Bridge Building Sp.z.o.o.",
+            'number' => "IE92MODR99035506405312",
+            'detail' => "MODRIE22XXX",
+            'is_active' => true,
+        ]);
+
 
     }
 }
