@@ -742,10 +742,6 @@ class MoneysController extends JsonsController
 
         $stock = $stats["usdt"]["pending"] + $stats["usdt"]["unconfirmed"];
 
-        $debt = $bot->getDebt();
-        if ($debt > 0)
-            $stock -= $debt;
-
         return array(
             "received" => array(
                 "amount" => $stats["usdt"]["received"],

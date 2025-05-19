@@ -42,7 +42,6 @@ class GutoTradeBotController extends JsonsController
     public $PenaltiesController;
     public $CoingeckoController;
 
-    public static $STOLEN_FUNDS = 400;
     public static $NOTIFY_FOR_DEBUG = false;
     public static $NOTIFY_NO_ENOUGH_CAPITAL = false;
 
@@ -1417,20 +1416,6 @@ class GutoTradeBotController extends JsonsController
         return $reply;
     }
 
-    public function getDebt()
-    {
-        $debt = 0;
-        switch (strtolower($this->telegram["username"])) {
-            case "gutotradebot":
-                $debt = GutoTradeBotController::$STOLEN_FUNDS;
-                break;
-
-            default:
-                break;
-        }
-        return $debt;
-    }
-
     /**
      * Summary of notifyStats
      * @param mixed $actor
@@ -1480,10 +1465,6 @@ class GutoTradeBotController extends JsonsController
 
                     $stats .= "*Tengo*: " . Moneys::format($array["having"]) . " 💵";
                 }
-
-                $debt = $this->getDebt();
-                if ($debt > 0)
-                    $stats .= "\n\n🩸 *A recuperar*: " . Moneys::format($debt) . " 💵";
                 break;
 
             default:
