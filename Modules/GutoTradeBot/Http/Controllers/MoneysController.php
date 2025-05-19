@@ -623,7 +623,7 @@ class MoneysController extends JsonsController
                 ]);
         }
 
-        array_push($menu, [["text" => "🔃 Volver a cargar", "callback_data" => "/buscar {$money->id}"]]);
+        array_push($menu, [["text" => "🔃 Volver a cargar", "callback_data" => "/findbyid {$money->id}"]]);
 
         // si me pasan por parametros opciones adicionales las incluyo antes de VOLVER AL MENU PRINCIPAL
         if ($extra_options) {

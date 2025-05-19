@@ -1388,6 +1388,13 @@ class PaymentsController extends MoneysController
         return $reply;
     }
 
+    public function renderPaymentsByField($bot, $title, $field, $symbol = "=", $value = "", $extra_options = array())
+    {
+        $payments = $this->searchMoneysByField(Payments::class, $field, $symbol, $value);
+
+        return $this->renderPaymentsAfterSearch($bot, $payments, $title, $extra_options);
+    }
+
     public function renderPaymentsByDate($bot, $days, $title, $extra_options = array())
     {
         $payments = $this->getUnconfirmedMoneysBeforeDate($bot, Payments::class, Carbon::now()->addDays($days)->toDateString());

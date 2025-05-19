@@ -173,10 +173,18 @@ class GutoTradeBotController extends JsonsController
                     } else {
                         $reply = $this->notifyShortSearchParameter($this->actor->user_id, $array["message"]);
                     }
-
                     break;
                 case "buscar":
                     $reply = $this->PaymentsController->getSearchPrompt($this, "getpaymentbyvalue", $this->getBackOptions($this->actor, "✋ Cancelar"));
+                    break;
+                case "/findbyid":
+                    $reply = $this->PaymentsController->renderPaymentsByField(
+                        $this,
+                        "Reporte de pago encontrado",
+                        "id",
+                        "=",
+                        $array["message"]
+                    );
                     break;
 
                 case "promptpaymentdaysold":
