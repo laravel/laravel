@@ -1391,8 +1391,23 @@ class PaymentsController extends MoneysController
     public function renderPaymentsByField($bot, $title, $field, $symbol = "=", $value = "", $extra_options = array())
     {
         $payments = $this->searchMoneysByField(Payments::class, $field, $symbol, $value);
+        if (count($payments) > 0) {
+            // preparar el menu de opciones sobre este pago
+            $menu = $this->getOptionsMenuForThisOne($bot, $payments[0], $bot->actor->data[$bot->telegram["username"]]["admin_level"]);
+            $payments[0]->sendAsTelegramMessage(
+                $bot,
+                $bot->actor,
+                $title,
+                false,
+                true,
+                $menu
+            );
+        }
 
-        return $this->renderPaymentsAfterSearch($bot, $payments, $title, $extra_options);
+        // Haciendo q no haya respuesta adicional
+        return array(
+            "text" => ""
+        );
     }
 
     public function renderPaymentsByDate($bot, $days, $title, $extra_options = array())
