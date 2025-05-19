@@ -303,7 +303,7 @@ class PaymentsController extends MoneysController
                 'vertical' => Alignment::VERTICAL_CENTER
             ]
         ]);
-        $sheet->setCellValue('C' . ($lastRow + 3), $unliquidated);
+        $sheet->setCellValue('C' . ($lastRow + 3), $unliquidated - $unconfirmed);
         // Opcional: aplicar formato a la celda de total
         $sheet->getStyle('C' . ($lastRow + 3))->applyFromArray([
             'font' => ['bold' => true]
