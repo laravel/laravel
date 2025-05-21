@@ -70,18 +70,18 @@ class CheckEmails implements ShouldQueue
 
                 // Parsear la fecha
                 $carbonDate = Carbon::parse($spanTags[3]->textContent);
-                $amount = floatval(explode("\u{A0}", $spanTags[0]->textContent)[0]);
+                $amount = Moneys::format(floatval(explode("\u{A0}", $spanTags[0]->textContent)[0]), 2, ".", "");
                 $rate = floatval(str_replace("@", "", explode(" ", $spanTags[17]->textContent)[0]));
                 $usd = floatval(str_replace("$", "", explode(" ", $spanTags[19]->textContent)[0]));
                 $name = $bot->TextController->str_pad($spanTags[9]->textContent, 21);
                 $transaction = [
-                    "date" => "Fecha: " . $carbonDate->format('Y-m-d') . " " . Carbon::now()->format("H:i"),
-                    "id" => "ID: " . $spanTags[5]->textContent,
+                    "date" => $carbonDate->format('Y-m-d') . " " . Carbon::now()->format("H:i"),
+                    "id" => $spanTags[5]->textContent,
                     "name" => $name,
-                    "amount" => "+ €" . $amount,
-                    "to" => "IBAN: " . $spanTags[7]->textContent,
-                    "rate" => "Tasa: " . $rate,
-                    "usd" => "Acreditado: $" . $usd,
+                    "amount" => $amount,
+                    "to" => $spanTags[7]->textContent,
+                    "rate" => $rate,
+                    "usd" => $usd,
                 ];
                 $filename = GraphsController::generateComprobantGraph($transaction);
                 $url = "https://d.micalme.com" . FileController::$AUTODESTROY_DIR . "/{$filename}.jpg";

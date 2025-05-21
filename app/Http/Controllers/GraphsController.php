@@ -245,7 +245,7 @@ class GraphsController extends Controller
      * @param mixed $transaction ["date","id","name","amount","to","rate","usd"]
      * @return int
      */
-    public static function generateComprobantGraph($transaction)
+    public static function generateComprobantGraph($transaction, $sensitive = false)
     {
         // Configuración del canvas
         $graph = new CanvasGraph(742, 1280, 'auto');
@@ -273,16 +273,16 @@ class GraphsController extends Controller
 
         $tc = new TextController();
 
-        $text = new Text($tc->str_pad($transaction["amount"], 26, " ", STR_PAD_LEFT), 175, 40);
+        $text = new Text("+ €" . $transaction["amount"], 701, 40);
         $text->SetFont(FF_ARIAL, FS_BOLD, 35);
         $text->SetColor('black'); // Color del texto
-        $text->Align('left', 'top');
+        $text->Align('right', 'top');
         $text->Stroke($graph->img);
 
-        $text = new Text($tc->str_pad($transaction["to"], 43, " ", -12), 175, 100);
+        $text = new Text($tc->str_pad("IBAN " . $transaction["to"], 40, " ", -12), 701, 100);
         $text->SetFont(FF_ARIAL, FS_NORMAL, 18);
         $text->SetColor('gray'); // Color del texto
-        $text->Align('left', 'top');
+        $text->Align('right', 'top');
         $text->Stroke($graph->img);
 
         $text = new Text($tc->str_pad($transaction["name"], 27), 30, 320);
@@ -291,28 +291,50 @@ class GraphsController extends Controller
         $text->Align('left', 'top');
         $text->Stroke($graph->img);
 
-        $text = new Text($tc->str_pad($transaction["date"], 63, " ", -12), 30, 440);
+        $text = new Text($tc->str_pad("Fecha " . $transaction["date"], 61, " ", -12), 701, 440);
+        $text->SetFont(FF_ARIAL, FS_NORMAL, 20);
+        $text->SetColor('gray'); // Color del texto
+        $text->Align('right', 'top');
+        $text->Stroke($graph->img);
+
+        $text = new Text($tc->str_pad("Id " . $transaction["id"], 40, " ", -5), 50, 535);
         $text->SetFont(FF_ARIAL, FS_NORMAL, 20);
         $text->SetColor('gray'); // Color del texto
         $text->Align('left', 'top');
         $text->Stroke($graph->img);
 
-        $text = new Text($tc->str_pad($transaction["id"], 50, " ", -5), 30, 535);
+        $text = new Text($tc->str_pad("Total pagado €" . $transaction["amount"], 65, " ", -5), 701, 630);
         $text->SetFont(FF_ARIAL, FS_NORMAL, 20);
         $text->SetColor('gray'); // Color del texto
-        $text->Align('left', 'top');
+        $text->Align('right', 'top');
         $text->Stroke($graph->img);
 
-        $text = new Text($tc->str_pad($transaction["rate"], 70, " ", -5), 30, 630);
+        $text = new Text($tc->str_pad("Comisión €0.00", 70, " ", -5), 701, 725);
         $text->SetFont(FF_ARIAL, FS_NORMAL, 20);
         $text->SetColor('gray'); // Color del texto
-        $text->Align('left', 'top');
+        $text->Align('right', 'top');
         $text->Stroke($graph->img);
 
-        $text = new Text($tc->str_pad($transaction["usd"], 67, " ", -5), 30, 725);
+        $text = new Text($tc->str_pad("Tasa de cambio " . $transaction["rate"], 57, " ", -5), 701, 820);
+        if ($sensitive)
+            $text = new Text($tc->str_pad("Tasa de cambio " . $tc->hide_password($transaction["rate"], 2), 58, " ", -5), 701, 820);
         $text->SetFont(FF_ARIAL, FS_NORMAL, 20);
         $text->SetColor('gray'); // Color del texto
-        $text->Align('left', 'top');
+        $text->Align('right', 'top');
+        $text->Stroke($graph->img);
+
+        $text = new Text($tc->str_pad("Acreditado $" . $transaction["usd"], 63, " ", -5), 701, 915);
+        if ($sensitive)
+            $text = new Text($tc->str_pad("Acreditado " . $tc->hide_password($transaction["usd"], 2), 65, " ", -5), 701, 915);
+        $text->SetFont(FF_ARIAL, FS_NORMAL, 20);
+        $text->SetColor('gray'); // Color del texto
+        $text->Align('right', 'top');
+        $text->Stroke($graph->img);
+
+        $text = new Text($transaction["name"], 701, 1110);
+        $text->SetFont(FF_ARIAL, FS_NORMAL, 20);
+        $text->SetColor('gray'); // Color del texto
+        $text->Align('right', 'top');
         $text->Stroke($graph->img);
 
         return GraphsController::strokeGraph($graph);

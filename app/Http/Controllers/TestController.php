@@ -40,13 +40,13 @@ class TestController extends Controller
     {
         // Datos de ejemplo (puedes reemplazarlos con tus datos reales)
         $transactions = [
-            "date" => "Fecha: " . Carbon::now()->format("Y-m-d H:i"),
-            "id" => "ID: 9cd4bbbf-021f-4a4e-8902-f6a96c8059ca",
+            "date" => Carbon::now()->format("Y-m-d H:i"),
+            "id" => "9cd4bbbf-021f-4a4e-8902-f6a96c8059ca",
             "name" => "Donel Vazquez Zambrano",
-            "amount" => "+ €33.72",
-            "to" => "IBAN: IE11MODR99035506793800",
-            "rate" => "Tasa: 0.8912656",
-            "usd" => "Acreditado: $161.71",
+            "amount" => Moneys::format("20", 2, ".", ""),
+            "to" => "IE11MODR99035506793800",
+            "rate" => "0.8912656",
+            "usd" => "161.71",
         ];
 
         $filename = GraphsController::generateComprobantGraph($transactions);

@@ -34,17 +34,17 @@ class TextController extends Controller
 
     public function calculateSimilarityPercentage($text1, $text2)
     {
-        // Normalizar los textos
+        // Normalizar los texts
         $text1 = $this->standardize($text1);
         $text2 = $this->standardize($text2);
 
-        // Calcular la distance Levenshtein entre los textos
+        // Calcular la distance Levenshtein entre los texts
         $distance = levenshtein($text1, $text2);
 
-        // Encontrar la longitud máxima entre ambos textos
+        // Encontrar la length máxima entre ambos texts
         $max_length = max(strlen($text1), strlen($text2));
 
-        // Si la longitud máxima es 0 (ambos textos vacíos), son 100% similares
+        // Si la length máxima es 0 (ambos texts vacíos), son 100% similares
         if ($max_length == 0) {
             return 100;
         }
@@ -88,11 +88,23 @@ class TextController extends Controller
         return $text;
     }
 
+    public function hide_password($text, $visible = 0)
+    {
+        $length = mb_strlen($text, 'UTF-8');
+
+        if ($visible <= 0 || $visible >= $length) {
+            return str_repeat('*', $length);
+        }
+
+        $hidden = $length - $visible;
+        return str_repeat('*', $hidden) . mb_substr($text, -$visible, null, 'UTF-8');
+    }
+
     public function str_pad($input, $length, $pad_string = ' ', $pad_type = STR_PAD_RIGHT)
     {
         $input_length = strlen($input);
 
-        // Si el $length es menor que la longitud del input y es un padding normal (no negativo)
+        // Si el $length es menor que la length del input y es un padding normal (no negativo)
         if ($length < $input_length && $pad_type >= 0) {
             return substr($input, 0, max($length - 3, 0)) . '...'; // Aseguramos que no sea negativo
         }
