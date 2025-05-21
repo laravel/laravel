@@ -50,8 +50,8 @@ class CheckEmails implements ShouldQueue
         Carbon::setLocale('en');
 
         // Obtener correos no leídos
-        //$messages = $inbox->query()->unseen()->get();
-        $messages = $inbox->query()->all()->get();
+        $messages = $inbox->query()->unseen()->get();
+        //$messages = $inbox->query()->all()->get();
 
         $array = array();
 
