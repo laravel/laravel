@@ -96,7 +96,7 @@ class CheckEmails implements ShouldQueue
                         ),
                     ),
                 );
-                $bot->TelegramController->sendMessage($array, $bot->getToken($bot->telegram["username"]));
+                $bot->TelegramController->sendPhoto($array, $bot->getToken($bot->telegram["username"]));
 
             }
             // Marcar el mensaje como leído
