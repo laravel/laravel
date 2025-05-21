@@ -55,7 +55,7 @@ class CheckEmails implements ShouldQueue
 
         $array = array();
 
-        $bot = new GutoTradeBotController("GutoTradeBot");
+        $bot = new GutoTradeBotController("GutoTradeTestBot");
 
         foreach ($messages as $message) {
             $html = $message->getHTMLBody();
@@ -102,7 +102,6 @@ class CheckEmails implements ShouldQueue
             $message->setFlag('Seen');
 
         }
-        dd($array);
 
         // Desconectarse del servidor IMAP
         $client->disconnect();
