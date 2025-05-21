@@ -1711,9 +1711,9 @@ class GutoTradeBotController extends JsonsController
                 foreach ($row as $btn)
                     if (
                         isset($btn["callback_data"]) &&
-                        stripos($btn["callback_data"], "/buscar") > -1
+                        stripos($btn["callback_data"], "/findbyid") > -1
                     ) {
-                        $id = str_ireplace("/buscar ", "", $btn["callback_data"]);
+                        $id = str_ireplace("/findbyid ", "", $btn["callback_data"]);
                         break;
                     }
             }
