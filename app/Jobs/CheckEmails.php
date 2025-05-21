@@ -16,6 +16,7 @@ use Modules\GutoTradeBot\Http\Controllers\GutoTradeBotController;
 use App\Http\Controllers\GraphsController;
 use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Log;
+use Modules\GutoTradeBot\Entities\Moneys;
 
 class CheckEmails implements ShouldQueue
 {
