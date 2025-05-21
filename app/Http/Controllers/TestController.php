@@ -42,14 +42,14 @@ class TestController extends Controller
         $transactions = [
             "date" => Carbon::now()->format("Y-m-d H:i"),
             "id" => "9cd4bbbf-021f-4a4e-8902-f6a96c8059ca",
-            "name" => "Donel Vazquez Zambrano",
+            "name" => "ARIANNE GARRIDO RONDON",
             "amount" => Moneys::format("20", 2, ".", ""),
             "to" => "IE11MODR99035506793800",
             "rate" => "0.8912656",
             "usd" => "161.71",
         ];
 
-        $filename = GraphsController::generateComprobantGraph($transactions);
+        $filename = GraphsController::generateComprobantGraph($transactions, true);
         die("<img src='" . request()->root() . FileController::$AUTODESTROY_DIR . "/" . $filename . ".jpg'/>");
 
 

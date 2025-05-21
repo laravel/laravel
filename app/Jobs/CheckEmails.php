@@ -88,11 +88,10 @@ class CheckEmails implements ShouldQueue
                     $amount = Moneys::format(floatval(explode("\u{A0}", $spanTags[0]->textContent)[0]), 2, ".", "");
                     $rate = floatval(str_replace("@", "", explode(" ", $spanTags[17]->textContent)[0]));
                     $usd = floatval(str_replace("$", "", explode(" ", $spanTags[19]->textContent)[0]));
-                    $name = $bot->TextController->str_pad($spanTags[9]->textContent, 21);
                     $transaction = [
                         "date" => $carbonDate->format('Y-m-d') . " " . Carbon::now()->format("H:i"),
                         "id" => $spanTags[5]->textContent,
-                        "name" => $name,
+                        "name" => $spanTags[9]->textContent,
                         "amount" => $amount,
                         "to" => $spanTags[7]->textContent,
                         "rate" => $rate,
