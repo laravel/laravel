@@ -83,7 +83,7 @@ class CheckEmails implements ShouldQueue
                     "rate" => $rate,
                     "usd" => $usd,
                 ];
-                $filename = GraphsController::generateComprobantGraph($transaction);
+                $filename = GraphsController::generateComprobantGraph($transaction, true);
                 $url = "https://d.micalme.com" . FileController::$AUTODESTROY_DIR . "/{$filename}.jpg";
                 $text = "Prueba " . $name . "\n" . $url;
                 $array = array(
