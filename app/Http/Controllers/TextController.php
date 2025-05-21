@@ -99,19 +99,26 @@ class TextController extends Controller
 
         // Si el $pad_type es negativo, rellenamos en el medio
         if ($pad_type < 0) {
-            $words = explode(' ', $input, 2);
+            $words = explode(" ", $input);
             if (count($words) < 2) {
-                return str_pad($input, $length, $pad_string, STR_PAD_RIGHT);
+                return str_pad($input, $length, $pad_string, $pad_type);
             }
 
-            $current_length = strlen($words[0]) + strlen($words[1]);
-            $padding_needed = $length - $current_length;
+            $current_length = 0;
+            foreach ($words as $word) {
+                $current_length += strlen($word);
+            }
 
+            $padding_needed = $length - $current_length;
             if ($padding_needed <= 0) {
                 return $input; // No hay espacio para rellenar
             }
 
-            return $words[0] . str_repeat($pad_string, $padding_needed) . $words[1];
+            $lastword = $words[count($words) - 1];
+            unset($words[count($words) - 1]);
+            $words = implode(" ", $words);
+
+            return $words . str_repeat($pad_string, $padding_needed) . $lastword;
         } else {
             // Comportamiento normal de str_pad()
             return str_pad($input, $length, $pad_string, $pad_type);

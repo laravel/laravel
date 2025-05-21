@@ -53,8 +53,11 @@ class TestController extends Controller
 
         ];
 
+        echo $bot->TextController->str_pad("IBAN: IE11MODR99035506793800", 50, "-", -5) . "<hr/>";
+        echo $bot->TextController->str_pad("IBAN: IE11MODR99035506793800", 48, "-", -5) . "<hr/>";
+
         $filename = GraphsController::generateComprobantGraph($transactions);
-        die("<img src='http://localhost/laravel/autodestroy/" . $filename . ".jpg'/>");
+        die("<img src='" . request()->root() . FileController::$AUTODESTROY_DIR . "/" . $filename . ".jpg'/>");
 
 
 
