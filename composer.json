@@ -14,7 +14,8 @@
         "phpoffice/phpspreadsheet": "^1.29",
         "nwidart/laravel-modules": "^8.6",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "webklex/laravel-imap": "^4.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

@@ -88,4 +88,34 @@ class TextController extends Controller
         return $text;
     }
 
+    public function str_pad($input, $length, $pad_string = ' ', $pad_type = STR_PAD_RIGHT)
+    {
+        $input_length = strlen($input);
+
+        // Si el $length es menor que la longitud del input y es un padding normal (no negativo)
+        if ($length < $input_length && $pad_type >= 0) {
+            return substr($input, 0, max($length - 3, 0)) . '...'; // Aseguramos que no sea negativo
+        }
+
+        // Si el $pad_type es negativo, rellenamos en el medio
+        if ($pad_type < 0) {
+            $words = explode(' ', $input, 2);
+            if (count($words) < 2) {
+                return str_pad($input, $length, $pad_string, STR_PAD_RIGHT);
+            }
+
+            $current_length = strlen($words[0]) + strlen($words[1]);
+            $padding_needed = $length - $current_length;
+
+            if ($padding_needed <= 0) {
+                return $input; // No hay espacio para rellenar
+            }
+
+            return $words[0] . str_repeat($pad_string, $padding_needed) . $words[1];
+        } else {
+            // Comportamiento normal de str_pad()
+            return str_pad($input, $length, $pad_string, $pad_type);
+        }
+    }
+
 }

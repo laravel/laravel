@@ -861,6 +861,39 @@ class GutoTradeBotController extends JsonsController
                     }
                     break;
 
+                case "/test":
+                    $transactions = [
+                        "date" => Carbon::now()->format("Y-m-d H:i"),
+                        "id" => $this->TextController->str_pad("Id: 9cd4bbbf-021f-4a4e-8902-f6a96c8059ca", 50, " ", -5),
+                        "name" => $this->TextController->str_pad("WE EIKELBOOM", 21),
+                        "amount" => $this->TextController->str_pad("Monto: €335.72", 41, " ", -5),
+                        "to" => $this->TextController->str_pad("IBAN: IE11MODR99035506793800", 50, " ", -5),
+                        "rate" => $this->TextController->str_pad("Tasa: 0.8912656", 70, " ", -5),
+                        "usd" => $this->TextController->str_pad("Acreditado: $61.71", 66, " ", -5),
+
+                    ];
+                    $filename = GraphsController::generateComprobantGraph($transactions);
+
+                    $reply = [
+                        "text" => "Prueba:\n\n👇 Qué desea hacer ahora?",
+                        "photo" => request()->root() . FileController::$AUTODESTROY_DIR . "/{$filename}.jpg",
+                        "chat" => [
+                            "id" => $this->actor->user_id,
+                        ],
+                        "markup" => json_encode([
+                            "inline_keyboard" => [
+                                [
+                                    ["text" => "🔃 Volver a cargar", "callback_data" => "/test"],
+                                ],
+                                [
+                                    ["text" => "↖️ Volver al menú principal", "callback_data" => "menu"],
+                                ],
+
+                            ],
+                        ]),
+                    ];
+                    break;
+
                 default:
                     $array = $this->actor->data;
                     if (isset($array[$this->telegram["username"]]["last_bot_callback_data"])) {

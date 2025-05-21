@@ -31,13 +31,37 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use App\Http\Controllers\FileController;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use App\Jobs\CheckEmails;
 
 class TestController extends Controller
 {
 
     public function test(Request $request)
     {
+
         $bot = new GutoTradeBotController("GutoTradeBot");
+
+        // Datos de ejemplo (puedes reemplazarlos con tus datos reales)
+        $transactions = [
+            "date" => Carbon::now()->format("Y-m-d H:i"),
+            "id" => $bot->TextController->str_pad("Id: 9cd4bbbf-021f-4a4e-8902-f6a96c8059ca", 50, " ", -5),
+            "name" => $bot->TextController->str_pad("WE EIKELBOOM", 21),
+            "amount" => $bot->TextController->str_pad("Monto: €335.72", 41, " ", -5),
+            "to" => $bot->TextController->str_pad("IBAN: IE11MODR99035506793800", 50, " ", -5),
+            "rate" => $bot->TextController->str_pad("Tasa: 0.8912656", 70, " ", -5),
+            "usd" => $bot->TextController->str_pad("Acreditado: $61.71", 66, " ", -5),
+
+        ];
+
+        $filename = GraphsController::generateComprobantGraph($transactions);
+        die("<img src='http://localhost/laravel/autodestroy/" . $filename . ".jpg'/>");
+
+
+
+        // Ejecutar el Job manualmente
+        $job = new CheckEmails();
+        $job->handle(); // Llama directamente al método handle()
+        die("s");
 
         $caption = $bot->PaymentsController->processCaption("Prueba Con Nombre Larguisimo de muchos apellidos");
         dd($caption);

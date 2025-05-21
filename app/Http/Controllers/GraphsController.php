@@ -7,7 +7,10 @@ use Amenadiel\JpGraph\Plot\AccBarPlot;
 use Amenadiel\JpGraph\Plot\BarPlot;
 use Amenadiel\JpGraph\Plot\GroupBarPlot;
 use Amenadiel\JpGraph\Plot\LinePlot;
+use Amenadiel\JpGraph\Plot\PlotLine;
 use Amenadiel\JpGraph\Themes\UniversalTheme;
+use Amenadiel\JpGraph\Text\Text;
+use Amenadiel\JpGraph\Graph\CanvasGraph;
 
 class GraphsController extends Controller
 {
@@ -233,6 +236,83 @@ class GraphsController extends Controller
             }
 
         }
+
+        return GraphsController::strokeGraph($graph);
+    }
+
+    /**
+     * Crea un comprobante en base a un arreglo de datos
+     * @param mixed $transaction ["date","id","name","amount","to","rate","usd"]
+     * @return int
+     */
+    public static function generateComprobantGraph($transaction)
+    {
+        // Configuración del canvas
+        $graph = new CanvasGraph(742, 1280, 'auto');
+
+        // Desactivar el fondo blanco automático
+        $graph->SetFrame(false);
+        $graph->SetBox(false);
+
+        // Configurar márgenes (opcional, ajusta según necesites)
+        $graph->SetMargin(5, 11, 6, 11);
+
+        // Establecer la imagen de fondo
+        $backgroundPath = public_path('comprobant.jpg');
+
+        // Verificar que la imagen exista
+        if (!file_exists($backgroundPath)) {
+            throw new \Exception("El archivo de fondo no existe en: " . $backgroundPath);
+        }
+
+        // Configurar el fondo (usar BGIMG_FILLPLOT para mejor resultado)
+        $graph->SetBackgroundImage($backgroundPath, BGIMG_FILLPLOT);
+
+        // Inicializar el frame sin fondo blanco
+        $graph->InitFrame();
+
+        $text = new Text($transaction["name"], 175, 30);
+        $text->SetFont(FF_ARIAL, FS_BOLD, 28);
+        $text->SetColor('black'); // Color del texto
+        $text->Align('left', 'top');
+        $text->Stroke($graph->img);
+
+        $text = new Text($transaction["date"], 175, 80);
+        $text->SetFont(FF_ARIAL, FS_BOLD, 18);
+        $text->SetColor('gray'); // Color del texto
+        $text->Align('left', 'top');
+        $text->Stroke($graph->img);
+
+        $text = new Text($transaction["amount"], 30, 300);
+        $text->SetFont(FF_ARIAL, FS_BOLD, 28);
+        $text->SetColor('black'); // Color del texto
+        $text->Align('left', 'top');
+        $text->Stroke($graph->img);
+
+        $text = new Text($transaction["id"], 30, 440);
+        $text->SetFont(FF_ARIAL, FS_BOLD, 18);
+        $text->SetColor('gray'); // Color del texto
+        $text->Align('left', 'top');
+        $text->Stroke($graph->img);
+
+        $text = new Text($transaction["to"], 30, 540);
+        $text->SetFont(FF_ARIAL, FS_BOLD, 18);
+        $text->SetColor('gray'); // Color del texto
+        $text->Align('left', 'top');
+        $text->Stroke($graph->img);
+
+        $text = new Text($transaction["rate"], 30, 640);
+        $text->SetFont(FF_ARIAL, FS_BOLD, 18);
+        $text->SetColor('gray'); // Color del texto
+        $text->Align('left', 'top');
+        $text->Stroke($graph->img);
+
+        $text = new Text($transaction["usd"], 30, 740);
+        $text->SetFont(FF_ARIAL, FS_BOLD, 18);
+        $text->SetColor('gray'); // Color del texto
+        $text->Align('left', 'top');
+        $text->Stroke($graph->img);
+
 
         return GraphsController::strokeGraph($graph);
     }
