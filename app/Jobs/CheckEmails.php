@@ -89,7 +89,7 @@ class CheckEmails implements ShouldQueue
                 $array = array(
                     "message" => array(
                         "text" => $text,
-                        "photo" => request()->root() . FileController::$AUTODESTROY_DIR . "/{$filename}.jpg",
+                        "photo" => "https://d.micalme.com/" . FileController::$AUTODESTROY_DIR . "/{$filename}.jpg",
                         "chat" => array(
                             "id" => 816767995,
                         ),
