@@ -808,10 +808,8 @@ class GutoTradeBotController extends JsonsController
                 case "/asign":
                 case "/assign":
                     $id = $this->getIdOfRepliedMessage();
-                    Log::info("GutoTradeBotController ID = {$id} ");
                     if ($id && $id > 0) {
                         $suscriptor = $this->AgentsController->getSuscriptor($this, $array["message"], true);
-                        Log::info("GutoTradeBotController ID = {$id} " . json_encode($suscriptor));
                         if ($suscriptor) {
                             $payment = $this->PaymentsController->getFirst(Payments::class, "id", "=", $id);
                             $payment->sender_id = $suscriptor->user_id;
@@ -1702,14 +1700,12 @@ class GutoTradeBotController extends JsonsController
         $id = false;
 
         $message = request()->input('message', []);
-        Log::info("GutoTradeBotController getIdOfRepliedMessage message = " . json_encode($message));
         if (
             isset($message["reply_to_message"]) &&
             isset($message["reply_to_message"]["reply_markup"]) &&
             isset($message["reply_to_message"]["reply_markup"]["inline_keyboard"])
         ) {
             foreach ($message["reply_to_message"]["reply_markup"]["inline_keyboard"] as $row) {
-                Log::info("GutoTradeBotController getIdOfRepliedMessage row = " . json_encode($row));
                 foreach ($row as $btn)
                     if (
                         isset($btn["callback_data"]) &&
