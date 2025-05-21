@@ -1708,6 +1708,7 @@ class GutoTradeBotController extends JsonsController
             isset($message["reply_to_message"]["reply_markup"]["inline_keyboard"])
         ) {
             foreach ($message["reply_to_message"]["reply_markup"]["inline_keyboard"] as $row) {
+                Log::info("GutoTradeBotController getIdOfRepliedMessage row = " . json_encode($row));
                 foreach ($row as $btn)
                     if (
                         isset($btn["callback_data"]) &&
