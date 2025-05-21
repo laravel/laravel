@@ -1702,6 +1702,7 @@ class GutoTradeBotController extends JsonsController
         $id = false;
 
         $message = request()->input('message', []);
+        Log::info("GutoTradeBotController getIdOfRepliedMessage message = " . json_encode($message));
         if (
             isset($message["reply_to_message"]) &&
             isset($message["reply_to_message"]["reply_markup"]) &&
