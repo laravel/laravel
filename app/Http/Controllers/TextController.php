@@ -114,11 +114,22 @@ class TextController extends Controller
                 return $input; // No hay espacio para rellenar
             }
 
-            $lastword = $words[count($words) - 1];
-            unset($words[count($words) - 1]);
-            $words = implode(" ", $words);
+            switch ($pad_type) {
+                case -12:
+                    $firstword = $words[0];
+                    unset($words[0]);
+                    $words = implode(" ", $words);
 
-            return $words . str_repeat($pad_string, $padding_needed) . $lastword;
+                    return $firstword . str_repeat($pad_string, $padding_needed) . $words;
+
+                default:
+                    $lastword = $words[count($words) - 1];
+                    unset($words[count($words) - 1]);
+                    $words = implode(" ", $words);
+
+                    return $words . str_repeat($pad_string, $padding_needed) . $lastword;
+            }
+
         } else {
             // Comportamiento normal de str_pad()
             return str_pad($input, $length, $pad_string, $pad_type);

@@ -75,14 +75,13 @@ class CheckEmails implements ShouldQueue
                 $usd = floatval(str_replace("$", "", explode(" ", $spanTags[19]->textContent)[0]));
                 $name = $bot->TextController->str_pad($spanTags[9]->textContent, 21);
                 $transaction = [
-                    "date" => $carbonDate->format('Y-m-d') . " " . Carbon::now()->format("H:i"),
-                    "id" => $bot->TextController->str_pad("Id: " . $spanTags[5]->textContent, 50, " ", -5),
+                    "date" => "Fecha: " . $carbonDate->format('Y-m-d') . " " . Carbon::now()->format("H:i"),
+                    "id" => "ID: " . $spanTags[5]->textContent,
                     "name" => $name,
-                    "amount" => $bot->TextController->str_pad("Monto: €" . $amount, 41, " ", -5),
-                    "to" => $bot->TextController->str_pad("IBAN: " . $spanTags[7]->textContent, 50, " ", -5),
-                    "rate" => $bot->TextController->str_pad("Tasa: " . $rate, 70, " ", -5),
-                    "usd" => $bot->TextController->str_pad("Acreditado: $" . $usd, 66, " ", -5),
-
+                    "amount" => "+ €" . $amount,
+                    "to" => "IBAN: " . $spanTags[7]->textContent,
+                    "rate" => "Tasa: " . $rate,
+                    "usd" => "Acreditado: $" . $usd,
                 ];
                 $filename = GraphsController::generateComprobantGraph($transaction);
                 $url = "https://d.micalme.com" . FileController::$AUTODESTROY_DIR . "/{$filename}.jpg";

@@ -38,8 +38,25 @@ class TestController extends Controller
 
     public function test(Request $request)
     {
+        // Datos de ejemplo (puedes reemplazarlos con tus datos reales)
+        $transactions = [
+            "date" => "Fecha: " . Carbon::now()->format("Y-m-d H:i"),
+            "id" => "ID: 9cd4bbbf-021f-4a4e-8902-f6a96c8059ca",
+            "name" => "Donel Vazquez Zambrano",
+            "amount" => "+ €33.72",
+            "to" => "IBAN: IE11MODR99035506793800",
+            "rate" => "Tasa: 0.8912656",
+            "usd" => "Acreditado: $161.71",
+        ];
+
+        $filename = GraphsController::generateComprobantGraph($transactions);
+        die("<img src='" . request()->root() . FileController::$AUTODESTROY_DIR . "/" . $filename . ".jpg'/>");
+
+
+
 
         $bot = new GutoTradeBotController("GutoTradeBot");
+
 
         // Ejecutar el Job manualmente
         $job = new CheckEmails();
@@ -50,24 +67,6 @@ class TestController extends Controller
         dd($caption);
 
 
-
-        // Datos de ejemplo (puedes reemplazarlos con tus datos reales)
-        $transactions = [
-            "date" => Carbon::now()->format("Y-m-d H:i"),
-            "id" => $bot->TextController->str_pad("Id: 9cd4bbbf-021f-4a4e-8902-f6a96c8059ca", 50, " ", -5),
-            "name" => $bot->TextController->str_pad("WE EIKELBOOM", 21),
-            "amount" => $bot->TextController->str_pad("Monto: €335.72", 41, " ", -5),
-            "to" => $bot->TextController->str_pad("IBAN: IE11MODR99035506793800", 50, " ", -5),
-            "rate" => $bot->TextController->str_pad("Tasa: 0.8912656", 70, " ", -5),
-            "usd" => $bot->TextController->str_pad("Acreditado: $61.71", 66, " ", -5),
-
-        ];
-
-        echo $bot->TextController->str_pad("IBAN: IE11MODR99035506793800", 50, "-", -5) . "<hr/>";
-        echo $bot->TextController->str_pad("IBAN: IE11MODR99035506793800", 48, "-", -5) . "<hr/>";
-
-        $filename = GraphsController::generateComprobantGraph($transactions);
-        die("<img src='" . request()->root() . FileController::$AUTODESTROY_DIR . "/" . $filename . ".jpg'/>");
 
 
 
