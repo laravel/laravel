@@ -41,6 +41,16 @@ class TestController extends Controller
 
         $bot = new GutoTradeBotController("GutoTradeBot");
 
+        // Ejecutar el Job manualmente
+        $job = new CheckEmails();
+        $job->handle(); // Llama directamente al método handle()
+        die("s");
+
+        $caption = $bot->PaymentsController->processCaption("Prueba Con Nombre Larguisimo de muchos apellidos");
+        dd($caption);
+
+
+
         // Datos de ejemplo (puedes reemplazarlos con tus datos reales)
         $transactions = [
             "date" => Carbon::now()->format("Y-m-d H:i"),
@@ -60,14 +70,6 @@ class TestController extends Controller
         die("<img src='" . request()->root() . FileController::$AUTODESTROY_DIR . "/" . $filename . ".jpg'/>");
 
 
-
-        // Ejecutar el Job manualmente
-        $job = new CheckEmails();
-        $job->handle(); // Llama directamente al método handle()
-        die("s");
-
-        $caption = $bot->PaymentsController->processCaption("Prueba Con Nombre Larguisimo de muchos apellidos");
-        dd($caption);
 
         //dd($bot->TextController->numberAsEmoji(123));
         $bot->actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");

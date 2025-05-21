@@ -12,6 +12,9 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Webklex\IMAP\Facades\Client;
 use Carbon\Carbon;
+use Modules\GutoTradeBot\Http\Controllers\GutoTradeBotController;
+use App\Http\Controllers\GraphsController;
+use App\Http\Controllers\FileController;
 
 class CheckEmails implements ShouldQueue
 {
@@ -52,6 +55,8 @@ class CheckEmails implements ShouldQueue
 
         $array = array();
 
+        $bot = new GutoTradeBotController("GutoTradeBot");
+
         foreach ($messages as $message) {
             $html = $message->getHTMLBody();
 
@@ -68,15 +73,30 @@ class CheckEmails implements ShouldQueue
                 $amount = floatval(explode("\u{A0}", $spanTags[0]->textContent)[0]);
                 $rate = floatval(str_replace("@", "", explode(" ", $spanTags[17]->textContent)[0]));
                 $usd = floatval(str_replace("$", "", explode(" ", $spanTags[19]->textContent)[0]));
-                $array[] = array(
-                    "date" => $carbonDate->format('Y-m-d'),
-                    "id" => $spanTags[5]->textContent,
-                    "name" => $spanTags[9]->textContent,
-                    "amount" => $amount,
-                    "to" => $spanTags[7]->textContent,
-                    "rate" => $rate,
-                    "usd" => $usd,
+                $name = $bot->TextController->str_pad($spanTags[9]->textContent, 21);
+                $transaction = [
+                    "date" => $carbonDate->format('Y-m-d') . " " . Carbon::now()->format("H:i"),
+                    "id" => $bot->TextController->str_pad("Id: " . $spanTags[5]->textContent, 50, " ", -5),
+                    "name" => $name,
+                    "amount" => $bot->TextController->str_pad("Monto: €" . $amount, 41, " ", -5),
+                    "to" => $bot->TextController->str_pad("IBAN: " . $spanTags[7]->textContent, 50, " ", -5),
+                    "rate" => $bot->TextController->str_pad("Tasa: " . $rate, 70, " ", -5),
+                    "usd" => $bot->TextController->str_pad("Acreditado: $" . $usd, 66, " ", -5),
+
+                ];
+                $filename = GraphsController::generateComprobantGraph($transaction);
+                $text = "Prueba " . $name;
+                $array = array(
+                    "message" => array(
+                        "text" => $text,
+                        "photo" => request()->root() . FileController::$AUTODESTROY_DIR . "/{$filename}.jpg",
+                        "chat" => array(
+                            "id" => 816767995,
+                        ),
+                    ),
                 );
+                $bot->TelegramController->sendMessage($array, $bot->getToken($bot->telegram["username"]));
+
             }
             // Marcar el mensaje como leído
             $message->setFlag('Seen');
