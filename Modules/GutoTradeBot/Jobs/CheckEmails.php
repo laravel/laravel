@@ -16,7 +16,6 @@ use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Log;
 use Modules\GutoTradeBot\Entities\Moneys;
 use App\Http\Controllers\TextController;
-use App\Traits\ModuleTrait;
 
 class CheckEmails implements ShouldQueue
 {
@@ -31,19 +30,6 @@ class CheckEmails implements ShouldQueue
     {
         //
     }
-
-    /*
-    // Número máximo de intentos
-    public function tries()
-    {
-        return 10;
-    }
-    // Tiempo entre intentos (en segundos)
-    public function backoff()
-    {
-        return [30, 60, 120]; // Espera 30s, luego 60s, luego 120s
-    }
-    */
 
     /**
      * Execute the job.
@@ -123,14 +109,4 @@ class CheckEmails implements ShouldQueue
         }
     }
 
-    /*
-    public function failed($exception)
-    {
-        // Lógica para manejar el fallo permanente
-        Log::error('CheckEmails job failed permanently: ' . $exception->getMessage());
-
-        // Opcionalmente notificar al administrador
-        // Mail::to('admin@example.com')->send(new JobFailedNotification($this, $exception));
-    }
-        */
 }
