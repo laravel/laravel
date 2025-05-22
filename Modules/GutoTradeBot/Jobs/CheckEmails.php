@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Jobs;
+namespace Modules\GutoTradeBot\Jobs;
 
-use App\Http\Controllers\TelegramController;
-use App\Http\Controllers\TokenController;
 use DOMDocument;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,6 +15,7 @@ use App\Http\Controllers\GraphsController;
 use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Log;
 use Modules\GutoTradeBot\Entities\Moneys;
+use App\Http\Controllers\TextController;
 
 class CheckEmails implements ShouldQueue
 {
@@ -32,6 +31,7 @@ class CheckEmails implements ShouldQueue
         //
     }
 
+    /*
     // Número máximo de intentos
     public function tries()
     {
@@ -42,6 +42,7 @@ class CheckEmails implements ShouldQueue
     {
         return [30, 60, 120]; // Espera 30s, luego 60s, luego 120s
     }
+    */
 
     /**
      * Execute the job.
@@ -52,26 +53,20 @@ class CheckEmails implements ShouldQueue
     {
         // Conectar al servidor IMAP
         $client = Client::account('default');
-
-        // Intentar conectarse
         $client->connect();
 
         try {
 
-            // php artisan schedule:run
+            $tc = new TextController();
+            $bot = new GutoTradeBotController("GutoTradeTestBot");
 
             // Abrir la bandeja de entrada
             $inbox = $client->getFolder('INBOX');
             Carbon::setLocale('en');
 
             // Obtener correos no leídos
-            $messages = $inbox->query()->unseen()->get();
             //$messages = $inbox->query()->all()->get();
-
-            $array = array();
-
-            $bot = new GutoTradeBotController("GutoTradeTestBot");
-
+            $messages = $inbox->query()->unseen()->get();
             foreach ($messages as $message) {
                 $html = $message->getHTMLBody();
 
@@ -82,10 +77,10 @@ class CheckEmails implements ShouldQueue
                 $spanTags = $dom->getElementsByTagName('span');
 
                 if (isset($spanTags[9])) {
-
                     // Parsear la fecha
                     $carbonDate = Carbon::parse($spanTags[3]->textContent);
-                    $amount = Moneys::format(floatval(explode("\u{A0}", $spanTags[0]->textContent)[0]), 2, ".", "");
+                    $float = $tc->parseNumber(explode("\u{A0}", $spanTags[0]->textContent)[0]);
+                    $amount = Moneys::format($float, 2, ".", "");
                     $rate = floatval(str_replace("@", "", explode(" ", $spanTags[17]->textContent)[0]));
                     $usd = floatval(str_replace("$", "", explode(" ", $spanTags[19]->textContent)[0]));
                     $name = $spanTags[9]->textContent;
@@ -100,7 +95,7 @@ class CheckEmails implements ShouldQueue
                     ];
                     $filename = GraphsController::generateComprobantGraph($transaction, true);
                     $url = "https://d.micalme.com" . FileController::$AUTODESTROY_DIR . "/{$filename}.jpg";
-                    $text = $name;
+                    $text = $name . " " . $float;
                     $array = array(
                         "message" => array(
                             "text" => $text,
@@ -124,6 +119,8 @@ class CheckEmails implements ShouldQueue
         // Desconectarse del servidor IMAP
         $client->disconnect();
     }
+
+    /*
     public function failed($exception)
     {
         // Lógica para manejar el fallo permanente
@@ -132,4 +129,5 @@ class CheckEmails implements ShouldQueue
         // Opcionalmente notificar al administrador
         // Mail::to('admin@example.com')->send(new JobFailedNotification($this, $exception));
     }
+        */
 }

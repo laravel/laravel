@@ -31,13 +31,22 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use App\Http\Controllers\FileController;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use App\Jobs\CheckEmails;
+use Modules\GutoTradeBot\Jobs\CheckEmails;
 
 class TestController extends Controller
 {
-
     public function test(Request $request)
     {
+        // Ejecutar el Job manualmente
+        $job = new CheckEmails();
+        $job->handle(); // Llama directamente al método handle()
+        die(date("Y-m-d H:i:s") . ": DONE!");
+
+
+
+        echo env('APP_INSTANCE');
+        dd(config());
+
         // Datos de ejemplo (puedes reemplazarlos con tus datos reales)
         $transactions = [
             "date" => Carbon::now()->format("Y-m-d H:i"),
@@ -58,10 +67,6 @@ class TestController extends Controller
         $bot = new GutoTradeBotController("GutoTradeBot");
 
 
-        // Ejecutar el Job manualmente
-        $job = new CheckEmails();
-        $job->handle(); // Llama directamente al método handle()
-        die("s");
 
         $caption = $bot->PaymentsController->processCaption("Prueba Con Nombre Larguisimo de muchos apellidos");
         dd($caption);

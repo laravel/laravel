@@ -148,4 +148,38 @@ class TextController extends Controller
         }
     }
 
+    function parseNumber($value)
+    {
+        $cleanValue = trim($value);
+
+        // Patrón mejorado para números grandes
+        $patron = '/^
+            (\d{1,3}(?:[ \.,]?\d{3})*)  # Parte entera con separadores
+            ([,.]\d{1,20})?              # Parte decimal opcional (hasta 20 dígitos)
+        $/xu';
+
+        if (preg_match($patron, $cleanValue, $matches)) {
+            // Procesar parte entera
+            $entero = str_replace([' ', '.', ','], '', $matches[1]);
+
+            // Procesar parte decimal
+            $decimal = '0';
+            if (isset($matches[2])) {
+                $decimal = str_replace(['.', ','], '', substr($matches[2], 1));
+            }
+
+            // Combinar y convertir a float (precaución con números muy grandes)
+            $numeroString = "$entero.$decimal";
+
+            // Para números muy grandes, mejor devolver como string
+            if (strlen($entero) > 15) {
+                return $numeroString; // Evitar pérdida de precisión en float
+            }
+
+            return (float) $numeroString;
+        }
+
+        return null;
+    }
+
 }

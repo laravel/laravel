@@ -17,7 +17,7 @@ use Modules\TelegramBot\Entities\Actors;
 use Modules\TelegramBot\Http\Controllers\ActorsController;
 use Modules\TelegramBot\Http\Controllers\TelegramController;
 use Modules\TelegramBot\Traits\UsesTelegramBot;
-use App\Jobs\CheckEmails;
+use Modules\GutoTradeBot\Jobs\CheckEmails;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
