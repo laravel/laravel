@@ -156,6 +156,7 @@ class TelegramController extends Controller
             "&caption=" . urlencode($request["message"]["text"]);
 
         $response = $this->send($request, $url);
+        Log::info("TelegramController sendPhoto response = {$response}");
         $array = json_decode($response, true);
 
         if (isset($array["result"]) && isset($array["result"]["message_id"]) && $array["result"]["message_id"] == 0) {
