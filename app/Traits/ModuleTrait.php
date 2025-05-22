@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait UsesModuleConnection
+trait ModuleTrait
 {
     /**
      * Obtiene el nombre de la conexión de base de datos basado en el módulo.

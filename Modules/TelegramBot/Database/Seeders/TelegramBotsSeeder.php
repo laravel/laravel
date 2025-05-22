@@ -1,13 +1,14 @@
 <?php
 namespace Modules\TelegramBot\Database\Seeders;
 
-use App\Traits\UsesModuleConnection;
+
 use Illuminate\Database\Seeder;
 use Modules\TelegramBot\Entities\TelegramBots;
+use App\Traits\ModuleTrait;
 
 class TelegramBotsSeeder extends Seeder
 {
-    use UsesModuleConnection;
+    use ModuleTrait;
 
     public function run()
     {

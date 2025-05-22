@@ -5,7 +5,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\GraphsController;
 use App\Http\Controllers\TextController;
 use App\Http\Controllers\JsonsController;
-use App\Traits\UsesModuleConnection;
+
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -31,7 +31,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 class GutoTradeBotController extends JsonsController
 {
     use UsesTelegramBot;
-    use UsesModuleConnection;
+
 
     public $PaymentsController;
     public $CapitalsController;
@@ -62,7 +62,11 @@ class GutoTradeBotController extends JsonsController
 
         if ($instance === false)
             $instance = $botname;
-        $response = json_decode($this->TelegramController->getBotInfo($this->getToken($instance)), true);
+        $response = false;
+        try {
+            $response = json_decode($this->TelegramController->getBotInfo($this->getToken($instance)), true);
+        } catch (\Throwable $th) {
+        }
         if (!$response)
             $response = array(
                 "result" => array(

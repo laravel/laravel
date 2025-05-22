@@ -2,14 +2,15 @@
 
 namespace Modules\TelegramBot\Database\Seeders;
 
-use App\Traits\UsesModuleConnection;
+
 use Illuminate\Database\Seeder;
 use Modules\TelegramBot\Entities\Actors;
 use Modules\ZentroTraderBot\Entities\TradingSuscriptions;
+use App\Traits\ModuleTrait;
 
 class ActorsSeeder extends Seeder
 {
-    use UsesModuleConnection;
+    use ModuleTrait;
 
     public function run()
     {

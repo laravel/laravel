@@ -1,12 +1,12 @@
 <?php
 namespace Modules\GutoTradeBot\Entities;
 
-use App\Traits\UsesModuleConnection;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\ModuleTrait;
 
 class Rates extends Model
 {
-    use UsesModuleConnection;
+    use ModuleTrait;
 
     protected $fillable = ['date', 'base', 'coin', 'rate'];
 

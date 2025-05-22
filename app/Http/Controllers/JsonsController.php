@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\UsesModuleConnection;
+use App\Traits\ModuleTrait;
 use Modules\TelegramBot\Entities\TelegramBots;
 
 class JsonsController extends Controller
 {
-    use UsesModuleConnection;
+    use ModuleTrait;
 
     public function getToken($name)
     {

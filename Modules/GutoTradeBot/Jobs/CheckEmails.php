@@ -16,6 +16,7 @@ use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Log;
 use Modules\GutoTradeBot\Entities\Moneys;
 use App\Http\Controllers\TextController;
+use App\Traits\ModuleTrait;
 
 class CheckEmails implements ShouldQueue
 {
@@ -51,18 +52,19 @@ class CheckEmails implements ShouldQueue
      */
     public function handle()
     {
-        // Conectar al servidor IMAP
-        $client = Client::account('default');
-        $client->connect();
+        Carbon::setLocale('en');
+        $tc = new TextController();
 
         try {
 
-            $tc = new TextController();
-            $bot = new GutoTradeBotController("GutoTradeTestBot");
+            // Conectar al servidor IMAP
+            $client = Client::account('default');
+            $botname = explode("@", $client->username)[0];
+            $bot = new GutoTradeBotController($botname);
 
+            $client->connect();
             // Abrir la bandeja de entrada
             $inbox = $client->getFolder('INBOX');
-            Carbon::setLocale('en');
 
             // Obtener correos no leídos
             //$messages = $inbox->query()->all()->get();
@@ -95,6 +97,7 @@ class CheckEmails implements ShouldQueue
                     ];
                     $filename = GraphsController::generateComprobantGraph($transaction, true);
                     $url = "https://d.micalme.com" . FileController::$AUTODESTROY_DIR . "/{$filename}.jpg";
+                    //$url = "https://{$botname}.micalme.com" . FileController::$AUTODESTROY_DIR . "/{$filename}.jpg";
                     $text = $name . " " . $float;
                     $array = array(
                         "message" => array(
@@ -112,12 +115,12 @@ class CheckEmails implements ShouldQueue
                 $message->setFlag('Seen');
 
             }
+
+            // Desconectarse del servidor IMAP
+            $client->disconnect();
         } catch (\Throwable $th) {
             Log::error("CheckEmails job ERROR CODE {$th->getCode()} line {$th->getLine()}: {$th->getMessage()}");
         }
-
-        // Desconectarse del servidor IMAP
-        $client->disconnect();
     }
 
     /*

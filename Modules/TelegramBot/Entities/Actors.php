@@ -2,14 +2,15 @@
 
 namespace Modules\TelegramBot\Entities;
 
-use App\Traits\UsesModuleConnection;
+
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
+use App\Traits\ModuleTrait;
 
 class Actors extends Model
 {
-    use UsesModuleConnection;
+    use ModuleTrait;
 
     protected $table = "actors";
 

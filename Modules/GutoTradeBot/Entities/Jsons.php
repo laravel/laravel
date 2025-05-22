@@ -2,12 +2,12 @@
 
 namespace Modules\GutoTradeBot\Entities;
 
-use App\Traits\UsesModuleConnection;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\ModuleTrait;
 
 class Jsons extends Model
 {
-    use UsesModuleConnection;
+    use ModuleTrait;
 
     protected $casts = [
         'data' => 'json',

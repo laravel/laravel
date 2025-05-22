@@ -2,12 +2,13 @@
 
 namespace Modules\TelegramBot\Entities;
 
-use App\Traits\UsesModuleConnection;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\ModuleTrait;
 
 class TelegramBots extends Model
 {
-    use UsesModuleConnection;
+    use ModuleTrait;
+
     protected $table = "bots";
 
     protected $fillable = ['name', 'token', 'data'];

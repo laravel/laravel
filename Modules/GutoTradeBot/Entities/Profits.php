@@ -1,13 +1,14 @@
 <?php
 namespace Modules\GutoTradeBot\Entities;
 
-use App\Traits\UsesModuleConnection;
+
 use Illuminate\Database\Eloquent\Model;
-use Modules\GutoTradeBot\Http\Controllers\ProfitsController;
+use App\Traits\ModuleTrait;
+
 
 class Profits extends Model
 {
-    use UsesModuleConnection;
+    use ModuleTrait;
 
     protected $fillable = ['name', 'comment', 'value'];
 

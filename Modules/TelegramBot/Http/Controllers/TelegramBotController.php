@@ -16,6 +16,17 @@ class TelegramBotController extends Controller
         // Creando una instancia dinamica de una clase hija encargada de manipular el bot correspondiente
         $controller = "Modules\\{$botname}\\Http\\Controllers\\{$botname}Controller";
         if (class_exists($controller)) {
+            /*
+            if (!$instance)
+                $instance = $botname;
+            $host = request()->getHost(); // gutotradebot.micalme.com
+            $parts = explode(".", $host);
+            if (count($parts) > 2) {
+                unset($parts[count($parts) - 1]);
+                unset($parts[count($parts) - 1]);
+                $instance = implode(".", $parts);
+            }
+            */
             //return app()->make($controller)->receiveMessage($botname, $instance);
             return app()->make($controller, [
                 'botname' => $botname,
