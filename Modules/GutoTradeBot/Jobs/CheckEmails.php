@@ -110,6 +110,8 @@ class CheckEmails implements ShouldQueue
                                 "transaction" => $transaction,
                             )
                         );
+                        $bot->PaymentsController->notifyToCapitals($bot, $payment, false, "Nuevo reporte automático");
+                        $bot->PaymentsController->notifyToGestors($bot, $payment, false, "Nuevo reporte automático");
                     }
 
                 }
