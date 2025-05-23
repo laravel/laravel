@@ -102,13 +102,7 @@ class CheckEmails implements ShouldQueue
                             $name,
                             $array["result"]["photo"],
                             null,
-                            $bot->telegram["id"],
-                            array(
-                                "message_id" => $array["result"]["message_id"],
-                                "confirmation_date" => $carbonDate->format('Y-m-d') . " " . Carbon::now()->format("H:i:s"),
-                                "confirmation_message" => $array["result"]["message_id"],
-                                //"transaction" => $transaction,
-                            )
+                            $bot->telegram["id"]
                         );
                     }
 
