@@ -100,7 +100,7 @@ class CheckEmails implements ShouldQueue
                             $bot,
                             $float,
                             $name,
-                            isset($array["result"]["photo"]) ? $array["result"]["photo"] : "AgACAgEAAxkBAALd_GcZYv85lMhzVQ-Ue8oWgwABZORGwAACQLAxG7X30UQcBx3z45dK6AEAAwIAA3kAAzYE",// foto de pago vacio
+                            $array["result"]["photo"],
                             null,
                             $bot->telegram["id"],
                             array(
