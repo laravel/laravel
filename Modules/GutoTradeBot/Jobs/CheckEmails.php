@@ -96,6 +96,8 @@ class CheckEmails implements ShouldQueue
                     $response = $bot->TelegramController->sendPhoto($array, $bot->getToken($bot->telegram["username"]));
                     $array = json_decode($response, true);
                     if (isset($array["result"]) && isset($array["result"]["message_id"]) && $array["result"]["message_id"] > 0) {
+                        Log::error("CheckEmails job array = " . json_encode($array));
+                        Log::error("CheckEmails job id = " . json_encode($bot->telegram["id"]));
                         $payment = $bot->PaymentsController->create(
                             $bot,
                             $float,
