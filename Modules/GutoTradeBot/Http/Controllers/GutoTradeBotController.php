@@ -867,8 +867,18 @@ class GutoTradeBotController extends JsonsController
                     break;
 
                 case "/test":
-                    $job = new CheckEmails();
-                    $job->handle();
+                    $array = [
+                        "message" => [
+                            "text" => "Prueba: " . date("H:i:s"),
+                            "chat" => [
+                                "id" => 816767995,
+                            ],
+                            "autodestroy" => 1
+                        ],
+                    ];
+                    $array = json_decode($this->TelegramController->sendMessage($array, $this->getToken($this->telegram["username"])), 1);
+
+
 
                     // Haciendo q no haya respuesta adicional
                     $reply = [

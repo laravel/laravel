@@ -43,6 +43,7 @@ class TestController extends Controller
                 "chat" => [
                     "id" => 816767995,
                 ],
+                "autodestroy" => 1
             ],
         ];
         $tc = new TelegramController();
