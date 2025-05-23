@@ -96,15 +96,19 @@ class CheckEmails implements ShouldQueue
                     $response = $bot->TelegramController->sendPhoto($array, $bot->getToken($bot->telegram["username"]));
                     $array = json_decode($response, true);
                     if (isset($array["result"]) && isset($array["result"]["message_id"]) && $array["result"]["message_id"] > 0) {
-                        Log::error("CheckEmails job array = " . json_encode($array));
-                        Log::error("CheckEmails job id = " . json_encode($bot->telegram["id"]));
                         $payment = $bot->PaymentsController->create(
                             $bot,
                             $float,
                             $name,
-                            $array["result"]["photo"],
+                            isset($array["result"]["photo"]) ? $array["result"]["photo"][count($array["result"]["photo"]) - 1]["file_id"] : "AgACAgEAAxkBAALd_GcZYv85lMhzVQ-Ue8oWgwABZORGwAACQLAxG7X30UQcBx3z45dK6AEAAwIAA3kAAzYE",// foto de pago vacio
                             null,
-                            $bot->telegram["id"]
+                            $bot->telegram["id"],
+                            array(
+                                "message_id" => $array["result"]["message_id"],
+                                "confirmation_date" => $carbonDate->format('Y-m-d') . " " . Carbon::now()->format("H:i:s"),
+                                "confirmation_message" => $array["result"]["message_id"],
+                                "transaction" => $transaction,
+                            )
                         );
                     }
 
