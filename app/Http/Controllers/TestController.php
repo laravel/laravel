@@ -21,6 +21,7 @@ use Modules\TelegramBot\Http\Controllers\TelegramController;
 use Modules\GutoTradeBot\Http\Controllers\CoingeckoController;
 use Webklex\IMAP\Facades\Client;
 use Modules\TelegramBot\Entities\Actors;
+use Modules\TelegramBot\Entities\TelegramBots;
 use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -37,6 +38,34 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
+
+        $bot = new GutoTradeBotController("gutotradetestbot");
+        dd($bot->telegram["id"]);
+
+
+        $ac = new ActorsController();
+        $name = "gutotradebOt";
+        $bot = $ac->getFirst(TelegramBots::class, "name", "=", "@{$name}");
+        dd($bot);
+
+        $tc = new TelegramController();
+        $response = json_decode($tc->getBotInfo("7543090584:AAEisZYB1NL24Wwwv2xQ2rVChOugyXYLdBU"), true);
+        $response = json_decode($tc->getBotInfo("7543090584:AAEisZYB1NL24Wwwv2xQ2rVChOugyXYLdBU"), true);
+        dd($response);
+
+
+        $bot = new GutoTradeBotController("GutoTradeBot");
+        $admins = $bot->ActorsController->getData(Actors::class, [
+            [
+                "contain" => true,
+                "name" => "admin_level",
+                "value" => [1, 4],
+            ],
+        ], "gutotradebot");
+        dd($admins->toArray());
+
+
+
         $array = [
             "message" => [
                 "text" => "Prueba: " . date("H:i:s"),
@@ -77,8 +106,6 @@ class TestController extends Controller
 
 
 
-
-        $bot = new GutoTradeBotController("GutoTradeBot");
 
 
 
