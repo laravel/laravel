@@ -120,7 +120,23 @@ class TelegramController extends Controller
 
     }
 
-    public function sendMessage($request, $bot_token, $autodestroy = 0)
+    private function detroyMessage($bot_token, $request, $secounds = 5)
+    {
+        $controller = $this;
+        dispatch(function () use ($controller, $request, $bot_token) {
+            $array = array(
+                "message" => array(
+                    "id" => $request["result"]["message_id"],
+                    "chat" => array(
+                        "id" => $request["result"]["chat"]["id"],
+                    ),
+                ),
+            );
+            $controller->deleteMessage($array, $bot_token);
+        })->delay(now()->addSeconds($secounds));
+    }
+
+    public function sendMessage($request, $bot_token, $minutes = 0)
     {
         $url = "https://api.telegram.org/bot" .
             $bot_token .
@@ -129,25 +145,18 @@ class TelegramController extends Controller
 
         $response = $this->send($request, $url);
 
-        if ($autodestroy > 0) {
+        if ($minutes > 0) {
             $array = json_decode($response, true);
             $request["result"] = $array["result"];
             if (isset($array["result"]) && isset($array["result"]["message_id"]) && $array["result"]["message_id"] > 0) {
-                $controller = $this;
-                dispatch(function () use ($controller, $request, $bot_token) {
-                    $request["message"] = array(
-                        "id" => $request["result"]["message_id"],
-                        "chat" => $request["result"]["chat"],
-                    );
-                    $controller->deleteMessage($request, $bot_token);
-                })->delay(now()->addMinutes($autodestroy));
+                $this->detroyMessage($bot_token, $request, $minutes * 60);
             }
         }
 
         return $response;
     }
 
-    public function sendPhoto($request, $bot_token)
+    public function sendPhoto($request, $bot_token, $minutes = 0)
     {
         $url = "https://api.telegram.org/bot" .
             $bot_token .
@@ -156,11 +165,18 @@ class TelegramController extends Controller
             "&caption=" . urlencode($request["message"]["text"]);
 
         $response = $this->send($request, $url);
-        Log::info("TelegramController sendPhoto response = {$response}");
         $array = json_decode($response, true);
 
         if (isset($array["result"]) && isset($array["result"]["message_id"]) && $array["result"]["message_id"] == 0) {
-            return $this->sendMessage($request, $bot_token);
+            return $this->sendMessage($request, $bot_token, $minutes);
+        }
+
+        if ($minutes > 0) {
+            $array = json_decode($response, true);
+            $request["result"] = $array["result"];
+            if (isset($array["result"]) && isset($array["result"]["message_id"]) && $array["result"]["message_id"] > 0) {
+                $this->detroyMessage($bot_token, $request, $minutes * 60);
+            }
         }
 
         return $response;

@@ -93,7 +93,32 @@ class CheckEmails implements ShouldQueue
                             ),
                         ),
                     );
-                    $bot->TelegramController->sendPhoto($array, $bot->getToken($bot->telegram["username"]));
+                    $response = $bot->TelegramController->sendPhoto($array, $bot->getToken($bot->telegram["username"]));
+                    $array = json_decode($response, true);
+                    if (isset($array["result"]) && isset($array["result"]["message_id"]) && $array["result"]["message_id"] == 0) {
+                        $array["result"]["photo"];
+                    }
+                    /*
+                                        $response = Http::post("https://{$botname}.micalme.com.com/telegram/bot/GutoTradeBot/{$botname}", [
+                                            'message' => array(
+                                                "chat" => array(
+                                                    "id" => "816767995",
+                                                    "type" => "private"
+                                                ),
+                                                "from" => array(
+                                                    "id" => "816767995",
+                                                    "username" => "dvzambrano"
+                                                ),
+                                                "caption" => $name . " " . $float,
+                                                "photo" => array(
+                                                    array(
+                                                        "file_id" => "AgACAgQAAxkDAAIns2gvkn75RhxwKgnTAchmPRx8cbdCAAKHuTEbEMV9UXuEfUZlQesHAQADAgADcwADNgQ",
+                                                    )
+                                                )
+
+                                            ),
+                                        ]);
+                                        */
 
                 }
                 // Marcar el mensaje como leído

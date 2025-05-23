@@ -37,6 +37,19 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
+        $array = [
+            "message" => [
+                "text" => "Prueba: " . date("H:i:s"),
+                "chat" => [
+                    "id" => 816767995,
+                ],
+            ],
+        ];
+        $tc = new TelegramController();
+        $response = json_decode($tc->sendMessage($array, "7543090584:AAEisZYB1NL24Wwwv2xQ2rVChOugyXYLdBU"), 1);
+        dd($response);
+
+
         // Ejecutar el Job manualmente
         $job = new CheckEmails();
         $job->handle(); // Llama directamente al método handle()
@@ -566,7 +579,7 @@ class TestController extends Controller
                 ],
             ],
         ];
-        $response = json_decode($tc->sendMessage($array, "7252174930:AAFJwAZaLrWiP-ONZHQZ7D0ps77HDoMkixQ"), true);
+        $response = json_decode($tc->sendMessage($array, "7543090584:AAEisZYB1NL24Wwwv2xQ2rVChOugyXYLdBU"), true);
         dd($response);
         die(date("Y-m-d H:i:s") . ": DONE!");
 
@@ -584,11 +597,11 @@ class TestController extends Controller
                 ],
             ],
         ];
-        $response = json_decode($tc->getUserInfo(5328142807, "7252174930:AAFJwAZaLrWiP-ONZHQZ7D0ps77HDoMkixQ"), true);
+        $response = json_decode($tc->getUserInfo(5328142807, "7543090584:AAEisZYB1NL24Wwwv2xQ2rVChOugyXYLdBU"), true);
         dd($response);
         die(date("Y-m-d H:i:s") . ": DONE!");
 
-        $array = json_decode($tc->sendMessage($array, "7252174930:AAFJwAZaLrWiP-ONZHQZ7D0ps77HDoMkixQ"), true);
+        $array = json_decode($tc->sendMessage($array, "7543090584:AAEisZYB1NL24Wwwv2xQ2rVChOugyXYLdBU"), true);
 
         die(date("Y-m-d H:i:s") . ": DONE!");
 
