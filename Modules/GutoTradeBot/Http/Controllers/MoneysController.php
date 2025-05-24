@@ -550,7 +550,7 @@ class MoneysController extends JsonsController
                 // Machearlo con un pago flotante reportado antes con similitud de un 50% o mas en el nombre del cliente
                 $moneys = $controller->getUnmatched($money->id);
             }
-            if (!$money->isLiquidated())
+            if (!$money->isLiquidated() && !$money->isMached())
                 foreach ($moneys as $unmatched) {
                     if ($money->id != $unmatched->id) {
                         $similarity = $bot->TextController->calculateSimilarityPercentage($money->comment, $unmatched->comment);

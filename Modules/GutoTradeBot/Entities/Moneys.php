@@ -20,6 +20,10 @@ class Moneys extends Jsons
     {
         return isset($this->data["confirmation_date"]);
     }
+    public function isMached()
+    {
+        return isset($this->data["match_payment_data"]);
+    }
     public function hasComments()
     {
         $items = Comments::selectRaw('COUNT(*) as count')
