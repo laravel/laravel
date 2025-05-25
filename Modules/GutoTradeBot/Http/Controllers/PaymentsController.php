@@ -216,9 +216,10 @@ class PaymentsController extends MoneysController
 
                 $sheet->setCellValue("F" . ($i + 2), $actors[$payments[$i]->supervisor_id]);
                 if (isset($payments[$i]->data["confirmation_date"]))
-                    $sheet->setCellValue("G" . ($i + 2), $payments[$i]->data["confirmation_date"]);
+
+                    $sheet->setCellValue("G" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $actor->getLocalDateTime($payments[$i]->data["confirmation_date"], $bot->telegram["username"]))->toDateString());
                 if (isset($payments[$i]->data["liquidation_date"]))
-                    $sheet->setCellValue("H" . ($i + 2), $payments[$i]->data["liquidation_date"]);
+                    $sheet->setCellValue("H" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $actor->getLocalDateTime($payments[$i]->data["liquidation_date"], $bot->telegram["username"]))->toDateString());
                 $sheet->setCellValue("I" . ($i + 2), $payments[$i]->data["rate"]["internal"]);
                 $formula = "=C" . ($i + 2) . "*((100-I" . ($i + 2) . ")/100)";
                 $sheet->setCellValue("J" . ($i + 2), $formula);
