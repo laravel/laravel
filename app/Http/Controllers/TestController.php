@@ -38,6 +38,7 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
+        dd(env("TELEGRAM_GROUP_GUTO_TRADE_BOT"));
 
         $bot = new GutoTradeBotController("gutotradetestbot");
         dd($bot->telegram["id"]);

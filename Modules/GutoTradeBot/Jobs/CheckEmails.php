@@ -120,12 +120,12 @@ class CheckEmails implements ShouldQueue
                             "text" => $text,
                             "photo" => $url,
                             "chat" => array(
-                                "id" => -1001636588240,
+                                "id" => env("TELEGRAM_GROUP_GUTO_TRADE_BOT"),
                             ),
                         ),
                     );
                     $response = $bot->TelegramController->sendPhoto($array, $bot->getToken($bot->telegram["username"]));
-                    Log::info("CheckEmails sendtogroup message = " . json_encode($array["message"]) . " response = " . json_encode($response));
+                    Log::info("CheckEmails sendtogroup message = " . json_encode($array["message"]) . " response = " . json_encode($response) . "\n");
                     $array = json_decode($response, true);
                     if (isset($array["result"]) && isset($array["result"]["message_id"]) && $array["result"]["message_id"] > 0) {
                         $payment = $bot->PaymentsController->create(
@@ -142,13 +142,16 @@ class CheckEmails implements ShouldQueue
                                 "transaction" => $transaction,
                             )
                         );
+
+                        // Marcar el mensaje como leído
+                        $message->setFlag('Seen');
+
+                        // Notificar en el bot
                         $bot->PaymentsController->notifyToCapitals($bot, $payment, false, "Nuevo reporte automático");
                         $bot->PaymentsController->notifyToGestors($bot, $payment, false, "Nuevo reporte automático");
                     }
 
                 }
-                // Marcar el mensaje como leído
-                $message->setFlag('Seen');
 
             }
 
