@@ -56,6 +56,37 @@ class CheckEmails implements ShouldQueue
             //$messages = $inbox->query()->all()->get();
             $messages = $inbox->query()->unseen()->get();
             foreach ($messages as $message) {
+                /*
+                // Metadatos básicos
+                $messageId = $message->getUid(); // UID del mensaje
+                $subject = $message->getSubject(); // Asunto
+
+                $from = $message->getFrom(); // Remitente(s)
+                foreach ($from as $sender) {
+                    $name = $sender->name;    // Nombre del remitente
+                    $mail = $sender->mail;    // Dirección de correo
+                    $full = $sender->full;    // Cadena completa "Nombre <email>"
+                }
+
+                $to = $message->getTo(); // Destinatario(s)
+                $cc = $message->getCc(); // Copias
+                $bcc = $message->getBcc(); // Copias ocultas
+
+                $date = $message->getDate(); // Fecha
+                // $date es un objeto Carbon que puedes formatear:
+                $formattedDate = $date->format('Y-m-d H:i:s');
+
+                $flags = $message->getFlags(); // Banderas (visto, respondido, etc.)
+
+                // Obteniendo información sobre adjuntos (sin descargarlos)
+                $attachments = $message->getAttachments();
+                foreach ($attachments as $attachment) {
+                    $filename = $attachment->getName();
+                    $size = $attachment->getSize();
+                    $contentType = $attachment->getContentType();
+                }
+                */
+
                 $html = $message->getHTMLBody();
 
                 $dom = new DOMDocument();
@@ -94,6 +125,7 @@ class CheckEmails implements ShouldQueue
                         ),
                     );
                     $response = $bot->TelegramController->sendPhoto($array, $bot->getToken($bot->telegram["username"]));
+                    Log::info("CheckEmails sendtogroup message = " . json_encode($array["message"]) . " response = " . json_encode($response));
                     $array = json_decode($response, true);
                     if (isset($array["result"]) && isset($array["result"]["message_id"]) && $array["result"]["message_id"] > 0) {
                         $payment = $bot->PaymentsController->create(
