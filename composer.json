@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^12.0",
+        "laravel/socialite": "^5.21",
         "laravel/tinker": "^2.10.1"
     },
     "require-dev": {
@@ -17,6 +18,7 @@
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
+        "pestphp/pest": "^3.8",
         "phpunit/phpunit": "^11.5.3"
     },
     "autoload": {
