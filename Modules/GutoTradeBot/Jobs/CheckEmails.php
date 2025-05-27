@@ -143,7 +143,7 @@ class CheckEmails implements ShouldQueue
                             )
                         );
 
-                        // Marcar el mensaje como leído
+                        // Marcar el mensaje como leído si ha sido procesado
                         $message->setFlag('Seen');
 
                         // Notificar en el bot
@@ -151,6 +151,9 @@ class CheckEmails implements ShouldQueue
                         $bot->PaymentsController->notifyToGestors($bot, $payment, false, "Nuevo reporte automático");
                     }
 
+                } else {
+                    // Marcar el mensaje como leído porq no cumple con el formato de mensaje Meru
+                    $message->setFlag('Seen');
                 }
 
             }
