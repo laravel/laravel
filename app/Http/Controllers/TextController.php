@@ -38,11 +38,12 @@ class TextController extends Controller
         $text1 = $this->standardize($text1);
         $text2 = $this->standardize($text2);
 
+        /*
         similar_text($text1, $text2, $percentage);
 
         return $percentage;
+        */
 
-        /*
         // Calcular la distance Levenshtein entre los texts
         $distance = levenshtein($text1, $text2);
 
@@ -58,7 +59,6 @@ class TextController extends Controller
         $percentage = (1 - $distance / $max_length) * 100;
 
         return $percentage;
-        */
     }
     public function numberAsEmoji($number)
     {
