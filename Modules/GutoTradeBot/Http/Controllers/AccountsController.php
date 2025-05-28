@@ -128,7 +128,7 @@ class AccountsController extends JsonsController
                 foreach ($active_accounts as $bank => $accounts) {
                     foreach ($accounts as $account) {
                         $array = $this->getMessageTemplate($account, $bot->actor->user_id);
-                        $bot->TelegramController->sendMessage($array, $this->getToken($bot->telegram["username"]));
+                        $bot->TelegramController->sendMessage($array, $bot->token);
                         $amount++;
                     }
                 }

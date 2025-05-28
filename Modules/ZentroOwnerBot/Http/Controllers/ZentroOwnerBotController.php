@@ -6,6 +6,7 @@ use App\Http\Controllers\JsonsController;
 use Modules\TelegramBot\Traits\UsesTelegramBot;
 use Modules\TelegramBot\Http\Controllers\ActorsController;
 use Modules\TelegramBot\Http\Controllers\TelegramController;
+use Modules\TelegramBot\Entities\TelegramBots;
 
 class ZentroOwnerBotController extends JsonsController
 {
@@ -18,9 +19,24 @@ class ZentroOwnerBotController extends JsonsController
         $this->ActorsController = new ActorsController();
         $this->TelegramController = new TelegramController();
 
-        if (!$instance)
+        if ($instance === false)
             $instance = $botname;
-        $response = json_decode($this->TelegramController->getBotInfo($this->getToken($instance)), true);
+        $response = false;
+        try {
+            $bot = $this->getFirst(TelegramBots::class, "name", "=", "@{$instance}");
+            $this->token = $bot->token;
+            $this->data = $bot->data;
+
+            $response = json_decode($this->TelegramController->getBotInfo($this->token), true);
+        } catch (\Throwable $th) {
+        }
+        if (!$response)
+            $response = array(
+                "result" => array(
+                    "username" => $instance
+                )
+            );
+
         $this->telegram = $response["result"];
     }
 

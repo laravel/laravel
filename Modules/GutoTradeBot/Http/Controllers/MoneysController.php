@@ -234,10 +234,7 @@ class MoneysController extends JsonsController
                                 case 2:
                                     $bot->PaymentsController->notifyToCapitals($bot, $payment, $similar_message, "Nuevo reporte de pago");
                                     // si es sospechoso se notifica ademas a los admin1
-                                    if (
-                                        $similar_message != "" ||
-                                        GutoTradeBotController::$NOTIFY_FOR_DEBUG
-                                    ) {
+                                    if ($similar_message != "") {
                                         $bot->PaymentsController->notifyToGestors($bot, $payment, $similar_message, "Nuevo reporte de pago");
                                     }
                                     break;

@@ -38,6 +38,47 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
+        $bot = new GutoTradeBotController("gutotradetestbot");
+        $bot->updateData(Actors::class, "user_id", $bot->actor->user_id, "last_bot_callback_data", "/utc", $bot->telegram["username"]);
+        $array = array(
+            "notifications" => array(
+                "payments" => array(
+                    "new" => array(
+                        "fromremesador" => array(
+                            "togestors" => 1,
+                            "tocapitals" => 1,
+                        ),
+                        "fromcapital" => array(
+                            "togestors" => 1,
+                        ),
+                        "frombot" => array(
+                            "togestors" => 1,
+                            "tocapitals" => 1,
+                        ),
+                    ),
+                    "double" => array(
+                        "togestors" => 1,
+                        "tocapitals" => 1,
+                    ),
+                ),
+                "capitals" => array(
+                    "new" => array(
+                        "togestors" => 1,
+                    ),
+                    "noenough" => array(
+                        "togestors" => 1,
+                    ),
+                ),
+                "comments" => array(
+                    "new" => array(
+                        "tosupervisors" => 1,
+                        "togestors" => 1,
+                    ),
+                ),
+            )
+        );
+        dd($array);
+
         $now = Carbon::now();
         $future = Carbon::now()->addYears(2)->addMonths(3)->addMinutes(5)->addSeconds(6);
 
@@ -45,7 +86,6 @@ class TestController extends Controller
 
         dd(env("TELEGRAM_GROUP_GUTO_TRADE_BOT"));
 
-        $bot = new GutoTradeBotController("gutotradetestbot");
         dd($bot->telegram["id"]);
 
 

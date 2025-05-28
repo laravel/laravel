@@ -15,6 +15,7 @@ use Modules\GutoTradeBot\Entities\Capitals;
 use Modules\GutoTradeBot\Entities\Moneys;
 use Modules\GutoTradeBot\Entities\Payments;
 use Modules\TelegramBot\Entities\Actors;
+use Modules\TelegramBot\Entities\TelegramBots;
 use Modules\TelegramBot\Http\Controllers\ActorsController;
 use Modules\TelegramBot\Http\Controllers\TelegramController;
 use Modules\TelegramBot\Traits\UsesTelegramBot;
@@ -44,7 +45,6 @@ class GutoTradeBotController extends JsonsController
     public $PenaltiesController;
     public $CoingeckoController;
 
-    public static $NOTIFY_FOR_DEBUG = false;
     public static $NOTIFY_NO_ENOUGH_CAPITAL = false;
     public static $TEMPFILE_DURATION_HOURS = 168;
 
@@ -66,7 +66,11 @@ class GutoTradeBotController extends JsonsController
             $instance = $botname;
         $response = false;
         try {
-            $response = json_decode($this->TelegramController->getBotInfo($this->getToken($instance)), true);
+            $bot = $this->getFirst(TelegramBots::class, "name", "=", "@{$instance}");
+            $this->token = $bot->token;
+            $this->data = $bot->data;
+
+            $response = json_decode($this->TelegramController->getBotInfo($this->token), true);
         } catch (\Throwable $th) {
         }
         if (!$response)
@@ -629,7 +633,7 @@ class GutoTradeBotController extends JsonsController
                                         "message" => $reply,
                                     );
                                     $array["message"]["reply_markup"] = $array["message"]["markup"];
-                                    $this->TelegramController->sendPhoto($array, $this->getToken($this->telegram["username"]));
+                                    $this->TelegramController->sendPhoto($array, $this->token);
                                 }
                             }
                         }
@@ -878,7 +882,7 @@ class GutoTradeBotController extends JsonsController
                             "autodestroy" => 1
                         ],
                     ];
-                    $array = json_decode($this->TelegramController->sendMessage($array, $this->getToken($this->telegram["username"])), 1);
+                    $array = json_decode($this->TelegramController->sendMessage($array, $this->token), 1);
 
 
 
@@ -1054,7 +1058,7 @@ class GutoTradeBotController extends JsonsController
                                             ]),
                                         ],
                                     ];
-                                    $array = json_decode($this->TelegramController->sendMessage($array, $this->getToken($this->telegram["username"])), true);
+                                    $array = json_decode($this->TelegramController->sendMessage($array, $this->token), true);
                                     if (isset($array["result"]) && isset($array["result"]["message_id"])) {
                                         $this->TelegramController->pinMessage([
                                             "message" => [
@@ -1063,7 +1067,7 @@ class GutoTradeBotController extends JsonsController
                                                 ],
                                                 "message_id" => $array["result"]["message_id"],
                                             ],
-                                        ], $this->getToken($this->telegram["username"]));
+                                        ], $this->token);
                                         $amount++;
                                     }
                                 }
@@ -1131,7 +1135,7 @@ class GutoTradeBotController extends JsonsController
                                     $message = explode(":", $this->message["text"]);
 
                                     $suscriptor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
-                                    //$this->getToken($this->telegram["username"])
+                                    //$this->token
                                     $suscriptordata = $suscriptor->data;
                                     if (!isset($suscriptordata[$this->telegram["username"]]["metadatas"]))
                                         $suscriptordata[$this->telegram["username"]]["metadatas"] = array();

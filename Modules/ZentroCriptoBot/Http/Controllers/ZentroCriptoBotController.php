@@ -4,6 +4,7 @@ namespace Modules\ZentroCriptoBot\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
 use Modules\TelegramBot\Entities\Actors;
+use Modules\TelegramBot\Entities\TelegramBots;
 use Modules\TelegramBot\Http\Controllers\ActorsController;
 use Modules\TelegramBot\Http\Controllers\TelegramBotController;
 use Modules\TelegramBot\Http\Controllers\TelegramController;
@@ -20,9 +21,24 @@ class ZentroCriptoBotController extends JsonsController
         $this->ActorsController = new ActorsController();
         $this->TelegramController = new TelegramController();
 
-        if (!$instance)
+        if ($instance === false)
             $instance = $botname;
-        $response = json_decode($this->TelegramController->getBotInfo($this->getToken($instance)), true);
+        $response = false;
+        try {
+            $bot = $this->getFirst(TelegramBots::class, "name", "=", "@{$instance}");
+            $this->token = $bot->token;
+            $this->data = $bot->data;
+
+            $response = json_decode($this->TelegramController->getBotInfo($this->token), true);
+        } catch (\Throwable $th) {
+        }
+        if (!$response)
+            $response = array(
+                "result" => array(
+                    "username" => $instance
+                )
+            );
+
         $this->telegram = $response["result"];
     }
 
@@ -197,7 +213,7 @@ class ZentroCriptoBotController extends JsonsController
                     ),
                 );
 
-                $this->TelegramController->sendMessage($request, $this->getToken($this->telegram["username"]));
+                $this->TelegramController->sendMessage($request, $this->token);
 
                 $error = "❌ *An error has occurred*: Contract: `{$contract}`\n";
                 if (isset($response['message'])) {

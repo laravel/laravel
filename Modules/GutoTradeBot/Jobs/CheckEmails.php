@@ -124,7 +124,7 @@ class CheckEmails implements ShouldQueue
                             ),
                         ),
                     );
-                    $response = $bot->TelegramController->sendPhoto($array, $bot->getToken($bot->telegram["username"]));
+                    $response = $bot->TelegramController->sendPhoto($array, $bot->token);
                     Log::info("CheckEmails sendtogroup message = " . json_encode($array["message"]) . " response = " . json_encode($response) . "\n");
                     $array = json_decode($response, true);
                     if (isset($array["result"]) && isset($array["result"]["message_id"]) && $array["result"]["message_id"] > 0) {

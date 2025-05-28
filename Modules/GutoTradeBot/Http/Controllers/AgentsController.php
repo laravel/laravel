@@ -132,9 +132,9 @@ class AgentsController extends JsonsController
         ];
         //var_dump($array["message"]["photo"]);
         if (isset($array["message"]["photo"])) {
-            $bot->TelegramController->sendPhoto($array, $this->getToken($bot->telegram["username"]));
+            $bot->TelegramController->sendPhoto($array, $bot->token);
         } else {
-            $bot->TelegramController->sendMessage($array, $this->getToken($bot->telegram["username"]));
+            $bot->TelegramController->sendMessage($array, $bot->token);
         }
     }
 
@@ -249,6 +249,6 @@ class AgentsController extends JsonsController
                 ]),
             ],
         ];
-        $bot->TelegramController->sendMessage($array, $this->getToken($bot->telegram["username"]));
+        $bot->TelegramController->sendMessage($array, $bot->token);
     }
 }

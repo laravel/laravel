@@ -45,13 +45,13 @@ class ActorsController extends JsonsController
         ) {
             $array = $actor->data;
 
-            $response = json_decode($bot->TelegramController->getUserInfo($actor->user_id, $this->getToken($botname)), true);
+            $response = json_decode($bot->TelegramController->getUserInfo($actor->user_id, $bot->token), true);
             if (isset($response["result"])) {
                 $array["telegram"] = $response["result"];
                 $array["telegram"]["pinned_message"] = false;
                 $array["telegram"]["photo"] = false;
 
-                $photos = $bot->TelegramController->getUserPhotos($actor->user_id, $this->getToken($botname));
+                $photos = $bot->TelegramController->getUserPhotos($actor->user_id, $bot->token);
                 if (count($photos) > 0) {
                     $array["telegram"]["photo"] = $photos[0][count($photos[0]) - 1]["file_id"];
                 }

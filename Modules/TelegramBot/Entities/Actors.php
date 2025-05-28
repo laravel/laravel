@@ -61,7 +61,7 @@ class Actors extends Model
         if (isset($this->data["telegram"]))
             $telegram = $this->data["telegram"];
         else {
-            $response = json_decode($bot->TelegramController->getUserInfo($this->user_id, $bot->getToken($bot->telegram["username"])), true);
+            $response = json_decode($bot->TelegramController->getUserInfo($this->user_id, $bot->token), true);
             $telegram = $response["result"];
         }
 

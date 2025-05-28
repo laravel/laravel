@@ -8,6 +8,8 @@ use Modules\TelegramBot\Entities\Actors;
 
 trait UsesTelegramBot
 {
+    public $token;
+    public $data;
     public $telegram;
     public $message;
     public $actor;
@@ -82,7 +84,7 @@ trait UsesTelegramBot
             "demo" => request("demo"),
         );
         if (isset($this->reply["photo"])) {
-            $this->TelegramController->sendPhoto($array, $this->getToken($this->telegram["username"]));
+            $this->TelegramController->sendPhoto($array, $this->token);
         } else {
             // solo se envia un mensaje si tiene text
             // antes estaba $this->message["text"] pero lo cambie para q mandara el error cuando mandan la captura de un pago sin nombre y cantidad
@@ -92,7 +94,7 @@ trait UsesTelegramBot
                     $autodestroy = $this->reply["autodestroy"];
 
                     //eliminando el mensaje q origino este de autoeliminacion
-                    $bot_token = $this->getToken($this->telegram["username"]);
+                    $bot_token = $this->token;
                     $controller = $this;
                     dispatch(function () use ($controller, $bot_token) {
                         $array = array(
@@ -106,7 +108,7 @@ trait UsesTelegramBot
                         $controller->TelegramController->deleteMessage($array, $bot_token);
                     })->delay(now()->addMinutes($autodestroy));
                 }
-                $this->TelegramController->sendMessage($array, $this->getToken($this->telegram["username"]), $autodestroy);
+                $this->TelegramController->sendMessage($array, $this->token, $autodestroy);
             }
         }
 
@@ -120,7 +122,7 @@ trait UsesTelegramBot
                     ),
                 ),
             );
-            $this->TelegramController->deleteMessage($array, $this->getToken($this->telegram["username"]));
+            $this->TelegramController->deleteMessage($array, $this->token);
         }
 
         // Envía una respuesta al servidor de Telegram para confirmar la recepción
@@ -261,7 +263,7 @@ trait UsesTelegramBot
                     ]),
                 ),
             );
-            $this->TelegramController->sendMessage($array, $this->getToken($this->telegram["username"]));
+            $this->TelegramController->sendMessage($array, $this->token);
         }
     }
 

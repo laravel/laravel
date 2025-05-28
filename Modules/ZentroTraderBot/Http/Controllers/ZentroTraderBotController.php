@@ -11,6 +11,7 @@ use Modules\TelegramBot\Http\Controllers\TelegramController;
 use Modules\ZentroTraderBot\Entities\TradingSuscriptions;
 use App\Http\Controllers\JsonsController;
 use Modules\TelegramBot\Traits\UsesTelegramBot;
+use Modules\TelegramBot\Entities\TelegramBots;
 
 class ZentroTraderBotController extends JsonsController
 {
@@ -26,9 +27,24 @@ class ZentroTraderBotController extends JsonsController
         $this->BingXController = new BingXController();
         $this->ApexProController = new ApexProController();
 
-        if (!$instance)
+        if ($instance === false)
             $instance = $botname;
-        $response = json_decode($this->TelegramController->getBotInfo($this->getToken($instance)), true);
+        $response = false;
+        try {
+            $bot = $this->getFirst(TelegramBots::class, "name", "=", "@{$instance}");
+            $this->token = $bot->token;
+            $this->data = $bot->data;
+
+            $response = json_decode($this->TelegramController->getBotInfo($this->token), true);
+        } catch (\Throwable $th) {
+        }
+        if (!$response)
+            $response = array(
+                "result" => array(
+                    "username" => $instance
+                )
+            );
+
         $this->telegram = $response["result"];
     }
 
@@ -182,7 +198,7 @@ class ZentroTraderBotController extends JsonsController
             case "/users":
                 $suscriptors = $this->ActorsController->get(Actors::class, "id", ">", 0);
                 foreach ($suscriptors as $suscriptor) {
-                    $response = json_decode($this->TelegramController->getUserInfo($suscriptor->user_id, $this->getToken($this->telegram["username"])), true);
+                    $response = json_decode($this->TelegramController->getUserInfo($suscriptor->user_id, $this->token), true);
                     $text = "👤 ";
                     if (isset($response["result"]["first_name"])) {
                         $text .= $response["result"]["first_name"];
@@ -223,7 +239,7 @@ class ZentroTraderBotController extends JsonsController
                                 ]),
                             ),
                         ),
-                        $this->getToken($this->telegram["username"])
+                        $this->token
                     ), true);
                 }
                 $reply = $this->adminmenu($this->actor->user_id);
@@ -507,7 +523,7 @@ class ZentroTraderBotController extends JsonsController
                         ),
                     ],
                 ],
-                $this->getToken($this->telegram["username"])
+                $this->token
             );
 
             $this->ActorsController->updateData(Actors::class, "user_id", $user_id, "last_bot_message_id", "", $this->telegram["username"]);
