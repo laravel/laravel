@@ -200,7 +200,7 @@ class CapitalsController extends MoneysController
         $this->getCapitalsSheet($bot, $capitals, $actor, $sheet);
 
         $writer = new Xlsx($spreadsheet);
-        $filename = time() . ".xlsx";
+        $filename = FileController::getFileNameAsUnixTime("xlsx", GutoTradeBotController::$TEMPFILE_DURATION_HOURS, "HOURS");
 
         $path = public_path() . FileController::$AUTODESTROY_DIR;
         // Si la carpeta no existe, crearla

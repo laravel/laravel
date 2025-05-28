@@ -4,29 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 class FileController extends Controller
 {
 
     public static $AUTODESTROY_DIR = "/autodestroy";
-    public static $TEMPFILE_DURATION_HOURS = 168;
-
-    public static function getTempFileDurationText()
-    {
-        // Calcular días y horas restantes
-        $days = floor(FileController::$TEMPFILE_DURATION_HOURS / 24);
-        $hours = FileController::$TEMPFILE_DURATION_HOURS % 24;
-        //dd($days, $hours);
-
-        // Formatear el texto según la cantidad
-        $daystext = $days == 1 ? 'día' : 'días';
-        $hourstext = $hours == 1 ? 'hora' : 'horas';
-
-        $text = "$days $daystext";
-        if ($hours > 0)
-            $text .= " y $hours $hourstext";
-        return $text;
-    }
 
     public function renderAndDestroy($format, $name)
     {
@@ -38,7 +21,7 @@ class FileController extends Controller
         if (!file_exists($report_path)) {
             return response()->json([
                 "code" => "404",
-                "error" => "El reporte {$name} no existe: seguramente han pasado ya las " . FileController::$TEMPFILE_DURATION_HOURS . " desde que fue creado.",
+                "error" => "El reporte {$name} no existe.",
             ], 404);
         }
 
@@ -51,7 +34,7 @@ class FileController extends Controller
         $files = File::allFiles($dir);
 
         // Calcular el tiempo límite en segundos
-        $limit = time() - (FileController::$TEMPFILE_DURATION_HOURS * 60 * 60);
+        $limit = time();
 
         foreach ($files as $file) {
             // Obtener el nombre del file sin la ruta
@@ -60,9 +43,8 @@ class FileController extends Controller
             // Extraer el timestamp del nombre del file
             $timestamp = (int) pathinfo($filename, PATHINFO_FILENAME);
 
-            // Comparar el timestamp con el límite de tiempo
+            // Si el timestamp es menor q el limite el fichero debe eliminarse
             if ($timestamp < $limit) {
-                // Eliminar el file si es más antiguo que el límite de tiempo
                 File::delete($file);
             }
         }
@@ -198,6 +180,20 @@ class FileController extends Controller
         } finally {
             fclose($handle);
         }
+    }
+
+    /**
+     * Genera un nombre de archivo usando timestamp Unix + un período de tiempo adicional.
+     *
+     * @param string $extension Extensión del archivo (ej: "xlsx", "txt").
+     * @param int $amount Cantidad de unidades de tiempo a agregar.
+     * @param string $period Unidad de tiempo ("SECONDS", "MINUTES", "HOURS", "DAYS", "MONTHS", "YEARS").
+     * @return string Nombre del archivo en formato UnixTime + extensión.
+     */
+    public static function getFileNameAsUnixTime($extension, $amount, $period = "SECONDS")
+    {
+        $futureTime = MathController::sumPeriodsToDate($amount, $period);
+        return "{$futureTime}.{$extension}";
     }
 
 }

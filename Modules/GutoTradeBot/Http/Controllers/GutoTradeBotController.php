@@ -5,6 +5,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\GraphsController;
 use App\Http\Controllers\TextController;
 use App\Http\Controllers\JsonsController;
+use App\Http\Controllers\MathController;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -45,6 +46,7 @@ class GutoTradeBotController extends JsonsController
 
     public static $NOTIFY_FOR_DEBUG = false;
     public static $NOTIFY_NO_ENOUGH_CAPITAL = false;
+    public static $TEMPFILE_DURATION_HOURS = 168;
 
     public function __construct($botname, $instance = false)
     {
@@ -1764,7 +1766,7 @@ class GutoTradeBotController extends JsonsController
         $spreadsheet->setActiveSheetIndex(0);
 
         $writer = new Xlsx($spreadsheet);
-        $filename = time() . ".xlsx";
+        $filename = FileController::getFileNameAsUnixTime("xlsx", 2, "HOURS");
 
         $path = public_path() . FileController::$AUTODESTROY_DIR;
         // Si la carpeta no existe, crearla
@@ -1795,9 +1797,11 @@ class GutoTradeBotController extends JsonsController
 
     public function getReportFileText($path)
     {
+        $pieces = explode("/", $path);
+        $diff = MathController::getTimeDifference(Carbon::now()->getTimestamp(), $pieces[count($pieces) - 1]);
         $text = "📎 Se ha generado un excel con los datos aquí:\n" .
             $path . "\n" .
-            "_Este archivo estará disponible por " . FileController::getTempFileDurationText() . "._";
+            "_Este archivo estará disponible por " . $diff["legible"] . "._";
         return $text;
     }
 }

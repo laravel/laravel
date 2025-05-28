@@ -38,6 +38,11 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
+        $now = Carbon::now();
+        $future = Carbon::now()->addYears(2)->addMonths(3)->addMinutes(5)->addSeconds(6);
+
+        dd(MathController::getTimeDifference($now->getTimestamp(), $future->getTimestamp()));
+
         dd(env("TELEGRAM_GROUP_GUTO_TRADE_BOT"));
 
         $bot = new GutoTradeBotController("gutotradetestbot");

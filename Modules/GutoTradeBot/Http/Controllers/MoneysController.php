@@ -1025,7 +1025,7 @@ class MoneysController extends JsonsController
         $this->getCashFlowSheet($cashflow, $sheet);
 
         $writer = new Xlsx($spreadsheet);
-        $filename = time() . ".xlsx";
+        $filename = FileController::getFileNameAsUnixTime("xlsx", 2, "HOURS");
 
         $path = public_path() . FileController::$AUTODESTROY_DIR;
         // Si la carpeta no existe, crearla
