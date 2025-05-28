@@ -202,9 +202,13 @@ class MoneysController extends JsonsController
                             $capital = $bot->CapitalsController->create($bot->ProfitsController->getEURtoSendWithActiveRate($caption["amount"]), $caption["amount"], $path, $sender_id, $supervisor_id, $data);
 
                             // Si es un reporte enviado por un admin4 se notifica a los admin1 para q confirmen
-                            if ($sender == 4) {
+                            if (
+                                $sender == 4 &&
+                                isset($bot->data["notifications"]["capitals"]["new"]["togestors"]) &&
+                                $bot->data["notifications"]["capitals"]["new"]["togestors"] == 1
+                            )
                                 $bot->CapitalsController->notifyToGestors($bot, $capital);
-                            }
+
 
                             $reply = $bot->CapitalsController->notifyAfterReceived($bot, $capital, $bot->actor->user_id);
                             break;
@@ -232,9 +236,19 @@ class MoneysController extends JsonsController
                                 // Si es enviado por un REMESADOR se notifica a los admins4 para q asignen o confirmen
                                 case '2':
                                 case 2:
-                                    $bot->PaymentsController->notifyToCapitals($bot, $payment, $similar_message, "Nuevo reporte de pago");
+                                    if (
+                                        isset($bot->data["notifications"]["payments"]["new"]["fromremesador"]["tocapitals"]) &&
+                                        $bot->data["notifications"]["payments"]["new"]["fromremesador"]["tocapitals"] == 1
+                                    )
+                                        $bot->PaymentsController->notifyToCapitals($bot, $payment, $similar_message, "Nuevo reporte de pago");
                                     // si es sospechoso se notifica ademas a los admin1
-                                    if ($similar_message != "") {
+                                    if (
+                                        (
+                                            isset($bot->data["notifications"]["payments"]["new"]["fromremesador"]["togestors"]) &&
+                                            $bot->data["notifications"]["payments"]["new"]["fromremesador"]["togestors"] == 1
+                                        ) ||
+                                        $similar_message != ""
+                                    ) {
                                         $bot->PaymentsController->notifyToGestors($bot, $payment, $similar_message, "Nuevo reporte de pago");
                                     }
                                     break;
@@ -243,7 +257,11 @@ class MoneysController extends JsonsController
                                 case 3:
                                 case '4':
                                 case 4:
-                                    $bot->PaymentsController->notifyToGestors($bot, $payment, false, "Nuevo reporte de pago");
+                                    if (
+                                        isset($bot->data["notifications"]["payments"]["new"]["fromcapital"]["togestors"]) &&
+                                        $bot->data["notifications"]["payments"]["new"]["fromcapital"]["togestors"] == 1
+                                    )
+                                        $bot->PaymentsController->notifyToGestors($bot, $payment, false, "Nuevo reporte de pago");
                                     break;
                                 default:
                                     break;

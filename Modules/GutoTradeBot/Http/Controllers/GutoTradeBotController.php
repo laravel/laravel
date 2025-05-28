@@ -1003,19 +1003,30 @@ class GutoTradeBotController extends JsonsController
                                     // si lo ha escrito un remesador se notifica a los supervisores o a los admin4
                                     case "2":
                                     case 2:
-                                        if ($payment->supervisor_id && $payment->supervisor_id > 0) {
-                                            $supervisor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $payment->supervisor_id);
-                                            $menu = $this->PaymentsController->getOptionsMenuForThisOne($this, $payment, 3);
-                                            $payment->sendAsTelegramMessage(
-                                                $this,
-                                                $supervisor,
-                                                "Comentario sobre:",
-                                                $this->message["text"],
-                                                true,
-                                                $menu
-                                            );
-                                        } else {
-                                            $this->PaymentsController->notifyToCapitals($this, $payment, $this->message["text"], "Comentario sobre:");
+                                        if (
+                                            isset($this->data["notifications"]["comments"]["new"]["tosupervisors"]) &&
+                                            $this->data["notifications"]["comments"]["new"]["tosupervisors"] == 1
+                                        ) {
+                                            if ($payment->supervisor_id && $payment->supervisor_id > 0) {
+                                                $supervisor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $payment->supervisor_id);
+                                                $menu = $this->PaymentsController->getOptionsMenuForThisOne($this, $payment, 3);
+                                                $payment->sendAsTelegramMessage(
+                                                    $this,
+                                                    $supervisor,
+                                                    "Comentario sobre:",
+                                                    $this->message["text"],
+                                                    true,
+                                                    $menu
+                                                );
+                                            } else {
+                                                $this->PaymentsController->notifyToCapitals($this, $payment, $this->message["text"], "Comentario sobre:");
+                                            }
+                                        }
+                                        if (
+                                            isset($this->data["notifications"]["comments"]["new"]["togestors"]) &&
+                                            $this->data["notifications"]["comments"]["new"]["togestors"] == 1
+                                        ) {
+                                            $this->PaymentsController->notifyToGestors($this, $payment, $this->message["text"], "Comentario sobre:");
                                         }
                                         break;
                                     // si lo ha escrito cualquier otro se le notifica al remesador
