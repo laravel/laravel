@@ -424,7 +424,7 @@ class GutoTradeBotController extends JsonsController
                         }
 
                         $reply = [
-                            "photo" => $filename ? request()->root() . FileController::$AUTODESTROY_DIR . "/{$filename}.jpg" : null,
+                            "photo" => $filename ? request()->root() . FileController::$AUTODESTROY_DIR . "/{$filename}" : null,
                             "text" => $text,
                             "markup" => json_encode([
                                 "inline_keyboard" => [
@@ -1604,7 +1604,7 @@ class GutoTradeBotController extends JsonsController
 
         $reply = [
             "text" => $text . "\n\n{$stats}\n\n👇 Qué desea hacer ahora?",
-            "photo" => request()->root() . FileController::$AUTODESTROY_DIR . "/{$filename}.jpg",
+            "photo" => request()->root() . FileController::$AUTODESTROY_DIR . "/{$filename}",
             "chat" => [
                 "id" => $actor->user_id,
             ],
@@ -1690,7 +1690,7 @@ class GutoTradeBotController extends JsonsController
 
         $reply = [
             "text" => $text . "\n\n{$stats}\n\n👇 Qué desea hacer ahora?",
-            "photo" => request()->root() . FileController::$AUTODESTROY_DIR . "/{$filename}.jpg",
+            "photo" => request()->root() . FileController::$AUTODESTROY_DIR . "/{$filename}",
             "chat" => [
                 "id" => $actor->user_id,
             ],

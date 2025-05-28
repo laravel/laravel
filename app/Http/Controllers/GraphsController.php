@@ -52,13 +52,13 @@ class GraphsController extends Controller
 
     public static function strokeGraph($graph)
     {
-        $filename = time();
+        $filename = FileController::getFileNameAsUnixTime("jpg", 5, "MINUTES");
         $path = public_path() . FileController::$AUTODESTROY_DIR;
         // Si la carpeta no existe, crearla
         if (!is_dir($path)) {
             mkdir($path, 0755, true);
         }
-        $graph->Stroke($path . "/{$filename}.jpg"); // Guarda el gráfico en un archivo JPG
+        $graph->Stroke($path . "/{$filename}"); // Guarda el gráfico en un archivo JPG
 
         return $filename;
     }
