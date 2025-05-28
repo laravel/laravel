@@ -39,7 +39,14 @@ class TestController extends Controller
     public function test(Request $request)
     {
         $bot = new GutoTradeBotController("gutotradetestbot");
-        dd($bot->data["notifications"]["payments"]["new"]["fromremesador"]["togestors"]);
+
+        $similarity = $bot->TextController->calculateSimilarityPercentage(
+            "ALBERTO BENZAZON RIVERA",
+            "ALBERTO"
+        );
+        dd($similarity);
+
+        dd($bot->data["notifications"]);
         //$bot->updateData(Actors::class, "user_id", $bot->actor->user_id, "last_bot_callback_data", "/utc", $bot->telegram["username"]);
         $array = array(
             "notifications" => array(
