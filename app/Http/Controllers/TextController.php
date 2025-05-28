@@ -25,6 +25,9 @@ class TextController extends Controller
             'Ú' => 'U',
             'ñ' => 'n',
             'Ñ' => 'N',
+            ',' => '',
+            ';' => '',
+            '.' => '',
         ]);
         // Eliminar espacios adicionales
         $text = trim(preg_replace('/\s+/', ' ', $text));
@@ -34,31 +37,48 @@ class TextController extends Controller
 
     public function calculateSimilarityPercentage($text1, $text2)
     {
-        // Normalizar los texts
         $text1 = $this->standardize($text1);
         $text2 = $this->standardize($text2);
 
-        /*
-        similar_text($text1, $text2, $percentage);
-
-        return $percentage;
-        */
-
-        // Calcular la distance Levenshtein entre los texts
-        $distance = levenshtein($text1, $text2);
-
-        // Encontrar la length máxima entre ambos texts
-        $max_length = max(strlen($text1), strlen($text2));
-
-        // Si la length máxima es 0 (ambos texts vacíos), son 100% similares
-        if ($max_length == 0) {
+        // Si son idénticos (incluyendo orden), 100%
+        if ($text1 === $text2) {
             return 100;
         }
 
-        // Calcular el porcentaje de similitud basado en la distance Levenshtein
-        $percentage = (1 - $distance / $max_length) * 100;
+        // Si uno es substring del otro (ej: "ALBERTO" en "ALBERTO RIVERA")
+        if (strpos($text1, $text2) !== false || strpos($text2, $text1) !== false) {
+            $shorterLength = min(strlen($text1), strlen($text2));
+            $longerLength = max(strlen($text1), strlen($text2));
 
-        return $percentage;
+            // Asegurar un mínimo del 70% si hay coincidencia exacta de al menos una palabra
+            return max(70, ($shorterLength / $longerLength) * 100);
+        }
+
+        // Dividir en palabras
+        $words1 = preg_split('/\s+/', trim($text1));
+        $words2 = preg_split('/\s+/', trim($text2));
+
+        // Si uno es solo una palabra (ej: "ALBERTO" vs "ALBERTO BENZAZON")
+        if (count($words1) == 1 || count($words2) == 1) {
+            $singleWord = (count($words1) == 1) ? $words1[0] : $words2[0];
+            $otherWords = (count($words1) == 1) ? $words2 : $words1;
+
+            // Si la palabra única está en el otro texto, considerar alta similitud
+            if (in_array($singleWord, $otherWords)) {
+                return 80; // Valor empírico ajustable (ej: 70-90%)
+            }
+        }
+
+        // Coincidencia del primer nombre (aumenta similitud)
+        $firstWordMatch = isset($words1[0]) && isset($words2[0]) && $words1[0] == $words2[0];
+
+        // Porcentaje basado en palabras comunes (sin importar orden)
+        $commonWords = array_intersect($words1, $words2);
+        $totalWords = max(count($words1), count($words2)); // Normalizar por el más largo
+        $percentage = (count($commonWords) / $totalWords) * 100;
+
+        // Ajuste final: si el primer nombre coincide, subir el porcentaje
+        return $firstWordMatch ? min($percentage + 20, 100) : $percentage;
     }
     public function numberAsEmoji($number)
     {
