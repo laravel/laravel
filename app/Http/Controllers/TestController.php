@@ -67,7 +67,7 @@ class TestController extends Controller
                         "togestors" => 1,
                     ),
                     "noenough" => array(
-                        "togestors" => 1,
+                        "tocapitals" => 1,
                     ),
                 ),
                 "comments" => array(

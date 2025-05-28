@@ -45,7 +45,6 @@ class GutoTradeBotController extends JsonsController
     public $PenaltiesController;
     public $CoingeckoController;
 
-    public static $NOTIFY_NO_ENOUGH_CAPITAL = false;
     public static $TEMPFILE_DURATION_HOURS = 168;
 
     public function __construct($botname, $instance = false)
@@ -610,7 +609,10 @@ class GutoTradeBotController extends JsonsController
                         $this->PaymentsController->confirm([$payment], $this->actor->user_id);
                         $this->PaymentsController->notifyConfirmationToOwner($this, $payment);
 
-                        if (GutoTradeBotController::$NOTIFY_NO_ENOUGH_CAPITAL) {
+                        if (
+                            isset($this->data["notifications"]["capitals"]["noenough"]["tocapitals"]) &&
+                            $this->data["notifications"]["capitals"]["noenough"]["tocapitals"] == 1
+                        ) {
                             // notificar nivel de capital bajo
                             $reply = $this->notifyFlow(
                                 $this->actor,
