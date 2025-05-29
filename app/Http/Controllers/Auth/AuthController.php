@@ -15,15 +15,18 @@ class AuthController extends Controller
         $request->validate(
             [
                 'name' => 'required|string|max:255',
-                'email' => 'required|email|unique',
+                'email' => 'required|email|unique:users',
                 'password' => 'required|string|min:6',
                 'password_confirmation' => 'required|string|same:password'
             ],
             [
-                'name' => 'Name field is required!',
-                'email' => 'Email field is required',
-                'password' => 'must be at least 6 characters',
-                'password_confirmation' => 'please the same the same passowrd'
+                'name.required' => 'Name field is required!',
+                'email.required' => 'Email field is required',
+                'email.unique' => 'This email is already taken.',
+                'password.required' => 'Password is required',
+                'password.min' => 'Password must be at least 6 characters',
+                'password_confirmation.required' => 'Password confirmation is required',
+                'password_confirmation.same' => 'Password confirmation must match password',
             ]
         );
 
