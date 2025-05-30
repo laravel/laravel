@@ -38,6 +38,13 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
+        $bot = new GutoTradeBotController("GutoTradeTestBot");
+        $bot->actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");
+        // ----------------------------------------------------------------
+
+
+
+        dd($bot->getSystemInfo());
 
         Carbon::setLocale('en');
         $tc = new TextController();
@@ -167,7 +174,6 @@ class TestController extends Controller
 
 
 
-        $bot = new GutoTradeBotController("gutotradetestbot");
 
         $similarity = $bot->TextController->calculateSimilarityPercentage(
             "ALBERTO BENZAZON RIVERA",

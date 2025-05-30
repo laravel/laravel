@@ -29,6 +29,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Conditional;
 
 class GutoTradeBotController extends JsonsController
 {
@@ -1778,6 +1779,34 @@ class GutoTradeBotController extends JsonsController
             $this->PaymentsController->getCashFlow($this),
             $sheet_flow
         );
+
+        // Obtener la última fila con datos en la columna B del flujo
+        $flowlastRow = $sheet_flow->getHighestDataRow('B');
+        // Obtener la última fila con datos en la columna C de los pagos
+        $paymentslastRow = $sheet_payments->getHighestDataRow('C');
+        // Calcular USDT a enviar por la cantidad de EUR q hay sin liquidar en la hoja de payments
+        $value = $this->ProfitsController->getUSDTtoSendWithActiveRate($sheet_payments->getCell("C" . $paymentslastRow)->getValue());
+
+        // Aplicar formato condicional 100
+        $greencond = new Conditional();
+        $greencond->setConditionType(Conditional::CONDITION_EXPRESSION);
+        $greencond->setOperatorType(Conditional::OPERATOR_NONE);
+        $greencond->addCondition($sheet_flow->getTitle() . "!B" . $flowlastRow . " > " . $value);
+        $greencond->getStyle()->getFill()
+            ->setFillType(Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('green');
+
+        $redcond = new Conditional();
+        $redcond->setConditionType(Conditional::CONDITION_EXPRESSION);
+        $redcond->setOperatorType(Conditional::OPERATOR_NONE);
+        $redcond->addCondition($sheet_flow->getTitle() . "!B" . $flowlastRow . " < " . $value);
+        $redcond->getStyle()->getFill()
+            ->setFillType(Fill::FILL_SOLID)
+            ->getStartColor()->setARGB('red');
+
+        // Aplicar el formato condicional
+        $sheet_payments->getStyle("C" . $paymentslastRow)->setConditionalStyles([$greencond, $redcond]);
+
 
         // Volver a la primera hoja como activa
         $spreadsheet->setActiveSheetIndex(0);
