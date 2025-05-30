@@ -143,7 +143,7 @@ class CapitalsController extends MoneysController
         $sheet->setCellValue("C1", "A enviar");
 
         for ($i = 0; $i < count($capitals); $i++) {
-            $sheet->setCellValue("A" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $actor->getLocalDateTime($capitals[$i]->created_at, $bot->telegram["username"]))->toDateString());
+            $sheet->setCellValue("A" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $capitals[$i]->created_at)->toDateString());
             $sheet->setCellValue("B" . ($i + 2), $capitals[$i]->comment);
             $sheet->setCellValue("C" . ($i + 2), $capitals[$i]->amount);
 

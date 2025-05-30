@@ -191,7 +191,7 @@ class PaymentsController extends MoneysController
         $unliquidated = 0;
         for ($i = 0; $i < count($payments); $i++) {
             $sheet->setCellValue("A" . ($i + 2), $payments[$i]->id);
-            $sheet->setCellValue("B" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $actor->getLocalDateTime($payments[$i]->created_at, $bot->telegram["username"]))->toDateString());
+            $sheet->setCellValue("B" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $payments[$i]->created_at)->toDateString());
             $sheet->setCellValue("C" . ($i + 2), $payments[$i]->amount);
             $sheet->setCellValue("D" . ($i + 2), $payments[$i]->comment);
             if (!isset($actors[$payments[$i]->sender_id])) {
@@ -216,10 +216,9 @@ class PaymentsController extends MoneysController
 
                 $sheet->setCellValue("F" . ($i + 2), $actors[$payments[$i]->supervisor_id]);
                 if (isset($payments[$i]->data["confirmation_date"]))
-
-                    $sheet->setCellValue("G" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $actor->getLocalDateTime($payments[$i]->data["confirmation_date"], $bot->telegram["username"]))->toDateString());
+                    $sheet->setCellValue("G" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $payments[$i]->data["confirmation_date"])->toDateString());
                 if (isset($payments[$i]->data["liquidation_date"]))
-                    $sheet->setCellValue("H" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $actor->getLocalDateTime($payments[$i]->data["liquidation_date"], $bot->telegram["username"]))->toDateString());
+                    $sheet->setCellValue("H" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $payments[$i]->data["liquidation_date"])->toDateString());
                 $sheet->setCellValue("I" . ($i + 2), $payments[$i]->data["rate"]["internal"]);
                 $formula = "=C" . ($i + 2) . "*((100-I" . ($i + 2) . ")/100)";
                 $sheet->setCellValue("J" . ($i + 2), $formula);
