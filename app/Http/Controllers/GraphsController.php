@@ -313,13 +313,13 @@ class GraphsController extends Controller
         $text->Align('left', 'top');
         $text->Stroke($graph->img);
 
-        $text = new Text($tc->str_pad("Total pagado €" . $transaction["amount"], 65, " ", -5), 701, 630);
+        $text = new Text($tc->str_pad("Total pagado " . $coin . $transaction["amount"], 65, " ", -5), 701, 630);
         $text->SetFont(FF_ARIAL, FS_NORMAL, 20);
         $text->SetColor('gray'); // Color del texto
         $text->Align('right', 'top');
         $text->Stroke($graph->img);
 
-        $text = new Text($tc->str_pad("Comisión €0.00", 70, " ", -5), 701, 725);
+        $text = new Text($tc->str_pad("Comisión {$coin}0.00", 70, " ", -5), 701, 725);
         $text->SetFont(FF_ARIAL, FS_NORMAL, 20);
         $text->SetColor('gray'); // Color del texto
         $text->Align('right', 'top');
