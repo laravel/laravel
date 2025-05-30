@@ -273,7 +273,17 @@ class GraphsController extends Controller
 
         $tc = new TextController();
 
-        $text = new Text("+ €" . $transaction["amount"], 701, 40);
+        $coin = "";
+        switch (strtoupper($transaction["coin"])) {
+            case "EUR":
+                $coin = "€";
+                break;
+            default:
+                $coin = "$";
+                break;
+        }
+
+        $text = new Text("+ " . $coin . $transaction["amount"], 701, 40);
         $text->SetFont(FF_ARIAL, FS_BOLD, 35);
         $text->SetColor('black'); // Color del texto
         $text->Align('right', 'top');

@@ -98,7 +98,18 @@ class CheckEmails implements ShouldQueue
                 if (isset($spanTags[9])) {
                     // Parsear la fecha
                     $carbonDate = Carbon::parse($spanTags[3]->textContent);
-                    $float = $tc->parseNumber(explode("\u{A0}", $spanTags[0]->textContent)[0]);
+                    /*
+                    "110,00\u{A0}€ EUR"
+                    "$451.62 USD" 
+
+                    "110,00 EUR"
+                    "451.62 USD" 
+                     */
+                    $float = $spanTags[0]->textContent;
+                    $float = str_replace("\u{A0}€", "", $float);
+                    $float = str_replace("$", "", $float);
+                    $pieces = explode(" ", $float);
+                    $float = $tc->parseNumber($pieces[0]);
                     if (!is_numeric($float))
                         $float = 0;
                     $amount = Moneys::format($float, 2, ".", "");
@@ -110,6 +121,7 @@ class CheckEmails implements ShouldQueue
                         "id" => $spanTags[5]->textContent,
                         "name" => $name,
                         "amount" => $amount,
+                        "coin" => $pieces[1],
                         "to" => $spanTags[7]->textContent,
                         "rate" => $rate,
                         "usd" => $usd,

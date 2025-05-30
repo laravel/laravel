@@ -38,6 +38,135 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
+
+        Carbon::setLocale('en');
+        $tc = new TextController();
+
+        try {
+
+            // Conectar al servidor IMAP
+            $client = Client::account('default');
+            $botname = explode("@", $client->username)[0];
+            $bot = new GutoTradeBotController($botname);
+
+            $client->connect();
+            // Abrir la bandeja de entrada
+            $inbox = $client->getFolder('INBOX');
+
+            // Obtener correos no leídos
+            //$messages = $inbox->query()->all()->get();
+            $messages = $inbox->query()->unseen()->get();
+            foreach ($messages as $message) {
+                /*
+                // Metadatos básicos
+                $messageId = $message->getUid(); // UID del mensaje
+                $subject = $message->getSubject(); // Asunto
+
+                $from = $message->getFrom(); // Remitente(s)
+                foreach ($from as $sender) {
+                    $name = $sender->name;    // Nombre del remitente
+                    $mail = $sender->mail;    // Dirección de correo
+                    $full = $sender->full;    // Cadena completa "Nombre <email>"
+                }
+
+                $to = $message->getTo(); // Destinatario(s)
+                $cc = $message->getCc(); // Copias
+                $bcc = $message->getBcc(); // Copias ocultas
+
+                $date = $message->getDate(); // Fecha
+                // $date es un objeto Carbon que puedes formatear:
+                $formattedDate = $date->format('Y-m-d H:i:s');
+
+                $flags = $message->getFlags(); // Banderas (visto, respondido, etc.)
+
+                // Obteniendo información sobre adjuntos (sin descargarlos)
+                $attachments = $message->getAttachments();
+                foreach ($attachments as $attachment) {
+                    $filename = $attachment->getName();
+                    $size = $attachment->getSize();
+                    $contentType = $attachment->getContentType();
+                }
+                */
+
+                $html = $message->getHTMLBody();
+
+                $dom = new DOMDocument();
+                @$dom->loadHTML($html); // El uso de @ evita warnings en HTML mal formado
+
+                // Buscar todos los elementos <b>
+                $spanTags = $dom->getElementsByTagName('span');
+
+                if (isset($spanTags[9])) {
+                    // Parsear la fecha
+                    $carbonDate = Carbon::parse($spanTags[3]->textContent);
+                    /*
+                    "110,00\u{A0}€ EUR"
+                    "$451.62 USD" 
+
+                    "110,00 EUR"
+                    "451.62 USD" 
+                     */
+                    $float = $spanTags[0]->textContent;
+                    $float = str_replace("\u{A0}€", "", $float);
+                    $float = str_replace("$", "", $float);
+                    $pieces = explode(" ", $float);
+                    $float = $tc->parseNumber($pieces[0]);
+                    if (!is_numeric($float))
+                        $float = 0;
+                    $amount = Moneys::format($float, 2, ".", "");
+                    $rate = floatval(str_replace("@", "", explode(" ", $spanTags[17]->textContent)[0]));
+                    $usd = Moneys::format($tc->parseNumber(str_replace("$", "", explode(" ", $spanTags[19]->textContent)[0])), 2, ".", "");
+                    $name = $spanTags[9]->textContent;
+                    $transaction = [
+                        "date" => $carbonDate->format('Y-m-d') . " " . Carbon::now()->format("H:i"),
+                        "id" => $spanTags[5]->textContent,
+                        "name" => $name,
+                        "amount" => $amount,
+                        "to" => $spanTags[7]->textContent,
+                        "rate" => $rate,
+                        "usd" => $usd,
+                    ];
+                    $filename = GraphsController::generateComprobantGraph($transaction, true);
+                    $url = "https://{$botname}.micalme.com" . FileController::$AUTODESTROY_DIR . "/{$filename}";
+                    $text = $name . " " . $float;
+                    $array = array(
+                        "message" => array(
+                            "text" => $text,
+                            "photo" => $url,
+                            "chat" => array(
+                                "id" => env("TELEGRAM_GROUP_GUTO_TRADE_BOT"),
+                            ),
+                        ),
+                    );
+                    $response = $bot->TelegramController->sendPhoto($array, $bot->token);
+                    Log::info("CheckEmails sendtogroup message = " . json_encode($array["message"]) . " response = " . json_encode($response) . "\n");
+
+
+                } else {
+                    // Marcar el mensaje como leído porq no cumple con el formato de mensaje Meru
+
+                }
+                $message->setFlag('Seen');
+            }
+
+            // Desconectarse del servidor IMAP
+            $client->disconnect();
+        } catch (\Throwable $th) {
+            Log::error("CheckEmails job ERROR CODE {$th->getCode()} line {$th->getLine()}: {$th->getMessage()}");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
         $bot = new GutoTradeBotController("gutotradetestbot");
 
         $similarity = $bot->TextController->calculateSimilarityPercentage(
