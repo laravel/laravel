@@ -99,6 +99,8 @@ class CheckEmails implements ShouldQueue
                     // Parsear la fecha
                     $carbonDate = Carbon::parse($spanTags[3]->textContent);
                     $float = $tc->parseNumber(explode("\u{A0}", $spanTags[0]->textContent)[0]);
+                    if (!is_numeric($float))
+                        $float = 0;
                     $amount = Moneys::format($float, 2, ".", "");
                     $rate = floatval(str_replace("@", "", explode(" ", $spanTags[17]->textContent)[0]));
                     $usd = Moneys::format($tc->parseNumber(str_replace("$", "", explode(" ", $spanTags[19]->textContent)[0])), 2, ".", "");
