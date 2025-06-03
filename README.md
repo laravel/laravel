@@ -66,20 +66,20 @@ This step is not necessary when you use Docker.
    cp .env.example .env
    ```
 
-3. Change your Php local version with de Project Version in composer.json
+3. If necessary, Change your local PHP version to match the project's version defined in composer.json
 
    ```bash
-    ./pvm.sh
+   ./pvm.sh
    ```
 
-4. Install composer dependencies with sail included with
+4. Install Composer dependencies (including Sail) by running:
 
     <!-- cspell: disable -->
 
-```bash
+   ```bash
    composer install
    ```
-or if you dont have composer in you machine you can use:
+   or if you dont have composer in you machine you can use:
    ```bash
    composer install
    
