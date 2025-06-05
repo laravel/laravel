@@ -22,6 +22,7 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Support\Facades\DB;
 
 class PaymentsController extends MoneysController
 {
@@ -67,6 +68,10 @@ class PaymentsController extends MoneysController
     public function getFloatingPayments()
     {
         return parent::getFloatingMoneys(Payments::class);
+    }
+    public function getUncapitalizedPayments()
+    {
+        return Payments::whereNull(DB::raw("JSON_EXTRACT(data, '$.capitalization_date')"))->get();
     }
     public function getAllPayments($bot, $user_id = false)
     {
@@ -454,7 +459,10 @@ class PaymentsController extends MoneysController
                 $payment["sender"]->amount = $payment["supervisor"]->amount;
 
                 $array["confirmation_date"] = date("Y-m-d H:i:s");
-                $array["match_payment_data"] = json_encode($payment["supervisor"]->toArray());
+                $supervisor = $payment["supervisor"]->toArray();
+                $array["match_payment_data"] = json_encode($supervisor);
+                if (isset($supervisor["data"]["capitalization_date"]))
+                    $array["capitalization_date"] = $supervisor["data"]["capitalization_date"];
 
                 $payment["sender"]->data = $array;
                 $payment["sender"]->supervisor_id = $payment["supervisor"]->supervisor_id;

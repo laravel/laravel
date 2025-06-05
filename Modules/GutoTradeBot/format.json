@@ -1,0 +1,57 @@
+{
+    "bot": {
+        "message_id": 1920,
+        "confirmation_date": "2025-06-05 09:28:08",
+        "confirmation_message": 1920,
+        "transaction": {
+            "date": "2025-06-05 09:28",
+            "id": "d9d51f5e-71d3-4a9b-b59d-868165da5b3a",
+            "name": "RAFAEL ANTONIO COSENTINO MAGA",
+            "amount": "150.00",
+            "coin": "EUR",
+            "to": "IE11MODR99035506793800",
+            "rate": 0.88023003,
+            "usd": "170.41"
+        },
+        "rate": {
+            "internal": -1,
+            "oracle": {
+                "direct": "0.8760518385",
+                "inverse": 1.1414849624791923
+            },
+            "receiver": 0
+        },
+        "capital": 151.5
+    },
+    "vip": {
+        "message_id": 18413,
+        "rate": {
+            "internal": -1,
+            "oracle": {
+                "direct": "0.8789878122",
+                "inverse": 1.1376722021857404
+            },
+            "receiver": 0
+        },
+        "capital": 95.95
+    },
+    "match": {
+        "message_id": 18359,
+        "rate": {
+            "internal": -1,
+            "oracle": {
+                "direct": "0.8789878122",
+                "inverse": 1.1376722021857404
+            },
+            "receiver": 0
+        },
+        "capital": 70.7,
+        "previous_screenshot": [
+            "AgACAgEAAxkBAAJHt2hAuH7HGbhOMAABM0kNseLC1b4jSgACk7AxG-I1CEZL_2t71bGh8gEAAwIAA3kAAzYE"
+        ],
+        "confirmation_date": "2025-06-04 21:25:20",
+        "match_payment_data": "{\"id\":695,\"amount\":\"70.00\",\"comment\":\"YOANDRIS ARAUJO PEREZ\",\"screenshot\":\"AgACAgQAAx0EYYxa0AACB3ZoQLH37l--th0QsXtzYlBqR4Em5AACz7kxG8RgDFIF5yDm_0CdOwEAAwIAA3kAAzYE\",\"sender_id\":null,\"supervisor_id\":7286991852,\"data\":{\"message_id\":1910,\"confirmation_date\":\"2025-06-04 20:52:07\",\"confirmation_message\":1910,\"transaction\":{\"date\":\"2025-06-04 20:52\",\"id\":\"3caf3043-0e77-415c-9711-bcf11cb96bd1\",\"name\":\"YOANDRIS ARAUJO PEREZ\",\"amount\":\"70.00\",\"coin\":\"EUR\",\"to\":\"IE11MODR99035506793800\",\"rate\":0.87994972,\"usd\":\"79.55\"},\"rate\":{\"internal\":-1,\"oracle\":{\"direct\":\"0.8789878122\",\"inverse\":1.1376722021857404},\"receiver\":0},\"capital\":70.7},\"created_at\":\"2025-06-04T20:52:07.000000Z\",\"updated_at\":\"2025-06-04T20:52:07.000000Z\"}",
+        "liquidation_date": "2025-06-05 11:02:51",
+        "liquidation_actor": 816767995
+    }
+}

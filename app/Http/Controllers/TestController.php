@@ -43,6 +43,17 @@ class TestController extends Controller
         // ----------------------------------------------------------------
 
 
+        $payments = $bot->PaymentsController->getUncapitalizedPayments();
+        foreach ($payments as $payment) {
+            $array = $payment->data;
+            if (isset($array["liquidation_date"]))
+                $array["capitalization_date"] = $array["liquidation_date"];
+
+            $payment->data = $array;
+            $payment->save();
+        }
+        dd($payments->toArray());
+
 
         dd($bot->getSystemInfo());
 
