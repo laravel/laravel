@@ -337,14 +337,17 @@ class PaymentsController extends MoneysController
         $sheet->setAutoFilter('A1:J1');
     }
 
-    public function export($bot, $payments, $actor)
+    public function export($bot, $payments, $actor, $timespan = false, $period = "HOURS")
     {
+        if ($timespan == false)
+            $timespan = GutoTradeBotController::$TEMPFILE_DURATION_HOURS;
+
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $this->getPaymentsSheet($bot, $payments, $actor, $sheet);
 
         $writer = new Xlsx($spreadsheet);
-        $filename = FileController::getFileNameAsUnixTime("xlsx", GutoTradeBotController::$TEMPFILE_DURATION_HOURS, "HOURS");
+        $filename = FileController::getFileNameAsUnixTime("xlsx", $timespan, $period);
 
         $path = public_path() . FileController::$AUTODESTROY_DIR;
         // Si la carpeta no existe, crearla
@@ -605,7 +608,7 @@ class PaymentsController extends MoneysController
                 $count += 1;
             }
 
-            $array = $this->export($bot, $payments, $actor);
+            $array = $this->export($bot, $payments, $actor, 2);
             $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
             $amount = Moneys::format($amount);
 
@@ -930,7 +933,7 @@ class PaymentsController extends MoneysController
                 $count += 1;
             }
 
-            $array = $this->export($bot, $payments, $actor);
+            $array = $this->export($bot, $payments, $actor, 2);
             $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
 
             $amount = Moneys::format($amount);
@@ -1029,7 +1032,7 @@ class PaymentsController extends MoneysController
                 $count += 1;
             }
 
-            $array = $this->export($bot, $payments, $actor);
+            $array = $this->export($bot, $payments, $actor, 2);
             $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
 
             $text = "👆 *Pagos*\n_Estos son {$count} pagos reportados por Ud.";
