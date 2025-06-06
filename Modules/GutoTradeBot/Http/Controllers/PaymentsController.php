@@ -1626,7 +1626,9 @@ class PaymentsController extends MoneysController
                 'vertical' => Alignment::VERTICAL_CENTER
             ]
         ]);
-        $sheet->setCellValue('D' . ($lastRow + 2), '=E' . ($lastRow + 1) . '/D' . ($lastRow + 1));
+        $sheet->setCellValue('D' . ($lastRow + 2), '0');
+        if (count($transactions) > 0)
+            $sheet->setCellValue('D' . ($lastRow + 2), '=E' . ($lastRow + 1) . '/D' . ($lastRow + 1));
         $sheet->mergeCells('D' . ($lastRow + 2) . ':E' . ($lastRow + 2));
         $sheet->getStyle('D' . ($lastRow + 2))->applyFromArray([
             'alignment' => [
@@ -1694,8 +1696,9 @@ class PaymentsController extends MoneysController
             ]
         ]);
         $sheet->setCellValue('D' . ($lastRow + 6 + $promotions_amount), '1');
-        $sheet->setCellValue('E' . ($lastRow + 6 + $promotions_amount), '=(E' . ($lastRow + 1) . '/100) + D' . ($lastRow + 6 + $promotions_amount) . ' + 0.2');
-
+        $sheet->setCellValue('E' . ($lastRow + 6 + $promotions_amount), 0);
+        if (count($transactions) > 0)
+            $sheet->setCellValue('E' . ($lastRow + 6 + $promotions_amount), '=(E' . ($lastRow + 1) . '/100) + D' . ($lastRow + 6 + $promotions_amount) . ' + 0.2');
         $sheet->setCellValue('C' . ($lastRow + 7 + $promotions_amount), 'Total');
         $sheet->getStyle('C' . ($lastRow + 7 + $promotions_amount))->applyFromArray([
             'alignment' => [
