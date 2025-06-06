@@ -1561,4 +1561,268 @@ class PaymentsController extends MoneysController
         );
     }
 
+    public function getCapitalizationSheet($bot, $payments, $sheet)
+    {
+        $sheet->setCellValue("A1", "ID");
+        $sheet->setCellValue("B1", "Fecha");
+        $sheet->setCellValue("C1", "Cliente");
+        $sheet->setCellValue("D1", " €");
+        $sheet->setCellValue("E1", " $");
+
+        $transactions = array();
+        for ($i = 0; $i < count($payments); $i++) {
+            $transaction = false;
+            if (isset($payments[$i]->data["transaction"]))
+                $transaction = $payments[$i]->data["transaction"];
+            if (isset($payments[$i]->data["match_payment_data"])) {
+                $match = json_decode($payments[$i]->data["match_payment_data"], true);
+                $transaction = $match["data"]["transaction"];
+            }
+            if ($transaction) {
+                $transaction["id"] = $payments[$i]->id;
+                $transaction["date"] = $payments[$i]->created_at;
+                $transactions[] = $transaction;
+            }
+        }
+        for ($i = 0; $i < count($transactions); $i++) {
+            $sheet->setCellValue("A" . ($i + 2), $transactions[$i]["id"]);
+            $sheet->setCellValue("B" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $transactions[$i]["date"])->toDateString());
+            $sheet->setCellValue("C" . ($i + 2), $transactions[$i]["name"]);
+            $sheet->setCellValue("D" . ($i + 2), $transactions[$i]["amount"]);
+            $sheet->setCellValue("E" . ($i + 2), $transactions[$i]["usd"]);
+        }
+
+        // Obtener la última fila con datos en la columna A
+        $lastRow = $sheet->getHighestDataRow('A');
+        $sheet->getStyle('A' . ($lastRow + 1))->applyFromArray([
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->getStyle('B' . ($lastRow + 1))->applyFromArray([
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+
+        $sheet->setCellValue('C' . ($lastRow + 1), "TOTAL LLEGADOS:");
+        $sheet->getStyle('C' . ($lastRow + 1))->applyFromArray([
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sheet->setCellValue('D' . ($lastRow + 1), '=SUM(D2:D' . $lastRow . ')');
+        $sheet->getStyle('D' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->setCellValue('E' . ($lastRow + 1), '=SUM(E2:E' . $lastRow . ')');
+        $sheet->getStyle('E' . ($lastRow + 1))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->setCellValue('C' . ($lastRow + 2), "TASA DE CAMBIO MEDIA:");
+        $sheet->getStyle('C' . ($lastRow + 2))->applyFromArray([
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sheet->setCellValue('D' . ($lastRow + 2), '=E' . ($lastRow + 1) . '/D' . ($lastRow + 1));
+        $sheet->mergeCells('D' . ($lastRow + 2) . ':E' . ($lastRow + 2));
+        $sheet->getStyle('D' . ($lastRow + 2))->applyFromArray([
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+
+        if (isset($bot->data["promotions"])) {
+            $sheet->setCellValue('A' . ($lastRow + 3), 'Pagos a Clientes');
+            $sheet->mergeCells('A' . ($lastRow + 3) . ':E' . ($lastRow + 3));
+            $sheet->getStyle('A' . ($lastRow + 3))->applyFromArray([
+                'font' => ['bold' => true],
+                'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
+                'alignment' => [
+                    'horizontal' => Alignment::HORIZONTAL_CENTER,
+                    'vertical' => Alignment::VERTICAL_CENTER
+                ]
+            ]);
+            for ($i = 0; $i < count($bot->data["promotions"]); $i++) {
+                $sheet->setCellValue('C' . ($lastRow + 4 + $i), 'x' . $bot->data["promotions"][$i]["price"]);
+                $sheet->getStyle('C' . ($lastRow + 4 + $i))->applyFromArray([
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                        'vertical' => Alignment::VERTICAL_CENTER
+                    ]
+                ]);
+                if ($i == 0)
+                    $sheet->setCellValue('D' . ($lastRow + 4 + $i), '=D' . ($lastRow + 1));
+                $sheet->setCellValue('E' . ($lastRow + 4 + $i), '=D' . ($lastRow + 4 + $i) . '*' . $bot->data["promotions"][$i]["price"]);
+            }
+        }
+
+        $sheet->setCellValue('C' . ($lastRow + 4 + count($bot->data["promotions"])), 'TOTAL A PAGAR A CLIENTES');
+        $sheet->mergeCells('C' . ($lastRow + 4 + count($bot->data["promotions"])) . ':D' . ($lastRow + 4 + count($bot->data["promotions"])));
+        $sheet->getStyle('C' . ($lastRow + 4 + count($bot->data["promotions"])))->applyFromArray([
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sheet->setCellValue('E' . ($lastRow + 4 + count($bot->data["promotions"])), '=SUM(E' . ($lastRow + 4) . ':E' . ($lastRow + 4 + count($bot->data["promotions"]) - 1) . ')');
+        $sheet->getStyle('E' . ($lastRow + 4 + count($bot->data["promotions"])))->applyFromArray([
+            'font' => ['bold' => true],
+        ]);
+
+        $sheet->setCellValue('A' . ($lastRow + 5 + count($bot->data["promotions"])), 'Deducciones');
+        $sheet->mergeCells('A' . ($lastRow + 5 + count($bot->data["promotions"])) . ':E' . ($lastRow + 5 + count($bot->data["promotions"])));
+        $sheet->getStyle('A' . ($lastRow + 5 + count($bot->data["promotions"])))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+
+        $sheet->setCellValue('C' . ($lastRow + 6 + count($bot->data["promotions"])), '1% + 1 USD x Extraccion + 0.2 Fee');
+        $sheet->getStyle('C' . ($lastRow + 6 + count($bot->data["promotions"])))->applyFromArray([
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sheet->setCellValue('D' . ($lastRow + 6 + count($bot->data["promotions"])), '1');
+        $sheet->setCellValue('E' . ($lastRow + 6 + count($bot->data["promotions"])), '=(E' . ($lastRow + 1) . '/100) + D' . ($lastRow + 6 + count($bot->data["promotions"])) . ' + 0.2');
+
+        $sheet->setCellValue('C' . ($lastRow + 7 + count($bot->data["promotions"])), 'Total');
+        $sheet->getStyle('C' . ($lastRow + 7 + count($bot->data["promotions"])))->applyFromArray([
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sheet->setCellValue('D' . ($lastRow + 7 + count($bot->data["promotions"])), '=E' . ($lastRow + 6 + count($bot->data["promotions"])) . '+E' . ($lastRow + 4 + count($bot->data["promotions"])));
+        $sheet->getStyle('D' . ($lastRow + 7 + count($bot->data["promotions"])))->applyFromArray([
+            'font' => ['bold' => true]
+        ]);
+        $sheet->mergeCells('D' . ($lastRow + 7 + count($bot->data["promotions"])) . ':E' . ($lastRow + 7 + count($bot->data["promotions"])));
+
+        $sheet->setCellValue('A' . ($lastRow + 8 + count($bot->data["promotions"])), 'Beneficios');
+        $sheet->mergeCells('A' . ($lastRow + 8 + count($bot->data["promotions"])) . ':D' . ($lastRow + 8 + count($bot->data["promotions"])));
+        $sheet->getStyle('A' . ($lastRow + 8 + count($bot->data["promotions"])))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sheet->setCellValue('E' . ($lastRow + 8 + count($bot->data["promotions"])), '=E' . ($lastRow + 1) . '-D' . ($lastRow + 7 + count($bot->data["promotions"])));
+        $sheet->getStyle('E' . ($lastRow + 8 + count($bot->data["promotions"])))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sendables = array();
+        if (isset($bot->data["distributions"])) {
+            for ($i = 0; $i < count($bot->data["distributions"]); $i++) {
+                $sheet->setCellValue('C' . ($lastRow + 9 + count($bot->data["promotions"]) + $i), $bot->data["distributions"][$i]["name"]);
+                $sheet->setCellValue('D' . ($lastRow + 9 + count($bot->data["promotions"]) + $i), $bot->data["distributions"][$i]["amount"]);
+                $sheet->setCellValue('E' . ($lastRow + 9 + count($bot->data["promotions"]) + $i), '=E' . ($lastRow + 8 + count($bot->data["promotions"])) . '*' . $bot->data["distributions"][$i]["amount"] . "/100");
+                if (isset($bot->data["distributions"][$i]["send"]))
+                    $sendables[] = ($lastRow + 9 + count($bot->data["promotions"]) + $i);
+            }
+        }
+
+        $sheet->setCellValue('A' . ($lastRow + 9 + count($bot->data["promotions"]) + count($bot->data["distributions"])), 'A TRANSFERIR');
+        $sheet->mergeCells('A' . ($lastRow + 9 + count($bot->data["promotions"]) + count($bot->data["distributions"])) . ':D' . ($lastRow + 9 + count($bot->data["promotions"]) + count($bot->data["distributions"])));
+        $sheet->getStyle('A' . ($lastRow + 9 + count($bot->data["promotions"]) + count($bot->data["distributions"])))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $formula = '=E' . ($lastRow + 4 + count($bot->data["promotions"]));
+        foreach ($sendables as $sendable) {
+            $formula .= '+E' . $sendable;
+        }
+        $sheet->setCellValue('E' . ($lastRow + 9 + count($bot->data["promotions"]) + count($bot->data["distributions"])), $formula);
+        $sheet->getStyle('E' . ($lastRow + 9 + count($bot->data["promotions"]) + count($bot->data["distributions"])))->applyFromArray([
+            'font' => ['bold' => true],
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_RIGHT,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+
+        $sheet->getColumnDimension('A')->setWidth(8);
+        $sheet->getColumnDimension('B')->setWidth(15);
+        $sheet->getColumnDimension('C')->setWidth(33);
+        $sheet->getColumnDimension('D')->setWidth(15);
+        $sheet->getColumnDimension('E')->setWidth(15);
+
+        $sheet->setTitle("Pagos");
+
+        // Opcional: estilo para los encabezados
+        $headerStyle = [
+            'font' => ['bold' => true],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'FFD9D9D9']]
+        ];
+        $sheet->getStyle('A1:' . $sheet->getHighestColumn() . '1')->applyFromArray($headerStyle);
+        $sheet->getStyle('D1')->applyFromArray([
+            'font' => ['bold' => true],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'FFD9D9D9']],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+        $sheet->getStyle('E1')->applyFromArray([
+            'font' => ['bold' => true],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'color' => ['argb' => 'FFD9D9D9']],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ]
+        ]);
+
+        return $transactions;
+    }
+
+    public function getCapitalizationReport($bot)
+    {
+        $payments = $bot->PaymentsController->getUncapitalizedPayments();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $transactions = $this->getCapitalizationSheet($bot, $payments, $sheet);
+
+        $writer = new Xlsx($spreadsheet);
+        $filename = FileController::getFileNameAsUnixTime("xlsx", 2, "HOURS");
+        $jsonname = str_replace(".xlsx", "", $filename) . ".json";
+
+        //file_put_contents($full_path, $contents);
+
+        $path = public_path() . FileController::$AUTODESTROY_DIR;
+        // Si la carpeta no existe, crearla
+        if (!is_dir($path)) {
+            mkdir($path, 0755, true);
+        }
+        // Guardar el archivo en el sistema
+        $writer->save($path . "/" . $filename);
+        file_put_contents($path . "/" . $jsonname, json_encode($transactions));
+
+        $array = explode(".", $filename);
+        return array(
+            "filename" => $array[0],
+            "extension" => $array[1],
+        );
+    }
+
 }

@@ -474,6 +474,33 @@ class GutoTradeBotController extends JsonsController
                     }
                     break;
 
+                case "/capital":
+                    $reply = $this->mainMenu($this->actor);
+                    if (
+                        $this->actor->isLevel(1, $this->telegram["username"]) ||
+                        $this->actor->isLevel(4, $this->telegram["username"])
+                    ) {
+
+                        $array = $this->PaymentsController->getCapitalizationReport($this);
+
+                        $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
+
+                        $text = "📋 *Capital para liquidaciones*\n_Estos son los pagos confirmados a los que aún no se han realizado aportes de capital._";
+                        $menu = [
+                            [["text" => "✅ Usar este reporte", "callback_data" => "capitalize-" . $array["filename"]]],
+                            [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]],
+                        ];
+                        $text .= "\n\n" . $this->getReportFileText($xlspath);
+
+                        $reply = array(
+                            "text" => $text,
+                            "markup" => json_encode([
+                                "inline_keyboard" => $menu,
+                            ]),
+                        );
+                    }
+                    break;
+
                 case "/cashflow":
                     $reply = $this->mainMenu($this->actor);
                     if (

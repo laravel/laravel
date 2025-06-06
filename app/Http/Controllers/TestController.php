@@ -38,24 +38,45 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
-        $bot = new GutoTradeBotController("GutoTradeTestBot");
+        $bot = new GutoTradeBotController("IrelandPaymentsBot");
         $bot->actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");
         // ----------------------------------------------------------------
 
 
-        $payments = $bot->PaymentsController->getUncapitalizedPayments();
-        foreach ($payments as $payment) {
-            $array = $payment->data;
-            if (isset($array["liquidation_date"]))
-                $array["capitalization_date"] = $array["liquidation_date"];
+        $array = $bot->PaymentsController->getCapitalizationReport($bot);
+        echo "<a href='" . request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"] . "'>Pagos: " . $array["filename"] . "</a><br/><br/>";
+        die;
 
-            $payment->data = $array;
-            $payment->save();
-        }
-        dd($payments->toArray());
 
+
+        dd(isset($bot->data["promotions"]));
+        $array = $bot->data;
+        $array["promotions"] = array(
+            array(
+                "from" => 1,
+                "to" => 1000,
+                "price" => 1.01,
+            ),
+            array(
+                "from" => 1000,
+                "to" => 3000,
+                "price" => 1.02,
+            ),
+            array(
+                "from" => 3000,
+                "to" => 1000000,
+                "price" => 1.03,
+            ),
+        );
+        //dd($bot->data);
+        dd(json_encode($array));
 
         dd($bot->getSystemInfo());
+
+        $codigo = 'function resta($x, $y) { return $x - $y; }';
+        echo json_encode($codigo);
+        eval ($codigo);
+        dd(resta(10, 4));
 
         Carbon::setLocale('en');
         $tc = new TextController();
