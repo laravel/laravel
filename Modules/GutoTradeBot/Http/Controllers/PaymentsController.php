@@ -1635,7 +1635,9 @@ class PaymentsController extends MoneysController
             ]
         ]);
 
+        $promotions_amount = 0;
         if (isset($bot->data["promotions"])) {
+            $promotions_amount = count($bot->data["promotions"]);
             $sheet->setCellValue('A' . ($lastRow + 3), 'Pagos a Clientes');
             $sheet->mergeCells('A' . ($lastRow + 3) . ':E' . ($lastRow + 3));
             $sheet->getStyle('A' . ($lastRow + 3))->applyFromArray([
@@ -1646,7 +1648,7 @@ class PaymentsController extends MoneysController
                     'vertical' => Alignment::VERTICAL_CENTER
                 ]
             ]);
-            for ($i = 0; $i < count($bot->data["promotions"]); $i++) {
+            for ($i = 0; $i < $promotions_amount; $i++) {
                 $sheet->setCellValue('C' . ($lastRow + 4 + $i), 'x' . $bot->data["promotions"][$i]["price"]);
                 $sheet->getStyle('C' . ($lastRow + 4 + $i))->applyFromArray([
                     'alignment' => [
@@ -1660,22 +1662,22 @@ class PaymentsController extends MoneysController
             }
         }
 
-        $sheet->setCellValue('C' . ($lastRow + 4 + count($bot->data["promotions"])), 'TOTAL A PAGAR A CLIENTES');
-        $sheet->mergeCells('C' . ($lastRow + 4 + count($bot->data["promotions"])) . ':D' . ($lastRow + 4 + count($bot->data["promotions"])));
-        $sheet->getStyle('C' . ($lastRow + 4 + count($bot->data["promotions"])))->applyFromArray([
+        $sheet->setCellValue('C' . ($lastRow + 4 + $promotions_amount), 'TOTAL A PAGAR A CLIENTES');
+        $sheet->mergeCells('C' . ($lastRow + 4 + $promotions_amount) . ':D' . ($lastRow + 4 + $promotions_amount));
+        $sheet->getStyle('C' . ($lastRow + 4 + $promotions_amount))->applyFromArray([
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_RIGHT,
                 'vertical' => Alignment::VERTICAL_CENTER
             ]
         ]);
-        $sheet->setCellValue('E' . ($lastRow + 4 + count($bot->data["promotions"])), '=SUM(E' . ($lastRow + 4) . ':E' . ($lastRow + 4 + count($bot->data["promotions"]) - 1) . ')');
-        $sheet->getStyle('E' . ($lastRow + 4 + count($bot->data["promotions"])))->applyFromArray([
+        $sheet->setCellValue('E' . ($lastRow + 4 + $promotions_amount), '=SUM(E' . ($lastRow + 4) . ':E' . ($lastRow + 4 + $promotions_amount - 1) . ')');
+        $sheet->getStyle('E' . ($lastRow + 4 + $promotions_amount))->applyFromArray([
             'font' => ['bold' => true],
         ]);
 
-        $sheet->setCellValue('A' . ($lastRow + 5 + count($bot->data["promotions"])), 'Deducciones');
-        $sheet->mergeCells('A' . ($lastRow + 5 + count($bot->data["promotions"])) . ':E' . ($lastRow + 5 + count($bot->data["promotions"])));
-        $sheet->getStyle('A' . ($lastRow + 5 + count($bot->data["promotions"])))->applyFromArray([
+        $sheet->setCellValue('A' . ($lastRow + 5 + $promotions_amount), 'Deducciones');
+        $sheet->mergeCells('A' . ($lastRow + 5 + $promotions_amount) . ':E' . ($lastRow + 5 + $promotions_amount));
+        $sheet->getStyle('A' . ($lastRow + 5 + $promotions_amount))->applyFromArray([
             'font' => ['bold' => true],
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
             'alignment' => [
@@ -1684,32 +1686,32 @@ class PaymentsController extends MoneysController
             ]
         ]);
 
-        $sheet->setCellValue('C' . ($lastRow + 6 + count($bot->data["promotions"])), '1% + 1 USD x Extraccion + 0.2 Fee');
-        $sheet->getStyle('C' . ($lastRow + 6 + count($bot->data["promotions"])))->applyFromArray([
+        $sheet->setCellValue('C' . ($lastRow + 6 + $promotions_amount), '1% + 1 USD x Extraccion + 0.2 Fee');
+        $sheet->getStyle('C' . ($lastRow + 6 + $promotions_amount))->applyFromArray([
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_RIGHT,
                 'vertical' => Alignment::VERTICAL_CENTER
             ]
         ]);
-        $sheet->setCellValue('D' . ($lastRow + 6 + count($bot->data["promotions"])), '1');
-        $sheet->setCellValue('E' . ($lastRow + 6 + count($bot->data["promotions"])), '=(E' . ($lastRow + 1) . '/100) + D' . ($lastRow + 6 + count($bot->data["promotions"])) . ' + 0.2');
+        $sheet->setCellValue('D' . ($lastRow + 6 + $promotions_amount), '1');
+        $sheet->setCellValue('E' . ($lastRow + 6 + $promotions_amount), '=(E' . ($lastRow + 1) . '/100) + D' . ($lastRow + 6 + $promotions_amount) . ' + 0.2');
 
-        $sheet->setCellValue('C' . ($lastRow + 7 + count($bot->data["promotions"])), 'Total');
-        $sheet->getStyle('C' . ($lastRow + 7 + count($bot->data["promotions"])))->applyFromArray([
+        $sheet->setCellValue('C' . ($lastRow + 7 + $promotions_amount), 'Total');
+        $sheet->getStyle('C' . ($lastRow + 7 + $promotions_amount))->applyFromArray([
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_RIGHT,
                 'vertical' => Alignment::VERTICAL_CENTER
             ]
         ]);
-        $sheet->setCellValue('D' . ($lastRow + 7 + count($bot->data["promotions"])), '=E' . ($lastRow + 6 + count($bot->data["promotions"])) . '+E' . ($lastRow + 4 + count($bot->data["promotions"])));
-        $sheet->getStyle('D' . ($lastRow + 7 + count($bot->data["promotions"])))->applyFromArray([
+        $sheet->setCellValue('D' . ($lastRow + 7 + $promotions_amount), '=E' . ($lastRow + 6 + $promotions_amount) . '+E' . ($lastRow + 4 + $promotions_amount));
+        $sheet->getStyle('D' . ($lastRow + 7 + $promotions_amount))->applyFromArray([
             'font' => ['bold' => true]
         ]);
-        $sheet->mergeCells('D' . ($lastRow + 7 + count($bot->data["promotions"])) . ':E' . ($lastRow + 7 + count($bot->data["promotions"])));
+        $sheet->mergeCells('D' . ($lastRow + 7 + $promotions_amount) . ':E' . ($lastRow + 7 + $promotions_amount));
 
-        $sheet->setCellValue('A' . ($lastRow + 8 + count($bot->data["promotions"])), 'Beneficios');
-        $sheet->mergeCells('A' . ($lastRow + 8 + count($bot->data["promotions"])) . ':D' . ($lastRow + 8 + count($bot->data["promotions"])));
-        $sheet->getStyle('A' . ($lastRow + 8 + count($bot->data["promotions"])))->applyFromArray([
+        $sheet->setCellValue('A' . ($lastRow + 8 + $promotions_amount), 'Beneficios');
+        $sheet->mergeCells('A' . ($lastRow + 8 + $promotions_amount) . ':D' . ($lastRow + 8 + $promotions_amount));
+        $sheet->getStyle('A' . ($lastRow + 8 + $promotions_amount))->applyFromArray([
             'font' => ['bold' => true],
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
             'alignment' => [
@@ -1717,8 +1719,8 @@ class PaymentsController extends MoneysController
                 'vertical' => Alignment::VERTICAL_CENTER
             ]
         ]);
-        $sheet->setCellValue('E' . ($lastRow + 8 + count($bot->data["promotions"])), '=E' . ($lastRow + 1) . '-D' . ($lastRow + 7 + count($bot->data["promotions"])));
-        $sheet->getStyle('E' . ($lastRow + 8 + count($bot->data["promotions"])))->applyFromArray([
+        $sheet->setCellValue('E' . ($lastRow + 8 + $promotions_amount), '=E' . ($lastRow + 1) . '-D' . ($lastRow + 7 + $promotions_amount));
+        $sheet->getStyle('E' . ($lastRow + 8 + $promotions_amount))->applyFromArray([
             'font' => ['bold' => true],
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
             'alignment' => [
@@ -1729,17 +1731,17 @@ class PaymentsController extends MoneysController
         $sendables = array();
         if (isset($bot->data["distributions"])) {
             for ($i = 0; $i < count($bot->data["distributions"]); $i++) {
-                $sheet->setCellValue('C' . ($lastRow + 9 + count($bot->data["promotions"]) + $i), $bot->data["distributions"][$i]["name"]);
-                $sheet->setCellValue('D' . ($lastRow + 9 + count($bot->data["promotions"]) + $i), $bot->data["distributions"][$i]["amount"]);
-                $sheet->setCellValue('E' . ($lastRow + 9 + count($bot->data["promotions"]) + $i), '=E' . ($lastRow + 8 + count($bot->data["promotions"])) . '*' . $bot->data["distributions"][$i]["amount"] . "/100");
+                $sheet->setCellValue('C' . ($lastRow + 9 + $promotions_amount + $i), $bot->data["distributions"][$i]["name"]);
+                $sheet->setCellValue('D' . ($lastRow + 9 + $promotions_amount + $i), $bot->data["distributions"][$i]["amount"]);
+                $sheet->setCellValue('E' . ($lastRow + 9 + $promotions_amount + $i), '=E' . ($lastRow + 8 + $promotions_amount) . '*' . $bot->data["distributions"][$i]["amount"] . "/100");
                 if (isset($bot->data["distributions"][$i]["send"]))
-                    $sendables[] = ($lastRow + 9 + count($bot->data["promotions"]) + $i);
+                    $sendables[] = ($lastRow + 9 + $promotions_amount + $i);
             }
         }
 
-        $sheet->setCellValue('A' . ($lastRow + 9 + count($bot->data["promotions"]) + count($bot->data["distributions"])), 'A TRANSFERIR');
-        $sheet->mergeCells('A' . ($lastRow + 9 + count($bot->data["promotions"]) + count($bot->data["distributions"])) . ':D' . ($lastRow + 9 + count($bot->data["promotions"]) + count($bot->data["distributions"])));
-        $sheet->getStyle('A' . ($lastRow + 9 + count($bot->data["promotions"]) + count($bot->data["distributions"])))->applyFromArray([
+        $sheet->setCellValue('A' . ($lastRow + 9 + $promotions_amount + count($bot->data["distributions"])), 'A TRANSFERIR');
+        $sheet->mergeCells('A' . ($lastRow + 9 + $promotions_amount + count($bot->data["distributions"])) . ':D' . ($lastRow + 9 + $promotions_amount + count($bot->data["distributions"])));
+        $sheet->getStyle('A' . ($lastRow + 9 + $promotions_amount + count($bot->data["distributions"])))->applyFromArray([
             'font' => ['bold' => true],
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
             'alignment' => [
@@ -1747,12 +1749,12 @@ class PaymentsController extends MoneysController
                 'vertical' => Alignment::VERTICAL_CENTER
             ]
         ]);
-        $formula = '=E' . ($lastRow + 4 + count($bot->data["promotions"]));
+        $formula = '=E' . ($lastRow + 4 + $promotions_amount);
         foreach ($sendables as $sendable) {
             $formula .= '+E' . $sendable;
         }
-        $sheet->setCellValue('E' . ($lastRow + 9 + count($bot->data["promotions"]) + count($bot->data["distributions"])), $formula);
-        $sheet->getStyle('E' . ($lastRow + 9 + count($bot->data["promotions"]) + count($bot->data["distributions"])))->applyFromArray([
+        $sheet->setCellValue('E' . ($lastRow + 9 + $promotions_amount + count($bot->data["distributions"])), $formula);
+        $sheet->getStyle('E' . ($lastRow + 9 + $promotions_amount + count($bot->data["distributions"])))->applyFromArray([
             'font' => ['bold' => true],
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
             'alignment' => [
