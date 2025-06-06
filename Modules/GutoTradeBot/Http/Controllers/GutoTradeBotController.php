@@ -480,7 +480,6 @@ class GutoTradeBotController extends JsonsController
                         $this->actor->isLevel(1, $this->telegram["username"]) ||
                         $this->actor->isLevel(4, $this->telegram["username"])
                     ) {
-
                         $array = $this->PaymentsController->getCapitalizationReport($this);
 
                         $xlspath = request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"];
@@ -499,6 +498,10 @@ class GutoTradeBotController extends JsonsController
                             ]),
                         );
                     }
+                    break;
+
+                case "capitalize":
+                    $reply = $this->PaymentsController->capitalizeReport($this, $array["pieces"][1]);
                     break;
 
                 case "/cashflow":

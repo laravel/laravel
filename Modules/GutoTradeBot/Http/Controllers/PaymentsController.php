@@ -1829,4 +1829,44 @@ class PaymentsController extends MoneysController
         );
     }
 
+    public function capitalizeReport($bot, $filename)
+    {
+        $reply = array(
+            "text" => "⚠️ *El reporte ya no existe*\n\n👇 Qué desea hacer ahora?",
+            "markup" => json_encode([
+                "inline_keyboard" => [
+                    [["text" => "📋 Crear uno nuevo", "callback_data" => "/capital"]],
+                    [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]],
+                ],
+            ]),
+        );
+
+        $path = public_path() . FileController::$AUTODESTROY_DIR . "/" . $filename . ".json";
+        if (is_file($path)) {
+            $text = file_get_contents($path);
+            $transactions = json_decode($text, true);
+            //var_dump($transactions);
+            $amount = 0;
+            foreach ($transactions as $transaction) {
+                $payment = $bot->ActorsController->getFirst(Payments::class, "id", "=", $transaction["id"]);
+                $array = $payment->data;
+                $array["capitalization_date"] = date("Y-m-d H:i:s");
+                $payment->data = $array;
+                $payment->save();
+                $amount++;
+            }
+
+            $reply = array(
+                "text" => "✅ *Reporte usado satisfactoriamente*\n_El reporte '{$filename}' se ha usado para procesar {$amount} pagos para su capitalización_\n\n👇 Qué desea hacer ahora?",
+                "markup" => json_encode([
+                    "inline_keyboard" => [
+                        [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]],
+                    ],
+                ]),
+            );
+        }
+
+        return $reply;
+    }
+
 }
