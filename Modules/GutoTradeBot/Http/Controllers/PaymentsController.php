@@ -1728,9 +1728,11 @@ class PaymentsController extends MoneysController
                 'vertical' => Alignment::VERTICAL_CENTER
             ]
         ]);
+        $distributions_amount = 0;
         $sendables = array();
         if (isset($bot->data["distributions"])) {
-            for ($i = 0; $i < count($bot->data["distributions"]); $i++) {
+            $distributions_amount = count($bot->data["distributions"]);
+            for ($i = 0; $i < $distributions_amount; $i++) {
                 $sheet->setCellValue('C' . ($lastRow + 9 + $promotions_amount + $i), $bot->data["distributions"][$i]["name"]);
                 $sheet->setCellValue('D' . ($lastRow + 9 + $promotions_amount + $i), $bot->data["distributions"][$i]["amount"]);
                 $sheet->setCellValue('E' . ($lastRow + 9 + $promotions_amount + $i), '=E' . ($lastRow + 8 + $promotions_amount) . '*' . $bot->data["distributions"][$i]["amount"] . "/100");
@@ -1739,9 +1741,9 @@ class PaymentsController extends MoneysController
             }
         }
 
-        $sheet->setCellValue('A' . ($lastRow + 9 + $promotions_amount + count($bot->data["distributions"])), 'A TRANSFERIR');
-        $sheet->mergeCells('A' . ($lastRow + 9 + $promotions_amount + count($bot->data["distributions"])) . ':D' . ($lastRow + 9 + $promotions_amount + count($bot->data["distributions"])));
-        $sheet->getStyle('A' . ($lastRow + 9 + $promotions_amount + count($bot->data["distributions"])))->applyFromArray([
+        $sheet->setCellValue('A' . ($lastRow + 9 + $promotions_amount + $distributions_amount), 'A TRANSFERIR');
+        $sheet->mergeCells('A' . ($lastRow + 9 + $promotions_amount + $distributions_amount) . ':D' . ($lastRow + 9 + $promotions_amount + $distributions_amount));
+        $sheet->getStyle('A' . ($lastRow + 9 + $promotions_amount + $distributions_amount))->applyFromArray([
             'font' => ['bold' => true],
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
             'alignment' => [
@@ -1753,8 +1755,8 @@ class PaymentsController extends MoneysController
         foreach ($sendables as $sendable) {
             $formula .= '+E' . $sendable;
         }
-        $sheet->setCellValue('E' . ($lastRow + 9 + $promotions_amount + count($bot->data["distributions"])), $formula);
-        $sheet->getStyle('E' . ($lastRow + 9 + $promotions_amount + count($bot->data["distributions"])))->applyFromArray([
+        $sheet->setCellValue('E' . ($lastRow + 9 + $promotions_amount + $distributions_amount), $formula);
+        $sheet->getStyle('E' . ($lastRow + 9 + $promotions_amount + $distributions_amount))->applyFromArray([
             'font' => ['bold' => true],
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]],
             'alignment' => [
