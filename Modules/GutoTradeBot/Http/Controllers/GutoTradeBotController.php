@@ -300,6 +300,33 @@ class GutoTradeBotController extends JsonsController
                     $reply = $this->AgentsController->findSuscriptor($this, $array["message"]);
                     break;
 
+                case "/storage":
+                    $reply = $this->mainMenu($this->actor);
+                    if (
+                        $this->actor->isLevel(1, $this->telegram["username"]) ||
+                        $this->actor->isLevel(3, $this->telegram["username"]) ||
+                        $this->actor->isLevel(4, $this->telegram["username"])
+                    ) {
+
+                        $fc = new FileController();
+                        $payments = $fc->searchInLog('payment', $array["message"], 'storage', false);
+                        foreach ($payments as $key => $array) {
+                            $payment = new Payments($array);
+                            //dd($payment->data);
+                            $payment->sendAsTelegramMessage(
+                                $this,
+                                $this->actor,
+                                "Pago en STORAGE",
+                            );
+                        }
+                        // Haciendo q no haya respuesta adicional
+                        $reply = [
+                            "text" => "",
+                        ];
+                    }
+
+                    break;
+
                 case "/market":
                     $reply = $this->mainMenu($this->actor);
                     if (
