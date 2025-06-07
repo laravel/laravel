@@ -329,7 +329,9 @@ class GutoTradeBotController extends JsonsController
                         else {
                             foreach ($payments as $key => $array) {
                                 $payment = new Payments($array);
-                                //dd($payment->data);
+                                $payment->id = $array["id"];
+                                $payment->created_at = $array["created_at"];
+                                $payment->updated_at = $array["updated_at"];
                                 $payment->sendAsTelegramMessage(
                                     $this,
                                     $this->actor,
