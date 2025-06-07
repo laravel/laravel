@@ -310,20 +310,20 @@ class GutoTradeBotController extends JsonsController
 
                         $fc = new FileController();
                         $payments = $fc->searchInLog('payment', $array["message"], 'storage', false);
+                        $menu = [
+                            [
+                                ["text" => "↖️ Volver al menú principal", "callback_data" => "menu"],
+                            ],
+                        ];
                         $amount = count($payments);
                         if ($amount > 20)
                             $reply = [
-                                "text" => "⚠️ *Muy resultados encontrados*\n_El texto “" . $array["message"] . "” ha generado {$amount} resultados. Intente nuevamente con un texto más largo para limitar resultados._\n\n👇 Qué desea hacer ahora?",
+                                "text" => "⚠️ *Muchos resultados encontrados*\n_El texto “" . $array["message"] . "” ha generado {$amount} resultados. Intente nuevamente con un texto más largo para limitar resultados._\n\n👇 Qué desea hacer ahora?",
                                 "chat" => [
                                     "id" => $this->actor->user_id,
                                 ],
                                 "markup" => json_encode([
-                                    "inline_keyboard" => [
-                                        [
-                                            ["text" => "↖️ Volver al menú principal", "callback_data" => "menu"],
-                                        ],
-
-                                    ],
+                                    "inline_keyboard" => $menu,
                                 ]),
                             ];
                         else {
@@ -336,10 +336,12 @@ class GutoTradeBotController extends JsonsController
                                     "Pago en STORAGE",
                                 );
                             }
-                            // Haciendo q no haya respuesta adicional
-                            $reply = [
-                                "text" => "",
-                            ];
+                            $reply = array(
+                                "text" => "👆 *Pagos en STORAGE*\n_Estos son {$amount} pagos encontrados en el fichero STORAGE._",
+                                "markup" => json_encode([
+                                    "inline_keyboard" => $menu,
+                                ]),
+                            );
                         }
                     }
 
