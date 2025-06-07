@@ -33,14 +33,55 @@ use App\Http\Controllers\FileController;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Modules\GutoTradeBot\Jobs\CheckEmails;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TestController extends Controller
 {
+
+    function searchPaymentsByComment($searchTerm)
+    {
+        $logPath = storage_path('logs/storage.log');
+        $results = [];
+
+        if (file_exists($logPath)) {
+            $handle = fopen($logPath, 'r');
+
+            if ($handle) {
+                while (($line = fgets($handle)) !== false) {
+                    // Buscar líneas de pago
+                    if (Str::contains($line, 'local.INFO: payment')) {
+                        // Extraer el JSON de la línea
+                        $jsonStart = strpos($line, '{');
+                        if ($jsonStart !== false) {
+                            $jsonString = substr($line, $jsonStart);
+                            $paymentData = json_decode($jsonString, true);
+
+                            // Verificar si el comentario contiene el término de búsqueda
+                            if (
+                                isset($paymentData['comment']) &&
+                                Str::contains(strtolower($paymentData['comment']), strtolower($searchTerm))
+                            ) {
+                                $results[] = $paymentData;
+                            }
+                        }
+                    }
+                }
+                fclose($handle);
+            }
+        }
+
+        return $results;
+    }
+
     public function test(Request $request)
     {
         $bot = new GutoTradeBotController("IrelandPaymentsBot");
         $bot->actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");
         // ----------------------------------------------------------------
+
+        $payments = $this->searchPaymentsByComment($request["name"]);
+        dd($payments);
 
 
         $array = $bot->PaymentsController->getCapitalizationReport($bot);
