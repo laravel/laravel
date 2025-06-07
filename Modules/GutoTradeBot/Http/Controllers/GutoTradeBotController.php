@@ -310,19 +310,37 @@ class GutoTradeBotController extends JsonsController
 
                         $fc = new FileController();
                         $payments = $fc->searchInLog('payment', $array["message"], 'storage', false);
-                        foreach ($payments as $key => $array) {
-                            $payment = new Payments($array);
-                            //dd($payment->data);
-                            $payment->sendAsTelegramMessage(
-                                $this,
-                                $this->actor,
-                                "Pago en STORAGE",
-                            );
+                        $amount = count($payments);
+                        if ($amount > 20)
+                            $reply = [
+                                "text" => "⚠️ *Muy resultados encontrados*\n\n_El texto “" . $array["message"] . "” ha generado {$amount} resultados. Intente nuevamente con un texto más largo para limitar resultados._\n\n👇 Qué desea hacer ahora?",
+                                "chat" => [
+                                    "id" => $this->actor->user_id,
+                                ],
+                                "markup" => json_encode([
+                                    "inline_keyboard" => [
+                                        [
+                                            ["text" => "↖️ Volver al menú principal", "callback_data" => "menu"],
+                                        ],
+
+                                    ],
+                                ]),
+                            ];
+                        else {
+                            foreach ($payments as $key => $array) {
+                                $payment = new Payments($array);
+                                //dd($payment->data);
+                                $payment->sendAsTelegramMessage(
+                                    $this,
+                                    $this->actor,
+                                    "Pago en STORAGE",
+                                );
+                            }
+                            // Haciendo q no haya respuesta adicional
+                            $reply = [
+                                "text" => "",
+                            ];
                         }
-                        // Haciendo q no haya respuesta adicional
-                        $reply = [
-                            "text" => "",
-                        ];
                     }
 
                     break;

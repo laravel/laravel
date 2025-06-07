@@ -43,21 +43,6 @@ class TestController extends Controller
         // ----------------------------------------------------------------
 
 
-        $fc = new FileController();
-        $payments = $fc->searchInLog('payment', $request["name"], 'storage', false);
-        foreach ($payments as $key => $array) {
-            $payment = new Payments($array);
-            //dd($payment->data);
-            $payment->sendAsTelegramMessage(
-                $bot,
-                $bot->actor,
-                "Pago en STORAGE",
-            );
-            dd($payment);
-        }
-        dd($payments);
-
-
         $array = $bot->PaymentsController->getCapitalizationReport($bot);
         echo "<a href='" . request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"] . "'>Pagos: " . $array["filename"] . "</a><br/><br/>";
         die;
