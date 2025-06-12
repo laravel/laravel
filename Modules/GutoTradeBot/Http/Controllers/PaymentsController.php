@@ -457,6 +457,9 @@ class PaymentsController extends MoneysController
                 $payment["sender"]->screenshot = $payment["supervisor"]->screenshot;
                 // tomando la cantidad real recibida por el supervisor
                 $payment["sender"]->amount = $payment["supervisor"]->amount;
+                // tomando el nombre de mayor longitud
+                if (strlen($payment["sender"]->comment) < strlen($payment["supervisor"]->comment))
+                    $payment["sender"]->comment = $payment["supervisor"]->comment;
 
                 $array["confirmation_date"] = date("Y-m-d H:i:s");
                 $supervisor = $payment["supervisor"]->toArray();
