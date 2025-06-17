@@ -186,9 +186,10 @@ class PaymentsController extends MoneysController
         if ($isadmin) {
             $sheet->setCellValue("F1", "Recibe");
             $sheet->setCellValue("G1", "Confirmado");
-            $sheet->setCellValue("H1", "Liquidado");
-            $sheet->setCellValue("I1", "Tasa");
-            $sheet->setCellValue("J1", "Capital");
+            $sheet->setCellValue("H1", "Capitalizado");
+            $sheet->setCellValue("I1", "Liquidado");
+            $sheet->setCellValue("J1", "Tasa");
+            $sheet->setCellValue("K1", "Capital");
         }
 
         $actors = array();
@@ -222,11 +223,13 @@ class PaymentsController extends MoneysController
                 $sheet->setCellValue("F" . ($i + 2), $actors[$payments[$i]->supervisor_id]);
                 if (isset($payments[$i]->data["confirmation_date"]))
                     $sheet->setCellValue("G" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $payments[$i]->data["confirmation_date"])->toDateString());
+                if (isset($payments[$i]->data["capitalization_date"]))
+                    $sheet->setCellValue("H" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $payments[$i]->data["capitalization_date"])->toDateString());
                 if (isset($payments[$i]->data["liquidation_date"]))
-                    $sheet->setCellValue("H" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $payments[$i]->data["liquidation_date"])->toDateString());
-                $sheet->setCellValue("I" . ($i + 2), $payments[$i]->data["rate"]["internal"]);
-                $formula = "=C" . ($i + 2) . "*((100-I" . ($i + 2) . ")/100)";
-                $sheet->setCellValue("J" . ($i + 2), $formula);
+                    $sheet->setCellValue("I" . ($i + 2), Carbon::createFromFormat("Y-m-d H:i:s", $payments[$i]->data["liquidation_date"])->toDateString());
+                $sheet->setCellValue("J" . ($i + 2), $payments[$i]->data["rate"]["internal"]);
+                $formula = "=C" . ($i + 2) . "*((100-J" . ($i + 2) . ")/100)";
+                $sheet->setCellValue("K" . ($i + 2), $formula);
             }
 
             if (!$payments[$i]->isLiquidated()) {
@@ -278,9 +281,12 @@ class PaymentsController extends MoneysController
         $sheet->getStyle('I' . ($lastRow + 1))->applyFromArray([
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
         ]);
-        $sheet->setCellValue('J' . ($lastRow + 1), '=SUM(J2:J' . $lastRow . ')');
-        // Opcional: aplicar formato a la celda de total
         $sheet->getStyle('J' . ($lastRow + 1))->applyFromArray([
+            'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
+        ]);
+        $sheet->setCellValue('K' . ($lastRow + 1), '=SUM(K2:K' . $lastRow . ')');
+        // Opcional: aplicar formato a la celda de total
+        $sheet->getStyle('K' . ($lastRow + 1))->applyFromArray([
             'font' => ['bold' => true],
             'borders' => ['top' => ['borderStyle' => Border::BORDER_DOUBLE]]
         ]);
@@ -325,8 +331,10 @@ class PaymentsController extends MoneysController
             $sheet->getColumnDimension('G')->setVisible(false);
             $sheet->getColumnDimension('H')->setWidth(25);
             $sheet->getColumnDimension('H')->setVisible(false);
+            $sheet->getColumnDimension('I')->setWidth(25);
             $sheet->getColumnDimension('I')->setVisible(false);
-            $sheet->getColumnDimension('J')->setWidth(15);
+            $sheet->getColumnDimension('J')->setVisible(false);
+            $sheet->getColumnDimension('K')->setWidth(15);
         }
 
         $sheet->freezePane('D2');
