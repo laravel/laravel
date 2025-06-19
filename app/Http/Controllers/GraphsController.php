@@ -247,6 +247,26 @@ class GraphsController extends Controller
      */
     public static function generateComprobantGraph($transaction, $sensitive = false)
     {
+        $tc = new TextController();
+
+        $coin = "";
+        // Establecer la imagen de fondo
+        $backgroundPath = public_path('comprobant-eur.jpg');
+        switch (strtoupper($transaction["coin"])) {
+            case "EUR":
+                $coin = "€";
+                break;
+            default:
+                $coin = "$";
+                $backgroundPath = public_path('comprobant-usa.jpg');
+                break;
+        }
+        // Verificar que la imagen exista
+        if (!file_exists($backgroundPath)) {
+            throw new \Exception("El archivo de fondo no existe en: " . $backgroundPath);
+        }
+
+
         // Configuración del canvas
         $graph = new CanvasGraph(742, 1280, 'auto');
 
@@ -257,31 +277,11 @@ class GraphsController extends Controller
         // Configurar márgenes (opcional, ajusta según necesites)
         $graph->SetMargin(5, 11, 6, 11);
 
-        // Establecer la imagen de fondo
-        $backgroundPath = public_path('comprobant.jpg');
-
-        // Verificar que la imagen exista
-        if (!file_exists($backgroundPath)) {
-            throw new \Exception("El archivo de fondo no existe en: " . $backgroundPath);
-        }
-
         // Configurar el fondo (usar BGIMG_FILLPLOT para mejor resultado)
         $graph->SetBackgroundImage($backgroundPath, BGIMG_FILLPLOT);
 
         // Inicializar el frame sin fondo blanco
         $graph->InitFrame();
-
-        $tc = new TextController();
-
-        $coin = "";
-        switch (strtoupper($transaction["coin"])) {
-            case "EUR":
-                $coin = "€";
-                break;
-            default:
-                $coin = "$";
-                break;
-        }
 
         $text = new Text("+ " . $coin . $transaction["amount"], 701, 40);
         $text->SetFont(FF_ARIAL, FS_BOLD, 35);
