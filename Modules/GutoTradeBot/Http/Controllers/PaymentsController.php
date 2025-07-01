@@ -1079,9 +1079,9 @@ class PaymentsController extends MoneysController
         return $reply;
     }
 
-    public function notifyToCapitals($bot, $payment, $message = false, $title = "")
+    public function notifyToCapitals($bot, $payment, $message = false, $title = "", $extra_options = false)
     {
-        $supervisorsmenu = $this->getOptionsMenuForThisOne($bot, $payment, 1);
+        $supervisorsmenu = $this->getOptionsMenuForThisOne($bot, $payment, 1, $extra_options);
 
         $admins = $bot->ActorsController->getData(Actors::class, [
             [
@@ -1102,9 +1102,9 @@ class PaymentsController extends MoneysController
         }
     }
 
-    public function notifyToGestors($bot, $payment, $message = false, $title = "")
+    public function notifyToGestors($bot, $payment, $message = false, $title = "", $extra_options = false)
     {
-        $supervisorsmenu = $this->getOptionsMenuForThisOne($bot, $payment, 1);
+        $supervisorsmenu = $this->getOptionsMenuForThisOne($bot, $payment, 1, $extra_options);
 
         $admins = $bot->ActorsController->getData(Actors::class, [
             [
