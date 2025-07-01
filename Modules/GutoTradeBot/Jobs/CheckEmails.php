@@ -162,11 +162,6 @@ class CheckEmails implements ShouldQueue
 
                         // Notificar en el bot
                         $title = "Nuevo reporte automático";
-                        $options = [
-                            [
-                                ["text" => "❌ Eliminar", "callback_data" => "confirmation|deletepayment-{$payment->id}|menu"],
-                            ],
-                        ];
                         if (
                             isset($bot->data["notifications"]["payments"]["new"]["frombot"]["tocapitals"]) &&
                             $bot->data["notifications"]["payments"]["new"]["frombot"]["tocapitals"] == 1
@@ -175,8 +170,7 @@ class CheckEmails implements ShouldQueue
                                 $bot,
                                 $payment,
                                 false,
-                                $title,
-                                $options
+                                $title
                             );
                         if (
                             isset($bot->data["notifications"]["payments"]["new"]["frombot"]["togestors"]) &&
@@ -187,7 +181,11 @@ class CheckEmails implements ShouldQueue
                                 $payment,
                                 false,
                                 $title,
-                                $options
+                                [
+                                    [
+                                        ["text" => "❌ Eliminar", "callback_data" => "confirmation|deletepayment-{$payment->id}|menu"],
+                                    ],
+                                ]
                             );
                     }
 
