@@ -87,6 +87,8 @@ class CheckEmails implements ShouldQueue
                 }
                 */
 
+                $messageDate = $message->getDate();
+
                 $html = $message->getHTMLBody();
 
                 $dom = new DOMDocument();
@@ -117,7 +119,7 @@ class CheckEmails implements ShouldQueue
                     $usd = Moneys::format($tc->parseNumber(str_replace("$", "", explode(" ", $spanTags[19]->textContent)[0])), 2, ".", "");
                     $name = $spanTags[9]->textContent;
                     $transaction = [
-                        "date" => $carbonDate->format('Y-m-d') . " " . Carbon::now()->format("H:i"),
+                        "date" => $carbonDate->format('Y-m-d') . " " . $messageDate->format("H:i"),
                         "id" => $spanTags[5]->textContent,
                         "name" => $name,
                         "amount" => $amount,
@@ -151,7 +153,7 @@ class CheckEmails implements ShouldQueue
                             $bot->telegram["id"],
                             array(
                                 "message_id" => $array["result"]["message_id"],
-                                "confirmation_date" => $carbonDate->format('Y-m-d') . " " . Carbon::now()->format("H:i:s"),
+                                "confirmation_date" => $carbonDate->format('Y-m-d') . " " . $messageDate->format("H:i:s"),
                                 "confirmation_message" => $array["result"]["message_id"],
                                 "transaction" => $transaction,
                             )
