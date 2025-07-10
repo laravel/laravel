@@ -1593,6 +1593,7 @@ class PaymentsController extends MoneysController
                     $transaction = array(
                         "name" => $payments[$i]->comment,
                         "amount" => $payments[$i]->amount,
+                        "usd" => 0,
                     );
             }
             if ($transaction) {
