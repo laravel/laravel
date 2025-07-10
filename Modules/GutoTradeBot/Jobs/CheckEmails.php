@@ -31,6 +31,30 @@ class CheckEmails implements ShouldQueue
         //
     }
 
+    private function getAmount($valor)
+    {
+        // Eliminar caracteres no deseados y espacios
+        $limpio = preg_replace('/[^\d,.-]/', '', $valor);
+        // Reemplazar comas por puntos si es necesario (para decimales)
+        $limpio = str_replace(',', '.', $limpio);
+        // Extraer el símbolo de moneda
+        $moneda = 'EUR';
+        if (strpos($valor, '$') !== false) {
+            $moneda = 'USD';
+        }
+
+        // Convertir a número float
+        $cantidad = (float) $limpio;
+
+        // Formatear con 2 decimales
+        $cantidadFormateada = number_format($cantidad, 2, '.', '');
+
+        return array(
+            'amount' => $cantidadFormateada,
+            'coin' => $moneda
+        );
+    }
+
     /**
      * Execute the job.
      *
@@ -99,20 +123,18 @@ class CheckEmails implements ShouldQueue
                     // Parsear la fecha
                     $carbonDate = Carbon::parse($spanTags[3]->textContent);
                     /*
-                    "110,00\u{A0}€ EUR"
-                    "$451.62 USD" 
+                    0 => "110,00\u{A0}€ EUR"
+                    1 => "$451.62 USD"
+                    2 => "50,00Â\u{A0}â‚¬ EUR"
+                    3 => "60,00Â\u{A0}â‚¬ EUR"
+                    4 => "370,00Â\u{A0}â‚¬ EUR"
 
-                    "110,00 EUR"
-                    "451.62 USD" 
                      */
-                    $float = $spanTags[0]->textContent;
-                    $float = str_replace("\u{A0}€", "", $float);
-                    $float = str_replace("$", "", $float);
-                    $pieces = explode(" ", $float);
-                    $float = $tc->parseNumber($pieces[0]);
-                    if (!is_numeric($float))
-                        $float = 0;
-                    $amount = Moneys::format($float, 2, ".", "");
+
+
+                    $value = $this->getAmount($spanTags[0]->textContent);
+
+                    $amount = Moneys::format($value["amount"], 2, ".", "");
                     $rate = floatval(str_replace("@", "", explode(" ", $spanTags[17]->textContent)[0]));
                     $usd = Moneys::format($tc->parseNumber(str_replace("$", "", explode(" ", $spanTags[19]->textContent)[0])), 2, ".", "");
                     $name = $spanTags[9]->textContent;
@@ -121,14 +143,14 @@ class CheckEmails implements ShouldQueue
                         "id" => $spanTags[5]->textContent,
                         "name" => $name,
                         "amount" => $amount,
-                        "coin" => $pieces[1],
+                        "coin" => $value["coin"],
                         "to" => $spanTags[7]->textContent,
                         "rate" => $rate,
                         "usd" => $usd,
                     ];
                     $filename = GraphsController::generateComprobantGraph($transaction, true);
                     $url = "https://{$botname}.micalme.com" . FileController::$AUTODESTROY_DIR . "/{$filename}";
-                    $text = $name . " " . $float;
+                    $text = $name . " " . $value["amount"];
                     $array = array(
                         "message" => array(
                             "text" => $text,
@@ -144,7 +166,7 @@ class CheckEmails implements ShouldQueue
                     if (isset($array["result"]) && isset($array["result"]["message_id"]) && $array["result"]["message_id"] > 0) {
                         $payment = $bot->PaymentsController->create(
                             $bot,
-                            $float,
+                            $value["amount"],
                             $name,
                             isset($array["result"]["photo"]) ? $array["result"]["photo"][count($array["result"]["photo"]) - 1]["file_id"] : "AgACAgEAAxkBAALd_GcZYv85lMhzVQ-Ue8oWgwABZORGwAACQLAxG7X30UQcBx3z45dK6AEAAwIAA3kAAzYE",// foto de pago vacio
                             null,
