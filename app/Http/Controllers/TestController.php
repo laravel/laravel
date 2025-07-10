@@ -43,6 +43,14 @@ class TestController extends Controller
         // ----------------------------------------------------------------
 
 
+
+        // Ejecutar el Job manualmente
+        $job = new CheckEmails();
+        $job->handle(); // Llama directamente al método handle()
+        die(date("Y-m-d H:i:s") . ": DONE!");
+
+
+
         $array = $bot->PaymentsController->getCapitalizationReport($bot);
         echo "<a href='" . request()->root() . "/report/" . $array["extension"] . "/" . $array["filename"] . "'>Pagos: " . $array["filename"] . "</a><br/><br/>";
         die;
