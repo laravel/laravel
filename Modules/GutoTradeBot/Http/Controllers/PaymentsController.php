@@ -1589,6 +1589,11 @@ class PaymentsController extends MoneysController
                 $match = json_decode($payments[$i]->data["match_payment_data"], true);
                 if (isset($match["data"]) && isset($match["data"]["transaction"]))
                     $transaction = $match["data"]["transaction"];
+                else
+                    $transaction = array(
+                        "name" => $payments[$i]->comment,
+                        "amount" => $payments[$i]->amount,
+                    );
             }
             if ($transaction) {
                 $transaction["id"] = $payments[$i]->id;
