@@ -1003,26 +1003,6 @@ class GutoTradeBotController extends JsonsController
                     ];
                     break;
 
-                case "/test":
-                    $array = [
-                        "message" => [
-                            "text" => "Prueba: " . date("H:i:s"),
-                            "chat" => [
-                                "id" => 816767995,
-                            ],
-                            "autodestroy" => 1
-                        ],
-                    ];
-                    $array = json_decode($this->TelegramController->sendMessage($array, $this->token), 1);
-
-
-
-                    // Haciendo q no haya respuesta adicional
-                    $reply = [
-                        "text" => "",
-                    ];
-                    break;
-
                 default:
                     $array = $this->actor->data;
                     if (isset($array[$this->telegram["username"]]["last_bot_callback_data"])) {
