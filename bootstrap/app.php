@@ -26,5 +26,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('queue:work --stop-when-empty')
             ->everyMinute()
             ->withoutOverlapping();
+        /*
+    $schedule->command('queue:work --stop-when-empty --max-time=59')
+        ->everyMinute()
+        ->withoutOverlapping()
+        ->runInBackground();
+        */
     })
     ->create();

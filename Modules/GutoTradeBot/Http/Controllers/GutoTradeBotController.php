@@ -954,6 +954,18 @@ class GutoTradeBotController extends JsonsController
                     }
                     break;
 
+                case "/import":
+                    $id = $this->getIdOfRepliedMessage();
+                    if ($id && $id > 0) {
+
+                    }
+
+                    // Haciendo q no haya respuesta adicional
+                    $reply = [
+                        "text" => "ID: {$id}",
+                    ];
+                    break;
+
                 case "/test":
                     $array = [
                         "message" => [
