@@ -43,6 +43,23 @@ class TestController extends Controller
         // ----------------------------------------------------------------
 
 
+        //4143
+        $id = 1134;
+        $fc = new FileController();
+        $payments = $fc->searchInLog('payment', $id, 'storage', true);
+        foreach ($payments as $array)
+            if ($array["id"] == $id) {
+                $payment = new Payments($array);
+                $payment->id = $array["id"];
+                $payment->created_at = $array["created_at"];
+                $payment->updated_at = $array["updated_at"];
+                $payment->save();
+                break;
+            }
+        dd($payments);
+        die(date("Y-m-d H:i:s") . ": DONE!");
+
+
 
         // Ejecutar el Job manualmente
         $job = new CheckEmails();

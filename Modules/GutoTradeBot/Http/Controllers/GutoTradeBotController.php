@@ -961,15 +961,35 @@ class GutoTradeBotController extends JsonsController
                     }
                     break;
 
-                case "/import":
-                    $id = $this->getIdOfRepliedMessage();
-                    if ($id && $id > 0) {
+                case "/importbyid":
+                    $id = $array["message"];
+                    $fc = new FileController();
+                    $payments = $fc->searchInLog('payment', $id, 'storage', true);
+                    foreach ($payments as $array)
+                        if ($array["id"] == $id) {
+                            $payment = new Payments($array);
+                            $payment->id = $array["id"];
+                            $payment->created_at = $array["created_at"];
+                            $payment->updated_at = $array["updated_at"];
+                            $payment->save();
 
-                    }
+                            // preparar el menu de opciones sobre este pago
+                            $menu = $this->PaymentsController->getOptionsMenuForThisOne($this, $payment, $this->actor->data[$this->telegram["username"]]["admin_level"]);
+                            $payment->sendAsTelegramMessage(
+                                $this,
+                                $this->actor,
+                                "Reporte de pago IMPORTADO",
+                                "⚠️ _Este pago ha sido importado desde STORAGE_",
+                                true,
+                                $menu
+                            );
+
+                            break;
+                        }
 
                     // Haciendo q no haya respuesta adicional
                     $reply = [
-                        "text" => "ID: {$id}",
+                        "text" => "",
                     ];
                     break;
 
