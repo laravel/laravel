@@ -993,6 +993,16 @@ class GutoTradeBotController extends JsonsController
                     ];
                     break;
 
+                case "/checkemails":
+                    $job = new CheckEmails();
+                    $job->handle(); // Llama directamente al método handle()
+
+                    $reply = [
+                        "text" => "📧 *Revisado correo*: " . date("H:i:s"),
+                        "autodestroy" => 1,
+                    ];
+                    break;
+
                 case "/test":
                     $array = [
                         "message" => [
