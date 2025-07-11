@@ -336,6 +336,13 @@ class GutoTradeBotController extends JsonsController
                                     $this,
                                     $this->actor,
                                     "Pago en STORAGE",
+                                    false,
+                                    false,
+                                    [
+                                        [
+                                            ["text" => "↖️ Importar", "callback_data" => "/importbyid " . $array["id"]],
+                                        ],
+                                    ]
                                 );
                             }
                             $reply = array(
@@ -1832,12 +1839,17 @@ class GutoTradeBotController extends JsonsController
         ) {
             foreach ($message["reply_to_message"]["reply_markup"]["inline_keyboard"] as $row) {
                 foreach ($row as $btn)
-                    if (
-                        isset($btn["callback_data"]) &&
-                        stripos($btn["callback_data"], "/findbyid") > -1
-                    ) {
-                        $id = str_ireplace("/findbyid ", "", $btn["callback_data"]);
-                        break;
+                    if (isset($btn["callback_data"])) {
+                        // un pago existente en la BD tiene la opcion de findbyid
+                        if (stripos($btn["callback_data"], "/findbyid") > -1) {
+                            $id = str_ireplace("/findbyid ", "", $btn["callback_data"]);
+                            break;
+                        }
+                        // un pago en storage tiene opcion de importbyid
+                        if (stripos($btn["callback_data"], "/importbyid") > -1) {
+                            $id = str_ireplace("/importbyid ", "", $btn["callback_data"]);
+                            break;
+                        }
                     }
             }
         }
