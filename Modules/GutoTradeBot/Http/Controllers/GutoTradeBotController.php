@@ -307,15 +307,21 @@ class GutoTradeBotController extends JsonsController
                         $this->actor->isLevel(3, $this->telegram["username"]) ||
                         $this->actor->isLevel(4, $this->telegram["username"])
                     ) {
-
-                        $fc = new FileController();
-                        $payments = $fc->searchInLog('payment', $array["message"], 'storage', false);
                         $menu = [
                             [
                                 ["text" => "↖️ Volver al menú principal", "callback_data" => "menu"],
                             ],
                         ];
+
+                        $fc = new FileController();
+                        $payments = $fc->searchInLog('payment', $array["message"], 'storage', false);
+
                         $amount = count($payments);
+                        if ($amount > 20) {
+                            $payments = $fc->searchInLog('payment', $array["message"], 'storage');
+                            $amount = count($payments);
+                        }
+
                         if ($amount > 20)
                             $reply = [
                                 "text" => "⚠️ *Muchos resultados encontrados*\n_El texto “" . $array["message"] . "” ha generado {$amount} resultados. Intente nuevamente con un texto más largo para limitar resultados._\n\n👇 Qué desea hacer ahora?",
