@@ -46,6 +46,9 @@
                         <a href="{{ url('/dashboard') }}" class="get-started-btn scrollto">Dashboard</a>
                     @else
                         <a href="{{ route('login') }}" class="get-started-btn scrollto">Log in</a>
+                        <a href="{{ route('auth.google') }}" class="btn btn-google">
+                            <i class="fab fa-google"></i> Login con Google
+                        </a>
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}" class="get-started-btn scrollto">Register</a>
                         @endif
