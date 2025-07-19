@@ -1,0 +1,55 @@
+{
+  "name": "fr",
+  "options": {
+    "months": [
+      "janvier",
+      "février",
+      "mars",
+      "avril",
+      "mai",
+      "juin",
+      "juillet",
+      "août",
+      "septembre",
+      "octobre",
+      "novembre",
+      "décembre"
+    ],
+    "shortMonths": [
+      "janv.",
+      "févr.",
+      "mars",
+      "avr.",
+      "mai",
+      "juin",
+      "juill.",
+      "août",
+      "sept.",
+      "oct.",
+      "nov.",
+      "déc."
+    ],
+    "days": [
+      "dimanche",
+      "lundi",
+      "mardi",
+      "mercredi",
+      "jeudi",
+      "vendredi",
+      "samedi"
+    ],
+    "shortDays": ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
+    "toolbar": {
+      "exportToSVG": "Télécharger au format SVG",
+      "exportToPNG": "Télécharger au format PNG",
+      "exportToCSV": "Télécharger au format CSV",
+      "menu": "Menu",
+      "selection": "Sélection",
+      "selectionZoom": "Sélection et zoom",
+      "zoomIn": "Zoomer",
+      "zoomOut": "Dézoomer",
+      "pan": "Navigation",
+      "reset": "Réinitialiser le zoom"
+    }
+  }
+}

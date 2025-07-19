@@ -1,31 +1,67 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
+@extends('templates.NiceAdmin.layout')
 
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
-    @endif
+@section('mainstyle', 'margin-left:auto;margin-top:auto;')
 
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
+@section('maincontent')
+    <div class="container">
 
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
+        <section class="section verifyemail min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+                        <div class="d-flex justify-content-center py-4">
+                            @include("templates.NiceAdmin.logo")
+                        </div><!-- End Logo -->
+
+                        <div class="card mb-3">
+
+                            <div class="card-body">
+
+                                <div class="pt-4 pb-2">
+                                    <h5 class="card-title text-center pb-0 fs-4">
+                                        {{ trans("messages.auth.verifyemail.title") }}
+                                    </h5>
+                                    <p class="text-center small">{{ trans("messages.auth.verifyemail.hint") }}</p>
+                                </div>
+
+                                <form id="form" method="POST" action="{{ route('verification.send') }}"
+                                    class="row g-3 needs-validation">
+
+                                    @csrf
+
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100"
+                                            type="submit">{{ trans("messages.auth.verifyemail.button") }}</button>
+                                    </div>
+
+
+                                </form>
+
+
+
+                                <div class="col-12">
+                                    <br>
+                                    <p class="small mb-0">
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        {{ trans("messages.form.field.dontverifyemail.label") }}
+                                        <button type="submit" style="background: none;border: none;">
+                                            {{ trans("messages.form.field.logout.label") }}
+                                        </button>
+                                    </form>
+                                    </p>
+                                    <br />
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-        </form>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
+        </section>
 
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
-            </button>
-        </form>
     </div>
-</x-guest-layout>
+@endsection

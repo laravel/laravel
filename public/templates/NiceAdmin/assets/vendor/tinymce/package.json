@@ -1,0 +1,32 @@
+{
+	"name": "tinymce",
+	"version": "6.3.2",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tinymce/tinymce.git",
+		"directory": "modules/tinymce"
+	},
+	"description": "Web based JavaScript HTML WYSIWYG editor control.",
+	"author": "Ephox Corporation DBA Tiny Technologies, Inc",
+	"main": "tinymce.js",
+	"types": "tinymce.d.ts",
+	"license": "MIT",
+	"keywords": [
+		"wysiwyg",
+		"tinymce",
+		"richtext",
+		"javascript",
+		"html",
+		"text",
+		"rich editor",
+		"rich text editor",
+		"rte",
+		"rich text",
+		"contenteditable",
+		"editing"
+	],
+	"homepage": "https://www.tiny.cloud/",
+	"bugs": {
+		"url": "https://github.com/tinymce/tinymce/issues"
+	}
+}

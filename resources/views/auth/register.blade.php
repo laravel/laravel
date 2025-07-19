@@ -1,52 +1,131 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+@extends('templates.NiceAdmin.layout')
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
+@section('mainstyle', 'margin-left:auto;margin-top:auto;')
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+@section('maincontent')
+    <div class="container">
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+                        <div class="d-flex justify-content-center py-4">
+                            @include("templates.NiceAdmin.logo")
+                        </div><!-- End Logo -->
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+                        <div class="card mb-3">
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                            <div class="card-body">
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+                                <div class="pt-4 pb-2">
+                                    <h5 class="card-title text-center pb-0 fs-4">{{ trans("messages.auth.register.title") }}
+                                    </h5>
+                                    <p class="text-center small">{{ trans("messages.auth.register.hint") }}</p>
+                                </div>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+                                <form id="form" method="POST" action="{{ route('register') }}"
+                                    class="row g-3 needs-validation">
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+                                    @csrf
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <input id="name" name="name"
+                                                placeholder="{{ trans("messages.form.field.name.label") }}"
+                                                class="form-control" required autofocus>
+                                            <label for="code">{{ trans("messages.form.field.name.label") }}</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <input id="email" name="email" type="email" :value="old('email')"
+                                                autocomplete="username"
+                                                placeholder="{{ trans("messages.form.field.email.label") }}"
+                                                class="form-control" required>
+                                            <label for="code">{{ trans("messages.form.field.email.label") }}</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <input id="password" name="password" type="password"
+                                                autocomplete="current-password"
+                                                placeholder="{{ trans("messages.form.field.password.label") }}"
+                                                class="form-control" required>
+                                            <label for="password">{{ trans("messages.form.field.password.label") }}</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 mt-3"> <!-- Añadido margen superior -->
+                                        <div class="form-floating">
+                                            <input id="password_confirmation" name="password_confirmation" type="password"
+                                                autocomplete="new-password"
+                                                placeholder="{{ trans('messages.form.field.passwordconfirmation.label') }}"
+                                                class="form-control" required>
+                                            <label
+                                                for="password_confirmation">{{ trans('messages.form.field.passwordconfirmation.label') }}</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100"
+                                            type="submit">{{ trans("messages.form.field.register.label") }}</button>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <p class="small mb-0">{{ trans("messages.form.field.alreadyhaveaccount.label") }} <a
+                                                href="{{ route('login') }}">
+                                                {{ trans("messages.form.field.loginaccount.label") }}
+                                            </a></p>
+                                        <br />
+
+                                        <p class="small mb-0"><a href="{{ route('auth.google') }}"><i
+                                                    class="bi bi-google"></i> Acceder usando mi cuenta Google</a></p>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+@endsection
+
+<script>
+    @section('ondocumentready')
+        $('#form').on('keyup', '#password, #password_confirmation', function () {
+            validatePasswords();
+        });
+
+        // Validación al enviar el formulario
+        $('#form').submit(function (e) {
+            if (!validatePasswords()) {
+                e.preventDefault(); // Evita el envío si no coinciden
+            }
+        });
+
+        function validatePasswords() {
+            const password = $('#password').val();
+            const passwordConfirm = $('#password_confirmation').val();
+            const errorDiv = $('#password_error');
+
+            if (password !== passwordConfirm && passwordConfirm.length > 0) {
+                $('#password_confirmation').addClass('is-invalid');
+                errorDiv.show();
+                return false;
+            } else {
+                $('#password_confirmation').removeClass('is-invalid');
+                errorDiv.hide();
+                return true;
+            }
+        }
+    @endsection
+</script>

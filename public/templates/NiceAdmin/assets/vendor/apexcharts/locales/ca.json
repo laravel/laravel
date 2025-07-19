@@ -1,0 +1,55 @@
+{
+  "name": "ca",
+  "options": {
+    "months": [
+      "Gener",
+      "Febrer",
+      "Març",
+      "Abril",
+      "Maig",
+      "Juny",
+      "Juliol",
+      "Agost",
+      "Setembre",
+      "Octubre",
+      "Novembre",
+      "Desembre"
+    ],
+    "shortMonths": [
+      "Gen.",
+      "Febr.",
+      "Març",
+      "Abr.",
+      "Maig",
+      "Juny",
+      "Jul.",
+      "Ag.",
+      "Set.",
+      "Oct.",
+      "Nov.",
+      "Des."
+    ],
+    "days": [
+      "Diumenge",
+      "Dilluns",
+      "Dimarts",
+      "Dimecres",
+      "Dijous",
+      "Divendres",
+      "Dissabte"
+    ],
+    "shortDays": ["Dg", "Dl", "Dt", "Dc", "Dj", "Dv", "Ds"],
+    "toolbar": {
+      "exportToSVG": "Descarregar SVG",
+      "exportToPNG": "Descarregar PNG",
+      "exportToCSV": "Descarregar CSV",
+      "menu": "Menú",
+      "selection": "Seleccionar",
+      "selectionZoom": "Seleccionar Zoom",
+      "zoomIn": "Augmentar",
+      "zoomOut": "Disminuir",
+      "pan": "Navegació",
+      "reset": "Reiniciar Zoom"
+    }
+  }
+}

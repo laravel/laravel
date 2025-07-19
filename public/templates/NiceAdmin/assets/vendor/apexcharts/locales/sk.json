@@ -1,0 +1,55 @@
+{
+  "name": "sk",
+  "options": {
+    "months": [
+      "Január",
+      "Február",
+      "Marec",
+      "Apríl",
+      "Máj",
+      "Jún",
+      "Júl",
+      "August",
+      "September",
+      "Október",
+      "November",
+      "December"
+    ],
+    "shortMonths": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Máj",
+      "Jún",
+      "Júl",
+      "Aug",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Dec"
+    ],
+    "days": [
+      "Nedeľa",
+      "Pondelok",
+      "Utorok",
+      "Streda",
+      "Štvrtok",
+      "Piatok",
+      "Sobota"
+    ],
+    "shortDays": ["Ne", "Po", "Ut", "St", "Št", "Pi", "So"],
+    "toolbar": {
+      "exportToSVG": "Stiahnuť SVG",
+      "exportToPNG": "Stiahnuť PNG",
+      "exportToCSV": "Stiahnuť CSV",
+      "menu": "Menu",
+      "selection": "Vyberanie",
+      "selectionZoom": "Zoom: Vyberanie",
+      "zoomIn": "Zoom: Priblížiť",
+      "zoomOut": "Zoom: Vzdialiť",
+      "pan": "Presúvanie",
+      "reset": "Resetovať"
+    }
+  }
+}

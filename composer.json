@@ -11,11 +11,13 @@
     "require": {
         "php": "^8.2",
         "amenadiel/jpgraph": "*",
+        "bacon/bacon-qr-code": "^3.0",
         "laravel/framework": "^12.0",
         "laravel/socialite": "^5.21",
         "laravel/tinker": "^2.10.1",
         "nwidart/laravel-modules": "^8.6",
         "phpoffice/phpspreadsheet": "^1.29",
+        "pragmarx/google2fa-laravel": "^2.3",
         "socialiteproviders/google": "^4.1",
         "webklex/laravel-imap": "^4.1"
     },

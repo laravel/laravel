@@ -32,12 +32,21 @@ class GoogleAuthController extends Controller
                 if ($user) {
                     // Usuario existe pero no tiene google_id - actualizarlo
                     $user->update(['google_id' => $googleUser->id]);
+                    /*
+                    // Si el usuario existe pero tenía otro método de login
+                    if (empty($user->google_id)) {
+                        // Actualizar con google_id
+                        $user->google_id = $googleUser->id;
+                        $user->save();
+                    }
+                    */
                 } else {
                     // Crear nuevo usuario
                     $user = User::create([
                         'name' => $googleUser->name,
                         'email' => $googleUser->email,
                         'google_id' => $googleUser->id,
+                        'email_verified_at' => now(),
                         'password' => bcrypt(Str::random(16)), // Contraseña aleatoria
                         // Añade aquí otros campos requeridos por Beeze
                     ]);
@@ -46,6 +55,11 @@ class GoogleAuthController extends Controller
 
             // Autenticar al usuario
             Auth::login($user);
+            request()->session()->put('2fa_user_id', $user->id);
+
+            if ($user->google2fa_enabled)
+                return redirect()->route('2fa.verify');
+
 
             return redirect('/dashboard'); // Ajusta según tu ruta
 

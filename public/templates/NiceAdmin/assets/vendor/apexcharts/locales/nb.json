@@ -1,0 +1,55 @@
+{
+  "name": "nb",
+  "options": {
+    "months": [
+      "Januar",
+      "Februar",
+      "Mars",
+      "April",
+      "Mai",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "Desember"
+    ],
+    "shortMonths": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Mai",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Des"
+    ],
+    "days": [
+      "Søndag",
+      "Mandag",
+      "Tirsdag",
+      "Onsdag",
+      "Torsdag",
+      "Fredag",
+      "Lørdag"
+    ],
+    "shortDays": ["Sø", "Ma", "Ti", "On", "To", "Fr", "Lø"],
+    "toolbar": {
+      "exportToSVG": "Last ned SVG",
+      "exportToPNG": "Last ned PNG",
+      "exportToCSV": "Last ned CSV",
+      "menu": "Menu",
+      "selection": "Velg",
+      "selectionZoom": "Zoom: Velg",
+      "zoomIn": "Zoome inn",
+      "zoomOut": "Zoome ut",
+      "pan": "Skyving",
+      "reset": "Start på nytt"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "name": "sq",
+  "options": {
+    "months": [
+      "Janar",
+      "Shkurt",
+      "Mars",
+      "Prill",
+      "Maj",
+      "Qershor",
+      "Korrik",
+      "Gusht",
+      "Shtator",
+      "Tetor",
+      "Nëntor",
+      "Dhjetor"
+    ],
+    "shortMonths": [
+      "Jan",
+      "Shk",
+      "Mar",
+      "Pr",
+      "Maj",
+      "Qer",
+      "Korr",
+      "Gush",
+      "Sht",
+      "Tet",
+      "Nën",
+      "Dhj"
+    ],
+    "days": [
+      "e Dielë",
+      "e Hënë",
+      "e Martë",
+      "e Mërkurë",
+      "e Enjte",
+      "e Premte",
+      "e Shtunë"
+    ],
+    "shortDays": ["Die", "Hën", "Mar", "Mër", "Enj", "Pre", "Sht"],
+    "toolbar": {
+      "exportToSVG": "Shkarko SVG",
+      "exportToPNG": "Shkarko PNG",
+      "exportToCSV": "Shkarko CSV",
+      "menu": "Menu",
+      "selection": "Seleksiono",
+      "selectionZoom": "Seleksiono Zmadhim",
+      "zoomIn": "Zmadho",
+      "zoomOut": "Zvogëlo",
+      "pan": "Spostoje",
+      "reset": "Rikthe dimensionin"
+    }
+  }
+}

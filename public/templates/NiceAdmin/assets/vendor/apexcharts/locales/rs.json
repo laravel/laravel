@@ -1,0 +1,55 @@
+{
+  "name": "rs",
+  "options": {
+    "months": [
+      "Januar",
+      "Februar",
+      "Mart",
+      "April",
+      "Maj",
+      "Jun",
+      "Jul",
+      "Avgust",
+      "Septembar",
+      "Oktobar",
+      "Novembar",
+      "Decembar"
+    ],
+    "shortMonths": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "Maj",
+      "Jun",
+      "Jul",
+      "Avg",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Dec"
+    ],
+    "days": [
+      "Nedelja",
+      "Ponedeljak",
+      "Utorak",
+      "Sreda",
+      "Četvrtak",
+      "Petak",
+      "Subota"
+    ],
+    "shortDays": ["Ned", "Pon", "Uto", "Sre", "Čet", "Pet", "Sub"],
+    "toolbar": {
+      "exportToSVG": "Preuzmi SVG",
+      "exportToPNG": "Preuzmi PNG",
+      "exportToCSV": "Preuzmi CSV",
+      "menu": "Meni",
+      "selection": "Odabir",
+      "selectionZoom": "Odabirno povećanje",
+      "zoomIn": "Uvećajte prikaz",
+      "zoomOut": "Umanjite prikaz",
+      "pan": "Pomeranje",
+      "reset": "Resetuj prikaz"
+    }
+  }
+}

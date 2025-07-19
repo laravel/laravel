@@ -1,0 +1,64 @@
+{
+  "name": "lv",
+  "options": {
+    "months": [
+      "janvāris",
+      "februāris",
+      "marts",
+      "aprīlis",
+      "maijs",
+      "jūnijs",
+      "jūlijs",
+      "augusts",
+      "septembris",
+      "oktobris",
+      "novembris",
+      "decembris"
+    ],
+    "shortMonths": [
+      "janv",
+      "febr",
+      "marts",
+      "apr",
+      "maijs",
+      "jūn",
+      "jūl",
+      "aug",
+      "sept",
+      "okt",
+      "nov",
+      "dec"
+    ],
+    "days": [
+      "svētdiena",
+      "pirmdiena",
+      "otrdiena",
+      "trešdiena",
+      "ceturtdiena",
+      "piektdiena",
+      "sestdiena"
+    ],
+    "shortDays": [
+      "Sv",
+      "P",
+      "O",
+      "T",
+      "C",
+      "P",
+      "S"
+    ],
+    "toolbar": {
+      "exportToSVG": "Lejuplādēt SVG",
+      "exportToPNG": "Lejuplādēt PNG",
+      "exportToCSV": "Lejuplādēt CSV",
+      "menu": "Izvēlne",
+      "selection": "Atlase",
+      "selectionZoom": "Pietuvināt atlasi",
+      "zoomIn": "Pietuvināt",
+      "zoomOut": "Attālināt",
+      "pan": "Pārvietoties diagrammā",
+      "reset": "Atiestatīt pietuvinājumu"
+    }
+  }
+}
+

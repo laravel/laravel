@@ -1,0 +1,64 @@
+{
+  "name": "hu",
+  "options": {
+    "months": [
+      "január",
+      "február",
+      "március",
+      "április",
+      "május",
+      "június",
+      "július",
+      "augusztus",
+      "szeptember",
+      "október",
+      "november",
+      "december"
+    ],
+    "shortMonths": [
+      "jan",
+      "feb",
+      "mar",
+      "ápr",
+      "máj",
+      "jún",
+      "júl",
+      "aug",
+      "szept",
+      "okt",
+      "nov",
+      "dec"
+    ],
+    "days": [
+      "hétfő",
+      "kedd",
+      "szerda",
+      "csütörtök",
+      "péntek",
+      "szombat",
+      "vasárnap"
+    ],
+    "shortDays": [
+      "H",
+      "K",
+      "Sze",
+      "Cs",
+      "P",
+      "Szo",
+      "V"
+    ],
+    "toolbar": {
+      "exportToSVG": "Exportálás SVG-be",
+      "exportToPNG": "Exportálás PNG-be",
+      "exportToCSV": "Exportálás CSV-be",
+      "menu": "Fő ajánlat",
+      "download": "SVG letöltése",
+      "selection": "Kiválasztás",
+      "selectionZoom": "Nagyító kiválasztása",
+      "zoomIn": "Nagyítás",
+      "zoomOut": "Kicsinyítés",
+      "pan": "Képcsúsztatás",
+      "reset": "Nagyító visszaállítása"
+    }
+  }
+}

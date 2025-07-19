@@ -24,7 +24,24 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        try {
+            $request->authenticate();
+        } catch (\Throwable $th) {
+            return back()
+                ->with("error", "Tu correo o contraseña son incorrectos. Intenta nuevamente.");
+        }
+
+        $user = $request->user();
+
+        // Verificar si el usuario tiene 2FA habilitado
+        if ($user->google2fa_enabled) {
+            Auth::logout();
+
+            $request->session()->put('2fa_user_id', $user->id);
+            $request->session()->put('2fa_remember', $request->has('remember'));
+
+            return redirect()->route('2fa.verify');
+        }
 
         $request->session()->regenerate();
 
