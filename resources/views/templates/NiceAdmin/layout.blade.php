@@ -30,8 +30,10 @@
 
 @section('cssincludes')
     @include("templates.NiceAdmin.head")
+    @yield('layoutcssincludes')
 @endsection
 
 @section('jsincludes')
     @include("templates.NiceAdmin.footer")
+    @yield('layoutjsincludes')
 @endsection

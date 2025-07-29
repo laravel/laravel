@@ -40,7 +40,8 @@
             "Modules\\GutoTradeBot\\": "Modules/GutoTradeBot/",
             "Modules\\ZentroCriptoBot\\": "Modules/ZentroCriptoBot/",
             "Modules\\ZentroOwnerBot\\": "Modules/ZentroOwnerBot/",
-            "Modules\\ZentroTraderBot\\": "Modules/ZentroTraderBot/"
+            "Modules\\ZentroTraderBot\\": "Modules/ZentroTraderBot/",
+            "Modules\\Web3\\": "Modules/Web3/"
         },
         "files": [
             "app/Helpers/ModuleHelper.php"

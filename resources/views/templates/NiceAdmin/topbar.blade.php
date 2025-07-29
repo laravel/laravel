@@ -1,3 +1,21 @@
+@section('layoutjsincludes')
+    @include('web3::include.script.wallet_actions')
+@endsection
+
+<script>
+    @section('ondocumentready')
+        // INIT web3modal configurations:
+        initializeWeb3Modal(function (account, size = 8, callback = false) {
+            onWalletConnected(account, 16, callback);
+        }, function (account, size = 8, callback = false) {
+            onWalletDisconnected(function () {
+                window.location.href = "{{ route('login') }}";
+            });
+        }, function (account) {
+
+        });
+    @endsection
+</script>
 <!-- ======= Header ======= -->
 <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -21,6 +39,19 @@
                     <i class="bi bi-search"></i>
                 </a>
             </li><!-- End Search Icon-->
+
+            <li class="nav-item dropdown">
+
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+                    <li class="dropdown-header">
+                        You have 4 new notifications
+                        <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                    </li>
+
+
+                </ul><!-- End Notification Dropdown Items -->
+
+            </li><!-- End Notification Nav -->
 
             <li class="nav-item dropdown">
 
@@ -170,21 +201,35 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <img src="{{ asset('templates/NiceAdmin/assets/img/profile-img.jpg') }}" alt="Profile"
-                        class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
-                </a><!-- End Profile Iamge Icon -->
+                        class="rounded-circle disconected">
+                    <span class="d-none d-md-block dropdown-toggle ps-2">
+                        <span class="disconected" style="display: none;">{{ Auth::user()->name }}</span>
+                        <span class="wallet-address conected" style="display: none;"></span>
+                    </span>
+                </a>
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                    <li class="dropdown-header">
-                        <h6>Kevin Anderson</h6>
-                        <span>Web Designer</span>
+                    <li class="dropdown-header disconected">
+                        <h6>{{ Auth::user()->name }}</h6>
+                        <span>{{ Auth::user()->email }}</span>
                     </li>
-                    <li>
+                    <li class="disconected">
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li class="conected">
+                        <a class="dropdown-item d-flex align-items-center" href="#wallet"
+                            onclick="window.web3Modal.openModal()">
+                            <i class="bi bi-qr-code"></i>
+                            <span>Wallet</span>
+                        </a>
+                    </li>
+                    <li class="conected">
                         <hr class="dropdown-divider">
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+                        <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.edit') }}">
                             <i class="bi bi-person"></i>
                             <span>My Profile</span>
                         </a>
@@ -206,19 +251,26 @@
                     <li>
                         <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
                             <i class="bi bi-question-circle"></i>
-                            <span>Need Help?</span>
+                            <span>&nbsp;&nbsp;Need Help?</span>
                         </a>
                     </li>
-                    <li>
+
+                    <li class="disconected">
                         <hr class="dropdown-divider">
                     </li>
 
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="#">
+                    <li class="disconected">
+                        <form method="POST" action="{{ route('logout') }}"
+                            class="dropdown-item d-flex align-items-center">
+                            @csrf
                             <i class="bi bi-box-arrow-right"></i>
-                            <span>Sign Out</span>
-                        </a>
+                            <button type="submit" style="background: none;border: none;">
+                                {{ trans("messages.form.field.logout.label") }}
+                            </button>
+
+                        </form>
                     </li>
+                    </div>
 
                 </ul><!-- End Profile Dropdown Items -->
             </li><!-- End Profile Nav -->

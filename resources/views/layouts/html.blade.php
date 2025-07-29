@@ -11,10 +11,19 @@
     <!-- MANDATORY Here -->
     <script src="{{ asset('zentro/extra/jquery/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('zentro/extra/sweetalert2/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('zentro/extra/toastr/toastr.min.js') }}"></script>
+    <!-- Zentro Web3Modal -->
+    <script src="{{ asset('zentro/extra/web3.min.js') }}"></script>
+    <!-- Zentro Utilities -->
+    <script src="{{ asset('zentro/zentro.js') }}"></script>
+    <script src="{{ asset('zentro/walletconnect.js') }}" type="module"></script>
+    <!-- Loaging GLOBAL config -->
+    <script type="text/javascript">
+        var config = @json(config('metadata.cripto'));
+    </script>
 
     <!-- Tabler style -->
     <link href="{{ asset('zentro/extra/tablericons/tabler-icons.min.css') }}" rel="stylesheet">
-
 
 </head>
 
@@ -25,8 +34,6 @@
     @yield('content')
 
     @yield('jsincludes')
-
-    <!-- Toastr & Swal Message-->
 
     <script>
 
