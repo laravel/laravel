@@ -33,6 +33,7 @@ use App\Http\Controllers\FileController;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Modules\GutoTradeBot\Jobs\CheckEmails;
+use Illuminate\Support\Facades\Storage;
 
 class TestController extends Controller
 {
@@ -41,6 +42,12 @@ class TestController extends Controller
         $bot = new GutoTradeBotController("IrelandPaymentsBot");
         $bot->actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");
         // ----------------------------------------------------------------
+
+
+
+        $response = $bot->TelegramController->exportFileLocally("AgACAgEAAxkBAAIEtWgU3p93-ImyhVgfK2DpzEE3tJKkAALarjEbnW6oRFe8vIv8tEB3AQADAgADeQADNgQ", $bot->token);
+        dd($response);
+
 
 
         //4143

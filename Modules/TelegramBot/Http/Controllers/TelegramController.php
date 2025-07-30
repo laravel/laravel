@@ -4,6 +4,7 @@ namespace Modules\TelegramBot\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\FileController;
 
 class TelegramController extends Controller
 {
@@ -326,5 +327,25 @@ class TelegramController extends Controller
         $contents = file_get_contents($url);
 
         return $contents;
+    }
+
+    public function exportFileLocally($fileId, $bot_token)
+    {
+        $response = $this->getFileUrl($fileId, $bot_token);
+        $response = json_decode($response, true);
+        $filePath = $response["result"]["file_path"];
+        $imageUrl = "https://api.telegram.org/file/bot{$bot_token}/{$filePath}";
+        // Descargar y guardar la imagen localmente
+        $imageContent = file_get_contents($imageUrl);
+        $filename = FileController::getFileNameAsUnixTime("jpg", 1, "HOURS");
+        file_put_contents(public_path() . FileController::$AUTODESTROY_DIR . "/" . $filename, $imageContent);
+
+
+        $array = explode(".", $filename);
+        return array(
+            "filename" => $array[0],
+            "extension" => $array[1],
+            "url" => request()->root() . FileController::$AUTODESTROY_DIR . "/" . $filename,
+        );
     }
 }
