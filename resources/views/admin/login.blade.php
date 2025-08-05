@@ -76,7 +76,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
       @endif
-      <form action="{{ route('admin.login.submit') }}" method="post">@csrf
+      <form action="{{ route('admin.login.request') }}" method="post">@csrf
           <div class="input-group mb-1">
             <div class="form-floating">
               <input id="loginEmail" name="email" type="email" class="form-control" value="" placeholder="Email" />
