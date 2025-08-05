@@ -20,9 +20,8 @@ class AdminController extends Controller
         return view('admin.login');
     }
 
-
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
+            
         $data = $request->all();
         if (Auth::guard('admin')->attempt(['email' => $data['email'], 'password' => $data['password']])) {
             return redirect('admin/dashboard');
