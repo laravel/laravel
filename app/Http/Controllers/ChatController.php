@@ -23,6 +23,10 @@ class ChatController extends Controller
     public function send(Request $request, Agent $agent)
     {
         $user = $request->user();
+        $requiredMin = $agent->requiredMinCredits();
+        if ($requiredMin !== null && $user->credits < $requiredMin) {
+            return response()->json(['error' => 'This agent requires at least '.$requiredMin.' credits.'], 403);
+        }
         if ($user->credits <= 0) {
             return response()->json(['error' => 'Insufficient credits'], 402);
         }
@@ -83,6 +87,42 @@ class ChatController extends Controller
             'message' => $answer,
             'deducted' => $deduct,
             'remaining_credits' => $user->fresh()->credits,
+        ]);
+    }
+
+    public function guest(Request $request, Agent $agent)
+    {
+        $data = $request->validate([
+            'message' => 'required|string|max:4000',
+            'thread_key' => 'nullable|string',
+        ]);
+
+        $trialUsed = (int) $request->session()->get('guest_trial_count', 0);
+        if ($trialUsed >= 3) {
+            return response()->json(['error' => 'Trial limit reached. Please log in.'], 429);
+        }
+
+        $message = $this->filterBadWords($data['message']);
+
+        $messages = [];
+        if ($agent->prompt) $messages[] = ['role' => 'system', 'content' => $agent->prompt];
+        $messages[] = ['role' => 'user', 'content' => $message];
+
+        $client = OpenAI::client(config('services.openai.api_key'));
+        $resp = $client->chat()->create([
+            'model' => $agent->model,
+            'messages' => $messages,
+            'temperature' => $agent->temperature ?? 1.0,
+            'max_tokens' => $agent->max_tokens ?? 256,
+        ]);
+
+        $answer = $resp->choices[0]->message->content ?? '';
+
+        $request->session()->put('guest_trial_count', $trialUsed + 1);
+
+        return response()->json([
+            'message' => $answer,
+            'remaining_trial' => max(0, 3 - ($trialUsed + 1)),
         ]);
     }
 }

@@ -39,4 +39,15 @@ class Agent extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function tiers()
+    {
+        return $this->belongsToMany(Tier::class);
+    }
+
+    public function requiredMinCredits(): ?int
+    {
+        $min = $this->tiers()->min('min_credits');
+        return $min ? (int) $min : null;
+    }
 }

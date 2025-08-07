@@ -16,6 +16,7 @@
             <input id="message" class="flex-1 border rounded p-2" placeholder="Type your message"/>
             <button id="send" class="px-4 py-2 bg-indigo-600 text-white rounded">Send</button>
         </div>
+        <div class="mt-2 text-sm text-gray-500">@auth You're logged in, full credits apply. @else You have 3 trial messages before login. @endauth</div>
     </div>
     @vite(['resources/js/app.js'])
     <script>
@@ -36,13 +37,13 @@
             replyDiv.innerHTML = '<div class="inline-block bg-gray-50 dark:bg-gray-800 rounded p-2">...</div>';
             chat.appendChild(replyDiv);
             try {
-                const res = await axios.post('/api/chat/{{ $agent->slug }}'+ (threadId ? ('?thread_id='+threadId) : ''), {
-                    message: text,
-                    thread_id: threadId,
-                });
-                threadId = res.data.thread_id;
+                const url = @json(auth()->check() ? url('/api/chat/'.$agent->slug.'/send') : url('/api/chat/'.$agent->slug.'/guest'));
+                const payload = @json(auth()->check()) ? {message: text, thread_id: threadId} : {message: text};
+                const res = await axios.post(url + (threadId && @json(auth()->check()) ? ('?thread_id='+threadId) : ''), payload);
+                if (res.data.thread_id) threadId = res.data.thread_id;
+                const suffix = res.data.remaining_trial !== undefined ? ` (Trials left: ${res.data.remaining_trial})` : '';
                 replyDiv.innerHTML = '<div class="inline-block bg-gray-50 dark:bg-gray-800 rounded p-2">'+
-                  (res.data.message || '(empty)') +'</div>';
+                  (res.data.message || '(empty)') + suffix +'</div>';
             } catch (e) {
                 replyDiv.innerHTML = '<div class="inline-block bg-red-50 text-red-700 rounded p-2">'+ (e.response?.data?.error || 'Error') +'</div>';
             }
