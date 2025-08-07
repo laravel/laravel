@@ -14,6 +14,10 @@ class Agent extends Model
         'slug',
         'model',
         'temperature',
+        'max_tokens',
+        'top_p',
+        'frequency_penalty',
+        'presence_penalty',
         'prompt',
         'avatar_url',
         'welcome_message',
@@ -26,6 +30,9 @@ class Agent extends Model
         'config' => 'array',
         'is_public' => 'boolean',
         'temperature' => 'float',
+        'top_p' => 'float',
+        'frequency_penalty' => 'float',
+        'presence_penalty' => 'float',
     ];
 
     public function category()

@@ -51,11 +51,17 @@ class ChatController extends Controller
         if ($agent->prompt) array_unshift($messages, ['role' => 'system', 'content' => $agent->prompt]);
 
         $client = OpenAI::client(config('services.openai.api_key'));
-        $resp = $client->chat()->create([
+        $params = [
             'model' => $agent->model,
             'messages' => $messages,
             'temperature' => $agent->temperature ?? 1.0,
-        ]);
+        ];
+        if ($agent->max_tokens) $params['max_tokens'] = $agent->max_tokens;
+        if ($agent->top_p) $params['top_p'] = $agent->top_p;
+        if ($agent->frequency_penalty) $params['frequency_penalty'] = $agent->frequency_penalty;
+        if ($agent->presence_penalty) $params['presence_penalty'] = $agent->presence_penalty;
+
+        $resp = $client->chat()->create($params);
 
         $answer = $resp->choices[0]->message->content ?? '';
         $promptTokens = $resp->usage->promptTokens ?? 0;

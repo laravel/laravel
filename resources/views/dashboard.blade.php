@@ -21,6 +21,12 @@
                         </select>
                         <button class="px-3 py-2 bg-indigo-600 text-white rounded">Buy with Stripe</button>
                     </form>
+                    <div class="mt-6">
+                        @php($latest = \App\Models\ChatThread::where('user_id', Auth::id())->latest()->first())
+                        @if($latest)
+                            <a href="{{ route('threads.share', $latest) }}" class="text-indigo-600">Share last chat</a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

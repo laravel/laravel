@@ -7,6 +7,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CreditPackageController;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ThreadController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,7 +31,10 @@ Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(func
 
 Route::middleware('auth')->group(function () {
     Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+    Route::get('/threads/{thread}/share', [ThreadController::class, 'share'])->name('threads.share');
 });
+
+Route::get('/t/{thread}', [ThreadController::class, 'show'])->name('threads.show');
 
 Route::post('/stripe/webhook', [PaymentController::class, 'webhook'])->name('stripe.webhook');
 
