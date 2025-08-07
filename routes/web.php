@@ -5,7 +5,6 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\InstallerController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CreditPackageController;
-use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\Admin\PaymentAdminController;
@@ -26,7 +25,6 @@ Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(func
     Route::view('/', 'admin.index')->name('index');
     Route::resource('agents', AgentController::class);
     Route::resource('packages', CreditPackageController::class)->except(['show']);
-    Route::resource('blog', BlogPostController::class);
     Route::resource('pages', PageController::class);
     Route::get('payments', [PaymentAdminController::class, 'index'])->name('payments.index');
     Route::post('payments/{payment}/approve', [PaymentAdminController::class, 'approve'])->name('payments.approve');
