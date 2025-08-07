@@ -4,62 +4,58 @@ namespace App\Http\Controllers;
 
 use App\Models\CreditPackage;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class CreditPackageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
-        //
+        $packages = CreditPackage::orderBy('price')->paginate(20);
+        return view('admin.packages.index', compact('packages'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('admin.packages.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'credits' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0.5',
+            'currency' => 'required|string|size:3',
+            'description' => 'nullable|string',
+            'is_active' => 'boolean',
+        ]);
+        CreditPackage::create($data);
+        return redirect()->route('admin.packages.index')->with('status', 'Package created');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(CreditPackage $creditPackage)
+    public function edit(CreditPackage $creditPackage): View
     {
-        //
+        return view('admin.packages.edit', ['pkg' => $creditPackage]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(CreditPackage $creditPackage)
+    public function update(Request $request, CreditPackage $creditPackage): RedirectResponse
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'credits' => 'required|integer|min:1',
+            'price' => 'required|numeric|min:0.5',
+            'currency' => 'required|string|size:3',
+            'description' => 'nullable|string',
+            'is_active' => 'boolean',
+        ]);
+        $creditPackage->update($data);
+        return redirect()->route('admin.packages.index')->with('status', 'Package updated');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, CreditPackage $creditPackage)
+    public function destroy(CreditPackage $creditPackage): RedirectResponse
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(CreditPackage $creditPackage)
-    {
-        //
+        $creditPackage->delete();
+        return back()->with('status', 'Package deleted');
     }
 }

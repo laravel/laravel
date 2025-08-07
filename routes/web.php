@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\InstallerController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\CreditPackageController;
+use App\Http\Controllers\BlogPostController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -20,6 +23,9 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::view('/', 'admin.index')->name('index');
     Route::resource('agents', AgentController::class);
+    Route::resource('packages', CreditPackageController::class)->except(['show']);
+    Route::resource('blog', BlogPostController::class);
+    Route::resource('pages', PageController::class);
 });
 
 Route::middleware('auth')->group(function () {
