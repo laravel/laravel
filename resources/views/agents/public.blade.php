@@ -9,11 +9,44 @@
                 <p class="text-sm text-gray-500">Model: {{ $agent->model }}</p>
             </div>
         </div>
-        <div id="chat" class="border rounded p-4 min-h-64">
-            <p class="text-gray-500">Chat UI coming next. Welcome: {{ $agent->welcome_message }}</p>
+        <div id="chat" class="border rounded p-4 min-h-64 space-y-3">
+            <div class="text-gray-500">{{ $agent->welcome_message }}</div>
         </div>
-        <div class="mt-4">
-            <iframe src="{{ route('agents.public', $agent->slug) }}" class="w-full h-96 border rounded"></iframe>
+        <div class="mt-4 flex space-x-2">
+            <input id="message" class="flex-1 border rounded p-2" placeholder="Type your message"/>
+            <button id="send" class="px-4 py-2 bg-indigo-600 text-white rounded">Send</button>
         </div>
     </div>
+    @vite(['resources/js/app.js'])
+    <script>
+        const chat = document.getElementById('chat');
+        const input = document.getElementById('message');
+        const btn = document.getElementById('send');
+        let threadId = null;
+        btn.addEventListener('click', async () => {
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+            const userDiv = document.createElement('div');
+            userDiv.className = 'text-right';
+            userDiv.innerHTML = '<div class="inline-block bg-indigo-50 dark:bg-gray-800 rounded p-2">'+
+              document.createTextNode(text).textContent +'</div>';
+            chat.appendChild(userDiv);
+            const replyDiv = document.createElement('div');
+            replyDiv.innerHTML = '<div class="inline-block bg-gray-50 dark:bg-gray-800 rounded p-2">...</div>';
+            chat.appendChild(replyDiv);
+            try {
+                const res = await axios.post('/api/chat/{{ $agent->slug }}'+ (threadId ? ('?thread_id='+threadId) : ''), {
+                    message: text,
+                    thread_id: threadId,
+                });
+                threadId = res.data.thread_id;
+                replyDiv.innerHTML = '<div class="inline-block bg-gray-50 dark:bg-gray-800 rounded p-2">'+
+                  (res.data.message || '(empty)') +'</div>';
+            } catch (e) {
+                replyDiv.innerHTML = '<div class="inline-block bg-red-50 text-red-700 rounded p-2">'+ (e.response?.data?.error || 'Error') +'</div>';
+            }
+        });
+        input.addEventListener('keydown', (e) => { if (e.key === 'Enter') btn.click(); });
+    </script>
 </x-guest-layout>
