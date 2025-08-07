@@ -14,11 +14,49 @@
             @endif
         @endif
         <div class="mb-6 p-3 border rounded">
-            <div>Env file: <strong>{{ $hasEnv ? 'Found' : 'Missing (using .env.example)'}} </strong></div>
+            <div>Env file: <strong>{{ $hasEnv ? 'Found' : 'Missing (will create)'}} </strong></div>
             <div>App key: <strong>{{ $hasKey ? 'Set' : 'Not set (will be generated)'}} </strong></div>
         </div>
         <form method="POST" action="{{ route('install.store') }}" class="space-y-4">
             @csrf
+            <h2 class="text-lg font-medium">App & Database</h2>
+            <div>
+                <label class="block">APP_URL</label>
+                <input name="app_url" class="w-full p-2 border rounded" placeholder="https://example.com">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block">DB_HOST</label>
+                    <input name="db_host" class="w-full p-2 border rounded" placeholder="127.0.0.1">
+                </div>
+                <div>
+                    <label class="block">DB_DATABASE</label>
+                    <input name="db_database" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block">DB_USERNAME</label>
+                    <input name="db_username" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block">DB_PASSWORD</label>
+                    <input name="db_password" class="w-full p-2 border rounded">
+                </div>
+            </div>
+            <h2 class="text-lg font-medium">API Keys</h2>
+            <div>
+                <label class="block">OpenAI API Key</label>
+                <input name="openai" class="w-full p-2 border rounded" placeholder="sk-...">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block">Stripe Public Key</label>
+                    <input name="stripe_public" class="w-full p-2 border rounded" placeholder="pk_live_...">
+                </div>
+                <div>
+                    <label class="block">Stripe Secret Key</label>
+                    <input name="stripe_secret" class="w-full p-2 border rounded" placeholder="sk_live_...">
+                </div>
+            </div>
             <h2 class="text-lg font-medium">Create Admin User</h2>
             <div>
                 <label class="block">Name</label>
