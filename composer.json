@@ -8,7 +8,12 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/tinker": "^2.10.1",
+        "laravel/sanctum": "^4.0",
+        "stripe/stripe-php": "^14.0",
+        "openai-php/client": "^0.10",
+        "guzzlehttp/guzzle": "^7.8|^8.0",
+        "predis/predis": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -17,7 +22,8 @@
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^11.5.3"
+        "phpunit/phpunit": "^11.5.3",
+        "laravel/breeze": "^2.0"
     },
     "autoload": {
         "psr-4": {
