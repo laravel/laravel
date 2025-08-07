@@ -21,6 +21,9 @@
                         </select>
                         <button class="px-3 py-2 bg-indigo-600 text-white rounded">Buy with Stripe</button>
                     </form>
+                    <div class="mt-2">
+                        <a href="{{ route('payments.manual.create') }}" class="text-sm text-gray-600 underline">Manual bank payment</a>
+                    </div>
                     <div class="mt-6">
                         @php($latest = \App\Models\ChatThread::where('user_id', Auth::id())->latest()->first())
                         @if($latest)

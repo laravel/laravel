@@ -8,6 +8,7 @@ use App\Http\Controllers\CreditPackageController;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\Admin\PaymentAdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,10 +28,15 @@ Route::middleware(['auth','admin'])->prefix('admin')->name('admin.')->group(func
     Route::resource('packages', CreditPackageController::class)->except(['show']);
     Route::resource('blog', BlogPostController::class);
     Route::resource('pages', PageController::class);
+    Route::get('payments', [PaymentAdminController::class, 'index'])->name('payments.index');
+    Route::post('payments/{payment}/approve', [PaymentAdminController::class, 'approve'])->name('payments.approve');
+    Route::post('payments/{payment}/fail', [PaymentAdminController::class, 'fail'])->name('payments.fail');
 });
 
 Route::middleware('auth')->group(function () {
     Route::post('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+    Route::get('/payments/manual', [PaymentController::class, 'manualCreate'])->name('payments.manual.create');
+    Route::post('/payments/manual', [PaymentController::class, 'manualStore'])->name('payments.manual.store');
     Route::get('/threads/{thread}/share', [ThreadController::class, 'share'])->name('threads.share');
 });
 

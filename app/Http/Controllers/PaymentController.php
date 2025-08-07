@@ -7,6 +7,8 @@ use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Stripe\StripeClient;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class PaymentController extends Controller
 {
@@ -49,6 +51,35 @@ class PaymentController extends Controller
         ]);
 
         return redirect($session->url);
+    }
+
+    public function manualCreate(): View
+    {
+        $packages = CreditPackage::where('is_active', true)->orderBy('price')->get();
+        return view('payments.manual', compact('packages'));
+    }
+
+    public function manualStore(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'package_id' => 'required|exists:credit_packages,id',
+            'reference' => 'required|string|max:255',
+            'notes' => 'nullable|string',
+        ]);
+        $package = CreditPackage::findOrFail($data['package_id']);
+
+        Payment::create([
+            'user_id' => $request->user()->id,
+            'credit_package_id' => $package->id,
+            'provider' => 'manual',
+            'provider_ref' => $data['reference'],
+            'amount' => $package->price,
+            'currency' => $package->currency,
+            'status' => 'pending',
+            'meta' => ['notes' => $data['notes'] ?? null],
+        ]);
+
+        return redirect()->route('dashboard')->with('status', 'Manual payment submitted. Awaiting approval.');
     }
 
     public function webhook(Request $request)
