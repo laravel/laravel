@@ -1,0 +1,12 @@
+# Define a placeholder in the PR description that CodeRabbit will
+# replace with a high-level summary of the changes.
+# The default placeholder is "@coderabbitai summary".
+high_level_summary_placeholder: "@coderabbitai summary"
+
+# You can also customize the instructions for generating the summary.
+# This is optional but can help tailor the output to your needs.
+reviews:
+  instructions: |
+    - Provide a concise, professional summary.
+    - Focus on the main features or bug fixes introduced.
+    - List the key changes in a bulleted format.
