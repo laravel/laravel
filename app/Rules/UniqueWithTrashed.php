@@ -11,7 +11,6 @@ class UniqueWithTrashed implements ValidationRule
     protected string $column;
     protected ?int $ignoreId;
 
-
     public function __construct(string $modelClass, string $column = 'name', ?int $ignoreId = null)
     {
         $this->modelClass = $modelClass;
