@@ -1,0 +1,29 @@
+#!/bin/bash
+set -e
+cd /var/www/laravel
+
+# Composer (installed globally as /usr/local/bin/composer or via dnf)
+if ! command -v composer >/dev/null 2>&1; then
+  php -r "copy('https://getcomposer.org/installer','composer-setup.php')"
+  php composer-setup.php
+  sudo mv composer.phar /usr/local/bin/composer
+fi
+
+composer install --no-dev --optimize-autoloader
+
+# Keep .env off-repo: place it once at /var/www/.env and link
+if [ ! -f .env ] && [ -f /var/www/.env ]; then
+  ln -s /var/www/.env .env
+fi
+
+php artisan key:generate --force || true
+php artisan migrate --force || true
+
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+php artisan config:cache
+
+mkdir -p storage bootstrap/cache
+chmod -R ug+rw storage bootstrap/cache
