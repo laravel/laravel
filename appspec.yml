@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/laravel
+    overwrite: true
+hooks:
+  AfterInstall:
+    - location: scripts/after_install.sh
+      timeout: 600
+      runas: ec2-user
+  ApplicationStart:
+    - location: scripts/app_start.sh
+      timeout: 300
+      runas: ec2-user
