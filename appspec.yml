@@ -4,6 +4,14 @@ files:
   - source: /
     destination: /var/www/laravel
     overwrite: true
+
+permissions:
+  - object: /var/www/laravel/scripts
+    pattern: "*.sh"
+    mode: 755
+    owner: ec2-user
+    group: ec2-user
+
 hooks:
   AfterInstall:
     - location: scripts/after_install.sh
