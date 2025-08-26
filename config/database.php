@@ -158,7 +158,7 @@ return [
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_DB', '0'),
-            ...env('REDIS_CLIENT', 'phpredis') === 'phpredis' && extension_loaded('redis')
+            ...extension_loaded('redis')
                 ? [
                     'max_retries' => env('REDIS_MAX_RETRIES', 3),
                     'backoff_algorithm' => match (env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter')) {
@@ -180,7 +180,7 @@ return [
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_CACHE_DB', '1'),
-            ...env('REDIS_CLIENT', 'phpredis') === 'phpredis' && extension_loaded('redis')
+            ...extension_loaded('redis')
                 ? [
                     'max_retries' => env('REDIS_MAX_RETRIES', 3),
                     'backoff_algorithm' => match (env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter')) {
