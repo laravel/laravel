@@ -158,6 +158,19 @@ return [
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_DB', '0'),
+            ...env('REDIS_CLIENT', 'phpredis') === 'phpredis' && extension_loaded('redis')
+                ? [
+                    'max_retries' => env('REDIS_MAX_RETRIES', 3),
+                    'backoff_algorithm' => match (env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter')) {
+                        'default' => Redis::BACKOFF_ALGORITHM_DEFAULT,
+                        'exponential' => Redis::BACKOFF_ALGORITHM_EXPONENTIAL,
+                        'full_jitter' => Redis::BACKOFF_ALGORITHM_FULL_JITTER,
+                        'equal_jitter' => Redis::BACKOFF_ALGORITHM_EQUAL_JITTER,
+                        'decorrelated_jitter' => Redis::BACKOFF_ALGORITHM_DECORRELATED_JITTER,
+                    },
+                    'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
+                    'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
+                ] : [],
         ],
 
         'cache' => [
@@ -167,6 +180,19 @@ return [
             'password' => env('REDIS_PASSWORD'),
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_CACHE_DB', '1'),
+            ...env('REDIS_CLIENT', 'phpredis') === 'phpredis' && extension_loaded('redis')
+                ? [
+                    'max_retries' => env('REDIS_MAX_RETRIES', 3),
+                    'backoff_algorithm' => match (env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter')) {
+                        'default' => Redis::BACKOFF_ALGORITHM_DEFAULT,
+                        'exponential' => Redis::BACKOFF_ALGORITHM_EXPONENTIAL,
+                        'full_jitter' => Redis::BACKOFF_ALGORITHM_FULL_JITTER,
+                        'equal_jitter' => Redis::BACKOFF_ALGORITHM_EQUAL_JITTER,
+                        'decorrelated_jitter' => Redis::BACKOFF_ALGORITHM_DECORRELATED_JITTER,
+                    },
+                    'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
+                    'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
+                ] : [],
         ],
 
     ],
