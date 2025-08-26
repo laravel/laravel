@@ -18,27 +18,29 @@
 
 ## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel eases common tasks in many web projects, such as:
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing) <!-- Quick link to routing docs -->
-- [Powerful dependency injection container](https://laravel.com/docs/container) <!-- DI container docs -->
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent)
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations)
-- [Robust background job processing](https://laravel.com/docs/queues)
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting)
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel provides all the tools required for large, robust applications.
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
 ## Learning Laravel
 
-- Official [documentation](https://laravel.com/docs) is thorough and easy to follow
-- Try [Laravel Bootcamp](https://bootcamp.laravel.com) to build a modern app step by step
-- [Laracasts](https://laracasts.com) offers thousands of video tutorials on Laravel, PHP, testing, and JavaScript
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
 ## Laravel Sponsors
 
-Thanks to the following sponsors for supporting Laravel development:
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
 ### Premium Partners
 
@@ -53,16 +55,16 @@ Thanks to the following sponsors for supporting Laravel development:
 
 ## Contributing
 
-Please see the [contribution guide](https://laravel.com/docs/contributions) for instructions on submitting PRs and issues.
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
 ## Code of Conduct
 
-Review and follow the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct) to ensure a welcoming community.
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
 ## Security Vulnerabilities
 
-If you find a security vulnerability, please email Taylor Otwell at [taylor@laravel.com](mailto:taylor@laravel.com).
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
 ## License
 
-Laravel is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
