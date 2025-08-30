@@ -28,7 +28,7 @@ class Web3ServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
-        $this->loadTranslationsFrom(module_path($this->moduleName, 'lang'), $this->moduleName);
+        $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleName);
         //$this->loadRoutesFrom(module_path($this->moduleName, 'Routes'));
     }
 

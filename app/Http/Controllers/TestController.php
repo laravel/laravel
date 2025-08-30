@@ -49,6 +49,9 @@ class TestController extends Controller
         dd($response);
 
 
+        die(trans("Web3::messages.menu.title"));
+
+
 
         //4143
         $id = 1134;

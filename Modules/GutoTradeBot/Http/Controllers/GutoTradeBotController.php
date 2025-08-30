@@ -100,6 +100,21 @@ class GutoTradeBotController extends JsonsController
         if (isset($this->message["text"]) && $this->message["text"] != "") {
             $array = $this->getCommand($this->message["text"]);
 
+
+            $studlyAction = "Action";
+            $jobClass = "Modules\\GutoTradeBot\\Jobs\\{$studlyAction}";
+            // Ejecución síncrona (para casos que necesiten respuesta inmediata)
+            $reply = $jobClass::dispatchSync(
+                $this
+            );
+            /*
+            // Para ejecutar en cola (async):
+$jobClass::dispatch($request->all(), auth()->id());
+
+// Para ejecutar ahora mismo (sync):
+$jobClass::dispatchSync($request->all(), auth()->id());
+            */
+
             switch (strtolower($array["command"])) {
                 case "/start":
                 case "start":
