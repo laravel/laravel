@@ -44,4 +44,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    // Un usuario puede tener muchos roles
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * Check if the user has a certain role.
+     */
+    public function hasRole(string $roleName)
+    {
+        return $this->roles->contains('name', $roleName)->exists();
+    }
 }
