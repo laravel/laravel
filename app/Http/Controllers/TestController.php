@@ -44,6 +44,28 @@ class TestController extends Controller
         // ----------------------------------------------------------------
 
 
+        $client = new \GuzzleHttp\Client();
+
+        $imagePath = public_path() . FileController::$AUTODESTROY_DIR . "/1756565405.jpg";
+
+        $response = $client->request('POST', 'https://api.ocr.space/parse/image', [
+            'headers' => ['apiKey' => 'K85608386588957'], // API key gratuita
+            'multipart' => [
+                [
+                    'name' => 'file',
+                    'contents' => fopen($imagePath, 'r')
+                ],
+                [
+                    'name' => 'OCREngine',
+                    'contents' => '2'
+                ]
+            ]
+        ]);
+
+        dd(json_decode($response->getBody(), true)['ParsedResults'][0]['ParsedText']);
+
+
+
 
         $response = $bot->TelegramController->exportFileLocally("AgACAgEAAxkBAAIEtWgU3p93-ImyhVgfK2DpzEE3tJKkAALarjEbnW6oRFe8vIv8tEB3AQADAgADeQADNgQ", $bot->token);
         dd($response);
