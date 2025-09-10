@@ -107,8 +107,8 @@
                 <div class="panel panel-primary">
                     <div class="panel-body text-center">
                         <h3><i class="fa fa-calendar"></i></h3>
-                        <h4>{{ getCurrentMonth() }}</h4>
-                        <p>Periode Aktif</p>
+                        <h4>{{ getSelectedPeriod() }}</h4>
+                        <p>{{ hasSelectedDates ? 'Periode Terpilih' : 'Periode Aktif' }}</p>
                     </div>
                 </div>
             </div>
@@ -135,12 +135,17 @@ export default {
                 totalEmployees: 25,
                 slipsThisMonth: 18,
                 totalPayroll: 125000000
-            }
+            },
+            selectedStartDate: null,
+            selectedEndDate: null
         }
     },
     computed: {
         netSalary() {
             return this.salary.basic + this.salary.allowances - this.salary.deductions;
+        },
+        hasSelectedDates() {
+            return this.selectedStartDate && this.selectedEndDate;
         }
     },
     methods: {
@@ -153,6 +158,24 @@ export default {
                 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
             ];
             return months[new Date().getMonth()];
+        },
+        getSelectedPeriod() {
+            if (this.hasSelectedDates) {
+                const startDate = new Date(this.selectedStartDate);
+                const endDate = new Date(this.selectedEndDate);
+                const months = [
+                    'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+                    'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
+                ];
+                
+                if (startDate.getMonth() === endDate.getMonth() && startDate.getFullYear() === endDate.getFullYear()) {
+                    return months[startDate.getMonth()] + ' ' + startDate.getFullYear();
+                } else {
+                    return startDate.getDate() + ' ' + months[startDate.getMonth()] + ' - ' + 
+                           endDate.getDate() + ' ' + months[endDate.getMonth()];
+                }
+            }
+            return this.getCurrentMonth();
         },
         generateSlip() {
             // Simulate API call
@@ -176,6 +199,25 @@ export default {
     },
     mounted() {
         console.log('SlipGaji Vue component mounted successfully!');
+        
+        // Load selected dates from localStorage or global window object
+        if (window.selectedDateRange) {
+            this.selectedStartDate = window.selectedDateRange.startDate;
+            this.selectedEndDate = window.selectedDateRange.endDate;
+        } else {
+            // Fallback: check localStorage directly
+            const startDate = localStorage.getItem('startDate');
+            const endDate = localStorage.getItem('endDate');
+            if (startDate && endDate) {
+                this.selectedStartDate = startDate;
+                this.selectedEndDate = endDate;
+            }
+        }
+        
+        console.log('Selected date range:', {
+            start: this.selectedStartDate,
+            end: this.selectedEndDate
+        });
     }
 }
 </script>

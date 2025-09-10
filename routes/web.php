@@ -11,8 +11,25 @@
 |
 */
 
+// Default route redirect to login
 Route::get('/', function () {
-    return view('home');
+    return redirect('/login');
+});
+
+// Login routes
+Route::get('/login', 'AuthController@showLoginForm');
+Route::post('/login', 'AuthController@login');
+Route::get('/logout', 'AuthController@logout');
+
+// Protected routes - require login
+Route::group(['middleware' => 'auth.custom'], function () {
+    Route::get('/choosedate', function () {
+        return view('choosedate');
+    });
+    
+    Route::get('/home', function () {
+        return view('home');
+    });
 });
 
 Route::get('/welcome', function () {

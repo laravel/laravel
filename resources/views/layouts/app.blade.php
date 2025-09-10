@@ -47,7 +47,8 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        <li><a href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a></li>
+                        <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Home</a></li>
+                        <li><a href="{{ url('/choosedate') }}"><i class="fa fa-calendar"></i> Pilih Tanggal</a></li>
                         <li><a href="#"><i class="fa fa-users"></i> Employees</a></li>
                         <li><a href="#"><i class="fa fa-calculator"></i> Payroll</a></li>
                         <li><a href="#"><i class="fa fa-file-text"></i> Reports</a></li>
@@ -58,13 +59,19 @@
                         <!-- Authentication Links -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-user"></i> User <span class="caret"></span>
+                                <i class="fa fa-user"></i> 
+                                @if(session('user'))
+                                    {{ session('user')['name'] }}
+                                @else
+                                    User
+                                @endif
+                                <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
                                 <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out"></i> Logout</a></li>
                             </ul>
                         </li>
                     </ul>

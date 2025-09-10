@@ -2,6 +2,24 @@
 
 @section('content')
 <div class="container">
+    <!-- Welcome Message for Logged User -->
+    @if(session('user'))
+        <div class="alert alert-success">
+            <i class="fa fa-user-circle"></i> 
+            Selamat datang, <strong>{{ session('user')['name'] }}</strong>! 
+            <small class="text-muted">({{ session('user')['role'] }})</small>
+        </div>
+    @endif
+    
+    <!-- Selected Date Range Display -->
+    <div id="selected-dates" class="alert alert-info" style="display: none;">
+        <h4><i class="fa fa-calendar-check-o"></i> Periode Slip Gaji:</h4>
+        <p id="date-range-text" class="lead"></p>
+        <a href="{{ url('/choosedate') }}" class="btn btn-sm btn-warning">
+            <i class="fa fa-edit"></i> Ubah Periode
+        </a>
+    </div>
+    
     <div class="row">
         <div class="col-md-12">
             <div class="jumbotron">
@@ -11,8 +29,8 @@
                     <a class="btn btn-primary btn-lg" href="#" role="button">
                         <i class="fa fa-plus"></i> Buat Slip Gaji
                     </a>
-                    <a class="btn btn-success btn-lg" href="#" role="button">
-                        <i class="fa fa-users"></i> Kelola Karyawan
+                    <a class="btn btn-success btn-lg" href="{{ url('/choosedate') }}" role="button">
+                        <i class="fa fa-calendar"></i> Pilih Periode
                     </a>
                 </p>
             </div>
@@ -58,4 +76,40 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Check for selected dates in localStorage
+    const startDate = localStorage.getItem('startDate');
+    const endDate = localStorage.getItem('endDate');
+    
+    if (startDate && endDate) {
+        // Show selected dates alert
+        const selectedDatesDiv = document.getElementById('selected-dates');
+        const dateRangeText = document.getElementById('date-range-text');
+        
+        // Format dates (assuming they're in YYYY-MM-DD format)
+        const formatDate = (dateStr) => {
+            const date = new Date(dateStr);
+            const months = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ];
+            return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+        };
+        
+        dateRangeText.innerHTML = 
+            '<strong>Dari:</strong> ' + formatDate(startDate) + 
+            ' <strong>Sampai:</strong> ' + formatDate(endDate);
+        
+        selectedDatesDiv.style.display = 'block';
+        
+        // Store dates globally for Vue component
+        window.selectedDateRange = {
+            startDate: startDate,
+            endDate: endDate
+        };
+    }
+});
+</script>
 @endsection

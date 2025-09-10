@@ -14,6 +14,7 @@ require('./bootstrap');
  */
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('slip-gaji', require('./components/SlipGaji.vue'));
 
 const app = new Vue({
     el: '#app'
