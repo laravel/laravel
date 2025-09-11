@@ -21,6 +21,11 @@ Route::get('/login', 'AuthController@showLoginForm');
 Route::post('/login', 'AuthController@login');
 Route::get('/logout', 'AuthController@logout');
 
+// Test route for debugging
+Route::get('/test-login', function() {
+    return 'Test route working';
+});
+
 // Protected routes - require login
 Route::group(['middleware' => 'auth.custom'], function () {
     Route::get('/choosedate', function () {

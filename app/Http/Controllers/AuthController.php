@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -53,7 +54,7 @@ class AuthController extends Controller
                 'username' => $user['username'],
                 'name' => $user['name'],
                 'role' => $user['role'],
-                'login_time' => now()
+                'login_time' => Carbon::now()
             ]);
 
             return redirect('/choosedate')->with('success', 'Login berhasil! Selamat datang ' . $user['name']);

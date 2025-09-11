@@ -57,7 +57,7 @@ Vue.component('date-range-picker', {
                                 <i class="fa fa-chevron-left"></i>
                             </button>
                             <span class="calendar-title">
-                                {{ monthNames[startCurrentMonth.getMonth()] }} {{ startCurrentMonth.getFullYear() }}
+                                @{{ monthNames[startCurrentMonth.getMonth()] }} @{{ startCurrentMonth.getFullYear() }}
                             </span>
                             <button type="button" class="btn btn-xs btn-default" @click="navigateMonth(1, true)">
                                 <i class="fa fa-chevron-right"></i>
@@ -66,7 +66,7 @@ Vue.component('date-range-picker', {
                         
                         <div class="calendar-grid">
                             <div class="calendar-days-header">
-                                <div v-for="day in dayNames" class="calendar-day-name">{{ day }}</div>
+                                <div v-for="day in dayNames" class="calendar-day-name">@{{ day }}</div>
                             </div>
                             <div class="calendar-days">
                                 <div 
@@ -75,7 +75,7 @@ Vue.component('date-range-picker', {
                                     :class="getDateClass(date, true)"
                                     @click="selectStartDate(date)"
                                 >
-                                    {{ date ? date.getDate() : '' }}
+                                    @{{ date ? date.getDate() : '' }}
                                 </div>
                             </div>
                         </div>
@@ -108,7 +108,7 @@ Vue.component('date-range-picker', {
                                 <i class="fa fa-chevron-left"></i>
                             </button>
                             <span class="calendar-title">
-                                {{ monthNames[endCurrentMonth.getMonth()] }} {{ endCurrentMonth.getFullYear() }}
+                                @{{ monthNames[endCurrentMonth.getMonth()] }} @{{ endCurrentMonth.getFullYear() }}
                             </span>
                             <button type="button" class="btn btn-xs btn-default" @click="navigateMonth(1, false)">
                                 <i class="fa fa-chevron-right"></i>
@@ -117,7 +117,7 @@ Vue.component('date-range-picker', {
                         
                         <div class="calendar-grid">
                             <div class="calendar-days-header">
-                                <div v-for="day in dayNames" class="calendar-day-name">{{ day }}</div>
+                                <div v-for="day in dayNames" class="calendar-day-name">@{{ day }}</div>
                             </div>
                             <div class="calendar-days">
                                 <div 
@@ -126,7 +126,7 @@ Vue.component('date-range-picker', {
                                     :class="getDateClass(date, false)"
                                     @click="selectEndDate(date)"
                                 >
-                                    {{ date ? date.getDate() : '' }}
+                                    @{{ date ? date.getDate() : '' }}
                                 </div>
                             </div>
                         </div>
@@ -140,10 +140,10 @@ Vue.component('date-range-picker', {
             <div class="text-center">
                 <h4><i class="fa fa-calendar-check-o"></i> Rentang yang dipilih:</h4>
                 <p class="lead">
-                    <strong>{{ formatDate(startDate) }} - {{ formatDate(endDate) }}</strong>
+                    <strong>@{{ formatDate(startDate) }} - @{{ formatDate(endDate) }}</strong>
                 </p>
                 <p class="text-muted">
-                    {{ getDaysDifference() }} hari
+                    @{{ getDaysDifference() }} hari
                 </p>
             </div>
         </div>

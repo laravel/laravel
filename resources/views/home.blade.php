@@ -80,8 +80,8 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Check for selected dates in localStorage
-    const startDate = localStorage.getItem('startDate');
-    const endDate = localStorage.getItem('endDate');
+    const startDate = localStorage.getItem('selectedStartDate');
+    const endDate = localStorage.getItem('selectedEndDate');
     
     if (startDate && endDate) {
         // Show selected dates alert
