@@ -23,36 +23,25 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Tanggal Mulai</label>
-                                    <div class="input-group">
-                                        <input type="date" class="form-control" v-model="startDate" @change="onStartDateChange">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
-                                    </div>
+                                    <input type="date" class="form-control" id="startDate" v-model="startDate" @change="onStartDateChange">
                                 </div>
                             </div>
                             
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Tanggal Akhir</label>
-                                    <div class="input-group">
-                                        <input type="date" class="form-control" v-model="endDate" @change="onEndDateChange" :min="startDate">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </span>
-                                    </div>
+                                    <input type="date" class="form-control" id="endDate" v-model="endDate" @change="onEndDateChange" :min="startDate">
                                 </div>
                             </div>
                         </div>
                         
-                        <div v-if="startDate && endDate" class="alert alert-info">
+                        <div v-show="startDate && endDate" class="alert alert-info">
                             <div class="text-center">
                                 <h4><i class="fa fa-calendar-check-o"></i> Rentang yang dipilih:</h4>
                                 <p class="lead">
-                                    <strong v-text="formatDisplayDate(startDate) + ' - ' + formatDisplayDate(endDate)"></strong>
+                                    <strong id="dateRange"></strong>
                                 </p>
-                                <p class="text-muted" v-text="getDaysDifference() + ' hari'">
-                                </p>
+                                <p class="text-muted" id="dayCount"></p>
                             </div>
                         </div>
                         
@@ -88,9 +77,10 @@ new Vue({
             if (this.endDate && this.startDate > this.endDate) {
                 this.endDate = '';
             }
+            this.updateDisplay();
         },
         onEndDateChange: function() {
-            // Validation is handled by the min attribute
+            this.updateDisplay();
         },
         formatDisplayDate: function(dateString) {
             if (!dateString) return '';
@@ -107,9 +97,19 @@ new Vue({
             var end = new Date(this.endDate);
             return Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
         },
+        updateDisplay: function() {
+            var dateRangeEl = document.getElementById('dateRange');
+            var dayCountEl = document.getElementById('dayCount');
+            
+            if (this.startDate && this.endDate && dateRangeEl && dayCountEl) {
+                dateRangeEl.textContent = this.formatDisplayDate(this.startDate) + ' - ' + this.formatDisplayDate(this.endDate);
+                dayCountEl.textContent = this.getDaysDifference() + ' hari';
+            }
+        },
         resetDates: function() {
             this.startDate = '';
             this.endDate = '';
+            this.updateDisplay();
         },
         confirmSelection: function() {
             if (this.startDate && this.endDate) {
@@ -133,51 +133,36 @@ new Vue({
         
         this.startDate = firstDay.toISOString().split('T')[0];
         this.endDate = lastDay.toISOString().split('T')[0];
+        
+        // Update display after setting defaults
+        this.$nextTick(function() {
+            this.updateDisplay();
+        });
     }
 });
 </script>
 
 <style>
-.input-group {
-    position: relative;
-    display: table;
-    border-collapse: separate;
-}
-
-.input-group .form-control {
-    position: relative;
-    z-index: 2;
-    float: left;
+.form-control {
+    display: block;
     width: 100%;
-    margin-bottom: 0;
-}
-
-.input-group-addon {
+    height: 34px;
     padding: 6px 12px;
     font-size: 14px;
-    font-weight: normal;
-    line-height: 1;
+    line-height: 1.42857143;
     color: #555;
-    text-align: center;
-    background-color: #eee;
+    background-color: #fff;
+    background-image: none;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 1%;
-    white-space: nowrap;
-    vertical-align: middle;
-    display: table-cell;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
-.input-group .form-control:first-child,
-.input-group-addon:first-child {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-.input-group .form-control:last-child,
-.input-group-addon:last-child {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+.form-control:focus {
+    border-color: #66afe9;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
 }
 
 .alert-info {
@@ -257,6 +242,15 @@ new Vue({
     font-size: 16px;
     font-weight: 300;
     line-height: 1.4;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.control-label {
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 </style>
 @endsection

@@ -52,9 +52,9 @@
                     <ul class="nav navbar-nav">
                         <li><a href="{{ url('/home') }}"><i class="fa fa-home"></i> Home</a></li>
                         <li><a href="{{ url('/choosedate') }}"><i class="fa fa-calendar"></i> Pilih Tanggal</a></li>
-                        <li><a href="#"><i class="fa fa-users"></i> Employees</a></li>
-                        <li><a href="#"><i class="fa fa-calculator"></i> Payroll</a></li>
-                        <li><a href="#"><i class="fa fa-file-text"></i> Reports</a></li>
+                        <li><a href="{{ url('/employees') }}"><i class="fa fa-users"></i> Employees</a></li>
+                        <li><a href="{{ url('/payroll') }}"><i class="fa fa-calculator"></i> Payroll</a></li>
+                        <li><a href="{{ url('/reports') }}"><i class="fa fa-file-text"></i> Reports</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -68,8 +68,8 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
-                                    <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa fa-cog"></i> Settings</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li>
                                         <a href="#" onclick="event.preventDefault(); handleLogout();">
