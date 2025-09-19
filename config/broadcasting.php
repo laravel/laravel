@@ -2,7 +2,7 @@
 
 return [
     'default' => env('BROADCAST_CONNECTION', 'log'),
-    
+
     'connections' => [
         'reverb' => [
             'driver' => 'reverb',
@@ -16,7 +16,7 @@ return [
                 'useTLS' => env('REVERB_SCHEME', 'https') === 'https',
             ],
         ],
-        
+
         'pusher' => [
             'driver' => 'pusher',
             'key' => env('PUSHER_APP_KEY'),
@@ -34,21 +34,21 @@ return [
                 // Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
             ],
         ],
-        
+
         'ably' => [
             'driver' => 'ably',
             'key' => env('ABLY_KEY'),
         ],
-        
+
         'redis' => [
             'driver' => 'redis',
             'connection' => env('BROADCAST_REDIS_CONNECTION', 'default'),
         ],
-        
+
         'log' => [
             'driver' => 'log',
         ],
-        
+
         'null' => [
             'driver' => 'null',
         ],
