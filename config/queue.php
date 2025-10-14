@@ -72,6 +72,14 @@ return [
             'after_commit' => false,
         ],
 
+        'failover' => [
+            'driver' => 'failover',
+            'connections' => [
+                env('QUEUE_CONNECTION', 'database'),
+                'sync',
+            ],
+        ],
+
     ],
 
     /*
