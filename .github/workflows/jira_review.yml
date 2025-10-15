@@ -19,7 +19,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.repo_branch }}
-
+          fetch-depth: 0   # fetch all history and refs
+      - name: Fetch main branch
+        run: git fetch origin main
+        
       - name: Setup Python
         uses: actions/setup-python@v5
         with:

@@ -7,8 +7,15 @@ import json
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def get_diff(branch):
-    # Compare current branch to main
-    return subprocess.check_output(["git", "diff", f"origin/main...{branch}"]).decode()
+    try:
+        subprocess.run(["git", "fetch", "origin", "main", branch], check=True)
+        diff = subprocess.check_output(["git", "diff", f"origin/main...{branch}"]).decode()
+        return diff
+    except subprocess.CalledProcessError as e:
+        print("⚠️ Could not diff branches:", e)
+        # fallback: diff last 10 commits
+        return subprocess.check_output(["git", "diff", "HEAD~10..HEAD"]).decode()
+
 
 def review_code(diff):
     prompt = f"""
