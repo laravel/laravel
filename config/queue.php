@@ -75,7 +75,7 @@ return [
         'failover' => [
             'driver' => 'failover',
             'connections' => [
-                env('QUEUE_CONNECTION', 'database'),
+                'database',
                 'sync',
             ],
         ],
