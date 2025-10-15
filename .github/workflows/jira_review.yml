@@ -1,0 +1,45 @@
+name: Jira-triggered AI Code Review
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue_key:
+        description: "Jira issue key"
+        required: true
+      repo_branch:
+        description: "Branch to review"
+        required: true
+
+jobs:
+  ai_review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.repo_branch }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install openai requests
+
+      - name: Run AI Review
+        run: python scripts/ai_review.py ${{ github.event.inputs.repo_branch }}
+
+      - name: Create PR with Fix
+        run: python scripts/create_pr.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
+      - name: Post PR to Jira
+        run: python scripts/post_to_jira.py ${{ github.event.inputs.issue_key }}
+        env:
+          JIRA_URL: ${{ secrets.JIRA_URL }}
+          JIRA_USER: ${{ secrets.JIRA_USER }}
+          JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
