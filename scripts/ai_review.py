@@ -12,21 +12,25 @@ def get_diff(branch):
     return diff
 
 def review_code(diff):
-    prompt = f"""
-    You are a senior software architect. Review this git diff and:
-    1. Point out issues or improvements.
-    2. Suggest fixes as a unified diff if possible.
+    
+    print("⚠️ Skipping AI call – using mock review output for testing.")
+    return "Mock AI review: no issues found. (simulated)"
+    
+    # prompt = f"""
+    # You are a senior software architect. Review this git diff and:
+    # 1. Point out issues or improvements.
+    # 2. Suggest fixes as a unified diff if possible.
 
-    Diff:
-    {diff}
-    """
+    # Diff:
+    # {diff}
+    # """
 
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[{"role": "user", "content": prompt}],
-    )
+    # response = client.chat.completions.create(
+        # model="gpt-4o-mini",
+        # messages=[{"role": "user", "content": prompt}],
+    # )
 
-    return response.choices[0].message.content.strip()
+    # return response.choices[0].message.content.strip()
 
 if __name__ == "__main__":
     branch = sys.argv[1]
