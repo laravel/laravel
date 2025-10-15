@@ -10,13 +10,9 @@ JIRA_USER = os.getenv("JIRA_USER")
 JIRA_TOKEN = os.getenv("JIRA_TOKEN")
 
 def post_to_jira(issue_key, pr_url):
-    api_url = f"{JIRA_URL}/rest/api/3/issue/{issue_key}/comment"
-    auth = (JIRA_USER, JIRA_TOKEN)
-    headers = {"Content-Type": "application/json"}
-
-    # --- Dummy mode content ---
-    #if USE_DUMMY:
-    print("🤖 Dummy mode ON — posting fake data to real Jira.")
+    # -------------------------------
+    # ADF COMMENT PAYLOAD
+    # -------------------------------
     payload = {
         "body": {
             "type": "doc",
@@ -53,18 +49,28 @@ def post_to_jira(issue_key, pr_url):
             ],
         }
     }
-    #else:
-        #payload = {"body": f"🤖 AI-generated fix PR created: {pr_url}"}
 
+    # -------------------------------
+    # HTTP REQUEST
+    # -------------------------------
+    api_url = f"{JIRA_URL}/rest/api/3/issue/{issue_key}/comment"
+    headers = {"Content-Type": "application/json"}
 
-    res = requests.post(api_url, auth=auth, headers=headers, data=json.dumps(payload))
+    print(f"Posting to: {api_url}")
+    response = requests.post(api_url, auth=(JIRA_USER, JIRA_TOKEN), headers=headers, data=json.dumps(payload))
 
-    if res.status_code not in [200, 201]:
-        print(f"❌ Jira response {res.status_code}: {res.text}")
+    # -------------------------------
+    # RESPONSE HANDLING
+    # -------------------------------
+    if response.status_code in [200, 201]:
+        print("✅ Successfully posted to Jira!")
+        print(json.dumps(response.json(), indent=2))
+        return True
+    else:
+        print(f"❌ Jira responded with {response.status_code}")
+        print(response.text)
         return False
-
-    print(f"✅ Posted to Jira issue {issue_key} ({'dummy' if USE_DUMMY else 'real'} data).")
-    return True
+    
 
 
 if __name__ == "__main__":
