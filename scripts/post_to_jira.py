@@ -57,7 +57,8 @@ def post_to_jira(issue_key, pr_url):
     headers = {"Content-Type": "application/json"}
 
     print(f"Posting to: {api_url}")
-    response = requests.post(api_url, auth=(JIRA_USER, JIRA_TOKEN), headers=headers, data=json.dumps(payload))
+    response = requests.post(api_url, auth=auth, headers=headers, json=payload)
+
 
     # -------------------------------
     # RESPONSE HANDLING
