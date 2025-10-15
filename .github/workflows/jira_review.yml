@@ -32,8 +32,8 @@ jobs:
         run: pip install openai requests
 
       - name: Run AI Review
-        #run: python scripts/ai_review.py ${{ github.event.inputs.repo_branch }}
-        run: echo "Does the key exist? -> ${OPENAI_API_KEY:+yes}"
+        run: python scripts/ai_review.py ${{ github.event.inputs.repo_branch }}
+        #run: echo "Does the key exist? -> ${OPENAI_API_KEY:+yes}"
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       - name: Create PR with Fix
