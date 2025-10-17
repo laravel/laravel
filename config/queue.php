@@ -72,11 +72,15 @@ return [
             'after_commit' => false,
         ],
 
+        'deferred' => [
+            'driver' => 'deferred',
+        ],
+
         'failover' => [
             'driver' => 'failover',
             'connections' => [
                 'database',
-                'sync',
+                'deferred',
             ],
         ],
 
