@@ -1,0 +1,3 @@
+#!/command/with-contenv bash
+cd /var/www/html
+exec php artisan queue:work --tries=3 --verbose 2>&1 | sed -u 's/^/[QUEUE] /'

@@ -1,0 +1,3 @@
+#!/command/with-contenv bash
+cd /var/www/html
+exec php artisan schedule:work --verbose 2>&1 | sed -u 's/^/[SCHEDULER] /'

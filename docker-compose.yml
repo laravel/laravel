@@ -1,4 +1,25 @@
 services:
+# --- All-in-One Service (API + Queue + Scheduler) ---
+    all-in-one:
+        build:
+            context: .
+            dockerfile: ./.docker/Dockerfile
+            target: all-in-one
+        container_name: all-in-one
+        ports:
+            - '${ALL_IN_ONE_PORT:-8081}:8080'
+        env_file:
+            - .env
+        volumes:
+           - ./:/var/www/html
+        networks:
+            - sail
+        depends_on:
+            - pgsql
+            - redis
+            - minio
+            - mailpit
+        
     laravel.test:
         build:
             context: ./vendor/laravel/sail/runtimes/8.4
@@ -26,6 +47,7 @@ services:
             - redis
             - minio
             - mailpit
+            
     pgsql:
         image: 'postgres:17.2'
         ports:
