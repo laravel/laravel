@@ -28,6 +28,6 @@ yarn-error.log
 /reports/
 /tsconfig.tsbuildinfo
 /.phpunit.cache/
-
+/storage/certs/
 # Sentry Config File
 .env.sentry-build-plugin
