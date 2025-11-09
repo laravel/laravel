@@ -1,0 +1,36 @@
+<?php
+
+namespace DummyNamespace;
+
+class DummyClass
+{
+    /**
+     * Attributes container.
+     *
+     * @var array
+     */
+    protected array $attributes = [];
+
+    public function __construct(array $attributes = [])
+    {
+        $this->attributes = $attributes;
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self($data);
+    }
+
+    public function toArray(): array
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * Magic getter for attribute access
+     */
+    public function __get(string $key)
+    {
+        return $this->attributes[$key] ?? null;
+    }
+}
