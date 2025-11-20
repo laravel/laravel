@@ -1,11 +1,58 @@
-@import 'tailwindcss';
-
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@import "tailwindcss";
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Outfit', 'Noto Kufi Arabic', sans-serif;
+    --font-sans: 'Outfit', 'Noto Kufi Arabic', sans-serif;
+}
+
+/* Theme Variables */
+:root {
+    --color-bg-primary: 15 23 42;
+    /* slate-900 */
+    --color-bg-secondary: 30 41 59;
+    /* slate-800 */
+    --color-text-primary: 255 255 255;
+    --color-text-secondary: 148 163 184;
+    /* slate-400 */
+    --color-accent: 59 130 246;
+    /* blue-500 */
+}
+
+[data-theme="light"] {
+    --color-bg-primary: 255 255 255;
+    --color-bg-secondary: 241 245 249;
+    /* slate-100 */
+    --color-text-primary: 15 23 42;
+    /* slate-900 */
+    --color-text-secondary: 71 85 105;
+    /* slate-600 */
+    --color-accent: 37 99 235;
+    /* blue-600 */
+}
+
+body {
+    background-color: rgb(var(--color-bg-primary));
+    color: rgb(var(--color-text-primary));
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Card Hover Effects */
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-0.3rem);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Smooth Scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Selection */
+::selection {
+    background-color: rgb(var(--color-accent));
+    color: white;
 }
