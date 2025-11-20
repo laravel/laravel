@@ -20,14 +20,14 @@
 
 [data-theme="light"] {
     --color-bg-primary: 255 255 255;
-    --color-bg-secondary: 241 245 249;
-    /* slate-100 */
+    --color-bg-secondary: 248 250 252;
+    /* slate-50 */
     --color-text-primary: 15 23 42;
     /* slate-900 */
-    --color-text-secondary: 71 85 105;
-    /* slate-600 */
-    --color-accent: 37 99 235;
-    /* blue-600 */
+    --color-text-secondary: 100 116 139;
+    /* slate-500 */
+    --color-accent: 59 130 246;
+    /* blue-500 */
 }
 
 body {
