@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 $mysqlSslCaAttr = null;
 
 if (defined('Pdo\Mysql::ATTR_SSL_CA')) {
-    // PHP 8.4+ 
+    // PHP 8.4+
     $mysqlSslCaAttr = constant('Pdo\Mysql::ATTR_SSL_CA');
 } elseif (defined('PDO::MYSQL_ATTR_SSL_CA')) {
     // Legacy constant
