@@ -2,6 +2,24 @@
 
 use Illuminate\Support\Str;
 
+// I have no idea is this is the best way to do this but would love to see the proper version
+$mysqlSslCaAttr = null;
+
+if (defined('Pdo\Mysql::ATTR_SSL_CA')) {
+    // PHP 8.4+ 
+    $mysqlSslCaAttr = constant('Pdo\Mysql::ATTR_SSL_CA');
+} elseif (defined('PDO::MYSQL_ATTR_SSL_CA')) {
+    // Legacy constant
+    $mysqlSslCaAttr = constant('PDO::MYSQL_ATTR_SSL_CA');
+}
+
+// Build shared PDO MySQL options
+$pdoMysqlOptions = extension_loaded('pdo_mysql') && $mysqlSslCaAttr
+    ? array_filter([
+        $mysqlSslCaAttr => env('MYSQL_ATTR_SSL_CA'),
+    ])
+    : [];
+
 return [
 
     /*
@@ -58,9 +76,7 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+            'options' => $pdoMysqlOptions,
         ],
 
         'mariadb' => [
@@ -78,9 +94,7 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+            'options' => $pdoMysqlOptions,
         ],
 
         'pgsql' => [
