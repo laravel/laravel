@@ -78,7 +78,7 @@ return [
             'secret' => env('R2_SECRET_ACCESS_KEY'),
             'region' => 'auto',
             'bucket' => env('R2_BUCKET'),
-            'endpoint' => env('R2_ENDPOINT'), 
+            'endpoint' => env('R2_ENDPOINT'),
             'use_path_style_endpoint' => env('R2_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
             'report' => false,
