@@ -3,6 +3,7 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "predev": "php artisan view:cache",
         "build": "vite build",
         "dev": "vite"
     },
