@@ -11,4 +11,5 @@ interface AiProvider
      * @param  array<string, mixed>  $options
      */
     public function ask(string $prompt, array $options = []): string;
+    
 }

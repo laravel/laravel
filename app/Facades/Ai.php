@@ -15,4 +15,5 @@ class Ai extends Facade
     {
         return 'ai';
     }
+    
 }

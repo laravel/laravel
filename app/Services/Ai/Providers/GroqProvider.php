@@ -33,4 +33,5 @@ class GroqProvider implements AiProvider
 
         return (string) ($response['choices'][0]['message']['content'] ?? '');
     }
+    
 }

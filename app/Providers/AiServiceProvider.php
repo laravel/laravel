@@ -26,4 +26,5 @@ class AiServiceProvider extends ServiceProvider
     {
         //
     }
+    
 }

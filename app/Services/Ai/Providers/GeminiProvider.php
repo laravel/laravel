@@ -37,4 +37,5 @@ class GeminiProvider implements AiProvider
 
         return (string) ($response['candidates'][0]['content']['parts'][0]['text'] ?? '');
     }
+    
 }
