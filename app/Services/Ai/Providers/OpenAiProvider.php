@@ -34,4 +34,3 @@ class OpenAiProvider implements AiProvider
         return (string) ($response['choices'][0]['message']['content'] ?? '');
     }
 }
-

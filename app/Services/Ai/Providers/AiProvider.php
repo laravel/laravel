@@ -12,4 +12,3 @@ interface AiProvider
      */
     public function ask(string $prompt, array $options = []): string;
 }
-

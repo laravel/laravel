@@ -27,4 +27,3 @@ class AiServiceProvider extends ServiceProvider
         //
     }
 }
-
