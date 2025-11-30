@@ -13,10 +13,14 @@
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
+    # Capture X-Forwarded-Proto for use in redirects.
+    RewriteCond %{HTTP:x-forwarded-proto} ^(https?)$ [NC]
+    RewriteRule ^ - [E=PROXIED_ORIGIN:%1://%{HTTP_HOST}]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
+    RewriteRule ^ %{ENV:PROXIED_ORIGIN}%1 [L,R=301]
 
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
