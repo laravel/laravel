@@ -24,7 +24,25 @@ class Service extends Model
     protected $casts = [
         'renewal_date' => 'date',
         'details' => 'array',
+        'name' => 'array',
+        'notes' => 'array',
     ];
+
+    /**
+     * Get the translation for a field in the current locale
+     */
+    public function getTranslation(string $field, ?string $locale = null): ?string
+    {
+        $locale = $locale ?? app()->getLocale();
+        
+        $value = $this->$field;
+        
+        if (is_array($value)) {
+            return $value[$locale] ?? $value['en'] ?? null;
+        }
+        
+        return $value;
+    }
 
     public function user(): BelongsTo
     {

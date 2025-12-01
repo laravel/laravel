@@ -19,9 +19,7 @@ class ServiceForm
                     ->required()
                     ->searchable()
                     ->preload(),
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
+                
                 Select::make('type')
                     ->options([
                         'hosting' => 'Hosting',
@@ -30,6 +28,7 @@ class ServiceForm
                         'seo' => 'SEO',
                     ])
                     ->required(),
+                
                 Select::make('status')
                     ->options([
                         'pending' => 'Pending',
@@ -39,15 +38,44 @@ class ServiceForm
                     ])
                     ->required()
                     ->default('pending'),
+                
                 TextInput::make('price')
                     ->required()
                     ->numeric()
                     ->prefix('$'),
+                
                 DatePicker::make('renewal_date'),
-                Textarea::make('notes')
+                
+                TextInput::make('name.en')
+                    ->label('Name (English)')
+                    ->required()
+                    ->maxLength(255)
+                    ->helperText('Service name in English')
                     ->columnSpanFull(),
+                
+                TextInput::make('name.ar')
+                    ->label('Name (Arabic - العربية)')
+                    ->maxLength(255)
+                    ->helperText('Service name in Arabic')
+                    ->nullable()
+                    ->columnSpanFull(),
+                
+                Textarea::make('notes.en')
+                    ->label('Notes (English)')
+                    ->rows(3)
+                    ->helperText('Admin notes in English')
+                    ->columnSpanFull(),
+                
+                Textarea::make('notes.ar')
+                    ->label('Notes (Arabic - العربية)')
+                    ->rows(3)
+                    ->helperText('Admin notes in Arabic')
+                    ->nullable()
+                    ->columnSpanFull(),
+                
                 \Filament\Forms\Components\KeyValue::make('details')
                     ->columnSpanFull(),
-            ]);
+            ])
+            ->columns(2);
     }
 }

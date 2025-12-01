@@ -3,29 +3,14 @@
 @theme {
     --font-display: 'Outfit', 'Noto Kufi Arabic', sans-serif;
     --font-sans: 'Outfit', 'Noto Kufi Arabic', sans-serif;
-}
-
-/* Theme Variables */
-:root {
     --color-bg-primary: 15 23 42;
     /* slate-900 */
     --color-bg-secondary: 30 41 59;
     /* slate-800 */
-    --color-text-primary: 255 255 255;
-    --color-text-secondary: 148 163 184;
-    /* slate-400 */
-    --color-accent: 59 130 246;
-    /* blue-500 */
-}
-
-[data-theme="light"] {
-    --color-bg-primary: 255 255 255;
-    --color-bg-secondary: 248 250 252;
+    --color-text-primary: 248 250 252;
     /* slate-50 */
-    --color-text-primary: 15 23 42;
-    /* slate-900 */
-    --color-text-secondary: 100 116 139;
-    /* slate-500 */
+    --color-text-secondary: 203 213 225;
+    /* slate-300 */
     --color-accent: 59 130 246;
     /* blue-500 */
 }
@@ -43,7 +28,7 @@ body {
 
 .card-hover:hover {
     transform: translateY(-0.3rem);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
 /* Smooth Scroll */

@@ -3,20 +3,20 @@
     <div class="relative pt-32 pb-20 sm:pt-40 sm:pb-24 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
             <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-6">
-                <span class="block">{{ __('Your Gateway to') }}</span>
+                <span class="block">{{ landing_content('hero_title_line1') }}</span>
                 <span class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-                    {{ __('Premium Cloud Services') }}
+                    {{ landing_content('hero_title_line2') }}
                 </span>
             </h1>
             <p class="mt-4 text-xl text-slate-300 max-w-2xl mx-auto mb-10">
-                {{ __('We manage the complexity of the cloud so you can focus on your business. Hosting, Development, and Marketing—all in one place.') }}
+                {{ landing_content('hero_subtitle') }}
             </p>
             <div class="flex justify-center gap-4">
                 <a href="#pricing" class="px-8 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50">
-                    {{ __('Get Started') }}
+                    {{ landing_content('hero_btn_primary') }}
                 </a>
                 <a href="#services" class="px-8 py-3 rounded-full bg-slate-800 hover:bg-slate-700 text-white font-semibold border border-slate-700 transition-all">
-                    {{ __('Our Services') }}
+                    {{ landing_content('hero_btn_secondary') }}
                 </a>
             </div>
         </div>
@@ -26,8 +26,8 @@
     <div id="services" class="py-20 bg-slate-900/50 backdrop-blur-sm relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-white mb-4">{{ __('Our Services') }}</h2>
-                <p class="text-slate-400 max-w-2xl mx-auto">{{ __('Comprehensive digital solutions tailored for your success.') }}</p>
+                <h2 class="text-3xl font-bold text-white mb-4">{{ landing_content('services_heading') }}</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">{{ landing_content('services_subheading') }}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -36,8 +36,8 @@
                     <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-500/30 transition-colors">
                         <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">{{ __('Managed Hosting') }}</h3>
-                    <p class="text-slate-400">{{ __('Premium cloud hosting managed by experts. We handle DNS, security, and updates.') }}</p>
+                    <h3 class="text-xl font-bold text-white mb-3">{{ landing_content('service1_title') }}</h3>
+                    <p class="text-slate-400">{{ landing_content('service1_description') }}</p>
                 </div>
 
                 <!-- Service 2 -->
@@ -45,8 +45,8 @@
                     <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-6 group-hover:bg-purple-500/30 transition-colors">
                         <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">{{ __('Web Development') }}</h3>
-                    <p class="text-slate-400">{{ __('Custom websites and applications built with modern technologies like Laravel and React.') }}</p>
+                    <h3 class="text-xl font-bold text-white mb-3">{{ landing_content('service2_title') }}</h3>
+                    <p class="text-slate-400">{{ landing_content('service2_description') }}</p>
                 </div>
 
                 <!-- Service 3 -->
@@ -54,8 +54,8 @@
                     <div class="w-12 h-12 bg-teal-500/20 rounded-lg flex items-center justify-center mb-6 group-hover:bg-teal-500/30 transition-colors">
                         <svg class="w-6 h-6 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-3">{{ __('SEO & Marketing') }}</h3>
-                    <p class="text-slate-400">{{ __('Boost your visibility with our data-driven SEO strategies and digital marketing campaigns.') }}</p>
+                    <h3 class="text-xl font-bold text-white mb-3">{{ landing_content('service3_title') }}</h3>
+                    <p class="text-slate-400">{{ landing_content('service3_description') }}</p>
                 </div>
             </div>
         </div>
@@ -440,12 +440,65 @@
 
     <!-- Contact Section -->
     <div id="contact" class="py-20 relative">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold text-white mb-8">{{ __('Ready to Upgrade Your Digital Presence?') }}</h2>
-            <p class="text-slate-400 mb-10">{{ __('Get in touch with us today to discuss your project or hosting needs.') }}</p>
-            <a href="mailto:contact@inclouding.net" class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-blue-600 rounded-full hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 focus:ring-offset-slate-900">
-                {{ __('Contact Us Now') }}
-            </a>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">{{ landing_content('contact_heading') }}</h2>
+                <p class="text-slate-400">{{ landing_content('contact_subheading') }}</p>
+            </div>
+
+            @if(session('success'))
+                <div class="mb-8 p-4 bg-green-600/20 border border-green-500/50 rounded-lg text-green-300 text-center">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
+                @csrf
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-slate-300 mb-2">{{ landing_content('contact_name_label') }}</label>
+                        <input type="text" id="name" name="name" value="{{ old('name') }}" required
+                            class="w-full px-4 py-3 bg-slate-800/50 border @error('name') border-red-500 @else border-white/10 @enderror rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        @error('name')
+                            <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-slate-300 mb-2">{{ landing_content('contact_email_label') }}</label>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" required
+                            class="w-full px-4 py-3 bg-slate-800/50 border @error('email') border-red-500 @else border-white/10 @enderror rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        @error('email')
+                            <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div>
+                    <label for="subject" class="block text-sm font-medium text-slate-300 mb-2">{{ landing_content('contact_subject_label') }}</label>
+                    <input type="text" id="subject" name="subject" value="{{ old('subject') }}" required
+                        class="w-full px-4 py-3 bg-slate-800/50 border @error('subject') border-red-500 @else border-white/10 @enderror rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    @error('subject')
+                        <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="message" class="block text-sm font-medium text-slate-300 mb-2">{{ landing_content('contact_message_label') }}</label>
+                    <textarea id="message" name="message" rows="5" required
+                        class="w-full px-4 py-3 bg-slate-800/50 border @error('message') border-red-500 @else border-white/10 @enderror rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500">{{ old('message') }}</textarea>
+                    @error('message')
+                        <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-blue-600 rounded-full hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 focus:ring-offset-slate-900">
+                        {{ landing_content('contact_submit_btn') }}
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </x-public-layout>

@@ -19,7 +19,12 @@ class ServicesTable
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->label('Service Name')
+                    ->searchable()
+                    ->getStateUsing(function ($record) {
+                        $locale = app()->getLocale();
+                        return $record->name[$locale] ?? $record->name['en'] ?? '';
+                    }),
                 TextColumn::make('type')
                     ->badge()
                     ->searchable(),
