@@ -9,7 +9,7 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
-            # 1. Trigger Remote Deployment via SSH
+            # 1. Trigger Remote Deployment via SSH.
             - name: Execute Remote Deployment Script
               uses: appleboy/ssh-action@master
               with:
