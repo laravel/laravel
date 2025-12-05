@@ -17,6 +17,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           
-          # Execute the shell script on the server
+          # Execute the shell script on the server.
           script: |
             /home/ubuntu/deploy_laravel.sh
