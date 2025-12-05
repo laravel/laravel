@@ -2,7 +2,7 @@ name: Deploy Laravel App
 
 on:
     push:
-        branches: 
+        branches:
             - "main"
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
                   host: ${{ secrets.SSH_HOST }}
                   username: ${{ secrets.SSH_USER }}
                   key: ${{ secrets.SSH_PRIVATE_KEY }}
-                  debug: true
+                
 
                   # Execute the shell script on the server.
                   script: |
