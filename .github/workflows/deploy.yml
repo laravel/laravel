@@ -1,22 +1,24 @@
 name: Deploy Laravel App
 
 on:
-  push:
-    branches: [ "main" ]
+    push:
+        branches: 
+            - "main"
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      # 1. Trigger Remote Deployment via SSH
-      - name: Execute Remote Deployment Script
-        uses: appleboy/ssh-action@master
-        with:
-          # Secrets previously configured in the repository settings
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          
-          # Execute the shell script on the server.
-          script: |
-            /home/ubuntu/deploy_laravel.sh
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            # 1. Trigger Remote Deployment via SSH
+            - name: Execute Remote Deployment Script
+              uses: appleboy/ssh-action@master
+              with:
+                  # Secrets previously configured in the repository settings
+                  host: ${{ secrets.SSH_HOST }}
+                  username: ${{ secrets.SSH_USER }}
+                  key: ${{ secrets.SSH_PRIVATE_KEY }}
+                  debug: true
+
+                  # Execute the shell script on the server.
+                  script: |
+                      /home/ubuntu/deploy_laravel.sh
