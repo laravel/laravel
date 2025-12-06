@@ -1,24 +1,46 @@
-name: Deploy Laravel App
-
+name: Deploy Backend
 on:
-    push:
-        branches:
-            - "main"
+  push:
+    branches:
+      - main
 
 jobs:
-    deploy:
-        runs-on: ubuntu-latest
-        steps:
-            # 1. Trigger Remote Deployment via SSH.
-            - name: Execute Remote Deployment Script
-              uses: appleboy/ssh-action@master
-              with:
-                  # Secrets previously configured in the repository settings
-                  host: ${{ secrets.SSH_HOST }}
-                  username: ${{ secrets.SSH_USER }}
-                  key: ${{ secrets.SSH_PRIVATE_KEY }}
-                
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Create app directory if it doesn't exist
+            mkdir -p ~/app
+            cd ~/app
 
-                  # Execute the shell script on the server.
-                  script: |
-                      /home/ubuntu/deploy_laravel.sh
+            # Pull changes (or clone if empty)
+            if [ -d ".git" ]; then
+              git pull origin main
+            else
+              # Clear directory if it's not a git repo to avoid conflicts
+              if [ ! -d ".git" ] && [ "$(ls -A .)" ]; then
+                 rm -rf * .[^.]*
+              fi
+              git clone ${{ github.server_url }}/${{ github.repository }} .
+            fi
+
+            # Create .env file
+            cp .env.example .env
+            sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=mysql/' .env
+            sed -i "s/# DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }}/" .env
+            sed -i "s/# DB_PORT=3306/DB_PORT=3306/" .env
+            sed -i "s/# DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_NAME }}/" .env
+            sed -i "s/# DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }}/" .env
+            sed -i "s/# DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }}/" .env
+
+            # Install Application Dependencies
+            composer install --no-interaction --prefer-dist --optimize-autoloader
+
+            # Run Migrations
+            php artisan migrate --force
