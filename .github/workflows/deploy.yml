@@ -1,52 +1,46 @@
 name: Deploy Backend
 on:
-  push:
-    branches:
-      - main
+  push:
+    branches:
+      - main
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            # --- PATH MODIFICATION ---
-            APP_DIR="/var/www/html" 
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Create app directory if it doesn't exist
+            mkdir -p ~/app
+            cd ~/app
 
-            # Create and navigate to the production directory
-            sudo mkdir -p $APP_DIR
-            cd $APP_DIR || exit 1
+            # Pull changes (or clone if empty)
+            if [ -d ".git" ]; then
+              git pull origin main
+            else
+              # Clear directory if it's not a git repo to avoid conflicts
+              if [ ! -d ".git" ] && [ "$(ls -A .)" ]; then
+                 rm -rf * .[^.]*
+              fi
+              git clone ${{ github.server_url }}/${{ github.repository }} .
+            fi
 
-            # Pull changes (or clone if empty)
-            if [ -d ".git" ]; then
-              git pull origin main
-            else
-              # Clear directory contents if not empty (required for cloning)
-              if [ ! -d ".git" ] && [ "$(ls -A .)" ]; then
-                 sudo rm -rf * .[^.]* 2>/dev/null || true
-              fi
-              # Clone the repository
-              git clone ${{ github.server_url }}/${{ github.repository }} .
-            fi
+            # Create .env file
+            cp .env.example .env
+            sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=mysql/' .env
+            sed -i "s/# DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }}/" .env
+            sed -i "s/# DB_PORT=3306/DB_PORT=3306/" .env
+            sed -i "s/# DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_NAME }}/" .env
+            sed -i "s/# DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }}/" .env
+            sed -i "s/# DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }}/" .env
 
-            # Create .env file
-            cp .env.example .env
-            sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=mysql/' .env
-            sed -i "s/# DB_HOST=127.0.0.1/DB_HOST=${{ secrets.DB_HOST }}/" .env
-            sed -i "s/# DB_PORT=3306/DB_PORT=3306/" .env
-            sed -i "s/# DB_DATABASE=laravel/DB_DATABASE=${{ secrets.DB_NAME }}/" .env
-            sed -i "s/# DB_USERNAME=root/DB_USERNAME=${{ secrets.DB_USERNAME }}/" .env
-            sed -i "s/# DB_PASSWORD=/DB_PASSWORD=${{ secrets.DB_PASSWORD }}/" .env
+            # Install Application Dependencies
+            composer install --no-interaction --prefer-dist --optimize-autoloader
 
-            # Install Application Dependencies
-            # NOTE: Assumes 'composer' command is globally available on the server
-            sudo composer install --no-interaction --prefer-dist --optimize-autoloader
-
-            # Run Migrations
-            # NOTE: Assumes 'php' command is globally available on the serv
-            php artisan migrate --force
+            # Run Migrations
+            php artisan migrate --force
