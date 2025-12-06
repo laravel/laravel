@@ -48,5 +48,5 @@ jobs:
             sudo composer install --no-interaction --prefer-dist --optimize-autoloader
 
             # Run Migrations
-            # NOTE: Assumes 'php' command is globally available on the server
+            # NOTE: Assumes 'php' command is globally available on the serv
             php artisan migrate --force
