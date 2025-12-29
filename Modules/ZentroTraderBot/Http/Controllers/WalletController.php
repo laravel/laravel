@@ -172,10 +172,9 @@ class WalletController extends Controller
     }
 
     /**
-     * RETIRAR FONDOS (Híbrido Universal: EIP-1559 + Legacy)
-     * - Detecta automáticamente si la red soporta tarifas modernas.
-     * - Calcula fees correctos para Polygon (evita cancelaciones) y BSC.
-     * - Adaptado para funcionar SIN TransactionFactory (v0.9.0)
+     * RETIRAR FONDOS (Híbrido Universal v0.9)
+     * - Detecta EIP-1559 vs Legacy.
+     * - Límites de gas seguros para contratos/exchanges.
      */
     public function withdraw(int $userId, string $toAddress, string $tokenSymbol, ?float $amount = null)
     {
@@ -192,16 +191,15 @@ class WalletController extends Controller
 
         // 2. CONFIGURACIÓN
         $tokenConfig = config("zentrotraderbot.tokens.$tokenSymbol");
-        if (!$tokenConfig) {
-            return ['status' => 'error', 'message' => "Token $tokenSymbol no configurado."];
-        }
+        if (!$tokenConfig)
+            return ['status' => 'error', 'message' => "Token no configurado."];
 
         $chainId = $tokenConfig['chain_id'];
         $network = config("zentrotraderbot.networks.$chainId");
         $rpcUrl = $network['rpc_url'];
         $isNative = $tokenConfig['address'] === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
 
-        Log::info("💸 Retiro solicitado (v0.9): Usuario $userId | Token $tokenSymbol | Red {$network['name']}");
+        Log::info("💸 Retiro v0.9: $tokenSymbol | Chain: $chainId");
 
         try {
             // 3. PREPARAR DATOS DE LA RED
@@ -209,30 +207,31 @@ class WalletController extends Controller
             $block = $this->rpcCall($rpcUrl, 'eth_getBlockByNumber', ['latest', false]);
             $nonceHex = $this->rpcCall($rpcUrl, 'eth_getTransactionCount', [$fromAddress, 'pending']);
 
-            // Límites de Gas
-            $gasLimitDec = $isNative ? 21000 : 65000;
+            // ⚠️ AJUSTE GAS: 100k (Nativo) / 200k (Token) para evitar "Out of Gas" en contratos
+            $gasLimitDec = $isNative ? 100000 : 200000;
             $gasLimitHex = $this->decToHex($gasLimitDec);
 
-            // Variables para decidir qué TX construir
+            // Variables de construcción
             $txType = '';
             $totalGasCostWei = '0';
 
-            // Variables específicas según tipo
-            $p_gasPrice = null;     // Legacy
-            $p_maxPriority = null;  // EIP1559
-            $p_maxFee = null;       // EIP1559
+            // Params específicos
+            $p_gasPrice = null;
+            $p_maxPriority = null;
+            $p_maxFee = null;
 
             // ======================================================
-            // 🧠 CEREBRO HÍBRIDO: ¿EIP-1559 O LEGACY?
+            // 🧠 SELECCIÓN: ¿EIP-1559 O LEGACY?
             // ======================================================
+
             if (isset($block['baseFeePerGas'])) {
-                // --- MODO MODERNO (Polygon, BSC Nuevo, ETH) ---
+                // MODO MODERNO (Polygon, ETH, BSC Nuevo)
                 $baseFeeDec = $this->hexToDecString($block['baseFeePerGas']);
 
-                // Propina (Priority Fee): 35 Gwei para asegurar rapidez
+                // Propina VIP: 35 Gwei
                 $priorityFeeDec = bcmul('35', bcpow('10', '9'));
 
-                // Max Fee = (Base * 2) + Propina. 
+                // Max Fee = (Base * 2) + Propina
                 $maxFeeDec = bcadd(bcmul($baseFeeDec, '2'), $priorityFeeDec);
 
                 $p_maxPriority = $this->decToHex($priorityFeeDec);
@@ -240,10 +239,10 @@ class WalletController extends Controller
 
                 // Costo estimado máximo
                 $totalGasCostWei = bcmul($maxFeeDec, (string) $gasLimitDec);
-                $txType = 'EIP-1559 (Moderno)';
+                $txType = 'EIP-1559';
 
             } else {
-                // --- MODO LEGACY (Redes antiguas) ---
+                // MODO LEGACY (Redes Viejas)
                 $gasPriceHex = $this->rpcCall($rpcUrl, 'eth_gasPrice', []);
                 $gasPriceDec = $this->hexToDecString($gasPriceHex);
 
@@ -253,92 +252,65 @@ class WalletController extends Controller
                 $p_gasPrice = $this->decToHex($turboGasPrice);
 
                 $totalGasCostWei = bcmul($turboGasPrice, (string) $gasLimitDec);
-                $txType = 'Legacy (Clásico)';
+                $txType = 'Legacy';
             }
 
             // ======================================================
-            // 💰 LÓGICA DE MONTOS (Native vs ERC20)
+            // 💰 CÁLCULOS DE MONTOS
             // ======================================================
 
-            // Variables finales para la TX
             $finalTo = '';
             $finalValue = '0x0';
             $finalData = '';
 
             if ($isNative) {
-                // --- CASO A: TOKEN NATIVO (POL, BNB) ---
-                $balanceHex = $this->rpcCall($rpcUrl, 'eth_getBalance', [$fromAddress, 'latest']);
-                $balanceWei = $this->hexToDecString($balanceHex);
+                // NATIVO
+                $balanceWei = $this->hexToDecString($this->rpcCall($rpcUrl, 'eth_getBalance', [$fromAddress, 'latest']));
 
                 if ($amount === null) {
                     // MODO SWEEP: Restamos el costo del gas
                     $amountWei = bcsub($balanceWei, $totalGasCostWei);
-                    if (bccomp($amountWei, '0') <= 0) {
-                        return ['status' => 'error', 'message' => "Saldo insuficiente para cubrir el gas ($txType)."];
-                    }
+                    if (bccomp($amountWei, '0') <= 0)
+                        return ['status' => 'error', 'message' => "Falta gas ($txType)."];
                 } else {
                     // MODO NORMAL
                     $amountWei = bcmul((string) $amount, bcpow('10', '18'));
-                    $totalRequired = bcadd($amountWei, $totalGasCostWei);
-                    if (bccomp($totalRequired, $balanceWei) > 0) {
-                        return ['status' => 'error', 'message' => 'Fondos insuficientes (Monto + Gas supera saldo).'];
-                    }
+                    if (bccomp(bcadd($amountWei, $totalGasCostWei), $balanceWei) > 0)
+                        return ['status' => 'error', 'message' => 'Fondos insuficientes.'];
                 }
 
                 $finalTo = $toAddress;
                 $finalValue = $this->decToHex($amountWei);
 
             } else {
-                // --- CASO B: TOKEN ERC-20 ---
-                // Chequeo de Gas Nativo
-                $nativeBalanceHex = $this->rpcCall($rpcUrl, 'eth_getBalance', [$fromAddress, 'latest']);
-                $nativeBalanceWei = $this->hexToDecString($nativeBalanceHex);
-
-                if (bccomp($nativeBalanceWei, $totalGasCostWei) < 0) {
-                    return ['status' => 'error', 'message' => "Falta {$network['native_symbol']} para pagar el gas."];
-                }
+                // ERC-20
+                $nativeBal = $this->hexToDecString($this->rpcCall($rpcUrl, 'eth_getBalance', [$fromAddress, 'latest']));
+                if (bccomp($nativeBal, $totalGasCostWei) < 0)
+                    return ['status' => 'error', 'message' => "Falta gas nativo."];
 
                 if ($amount === null) {
-                    $amountTokenWei = $this->getRawErc20Balance($rpcUrl, $tokenConfig['address'], $fromAddress);
-                    if ($amountTokenWei == '0')
-                        return ['status' => 'error', 'message' => 'Sin saldo de token.'];
+                    $amntTok = $this->getRawErc20Balance($rpcUrl, $tokenConfig['address'], $fromAddress);
+                    if ($amntTok == '0')
+                        return ['status' => 'error', 'message' => 'Sin saldo token.'];
                 } else {
-                    $amountTokenWei = bcmul((string) $amount, bcpow('10', (string) $tokenConfig['decimals']));
+                    $amntTok = bcmul((string) $amount, bcpow('10', (string) $tokenConfig['decimals']));
                 }
 
-                $methodId = '0xa9059cbb';
-                $paddedAddress = str_pad(substr($toAddress, 2), 64, '0', STR_PAD_LEFT);
-                $paddedAmount = str_pad($this->decToHexNoPrefix($amountTokenWei), 64, '0', STR_PAD_LEFT);
-
-                $finalTo = $tokenConfig['address']; // El destinatario es el Contrato
-                $finalData = $methodId . $paddedAddress . $paddedAmount;
-                $finalValue = '0x0';
+                $finalTo = $tokenConfig['address'];
+                $finalData = '0xa9059cbb' . str_pad(substr($toAddress, 2), 64, '0', STR_PAD_LEFT) . str_pad($this->decToHexNoPrefix($amntTok), 64, '0', STR_PAD_LEFT);
             }
 
-            // 5. FIRMAR Y ENVIAR (Construcción Manual para v0.9.0)
-            $tx = null;
+            // ======================================================
+            // 🔨 CONSTRUCCIÓN MANUAL DE TX
+            // ======================================================
 
-            if ($txType === 'EIP-1559 (Moderno)') {
-                // Constructor EIP1559Transaction: (nonce, maxPriority, maxFee, gasLimit, to, value, data)
-                $tx = new EIP1559Transaction(
-                    $nonceHex,
-                    $p_maxPriority,
-                    $p_maxFee,
-                    $gasLimitHex,
-                    $finalTo,
-                    $finalValue,
-                    $finalData
-                );
+            $tx = null;
+            if ($txType === 'EIP-1559') {
+                // Constructor v0.9
+                $tx = new EIP1559Transaction($nonceHex, $p_maxPriority, $p_maxFee, $gasLimitHex, $finalTo, $finalValue, $finalData);
             } else {
-                // Constructor Transaction (Legacy): (nonce, gasPrice, gasLimit, to, value, data)
-                $tx = new Transaction(
-                    $nonceHex,
-                    $p_gasPrice,
-                    $gasLimitHex,
-                    $finalTo,
-                    $finalValue,
-                    $finalData
-                );
+                // Constructor v0.9
+                $tx = new Transaction($nonceHex, $p_gasPrice, $gasLimitHex, $finalTo, $finalValue, $finalData);
             }
 
             $signedTx = $tx->getRaw($privateKey, $chainId);
@@ -347,14 +319,13 @@ class WalletController extends Controller
             if (isset($txHash['error']))
                 throw new \Exception("RPC Error: " . json_encode($txHash['error']));
             if (!$txHash)
-                throw new \Exception("Error desconocido al enviar TX.");
+                throw new \Exception("Error desconocido.");
 
             return [
                 'status' => 'success',
                 'tx_hash' => $txHash,
                 'explorer' => $network['explorer'] . $txHash,
-                'type' => $txType,
-                'amount_sent' => ($amount === null) ? 'MAX' : $amount
+                'type' => $txType
             ];
 
         } catch (\Exception $e) {
