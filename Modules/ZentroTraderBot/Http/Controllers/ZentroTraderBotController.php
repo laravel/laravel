@@ -82,11 +82,17 @@ class ZentroTraderBotController extends JsonsController
                 $wc = new WalletController();
 
                 try {
-                    $result = $wc->getBalance($this->actor->user_id, $array["pieces"][1]);
+                    $result = array();
+                    if (isset($array["pieces"][1]))
+                        $result = $wc->getBalance($this->actor->user_id, $array["pieces"][1]);
+                    else
+                        $result = $wc->getBalance($this->actor->user_id);
 
                     $text = "🫆 " . $result["address"] . "\n";
-                    foreach ($result["assets"] as $token => $balance) {
-                        $text .= "💰 " . $balance . " " . $token . "\n";
+                    foreach ($result["portfolio"] as $network => $values) {
+                        foreach ($values["assets"] as $token => $balance) {
+                            $text .= "💰 " . $balance . " " . $token . "\n";
+                        }
                     }
 
                     $reply = array(

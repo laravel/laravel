@@ -78,79 +78,91 @@ class WalletController extends Controller
     }
 
     /**
-     * CONSULTAR SALDO REAL (On-Chain)
-     * Conecta con la RPC y obtiene saldos nativos y tokens configurados.
-     * * @param int $userId ID del usuario de Telegram
-     * @param int $chainId ID de la red (137 = Polygon, 56 = BSC)
+     * CONSULTAR SALDO (ESTANDARIZADO)
+     * Siempre devuelve una estructura 'portfolio' consistente.
      */
-    public function getBalance(int $userId, string $networkSymbol = 'POL')
+    public function getBalance(int $userId, ?string $networkSymbol = null)
     {
-        // NORMALIZACIÓN: Forzamos mayúsculas (pol -> POL)
-        $networkSymbol = strtoupper($networkSymbol);
-
-        // 1. Obtener Wallet del Usuario
+        // 1. Obtener Wallet
         $actor = Actors::where('user_id', $userId)->first();
         if (!$actor || !isset($actor->data['wallet']['address'])) {
-            return ['status' => 'error', 'message' => 'No tienes wallet configurada. Ejecuta /start.'];
+            return ['status' => 'error', 'message' => 'No tienes wallet configurada.'];
         }
         $address = $actor->data['wallet']['address'];
 
-        // 2. DEDUCIR RED A PARTIR DEL SÍMBOLO
-        // Buscamos 'POL' o 'BNB' en la lista de tokens para saber su chain_id
-        $tokenConfig = config("zentrotraderbot.tokens.$networkSymbol");
+        $portfolio = [];
+        $mode = 'global';
 
-        if (!$tokenConfig) {
-            return ['status' => 'error', 'message' => "No se reconoce el símbolo de red: $networkSymbol"];
+        // --- CASO A: GLOBAL (Todas las redes) ---
+        if ($networkSymbol === null) {
+            $networks = config('zentrotraderbot.networks');
+
+            foreach ($networks as $chainId => $networkConfig) {
+                // Usamos el nombre de la red como clave (Polygon, BSC, etc.)
+                $portfolio[$networkConfig['name']] = $this->getBalancesByChainId($address, $chainId, $networkConfig);
+            }
+
+            // --- CASO B: ESPECÍFICO (Una sola red) ---
+        } else {
+            $mode = 'specific';
+            $networkSymbol = strtoupper($networkSymbol);
+
+            $tokenConfig = config("zentrotraderbot.tokens.$networkSymbol");
+            if (!$tokenConfig)
+                return ['status' => 'error', 'message' => "Red desconocida: $networkSymbol"];
+
+            $chainId = $tokenConfig['chain_id'];
+            $networkConfig = config("zentrotraderbot.networks.$chainId");
+
+            if (!$networkConfig)
+                return ['status' => 'error', 'message' => "Configuración incompleta ID $chainId."];
+
+            // Agregamos SOLO esta red al portafolio
+            $portfolio[$networkConfig['name']] = $this->getBalancesByChainId($address, $chainId, $networkConfig);
         }
 
-        $chainId = $tokenConfig['chain_id'];
-
-        // Cargamos la info completa de la red usando el ID deducido
-        $network = config("zentrotraderbot.networks.$chainId");
-        if (!$network) {
-            return ['status' => 'error', 'message' => "Configuración de red incompleta para ID $chainId."];
-        }
-
-        $rpcUrl = $network['rpc_url'];
-
-        // 3. OBTENER SALDOS (Lógica idéntica a la anterior)
-
-        // A. Saldo Nativo (POL/BNB)
-        $nativeHex = $this->rpcCall($rpcUrl, 'eth_getBalance', [$address, 'latest']);
-        $nativeBalance = $this->hexToDec($nativeHex, 18);
-
-        $balances = [
-            'network' => $network['name'],     // Ej: Polygon
-            'base_asset' => $networkSymbol,    // Ej: POL
-            'address' => $address,
-            'assets' => []
+        // RETORNO UNIFICADO
+        return [
+            'status' => 'success',
+            'mode' => $mode,
+            'address' => $address, // Dato útil a nivel raíz
+            'portfolio' => $portfolio
         ];
+    }
 
-        // Guardamos nativo
-        $balances['assets'][$network['native_symbol']] = $nativeBalance;
+    /**
+     * HELPER: Extrae saldos de una cadena específica
+     */
+    private function getBalancesByChainId($address, $chainId, $networkConfig)
+    {
+        $rpcUrl = $networkConfig['rpc_url'];
 
-        // B. Saldos de Tokens ERC-20 de esa red
+        $assets = [];
+
+        // 1. Nativo
+        $nativeHex = $this->rpcCall($rpcUrl, 'eth_getBalance', [$address, 'latest']);
+        $assets[$networkConfig['native_symbol']] = $this->hexToDec($nativeHex, 18);
+
+        // 2. Tokens ERC-20
         $allTokens = config('zentrotraderbot.tokens');
 
         foreach ($allTokens as $symbol => $tokenData) {
-            // Filtramos: Que sea de ESTA red y que NO sea el nativo repetido
             if ($tokenData['chain_id'] == $chainId && $tokenData['address'] !== '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
 
-                $tokenBalance = $this->getErc20Balance(
-                    $rpcUrl,
-                    $tokenData['address'],
-                    $address,
-                    $tokenData['decimals']
-                );
+                $tokenBalance = $this->getErc20Balance($rpcUrl, $tokenData['address'], $address, $tokenData['decimals']);
 
-                // Opcional: Solo mostrar si > 0
+                // Opcional: Filtrar ceros si quieres limpiar la salida
                 // if ($tokenBalance !== '0') {
-                $balances['assets'][$symbol] = $tokenBalance;
+                $assets[$symbol] = $tokenBalance;
                 // }
             }
         }
 
-        return $balances;
+        return [
+            'network_id' => $chainId,
+            'native_symbol' => $networkConfig['native_symbol'],
+            'assets' => $assets
+        ];
     }
 
     /**
