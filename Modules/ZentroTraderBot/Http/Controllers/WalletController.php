@@ -206,6 +206,9 @@ class WalletController extends Controller
             // Pedimos el bloque 'latest' completo para ver si tiene 'baseFeePerGas'
             $block = $this->rpcCall($rpcUrl, 'eth_getBlockByNumber', ['latest', false]);
             $nonceHex = $this->rpcCall($rpcUrl, 'eth_getTransactionCount', [$fromAddress, 'pending']);
+            if (!$nonceHex) {
+                return ['status' => 'error', 'message' => 'Error de conexión: No se pudo obtener el Nonce de la red.'];
+            }
 
             // ⚠️ AJUSTE GAS: 100k (Nativo) / 200k (Token) para evitar "Out of Gas" en contratos
             $gasLimitDec = $isNative ? 100000 : 200000;
@@ -316,6 +319,14 @@ class WalletController extends Controller
             $signedTx = $tx->getRaw($privateKey, $chainId);
             $txHash = $this->rpcCall($rpcUrl, 'eth_sendRawTransaction', ['0x' . $signedTx]);
 
+            // VERIFICACIÓN ROBUSTA
+            if (!$txHash) {
+                // Si llegamos aquí, puede que la TX se haya enviado pero la RPC no respondió bien.
+                // Lanzamos excepción para que el usuario sepa que algo raro pasó, 
+                // pero ya no es un error de código "Undefined index".
+                throw new \Exception("La transacción pudo haberse enviado, pero no recibimos confirmación del RPC. Revisa tu wallet.");
+            }
+
             if (isset($txHash['error']))
                 throw new \Exception("RPC Error: " . json_encode($txHash['error']));
             if (!$txHash)
@@ -372,7 +383,8 @@ class WalletController extends Controller
      */
     private function hexToDec($hex, $decimals)
     {
-        if ($hex === '0x0')
+        // Agregamos la verificación de NULL o vacío aquí
+        if (empty($hex) || $hex === '0x0')
             return '0';
 
         $cleanHex = str_replace('0x', '', $hex);
@@ -417,8 +429,30 @@ class WalletController extends Controller
 
     private function rpcCall($url, $method, $params)
     {
-        $response = Http::post($url, ['jsonrpc' => '2.0', 'method' => $method, 'params' => $params, 'id' => 1]);
-        return $response->json()['result'];
+        try {
+            $response = Http::post($url, [
+                'jsonrpc' => '2.0',
+                'method' => $method,
+                'params' => $params,
+                'id' => 1
+            ]);
+
+            $data = $response->json();
+
+            // 1. Si hay error explícito en la RPC (ej: "insufficient funds")
+            if (isset($data['error'])) {
+                Log::warning("⚠️ RPC Error ($method): " . json_encode($data['error']));
+                return null; // Retornamos null para manejarlo arriba
+            }
+
+            // 2. Intentamos obtener el resultado de forma segura
+            return $data['result'] ?? null;
+
+        } catch (\Exception $e) {
+            // 3. Si falla la conexión HTTP (Timeout, DNS, etc)
+            Log::error("❌ RPC HTTP Error ($method): " . $e->getMessage());
+            return null;
+        }
     }
 
     private function decToHex($decimal)
@@ -441,6 +475,10 @@ class WalletController extends Controller
      */
     private function hexToDecString($hex)
     {
+        // Protección contra NULL
+        if (empty($hex) || $hex === '0x0')
+            return '0';
+
         // 1. Limpieza
         $hex = str_replace('0x', '', $hex);
         if ($hex === '')
