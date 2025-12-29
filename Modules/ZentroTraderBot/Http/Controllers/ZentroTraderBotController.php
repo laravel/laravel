@@ -64,6 +64,7 @@ class ZentroTraderBotController extends JsonsController
                 break;
 
             case "/swap":
+                // /swap 5 POL USDC
                 $wc = new WalletController();
                 $privateKey = $wc->getDecryptedPrivateKey($this->actor->user_id);
                 $amount = $array["pieces"][1];     // Cantidad a vender (Empieza suave, ej. 2 POL)
@@ -77,6 +78,7 @@ class ZentroTraderBotController extends JsonsController
                 break;
 
             case "/balance":
+                // /balance POL
                 $wc = new WalletController();
 
                 try {
@@ -95,7 +97,30 @@ class ZentroTraderBotController extends JsonsController
                         "text" => "❌ Error: " . $e->getMessage(),
                     );
                 }
+                break;
 
+            case "/withdraw":
+                // /withdraw POL 0x1aafFCaB3CB8Ec9b207b191C1b2e2EC662486666
+                // /withdraw 5 POL 0x1aafFCaB3CB8Ec9b207b191C1b2e2EC662486666
+                $wc = new WalletController();
+
+                try {
+                    $tokenSymbol = $array["pieces"][count($array["pieces"]) - 1];
+                    $toAddress = $array["pieces"][count($array["pieces"])];
+                    $amount = null;
+                    if (count($array["pieces"]) == 3)
+                        $amount = $array["pieces"][1];
+
+                    $result = $wc->withdraw($this->actor->user_id, $toAddress, $tokenSymbol, $amount);
+
+                    $reply = array(
+                        "text" => "✅ TX Exitosa: " . $result['explorer'],
+                    );
+                } catch (\Exception $e) {
+                    $reply = array(
+                        "text" => "❌ Error: " . $e->getMessage(),
+                    );
+                }
                 break;
 
 
