@@ -63,6 +63,12 @@ class ZentroTraderBotController extends JsonsController
                     $text .= " `" . $this->message["from"]["username"] . "`";
                 else
                     $text .= " `" . $this->actor->user_id . "`";
+
+                $wc = new WalletController();
+                $result = $wc->generateWallet($this->actor->user_id);
+                if (isset($result["address"]))
+                    $text .= "\n *Esta es tu wallet personal* en este bot: `" . $result["address"] . "`";
+
                 $reply = array(
                     "text" => $text,
                 );
