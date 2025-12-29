@@ -58,8 +58,13 @@ class ZentroTraderBotController extends JsonsController
             case "/start":
                 //https://t.me/bot?start=816767995
                 // /start 816767995
+                $text = "👋 Hola, bienvenido";
+                if (isset($this->telegram["username"]) && $this->telegram["username"] != "")
+                    $text .= " `" . $this->telegram["username"] . "`";
+                else
+                    $text .= " `" . $this->actor->user_id . "`";
                 $reply = array(
-                    "text" => "👋 Hola, bienvenido",
+                    "text" => $text,
                 );
                 break;
 
@@ -88,10 +93,10 @@ class ZentroTraderBotController extends JsonsController
                     else
                         $result = $wc->getBalance($this->actor->user_id);
 
-                    $text = "🫆 " . $result["address"] . "\n";
+                    $text = "🫆 `" . $result["address"] . "`\n";
                     foreach ($result["portfolio"] as $network => $values) {
                         foreach ($values["assets"] as $token => $balance) {
-                            $text .= "💰 " . $balance . " " . $token . "\n";
+                            $text .= "💰 " . $balance . " *" . $token . "*\n";
                         }
                     }
 
