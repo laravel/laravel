@@ -113,9 +113,16 @@ class ZentroTraderBotController extends JsonsController
 
                     $result = $wc->withdraw($this->actor->user_id, $toAddress, $tokenSymbol, $amount);
 
-                    $reply = array(
-                        "text" => "✅ TX Exitosa: " . $result['explorer'],
-                    );
+                    if (isset($result['explorer']))
+                        $reply = array(
+                            "text" => "✅ TX Exitosa: " . $result['explorer'],
+                        );
+
+                    if (isset($result['message']))
+                        $reply = array(
+                            "text" => "❌ TX Fallida: " . $result['message'],
+                        );
+
                 } catch (\Exception $e) {
                     $reply = array(
                         "text" => "❌ Error: " . $e->getMessage(),
