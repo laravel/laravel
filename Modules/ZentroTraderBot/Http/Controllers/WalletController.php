@@ -178,7 +178,7 @@ class WalletController extends Controller
         // NORMALIZACIÓN: Forzamos mayúsculas (pol -> POL)
         $tokenSymbol = strtoupper($tokenSymbol);
 
-        // 1. OBTENER USUARIO Y CREDENCIALES
+        // 1. OBTENER USUARIO
         try {
             $privateKey = $this->getDecryptedPrivateKey($userId);
             $fromAddress = $this->getAddressFromKey($privateKey); // Necesario para nonce y checks
@@ -186,7 +186,7 @@ class WalletController extends Controller
             return ['status' => 'error', 'message' => $e->getMessage()];
         }
 
-        // 2. OBTENER CONFIGURACIÓN DEL TOKEN Y RED
+        // 2. CONFIGURACIÓN
         $tokenConfig = config("zentrotraderbot.tokens.$tokenSymbol");
         if (!$tokenConfig) {
             return ['status' => 'error', 'message' => "Token $tokenSymbol no configurado."];
@@ -197,99 +197,84 @@ class WalletController extends Controller
         $rpcUrl = $network['rpc_url'];
         $isNative = $tokenConfig['address'] === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
 
-        Log::info("💸 Retiro solicitado: Usuario $userId | Token $tokenSymbol | Chain $chainId");
+        Log::info("💸 Retiro TURBO solicitado: Usuario $userId | Token $tokenSymbol");
 
         try {
-            // 3. DATOS DE LA RED (Gas Price y Nonce)
+            // 3. CÁLCULO DE GAS (MODO TURBO)
             $nonceHex = $this->rpcCall($rpcUrl, 'eth_getTransactionCount', [$fromAddress, 'pending']);
+
+            // Obtenemos precio base
             $gasPriceHex = $this->rpcCall($rpcUrl, 'eth_gasPrice', []);
+            $currentGasPriceWei = $this->hexToDecString($gasPriceHex); // Usamos el helper seguro
 
-            // Convertimos Gas Price a decimal para cálculos (Wei)
-            $gasPriceWei = hexdec($gasPriceHex);
+            // 🔥 APLICAMOS MULTIPLICADOR x2 (TURBO)
+            // Esto asegura que la TX pase rápida incluso si la red se congestiona
+            $turboGasPriceWei = bcmul($currentGasPriceWei, '2', 0);
 
-            // Definimos Límite de Gas (Estimación segura)
-            // Nativo: 21,000 | ERC20: 65,000 (transferencia estándar suele ser ~50k)
+            // Límite de Gas
             $gasLimitDec = $isNative ? 21000 : 65000;
             $gasLimitHex = $this->decToHex($gasLimitDec);
 
-            // Costo Total del Gas en Wei
-            $totalGasCostWei = bcmul((string) $gasPriceWei, (string) $gasLimitDec);
+            // Costo Total del Gas (Con precio Turbo)
+            $totalGasCostWei = bcmul($turboGasPriceWei, (string) $gasLimitDec);
 
-            // 4. PREPARACIÓN DE MONTOS (Lógica de "Retirar Todo")
-            $valueToSendHex = '0x0'; // Valor en el campo 'value' de la TX (Solo para nativos)
-            $data = ''; // Payload (Solo para ERC20)
+            // 4. PREPARACIÓN DE MONTOS
+            $valueToSendHex = '0x0';
+            $data = '';
 
             // --- CASO A: TOKEN NATIVO (POL, BNB) ---
             if ($isNative) {
-                // Obtenemos saldo real actual en Wei
                 $balanceHex = $this->rpcCall($rpcUrl, 'eth_getBalance', [$fromAddress, 'latest']);
-                $balanceWei = $this->hexToDecString($balanceHex); // Helper para string exacto
+                $balanceWei = $this->hexToDecString($balanceHex);
 
                 if ($amount === null) {
-                    // MODO SWEEP: Retirar TODO (Saldo - Gas)
+                    // MODO SWEEP: Restamos el costo del gas TURBO
                     $amountWei = bcsub($balanceWei, $totalGasCostWei);
                     if (bccomp($amountWei, '0') <= 0) {
-                        return ['status' => 'error', 'message' => 'Saldo insuficiente para cubrir el gas.'];
+                        return ['status' => 'error', 'message' => 'Saldo insuficiente para cubrir el gas Turbo.'];
                     }
                 } else {
-                    // MODO NORMAL: Monto específico
                     $amountWei = bcmul((string) $amount, bcpow('10', '18'));
-                    // Validar que (Monto + Gas) <= Balance
                     $totalRequired = bcadd($amountWei, $totalGasCostWei);
                     if (bccomp($totalRequired, $balanceWei) > 0) {
-                        return ['status' => 'error', 'message' => 'Fondos insuficientes (Monto + Gas supera saldo).'];
+                        return ['status' => 'error', 'message' => 'Fondos insuficientes (Monto + Gas Turbo supera saldo).'];
                     }
                 }
 
                 $valueToSendHex = $this->decToHex($amountWei);
 
-                // --- CASO B: TOKEN ERC-20 (USDC, USDT, ETC) ---
+                // --- CASO B: TOKEN ERC-20 ---
             } else {
-                // 1. Verificar si hay Gas Nativo suficiente (El usuario paga el gas en POL/BNB)
+                // Chequeo de Gas Nativo
                 $nativeBalanceHex = $this->rpcCall($rpcUrl, 'eth_getBalance', [$fromAddress, 'latest']);
                 $nativeBalanceWei = $this->hexToDecString($nativeBalanceHex);
 
                 if (bccomp($nativeBalanceWei, $totalGasCostWei) < 0) {
-                    return ['status' => 'error', 'message' => "No tienes suficiente {$network['native_symbol']} para pagar el gas de la transacción."];
+                    return ['status' => 'error', 'message' => "Falta {$network['native_symbol']} para pagar el gas."];
                 }
 
-                // 2. Calcular monto del Token
                 if ($amount === null) {
-                    // MODO SWEEP: Consultar balance total del token
                     $amountTokenWei = $this->getRawErc20Balance($rpcUrl, $tokenConfig['address'], $fromAddress);
-                    if ($amountTokenWei == '0') {
-                        return ['status' => 'error', 'message' => 'No tienes saldo de este token para retirar.'];
-                    }
+                    if ($amountTokenWei == '0')
+                        return ['status' => 'error', 'message' => 'Sin saldo de token.'];
                 } else {
-                    $decimals = $tokenConfig['decimals'];
-                    $amountTokenWei = bcmul((string) $amount, bcpow('10', (string) $decimals));
+                    $amountTokenWei = bcmul((string) $amount, bcpow('10', (string) $tokenConfig['decimals']));
                 }
 
-                // 3. Construir Data (transfer function)
-                // Method ID: 0xa9059cbb (transfer)
-                // Param 1: Address (padding 64 chars)
-                // Param 2: Amount (padding 64 chars)
                 $methodId = '0xa9059cbb';
                 $paddedAddress = str_pad(substr($toAddress, 2), 64, '0', STR_PAD_LEFT);
                 $paddedAmount = str_pad($this->decToHexNoPrefix($amountTokenWei), 64, '0', STR_PAD_LEFT);
 
                 $data = $methodId . $paddedAddress . $paddedAmount;
-
-                // En transacciones ERC20, el 'value' (nativo enviado) es 0
-                $valueToSendHex = '0x0';
-
-                // El destinatario real de la TX es el CONTRATO, no el usuario final
-                // (El usuario final está encoded dentro de $data)
                 $targetContractAddress = $tokenConfig['address'];
             }
 
-            // 5. CONSTRUIR Y FIRMAR TRANSACCIÓN
-            // Si es ERC20, el 'to' es el contrato. Si es Nativo, el 'to' es el usuario destino.
+            // 5. FIRMAR Y ENVIAR
             $finalTo = $isNative ? $toAddress : $targetContractAddress;
 
             $tx = new Transaction(
                 $nonceHex,
-                $this->decToHex($gasPriceWei),
+                $this->decToHex($turboGasPriceWei), // <--- Usamos el precio Turbo
                 $gasLimitHex,
                 $finalTo,
                 $valueToSendHex,
@@ -297,25 +282,19 @@ class WalletController extends Controller
             );
 
             $signedTx = $tx->getRaw($privateKey, $chainId);
-
-            // 6. ENVIAR
             $txHash = $this->rpcCall($rpcUrl, 'eth_sendRawTransaction', ['0x' . $signedTx]);
 
-            // Manejo de errores de RPC
-            if (isset($txHash['error'])) {
+            if (isset($txHash['error']))
                 throw new \Exception("RPC Error: " . json_encode($txHash['error']));
-            }
-            // A veces rpcCall devuelve el hash directo o null si falla
-            if (!$txHash || strlen($txHash) < 10) {
+            if (!$txHash)
                 throw new \Exception("Error desconocido al enviar TX.");
-            }
 
             return [
                 'status' => 'success',
                 'tx_hash' => $txHash,
                 'explorer' => $network['explorer'] . $txHash,
                 'amount_sent' => ($amount === null) ? 'MAX' : $amount,
-                'fee_paid_est' => bcdiv($totalGasCostWei, bcpow('10', '18'), 6) . ' ' . $network['native_symbol']
+                'fee_paid_est' => bcdiv($totalGasCostWei, bcpow('10', '18'), 6) . ' ' . $network['native_symbol'] . ' (Turbo x2)'
             ];
 
         } catch (\Exception $e) {
