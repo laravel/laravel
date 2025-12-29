@@ -78,18 +78,24 @@ class ZentroTraderBotController extends JsonsController
 
             case "/balance":
                 $wc = new WalletController();
-                $wc->getBalance($this->actor->user_id, );
 
-                $array = $wc->getBalance($this->actor->user_id, $array["pieces"][1]);
+                try {
+                    $result = $wc->getBalance($this->actor->user_id, $array["pieces"][1]);
 
-                $text = "🫆 " . $array["address"] . "\n";
-                foreach ($$array["address"] as $token => $balance) {
-                    $text .= $balance . " " . $token . "\n";
+                    $text = "🫆 " . $result["address"] . "\n";
+                    foreach ($result["assets"] as $token => $balance) {
+                        $text .= $balance . " " . $token . "\n";
+                    }
+
+                    $reply = array(
+                        "text" => $text,
+                    );
+                } catch (\Exception $e) {
+                    $reply = array(
+                        "text" => "❌ Error: " . $e->getMessage(),
+                    );
                 }
 
-                $reply = array(
-                    "text" => $text,
-                );
                 break;
 
 
