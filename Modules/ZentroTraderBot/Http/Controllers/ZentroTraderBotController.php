@@ -12,6 +12,7 @@ use Modules\ZentroTraderBot\Entities\TradingSuscriptions;
 use App\Http\Controllers\JsonsController;
 use Modules\TelegramBot\Traits\UsesTelegramBot;
 use Illuminate\Support\Facades\Log;
+use Modules\TelegramBot\Entities\TelegramBots;
 
 class ZentroTraderBotController extends JsonsController
 {
@@ -26,9 +27,24 @@ class ZentroTraderBotController extends JsonsController
         $this->ActorsController = new ActorsController();
         $this->TelegramController = new TelegramController();
 
-        if (!$instance)
+        if ($instance === false)
             $instance = $botname;
-        $response = json_decode($this->TelegramController->getBotInfo($this->getToken($instance)), true);
+        $response = false;
+        try {
+            $bot = $this->getFirst(TelegramBots::class, "name", "=", "@{$instance}");
+            $this->token = $bot->token;
+            $this->data = $bot->data;
+
+            $response = json_decode($this->TelegramController->getBotInfo($this->token), true);
+        } catch (\Throwable $th) {
+        }
+        if (!$response)
+            $response = array(
+                "result" => array(
+                    "username" => $instance
+                )
+            );
+
         $this->telegram = $response["result"];
     }
 
