@@ -415,8 +415,6 @@ class WalletController extends Controller
         if ($hex === '')
             return '0';
 
-        // 2. Iteración manual (BigInteger logic)
-        // Convertimos carácter por carácter para evitar floats
         $decimal = '0';
         $len = strlen($hex);
 
