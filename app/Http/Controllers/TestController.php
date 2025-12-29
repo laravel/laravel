@@ -34,6 +34,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Modules\GutoTradeBot\Jobs\CheckEmails;
 use Illuminate\Support\Facades\Storage;
+use Modules\ZentroTraderBot\Http\Controllers\WalletController;
 
 class TestController extends Controller
 {
