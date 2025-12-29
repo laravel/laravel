@@ -425,11 +425,34 @@ class WalletController extends Controller
     }
 
 
+    /**
+     * Convierte Hexadecimal gigante a String Decimal sin Notación Científica.
+     * Reemplazo seguro para hexdec() en Blockchain.
+     */
     private function hexToDecString($hex)
     {
-        if ($hex === '0x0')
+        // 1. Limpieza
+        $hex = str_replace('0x', '', $hex);
+        if ($hex === '')
             return '0';
-        return (string) hexdec(str_replace('0x', '', $hex));
+
+        // 2. Iteración manual (BigInteger logic)
+        // Convertimos carácter por carácter para evitar floats
+        $decimal = '0';
+        $len = strlen($hex);
+
+        for ($i = 0; $i < $len; $i++) {
+            // Multiplicamos el acumulado por 16 (desplazamiento)
+            $decimal = bcmul($decimal, '16');
+
+            // Obtenemos el valor del dígito actual (0-15)
+            $digit = hexdec($hex[$i]);
+
+            // Sumamos
+            $decimal = bcadd($decimal, (string) $digit);
+        }
+
+        return $decimal;
     }
 
     private function getRawErc20Balance($rpcUrl, $contract, $owner)
