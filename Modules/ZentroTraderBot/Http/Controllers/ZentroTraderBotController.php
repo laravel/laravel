@@ -62,13 +62,10 @@ class ZentroTraderBotController extends JsonsController
                     "text" => "👋 Hola, bienvenido",
                 );
                 break;
-            case "/sell":
 
+            case "/swap":
                 $wc = new WalletController();
                 $privateKey = $wc->getDecryptedPrivateKey($this->actor->user_id);
-
-
-                // --- CONFIGURACIÓN DE LA PRUEBA ---
                 $amount = $array["pieces"][1];     // Cantidad a vender (Empieza suave, ej. 2 POL)
                 $from = $array["pieces"][2];   // Token que vendes
                 $to = $array["pieces"][3];  // Token que compras
@@ -76,6 +73,22 @@ class ZentroTraderBotController extends JsonsController
                 $array = $this->engine->swap($from, $to, $amount, $privateKey, true);
                 $reply = array(
                     "text" => "✅ TX Exitosa: " . $array['explorer'],
+                );
+                break;
+
+            case "/balance":
+                $wc = new WalletController();
+                $wc->getBalance($this->actor->user_id, );
+
+                $array = $wc->getBalance($this->actor->user_id, $array["pieces"][1]);
+
+                $text = "🫆 " . $array["address"] . "\n";
+                foreach ($$array["address"] as $token => $balance) {
+                    $text .= $balance . " " . $token . "\n";
+                }
+
+                $reply = array(
+                    "text" => $text,
                 );
                 break;
 
