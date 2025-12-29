@@ -59,8 +59,8 @@ class ZentroTraderBotController extends JsonsController
                 //https://t.me/bot?start=816767995
                 // /start 816767995
                 $text = "👋 Hola, bienvenido";
-                if (isset($this->telegram["username"]) && $this->telegram["username"] != "")
-                    $text .= " `" . $this->telegram["username"] . "`";
+                if (isset($this->message["from"]["username"]) && $this->message["from"]["username"] != "")
+                    $text .= " `" . $this->message["from"]["username"] . "`";
                 else
                     $text .= " `" . $this->actor->user_id . "`";
                 $reply = array(
