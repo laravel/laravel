@@ -133,24 +133,26 @@ trait UsesTelegramBot
     {
         $text = trim("{$text}");
 
-        //comprobando q se haya recibido un comando estilo: /start 816767995
         $array = explode(" ", $text);
         $command = $array[0];
-        if (count($array) > 1) {
-            unset($array[0]);
-            $message = implode(" ", $array);
-        } else {
-            $message = "";
-        }
 
-        //comprobando q se haya recibido un comando estilo: confirmation|promote2-123456|menu
-        $array = explode("|", strtolower($command));
-        if (count($array) > 1) {
-            $command = $array[0];
+        //comprobando q se haya recibido un comando estilo: /start 816767995
+        if (stripos($text, "/") === 0) {
+            unset($array[0]);
+            $message = "";
+            if (count($array) > 1) {
+                $message = implode(" ", $array);
+            }
         } else {
-            //comprobando q se haya recibido un comando estilo: promote2-123456
-            $array = explode("-", strtolower($command));
+            //comprobando q se haya recibido un comando estilo: confirmation|promote2-123456|menu
+            $array = explode("|", strtolower($text));
+            $message = "";
+            if (count($array) == 1) {
+                //comprobando q se haya recibido un comando estilo: promote2-123456
+                $array = explode("-", strtolower($command));
+            }
             $command = $array[0];
+            unset($array[0]);
         }
 
         $response = array(

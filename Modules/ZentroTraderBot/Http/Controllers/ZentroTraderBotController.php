@@ -62,22 +62,26 @@ class ZentroTraderBotController extends JsonsController
                     "text" => "👋 Hola, bienvenido",
                 );
                 break;
+            case "/sell":
 
-
-            case "/jbjknsadkm":
                 $wc = new WalletController();
                 $privateKey = $wc->getDecryptedPrivateKey($this->actor->user_id);
 
 
                 // --- CONFIGURACIÓN DE LA PRUEBA ---
-                $from = 'USDC';   // Token que vendes
-                $to = 'POL';  // Token que compras
-                $amount = 0.530563;     // Cantidad a vender (Empieza suave, ej. 2 POL)
+                $amount = $array["pieces"][1];     // Cantidad a vender (Empieza suave, ej. 2 POL)
+                $from = $array["pieces"][2];   // Token que vendes
+                $to = $array["pieces"][3];  // Token que compras
 
                 $array = $this->engine->swap($from, $to, $amount, $privateKey, true);
                 $reply = array(
                     "text" => "✅ TX Exitosa: " . $array['explorer'],
                 );
+                break;
+
+
+            case "/jbjknsadkm":
+
 
                 /*
                                 try {

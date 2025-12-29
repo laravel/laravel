@@ -74,26 +74,63 @@ class WalletController extends Controller
     }
 
     /**
-     * CONSULTAR SALDO
-     * Devuelve la dirección y enlaces para que el usuario verifique.
+     * CONSULTAR SALDO REAL (On-Chain)
+     * Conecta con la RPC y obtiene saldos nativos y tokens configurados.
+     * * @param int $userId ID del usuario de Telegram
+     * @param int $chainId ID de la red (137 = Polygon, 56 = BSC)
      */
-    public function getBalance(int $userId)
+    public function getBalance(int $userId, int $chainId = 137)
     {
-        // CORRECCIÓN: Buscamos en Actors, no en User
+        // 1. Obtener Wallet del Usuario
         $actor = Actors::where('user_id', $userId)->first();
-
         if (!$actor || !isset($actor->data['wallet']['address'])) {
-            return ['error' => 'No tienes wallet configurada. Ejecuta /start.'];
+            return ['status' => 'error', 'message' => 'No tienes wallet configurada. Ejecuta /start.'];
         }
-
         $address = $actor->data['wallet']['address'];
 
-        return [
+        // 2. Obtener Datos de la Red
+        $network = config("zentrotraderbot.networks.$chainId");
+        if (!$network) {
+            return ['status' => 'error', 'message' => "Red $chainId no configurada."];
+        }
+        $rpcUrl = $network['rpc_url'];
+
+        // 3. Obtener Saldo Nativo (POL, BNB, ETH)
+        // eth_getBalance devuelve Wei en Hex
+        $nativeHex = $this->rpcCall($rpcUrl, 'eth_getBalance', [$address, 'latest']);
+        $nativeBalance = $this->hexToDec($nativeHex, 18); // 18 decimales siempre para nativos
+
+        $balances = [
+            'network' => $network['name'],
             'address' => $address,
-            'message' => 'Tus saldos en la Blockchain:',
-            'polygon_scan' => "https://polygonscan.com/address/{$address}",
-            'bsc_scan' => "https://bscscan.com/address/{$address}",
+            'assets' => []
         ];
+
+        // Agregamos el nativo primero
+        $balances['assets'][$network['native_symbol']] = $nativeBalance;
+
+        // 4. Obtener Saldos de Tokens ERC-20 Configurados
+        $allTokens = config('zentrotraderbot.tokens');
+
+        foreach ($allTokens as $symbol => $tokenData) {
+            // Solo miramos tokens de ESTA red y que NO sean el nativo (ya lo tenemos)
+            if ($tokenData['chain_id'] == $chainId && $tokenData['address'] !== '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
+
+                $tokenBalance = $this->getErc20Balance(
+                    $rpcUrl,
+                    $tokenData['address'],
+                    $address,
+                    $tokenData['decimals']
+                );
+
+                // Solo lo mostramos si tiene algo (opcional)
+                // if ($tokenBalance > 0) {
+                $balances['assets'][$symbol] = $tokenBalance;
+                // }
+            }
+        }
+
+        return $balances;
     }
 
     /**
@@ -115,51 +152,155 @@ class WalletController extends Controller
     }
 
     /**
-     * RETIRAR FONDOS (Token Nativo: POL/BNB)
+     * RETIRAR FONDOS (Inteligente)
+     * - Deduce la red automáticamente.
+     * - Si $amount es null, calcula el máximo posible (Sweep).
+     * - Maneja Native y ERC20.
      */
-    public function withdraw(int $userId, string $toAddress, float $amount, string $tokenSymbol = 'POL')
+    public function withdraw(int $userId, string $toAddress, string $tokenSymbol, ?float $amount = null)
     {
+        // 1. OBTENER USUARIO Y CREDENCIALES
         try {
-            // 1. Obtener Credenciales
             $privateKey = $this->getDecryptedPrivateKey($userId);
+            $fromAddress = $this->getAddressFromKey($privateKey); // Necesario para nonce y checks
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'message' => $e->getMessage()];
+        }
 
-            // 2. Configuración de Red (Hardcoded a Polygon por ahora)
-            // TODO: Hacer esto dinámico según el $tokenSymbol usando config('zentrotraderbot.tokens')
-            $chainId = 137;
-            $rpcUrl = config('zentrotraderbot.networks.137.rpc_url');
+        // 2. OBTENER CONFIGURACIÓN DEL TOKEN Y RED
+        $tokenConfig = config("zentrotraderbot.tokens.$tokenSymbol");
+        if (!$tokenConfig) {
+            return ['status' => 'error', 'message' => "Token $tokenSymbol no configurado."];
+        }
 
-            Log::info("💸 Usuario $userId retirando $amount $tokenSymbol a $toAddress");
+        $chainId = $tokenConfig['chain_id'];
+        $network = config("zentrotraderbot.networks.$chainId");
+        $rpcUrl = $network['rpc_url'];
+        $isNative = $tokenConfig['address'] === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
 
-            // CASO A: Token Nativo
-            if (in_array($tokenSymbol, ['POL', 'MATIC', 'BNB'])) {
+        Log::info("💸 Retiro solicitado: Usuario $userId | Token $tokenSymbol | Chain $chainId");
 
-                // Convertir a Wei (18 decimales)
-                $amountWei = bcmul((string) $amount, bcpow('10', '18'));
-                $amountHex = $this->decToHex($amountWei);
+        try {
+            // 3. DATOS DE LA RED (Gas Price y Nonce)
+            $nonceHex = $this->rpcCall($rpcUrl, 'eth_getTransactionCount', [$fromAddress, 'pending']);
+            $gasPriceHex = $this->rpcCall($rpcUrl, 'eth_gasPrice', []);
 
-                // Preparar TX
-                // Nota: getAddressFromKey es necesario para obtener el nonce correcto de ESTA wallet
-                $myAddress = $this->getAddressFromKey($privateKey);
-                $nonceHex = $this->rpcCall($rpcUrl, 'eth_getTransactionCount', [$myAddress, 'pending']);
+            // Convertimos Gas Price a decimal para cálculos (Wei)
+            $gasPriceWei = hexdec($gasPriceHex);
 
-                $gasPriceHex = $this->rpcCall($rpcUrl, 'eth_gasPrice', []);
-                $gasLimitHex = '0x5208'; // 21000 gas estándar
+            // Definimos Límite de Gas (Estimación segura)
+            // Nativo: 21,000 | ERC20: 65,000 (transferencia estándar suele ser ~50k)
+            $gasLimitDec = $isNative ? 21000 : 65000;
+            $gasLimitHex = $this->decToHex($gasLimitDec);
 
-                $tx = new Transaction($nonceHex, $gasPriceHex, $gasLimitHex, $toAddress, $amountHex, '');
+            // Costo Total del Gas en Wei
+            $totalGasCostWei = bcmul((string) $gasPriceWei, (string) $gasLimitDec);
 
-                // Firmar
-                $signedTx = $tx->getRaw($privateKey, $chainId);
+            // 4. PREPARACIÓN DE MONTOS (Lógica de "Retirar Todo")
+            $valueToSendHex = '0x0'; // Valor en el campo 'value' de la TX (Solo para nativos)
+            $data = ''; // Payload (Solo para ERC20)
 
-                // Enviar
-                $txHash = $this->rpcCall($rpcUrl, 'eth_sendRawTransaction', ['0x' . $signedTx]);
+            // --- CASO A: TOKEN NATIVO (POL, BNB) ---
+            if ($isNative) {
+                // Obtenemos saldo real actual en Wei
+                $balanceHex = $this->rpcCall($rpcUrl, 'eth_getBalance', [$fromAddress, 'latest']);
+                $balanceWei = $this->hexToDecString($balanceHex); // Helper para string exacto
 
-                return ['status' => 'success', 'tx_hash' => $txHash, 'explorer' => "https://polygonscan.com/tx/$txHash"];
+                if ($amount === null) {
+                    // MODO SWEEP: Retirar TODO (Saldo - Gas)
+                    $amountWei = bcsub($balanceWei, $totalGasCostWei);
+                    if (bccomp($amountWei, '0') <= 0) {
+                        return ['status' => 'error', 'message' => 'Saldo insuficiente para cubrir el gas.'];
+                    }
+                } else {
+                    // MODO NORMAL: Monto específico
+                    $amountWei = bcmul((string) $amount, bcpow('10', '18'));
+                    // Validar que (Monto + Gas) <= Balance
+                    $totalRequired = bcadd($amountWei, $totalGasCostWei);
+                    if (bccomp($totalRequired, $balanceWei) > 0) {
+                        return ['status' => 'error', 'message' => 'Fondos insuficientes (Monto + Gas supera saldo).'];
+                    }
+                }
+
+                $valueToSendHex = $this->decToHex($amountWei);
+
+                // --- CASO B: TOKEN ERC-20 (USDC, USDT, ETC) ---
+            } else {
+                // 1. Verificar si hay Gas Nativo suficiente (El usuario paga el gas en POL/BNB)
+                $nativeBalanceHex = $this->rpcCall($rpcUrl, 'eth_getBalance', [$fromAddress, 'latest']);
+                $nativeBalanceWei = $this->hexToDecString($nativeBalanceHex);
+
+                if (bccomp($nativeBalanceWei, $totalGasCostWei) < 0) {
+                    return ['status' => 'error', 'message' => "No tienes suficiente {$network['native_symbol']} para pagar el gas de la transacción."];
+                }
+
+                // 2. Calcular monto del Token
+                if ($amount === null) {
+                    // MODO SWEEP: Consultar balance total del token
+                    $amountTokenWei = $this->getRawErc20Balance($rpcUrl, $tokenConfig['address'], $fromAddress);
+                    if ($amountTokenWei == '0') {
+                        return ['status' => 'error', 'message' => 'No tienes saldo de este token para retirar.'];
+                    }
+                } else {
+                    $decimals = $tokenConfig['decimals'];
+                    $amountTokenWei = bcmul((string) $amount, bcpow('10', (string) $decimals));
+                }
+
+                // 3. Construir Data (transfer function)
+                // Method ID: 0xa9059cbb (transfer)
+                // Param 1: Address (padding 64 chars)
+                // Param 2: Amount (padding 64 chars)
+                $methodId = '0xa9059cbb';
+                $paddedAddress = str_pad(substr($toAddress, 2), 64, '0', STR_PAD_LEFT);
+                $paddedAmount = str_pad($this->decToHexNoPrefix($amountTokenWei), 64, '0', STR_PAD_LEFT);
+
+                $data = $methodId . $paddedAddress . $paddedAmount;
+
+                // En transacciones ERC20, el 'value' (nativo enviado) es 0
+                $valueToSendHex = '0x0';
+
+                // El destinatario real de la TX es el CONTRATO, no el usuario final
+                // (El usuario final está encoded dentro de $data)
+                $targetContractAddress = $tokenConfig['address'];
             }
 
-            return ['status' => 'error', 'message' => 'Solo retiros nativos soportados por ahora.'];
+            // 5. CONSTRUIR Y FIRMAR TRANSACCIÓN
+            // Si es ERC20, el 'to' es el contrato. Si es Nativo, el 'to' es el usuario destino.
+            $finalTo = $isNative ? $toAddress : $targetContractAddress;
+
+            $tx = new Transaction(
+                $nonceHex,
+                $this->decToHex($gasPriceWei),
+                $gasLimitHex,
+                $finalTo,
+                $valueToSendHex,
+                $data
+            );
+
+            $signedTx = $tx->getRaw($privateKey, $chainId);
+
+            // 6. ENVIAR
+            $txHash = $this->rpcCall($rpcUrl, 'eth_sendRawTransaction', ['0x' . $signedTx]);
+
+            // Manejo de errores de RPC
+            if (isset($txHash['error'])) {
+                throw new \Exception("RPC Error: " . json_encode($txHash['error']));
+            }
+            // A veces rpcCall devuelve el hash directo o null si falla
+            if (!$txHash || strlen($txHash) < 10) {
+                throw new \Exception("Error desconocido al enviar TX.");
+            }
+
+            return [
+                'status' => 'success',
+                'tx_hash' => $txHash,
+                'explorer' => $network['explorer'] . $txHash,
+                'amount_sent' => ($amount === null) ? 'MAX' : $amount,
+                'fee_paid_est' => bcdiv($totalGasCostWei, bcpow('10', '18'), 6) . ' ' . $network['native_symbol']
+            ];
 
         } catch (\Exception $e) {
-            Log::error("❌ Error en retiro: " . $e->getMessage());
+            Log::error("❌ Error Retiro: " . $e->getMessage());
             return ['status' => 'error', 'message' => $e->getMessage()];
         }
     }
@@ -173,6 +314,76 @@ class WalletController extends Controller
         $pubKey = $keyPair->getPublic(false, 'hex');
         $hash = Keccak::hash(hex2bin(substr($pubKey, 2)), 256);
         return '0x' . substr($hash, -40);
+    }
+
+    /**
+     * Consulta balance ERC20 ("balanceOf")
+     */
+    private function getErc20Balance($rpcUrl, $contractAddress, $walletAddress, $decimals)
+    {
+        $methodId = '0x70a08231'; // Keccak('balanceOf(address)') -> primeros 4 bytes
+        // Rellenamos la dirección a 32 bytes (64 caracteres)
+        $paddedAddress = str_pad(substr($walletAddress, 2), 64, '0', STR_PAD_LEFT);
+        $data = $methodId . $paddedAddress;
+
+        $responseHex = $this->rpcCall($rpcUrl, 'eth_call', [
+            ['to' => $contractAddress, 'data' => $data],
+            'latest'
+        ]);
+
+        if (!$responseHex || $responseHex === '0x')
+            return 0;
+
+        return $this->hexToDec($responseHex, $decimals);
+    }
+
+    /**
+     * Convierte Hexadecimal a Decimal Humano con precisión
+     * Maneja números grandes usando BCMath si es posible o float simple.
+     */
+    private function hexToDec($hex, $decimals)
+    {
+        if ($hex === '0x0')
+            return '0';
+
+        $cleanHex = str_replace('0x', '', $hex);
+
+        // Convertimos a float nativo de PHP
+        // Nota: hexdec maneja enteros, si el balance es gigantesco podría perder precisión en 32-bits,
+        // pero para visualización en 64-bits es suficiente.
+        $val = hexdec($cleanHex);
+        $floatVal = $val / pow(10, $decimals);
+
+        return $this->formatHuman($floatVal);
+    }
+
+    /**
+     * Formatea un float para que sea legible por humanos
+     * Evita 1.4E-9 y 10.50000000
+     */
+    private function formatHuman($number)
+    {
+        // 1. Si es extremadamente pequeño (polvo inservible), mostramos 0
+        // Ajusta este umbral según tu gusto. 0.00001 suele ser buen límite para USDT.
+        if ($number < 0.00000001 && $number > 0) {
+            return '0'; // O podrías retornar '~0'
+        }
+
+        // 2. Forzamos formato decimal estándar (sin E) con hasta 8 decimales
+        // number_format devuelve STRING, que es lo que queremos para el JSON
+        $string = number_format($number, 8, '.', '');
+
+        // 3. Limpieza estética: quitamos ceros a la derecha
+        // Ej: "10.50000000" -> "10.5"
+        // Ej: "100.00000000" -> "100."
+        $string = rtrim($string, '0');
+
+        // 4. Si quedó un punto al final, lo quitamos
+        // Ej: "100." -> "100"
+        $string = rtrim($string, '.');
+
+        // Si al quitar todo quedó vacío (caso raro de 0.00000000), devolvemos 0
+        return $string === '' ? '0' : $string;
     }
 
     private function rpcCall($url, $method, $params)
@@ -192,6 +403,32 @@ class WalletController extends Controller
             $hex = dechex($rem) . $hex;
         }
         return '0x' . $hex;
+    }
+
+
+    private function hexToDecString($hex)
+    {
+        if ($hex === '0x0')
+            return '0';
+        return (string) hexdec(str_replace('0x', '', $hex));
+    }
+
+    private function getRawErc20Balance($rpcUrl, $contract, $owner)
+    {
+        $data = '0x70a08231' . str_pad(substr($owner, 2), 64, '0', STR_PAD_LEFT);
+        $res = $this->rpcCall($rpcUrl, 'eth_call', [['to' => $contract, 'data' => $data], 'latest']);
+        return $this->hexToDecString($res);
+    }
+
+    private function decToHexNoPrefix($decimal)
+    {
+        $hex = '';
+        while (bccomp($decimal, '0') > 0) {
+            $rem = bcmod($decimal, '16');
+            $decimal = bcdiv($decimal, '16', 0);
+            $hex = dechex($rem) . $hex;
+        }
+        return $hex ?: '0';
     }
 
     /**

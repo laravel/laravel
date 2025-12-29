@@ -41,6 +41,10 @@ class TestController extends Controller
     public function test(Request $request)
     {
 
+        $wc = new WalletController();
+        dd($wc->getBalance("816767995", 56));
+        die;
+
         $actor = Actors::where('user_id', "816767995")->first();
         dd($actor->data);
         die;
