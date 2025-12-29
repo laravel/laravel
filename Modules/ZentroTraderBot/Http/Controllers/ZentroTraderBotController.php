@@ -84,7 +84,7 @@ class ZentroTraderBotController extends JsonsController
 
                     $text = "🫆 " . $result["address"] . "\n";
                     foreach ($result["assets"] as $token => $balance) {
-                        $text .= $balance . " " . $token . "\n";
+                        $text .= "💰 " . $balance . " " . $token . "\n";
                     }
 
                     $reply = array(

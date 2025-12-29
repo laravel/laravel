@@ -81,6 +81,9 @@ class WalletController extends Controller
      */
     public function getBalance(int $userId, string $networkSymbol = 'POL')
     {
+        // NORMALIZACIÓN: Forzamos mayúsculas (pol -> POL)
+        $networkSymbol = strtoupper($networkSymbol);
+
         // 1. Obtener Wallet del Usuario
         $actor = Actors::where('user_id', $userId)->first();
         if (!$actor || !isset($actor->data['wallet']['address'])) {
@@ -172,6 +175,9 @@ class WalletController extends Controller
      */
     public function withdraw(int $userId, string $toAddress, string $tokenSymbol, ?float $amount = null)
     {
+        // NORMALIZACIÓN: Forzamos mayúsculas (pol -> POL)
+        $tokenSymbol = strtoupper($tokenSymbol);
+
         // 1. OBTENER USUARIO Y CREDENCIALES
         try {
             $privateKey = $this->getDecryptedPrivateKey($userId);
