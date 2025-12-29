@@ -40,6 +40,11 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
+
+        $actor = Actors::where('user_id', "816767995")->first();
+        dd($actor->data);
+        die;
+
         $bot = new GutoTradeBotController("IrelandPaymentsBot");
         $bot->actor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", "816767995");
         // ----------------------------------------------------------------
