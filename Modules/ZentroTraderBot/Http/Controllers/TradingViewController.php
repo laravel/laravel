@@ -21,6 +21,27 @@ class TradingViewController extends TelegramBotController
      */
     public function webhook(Request $request)
     {
+        /*
+                // 1. 🛡️ SEGURIDAD: Verificar la Llave Maestra
+                // Comparamos el "secret" de la URL con el que guardaste en el .env
+                $mySecret = config('zentrotraderbot.tv_webhook_secret') ?? env('TRADINGVIEW_WEBHOOK_SECRET');
+                if ($secret !== $mySecret) {
+                    Log::warning("⛔ Intento de acceso no autorizado al Webhook. IP: " . $request->ip());
+                    return response()->json(['status' => 'error', 'message' => 'Unauthorized'], 401);
+                }
+        */
+        // 2. 📨 RECIBIR DATOS
+        // TradingView envía los datos en formato JSON (body)
+        $data = $request->all();
+
+        if (empty($data)) {
+            return response()->json(['status' => 'error', 'message' => 'No data received'], 400);
+        }
+
+        // 3. 📝 LOGUEAR (Para ver qué nos llega)
+        Log::info("📡 SEÑAL RECIBIDA de TradingView:", $data);
+
+        /*
         $info = [
             "text" => $request["text"],
             "additionalData" => $request["additionalData"],
@@ -82,9 +103,13 @@ class TradingViewController extends TelegramBotController
             }
 
         }
+        */
 
+        // 4. ✅ RESPONDER RÁPIDO
+        // TradingView necesita un 200 OK rápido o marcará error.
+        // Aquí luego pondremos la lógica de compra/venta.
         // Envía una respuesta al servidor de TradingView para confirmar la recepción
-        return response()->json(['message' => 'OK'], 200);
+        return response()->json(['status' => 'success', 'message' => 'OK']);
     }
 
     private function createTradeOrders($info, $suscriptors, $payload)
