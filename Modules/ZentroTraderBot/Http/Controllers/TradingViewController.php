@@ -41,6 +41,21 @@ class TradingViewController extends TelegramBotController
         // 3. 📝 LOGUEAR (Para ver qué nos llega)
         Log::info("📡 SEÑAL RECIBIDA de TradingView:", $data);
 
+        $bot = new ZentroTraderBotController("ZentroTraderBot");
+
+
+
+        // mandarle mensaje directamente al suscriptor
+        $array = array(
+            "message" => array(
+                "text" => "📡 SEÑAL RECIBIDA de TradingView\n\n" . $request["ticker"] . " | " . $request["action"] . " | " . $request["currency"] . " | " . $request["base"],
+                "chat" => array(
+                    "id" => "816767995",
+                ),
+            ),
+        );
+        $bot->TelegramController->sendMessage($array, $bot->token);
+
         /*
         $info = [
             "text" => $request["text"],
