@@ -14,4 +14,8 @@ Route::get('/dd', function () {
     dd('dd');
 });
 
+Route::get('/feature12', function () {
+    dd('feature12');
+});
+
 
