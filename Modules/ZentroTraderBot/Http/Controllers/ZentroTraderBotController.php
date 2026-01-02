@@ -16,7 +16,7 @@ use Modules\TelegramBot\Entities\TelegramBots;
 
 class ZentroTraderBotController extends JsonsController
 {
-    protected $engine;
+    public $engine;
 
     use UsesTelegramBot;
 

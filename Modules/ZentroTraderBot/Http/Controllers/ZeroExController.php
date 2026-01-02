@@ -6,17 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use kornrunner\Ethereum\Transaction;
+use kornrunner\Ethereum\EIP1559Transaction;
 use Elliptic\EC;
 use kornrunner\Keccak;
+use Modules\ZentroTraderBot\Traits\BlockchainTools;
 
 class ZeroExController extends Controller
 {
+    use BlockchainTools;
+
     // API V2 Oficial Global
     protected $zeroExBaseUrl = 'https://api.0x.org/swap/allowance-holder';
 
     /**
      * MÉTODO MAESTRO: SWAP
-     * Ahora EXIGE la clave privada del usuario. El bot no tiene wallet propia.
      */
     public function swap(string $from, string $to, float $amount, string $userPrivateKey, $log = false)
     {
@@ -92,7 +95,7 @@ class ZeroExController extends Controller
             }
         }
 
-        // 7. EJECUCIÓN
+        // 7. EJECUCIÓN DEL SWAP
         if ($log)
             Log::info("✅ Permisos OK. Ejecutando Swap...");
 
@@ -134,12 +137,12 @@ class ZeroExController extends Controller
             Log::info("🕵️‍♂️ Diagnóstico en {$networkConfig['name']} para $walletAddress");
 
         // Saldo Nativo
-        $nativeBalanceHex = $this->rpcCall($rpcUrl, 'eth_getBalance', [$walletAddress, 'latest']);
+        $nativeBalanceHex = $this->rpcCall($rpcUrl, 'eth_getBalance', [$walletAddress, 'latest'], true);
         $nativeBalance = hexdec($nativeBalanceHex) / 1e18;
 
         // Saldo Token
         $dataBalance = '0x70a08231' . str_pad(substr($walletAddress, 2), 64, '0', STR_PAD_LEFT);
-        $tokenBalanceHex = $this->rpcCall($rpcUrl, 'eth_call', [['to' => $tokenConfig['address'], 'data' => $dataBalance], 'latest']);
+        $tokenBalanceHex = $this->rpcCall($rpcUrl, 'eth_call', [['to' => $tokenConfig['address'], 'data' => $dataBalance], 'latest'], true);
         $tokenBalance = hexdec($tokenBalanceHex) / pow(10, $tokenConfig['decimals']);
 
         return response()->json([
@@ -151,7 +154,7 @@ class ZeroExController extends Controller
     }
 
     // ==========================================
-    // MÉTODOS INTERNOS 
+    // MÉTODOS INTERNOS BLINDADOS (EIP-1559)
     // ==========================================
 
     private function deriveAddress($privateKey)
@@ -179,7 +182,7 @@ class ZeroExController extends Controller
             'taker' => $takerAddress,
             'slippagePercentage' => '0.10'
         ];
-
+        // Nota: Asegúrate de que zentrotraderbot.0x_api_key está en tu config/
         $response = Http::timeout(30)->retry(3, 1500)->withHeaders([
             '0x-api-key' => config('zentrotraderbot.0x_api_key'),
             '0x-version' => 'v2'
@@ -189,56 +192,98 @@ class ZeroExController extends Controller
             $reason = $response->json()['reason'] ?? $response->body();
             throw new \Exception("0x API Error: $reason");
         }
-
         return $response->json();
     }
 
+    // 🔥 MEJORADO: Soporta EIP-1559
     protected function signAndSend($rpcUrl, $chainId, $quote, $privateKey, $walletAddress)
     {
         if (!isset($quote['transaction']))
             throw new \Exception("Respuesta 0x inválida");
         $txData = $quote['transaction'];
 
-        $nonceHex = $this->rpcCall($rpcUrl, 'eth_getTransactionCount', [$walletAddress, 'pending']);
+        $nonceHex = $this->rpcCall($rpcUrl, 'eth_getTransactionCount', [$walletAddress, 'pending'], true);
 
-        // Gas x2
+        // 1. Gas Limit (Seguro x1.5)
         $estimatedGas = (string) $txData['gas'];
-        $safeGasLimit = bcmul($estimatedGas, '2.0', 0);
+        $safeGasLimit = bcmul($estimatedGas, '1.5', 0);
+        $gasLimitHex = $this->decToHex($safeGasLimit);
 
-        $tx = new Transaction(
-            $nonceHex,
-            $this->decToHex($txData['gasPrice']),
-            $this->decToHex($safeGasLimit),
-            $txData['to'],
-            $this->decToHex($txData['value']),
-            $txData['data']
-        );
+        // 2. ¿La red soporta EIP-1559?
+        $block = $this->rpcCall($rpcUrl, 'eth_getBlockByNumber', ['latest', false], true);
+
+        if (isset($block['baseFeePerGas'])) {
+            // --- MODO MODERNO (Polygon/ETH) ---
+            $baseFeeDec = $this->hexToDecString($block['baseFeePerGas']);
+            $priorityFeeDec = bcmul('35', bcpow('10', '9')); // 35 Gwei propina
+            $maxFeeDec = bcadd(bcmul($baseFeeDec, '2'), $priorityFeeDec); // Base x2 + Propina
+
+            $tx = new EIP1559Transaction(
+                $nonceHex,
+                $this->decToHex($priorityFeeDec),
+                $this->decToHex($maxFeeDec),
+                $gasLimitHex,
+                $txData['to'],
+                $this->decToHex($txData['value']),
+                $txData['data']
+            );
+        } else {
+            // --- MODO LEGACY (BSC Viejo) ---
+            $gasPriceHex = $this->decToHex($txData['gasPrice']); // Usamos el precio que sugiere 0x
+            $tx = new Transaction(
+                $nonceHex,
+                $gasPriceHex,
+                $gasLimitHex,
+                $txData['to'],
+                $this->decToHex($txData['value']),
+                $txData['data']
+            );
+        }
 
         $signedTx = $tx->getRaw($privateKey, $chainId);
-
-        return $this->rpcCall($rpcUrl, 'eth_sendRawTransaction', ['0x' . $signedTx]);
+        return $this->rpcCall($rpcUrl, 'eth_sendRawTransaction', ['0x' . $signedTx], true);
     }
 
+    // 🔥 MEJORADO: Soporta EIP-1559 para Approve
     protected function sendApproveTransaction($rpcUrl, $chainId, $tokenAddress, $spenderAddress, $privateKey, $walletAddress, $log = false)
     {
         $methodId = '0x095ea7b3'; // approve
         $data = $methodId . str_pad(substr($spenderAddress, 2), 64, '0', STR_PAD_LEFT) . str_repeat('f', 64);
 
-        $nonceHex = $this->rpcCall($rpcUrl, 'eth_getTransactionCount', [$walletAddress, 'pending']);
+        $nonceHex = $this->rpcCall($rpcUrl, 'eth_getTransactionCount', [$walletAddress, 'pending'], true);
+        $gasLimitHex = '0x186a0'; // 100,000 gas fijo para approve
 
-        // Gas Price Turbo (x2)
-        $currentGasPriceHex = $this->rpcCall($rpcUrl, 'eth_gasPrice', []);
-        $currentGasPriceDec = hexdec($currentGasPriceHex);
-        $turboGasPrice = bcmul(number_format($currentGasPriceDec, 0, '.', ''), '2.0', 0);
+        $block = $this->rpcCall($rpcUrl, 'eth_getBlockByNumber', ['latest', false], true);
 
-        if ($log)
-            Log::info("🔥 Modo Turbo ($chainId): Gas subido a $turboGasPrice Wei.");
+        if (isset($block['baseFeePerGas'])) {
+            // EIP-1559
+            $baseFeeDec = $this->hexToDecString($block['baseFeePerGas']);
+            $priorityFeeDec = bcmul('35', bcpow('10', '9'));
+            $maxFeeDec = bcadd(bcmul($baseFeeDec, '2'), $priorityFeeDec);
 
-        $tx = new Transaction($nonceHex, $this->decToHex($turboGasPrice), '0x186a0', $tokenAddress, '0x0', $data);
+            $tx = new EIP1559Transaction(
+                $nonceHex,
+                $this->decToHex($priorityFeeDec),
+                $this->decToHex($maxFeeDec),
+                $gasLimitHex,
+                $tokenAddress,
+                '0x0',
+                $data
+            );
+        } else {
+            // Legacy Turbo
+            $currentGasPriceHex = $this->rpcCall($rpcUrl, 'eth_gasPrice', [], true);
+            $currentGasPriceDec = hexdec($currentGasPriceHex);
+            $turboGasPrice = bcmul(number_format($currentGasPriceDec, 0, '.', ''), '2.0', 0);
+
+            if ($log)
+                Log::info("🔥 Modo Turbo ($chainId): Gas subido a $turboGasPrice Wei.");
+
+            $tx = new Transaction($nonceHex, $this->decToHex($turboGasPrice), $gasLimitHex, $tokenAddress, '0x0', $data);
+        }
 
         $signedTx = $tx->getRaw($privateKey, $chainId);
-
-        return $this->rpcCall($rpcUrl, 'eth_sendRawTransaction', ['0x' . $signedTx]);
+        return $this->rpcCall($rpcUrl, 'eth_sendRawTransaction', ['0x' . $signedTx], true);
     }
 
     protected function waitForConfirmation($rpcUrl, $txHash, $log = false)
@@ -247,10 +292,8 @@ class ZeroExController extends Controller
             Log::info("⏳ Esperando TX: $txHash");
         $timeout = 120;
         $start = time();
-
         while (time() - $start < $timeout) {
-            $receipt = $this->rpcCall($rpcUrl, 'eth_getTransactionReceipt', [$txHash]);
-
+            $receipt = $this->rpcCall($rpcUrl, 'eth_getTransactionReceipt', [$txHash], true);
             if ($receipt) {
                 if ($receipt['status'] === '0x1') {
                     if ($log)
@@ -263,31 +306,7 @@ class ZeroExController extends Controller
             }
             sleep(10); // Esperar 10 segundos antes de volver a preguntar
         }
-
         Log::error("⏰ Timeout esperando confirmación.");
         return false;
-    }
-
-    protected function rpcCall($url, $method, $params)
-    {
-        $response = Http::post($url, ['jsonrpc' => '2.0', 'method' => $method, 'params' => $params, 'id' => 1]);
-        if ($response->failed())
-            throw new \Exception("RPC HTTP Error");
-        return $response->json()['result'] ?? null;
-    }
-
-    protected function decToHex($decimal)
-    {
-        if (strpos($decimal, '0x') === 0)
-            return $decimal;
-        if ($decimal == 0)
-            return '0x0';
-        $hex = '';
-        while (bccomp($decimal, '0') > 0) {
-            $rem = bcmod($decimal, '16');
-            $decimal = bcdiv($decimal, '16', 0);
-            $hex = dechex($rem) . $hex;
-        }
-        return '0x' . $hex;
     }
 }

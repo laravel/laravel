@@ -12,13 +12,14 @@ use kornrunner\Keccak;
 use Modules\TelegramBot\Entities\Actors;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Contracts\Encryption\DecryptException;
-
-// 👇 IMPORTANTE: Importamos las dos clases manualmente para compatibilidad con v0.9.0
 use kornrunner\Ethereum\Transaction;
 use kornrunner\Ethereum\EIP1559Transaction;
+use Modules\ZentroTraderBot\Traits\BlockchainTools;
 
 class WalletController extends Controller
 {
+    use BlockchainTools;
+
     /**
      * GENERAR NUEVA WALLET
      * Se llama cuando el usuario inicia el bot (/start).
@@ -389,148 +390,11 @@ class WalletController extends Controller
         return $this->hexToDec($responseHex, $decimals);
     }
 
-    /**
-     * Convierte Hexadecimal a Decimal Humano con precisión
-     * Maneja números grandes usando BCMath si es posible o float simple.
-     */
-    private function hexToDec($hex, $decimals)
-    {
-        // Agregamos la verificación de NULL o vacío aquí
-        if (empty($hex) || $hex === '0x0')
-            return '0';
-
-        $cleanHex = str_replace('0x', '', $hex);
-
-        // Convertimos a float nativo de PHP
-        // Nota: hexdec maneja enteros, si el balance es gigantesco podría perder precisión en 32-bits,
-        // pero para visualización en 64-bits es suficiente.
-        $val = hexdec($cleanHex);
-        $floatVal = $val / pow(10, $decimals);
-
-        return $this->formatHuman($floatVal);
-    }
-
-    /**
-     * Formatea un float para que sea legible por humanos
-     * Evita 1.4E-9 y 10.50000000
-     */
-    private function formatHuman($number)
-    {
-        // 1. Si es extremadamente pequeño (polvo inservible), mostramos 0
-        // Ajusta este umbral según tu gusto. 0.00001 suele ser buen límite para USDT.
-        if ($number < 0.00000001 && $number > 0) {
-            return '0'; // O podrías retornar '~0'
-        }
-
-        // 2. Forzamos formato decimal estándar (sin E) con hasta 8 decimales
-        // number_format devuelve STRING, que es lo que queremos para el JSON
-        $string = number_format($number, 8, '.', '');
-
-        // 3. Limpieza estética: quitamos ceros a la derecha
-        // Ej: "10.50000000" -> "10.5"
-        // Ej: "100.00000000" -> "100."
-        $string = rtrim($string, '0');
-
-        // 4. Si quedó un punto al final, lo quitamos
-        // Ej: "100." -> "100"
-        $string = rtrim($string, '.');
-
-        // Si al quitar todo quedó vacío (caso raro de 0.00000000), devolvemos 0
-        return $string === '' ? '0' : $string;
-    }
-
-    private function rpcCall($url, $method, $params)
-    {
-        try {
-            $response = Http::post($url, [
-                'jsonrpc' => '2.0',
-                'method' => $method,
-                'params' => $params,
-                'id' => 1
-            ]);
-
-            $data = $response->json();
-
-            // 1. Si hay error explícito en la RPC (ej: "insufficient funds")
-            if (isset($data['error'])) {
-                Log::warning("⚠️ RPC Error ($method): " . json_encode($data['error']));
-                return null; // Retornamos null para manejarlo arriba
-            }
-
-            // 2. Intentamos obtener el resultado de forma segura
-            return $data['result'] ?? null;
-
-        } catch (\Exception $e) {
-            // 3. Si falla la conexión HTTP (Timeout, DNS, etc)
-            Log::error("❌ RPC HTTP Error ($method): " . $e->getMessage());
-            return null;
-        }
-    }
-
-    private function decToHex($decimal)
-    {
-        if ($decimal == 0)
-            return '0x0';
-        $hex = '';
-        while (bccomp($decimal, '0') > 0) {
-            $rem = bcmod($decimal, '16');
-            $decimal = bcdiv($decimal, '16', 0);
-            $hex = dechex($rem) . $hex;
-        }
-        return '0x' . $hex;
-    }
-
-
-    /**
-     * Convierte Hexadecimal gigante a String Decimal sin Notación Científica.
-     * Reemplazo seguro para hexdec() en Blockchain.
-     */
-    private function hexToDecString($hex)
-    {
-        // Protección contra NULL
-        if (empty($hex) || $hex === '0x0')
-            return '0';
-
-        // 1. Limpieza
-        $hex = str_replace('0x', '', $hex);
-        if ($hex === '')
-            return '0';
-
-        // 2. Iteración manual (BigInteger logic)
-        // Convertimos carácter por carácter para evitar floats
-        $decimal = '0';
-        $len = strlen($hex);
-
-        for ($i = 0; $i < $len; $i++) {
-            // Multiplicamos el acumulado por 16 (desplazamiento)
-            $decimal = bcmul($decimal, '16');
-
-            // Obtenemos el valor del dígito actual (0-15)
-            $digit = hexdec($hex[$i]);
-
-            // Sumamos
-            $decimal = bcadd($decimal, (string) $digit);
-        }
-
-        return $decimal;
-    }
-
     private function getRawErc20Balance($rpcUrl, $contract, $owner)
     {
         $data = '0x70a08231' . str_pad(substr($owner, 2), 64, '0', STR_PAD_LEFT);
         $res = $this->rpcCall($rpcUrl, 'eth_call', [['to' => $contract, 'data' => $data], 'latest']);
         return $this->hexToDecString($res);
-    }
-
-    private function decToHexNoPrefix($decimal)
-    {
-        $hex = '';
-        while (bccomp($decimal, '0') > 0) {
-            $rem = bcmod($decimal, '16');
-            $decimal = bcdiv($decimal, '16', 0);
-            $hex = dechex($rem) . $hex;
-        }
-        return $hex ?: '0';
     }
 
     /**

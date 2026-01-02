@@ -32,6 +32,8 @@ class TradingViewController extends TelegramBotController
         */
         // 2. 📨 RECIBIR DATOS
         // TradingView envía los datos en formato JSON (body)
+        // currency = El activo (ej: MATIC, BNB, BTC) -> {{syminfo.basecurrency}}
+        // base     = La contraparte (ej: USDT, USDC)  -> {{syminfo.currency}}
         $data = $request->all();
 
         if (empty($data)) {
@@ -42,6 +44,25 @@ class TradingViewController extends TelegramBotController
         Log::info("📡 SEÑAL RECIBIDA de TradingView:", $data);
 
         $bot = new ZentroTraderBotController("ZentroTraderBot");
+
+        // /swap 2.212377 USDC POL
+        $amount = 0;
+        switch (strtoupper(trim($request["action"]))) {
+            case "SELL":
+                $from = $request["currency"];  // Token que vendes
+                $to = $request["base"]; // Token que compras
+                break;
+            case "BUY":
+                $from = $request["base"];
+                $to = $request["currency"];
+                break;
+
+            default:
+                break;
+        }
+        $wc = new WalletController();
+        $privateKey = $wc->getDecryptedPrivateKey($bot->actor->user_id);
+        $array = $bot->engine->swap($from, $to, $amount, $privateKey, true);
 
 
 
