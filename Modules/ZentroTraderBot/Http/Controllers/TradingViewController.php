@@ -41,41 +41,87 @@ class TradingViewController extends TelegramBotController
         }
 
         // 3. 📝 LOGUEAR (Para ver qué nos llega)
-        Log::info("📡 SEÑAL RECIBIDA de TradingView:", $data);
+        $text = "📡 TradingViewController webhook for " . $request["alert"];
+        if (isset($request["user"]))
+            $text .= " " . $request["user"];
+        $text .= ": ";
+        Log::info($text, $data);
 
         $bot = new ZentroTraderBotController("ZentroTraderBot");
 
-        // /swap 2.212377 USDC POL
+        $user_id = $request["user"];
+        $tradePercentage = 10;
         $amount = 0;
+        $wc = new WalletController();
+
         switch (strtoupper(trim($request["action"]))) {
-            case "SELL":
-                $from = $request["currency"];  // Token que vendes
-                $to = $request["base"]; // Token que compras
-                break;
+            // /swap 10 USDC POL
             case "BUY":
                 $from = $request["base"];
                 $to = $request["currency"];
-                break;
 
+                // Obtenemos el saldo DISPONIBLE del token que vamos a gastar
+                // Nota: getBalance devuelve estructura compleja, usamos un helper rápido aquí o llamamos al método
+                // Para ser eficientes, usaremos getBalance modo específico
+                $balanceData = $wc->getBalance($user_id, $from);
+                if (!isset($balanceData['portfolio'])) {
+                    return response()->json(['status' => 'error', 'message' => 'Error leyendo balance'], 500);
+                }
+
+                // Extraer el saldo numérico 
+                $networkName = array_key_first($balanceData['portfolio']); // Ej: "Polygon"
+                $assets = $balanceData['portfolio'][$networkName]['assets'];
+                $balanceAvailable = (float) ($assets[$from] ?? 0);
+
+                if ($balanceAvailable <= 0) {
+                    Log::info("⚠️ Saldo insuficiente de $from para comprar $to.");
+                    return response()->json(['status' => 'skipped', 'message' => "Sin saldo en $from"]);
+                }
+
+                // Calculamos cuánto vamos a gastar
+                $amount = $balanceAvailable * ($tradePercentage / 100);
+                break;
+            // /swap 50 POL USDC
+            case "SELL":
+                $from = $request["currency"];  // Token que vendes
+                $to = $request["base"]; // Token que compras
+
+                // Obtenemos el saldo DISPONIBLE del token que vamos a vender
+                $balanceData = $wc->getBalance($user_id, $from);
+                if (!isset($balanceData['portfolio'])) {
+                    return response()->json(['status' => 'error', 'message' => 'Error leyendo balance'], 500);
+                }
+
+                // Extraer el saldo numérico 
+                $networkName = array_key_first($balanceData['portfolio']); // Ej: "Polygon"
+                $assets = $balanceData['portfolio'][$networkName]['assets'];
+                $amount = (float) ($assets[$from] ?? 0);
+
+                if ($amount == 0) {
+                    Log::info("⚠️ Saldo insuficiente de $from para vender.");
+                    return response()->json(['status' => 'skipped', 'message' => "Sin saldo en $from"]);
+                }
+                break;
             default:
                 break;
         }
-        $wc = new WalletController();
-        $privateKey = $wc->getDecryptedPrivateKey($bot->actor->user_id);
-        $array = $bot->engine->swap($from, $to, $amount, $privateKey, true);
 
-
+        Log::info("👉 Comenzando swap de $amount $from a $to...");
+        $privateKey = $wc->getDecryptedPrivateKey($user_id);
+        //$array = $bot->engine->swap($from, $to, $amount, $privateKey, true);
 
         // mandarle mensaje directamente al suscriptor
-        $array = array(
-            "message" => array(
-                "text" => "📡 SEÑAL RECIBIDA de TradingView\n\n" . $request["ticker"] . " | " . $request["action"] . " | " . $request["currency"] . " | " . $request["base"],
-                "chat" => array(
-                    "id" => "816767995",
+        $bot->TelegramController->sendMessage(
+            array(
+                "message" => array(
+                    "text" => "👉 Comenzando swap de $amount $from a $to...",
+                    "chat" => array(
+                        "id" => $user_id,
+                    ),
                 ),
             ),
+            $bot->token
         );
-        $bot->TelegramController->sendMessage($array, $bot->token);
 
         /*
         $info = [
