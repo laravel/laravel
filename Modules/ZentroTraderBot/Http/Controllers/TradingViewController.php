@@ -191,7 +191,7 @@ class TradingViewController extends TelegramBotController
             'pair' => "$asset/$quote",
             'side' => 'LONG',
             'amount_in' => $amount,
-            'amount_out' => 0, // Se consolidará al cierre
+            'amount_out' => $result['amount_received'],
             'tx_hash_open' => $result['tx_hash'],
             'status' => 'OPEN'
         ]);
@@ -228,7 +228,15 @@ class TradingViewController extends TelegramBotController
             return response()->json(['status' => 'skipped', 'msg' => 'No open positions to close']);
         }
 
-        Log::info("📉 SEÑAL DE SALIDA: Cerrando " . $openPositions->count() . " órdenes acumuladas.");
+        // 🧮 SUMAR LO QUE COMPRAMOS
+        // Si compramos 10, luego 20 y luego 30, el objetivo es vender 60.
+        $targetSellAmount = $openPositions->sum('amount_out');
+        if ($targetSellAmount <= 0.00000001) {
+            // Seguridad: Si por error la BD dice 0, evitamos intentar un swap de 0.
+            return response()->json(['status' => 'error', 'msg' => 'Error: La suma de las posiciones es 0.']);
+        }
+
+        Log::info("📉 SEÑAL DE SALIDA: Cerrando " . $openPositions->count() . " órdenes acumuladas: $targetSellAmount $asset");
 
         // 2. Determinar SALDO TOTAL REAL en Wallet
         // Al final del día, lo que importa es lo que hay en la blockchain, no en la BD.
@@ -241,7 +249,7 @@ class TradingViewController extends TelegramBotController
 
         // 3. 🛡️ CÁLCULO SEGURO DE GAS
         // Vendemos todo lo que hay en la cartera de ese token, respetando la reserva de gas.
-        $amountToSell = $this->calculateSafeSellAmount($asset, $totalAssetBalance, $totalAssetBalance);
+        $amountToSell = $this->calculateSafeSellAmount($asset, $totalAssetBalance, $targetSellAmount);
 
         if ($amountToSell <= 0) {
             return response()->json(['status' => 'error', 'msg' => 'Saldo insuficiente en wallet para vender']);
@@ -258,8 +266,6 @@ class TradingViewController extends TelegramBotController
             $pos->update([
                 'status' => 'CLOSED',
                 'tx_hash_close' => $result['tx_hash'],
-                // Opcional: Podrías actualizar amount_out aquí dividiendo $amountToSell / count, 
-                // pero es meramente estadístico.
             ]);
         }
 

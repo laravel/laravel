@@ -23,7 +23,7 @@ class ZeroExController extends Controller
      */
     public function swap(string $from, string $to, float $amount, string $userPrivateKey, $log = false)
     {
-        set_time_limit(240);
+        set_time_limit(300);
 
         $from = strtoupper($from);
         $to = strtoupper($to);
@@ -58,8 +58,10 @@ class ZeroExController extends Controller
         $decimalsFactor = bcpow('10', (string) $tokens[$from]['decimals']);
         $amountInWei = bcmul((string) $amount, $decimalsFactor);
 
-        if ($log)
-            Log::info("🤖 [Bot] Swap en {$networkConfig['name']}: $amount $from -> $to");
+        // -----------------------------------------------------
+        // 📸 SNAPSHOT 1: SALDO ANTES (Del token que vamos a recibir)
+        // -----------------------------------------------------
+        $balanceBefore = $this->getLiveBalance($rpcUrl, $buyTokenAddress, $activeWalletAddress, $tokens[$to]['decimals']);
 
         // 5. OBTENER QUOTE
         try {
@@ -106,19 +108,61 @@ class ZeroExController extends Controller
             $txHash = $this->signAndSend($rpcUrl, $chainId, $quote, $activePrivateKey, $activeWalletAddress);
 
             if ($log)
-                Log::info("🚀 Swap Enviado: $txHash");
+                Log::info("⏳ TX Enviada: $txHash");
+
+            // 5. ⏳ ESPERAR CONFIRMACIÓN (Mining...)
+            $confirmed = $this->waitForConfirmation($rpcUrl, $txHash, $log);
+
+            if (!$confirmed) {
+                throw new \Exception("La transacción se envió pero no se confirmó a tiempo.");
+            }
+
+            // -----------------------------------------------------
+            // 📸 SNAPSHOT 2: SALDO DESPUÉS
+            // -----------------------------------------------------
+            // Pequeña pausa de seguridad por si el nodo RPC tiene lag de indexado
+            sleep(2);
+            $balanceAfter = $this->getLiveBalance($rpcUrl, $buyTokenAddress, $activeWalletAddress, $tokens[$to]['decimals']);
+
+            // 6. CÁLCULO FINAL
+            $receivedAmount = $balanceAfter - $balanceBefore;
+
+            // Corrección de negativos por error de redondeo o gas en nativos
+            if ($receivedAmount < 0)
+                $receivedAmount = 0;
+
+            if ($log)
+                Log::info("🎉 SWAP EXITOSO. Recibidos: +$receivedAmount $to ($balanceAfter / $balanceBefore)");
 
             return [
                 'status' => 'SWAPPED',
                 'network' => $networkConfig['name'],
                 'tx_hash' => $txHash,
                 'explorer' => $explorerUrl . $txHash,
+                'amount_received' => (float) $receivedAmount,
                 'message' => "Operación completada: $amount $from -> $to"
             ];
         } catch (\Exception $e) {
             Log::error("❌ Error Crítico: " . $e->getMessage());
             throw $e;
         }
+    }
+
+    // --- HELPER PRIVADO PARA LEER SALDO RÁPIDO ---
+    private function getLiveBalance($rpcUrl, $tokenAddress, $walletAddress, $decimals)
+    {
+        // Caso Nativo (0xeeee...)
+        if ($tokenAddress === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
+            $hex = $this->rpcCall($rpcUrl, 'eth_getBalance', [$walletAddress, 'latest']);
+        } else {
+            // Caso ERC-20
+            $data = '0x70a08231' . str_pad(substr($walletAddress, 2), 64, '0', STR_PAD_LEFT);
+            $hex = $this->rpcCall($rpcUrl, 'eth_call', [['to' => $tokenAddress, 'data' => $data], 'latest']);
+        }
+
+        // Usamos el Trait para convertir
+        // Nota: hexToDec devuelve string formateado, hacemos cast a float para restar matemáticamente
+        return (float) $this->hexToDec($hex, $decimals);
     }
 
     /**
@@ -291,8 +335,6 @@ class ZeroExController extends Controller
 
     protected function waitForConfirmation($rpcUrl, $txHash, $log = false)
     {
-        if ($log)
-            Log::info("⏳ Esperando TX: $txHash");
         $timeout = 120;
         $start = time();
         while (time() - $start < $timeout) {
@@ -300,7 +342,7 @@ class ZeroExController extends Controller
             if ($receipt) {
                 if ($receipt['status'] === '0x1') {
                     if ($log)
-                        Log::info("✅ TX Confirmada.");
+                        Log::info("✅ TX Confirmada $txHash.");
                     return true;
                 } else {
                     Log::error("❌ TX Falló (Reverted).");
