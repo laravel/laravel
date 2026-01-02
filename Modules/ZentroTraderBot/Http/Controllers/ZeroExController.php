@@ -25,13 +25,16 @@ class ZeroExController extends Controller
     {
         set_time_limit(240);
 
+        $from = strtoupper($from);
+        $to = strtoupper($to);
+
         // 1. PREPARACIÓN DE CREDENCIALES
         // Limpiamos prefijo y derivamos la address pública para ser el 'taker'
         $activePrivateKey = str_replace('0x', '', $userPrivateKey);
         $activeWalletAddress = $this->deriveAddress($activePrivateKey);
 
         if ($log)
-            Log::info("👤 Iniciando Swap para usuario: $activeWalletAddress");
+            Log::info("👤 Iniciando Swap para usuario: $activeWalletAddress: $amount $from -> $to");
 
         // 2. CARGA DE CONFIGURACIÓN
         $tokens = config('zentrotraderbot.tokens');

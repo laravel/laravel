@@ -21,7 +21,6 @@ class ActorsSeeder extends Seeder
                     "GutoTradeBot" => Actors::getTemplate($actor["role"]),
                     "GutoTradeTestBot" => Actors::getTemplate($actor["role"]),
                     "IrelandPaymentsBot" => Actors::getTemplate($actor["role"]),
-                    "ZentroTraderBot" => isset(TradingSuscriptions::$KNOWN_SUSCRIPTORS[$username]) ? TradingSuscriptions::getSuscriptorTemplate(TradingSuscriptions::$KNOWN_SUSCRIPTORS[$username]) : TradingSuscriptions::getSuscriptorTemplate(),
                 ),
             ]);
         }

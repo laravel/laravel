@@ -10,6 +10,7 @@ use Modules\TelegramBot\Http\Controllers\ActorsController;
 use Modules\TelegramBot\Http\Controllers\TelegramBotController;
 use Modules\TelegramBot\Http\Controllers\TelegramController;
 use Modules\ZentroTraderBot\Entities\TradingSuscriptions;
+use Modules\ZentroTraderBot\Entities\Positions;
 
 class TradingViewController extends TelegramBotController
 {
@@ -50,8 +51,6 @@ class TradingViewController extends TelegramBotController
         $bot = new ZentroTraderBotController("ZentroTraderBot");
 
         $user_id = $request["user"];
-        $tradePercentage = 10;
-        $amount = 0;
         $wc = new WalletController();
 
         switch (strtoupper(trim($request["action"]))) {
@@ -60,68 +59,20 @@ class TradingViewController extends TelegramBotController
                 $from = $request["base"];
                 $to = $request["currency"];
 
-                // Obtenemos el saldo DISPONIBLE del token que vamos a gastar
-                // Nota: getBalance devuelve estructura compleja, usamos un helper rápido aquí o llamamos al método
-                // Para ser eficientes, usaremos getBalance modo específico
-                $balanceData = $wc->getBalance($user_id, $from);
-                if (!isset($balanceData['portfolio'])) {
-                    return response()->json(['status' => 'error', 'message' => 'Error leyendo balance'], 500);
-                }
+                $this->openLongPosition($bot, $user_id, $to, $from);
 
-                // Extraer el saldo numérico 
-                $networkName = array_key_first($balanceData['portfolio']); // Ej: "Polygon"
-                $assets = $balanceData['portfolio'][$networkName]['assets'];
-                $balanceAvailable = (float) ($assets[$from] ?? 0);
-
-                if ($balanceAvailable <= 0) {
-                    Log::info("⚠️ Saldo insuficiente de $from para comprar $to.");
-                    return response()->json(['status' => 'skipped', 'message' => "Sin saldo en $from"]);
-                }
-
-                // Calculamos cuánto vamos a gastar
-                $amount = $balanceAvailable * ($tradePercentage / 100);
                 break;
             // /swap 50 POL USDC
             case "SELL":
                 $from = $request["currency"];  // Token que vendes
                 $to = $request["base"]; // Token que compras
 
-                // Obtenemos el saldo DISPONIBLE del token que vamos a vender
-                $balanceData = $wc->getBalance($user_id, $from);
-                if (!isset($balanceData['portfolio'])) {
-                    return response()->json(['status' => 'error', 'message' => 'Error leyendo balance'], 500);
-                }
 
-                // Extraer el saldo numérico 
-                $networkName = array_key_first($balanceData['portfolio']); // Ej: "Polygon"
-                $assets = $balanceData['portfolio'][$networkName]['assets'];
-                $amount = (float) ($assets[$from] ?? 0);
-
-                if ($amount == 0) {
-                    Log::info("⚠️ Saldo insuficiente de $from para vender.");
-                    return response()->json(['status' => 'skipped', 'message' => "Sin saldo en $from"]);
-                }
+                $this->closeLongPosition($bot, $user_id, $from, $to);
                 break;
             default:
                 break;
         }
-
-        Log::info("👉 Comenzando swap de $amount $from a $to...");
-        $privateKey = $wc->getDecryptedPrivateKey($user_id);
-        //$array = $bot->engine->swap($from, $to, $amount, $privateKey, true);
-
-        // mandarle mensaje directamente al suscriptor
-        $bot->TelegramController->sendMessage(
-            array(
-                "message" => array(
-                    "text" => "👉 Comenzando swap de $amount $from a $to...",
-                    "chat" => array(
-                        "id" => $user_id,
-                    ),
-                ),
-            ),
-            $bot->token
-        );
 
         /*
         $info = [
@@ -194,267 +145,179 @@ class TradingViewController extends TelegramBotController
         return response()->json(['status' => 'success', 'message' => 'OK']);
     }
 
-    private function createTradeOrders($info, $suscriptors, $payload)
+    private function openLongPosition($bot, $userId, $asset, $quote)
     {
-        $bc = new BingXController();
-        $ac = new ApexProController();
-        $tc = new TelegramController();
+        // 2. Configuración de riesgo
+        $percent = 10; // compramos el 10% del saldo disponible
 
-        // Intentando ejecutar las orden en el CEX para cada suscriptor
-        for ($i = 0; $i < count($suscriptors); $i++) {
-            $response = [];
-            if (isset($info["demo"])) {
-                if (strtolower($info["demo"]["result"]) == "ok")
-                //OK: string(292) "{"code":0,"msg":"","debugMsg":"","data":{"symbol":"SOL-USDT","orderId":1770113650711855104,"transactTime":1710862956108,"price":"183.03","stopPrice":"0","origQty":"0.03","executedQty":"0.03","cummulativeQuoteQty":"5.490834","status":"FILLED","type":"MARKET","side":"SELL","clientOrderID":""}}"
-                {
-                    $response = [
-                        "code" => 0,
-                        "msg" => "",
-                        "debugMsg" => "",
-                        "data" => [
-                            "symbol" => "SOL-USDT",
-                            "orderId" => 1770113650711855104,
-                            "transactTime" => 1710862956108,
-                            "price" => "183.03",
-                            "stopPrice" => "0",
-                            "origQty" => "0.03",
-                            "executedQty" => "0.03",
-                            "cummulativeQuoteQty" => "5.490834",
-                            "status" => "FILLED",
-                            "type" => "MARKET",
-                            "side" => "SELL",
-                            "clientOrderID" => "",
-                        ],
-                    ];
-                } else
-                // ERROR: string(164) "{"code":100400,"msg":" check market entrust volume fail, entrust volume to low, userID: 1073074124988538881, minVolume:0.0272, entrustVolume: 0.0100","debugMsg":""}"
-                {
-                    $response = [
-                        "code" => 100400,
-                        "msg" => " check market entrust volume fail, entrust volume to low, userID: 1073074124988538881, minVolume:0.0272, entrustVolume: 0.0100",
-                        "debugMsg" => "",
-                    ];
-                }
-            } else {
+        $wc = new WalletController();
 
-                $ticket = "🎫";
-                if ($payload["side"] == "SELL") {
-                    $ticket = "🎟";
-                }
+        // Obtenemos el saldo DISPONIBLE del token que vamos a gastar
+        $balanceData = $wc->getBalance($userId, $quote);
 
-                if (isset($suscriptors[$i]->data["exchanges"]) && isset($suscriptors[$i]->data["exchanges"]["active"])) {
-                    $exchanges = TradingSuscriptions::$EXCHANGES;
-
-                    foreach ($suscriptors[$i]->data["exchanges"]["active"] as $exchange) {
-                        if ($suscriptors[$i]->isReadyForExchange($exchange)) {
-                            // hay q excluir los suscriptores q han puesto base_order_size en 0 es porq no desean q se ejecuten ordenes
-                            if (floatval($suscriptors[$i]->data["exchanges"][$exchange]["base_order_size"]) == 0) {
-                                $this->notifyOnTelegram($info, $payload, $info["user"]);
-                            } else {
-                                $text = "";
-
-                                switch ($exchange) {
-                                    case "bingx":
-                                        // Ajustar la cantidad correspondiente a cada suscriptor, tomando su cantidad y asumiendo q TV manda a comprar 10 USDT
-                                        $payload["quantity"] = $payload["quantity"] * floatval($suscriptors[$i]->data["exchanges"][$exchange]["base_order_size"]) / 10;
-                                        try {
-                                            $response = json_decode($bc->spotTradeCreateOrder($suscriptors[$i]->data["exchanges"]["bingx"]["api_key"], $suscriptors[$i]->data["exchanges"]["bingx"]["secret_key"], $payload), true);
-                                            Log::info("TradingViewController createTradeOrders {$exchange} after response: " . json_encode([
-                                                "suscriptor" => $suscriptors[$i]->user_id,
-                                                "payload" => $payload,
-                                                "response" => $response,
-                                            ]));
-                                        } catch (\Throwable $th) {
-                                            Log::error("TradingViewController createTradeOrders {$exchange} error: " . $th->getTraceAsString());
-                                            $response["code"] = 1;
-                                            $response["msg"] = $th->getMessage();
-                                        }
-                                        if ($response["code"] > 0) { // error al ejecutar la orden
-                                            $text = "🔴 *ERROR creating trade order in " . $exchanges[$exchange]["icon"] . " " . $exchanges[$exchange]["name"] . "*:\n🔔 _{$info['text']}_\n\n{$ticket} *Order*: " . json_encode($payload) . "\n\n🐞 *Code*: {$response["code"]}\n🙇🏻 *Response*:{$response["msg"]}";
-                                        } else {
-                                            $orderId = (string) number_format($response["data"]["orderId"], 0, '', '');
-                                            $text = "🟢 *Order {$orderId}* " . $exchanges[$exchange]["icon"] . "\n🔔 _{$info['text']}_\n\n{$ticket} *Order*: " . json_encode($payload) . "\n\n💵 *Price*: {$response["data"]["price"]}\n✔️ *origQty*: {$response["data"]["origQty"]}\n👉 *executedQty*: {$response["data"]["executedQty"]}\n📦 *cummulativeQuoteQty*: {$response["data"]["cummulativeQuoteQty"]}\n✅ *status*: {$response["data"]["status"]}";
-                                        }
-                                        break;
-                                    case "apexpromainnet":
-                                    case "apexprotestnet":
-                                        // Ajustar la cantidad correspondiente a cada suscriptor, tomando su x5 para potenciar el minimo q se puede comprar en ese PAR
-                                        $payload["x"] = floatval($suscriptors[$i]->data["exchanges"][$exchange]["base_order_size"]);
-                                        try {
-                                            $response = json_decode(
-                                                $ac->createOrderV2ByPass(
-                                                    str_replace("apexpro", "", strtolower($exchange)),
-                                                    $suscriptors[$i]->data["exchanges"][$exchange]["api_key"],
-                                                    $suscriptors[$i]->data["exchanges"][$exchange]["api_key_secret"],
-                                                    $suscriptors[$i]->data["exchanges"][$exchange]["api_key_passphrase"],
-                                                    $suscriptors[$i]->data["exchanges"][$exchange]["stark_key_private"],
-                                                    $suscriptors[$i]->data["exchanges"][$exchange]["account_id"],
-                                                    $payload
-                                                ),
-                                                true
-                                            );
-
-                                            Log::info("TradingViewController createTradeOrders {$exchange} after response: " . json_encode([
-                                                "suscriptor" => $suscriptors[$i]->user_id,
-                                                "payload" => $payload,
-                                                "response" => $response,
-                                            ]));
-                                        } catch (\Throwable $th) {
-                                            Log::error("TradingViewController createTradeOrders {$exchange} error: " . $th->getTraceAsString());
-                                            $response["code"] = 1;
-                                            $response["message"] = $th->getMessage();
-                                        }
-                                        if ($response["code"] > 0) { // error al ejecutar la orden
-                                            $text = "🔴 *ERROR creating trade order in " . $exchanges[$exchange]["icon"] . " " . $exchanges[$exchange]["name"] . "*:\n🔔 _{$info['text']}_\n\n{$ticket} *Order*: " . json_encode($payload) . "\n\n🐞 *Code*: {$response["code"]}\n🙇🏻 *Response*:{$response["message"]}";
-                                        } else {
-                                            $text = "🟢 *Order " . $response["orderId"] . "* " . $exchanges[$exchange]["icon"] . "\n🔔 _{$info['text']}_\n\n{$ticket} *Order*: " . json_encode($payload) .
-                                                "\n\n📦 *Quantity*: {$response["size"]}\n💵 *Price*: {$response["price"]}";
-
-                                            /*
-                                        {
-                                        "id":"599303150579483249",
-                                        "clientId":"5608955904173432",
-                                        "clientOrderId":"5608955904173432",
-                                        "accountId":"582635608690655601",
-                                        "symbol":"SOL-USDT",
-                                        "side":"SELL",
-                                        "price":"138.240",
-                                        "averagePrice":"",
-                                        "limitFee":"0.006912",
-                                        "fee":"",
-                                        "liquidateFee":"",
-                                        "triggerPrice":"0.000",
-                                        "size":"0.1",
-                                        "type":"MARKET",
-                                        "createdAt":1720721805612,
-                                        "updatedTime":0,
-                                        "expiresAt":1723316400000,
-                                        "status":"PENDING",
-                                        "timeInForce":"IMMEDIATE_OR_CANCEL",
-                                        "reduceOnly":false,"isPositionTpsl":false,
-                                        "orderId":"599303150579483249","exitType":"","cancelReason":"UNKNOWN_ORDER_CANCEL_REASON",
-                                        "latestMatchFillPrice":"0.000","cumMatchFillSize":"0.0",
-                                        "cumMatchFillValue":"0.0000","cumMatchFillFee":"0.000000",
-                                        "cumSuccessFillSize":"0.0","cumSuccessFillValue":"0.0000","cumSuccessFillFee":"0.000000",
-                                        "triggerPriceType":"MARKET","isOpenTpslOrder":false,"isSetOpenTp":false,"isSetOpenSl":false,
-                                        "openTpParam":[],"openSlParam":[],"code":0
-                                        }
-                                         */
-                                        }
-                                        break;
-
-                                    default:
-                                        break;
-                                }
-
-                                // mandarle mensaje directamente al suscriptor
-                                $array = array(
-                                    "demo" => $info["demo"],
-                                    "message" => array(
-                                        "text" => $text,
-                                        "chat" => array(
-                                            "id" => $suscriptors[$i]->user_id,
-                                        ),
-                                    ),
-                                );
-                                $tc->sendMessage($array, $this->getToken($this->telegram["username"]));
-
-                            }
-                        }
-                    }
-
-                }
-            }
-
-        }
-    }
-
-    private function notifyOnTelegram($info, $payload, $chat_id)
-    {
-        $tc = new TelegramController();
-
-        // Notificar a los copy traders en el canal de telegram
-        // Obtén el ID del mensaje anterior correspondiente a la moneda actual
-        $messageId = "";
-        $notification_id = $this->telegram["username"] . "|" . $chat_id . "|" . $payload["symbol"];
-        $notification = TelegramNestedNotifications::where('name', '=', $notification_id)->first();
-        if ($notification && $notification->id > 0) {
-            $messageId = $notification->value;
-        } else {
-            // creamos el par de notificaciones
-            TelegramNestedNotifications::create([
-                'name' => $notification_id,
-                'value' => "",
-            ]);
-            $notification = TelegramNestedNotifications::where('name', '=', $notification_id)->first();
+        if (!isset($balanceData['portfolio'])) {
+            return response()->json(['status' => 'error', 'message' => 'Error leyendo balance'], 500);
         }
 
-        $array = array(
-            "demo" => $info["demo"],
-            "message" => array(
-                "text" => $this->getText4Signal($info), // Obteniendo el texto en base a la señal recibida de TV
-                "chat" => array(
-                    "id" => $chat_id,
+        // Extraer el saldo numérico 
+        $networkName = array_key_first($balanceData['portfolio']); // Ej: "Polygon"
+        $assets = $balanceData['portfolio'][$networkName]['assets'];
+        $balanceAvailable = (float) ($assets[$quote] ?? 0);
+
+        if ($balanceAvailable <= 0) {
+            Log::info("⚠️ Saldo insuficiente de $quote.");
+            return response()->json(['status' => 'skipped', 'message' => "Sin saldo en $quote"]);
+        }
+
+        // Calculamos cuánto vamos a gastar
+        $amount = $balanceAvailable * ($percent / 100);
+
+        Log::info("➕ AGREGANDO POSICIÓN (DCA): Invirtiendo $amount $quote");
+
+        // 5. EJECUTAR SWAP
+
+        $privateKey = $wc->getDecryptedPrivateKey($userId);
+        $result = $bot->engine->swap($quote, $asset, $amount, $privateKey, true);
+
+        // 6. 💾 GUARDAR "CAPA" EN BD
+        // Como 0x no nos dice exacto cuánto compramos en la respuesta simple,
+        // haremos una estimación basada en el precio de mercado para rellenar 'amount_out',
+        // O mejor aún: Dejamos 'amount_out' en 0 y lo calculamos al cerrar consultando la wallet.
+        // Pero para ser ordenados, intentaremos guardar un estimado si es posible, o 0.
+
+        Positions::create([
+            'user_id' => $userId,
+            'network' => $result['network'],
+            'pair' => "$asset/$quote",
+            'side' => 'LONG',
+            'amount_in' => $amount,
+            'amount_out' => 0, // Se consolidará al cierre
+            'tx_hash_open' => $result['tx_hash'],
+            'status' => 'OPEN'
+        ]);
+
+
+        // mandarle mensaje directamente al suscriptor
+        $bot->TelegramController->sendMessage(
+            array(
+                "message" => array(
+                    "text" => "👉 Completado swap de $amount $asset a $quote...",
+                    "chat" => array(
+                        "id" => $userId,
+                    ),
                 ),
-                "reply_to_message_id" => $messageId,
             ),
+            $bot->token
         );
 
-        $response = json_decode($tc->sendMessage($array, $this->getToken($this->telegram["username"])), true);
-        if (isset($response["result"])) {
-            // Actualiza el ID del mensaje para la moneda actual en el objeto messageIds
-            $newId = $response["result"]["message_id"];
-            if ($payload["side"] == "SELL") {
-                $newId = "";
-            }
-
-            $notification->value = $newId;
-            $notification->save();
-        }
+        return response()->json(['status' => 'success', 'action' => 'DCA ORDER ADDED', 'tx' => $result['tx_hash']]);
     }
 
-    public function getText4Signal($array)
+    /**
+     * CERRAR DCA: Vende TODO lo acumulado para ese par
+     */
+    private function closeLongPosition($bot, $userId, $asset, $quote)
     {
-        if ($array["additionalData"] && $array["additionalData"]["action"]) {
-            try {
-                $actionicon = "🟥"; //🔴🟢
-                $charticon = "📈";
+        // 1. Buscar TODAS las posiciones abiertas de este par (Collection)
+        $openPositions = Positions::where('user_id', $userId)
+            ->where('pair', "$asset/$quote")
+            ->where('status', 'OPEN')
+            ->get();
 
-                $position = "";
-
-                $action = strtoupper($array["additionalData"]["action"]);
-                if ($action == "BUY") {
-                    $actionicon = "🟩";
-                    $charticon = "📉";
-
-                    $position = "📦 *Position size*: " . $array["additionalData"]["position_size"];
-                }
-
-                $text = $actionicon . " *Alert for " . strtoupper($array["additionalData"]["ticker"]) . "!*";
-
-                $subtitle = $array["text"];
-                if ($subtitle != "") {
-                    $text = $text . "\n" . $subtitle;
-                }
-
-                $text = $text . "\n\n💵 *" . strtoupper($array["additionalData"]["action"]) . "*: " . $array["additionalData"]["contracts"] . " " . $array["additionalData"]["basecurrency"] .
-                    "\n" . $charticon . " *Price*: " . $array["additionalData"]["price"] . " " . $array["additionalData"]["currency"];
-                if ($position != "") {
-                    $text = $text . "\n" . $position;
-                }
-
-                return $text;
-
-            } catch (\Throwable $err) {
-
-                return "Error creating text from " . json_encode($array);
-            }
+        if ($openPositions->isEmpty()) {
+            return response()->json(['status' => 'skipped', 'msg' => 'No open positions to close']);
         }
 
-        if ($array["text"]) {
-            return $array["text"];
+        Log::info("📉 SEÑAL DE SALIDA: Cerrando " . $openPositions->count() . " órdenes acumuladas.");
+
+        // 2. Determinar SALDO TOTAL REAL en Wallet
+        // Al final del día, lo que importa es lo que hay en la blockchain, no en la BD.
+        $walletCtrl = new WalletController();
+        $privKey = $walletCtrl->getDecryptedPrivateKey($userId);
+
+        $balanceData = $walletCtrl->getBalance($userId, $asset);
+        $network = array_key_first($balanceData['portfolio']);
+        $totalAssetBalance = (float) ($balanceData['portfolio'][$network]['assets'][$asset] ?? 0);
+
+        // 3. 🛡️ CÁLCULO SEGURO DE GAS
+        // Vendemos todo lo que hay en la cartera de ese token, respetando la reserva de gas.
+        $amountToSell = $this->calculateSafeSellAmount($asset, $totalAssetBalance, $totalAssetBalance);
+
+        if ($amountToSell <= 0) {
+            return response()->json(['status' => 'error', 'msg' => 'Saldo insuficiente en wallet para vender']);
         }
 
-        return "NO message";
+        // 4. EJECUTAR SWAP DE SALIDA (Venta Masiva)
+        $result = $bot->engine->swap($asset, $quote, $amountToSell, $privKey, true);
+
+        // 5. ACTUALIZAR BD (Cerrar todas las fichas)
+        // Distribuimos el monto vendido entre las posiciones (proporcional o simplemente cerramos)
+        // Para simplificar, marcamos todas como cerradas con el mismo hash de salida.
+
+        foreach ($openPositions as $pos) {
+            $pos->update([
+                'status' => 'CLOSED',
+                'tx_hash_close' => $result['tx_hash'],
+                // Opcional: Podrías actualizar amount_out aquí dividiendo $amountToSell / count, 
+                // pero es meramente estadístico.
+            ]);
+        }
+
+
+        // mandarle mensaje directamente al suscriptor
+        $bot->TelegramController->sendMessage(
+            array(
+                "message" => array(
+                    "text" => "👉 Completado swap de $amountToSell $asset a $quote...",
+                    "chat" => array(
+                        "id" => $userId,
+                    ),
+                ),
+            ),
+            $bot->token
+        );
+
+        return response()->json([
+            'status' => 'success',
+            'action' => 'CLOSE ALL DCA',
+            'closed_count' => $openPositions->count(),
+            'tx' => $result['tx_hash']
+        ]);
+    }
+
+    /**
+     * Calcula el monto seguro para vender, reservando Gas si es nativo.
+     * @param string $tokenSymbol El token que queremos vender (ej: POL)
+     * @param float $balanceTotal El saldo total en la wallet
+     * @param float $amountTarget La cantidad que queremos vender (según la BD)
+     * @return float La cantidad real que podemos vender
+     */
+    public function calculateSafeSellAmount(string $tokenSymbol, float $balanceTotal, float $amountTarget)
+    {
+        $tokenSymbol = strtoupper($tokenSymbol);
+
+        // Lista de Tokens Nativos que se usan para Gas
+        $nativeTokens = ['POL', 'MATIC', 'BNB', 'ETH', 'AVAX'];
+
+        // Si NO es un token nativo (ej: vendemos USDT), podemos venderlo todo.
+        if (!in_array($tokenSymbol, $nativeTokens)) {
+            // Solo verificamos no intentar vender más de lo que tenemos
+            return min($balanceTotal, $amountTarget);
+        }
+
+        // SI ES NATIVO (POL): Debemos dejar una reserva.
+        // Reserva sugerida: 2 POL (o lo que consideres seguro para unas 10 transacciones)
+        $gasReserve = 2.0;
+
+        $maxSellable = $balanceTotal - $gasReserve;
+
+        if ($maxSellable <= 0) {
+            // Estamos en zona crítica, no se puede vender nada
+            return 0.0;
+        }
+
+        // Si la BD dice "Vende 10", pero solo tengo "8" libres de gas, vendo "8".
+        // Si la BD dice "Vende 10", y tengo "100" libres, vendo "10".
+        return min($maxSellable, $amountTarget);
     }
 }

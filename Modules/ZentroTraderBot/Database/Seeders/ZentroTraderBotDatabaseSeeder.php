@@ -16,6 +16,6 @@ class ZentroTraderBotDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        //$this->call(AccountsSeeder::class);
     }
 }
