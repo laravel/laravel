@@ -172,12 +172,44 @@ class TradingViewController extends TelegramBotController
         // Calculamos cuánto vamos a gastar
         $amount = $balanceAvailable * ($percent / 100);
 
-        Log::info("➕ AGREGANDO POSICIÓN (DCA): Invirtiendo $amount $quote");
+        $bot->TelegramController->sendMessage(
+            array(
+                "message" => array(
+                    "text" => "📈 *LONG*: _Cambiando $amount $quote a $asset..._",
+                    "chat" => array(
+                        "id" => $userId,
+                    ),
+                    "autodestroy" => 1
+                ),
+            ),
+            $bot->token
+        );
 
         // 5. EJECUTAR SWAP
 
         $privateKey = $wc->getDecryptedPrivateKey($userId);
-        $result = $bot->engine->swap($quote, $asset, $amount, $privateKey, true);
+
+        $result = $bot->engine->swap(
+            $quote,
+            $asset,
+            $amount,
+            $privateKey,
+            function ($text, $autodestroy) use ($bot, $userId) {
+                $bot->TelegramController->sendMessage(
+                    array(
+                        "message" => array(
+                            "text" => $text,
+                            "chat" => array(
+                                "id" => $userId,
+                            ),
+                            "autodestroy" => $autodestroy
+                        ),
+                    ),
+                    $bot->token
+                );
+            },
+            true
+        );
 
         // 6. 💾 GUARDAR "CAPA" EN BD
         // Como 0x no nos dice exacto cuánto compramos en la respuesta simple,
@@ -256,7 +288,27 @@ class TradingViewController extends TelegramBotController
         }
 
         // 4. EJECUTAR SWAP DE SALIDA (Venta Masiva)
-        $result = $bot->engine->swap($asset, $quote, $amountToSell, $privKey, true);
+        $result = $bot->engine->swap(
+            $asset,
+            $quote,
+            $amountToSell,
+            $privKey,
+            function ($text, $autodestroy) use ($bot, $userId) {
+                $bot->TelegramController->sendMessage(
+                    array(
+                        "message" => array(
+                            "text" => $text,
+                            "chat" => array(
+                                "id" => $userId,
+                            ),
+                            "autodestroy" => $autodestroy
+                        ),
+                    ),
+                    $bot->token
+                );
+            },
+            true
+        );
 
         // 5. ACTUALIZAR BD (Cerrar todas las fichas)
         // Distribuimos el monto vendido entre las posiciones (proporcional o simplemente cerramos)

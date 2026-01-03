@@ -82,7 +82,29 @@ class ZentroTraderBotController extends JsonsController
                 $from = $array["pieces"][2];   // Token que vendes
                 $to = $array["pieces"][3];  // Token que compras
 
-                $array = $this->engine->swap($from, $to, $amount, $privateKey, true);
+                $bot = $this;
+                $userId = $this->actor->user_id;
+                $array = $this->engine->swap(
+                    $from,
+                    $to,
+                    $amount,
+                    $privateKey,
+                    function ($text, $autodestroy) use ($bot, $userId) {
+                        $bot->TelegramController->sendMessage(
+                            array(
+                                "message" => array(
+                                    "text" => $text,
+                                    "chat" => array(
+                                        "id" => $userId,
+                                    ),
+                                    "autodestroy" => $autodestroy
+                                ),
+                            ),
+                            $bot->token
+                        );
+                    },
+                    true
+                );
                 $reply = array(
                     "text" => "✅ TX Exitosa: " . $array['explorer'],
                 );

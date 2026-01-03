@@ -21,7 +21,7 @@ class ZeroExController extends Controller
     /**
      * MÉTODO MAESTRO: SWAP
      */
-    public function swap(string $from, string $to, float $amount, string $userPrivateKey, $log = false)
+    public function swap(string $from, string $to, float $amount, string $userPrivateKey, $nofifyFn, $log = false)
     {
         set_time_limit(300);
 
@@ -33,8 +33,10 @@ class ZeroExController extends Controller
         $activePrivateKey = str_replace('0x', '', $userPrivateKey);
         $activeWalletAddress = $this->deriveAddress($activePrivateKey);
 
+        $text = "👤 Iniciando Swap para usuario: $activeWalletAddress: $amount $from -> $to";
+        $nofifyFn($text, 1);
         if ($log)
-            Log::info("👤 Iniciando Swap para usuario: $activeWalletAddress: $amount $from -> $to");
+            Log::info($text);
 
         // 2. CARGA DE CONFIGURACIÓN
         $tokens = config('zentrotraderbot.tokens');
@@ -74,8 +76,11 @@ class ZeroExController extends Controller
         // 6. AUTO-ALLOWANCE
         if (isset($quote['issues']['allowance'])) {
             $requiredSpender = $quote['issues']['allowance']['spender'];
+
+            $text = "🛑 Falta permiso. Aprobando a: $requiredSpender...";
+            $nofifyFn($text, 1);
             if ($log)
-                Log::info("🛑 Falta permiso. Aprobando a: $requiredSpender...");
+                Log::info($text);
 
             $approveTxHash = $this->sendApproveTransaction(
                 $rpcUrl,
@@ -87,31 +92,41 @@ class ZeroExController extends Controller
                 $log
             );
 
+            $text = "📨 TX Approve enviada: $approveTxHash. Esperando confirmacion...";
+            $nofifyFn($text, 1);
             if ($log)
-                Log::info("📨 TX Approve enviada: $approveTxHash. Esperando...");
+                Log::info($text);
 
-            if ($this->waitForConfirmation($rpcUrl, $approveTxHash, $log)) {
+            if ($this->waitForConfirmation($rpcUrl, $approveTxHash, $nofifyFn, $log)) {
+                $text = "🔄 Aprobación confirmada. Reintentando Swap...";
+                $nofifyFn($text, 1);
                 if ($log)
-                    Log::info("🔄 Aprobación confirmada. Reintentando Swap...");
+                    Log::info($text);
+
                 // RECURSIVIDAD: Pasamos la misma clave privada
-                return $this->swap($from, $to, $amount, $userPrivateKey, $log);
+                return $this->swap($from, $to, $amount, $userPrivateKey, $nofifyFn, $log);
             } else {
                 throw new \Exception("Timeout aprobando token.");
             }
         }
 
         // 7. EJECUCIÓN DEL SWAP
+
+        $text = "✅ Permisos OK. Ejecutando Swap...";
+        $nofifyFn($text, 1);
         if ($log)
-            Log::info("✅ Permisos OK. Ejecutando Swap...");
+            Log::info($text);
 
         try {
             $txHash = $this->signAndSend($rpcUrl, $chainId, $quote, $activePrivateKey, $activeWalletAddress);
 
+            $text = "⏳ TX Enviada: $txHash";
+            $nofifyFn($text, 1);
             if ($log)
-                Log::info("⏳ TX Enviada: $txHash");
+                Log::info($text);
 
             // 5. ⏳ ESPERAR CONFIRMACIÓN (Mining...)
-            $confirmed = $this->waitForConfirmation($rpcUrl, $txHash, $log);
+            $confirmed = $this->waitForConfirmation($rpcUrl, $txHash, $nofifyFn, $log);
 
             if (!$confirmed) {
                 throw new \Exception("La transacción se envió pero no se confirmó a tiempo.");
@@ -131,8 +146,11 @@ class ZeroExController extends Controller
             if ($receivedAmount < 0)
                 $receivedAmount = 0;
 
+
+            $text = "🎉 SWAP EXITOSO. Recibidos: +$receivedAmount $to";
+            $nofifyFn($text, 1);
             if ($log)
-                Log::info("🎉 SWAP EXITOSO. Recibidos: +$receivedAmount $to ($balanceAfter / $balanceBefore)");
+                Log::info($text);
 
             return [
                 'status' => 'SWAPPED',
@@ -333,7 +351,7 @@ class ZeroExController extends Controller
         return $this->rpcCall($rpcUrl, 'eth_sendRawTransaction', ['0x' . $signedTx], true);
     }
 
-    protected function waitForConfirmation($rpcUrl, $txHash, $log = false)
+    protected function waitForConfirmation($rpcUrl, $txHash, $nofifyFn, $log = false)
     {
         $timeout = 120;
         $start = time();
@@ -341,11 +359,16 @@ class ZeroExController extends Controller
             $receipt = $this->rpcCall($rpcUrl, 'eth_getTransactionReceipt', [$txHash], true);
             if ($receipt) {
                 if ($receipt['status'] === '0x1') {
+                    $text = "✅ TX Confirmada $txHash.";
+                    $nofifyFn($text, 1);
                     if ($log)
-                        Log::info("✅ TX Confirmada $txHash.");
+                        Log::info($text);
                     return true;
                 } else {
-                    Log::error("❌ TX Falló (Reverted).");
+                    $text = "❌ TX Fallo (Reverted).";
+                    $nofifyFn($text, 1);
+                    if ($log)
+                        Log::info($text);
                     return false;
                 }
             }
