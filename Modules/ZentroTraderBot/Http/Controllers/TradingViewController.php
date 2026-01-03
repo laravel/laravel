@@ -181,7 +181,8 @@ class TradingViewController extends TelegramBotController
                     ),
                 ),
             ),
-            $bot->token
+            $bot->token,
+            1
         );
 
         // 5. EJECUTAR SWAP
@@ -233,7 +234,7 @@ class TradingViewController extends TelegramBotController
         $bot->TelegramController->sendMessage(
             array(
                 "message" => array(
-                    "text" => "👉 Completado swap de $amount $asset a $quote...",
+                    "text" => "📈 *LONG*: _$amount $quote a $asset..._\n✅ *Completado!*",
                     "chat" => array(
                         "id" => $userId,
                     ),
