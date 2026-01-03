@@ -353,7 +353,7 @@ class ZeroExController extends Controller
             $receipt = $this->rpcCall($rpcUrl, 'eth_getTransactionReceipt', [$txHash], true);
             if ($receipt) {
                 if ($receipt['status'] === '0x1') {
-                    $text = "✅ *TX Confirmada* `$txHash`.";
+                    $text = "✅ _TX Confirmada_ `$txHash`";
                     $nofifyFn($text, 1);
                     if ($log)
                         Log::info($text);
