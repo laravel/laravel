@@ -179,7 +179,6 @@ class TradingViewController extends TelegramBotController
                     "chat" => array(
                         "id" => $userId,
                     ),
-                    "autodestroy" => 1
                 ),
             ),
             $bot->token
@@ -201,11 +200,12 @@ class TradingViewController extends TelegramBotController
                             "text" => $text,
                             "chat" => array(
                                 "id" => $userId,
-                            ),
-                            "autodestroy" => $autodestroy
+                            )
                         ),
+
                     ),
-                    $bot->token
+                    $bot->token,
+                    $autodestroy
                 );
             },
             true
@@ -300,11 +300,11 @@ class TradingViewController extends TelegramBotController
                             "text" => $text,
                             "chat" => array(
                                 "id" => $userId,
-                            ),
-                            "autodestroy" => $autodestroy
-                        ),
+                            )
+                        )
                     ),
-                    $bot->token
+                    $bot->token,
+                    $autodestroy
                 );
             },
             true

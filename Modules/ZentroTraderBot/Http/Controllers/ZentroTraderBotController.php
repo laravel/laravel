@@ -96,11 +96,11 @@ class ZentroTraderBotController extends JsonsController
                                     "text" => $text,
                                     "chat" => array(
                                         "id" => $userId,
-                                    ),
-                                    "autodestroy" => $autodestroy
+                                    )
                                 ),
                             ),
-                            $bot->token
+                            $bot->token,
+                            $autodestroy
                         );
                     },
                     true
