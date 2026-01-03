@@ -234,7 +234,7 @@ class TradingViewController extends TelegramBotController
         $bot->TelegramController->sendMessage(
             array(
                 "message" => array(
-                    "text" => "📈 *LONG*: _$amount $quote a $asset..._\n✅ *Completado!*",
+                    "text" => "📈 *LONG*: _$amount $quote a $asset._\n✅ *Completado!*",
                     "chat" => array(
                         "id" => $userId,
                     ),
@@ -269,7 +269,18 @@ class TradingViewController extends TelegramBotController
             return response()->json(['status' => 'error', 'msg' => 'Error: La suma de las posiciones es 0.']);
         }
 
-        Log::info("📉 SEÑAL DE SALIDA: Cerrando " . $openPositions->count() . " órdenes acumuladas: $targetSellAmount $asset");
+        $bot->TelegramController->sendMessage(
+            array(
+                "message" => array(
+                    "text" => "📉 *EXIT LONG*: _Cerrando " . $openPositions->count() . " órdenes acumuladas: $targetSellAmount $asset..._",
+                    "chat" => array(
+                        "id" => $userId,
+                    ),
+                ),
+            ),
+            $bot->token,
+            1
+        );
 
         // 2. Determinar SALDO TOTAL REAL en Wallet
         // Al final del día, lo que importa es lo que hay en la blockchain, no en la BD.
@@ -322,12 +333,11 @@ class TradingViewController extends TelegramBotController
             ]);
         }
 
-
         // mandarle mensaje directamente al suscriptor
         $bot->TelegramController->sendMessage(
             array(
                 "message" => array(
-                    "text" => "👉 Completado swap de $amountToSell $asset a $quote...",
+                    "text" => "📉 *EXIT LONG*: _$amountToSell $asset a $quote._\n✅ *Completado!*",
                     "chat" => array(
                         "id" => $userId,
                     ),
