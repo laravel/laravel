@@ -234,7 +234,7 @@ class TradingViewController extends TelegramBotController
         $bot->TelegramController->sendMessage(
             array(
                 "message" => array(
-                    "text" => "📈 *LONG*: _$amount $quote a $asset._\n✅ *Completado!*",
+                    "text" => "📈 *LONG*: _$amount $quote 🟰 " . $result['amount_received'] . " $asset _\n✅ *Completado!*",
                     "chat" => array(
                         "id" => $userId,
                     ),
@@ -334,10 +334,15 @@ class TradingViewController extends TelegramBotController
         }
 
         // mandarle mensaje directamente al suscriptor
+        $targetSpendedAmount = $openPositions->sum('amount_in');
+        $profit = $result['amount_received'] - $targetSpendedAmount;
+        $text = "+$profit 🟢";
+        if ($profit < 0)
+            $text = "$profit 🔴";
         $bot->TelegramController->sendMessage(
             array(
                 "message" => array(
-                    "text" => "📉 *EXIT LONG*: _$amountToSell $asset a $quote._\n✅ *Completado!*",
+                    "text" => "📉 *EXIT LONG*:\n💱 _$amountToSell $asset 🟰 " . $result['amount_received'] . " $quote _\n✅ *Completado!* $text",
                     "chat" => array(
                         "id" => $userId,
                     ),
