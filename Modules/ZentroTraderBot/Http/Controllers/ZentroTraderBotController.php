@@ -68,16 +68,12 @@ class ZentroTraderBotController extends JsonsController
                 $reply = $this->suscribemenu($suscriptor);
                 break;
             case "suscribelevel0":
-                $this->ActorsController->updateData(TradingSuscriptions::class, "user_id", $this->actor->user_id, "suscription_level", 0);
-                $reply = $this->suscribemenu($suscriptor);
-                break;
             case "suscribelevel1":
-                $this->ActorsController->updateData(TradingSuscriptions::class, "user_id", $this->actor->user_id, "suscription_level", 1);
-                $reply = $this->suscribemenu($suscriptor);
-                break;
             case "suscribelevel2":
-                $this->ActorsController->updateData(TradingSuscriptions::class, "user_id", $this->actor->user_id, "suscription_level", 2);
-                $reply = $this->suscribemenu($suscriptor);
+                $reply = $this->suscribemenu(
+                    $suscriptor,
+                    str_replace("suscribelevel", "", strtolower($array["command"]))
+                );
                 break;
 
             case "/swap":
@@ -235,16 +231,24 @@ class ZentroTraderBotController extends JsonsController
         return $reply;
     }
 
-    public function suscribemenu($suscriptor)
+    public function suscribemenu($suscriptor, $level = -1)
     {
+        if ($level > -1) {
+            $this->ActorsController->updateData(TradingSuscriptions::class, "user_id", $this->actor->user_id, "suscription_level", $level);
+            $suscriptor = TradingSuscriptions::where('user_id', $this->actor->user_id)->first();
+        }
+
+
         $suscription_settings_menu = array();
         $extrainfo = "";
         switch ($suscriptor->data["suscription_level"]) {
             case 1:
+            case "1":
                 array_push($suscription_settings_menu, ["text" => '🅱️ Level', "callback_data" => 'suscribelevel2']);
                 $extrainfo = "🌎 _You are a level 🅱️ subscriber; therefore, you can use the 'Client URL button' to get your TradingView alerts link._\n\n";
                 break;
             case 2:
+            case "2":
                 array_push($suscription_settings_menu, ["text" => '🆎 Level', "callback_data" => 'suscribelevel0']);
                 $extrainfo = "🌎 _You are a level 🆎 subscriber; therefore, you can use the 'Client URL button' to get your TradingView alerts link._\n\n";
                 break;
