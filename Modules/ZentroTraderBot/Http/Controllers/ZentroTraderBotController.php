@@ -76,7 +76,7 @@ class ZentroTraderBotController extends JsonsController
                 );
                 break;
             case "clienturl":
-                $uri = str_replace("/" . request()->route()->uri, "/tradingview/client/{$this->actor->user_id}", request()->fullUrl());
+                $uri = str_replace("telegram/bot/ZentroTraderBot", "tradingview/client/{$this->actor->user_id}", request()->fullUrl());
                 $reply["text"] = "🌎 Your client URL is as follows:\n{$uri}\n\n👆 This is the address you should use in TradingView to notify the bot that you want to work with a custom strategy alert.";
                 $reply["markup"] = json_encode([
                     'inline_keyboard' => [
