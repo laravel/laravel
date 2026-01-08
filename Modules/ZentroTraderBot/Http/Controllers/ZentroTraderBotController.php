@@ -255,6 +255,7 @@ class ZentroTraderBotController extends JsonsController
 
             default:
                 array_push($suscription_settings_menu, ["text" => '🅱️ Level', "callback_data" => 'suscribelevel1']);
+                $extrainfo = "🌎 _You are a level 🅰️ subscriber._\n\n";
                 break;
         }
         $reply = array(
