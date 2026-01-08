@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http; // Necesario para rpcCall
 use Elliptic\EC;
 use kornrunner\Keccak;
-use Modules\TelegramBot\Entities\Actors;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Contracts\Encryption\DecryptException;
 use kornrunner\Ethereum\Transaction;
 use kornrunner\Ethereum\EIP1559Transaction;
 use Modules\ZentroTraderBot\Traits\BlockchainTools;
+use Modules\ZentroTraderBot\Entities\TradingSuscriptions;
 
 class WalletController extends Controller
 {
@@ -27,15 +27,15 @@ class WalletController extends Controller
     public function generateWallet(int $userId)
     {
         // 1. Buscar el Actor por su ID de Telegram (user_id)
-        $actor = Actors::where('user_id', $userId)->first();
+        $suscriptor = TradingSuscriptions::where('user_id', $userId)->first();
 
         // Si no existe el actor, retornamos error (o lo creamos según tu lógica)
-        if (!$actor) {
-            // $actor = Actors::create(['user_id' => $userId, 'data' => []]); 
+        if (!$suscriptor) {
+            // $suscriptor = TradingSuscriptions::create(['user_id' => $userId, 'data' => []]); 
             return ['status' => 'error', 'message' => 'Usuario no registrado en el sistema.'];
         }
 
-        $currentData = $actor->data ?? [];
+        $currentData = $suscriptor->data ?? [];
 
         // Validación: Si ya tiene wallet, devolvemos la existente
         if (isset($currentData['wallet']['address'])) {
@@ -65,8 +65,8 @@ class WalletController extends Controller
             ];
 
             $currentData['wallet'] = $walletData;
-            $actor->data = $currentData;
-            $actor->save();
+            $suscriptor->data = $currentData;
+            $suscriptor->save();
 
             Log::info("✅ Wallet generada en JSON para usuario $userId");
 
@@ -85,11 +85,11 @@ class WalletController extends Controller
     public function getBalance(int $userId, ?string $networkSymbol = null)
     {
         // 1. Obtener Wallet
-        $actor = Actors::where('user_id', $userId)->first();
-        if (!$actor || !isset($actor->data['wallet']['address'])) {
+        $suscriptor = TradingSuscriptions::where('user_id', $userId)->first();
+        if (!$suscriptor || !isset($suscriptor->data['wallet']['address'])) {
             return ['status' => 'error', 'message' => 'No tienes wallet configurada.'];
         }
-        $address = $actor->data['wallet']['address'];
+        $address = $suscriptor->data['wallet']['address'];
 
         $portfolio = [];
         $mode = 'global';
@@ -172,13 +172,13 @@ class WalletController extends Controller
      */
     public function getDecryptedPrivateKey(int $userId)
     {
-        $actor = Actors::where('user_id', $userId)->first();
+        $suscriptor = TradingSuscriptions::where('user_id', $userId)->first();
 
-        if (!$actor || !isset($actor->data['wallet']['private_key'])) {
+        if (!$suscriptor || !isset($suscriptor->data['wallet']['private_key'])) {
             throw new \Exception("Usuario $userId no tiene wallet.");
         }
 
-        $encryptedKey = $actor->data['wallet']['private_key'];
+        $encryptedKey = $suscriptor->data['wallet']['private_key'];
 
         // 🔓 Desencriptamos manualmente
         return Crypt::decryptString($encryptedKey);
@@ -421,18 +421,18 @@ class WalletController extends Controller
 
         // 3. Buscar Actores con Wallet
         // Filtramos (rudimentariamente) los que tienen data
-        $actors = Actors::whereNotNull('data')->get();
+        $actors = TradingSuscriptions::whereNotNull('data')->get();
 
         $migratedCount = 0;
         $errors = [];
 
-        foreach ($actors as $actor) {
+        foreach ($actors as $suscriptor) {
             // Verificamos si tiene wallet configurada en el JSON
-            if (!isset($actor->data['wallet']['private_key'])) {
+            if (!isset($suscriptor->data['wallet']['private_key'])) {
                 continue;
             }
 
-            $currentData = $actor->data;
+            $currentData = $suscriptor->data;
             $encryptedKey = $currentData['wallet']['private_key'];
 
             try {
@@ -450,8 +450,8 @@ class WalletController extends Controller
                 // Opcional: Marcar que fue migrado para no re-procesar
                 $currentData['wallet']['migrated_at'] = now()->toIso8601String();
 
-                $actor->data = $currentData;
-                $actor->save();
+                $suscriptor->data = $currentData;
+                $suscriptor->save();
 
                 $migratedCount++;
 
@@ -463,9 +463,9 @@ class WalletController extends Controller
                 // Probamos si ya funciona con la clave actual para confirmar
                 try {
                     Crypt::decryptString($encryptedKey);
-                    $errors[] = "Actor ID {$actor->id}: Ya estaba migrado (Ignorado).";
+                    $errors[] = "Actor ID {$suscriptor->id}: Ya estaba migrado (Ignorado).";
                 } catch (\Exception $ex) {
-                    $errors[] = "Actor ID {$actor->id}: Falló el descifrado. ¿Clave incorrecta?";
+                    $errors[] = "Actor ID {$suscriptor->id}: Falló el descifrado. ¿Clave incorrecta?";
                 }
             }
         }

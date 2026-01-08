@@ -50,28 +50,34 @@ class ZentroTraderBotController extends JsonsController
 
     public function processMessage()
     {
+
+        $suscriptor = TradingSuscriptions::where('user_id', $this->actor->user_id)->first();
+
         $array = $this->getCommand($this->message["text"]);
         //var_dump($array);
         //die;
         //echo strtolower($array["command"]);
         switch (strtolower($array["command"])) {
             case "/start":
-                //https://t.me/bot?start=816767995
-                // /start 816767995
-                $text = "👋 Hola, bienvenido";
-                if (isset($this->message["from"]["username"]) && $this->message["from"]["username"] != "")
-                    $text .= " `" . $this->message["from"]["username"] . "`";
-                else
-                    $text .= " `" . $this->actor->user_id . "`";
-
-                $wc = new WalletController();
-                $result = $wc->generateWallet($this->actor->user_id);
-                if (isset($result["address"]))
-                    $text .= "\n\n🫆 *Esta es tu wallet personal* en este bot: `" . $result["address"] . "`";
-
-                $reply = array(
-                    "text" => $text,
-                );
+            case "start":
+            case "/menu":
+            case "menu":
+                $reply = $this->mainmenu($suscriptor);
+                break;
+            case "suscribemenu":
+                $reply = $this->suscribemenu($suscriptor);
+                break;
+            case "suscribelevel0":
+                $this->ActorsController->updateData(TradingSuscriptions::class, "user_id", $this->actor->user_id, "suscription_level", 0);
+                $reply = $this->suscribemenu($suscriptor);
+                break;
+            case "suscribelevel1":
+                $this->ActorsController->updateData(TradingSuscriptions::class, "user_id", $this->actor->user_id, "suscription_level", 1);
+                $reply = $this->suscribemenu($suscriptor);
+                break;
+            case "suscribelevel2":
+                $this->ActorsController->updateData(TradingSuscriptions::class, "user_id", $this->actor->user_id, "suscription_level", 2);
+                $reply = $this->suscribemenu($suscriptor);
                 break;
 
             case "/swap":
@@ -169,59 +175,6 @@ class ZentroTraderBotController extends JsonsController
                 }
                 break;
 
-
-            case "/jbjknsadkm":
-
-
-                /*
-                                try {
-                                    $txHash = null;
-                                    $action = "sell_matic";//$data['action'] ?? '';
-                                    $amount = 10;//$data['amount'] ?? 0;
-
-                                    // 2. Decidir qué hacer
-                                    switch ($action) {
-                                        // TradingView dice "buy_matic" (LONG) -> Usamos USDC para comprar POL
-                                        case 'buy_matic':
-                                            $txHash = $this->engine->swap('USDC', 'POL', $amount);
-                                            break;
-
-                                        // TradingView dice "sell_matic" (SHORT) -> Vendemos POL para tener USDC
-                                        case 'sell_matic':
-
-                                            $array = $this->engine->checkPrice('POL', 'USDC', $amount);
-                                            var_dump($array);
-                                            die;
-                                            $txHash = $array["data"];
-                                            //$txHash = $this->engine->swap('POL', 'USDC', $amount);
-                                            break;
-
-                                        default:
-                                            return response()->json(['error' => 'Acción desconocida'], 400);
-                                    }
-
-                                    $reply = array(
-                                        "text" => "✅ TX Exitosa: $txHash",
-                                    );
-
-                                    /*
-                                                        return response()->json([
-                                                            'status' => 'success',
-                                                            'tx_hash' => $txHash,
-                                                            'explorer' => "https://polygonscan.com/tx/$txHash"
-                                                        ]);
-                                                       // cerrar aqui
-
-                                } catch (\Exception $e) {
-                                    $reply = array(
-                                        "text" => "❌ Error: " . $e->getMessage(),
-                                    );
-                                }
-                */
-
-
-
-                break;
             default:
                 $reply = array(
                     "text" => "🤷🏻‍♂️ No se que responderle a “{$this->message['text']}”.",
@@ -229,6 +182,92 @@ class ZentroTraderBotController extends JsonsController
                 break;
 
         }
+
+        return $reply;
+    }
+
+    public function mainmenu($suscriptor)
+    {
+        $mainmenu = array();
+
+        array_push($mainmenu, ["text" => '🔔 Subscribtion', "callback_data" => 'suscribemenu']);
+
+        $wallet = array();
+        // si el usuario no tiene wallet es recien suscrito y hay q completar su estructura
+        if (!isset($suscriptor->data["wallet"])) {
+            // crear el suscriptor para poderle generar wallet
+            $actor = Actors::where('user_id', $this->actor->user_id)->first();
+            $suscriptor = new TradingSuscriptions($actor->toArray());
+            $suscriptor->data = array();
+            $suscriptor->save();
+
+            $wc = new WalletController();
+            $wallet = $wc->generateWallet($this->actor->user_id);
+            if (isset($wallet["address"])) {
+                $array = $suscriptor->data;
+                $array["admin_level"] = 0;
+                $array["suscription_level"] = 0;
+                $array["last_bot_callback_data"] = 0;
+                $suscriptor->data = $array;
+                $suscriptor->save();
+            }
+        }
+        if ($suscriptor->data["admin_level"] > 1) {
+            array_push($mainmenu, ["text" => '👮‍♂️ Admin', "callback_data" => 'adminmenu']);
+        }
+
+        $text = "👋 Hola, bienvenido";
+        if (isset($this->message["from"]["username"]) && $this->message["from"]["username"] != "")
+            $text .= " `" . $this->message["from"]["username"] . "`";
+        else
+            $text .= " `" . $this->actor->user_id . "`";
+        if (isset($wallet["address"]))
+            $text .= "\n\n🫆 *Esta es tu wallet personal* en este bot: `" . $wallet["address"] . "`";
+        $text .= "\n👇 Que desea hacer ahora?";
+
+        $reply["text"] = $text;
+        $reply["markup"] = json_encode([
+            'inline_keyboard' => [
+                $mainmenu,
+            ],
+        ]);
+
+        return $reply;
+    }
+
+    public function suscribemenu($suscriptor)
+    {
+        $suscription_settings_menu = array();
+        $extrainfo = "";
+        switch ($suscriptor->data["suscription_level"]) {
+            case 1:
+                array_push($suscription_settings_menu, ["text" => '🅱️ Level', "callback_data" => 'suscribelevel2']);
+                $extrainfo = "🌎 _You are a level 🅱️ subscriber; therefore, you can use the 'Client URL button' to get your TradingView alerts link._\n\n";
+                break;
+            case 2:
+                array_push($suscription_settings_menu, ["text" => '🆎 Level', "callback_data" => 'suscribelevel0']);
+                $extrainfo = "🌎 _You are a level 🆎 subscriber; therefore, you can use the 'Client URL button' to get your TradingView alerts link._\n\n";
+                break;
+
+            default:
+                array_push($suscription_settings_menu, ["text" => '🅰️ Level', "callback_data" => 'suscribelevel1']);
+                break;
+        }
+        $reply = array(
+            "text" => "🔔 *Subscribtions menu*\nHere you can adjust your preferences:\n\n_🧩 Using the 'Level' button, you can switch between 3 levels:\n🅰️ you will only receive signals from the community.\n🅱️ you will only receive your personal alerts.\n🆎 you will receive both community alerts and your personal ones._\n\n{$extrainfo}👇 Choose one of the following options:",
+        );
+        if ($suscriptor->data["suscription_level"] > 0) {
+            array_push($suscription_settings_menu, ["text" => '🌎 Client URL', "callback_data" => 'clienturl']);
+        }
+
+        $reply["markup"] = json_encode([
+            'inline_keyboard' => [
+                $suscription_settings_menu,
+                [
+                    ["text" => '🔙 Return to main menu', "callback_data" => 'menu'],
+                ],
+            ],
+        ]);
 
         return $reply;
     }

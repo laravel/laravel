@@ -35,11 +35,15 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Modules\GutoTradeBot\Jobs\CheckEmails;
 use Illuminate\Support\Facades\Storage;
 use Modules\ZentroTraderBot\Http\Controllers\WalletController;
+use Modules\ZentroTraderBot\Entities\TradingSuscriptions;
 
 class TestController extends Controller
 {
     public function test(Request $request)
     {
+        $suscriptor = TradingSuscriptions::where('user_id', "816767995")->first();
+        dd($suscriptor->data);
+        die;
 
         $wc = new WalletController();
         dd($wc->getBalance("816767995"));
