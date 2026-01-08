@@ -17,5 +17,7 @@ class ZentroTraderBotDatabaseSeeder extends Seeder
         Model::unguard();
 
         //$this->call(AccountsSeeder::class);
+
+        $this->call(MetadataSeeder::class);
     }
 }

@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreatePositionsTable extends Migration
 {
+    protected $connection = 'ZentroTraderBot';
     /**
      * Run the migrations.
      *

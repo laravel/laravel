@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateTelegramBotsTable extends Migration
+class CreateMetadataTypesTable extends Migration
 {
-    protected $connection = 'TelegramBot';
     /**
      * Run the migrations.
      *
@@ -14,11 +13,11 @@ class CreateTelegramBotsTable extends Migration
     public function up()
     {
         $this->down();
-        getModuleSchema()->create('bots', function (Blueprint $table) {
+        Schema::create('metadata_types', function(Blueprint $table){
             $table->bigIncrements('id');
+            $table->string('code', 190)->unique();
             $table->string('name', 190)->unique();
-            $table->longtext('token');
-            $table->jsonb('data');
+            $table->text('comment')->nullable();
         });
     }
 
@@ -29,6 +28,6 @@ class CreateTelegramBotsTable extends Migration
      */
     public function down()
     {
-        getModuleSchema()->dropIfExists('bots');
+        Schema::dropIfExists('metadata_types');
     }
 }

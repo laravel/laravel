@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateTelegramNestedNotificationsTable extends Migration
 {
+    protected $connection = 'TelegramBot';
     /**
      * Run the migrations.
      *

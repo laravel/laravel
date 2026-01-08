@@ -15,7 +15,8 @@ class MigrateAndSeedModules extends Command
     {
         // Ejecutar migrate:fresh para la base de datos general
         $this->info('Running fresh migrations for the main project...');
-        Artisan::call('migrate:fresh', [], $this->getOutput());
+        Artisan::call('migrate:fresh --seed', [], $this->getOutput());
+
 
         // Debe estar en Mayusculas para q Linux lo reconozca porq es sencible a may/min;
         $modulesPath = 'Modules';
@@ -25,10 +26,6 @@ class MigrateAndSeedModules extends Command
         foreach ($modules as $module) {
             $this->runModuleMigrationsAndSeeders($module, "{$modulesPath}/{$module}");
         }
-
-        // Ejecutar los seeders del proyecto principal
-        $this->info('Running main project seeders...');
-        Artisan::call('db:seed', [], $this->getOutput());
 
         $this->info('All fresh migrations and seeders have been run successfully.');
         return 0;

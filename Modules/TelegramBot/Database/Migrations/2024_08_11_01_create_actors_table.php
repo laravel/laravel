@@ -5,6 +5,8 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateActorsTable extends Migration
 {
+    protected $connection = 'TelegramBot';
+
     /**
      * Run the migrations.
      *

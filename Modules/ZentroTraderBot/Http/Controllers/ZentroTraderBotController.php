@@ -64,6 +64,9 @@ class ZentroTraderBotController extends JsonsController
             case "menu":
                 $reply = $this->mainmenu($suscriptor);
                 break;
+            case "adminmenu":
+                $reply = $this->adminmenu();
+                break;
             case "suscribemenu":
                 $reply = $this->suscribemenu($suscriptor);
                 break;
@@ -211,6 +214,7 @@ class ZentroTraderBotController extends JsonsController
             $wc = new WalletController();
             $wallet = $wc->generateWallet($this->actor->user_id);
             if (isset($wallet["address"])) {
+                $suscriptor = TradingSuscriptions::where('user_id', $this->actor->user_id)->first();
                 $array = $suscriptor->data;
                 $array["admin_level"] = 0;
                 $array["suscription_level"] = 0;
@@ -218,7 +222,9 @@ class ZentroTraderBotController extends JsonsController
                 $suscriptor->data = $array;
                 $suscriptor->save();
             }
-        }
+        } else
+            $wallet = $suscriptor->data["wallet"];
+
         if ($suscriptor->data["admin_level"] > 1) {
             array_push($mainmenu, ["text" => '👮‍♂️ Admin', "callback_data" => 'adminmenu']);
         }
@@ -236,6 +242,63 @@ class ZentroTraderBotController extends JsonsController
         $reply["markup"] = json_encode([
             'inline_keyboard' => [
                 $mainmenu,
+            ],
+        ]);
+
+        return $reply;
+    }
+
+    public function adminmenu()
+    {
+        $reply = array(
+            "text" => "👮‍♂️ *Admin menu*!\nHere you can adjust everything:",
+        );
+
+        $admin_options_menu = [];
+        array_push($admin_options_menu, ["text" => '👣 Suscriptors', "callback_data" => 'getsuscriptors']);
+        array_push($admin_options_menu, ["text" => '🫡 Action Level', "callback_data" => 'actionmenu']);
+
+        $reply["markup"] = json_encode([
+            'inline_keyboard' => [
+                $admin_options_menu,
+                [
+                    ["text" => '🔙 Return to main menu', "callback_data" => 'menu'],
+                ],
+            ],
+        ]);
+
+        return $reply;
+    }
+
+    public function actionmenu($suscriptor)
+    {
+        /*
+        Acciones a realizar al recibir alerta desde TradingView [1: alertar en canal, 2: alertar y ejecutar ordenes en CEX]
+         */
+        $action_settings_menu = [];
+        $option = "";
+        switch (config('metadata.system.app.tradingview.alert.action.level')) {
+            case 1:
+                $option = "NOTIFICATIONS";
+                array_push($action_settings_menu, ["text" => '💵 Execute orders', "callback_data" => 'actionlevel2']);
+                break;
+            case 2:
+                $option = "EXECUTE ORDERS";
+                array_push($action_settings_menu, ["text" => '📣 Notifications', "callback_data" => 'actionlevel1']);
+                break;
+            default:
+                break;
+        }
+        $reply = array(
+            "text" => "🔔 *Action menu*!\n\n_Using the 'Action button', you can switch between 2 levels:\n📣 Notifications: When a signal appears, the bot only notifies users using the channel.\n💵 Execute orders: The bot notifies community users and executes the corresponding orders in the exchange._\n\n✅ At this moment option *{$option}* is selected\n\n👇 Choose one of the following options:",
+        );
+
+        $reply["markup"] = json_encode([
+            'inline_keyboard' => [
+                $action_settings_menu,
+                [
+                    ["text" => '🔙 Return to main menu', "callback_data" => 'menu'],
+                ],
             ],
         ]);
 

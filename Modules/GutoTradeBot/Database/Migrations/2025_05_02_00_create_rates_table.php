@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateRatesTable extends Migration
 {
+    protected $connection = 'GutoTradeBot';
     /**
      * Run the migrations.
      *
