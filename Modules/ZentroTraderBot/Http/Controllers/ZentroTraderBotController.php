@@ -244,17 +244,20 @@ class ZentroTraderBotController extends JsonsController
         switch ($suscriptor->data["suscription_level"]) {
             case 1:
             case "1":
+                array_push($suscription_settings_menu, ["text" => '🅰️ Level', "callback_data" => 'suscribelevel0']);
                 array_push($suscription_settings_menu, ["text" => '🆎 Level', "callback_data" => 'suscribelevel2']);
                 $extrainfo = "🌎 _You are a level 🅱️ subscriber; therefore, you can use the 'Client URL button' to get your TradingView alerts link._\n\n";
                 break;
             case 2:
             case "2":
                 array_push($suscription_settings_menu, ["text" => '🅰️ Level', "callback_data" => 'suscribelevel0']);
+                array_push($suscription_settings_menu, ["text" => '🅱️ Level', "callback_data" => 'suscribelevel1']);
                 $extrainfo = "🌎 _You are a level 🆎 subscriber; therefore, you can use the 'Client URL button' to get your TradingView alerts link._\n\n";
                 break;
 
             default:
                 array_push($suscription_settings_menu, ["text" => '🅱️ Level', "callback_data" => 'suscribelevel1']);
+                array_push($suscription_settings_menu, ["text" => '🆎 Level', "callback_data" => 'suscribelevel2']);
                 $extrainfo = "🌎 _You are a level 🅰️ subscriber._\n\n";
                 break;
         }
