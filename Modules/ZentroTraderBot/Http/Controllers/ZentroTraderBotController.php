@@ -92,6 +92,7 @@ class ZentroTraderBotController extends JsonsController
                 break;
 
             case "/users":
+            case "getsuscriptors":
                 $reply = $this->mainMenu($this->actor);
                 if (
                     $this->actor->isLevel(1, $this->telegram["username"]) ||
