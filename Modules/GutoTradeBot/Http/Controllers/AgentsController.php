@@ -2,102 +2,16 @@
 
 namespace Modules\GutoTradeBot\Http\Controllers;
 
-use App\Http\Controllers\JsonsController;
-use Modules\TelegramBot\Entities\Actors;
+use Modules\TelegramBot\Http\Controllers\ActorsController;
 
-class AgentsController extends JsonsController
+class AgentsController extends ActorsController
 {
-    public function getSuscriptor($bot, $user_id, $any_bot = false)
-    {
-        $suscriptor = $bot->ActorsController->getFirst(Actors::class, "user_id", "=", $user_id);
-        if (!$suscriptor) {
-            $suscriptors = $bot->ActorsController->getData(Actors::class, [
-                [
-                    "contain" => true,
-                    "name" => "username",
-                    "value" => $user_id,
-                ],
-            ], "telegram");
-            if (count($suscriptors) > 0) {
-                $suscriptor = $suscriptors[0];
-            }
-        }
-
-        if ($suscriptor) {
-            if (
-                $any_bot ||
-                isset($suscriptor->data[$bot->telegram["username"]])
-            ) {
-                return $suscriptor;
-            }
-
-            return false;
-        }
-    }
-
-    public function findSuscriptors($bot, $actor)
-    {
-        $suscriptors = $bot->ActorsController->getAllForBot($bot->telegram["username"]);
-
-        $count = 0;
-        foreach ($suscriptors as $suscriptor) {
-            if (isset($suscriptor->data[$bot->telegram["username"]])) {
-                $this->notifySuscriptor($bot, $actor, $suscriptor);
-                $count++;
-            }
-        }
-
-        $reply = array(
-            "text" => "🫂 *Usuarios suscritos*\n_Estos son los {$count} usuarios que se han suscrito al bot._",
-            "markup" => json_encode([
-                "inline_keyboard" => [
-                    [["text" => "↖️ Volver al menú de administrador", "callback_data" => "adminmenu"]],
-                ],
-            ]),
-        );
-
-        return $reply;
-    }
-
-    public function findSuscriptor($bot, $user_id)
-    {
-        $reply = [
-            "text" => "",
-        ];
-
-        $suscriptor = $this->getSuscriptor($bot, $user_id);
-        if ($suscriptor) {
-            if (isset($suscriptor->data[$bot->telegram["username"]])) {
-                $this->notifySuscriptor($bot, $bot->actor, $suscriptor, true);
-            }
-        } else {
-            $reply = [
-                "text" => "🤷🏻‍♂️ *Usuario no encontrado*\n\nEl usuario `{$user_id}` no se encuenta suscrito a este bot.",
-                "markup" => json_encode([
-                    "inline_keyboard" => [
-                        [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]],
-                    ],
-                ]),
-            ];
-        }
-        return $reply;
-    }
 
     public function notifySuscriptor($bot, $actor, $suscriptor, $show_photo = false)
     {
 
-        $array = [
-            "role" => "",
-            "menu" => [],
-        ];
-
-        if (isset($suscriptor->data[$bot->telegram["username"]]))
-            $array = $this->getRoleMenu($suscriptor->user_id, $suscriptor->data[$bot->telegram["username"]]["admin_level"]);
-
-        array_push($array["menu"], [["text" => "🏷 Añadir metadato", "callback_data" => "/usermetadata {$suscriptor->user_id}"]]);
-        array_push($array["menu"], [["text" => "❌ Eliminar", "callback_data" => "confirmation|deleteuser-{$suscriptor->user_id}|adminmenu"]]);
-
-        $text = $suscriptor->getTelegramInfo($bot, "full_info") . "\n" . $array["role"];
+        $array = parent::notifySuscriptor($bot, $actor, $suscriptor, $show_photo);
+        $text = $array["message"]["text"];
 
         // mostrar los meadatos definidos para este suscriptor
         if (isset($suscriptor->data[$bot->telegram["username"]]) && isset($suscriptor->data[$bot->telegram["username"]]["metadatas"]))
@@ -118,18 +32,7 @@ class AgentsController extends JsonsController
             $text .= "\n" . $message["message"]["text"];
         }
 
-        $array = [
-            "message" => [
-                "text" => $text,
-                "photo" => $show_photo && isset($suscriptor->data["telegram"]) && $suscriptor->data["telegram"]["photo"] ? $suscriptor->data["telegram"]["photo"] : null,
-                "chat" => [
-                    "id" => $actor->user_id,
-                ],
-                "reply_markup" => json_encode([
-                    "inline_keyboard" => $array["menu"],
-                ]),
-            ],
-        ];
+        $array["message"]["text"] = $text;
         //var_dump($array["message"]["photo"]);
         if (isset($array["message"]["photo"])) {
             $bot->TelegramController->sendPhoto($array, $bot->token);
@@ -138,13 +41,9 @@ class AgentsController extends JsonsController
         }
     }
 
-
     public function getRoleMenu($user_id, $role_id)
     {
-        $array = [
-            "role" => "",
-            "menu" => [],
-        ];
+        $array = parent::getRoleMenu($user_id, $role_id);
 
         switch ($role_id) {
             case 0:
@@ -213,42 +112,5 @@ class AgentsController extends JsonsController
         }
 
         return $array;
-    }
-
-    public function notifyAfterModifyRole($bot, $user_id, $role_id = 2)
-    {
-        $array = $bot->AgentsController->getRoleMenu($user_id, $role_id);
-
-        // obteniendo datos del usuario de telegram
-        $suscriptor = $bot->AgentsController->getSuscriptor($bot, $user_id, true);
-        $reply = [
-            "text" => "🆗 *Rol de usuario modificado*\n\n" . $suscriptor->getTelegramInfo($bot, "full_info") . "\n" . $array["role"] . "\n\n👇 Qué desea hacer ahora?",
-            "markup" => json_encode([
-                "inline_keyboard" => $array["menu"],
-            ]),
-        ];
-
-        return $reply;
-    }
-
-    public function notifyRoleChange($bot, $user_id)
-    {
-        // notificar al usuario modificado de nu nuevo rol
-        $array = [
-            "message" => [
-                "text" => "ℹ️ *Su rol ha sido modificado*\n\n_Le recomendamos volver al /menu para verificar sus nuevas opciones_\n\n👇 Qué desea hacer ahora?",
-                "chat" => [
-                    "id" => $user_id,
-                ],
-                "reply_markup" => json_encode([
-                    "inline_keyboard" => [
-                        [
-                            ["text" => "↖️ Volver al menú principal", "callback_data" => "menu"],
-                        ],
-                    ],
-                ]),
-            ],
-        ];
-        $bot->TelegramController->sendMessage($array, $bot->token);
     }
 }

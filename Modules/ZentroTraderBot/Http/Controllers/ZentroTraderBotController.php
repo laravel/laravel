@@ -19,6 +19,7 @@ class ZentroTraderBotController extends JsonsController
     public $engine;
 
     use UsesTelegramBot;
+    public $AgentsController;
 
     public function __construct($botname, $instance = false)
     {
@@ -26,6 +27,7 @@ class ZentroTraderBotController extends JsonsController
 
         $this->ActorsController = new ActorsController();
         $this->TelegramController = new TelegramController();
+        $this->AgentsController = new AgentsController();
 
         if ($instance === false)
             $instance = $botname;
@@ -78,6 +80,29 @@ class ZentroTraderBotController extends JsonsController
                     str_replace("suscribelevel", "", strtolower($array["command"]))
                 );
                 break;
+
+            case "actionmenu":
+                $reply = $this->actionmenu();
+                break;
+            case "actionlevel1":
+            case "actionlevel2":
+                $reply = $this->actionmenu(
+                    str_replace("actionlevel", "", strtolower($array["command"]))
+                );
+                break;
+
+            case "/users":
+                $reply = $this->mainMenu($this->actor);
+                if (
+                    $this->actor->isLevel(1, $this->telegram["username"]) ||
+                    $this->actor->isLevel(4, $this->telegram["username"])
+                ) {
+                    $reply = $this->AgentsController->findSuscriptors($this, $this->actor);
+                }
+
+                break;
+
+
             case "clienturl":
                 $uri = str_replace("telegram/bot/ZentroTraderBot", "tradingview/client/{$this->actor->user_id}", request()->fullUrl());
                 $reply["text"] = "🌎 Your client URL is as follows:\n{$uri}\n\n👆 This is the address you should use in TradingView to notify the bot that you want to work with a custom strategy alert.";
@@ -270,14 +295,20 @@ class ZentroTraderBotController extends JsonsController
         return $reply;
     }
 
-    public function actionmenu($suscriptor)
+    public function actionmenu($action = -1)
     {
+        if ($action > -1) {
+            $item = Metadatas::where('name', '=', 'app_zentrotraderbot_tradingview_alert_action_level')->first();
+            $item->value = $action;
+            $item->save();
+        }
+
         /*
-        Acciones a realizar al recibir alerta desde TradingView [1: alertar en canal, 2: alertar y ejecutar ordenes en CEX]
+        Acciones a realizar al recibir alerta desde TradingView [1: alertar en canal, 2: alertar y ejecutar ordenes en DEX]
          */
         $action_settings_menu = [];
         $option = "";
-        switch (config('metadata.system.app.tradingview.alert.action.level')) {
+        switch (config('metadata.system.app.zentrotraderbot.tradingview.alert.action.level')) {
             case 1:
                 $option = "NOTIFICATIONS";
                 array_push($action_settings_menu, ["text" => '💵 Execute orders', "callback_data" => 'actionlevel2']);
