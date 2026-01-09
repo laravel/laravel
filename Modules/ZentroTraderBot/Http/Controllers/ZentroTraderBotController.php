@@ -112,7 +112,7 @@ class ZentroTraderBotController extends JsonsController
                     $this->actor->isLevel(1, $this->telegram["username"]) ||
                     $this->actor->isLevel(4, $this->telegram["username"])
                 ) {
-                    $reply = $this->AgentsController->findSuscriptor($this, $array["message"]);
+                    $reply = $this->AgentsController->findSuscriptor($this, $array["pieces"][1]);
                 }
 
                 break;
