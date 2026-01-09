@@ -200,7 +200,7 @@ $jobClass::dispatchSync($request->all(), auth()->id());
                     }
                     break;
                 case "buscar":
-                    $reply = $this->PaymentsController->getSearchPrompt($this, "getpaymentbyvalue", $this->getBackOptions($this->actor, "✋ Cancelar"));
+                    $reply = $this->PaymentsController->getSearchPrompt($this, "getpaymentbyvalue", $this->actor->getBackOptions("✋ Cancelar", [1, 4]));
                     break;
                 case "/findbyid":
                     $reply = $this->PaymentsController->renderPaymentsByField(
@@ -213,7 +213,7 @@ $jobClass::dispatchSync($request->all(), auth()->id());
                     break;
 
                 case "promptpaymentdaysold":
-                    $reply = $this->PaymentsController->getDaysPrompt($this, "getpaymentbydaysold", $this->getBackOptions($this->actor, "✋ Cancelar"));
+                    $reply = $this->PaymentsController->getDaysPrompt($this, "getpaymentbydaysold", $this->actor->getBackOptions("✋ Cancelar", [1, 4]));
                     break;
 
                 case "sendannouncement":
@@ -307,7 +307,7 @@ $jobClass::dispatchSync($request->all(), auth()->id());
                     break;
 
                 case "/usermetadata":
-                    $reply = $this->ActorsController->getApplyMetadataPrompt($this, "promptusermetadata-" . $array["message"], $this->getBackOptions($this->actor, "✋ Cancelar"));
+                    $reply = $this->ActorsController->getApplyMetadataPrompt($this, "promptusermetadata-" . $array["message"], $this->actor->getBackOptions("✋ Cancelar", [1, 4]));
                     break;
 
                 case "/suscribe":
@@ -1523,16 +1523,6 @@ $jobClass::dispatchSync($request->all(), auth()->id());
         ];
 
         return $reply;
-    }
-
-    public function getBackOptions($actor, $text)
-    {
-        $backoption = ["text" => $text, "callback_data" => "menu"];
-        if ($actor->isLevel(1, $this->telegram["username"]) || $actor->isLevel(4, $this->telegram["username"])) {
-            $backoption = ["text" => $text, "callback_data" => "adminmenu"];
-        }
-
-        return $backoption;
     }
 
     public function configMenu($actor)

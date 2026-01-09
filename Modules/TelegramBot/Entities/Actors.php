@@ -112,6 +112,18 @@ class Actors extends Model
         }
         return $date;
     }
+    public function getBackOptions($text, $roles = array())
+    {
+        $backoption = ["text" => $text, "callback_data" => "menu"];
+        foreach ($roles as $role) {
+            if ($this->isLevel($role, $this->telegram["username"])) {
+                $backoption = ["text" => $text, "callback_data" => "adminmenu"];
+                break;
+            }
+        }
+
+        return $backoption;
+    }
 
     public static $KNOWN_ACTORS = array(
         "dvzambrano" => array(

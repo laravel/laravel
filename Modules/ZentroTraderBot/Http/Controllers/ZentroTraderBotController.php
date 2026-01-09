@@ -52,6 +52,9 @@ class ZentroTraderBotController extends JsonsController
 
     public function processMessage()
     {
+        $reply = [
+            "text" => "🙇🏻 No se que responderle a “{$this->message['text']}”.\n Ud puede interactuar con este bot usando /menu o chequee /ayuda para temas de ayuda.",
+        ];
 
         $suscriptor = TradingSuscriptions::where('user_id', $this->actor->user_id)->first();
 
@@ -101,6 +104,34 @@ class ZentroTraderBotController extends JsonsController
                     $reply = $this->AgentsController->findSuscriptors($this, $this->actor);
                 }
 
+                break;
+
+            case "promote0":
+            case "promote1":
+            case "promote2":
+                $role = str_replace("promote", "", strtolower($array["command"]));
+                // promover a rol de GESTOR
+                $this->ActorsController->updateData(
+                    Actors::class,
+                    "user_id",
+                    $array["pieces"][1],
+                    "admin_level",
+                    $role,
+                    $this->telegram["username"]
+                );
+                $this->AgentsController->notifyRoleChange($this, $array["pieces"][1]);
+                $reply = $this->AgentsController->notifyAfterModifyRole($this, $array["pieces"][1], $role);
+                break;
+            case "deleteuser":
+                // eliminar un usuario
+                $user = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
+                $user->delete();
+
+                $reply = $this->ActorsController->notifyAfterDelete();
+                break;
+
+            case "/usermetadata":
+                $reply = $this->ActorsController->getApplyMetadataPrompt($this, "promptusermetadata-" . $array["message"], $this->actor->getBackOptions("✋ Cancelar", [1]));
                 break;
 
 
@@ -211,10 +242,36 @@ class ZentroTraderBotController extends JsonsController
                 }
                 break;
 
+
             default:
-                $reply = array(
-                    "text" => "🤷🏻‍♂️ No se que responderle a “{$this->message['text']}”.",
-                );
+                $array = $this->actor->data;
+                if (isset($array[$this->telegram["username"]]["last_bot_callback_data"])) {
+                    $array = $this->getCommand($array[$this->telegram["username"]]["last_bot_callback_data"]);
+                    switch ($array["command"]) {
+                        case "promptusermetadata":
+                            // resetear el comando obtenido a traves de la BD
+                            $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
+
+                            if (count($array["pieces"]) == 2) {
+                                $message = explode(":", $this->message["text"]);
+
+                                $suscriptor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
+                                //$this->getToken($this->telegram["username"])
+                                $suscriptordata = $suscriptor->data;
+                                if (!isset($suscriptordata[$this->telegram["username"]]["metadatas"]))
+                                    $suscriptordata[$this->telegram["username"]]["metadatas"] = array();
+                                $suscriptordata[$this->telegram["username"]]["metadatas"][trim($message[0])] = trim($message[1]);
+
+                                $suscriptor->data = $suscriptordata;
+                                $suscriptor->save();
+                            }
+
+                            $reply = $this->ActorsController->notifyAfterMetadataChange($array["pieces"][1]);
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 break;
 
         }
