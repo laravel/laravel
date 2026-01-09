@@ -112,11 +112,11 @@ class Actors extends Model
         }
         return $date;
     }
-    public function getBackOptions($text, $roles = array())
+    public function getBackOptions($text, $bot, $roles = array())
     {
         $backoption = ["text" => $text, "callback_data" => "menu"];
         foreach ($roles as $role) {
-            if ($this->isLevel($role, $this->telegram["username"])) {
+            if ($this->isLevel($role, $bot)) {
                 $backoption = ["text" => $text, "callback_data" => "adminmenu"];
                 break;
             }

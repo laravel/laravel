@@ -131,7 +131,7 @@ class ZentroTraderBotController extends JsonsController
                 break;
 
             case "/usermetadata":
-                $reply = $this->ActorsController->getApplyMetadataPrompt($this, "promptusermetadata-" . $array["message"], $this->actor->getBackOptions("✋ Cancelar", [1]));
+                $reply = $this->ActorsController->getApplyMetadataPrompt($this, "promptusermetadata-" . $array["message"], $this->actor->getBackOptions("✋ Cancelar", $this->telegram["username"], [1]));
                 break;
 
 

@@ -200,7 +200,7 @@ $jobClass::dispatchSync($request->all(), auth()->id());
                     }
                     break;
                 case "buscar":
-                    $reply = $this->PaymentsController->getSearchPrompt($this, "getpaymentbyvalue", $this->actor->getBackOptions("✋ Cancelar", [1, 4]));
+                    $reply = $this->PaymentsController->getSearchPrompt($this, "getpaymentbyvalue", $this->actor->getBackOptions("✋ Cancelar", $this->telegram["username"], [1, 4]));
                     break;
                 case "/findbyid":
                     $reply = $this->PaymentsController->renderPaymentsByField(
@@ -213,7 +213,7 @@ $jobClass::dispatchSync($request->all(), auth()->id());
                     break;
 
                 case "promptpaymentdaysold":
-                    $reply = $this->PaymentsController->getDaysPrompt($this, "getpaymentbydaysold", $this->actor->getBackOptions("✋ Cancelar", [1, 4]));
+                    $reply = $this->PaymentsController->getDaysPrompt($this, "getpaymentbydaysold", $this->actor->getBackOptions("✋ Cancelar", $this->telegram["username"], [1, 4]));
                     break;
 
                 case "sendannouncement":
@@ -307,7 +307,7 @@ $jobClass::dispatchSync($request->all(), auth()->id());
                     break;
 
                 case "/usermetadata":
-                    $reply = $this->ActorsController->getApplyMetadataPrompt($this, "promptusermetadata-" . $array["message"], $this->actor->getBackOptions("✋ Cancelar", [1, 4]));
+                    $reply = $this->ActorsController->getApplyMetadataPrompt($this, "promptusermetadata-" . $array["message"], $this->actor->getBackOptions("✋ Cancelar", $this->telegram["username"], [1, 4]));
                     break;
 
                 case "/suscribe":
