@@ -140,7 +140,7 @@ trait UsesTelegramBot
         if (stripos($text, "/") === 0) {
             unset($array[0]);
             $message = "";
-            if (count($array) > 1) {
+            if (count($array) > 0) {
                 $message = implode(" ", $array);
             }
         } else {

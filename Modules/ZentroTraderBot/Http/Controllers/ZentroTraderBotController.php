@@ -60,7 +60,7 @@ class ZentroTraderBotController extends JsonsController
 
         $array = $this->getCommand($this->message["text"]);
         //var_dump($array);
-        //die;
+        //die("\n");
         //echo strtolower($array["command"]);
         switch (strtolower($array["command"])) {
             case "/start":
@@ -113,7 +113,6 @@ class ZentroTraderBotController extends JsonsController
                     $this->actor->isLevel(4, $this->telegram["username"])
                 ) {
                     $reply = $this->AgentsController->findSuscriptor($this, $array["message"]);
-                    //$reply = $this->AgentsController->findSuscriptor($this, $array["pieces"][1]);
                 }
 
                 break;
