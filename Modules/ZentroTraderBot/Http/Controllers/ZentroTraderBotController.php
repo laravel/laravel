@@ -301,7 +301,9 @@ class ZentroTraderBotController extends JsonsController
         if (!isset($suscriptor->data["wallet"])) {
             // crear el suscriptor para poderle generar wallet
             $actor = Actors::where('user_id', $this->actor->user_id)->first();
-            $suscriptor = new TradingSuscriptions($actor->toArray());
+            $suscriptor = TradingSuscriptions::where('user_id', $this->actor->user_id)->first();
+            if (!$suscriptor)
+                $suscriptor = new TradingSuscriptions($actor->toArray());
             $suscriptor->data = array();
             $suscriptor->save();
 
@@ -316,10 +318,14 @@ class ZentroTraderBotController extends JsonsController
                 $suscriptor->data = $array;
                 $suscriptor->save();
             }
+
+            $array = $this->AgentsController->getRoleMenu($actor->user_id, 0);
+            array_push($array["menu"], [["text" => "❌ Eliminar", "callback_data" => "confirmation|deleteuser-{$actor->user_id}|menu"]]);
+            $this->notifyUserWithNoRole($actor->user_id, $array);
         } else
             $wallet = $suscriptor->data["wallet"];
 
-        if ($suscriptor->data["admin_level"] > 1) {
+        if (isset($suscriptor->data["admin_level"]) && $suscriptor->data["admin_level"] > 1) {
             array_push($mainmenu, ["text" => '👮‍♂️ Admin', "callback_data" => 'adminmenu']);
         }
 

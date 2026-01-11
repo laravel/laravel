@@ -36,11 +36,25 @@ use Modules\GutoTradeBot\Jobs\CheckEmails;
 use Illuminate\Support\Facades\Storage;
 use Modules\ZentroTraderBot\Http\Controllers\WalletController;
 use Modules\ZentroTraderBot\Entities\TradingSuscriptions;
+use Modules\ZentroTraderBot\Http\Controllers\ZentroTraderBotController;
 
 class TestController extends Controller
 {
     public function test(Request $request)
     {
+
+        $bot = new ZentroTraderBotController("ZentroTraderBot");
+        $admins = $bot->ActorsController->getData(Actors::class, [
+            [
+                "contain" => true,
+                "name" => "admin_level",
+                "value" => [1],
+            ],
+        ], $bot->telegram["username"]);
+        dd($admins->toArray());
+        die("\n");
+
+
         $suscriptor = TradingSuscriptions::where('user_id', "816767995")->first();
         dd($suscriptor->data);
         die;
