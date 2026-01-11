@@ -292,9 +292,9 @@ class ZentroTraderBotController extends JsonsController
 
     public function mainmenu($suscriptor)
     {
-        $mainmenu = array();
-
-        array_push($mainmenu, ["text" => '🔔 Subscribtion', "callback_data" => 'suscribemenu']);
+        $menu = array(
+            ["text" => '🔔 Subscribtion', "callback_data" => 'suscribemenu']
+        );
 
         $wallet = array();
         // si el usuario no tiene wallet es recien suscrito y hay q completar su estructura
@@ -324,28 +324,15 @@ class ZentroTraderBotController extends JsonsController
             $this->notifyUserWithNoRole($actor->user_id, $array);
         } else
             $wallet = $suscriptor->data["wallet"];
-
-        if (isset($suscriptor->data["admin_level"]) && $suscriptor->data["admin_level"] > 1) {
-            array_push($mainmenu, ["text" => '👮‍♂️ Admin', "callback_data" => 'adminmenu']);
-        }
-
-        $text = "👋 Hola, bienvenido";
-        if (isset($this->message["from"]["username"]) && $this->message["from"]["username"] != "")
-            $text .= " `" . $this->message["from"]["username"] . "`";
-        else
-            $text .= " `" . $this->actor->user_id . "`";
+        $description = "";
         if (isset($wallet["address"]))
-            $text .= "\n\n🫆 *Esta es tu wallet personal* en este bot: `" . $wallet["address"] . "`";
-        $text .= "\n👇 Que desea hacer ahora?";
+            $description = "🫆 *Esta es tu wallet personal* en este bot: `" . $wallet["address"] . "`\n\n";
 
-        $reply["text"] = $text;
-        $reply["markup"] = json_encode([
-            'inline_keyboard' => [
-                $mainmenu,
-            ],
-        ]);
-
-        return $reply;
+        return $this->getMainMenu(
+            $suscriptor,
+            $menu,
+            $description
+        );
     }
 
     public function adminmenu()

@@ -1399,24 +1399,7 @@ $jobClass::dispatchSync($request->all(), auth()->id());
 
     public function mainMenu($actor)
     {
-        $reply = [];
-
-        $text = "👋 *Bienvenido al " . $this->telegram["username"] . "*!\n" .
-            "_Este bot esta diseñado para gestionar los pagos recibidos_.\n\n";
-        if (isset($actor->data[$this->telegram["username"]]["parent_id"]) && $actor->data[$this->telegram["username"]]["parent_id"] > 0) {
-            $parent = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $actor->data[$this->telegram["username"]]["parent_id"]);
-            if ($parent && $parent->id > 0 && $parent->data) {
-                if (isset($parent->data[$this->telegram["username"]]["config_allow_referals_to_myreferals"])) {
-                    $text .= "_Si otras personas trabajan para ud puede entregarle su enlace de referido:_\n`https://t.me/" . $this->telegram["username"] . "?start={$actor->user_id}`\n\n";
-                }
-            }
-        } else {
-            $text .= "_Si otras personas trabajan para ud puede entregarle su enlace de referido:_\n`https://t.me/" . $this->telegram["username"] . "?start={$actor->user_id}`\n\n";
-        }
-
-        $menu = [];
-
-        $this->ActorsController->updateData(Actors::class, "user_id", $actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
+        $menu = array();
 
         // admin_level = 1 Admnistrador, 2 Remesador, 3 Receptor, 4 Admin de capital
         switch ($actor->data[$this->telegram["username"]]["admin_level"]) {
@@ -1426,7 +1409,7 @@ $jobClass::dispatchSync($request->all(), auth()->id());
                 array_push($array["menu"], [["text" => "❌ Eliminar", "callback_data" => "confirmation|deleteuser-{$actor->user_id}|menu"]]);
                 $this->notifyUserWithNoRole($actor->user_id, $array);
 
-                $text .= "🤔 *Por alguna razón ud aun no tiene rol asignado. Le hemos enviado notficación a los administradores para que lo corrijan*.\n\n";
+                //$text .= "🤔 *Por alguna razón ud aun no tiene rol asignado. Le hemos enviado notficación a los administradores para que lo corrijan*.\n\n";
                 break;
             case "1":
             case 1:
@@ -1463,21 +1446,12 @@ $jobClass::dispatchSync($request->all(), auth()->id());
                 break;
         }
 
-        $text .= "👇 En qué le puedo ayudar hoy?";
-
-        array_push($menu, [
-            ["text" => "⚙️ Configuración", "callback_data" => "configmenu"],
-            ["text" => "🆘 Ayuda", "callback_data" => "help"],
-        ]);
-
-        $reply = [
-            "text" => $text,
-            "markup" => json_encode([
-                "inline_keyboard" => $menu,
-            ]),
-        ];
-
-        return $reply;
+        return $this->getMainMenu(
+            $actor,
+            $menu,
+            "_Este bot esta diseñado para gestionar los pagos recibidos_.\n\n",
+            true
+        );
     }
 
     public function adminMenu($actor)

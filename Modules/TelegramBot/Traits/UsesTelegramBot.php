@@ -166,6 +166,50 @@ trait UsesTelegramBot
         return $response;
     }
 
+    public function getMainMenu($actor, $menu = false, $description = false, $referral = false)
+    {
+        $reply = [];
+
+        $text = "👋 *Bienvenido al " . $this->telegram["username"] . "*!\n" .
+            $description;
+        if ($referral) {
+            if (isset($actor->data[$this->telegram["username"]]["parent_id"]) && $actor->data[$this->telegram["username"]]["parent_id"] > 0) {
+                $parent = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $actor->data[$this->telegram["username"]]["parent_id"]);
+                if ($parent && $parent->id > 0 && $parent->data) {
+                    if (isset($parent->data[$this->telegram["username"]]["config_allow_referals_to_myreferals"])) {
+                        $text .= "_Enlace de referido:_\n`https://t.me/" . $this->telegram["username"] . "?start={$actor->user_id}`\n\n";
+                    }
+                }
+            } else {
+                $text .= "_Enlace de referido:_\n`https://t.me/" . $this->telegram["username"] . "?start={$actor->user_id}`\n\n";
+            }
+        }
+        $text .= "👇 En qué le puedo ayudar hoy?";
+
+        $this->ActorsController->updateData(Actors::class, "user_id", $actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
+
+        if (!$menu)
+            $menu = [];
+
+        if (isset($actor->data["admin_level"]) && $actor->data["admin_level"] == 1) {
+            array_push($menu, ["text" => '👮‍♂️ Admin', "callback_data" => 'adminmenu']);
+        }
+
+        array_push($menu, [
+            ["text" => "⚙️ Configuración", "callback_data" => "configmenu"],
+            ["text" => "🆘 Ayuda", "callback_data" => "help"],
+        ]);
+
+        $reply = [
+            "text" => $text,
+            "markup" => json_encode([
+                "inline_keyboard" => $menu,
+            ]),
+        ];
+
+        return $reply;
+    }
+
     public function getAreYouSurePrompt($yes_method, $no_method, $message = false)
     {
         $text = "⚠️ *Solicitud de confirmación*\n";
