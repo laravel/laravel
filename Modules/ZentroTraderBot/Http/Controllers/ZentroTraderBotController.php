@@ -327,7 +327,7 @@ class ZentroTraderBotController extends JsonsController
             $wallet = $suscriptor->data["wallet"];
         $description = "";
         if (isset($wallet["address"]))
-            $description = "🫆 *Esta es tu wallet personal* en este bot: `" . $wallet["address"] . "`\n\n";
+            $description = "    _Esta es tu wallet personal en este bot:_\n🫆 `" . $wallet["address"] . "`\n\n";
 
         return $this->getMainMenu(
             $suscriptor,
