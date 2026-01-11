@@ -203,7 +203,7 @@ trait UsesTelegramBot
         $reply = [
             "text" => $text,
             "markup" => json_encode([
-                //"inline_keyboard" => $menu,
+                "inline_keyboard" => $menu,
             ]),
         ];
 
