@@ -67,10 +67,10 @@ class ZentroTraderBotController extends JsonsController
             case "start":
             case "/menu":
             case "menu":
-                $reply = $this->mainmenu($suscriptor);
+                $reply = $this->mainMenu($suscriptor);
                 break;
-            case "adminmenu":
-                $reply = $this->adminmenu();
+            case "adminMenu":
+                $reply = $this->adminMenu();
                 break;
             case "suscribemenu":
                 $reply = $this->suscribemenu($suscriptor);
@@ -290,7 +290,7 @@ class ZentroTraderBotController extends JsonsController
         return $reply;
     }
 
-    public function mainmenu($suscriptor)
+    public function mainMenu($suscriptor)
     {
         $menu = [];
         array_push($menu, [
@@ -336,7 +336,7 @@ class ZentroTraderBotController extends JsonsController
         );
     }
 
-    public function adminmenu()
+    public function adminMenu()
     {
         $reply = array(
             "text" => "👮‍♂️ *Admin menu*!\nHere you can adjust everything:",

@@ -4,7 +4,7 @@ namespace Modules\TelegramBot\Traits;
 
 use Illuminate\Support\Facades\Log;
 use Modules\TelegramBot\Entities\Actors;
-
+use Illuminate\Support\Facades\Lang;
 
 trait UsesTelegramBot
 {
@@ -170,21 +170,20 @@ trait UsesTelegramBot
     {
         $reply = [];
 
-        $text = "👋 *Bienvenido al " . $this->telegram["username"] . "*!\n" .
-            $description;
+        $text = "👋 *" . Lang::get("telegrambot::bot.mainmenu.salutation", ["bot_name" => $this->telegram["username"]]) . "*!\n" . $description;
         if ($referral) {
             if (isset($actor->data[$this->telegram["username"]]["parent_id"]) && $actor->data[$this->telegram["username"]]["parent_id"] > 0) {
                 $parent = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $actor->data[$this->telegram["username"]]["parent_id"]);
                 if ($parent && $parent->id > 0 && $parent->data) {
                     if (isset($parent->data[$this->telegram["username"]]["config_allow_referals_to_myreferals"])) {
-                        $text .= "_Enlace de referido:_\n`https://t.me/" . $this->telegram["username"] . "?start={$actor->user_id}`\n\n";
+                        $text .= "_" . Lang::get("telegrambot::bot.mainmenu.referral") . ":_\n`https://t.me/" . $this->telegram["username"] . "?start={$actor->user_id}`\n\n";
                     }
                 }
             } else {
-                $text .= "_Enlace de referido:_\n`https://t.me/" . $this->telegram["username"] . "?start={$actor->user_id}`\n\n";
+                $text .= "_" . Lang::get("telegrambot::bot.mainmenu.referral") . ":_\n`https://t.me/" . $this->telegram["username"] . "?start={$actor->user_id}`\n\n";
             }
         }
-        $text .= "👇 En qué le puedo ayudar hoy?";
+        $text .= "👇 " . Lang::get("telegrambot::bot.mainmenu.question");
 
         $this->ActorsController->updateData(Actors::class, "user_id", $actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
 
@@ -192,12 +191,12 @@ trait UsesTelegramBot
             $menu = [];
 
         if (isset($actor->data["admin_level"]) && $actor->data["admin_level"] == 1) {
-            array_push($menu, ["text" => '👮‍♂️ Admin', "callback_data" => 'adminmenu']);
+            array_push($menu, ["text" => "👮‍♂️ " . Lang::get("telegrambot::bot.role.admin"), "callback_data" => 'adminmenu']);
         }
 
         array_push($menu, [
-            ["text" => "⚙️ Configuración", "callback_data" => "configmenu"],
-            ["text" => "🆘 Ayuda", "callback_data" => "help"],
+            ["text" => "⚙️ " . Lang::get("telegrambot::bot.options.config"), "callback_data" => "configmenu"],
+            ["text" => "🆘 " . Lang::get("telegrambot::bot.options.help"), , "callback_data" => "help"],
         ]);
 
         $reply = [
@@ -212,19 +211,19 @@ trait UsesTelegramBot
 
     public function getAreYouSurePrompt($yes_method, $no_method, $message = false)
     {
-        $text = "⚠️ *Solicitud de confirmación*\n";
+        $text = "⚠️ *" . Lang::get("telegrambot::bot.prompts.areyousure.header") . "*\n";
         if ($message)
             $text .= "\n{$message}\n";
-        $text .= "_CUIDADO: Esta acción no se puede revertir_\n\n" .
-            "👇 ¿Está seguro que desea continuar?";
+        $text .= "_" . Lang::get("telegrambot::bot.prompts.areyousure.warning") . "_\n\n" .
+            "👇 " . Lang::get("telegrambot::bot.prompts.areyousure.text");
 
         return array(
             "text" => $text,
             "markup" => json_encode([
                 "inline_keyboard" => [
                     [
-                        ["text" => "👍 Si", "callback_data" => "{$yes_method}"],
-                        ["text" => "❌ No", "callback_data" => "{$no_method}"],
+                        ["text" => "👍 " . Lang::get("telegrambot::bot.options.yes"), "callback_data" => "{$yes_method}"],
+                        ["text" => "❌ " . Lang::get("telegrambot::bot.options.no"), "callback_data" => "{$no_method}"],
                     ],
                 ],
             ]),
@@ -257,14 +256,14 @@ trait UsesTelegramBot
     public function notifyNotImplemented($user_id)
     {
         return array(
-            "text" => "ℹ️ *Función no implementada*\n\n_Esta función aun no está lista. Estamos trabajando en ella para sacarla en los próximos días._\n\n👇 Qué desea hacer ahora?",
+            "text" => "ℹ️ *" . Lang::get("telegrambot::bot.prompts.notimplemented.header") . "*\n\n_" . Lang::get("telegrambot::bot.prompts.notimplemented.warning") . "_\n\n👇 " . Lang::get("telegrambot::bot.prompts.whatsnext"),
             "chat" => array(
                 "id" => $user_id,
             ),
             "markup" => json_encode([
                 "inline_keyboard" => [
                     [
-                        ["text" => "↖️ Volver al menú principal", "callback_data" => "menu"],
+                        ["text" => "↖️ " . Lang::get("telegrambot::bot.options.backtomainmenu"), "callback_data" => "menu"],
                     ],
 
                 ],
@@ -286,17 +285,17 @@ trait UsesTelegramBot
         ], $this->telegram["username"]);
 
         array_push($array, [
-            ["text" => "↖️ Volver al menú principal", "callback_data" => "menu"],
+            ["text" => "↖️ " . Lang::get("telegrambot::bot.options.backtomainmenu"), "callback_data" => "menu"],
         ]);
 
         for ($i = 0; $i < count($admins); $i++) {
-            $text = "🆕 *Nuevo usuario suscrito al bot*\n\n" . $actor->getTelegramInfo($this, "full_info") . "\n\n";
+            $text = "🆕 *" . Lang::get("telegrambot::bot.prompts.userwithnorole.header") . "*\n\n" . $actor->getTelegramInfo($this, "full_info") . "\n\n";
             if ($actor && $actor->id > 0 && isset($actor->data[$this->telegram["username"]]["parent_id"]) && $actor->data[$this->telegram["username"]]["parent_id"] > 0) {
                 // obteniendo datos del usuario padre en telegram
                 $parent = $this->AgentsController->getSuscriptor($this, $actor->data[$this->telegram["username"]]["parent_id"], true);
-                $text .= "🫡 Invitado por:\n" . $parent->getTelegramInfo($this, "full_info") . "\n\n";
+                $text .= "🫡 " . Lang::get("telegrambot::bot.prompts.userwithnorole.warning") . ":\n" . $parent->getTelegramInfo($this, "full_info") . "\n\n";
             }
-            $text .= "👇 Qué desea hacer ahora?";
+            $text .= "👇 " . Lang::get("telegrambot::bot.prompts.whatsnext");
 
             $array = array(
                 "message" => array(
@@ -315,12 +314,12 @@ trait UsesTelegramBot
 
     public function notifyUsernameRequired($user_id)
     {
-        $text = "ℹ️ *Para usar este bot, por favor configura un nombre de usuario (@username) en tu cuenta de Telegram*\n\n" .
-            "🤔 *¿Cómo configurarlo?*\n\n" .
-            "1️⃣ Ve a Configuración (o Ajustes).\n" .
-            "2️⃣ Selecciona tu perfil y busca la opción Nombre de usuario.\n" .
-            "3️⃣ Elige un nombre único que comience con @.\n\n" .
-            "Una vez que hayas configurado tu nombre de usuario, haz clic en el siguiente botón:";
+        $text = "ℹ️ *" . Lang::get("telegrambot::bot.prompts.usernamerequired.line1") . "*\n\n" .
+            "🤔 *" . Lang::get("telegrambot::bot.prompts.usernamerequired.line2") . "*\n\n" .
+            "1️⃣ " . Lang::get("telegrambot::bot.prompts.usernamerequired.line3") . ".\n" .
+            "2️⃣ " . Lang::get("telegrambot::bot.prompts.usernamerequired.line4") . ".\n" .
+            "3️⃣ " . Lang::get("telegrambot::bot.prompts.usernamerequired.line5") . ".\n\n" .
+            Lang::get("telegrambot::bot.prompts.usernamerequired.line6") . ":";
         return array(
             "text" => $text,
             "chat" => array(
@@ -329,9 +328,8 @@ trait UsesTelegramBot
             "markup" => json_encode([
                 "inline_keyboard" => [
                     [
-                        ["text" => "👍 Listo, ya lo he hecho!", "callback_data" => "menu"],
+                        ["text" => "👍 " . Lang::get("telegrambot::bot.prompts.usernamerequired.done"), "callback_data" => "menu"],
                     ],
-
                 ],
             ]),
         );
