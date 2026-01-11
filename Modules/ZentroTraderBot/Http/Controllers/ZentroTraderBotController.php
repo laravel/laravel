@@ -292,9 +292,10 @@ class ZentroTraderBotController extends JsonsController
 
     public function mainmenu($suscriptor)
     {
-        $menu = array(
+        $menu = [];
+        array_push($menu, [
             ["text" => '🔔 Subscribtion', "callback_data" => 'suscribemenu']
-        );
+        ]);
 
         $wallet = array();
         // si el usuario no tiene wallet es recien suscrito y hay q completar su estructura
@@ -330,7 +331,7 @@ class ZentroTraderBotController extends JsonsController
 
         return $this->getMainMenu(
             $suscriptor,
-            false,
+            $menu,
             $description
         );
     }
