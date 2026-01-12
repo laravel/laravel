@@ -412,28 +412,55 @@ class ZentroTraderBotController extends JsonsController
         switch ($suscriptor->data["suscription_level"]) {
             case 1:
             case "1":
-                array_push($suscription_settings_menu, ["text" => "🅰️ Level", "callback_data" => "suscribelevel0"]);
-                array_push($suscription_settings_menu, ["text" => "🆎 Level", "callback_data" => "suscribelevel2"]);
-                $extrainfo = "🌎 _You are a level 🅱️ subscriber; therefore, you can use the “Client URL button” to get your TradingView alerts link._\n\n";
+                array_push($suscription_settings_menu, [
+                    "text" => Lang::get("zentrotraderbot::bot.options.subscribtionlevel", ["icon" => "🅰️", "char" => "A"]),
+                    "callback_data" => "suscribelevel0"
+                ]);
+                array_push($suscription_settings_menu, [
+                    "text" => Lang::get("zentrotraderbot::bot.options.subscribtionlevel", ["icon" => "🆎", "char" => "AB"]),
+                    "callback_data" => "suscribelevel2"
+                ]);
+                $extrainfo = "🌎 _" . Lang::get("zentrotraderbot::bot.subscribtionmenu.line6", ["level" => "🅱️"]) . "; " .
+                    Lang::get("zentrotraderbot::bot.subscribtionmenu.therefore") . "._\n\n";
                 break;
             case 2:
             case "2":
-                array_push($suscription_settings_menu, ["text" => "🅰️ Level", "callback_data" => "suscribelevel0"]);
-                array_push($suscription_settings_menu, ["text" => "🅱️ Level", "callback_data" => "suscribelevel1"]);
-                $extrainfo = "🌎 _You are a level 🆎 subscriber; therefore, you can use the “Client URL button” to get your TradingView alerts link._\n\n";
+                array_push($suscription_settings_menu, [
+                    "text" => Lang::get("zentrotraderbot::bot.options.subscribtionlevel", ["icon" => "🅰️", "char" => "A"]),
+                    "callback_data" => "suscribelevel0"
+                ]);
+                array_push($suscription_settings_menu, [
+                    "text" => Lang::get("zentrotraderbot::bot.options.subscribtionlevel", ["icon" => "🅱️", "char" => "B"]),
+                    "callback_data" => "suscribelevel1"
+                ]);
+                $extrainfo = "🌎 _" . Lang::get("zentrotraderbot::bot.subscribtionmenu.line6", ["level" => "🆎"]) . "; " .
+                    Lang::get("zentrotraderbot::bot.subscribtionmenu.therefore") . "._\n\n";
                 break;
 
             default:
-                array_push($suscription_settings_menu, ["text" => "🅱️ Level", "callback_data" => "suscribelevel1"]);
-                array_push($suscription_settings_menu, ["text" => "🆎 Level", "callback_data" => "suscribelevel2"]);
-                $extrainfo = "🌎 _You are a level 🅰️ subscriber._\n\n";
+                array_push($suscription_settings_menu, [
+                    "text" => Lang::get("zentrotraderbot::bot.options.subscribtionlevel", ["icon" => "🅱️", "char" => "B"]),
+                    "callback_data" => "suscribelevel1"
+                ]);
+                array_push($suscription_settings_menu, [
+                    "text" => Lang::get("zentrotraderbot::bot.options.subscribtionlevel", ["icon" => "🆎", "char" => "AB"]),
+                    "callback_data" => "suscribelevel2"
+                ]);
+                $extrainfo = "🌎 _" . Lang::get("zentrotraderbot::bot.subscribtionmenu.line6", ["level" => "🅰️"]) . "._\n\n";
                 break;
         }
         $reply = array(
-            "text" => "🔔 *Subscribtions menu*\nHere you can adjust your preferences:\n\n_🧩 Using the “Level” button, you can switch between 3 levels:\n🅰️ you will only receive signals from the community.\n🅱️ you will only receive your personal alerts.\n🆎 you will receive both community alerts and your personal ones._\n\n{$extrainfo}👇 Choose one of the following options:",
+            "text" => "🔔 *" . Lang::get("zentrotraderbot::bot.subscribtionmenu.header") . "*\n" .
+                Lang::get("zentrotraderbot::bot.subscribtionmenu.line1") . ":\n\n" .
+                "🧩 _" . Lang::get("zentrotraderbot::bot.subscribtionmenu.line2") . ":_\n" .
+                "🅰️ _" . Lang::get("zentrotraderbot::bot.subscribtionmenu.line3") . "._\n" .
+                "🅱️ _" . Lang::get("zentrotraderbot::bot.subscribtionmenu.line4") . "._\n" .
+                "🆎 _" . Lang::get("zentrotraderbot::bot.subscribtionmenu.line5") . "._\n\n" .
+                $extrainfo .
+                "👇 " . Lang::get("telegrambot::bot.prompts.chooseoneoption") . ":",
         );
         if ($suscriptor->data["suscription_level"] > 0) {
-            array_push($suscription_settings_menu, ["text" => "🌎 Client URL", "callback_data" => "clienturl"]);
+            array_push($suscription_settings_menu, ["text" => "🌎 " . Lang::get("zentrotraderbot::bot.options.clienturl"), "callback_data" => "clienturl"]);
         }
 
         $reply["markup"] = json_encode([

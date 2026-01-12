@@ -196,7 +196,7 @@ trait UsesTelegramBot
 
         array_push($menu, [
             ["text" => "⚙️ " . Lang::get("telegrambot::bot.options.config"), "callback_data" => "configmenu"],
-            ["text" => "🆘 " . Lang::get("telegrambot::bot.options.help"), "callback_data" => "configmenu"],
+            ["text" => "🆘 " . Lang::get("telegrambot::bot.options.help"), "callback_data" => "/help"],
         ]);
 
         $reply = [
