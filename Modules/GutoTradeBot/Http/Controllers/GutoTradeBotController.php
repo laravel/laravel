@@ -31,6 +31,8 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Conditional;
 
+use Illuminate\Support\Facades\Lang;
+
 class GutoTradeBotController extends JsonsController
 {
     use UsesTelegramBot;
@@ -200,7 +202,7 @@ $jobClass::dispatchSync($request->all(), auth()->id());
                     }
                     break;
                 case "buscar":
-                    $reply = $this->PaymentsController->getSearchPrompt($this, "getpaymentbyvalue", $this->actor->getBackOptions("✋ Cancelar", $this->telegram["username"], [1, 4]));
+                    $reply = $this->PaymentsController->getSearchPrompt($this, "getpaymentbyvalue", $this->actor->getBackOptions("✋ " . Lang::get("telegrambot::bot.options.cancel"), $this->telegram["username"], [1, 4]));
                     break;
                 case "/findbyid":
                     $reply = $this->PaymentsController->renderPaymentsByField(
@@ -213,7 +215,7 @@ $jobClass::dispatchSync($request->all(), auth()->id());
                     break;
 
                 case "promptpaymentdaysold":
-                    $reply = $this->PaymentsController->getDaysPrompt($this, "getpaymentbydaysold", $this->actor->getBackOptions("✋ Cancelar", $this->telegram["username"], [1, 4]));
+                    $reply = $this->PaymentsController->getDaysPrompt($this, "getpaymentbydaysold", $this->actor->getBackOptions("✋ " . Lang::get("telegrambot::bot.options.cancel"), $this->telegram["username"], [1, 4]));
                     break;
 
                 case "sendannouncement":
@@ -307,7 +309,7 @@ $jobClass::dispatchSync($request->all(), auth()->id());
                     break;
 
                 case "/usermetadata":
-                    $reply = $this->ActorsController->getApplyMetadataPrompt($this, "promptusermetadata-" . $array["message"], $this->actor->getBackOptions("✋ Cancelar", $this->telegram["username"], [1, 4]));
+                    $reply = $this->ActorsController->getApplyMetadataPrompt($this, "promptusermetadata-" . $array["message"], $this->actor->getBackOptions("✋ " . Lang::get("telegrambot::bot.options.cancel"), $this->telegram["username"], [1, 4]));
                     break;
 
                 case "/suscribe":

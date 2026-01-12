@@ -6,6 +6,10 @@ return [
         "referral" => "Enlace de referido",
         "question" => "¿En qué le puedo ayudar hoy?",
     ],
+    "adminmenu" => [
+        "header" => "Menú de administrador",
+        "warning" => "Aquí encontrará herramientas útiles para la gestión integral del bot",
+    ],
     "role" => [
         "admin" => "Admin",
     ],
@@ -14,10 +18,15 @@ return [
         "help" => "Ayuda",
         "yes" => "Sí",
         "no" => "No",
+        "cancel" => "Cancelar",
+        "delete" => "Eliminar",
+        "sendannouncement" => "Anuncio",
+        "viewusers" => "Usuarios suscritos",
         "backtomainmenu" => "Volver al menú principal",
     ],
     "prompts" => [
         "whatsnext" => "¿Qué desea hacer ahora?",
+        "chooseoneoption" => "Escoja una de las siguientes opciones",
         "areyousure" => [
             "header" => "Solicitud de confirmación",
             "warning" => "CUIDADO: Esta acción no se puede revertir",
@@ -41,4 +50,11 @@ return [
             "done" => "Listo, ¡ya lo he hecho!",
         ],
     ],
+    "errors" => [
+        "header" => "Error",
+        "unrecognizedcommand" => [
+            "text" => "No se que responderle a “:text”",
+            "hint" => "Ud puede interactuar con este bot usando /menu o chequee /ayuda para temas de ayuda",
+        ],
+    ]
 ];

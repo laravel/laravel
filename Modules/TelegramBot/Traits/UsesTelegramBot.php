@@ -196,11 +196,37 @@ trait UsesTelegramBot
 
         array_push($menu, [
             ["text" => "⚙️ " . Lang::get("telegrambot::bot.options.config"), "callback_data" => "configmenu"],
-            ["text" => "🆘 " . Lang::get("telegrambot::bot.options.help"), , "callback_data" => "help"],
+            ["text" => "🆘 " . Lang::get("telegrambot::bot.options.help"), "callback_data" => "configmenu"],
         ]);
 
         $reply = [
             "text" => $text,
+            "markup" => json_encode([
+                "inline_keyboard" => $menu,
+            ]),
+        ];
+
+        return $reply;
+    }
+
+    public function getAdminMenu($actor, $menu = false)
+    {
+        $reply = [];
+
+        if (!$menu)
+            $menu = [];
+
+
+        // opciones sobre los suscriptores
+        array_push($menu, [
+            ["text" => "🚨 " . Lang::get("telegrambot::bot.options.sendannouncement"), "callback_data" => "sendannouncement"],
+            ["text" => "🫂 " . Lang::get("telegrambot::bot.options.viewusers"), "callback_data" => "/users"]
+        ]);
+        // regresar al menu anterior
+        array_push($menu, [["text" => "↖️ " . Lang::get("telegrambot::bot.options.backtomainmenu"), "callback_data" => "menu"]]);
+
+        $reply = [
+            "text" => "👮‍♂️ *" . Lang::get("telegrambot::bot.adminmenu.header") . "*!\n_" . Lang::get("telegrambot::bot.adminmenu.warning") . "_\n\n👇 " . Lang::get("telegrambot::bot.prompts.whatsnext"),
             "markup" => json_encode([
                 "inline_keyboard" => $menu,
             ]),

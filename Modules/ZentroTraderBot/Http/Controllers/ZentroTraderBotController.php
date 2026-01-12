@@ -13,6 +13,7 @@ use App\Http\Controllers\JsonsController;
 use Modules\TelegramBot\Traits\UsesTelegramBot;
 use Illuminate\Support\Facades\Log;
 use Modules\TelegramBot\Entities\TelegramBots;
+use Illuminate\Support\Facades\Lang;
 
 class ZentroTraderBotController extends JsonsController
 {
@@ -53,10 +54,11 @@ class ZentroTraderBotController extends JsonsController
     public function processMessage()
     {
         $reply = [
-            "text" => "🙇🏻 No se que responderle a “{$this->message['text']}”.\n Ud puede interactuar con este bot usando /menu o chequee /ayuda para temas de ayuda.",
+            "text" => "🙇🏻 " . Lang::get("telegrambot::bot.errors.unrecognizedcommand.text", ["text" => $this->message["text"]]) .
+                ".\n " . Lang::get("telegrambot::bot.errors.unrecognizedcommand.hint") . ".",
         ];
 
-        $suscriptor = TradingSuscriptions::where('user_id', $this->actor->user_id)->first();
+        $suscriptor = TradingSuscriptions::where("user_id", $this->actor->user_id)->first();
 
         $array = $this->getCommand($this->message["text"]);
         //var_dump($array);
@@ -69,59 +71,50 @@ class ZentroTraderBotController extends JsonsController
             case "menu":
                 $reply = $this->mainMenu($suscriptor);
                 break;
-            case "adminMenu":
-                $reply = $this->adminMenu();
+            case "adminmenu":
+                $reply = $this->mainMenu($this->actor);
+                if ($this->actor->isLevel(1, $this->telegram["username"]))
+                    $reply = $this->adminMenu($suscriptor);
                 break;
             case "suscribemenu":
-                $reply = $this->suscribemenu($suscriptor);
+                $reply = $this->suscribeMenu($suscriptor);
                 break;
             case "suscribelevel0":
             case "suscribelevel1":
             case "suscribelevel2":
-                $reply = $this->suscribemenu(
+                $reply = $this->suscribeMenu(
                     $suscriptor,
                     str_replace("suscribelevel", "", strtolower($array["command"]))
                 );
                 break;
 
             case "actionmenu":
-                $reply = $this->actionmenu();
+                if ($this->actor->isLevel(1, $this->telegram["username"]))
+                    $reply = $this->actionMenu();
                 break;
             case "actionlevel1":
             case "actionlevel2":
-                $reply = $this->actionmenu(
-                    str_replace("actionlevel", "", strtolower($array["command"]))
-                );
+                if ($this->actor->isLevel(1, $this->telegram["username"]))
+                    $reply = $this->actionMenu(
+                        str_replace("actionlevel", "", strtolower($array["command"]))
+                    );
                 break;
 
             case "/users":
             case "getsuscriptors":
-                $reply = $this->mainMenu($this->actor);
-                if (
-                    $this->actor->isLevel(1, $this->telegram["username"]) ||
-                    $this->actor->isLevel(4, $this->telegram["username"])
-                ) {
+                if ($this->actor->isLevel(1, $this->telegram["username"]))
                     $reply = $this->AgentsController->findSuscriptors($this, $this->actor);
-                }
-
                 break;
 
             case "/user":
-                $reply = $this->mainMenu($this->actor);
-                if (
-                    $this->actor->isLevel(1, $this->telegram["username"]) ||
-                    $this->actor->isLevel(4, $this->telegram["username"])
-                ) {
+                if ($this->actor->isLevel(1, $this->telegram["username"]))
                     $reply = $this->AgentsController->findSuscriptor($this, $array["message"]);
-                }
-
                 break;
 
             case "promote0":
             case "promote1":
             case "promote2":
                 $role = str_replace("promote", "", strtolower($array["command"]));
-                // promover a rol de GESTOR
                 $this->ActorsController->updateData(
                     Actors::class,
                     "user_id",
@@ -134,25 +127,35 @@ class ZentroTraderBotController extends JsonsController
                 $reply = $this->AgentsController->notifyAfterModifyRole($this, $array["pieces"][1], $role);
                 break;
             case "deleteuser":
-                // eliminar un usuario
-                $user = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
-                $user->delete();
+                if ($this->actor->isLevel(1, $this->telegram["username"])) {
+                    // eliminar un usuario
+                    $user = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
+                    $user->delete();
 
-                $reply = $this->ActorsController->notifyAfterDelete();
+                    $reply = $this->ActorsController->notifyAfterDelete();
+                }
                 break;
 
             case "/usermetadata":
-                $reply = $this->ActorsController->getApplyMetadataPrompt($this, "promptusermetadata-" . $array["message"], $this->actor->getBackOptions("✋ Cancelar", $this->telegram["username"], [1]));
+                $reply = $this->ActorsController->getApplyMetadataPrompt(
+                    $this,
+                    "promptusermetadata-" . $array["message"],
+                    $this->actor->getBackOptions(
+                        "✋ " . Lang::get("telegrambot::bot.options.cancel"),
+                        $this->telegram["username"],
+                        [1]
+                    )
+                );
                 break;
 
 
             case "clienturl":
                 $uri = str_replace("telegram/bot/ZentroTraderBot", "tradingview/client/{$this->actor->user_id}", request()->fullUrl());
-                $reply["text"] = "🌎 Your client URL is as follows:\n{$uri}\n\n👆 This is the address you should use in TradingView to notify the bot that you want to work with a custom strategy alert.";
+                $reply["text"] = "🌎 " . Lang::get("zentrotraderbot::bot.prompts.clienturl.header") . ":\n{$uri}\n\n👆 " . Lang::get("zentrotraderbot::bot.prompts.clienturl.warning") . ".";
                 $reply["markup"] = json_encode([
-                    'inline_keyboard' => [
+                    "inline_keyboard" => [
                         [
-                            ["text" => '🔙 Return to subscribtions menu', "callback_data" => 'suscribemenu'],
+                            ["text" => "🔙 " . Lang::get("zentrotraderbot::bot.options.backtosuscribemenu"), "callback_data" => "suscribemenu"],
                         ],
                     ],
                 ]);
@@ -190,7 +193,7 @@ class ZentroTraderBotController extends JsonsController
                     true
                 );
                 $reply = array(
-                    "text" => "✅ TX Exitosa: " . $array['explorer'],
+                    "text" => "✅ " . Lang::get("zentrotraderbot::bot.prompts.txsuccess") . ": " . $array["explorer"],
                 );
                 break;
 
@@ -206,7 +209,7 @@ class ZentroTraderBotController extends JsonsController
                         $result = $wc->getBalance($this->actor->user_id);
 
                     $text = "🫆 `" . $result["address"] . "`\n";
-                    foreach ($result["portfolio"] as $network => $values) {
+                    foreach ($result["portfolio"] as $values) {
                         foreach ($values["assets"] as $token => $balance) {
                             $text .= "💰 " . $balance . " *" . $token . "*\n";
                         }
@@ -217,7 +220,7 @@ class ZentroTraderBotController extends JsonsController
                     );
                 } catch (\Exception $e) {
                     $reply = array(
-                        "text" => "❌ Error: " . $e->getMessage(),
+                        "text" => "❌ " . Lang::get("telegrambot::bot.errors.header") . ": " . $e->getMessage(),
                     );
                 }
                 break;
@@ -236,19 +239,19 @@ class ZentroTraderBotController extends JsonsController
 
                     $result = $wc->withdraw($this->actor->user_id, $toAddress, $tokenSymbol, $amount);
 
-                    if (isset($result['explorer']))
+                    if (isset($result["explorer"]))
                         $reply = array(
-                            "text" => "✅ TX Exitosa: " . $result['explorer'],
+                            "text" => "✅ " . Lang::get("zentrotraderbot::bot.prompts.txsuccess") . ": " . $result["explorer"],
                         );
 
-                    if (isset($result['message']))
+                    if (isset($result["message"]))
                         $reply = array(
-                            "text" => "❌ TX Fallida: " . $result['message'],
+                            "text" => "❌ " . Lang::get("zentrotraderbot::bot.prompts.txfail") . ": " . $result["message"],
                         );
 
                 } catch (\Exception $e) {
                     $reply = array(
-                        "text" => "❌ Error: " . $e->getMessage(),
+                        "text" => "❌ " . Lang::get("telegrambot::bot.errors.header") . ": " . $e->getMessage(),
                     );
                 }
                 break;
@@ -294,15 +297,15 @@ class ZentroTraderBotController extends JsonsController
     {
         $menu = [];
         array_push($menu, [
-            ["text" => '🔔 Subscribtion', "callback_data" => 'suscribemenu']
+            ["text" => "🔔 " . Lang::get("zentrotraderbot::bot.options.backtosuscribemenu"), "callback_data" => "suscribemenu"]
         ]);
 
         $wallet = array();
         // si el usuario no tiene wallet es recien suscrito y hay q completar su estructura
         if (!isset($suscriptor->data["wallet"])) {
             // crear el suscriptor para poderle generar wallet
-            $actor = Actors::where('user_id', $this->actor->user_id)->first();
-            $suscriptor = TradingSuscriptions::where('user_id', $this->actor->user_id)->first();
+            $actor = Actors::where("user_id", $this->actor->user_id)->first();
+            $suscriptor = TradingSuscriptions::where("user_id", $this->actor->user_id)->first();
             if (!$suscriptor)
                 $suscriptor = new TradingSuscriptions($actor->toArray());
             $suscriptor->data = array();
@@ -311,7 +314,7 @@ class ZentroTraderBotController extends JsonsController
             $wc = new WalletController();
             $wallet = $wc->generateWallet($this->actor->user_id);
             if (isset($wallet["address"])) {
-                $suscriptor = TradingSuscriptions::where('user_id', $this->actor->user_id)->first();
+                $suscriptor = TradingSuscriptions::where("user_id", $this->actor->user_id)->first();
                 $array = $suscriptor->data;
                 $array["admin_level"] = 0;
                 $array["suscription_level"] = 0;
@@ -321,13 +324,13 @@ class ZentroTraderBotController extends JsonsController
             }
 
             $array = $this->AgentsController->getRoleMenu($actor->user_id, 0);
-            array_push($array["menu"], [["text" => "❌ Eliminar", "callback_data" => "confirmation|deleteuser-{$actor->user_id}|menu"]]);
+            array_push($array["menu"], [["text" => "❌ " . Lang::get("telegrambot::bot.options.delete"), "callback_data" => "confirmation|deleteuser-{$actor->user_id}|menu"]]);
             $this->notifyUserWithNoRole($actor->user_id, $array);
         } else
             $wallet = $suscriptor->data["wallet"];
         $description = "";
         if (isset($wallet["address"]))
-            $description = "_Esta es tu wallet personal en este bot:_\n🫆 `" . $wallet["address"] . "`\n\n";
+            $description = "_" . Lang::get("zentrotraderbot::bot.mainmenu.description") . ":_\n🫆 `" . $wallet["address"] . "`\n\n";
 
         return $this->getMainMenu(
             $suscriptor,
@@ -336,32 +339,24 @@ class ZentroTraderBotController extends JsonsController
         );
     }
 
-    public function adminMenu()
+    public function adminMenu($suscriptor)
     {
-        $reply = array(
-            "text" => "👮‍♂️ *Admin menu*!\nHere you can adjust everything:",
-        );
-
-        $admin_options_menu = [];
-        array_push($admin_options_menu, ["text" => '👣 Suscriptors', "callback_data" => 'getsuscriptors']);
-        array_push($admin_options_menu, ["text" => '🫡 Action Level', "callback_data" => 'actionmenu']);
-
-        $reply["markup"] = json_encode([
-            'inline_keyboard' => [
-                $admin_options_menu,
-                [
-                    ["text" => '🔙 Return to main menu', "callback_data" => 'menu'],
-                ],
-            ],
+        $menu = [];
+        array_push($menu, [
+            ["text" => "🫡 " . Lang::get("zentrotraderbot::bot.options.actionmenu"), "callback_data" => "suscribemenu"]
         ]);
 
-        return $reply;
+
+        return $this->getAdminMenu(
+            $suscriptor,
+            $menu
+        );
     }
 
-    public function actionmenu($action = -1)
+    public function actionMenu($action = -1)
     {
         if ($action > -1) {
-            $item = Metadatas::where('name', '=', 'app_zentrotraderbot_tradingview_alert_action_level')->first();
+            $item = Metadatas::where("name", "=", "app_zentrotraderbot_tradingview_alert_action_level")->first();
             $item->value = $action;
             $item->save();
         }
@@ -371,27 +366,32 @@ class ZentroTraderBotController extends JsonsController
          */
         $action_settings_menu = [];
         $option = "";
-        switch (config('metadata.system.app.zentrotraderbot.tradingview.alert.action.level')) {
+        switch (config("metadata.system.app.zentrotraderbot.tradingview.alert.action.level")) {
             case 1:
                 $option = "NOTIFICATIONS";
-                array_push($action_settings_menu, ["text" => '💵 Execute orders', "callback_data" => 'actionlevel2']);
+                array_push($action_settings_menu, ["text" => "💵 " . Lang::get("zentrotraderbot::bot.options.actionlevel2"), "callback_data" => "actionlevel2"]);
                 break;
             case 2:
                 $option = "EXECUTE ORDERS";
-                array_push($action_settings_menu, ["text" => '📣 Notifications', "callback_data" => 'actionlevel1']);
+                array_push($action_settings_menu, ["text" => "📣 " . Lang::get("zentrotraderbot::bot.options.actionlevel1"), "callback_data" => "actionlevel1"]);
                 break;
             default:
                 break;
         }
         $reply = array(
-            "text" => "🔔 *Action menu*!\n\n_Using the 'Action button', you can switch between 2 levels:\n📣 Notifications: When a signal appears, the bot only notifies users using the channel.\n💵 Execute orders: The bot notifies community users and executes the corresponding orders in the exchange._\n\n✅ At this moment option *{$option}* is selected\n\n👇 Choose one of the following options:",
+            "text" => "🔔 *" . Lang::get("zentrotraderbot::bot.actionmenu.header") . "*\n\n_" .
+                Lang::get("zentrotraderbot::bot.actionmenu.line1") . ":\n" .
+                "📣 " . Lang::get("zentrotraderbot::bot.actionmenu.line2") . ".\n" .
+                "💵 " . Lang::get("zentrotraderbot::bot.actionmenu.line3") . "._\n\n" .
+                "✅ " . Lang::get("zentrotraderbot::bot.actionmenu.line4", ["option" => $option]) . "\n\n" .
+                "👇 " . Lang::get("telegrambot::bot.prompts.chooseoneoption") . ":",
         );
 
         $reply["markup"] = json_encode([
-            'inline_keyboard' => [
+            "inline_keyboard" => [
                 $action_settings_menu,
                 [
-                    ["text" => '🔙 Return to main menu', "callback_data" => 'menu'],
+                    ["text" => "↖️ " . Lang::get("telegrambot::bot.options.backtomainmenu"), "callback_data" => "menu"],
                 ],
             ],
         ]);
@@ -399,11 +399,11 @@ class ZentroTraderBotController extends JsonsController
         return $reply;
     }
 
-    public function suscribemenu($suscriptor, $level = -1)
+    public function suscribeMenu($suscriptor, $level = -1)
     {
         if ($level > -1) {
             $this->ActorsController->updateData(TradingSuscriptions::class, "user_id", $this->actor->user_id, "suscription_level", $level);
-            $suscriptor = TradingSuscriptions::where('user_id', $this->actor->user_id)->first();
+            $suscriptor = TradingSuscriptions::where("user_id", $this->actor->user_id)->first();
         }
 
 
@@ -412,35 +412,35 @@ class ZentroTraderBotController extends JsonsController
         switch ($suscriptor->data["suscription_level"]) {
             case 1:
             case "1":
-                array_push($suscription_settings_menu, ["text" => '🅰️ Level', "callback_data" => 'suscribelevel0']);
-                array_push($suscription_settings_menu, ["text" => '🆎 Level', "callback_data" => 'suscribelevel2']);
-                $extrainfo = "🌎 _You are a level 🅱️ subscriber; therefore, you can use the 'Client URL button' to get your TradingView alerts link._\n\n";
+                array_push($suscription_settings_menu, ["text" => "🅰️ Level", "callback_data" => "suscribelevel0"]);
+                array_push($suscription_settings_menu, ["text" => "🆎 Level", "callback_data" => "suscribelevel2"]);
+                $extrainfo = "🌎 _You are a level 🅱️ subscriber; therefore, you can use the “Client URL button” to get your TradingView alerts link._\n\n";
                 break;
             case 2:
             case "2":
-                array_push($suscription_settings_menu, ["text" => '🅰️ Level', "callback_data" => 'suscribelevel0']);
-                array_push($suscription_settings_menu, ["text" => '🅱️ Level', "callback_data" => 'suscribelevel1']);
-                $extrainfo = "🌎 _You are a level 🆎 subscriber; therefore, you can use the 'Client URL button' to get your TradingView alerts link._\n\n";
+                array_push($suscription_settings_menu, ["text" => "🅰️ Level", "callback_data" => "suscribelevel0"]);
+                array_push($suscription_settings_menu, ["text" => "🅱️ Level", "callback_data" => "suscribelevel1"]);
+                $extrainfo = "🌎 _You are a level 🆎 subscriber; therefore, you can use the “Client URL button” to get your TradingView alerts link._\n\n";
                 break;
 
             default:
-                array_push($suscription_settings_menu, ["text" => '🅱️ Level', "callback_data" => 'suscribelevel1']);
-                array_push($suscription_settings_menu, ["text" => '🆎 Level', "callback_data" => 'suscribelevel2']);
+                array_push($suscription_settings_menu, ["text" => "🅱️ Level", "callback_data" => "suscribelevel1"]);
+                array_push($suscription_settings_menu, ["text" => "🆎 Level", "callback_data" => "suscribelevel2"]);
                 $extrainfo = "🌎 _You are a level 🅰️ subscriber._\n\n";
                 break;
         }
         $reply = array(
-            "text" => "🔔 *Subscribtions menu*\nHere you can adjust your preferences:\n\n_🧩 Using the 'Level' button, you can switch between 3 levels:\n🅰️ you will only receive signals from the community.\n🅱️ you will only receive your personal alerts.\n🆎 you will receive both community alerts and your personal ones._\n\n{$extrainfo}👇 Choose one of the following options:",
+            "text" => "🔔 *Subscribtions menu*\nHere you can adjust your preferences:\n\n_🧩 Using the “Level” button, you can switch between 3 levels:\n🅰️ you will only receive signals from the community.\n🅱️ you will only receive your personal alerts.\n🆎 you will receive both community alerts and your personal ones._\n\n{$extrainfo}👇 Choose one of the following options:",
         );
         if ($suscriptor->data["suscription_level"] > 0) {
-            array_push($suscription_settings_menu, ["text" => '🌎 Client URL', "callback_data" => 'clienturl']);
+            array_push($suscription_settings_menu, ["text" => "🌎 Client URL", "callback_data" => "clienturl"]);
         }
 
         $reply["markup"] = json_encode([
-            'inline_keyboard' => [
+            "inline_keyboard" => [
                 $suscription_settings_menu,
                 [
-                    ["text" => '🔙 Return to main menu', "callback_data" => 'menu'],
+                    ["text" => "↖️ " . Lang::get("telegrambot::bot.options.backtomainmenu"), "callback_data" => "menu"],
                 ],
             ],
         ]);
