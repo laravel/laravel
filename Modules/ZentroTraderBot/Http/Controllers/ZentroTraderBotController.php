@@ -297,7 +297,7 @@ class ZentroTraderBotController extends JsonsController
     {
         $menu = [];
         array_push($menu, [
-            ["text" => "🔔 " . Lang::get("zentrotraderbot::bot.options.backtosuscribemenu"), "callback_data" => "suscribemenu"]
+            ["text" => "🔔 " . Lang::get("zentrotraderbot::bot.options.subscribtion"), "callback_data" => "suscribemenu"]
         ]);
 
         $wallet = array();
