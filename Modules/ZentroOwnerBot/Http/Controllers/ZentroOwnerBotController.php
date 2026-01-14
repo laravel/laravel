@@ -42,48 +42,37 @@ class ZentroOwnerBotController extends JsonsController
 
     public function processMessage()
     {
-        $reply = array(
-            "text" => "🚷 Ud no esta aurorizado a usar este bot.",
-        );
-
         $array = $this->getCommand($this->message["text"]);
-        //var_dump($array);
-        //die;
-        //echo strtolower($array["command"]);
-        switch (strtolower($array["command"])) {
-            case "/start":
-                //https://t.me/bot?start=816767995
-                // /start 816767995
-                $reply = array(
-                    "text" => "👋 Hola, bienvenido",
-                );
-                break;
-            case "/p":
-            case "/pass":
-            case "/password":
+
+        $this->strategies["/p"] =
+            $this->strategies["/pass"] =
+            $this->strategies["/password"] =
+            function () use ($array) {
                 $key = strtolower($array["message"]);
                 $demo = false;
                 //$demo = isset($request["demo"]);
                 $hash = $this->generateHash($this->actor->user_id, $key, 20, $demo);
-                $reply = array(
+                return array(
                     "text" => "🔐 *" . strtoupper($key) . " hash:*\n`{$hash}`\n_Por seguridad este mensaje se elimina en " . ZentroOwnerBotController::$AUTODESTROY_TIME_IN_MINS . " min_",
                     "autodestroy" => ZentroOwnerBotController::$AUTODESTROY_TIME_IN_MINS,
                 );
-                break;
-            case "/f":
-                $reply = array(
+            };
+
+        $this->strategies["/f"] =
+            function () use ($array) {
+                return array(
                     "text" => $this->obtenerIniciales($array["message"]),
                 );
-                break;
-            default:
-                $reply = array(
-                    "text" => "🤷🏻‍♂️ No se que responderle a “{$this->message['text']}”.",
-                );
-                break;
+            };
 
-        }
+        return $this->getProcessedMessage();
+    }
 
-        return $reply;
+    public function mainMenu($actor)
+    {
+        return $this->getMainMenu(
+            $actor
+        );
     }
 
     function obtenerIniciales($texto)
