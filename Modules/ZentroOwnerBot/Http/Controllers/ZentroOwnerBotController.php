@@ -7,6 +7,7 @@ use Modules\TelegramBot\Traits\UsesTelegramBot;
 use Modules\TelegramBot\Http\Controllers\ActorsController;
 use Modules\TelegramBot\Http\Controllers\TelegramController;
 use Modules\TelegramBot\Entities\TelegramBots;
+use Illuminate\Support\Facades\Lang;
 
 class ZentroOwnerBotController extends JsonsController
 {

@@ -3,6 +3,7 @@
 namespace Modules\ZentroOwnerBot\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Factory;
 
 class ZentroOwnerBotServiceProvider extends ServiceProvider
 {
@@ -14,7 +15,7 @@ class ZentroOwnerBotServiceProvider extends ServiceProvider
     /**
      * @var string $moduleNameLower
      */
-    protected $moduleNameLower = 'ZentroOwnerBot';
+    protected $moduleNameLower = 'zentroownerbot';
 
     /**
      * Boot the application events.
@@ -50,7 +51,8 @@ class ZentroOwnerBotServiceProvider extends ServiceProvider
             module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
+            module_path($this->moduleName, 'Config/config.php'),
+            $this->moduleNameLower
         );
     }
 
@@ -66,7 +68,7 @@ class ZentroOwnerBotServiceProvider extends ServiceProvider
         $sourcePath = module_path($this->moduleName, 'Resources/views');
 
         $this->publishes([
-            $sourcePath => $viewPath,
+            $sourcePath => $viewPath
         ], ['views', $this->moduleNameLower . '-module-views']);
 
         $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->moduleNameLower);

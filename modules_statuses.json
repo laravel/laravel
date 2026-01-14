@@ -3,5 +3,7 @@
     "ZentroTraderBot": true,
     "TelegramBot": true,
     "NombreDelModulo": true,
-    "Web3": true
+    "Web3": true,
+    "ZentroOwnerBot": true,
+    "ZentroCriptoBot": true
 }
