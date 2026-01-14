@@ -216,8 +216,10 @@ class ZentroTraderBotController extends JsonsController
         return $this->getProcessedMessage();
     }
 
-    public function mainMenu($suscriptor)
+    public function mainMenu($actor)
     {
+        $suscriptor = TradingSuscriptions::where("user_id", $actor->user_id)->first();
+
         $menu = [];
         array_push($menu, [
             ["text" => "🔔 " . Lang::get("zentrotraderbot::bot.options.subscribtion"), "callback_data" => "suscribemenu"]
