@@ -53,103 +53,41 @@ class ZentroTraderBotController extends JsonsController
 
     public function processMessage()
     {
-        $reply = [
-            "text" => "🙇🏻 " . Lang::get("telegrambot::bot.errors.unrecognizedcommand.text", ["text" => $this->message["text"]]) .
-                ".\n " . Lang::get("telegrambot::bot.errors.unrecognizedcommand.hint") . ".",
-        ];
-
+        $array = $this->getCommand($this->message["text"]);
         $suscriptor = TradingSuscriptions::where("user_id", $this->actor->user_id)->first();
 
-        $array = $this->getCommand($this->message["text"]);
-        //var_dump($array);
-        //die("\n");
-        //echo strtolower($array["command"]);
-        switch (strtolower($array["command"])) {
-            case "/start":
-            case "start":
-            case "/menu":
-            case "menu":
-                $reply = $this->mainMenu($suscriptor);
-                break;
-            case "adminmenu":
-                $reply = $this->mainMenu($this->actor);
-                if ($this->actor->isLevel(1, $this->telegram["username"]))
-                    $reply = $this->adminMenu($suscriptor);
-                break;
-            case "suscribemenu":
-                $reply = $this->suscribeMenu($suscriptor);
-                break;
-            case "suscribelevel0":
-            case "suscribelevel1":
-            case "suscribelevel2":
-                $reply = $this->suscribeMenu(
+        $this->strategies["suscribemenu"] = function () use ($suscriptor) {
+            return $this->suscribeMenu($suscriptor);
+        };
+        $this->strategies["suscribelevel0"] =
+            $this->strategies["suscribelevel1"] =
+            $this->strategies["suscribelevel2"] =
+            function () use ($suscriptor, $array) {
+                return $this->suscribeMenu(
                     $suscriptor,
                     str_replace("suscribelevel", "", strtolower($array["command"]))
                 );
-                break;
+            };
 
-            case "actionmenu":
-                if ($this->actor->isLevel(1, $this->telegram["username"]))
-                    $reply = $this->actionMenu();
-                break;
-            case "actionlevel1":
-            case "actionlevel2":
-                if ($this->actor->isLevel(1, $this->telegram["username"]))
-                    $reply = $this->actionMenu(
-                        str_replace("actionlevel", "", strtolower($array["command"]))
-                    );
-                break;
-
-            case "/users":
-            case "getsuscriptors":
-                if ($this->actor->isLevel(1, $this->telegram["username"]))
-                    $reply = $this->AgentsController->findSuscriptors($this, $this->actor);
-                break;
-
-            case "/user":
-                if ($this->actor->isLevel(1, $this->telegram["username"]))
-                    $reply = $this->AgentsController->findSuscriptor($this, $array["message"]);
-                break;
-
-            case "promote0":
-            case "promote1":
-            case "promote2":
-                $role = str_replace("promote", "", strtolower($array["command"]));
-                $this->ActorsController->updateData(
-                    Actors::class,
-                    "user_id",
-                    $array["pieces"][1],
-                    "admin_level",
-                    $role,
-                    $this->telegram["username"]
+        $this->strategies["actionmenu"] = function () {
+            if ($this->actor->isLevel(1, $this->telegram["username"]))
+                return $this->actionMenu();
+            return $this->mainMenu($this->actor);
+        };
+        $this->strategies["actionlevel1"] =
+            $this->strategies["actionlevel2"] =
+            function () use ($array) {
+                return $this->actionMenu(
+                    str_replace("actionlevel", "", strtolower($array["command"]))
                 );
-                $this->AgentsController->notifyRoleChange($this, $array["pieces"][1]);
-                $reply = $this->AgentsController->notifyAfterModifyRole($this, $array["pieces"][1], $role);
-                break;
-            case "deleteuser":
-                if ($this->actor->isLevel(1, $this->telegram["username"])) {
-                    // eliminar un usuario
-                    $user = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
-                    $user->delete();
+            };
 
-                    $reply = $this->ActorsController->notifyAfterDelete();
-                }
-                break;
+        $this->strategies["clienturl"] =
+            function () {
+                $reply = [
+                    "text" => "",
+                ];
 
-            case "/usermetadata":
-                $reply = $this->ActorsController->getApplyMetadataPrompt(
-                    $this,
-                    "promptusermetadata-" . $array["message"],
-                    $this->actor->getBackOptions(
-                        "✋ " . Lang::get("telegrambot::bot.options.cancel"),
-                        $this->telegram["username"],
-                        [1]
-                    )
-                );
-                break;
-
-
-            case "clienturl":
                 $uri = str_replace("telegram/bot/ZentroTraderBot", "tradingview/client/{$this->actor->user_id}", request()->fullUrl());
                 $reply["text"] = "🌎 " . Lang::get("zentrotraderbot::bot.prompts.clienturl.header") . ":\n{$uri}\n\n👆 " . Lang::get("zentrotraderbot::bot.prompts.clienturl.warning") . ".";
                 $reply["markup"] = json_encode([
@@ -159,16 +97,19 @@ class ZentroTraderBotController extends JsonsController
                         ],
                     ],
                 ]);
-                break;
 
-            case "/swap":
-                // /swap 5 POL USDC
+                return $reply;
+            };
+
+        // /swap 5 POL USDC
+        $this->strategies["/swap"] =
+            function () use ($array) {
                 $wc = new WalletController();
                 $privateKey = $wc->getDecryptedPrivateKey($this->actor->user_id);
                 $amount = $array["pieces"][1];     // Cantidad a vender (Empieza suave, ej. 2 POL)
                 $from = $array["pieces"][2];   // Token que vendes
                 $to = $array["pieces"][3];  // Token que compras
-
+    
                 $bot = $this;
                 $userId = $this->actor->user_id;
                 $array = $this->engine->swap(
@@ -195,10 +136,17 @@ class ZentroTraderBotController extends JsonsController
                 $reply = array(
                     "text" => "✅ " . Lang::get("zentrotraderbot::bot.prompts.txsuccess") . ": " . $array["explorer"],
                 );
-                break;
 
-            case "/balance":
-                // /balance POL
+                return $reply;
+            };
+
+        // /balance POL
+        $this->strategies["/balance"] =
+            function () use ($array) {
+                $reply = [
+                    "text" => "",
+                ];
+
                 $wc = new WalletController();
 
                 try {
@@ -223,11 +171,18 @@ class ZentroTraderBotController extends JsonsController
                         "text" => "❌ " . Lang::get("telegrambot::bot.errors.header") . ": " . $e->getMessage(),
                     );
                 }
-                break;
 
-            case "/withdraw":
-                // /withdraw POL 0x1aafFCaB3CB8Ec9b207b191C1b2e2EC662486666
-                // /withdraw 5 POL 0x1aafFCaB3CB8Ec9b207b191C1b2e2EC662486666
+                return $reply;
+            };
+
+        // /withdraw POL 0x1aafFCaB3CB8Ec9b207b191C1b2e2EC662486666
+        // /withdraw 5 POL 0x1aafFCaB3CB8Ec9b207b191C1b2e2EC662486666
+        $this->strategies["/withdraw"] =
+            function () use ($array) {
+                $reply = [
+                    "text" => "",
+                ];
+
                 $wc = new WalletController();
 
                 try {
@@ -254,43 +209,11 @@ class ZentroTraderBotController extends JsonsController
                         "text" => "❌ " . Lang::get("telegrambot::bot.errors.header") . ": " . $e->getMessage(),
                     );
                 }
-                break;
 
+                return $reply;
+            };
 
-            default:
-                $array = $this->actor->data;
-                if (isset($array[$this->telegram["username"]]["last_bot_callback_data"])) {
-                    $array = $this->getCommand($array[$this->telegram["username"]]["last_bot_callback_data"]);
-                    switch ($array["command"]) {
-                        case "promptusermetadata":
-                            // resetear el comando obtenido a traves de la BD
-                            $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
-
-                            if (count($array["pieces"]) == 2) {
-                                $message = explode(":", $this->message["text"]);
-
-                                $suscriptor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
-                                //$this->getToken($this->telegram["username"])
-                                $suscriptordata = $suscriptor->data;
-                                if (!isset($suscriptordata[$this->telegram["username"]]["metadatas"]))
-                                    $suscriptordata[$this->telegram["username"]]["metadatas"] = array();
-                                $suscriptordata[$this->telegram["username"]]["metadatas"][trim($message[0])] = trim($message[1]);
-
-                                $suscriptor->data = $suscriptordata;
-                                $suscriptor->save();
-                            }
-
-                            $reply = $this->ActorsController->notifyAfterMetadataChange($array["pieces"][1]);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                break;
-
-        }
-
-        return $reply;
+        return $this->getProcessedMessage();
     }
 
     public function mainMenu($suscriptor)
@@ -399,6 +322,13 @@ class ZentroTraderBotController extends JsonsController
         return $reply;
     }
 
+    public function configMenu($actor)
+    {
+        return $this->getConfigMenu(
+            $actor
+        );
+    }
+
     public function suscribeMenu($suscriptor, $level = -1)
     {
         if ($level > -1) {
@@ -420,7 +350,7 @@ class ZentroTraderBotController extends JsonsController
                     "text" => Lang::get("zentrotraderbot::bot.options.subscribtionlevel", ["icon" => "🆎", "char" => "AB"]),
                     "callback_data" => "suscribelevel2"
                 ]);
-                $extrainfo = "🌎 _" . Lang::get("zentrotraderbot::bot.subscribtionmenu.line6", ["level" => "🅱️"]) . "; " .
+                $extrainfo = "🌎 _" . Lang::get("zentrotraderbot::bot.subscribtionmenu.line6", ["level" => "🅱️"]) . " " .
                     Lang::get("zentrotraderbot::bot.subscribtionmenu.therefore") . "._\n\n";
                 break;
             case 2:
@@ -433,7 +363,7 @@ class ZentroTraderBotController extends JsonsController
                     "text" => Lang::get("zentrotraderbot::bot.options.subscribtionlevel", ["icon" => "🅱️", "char" => "B"]),
                     "callback_data" => "suscribelevel1"
                 ]);
-                $extrainfo = "🌎 _" . Lang::get("zentrotraderbot::bot.subscribtionmenu.line6", ["level" => "🆎"]) . "; " .
+                $extrainfo = "🌎 _" . Lang::get("zentrotraderbot::bot.subscribtionmenu.line6", ["level" => "🆎"]) . " " .
                     Lang::get("zentrotraderbot::bot.subscribtionmenu.therefore") . "._\n\n";
                 break;
 

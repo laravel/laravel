@@ -10,6 +10,10 @@ return [
         "header" => "Menú de administrador",
         "warning" => "Aquí encontrará herramientas útiles para la gestión integral del bot",
     ],
+    "configmenu" => [
+        "header" => "Menú de configuraciones",
+        "warning" => "Aquí encontrará ajustes del comportamiento del bot",
+    ],
     "role" => [
         "admin" => "Admin",
     ],
@@ -23,6 +27,9 @@ return [
         "sendannouncement" => "Anuncio",
         "viewusers" => "Usuarios suscritos",
         "backtomainmenu" => "Volver al menú principal",
+        "deleteprevmessages" => "Eliminar mensajes previos",
+        "keepprevmessages" => "No eliminar mensajes previos",
+        "timezone" => "Zona horaria :timezone",
     ],
     "prompts" => [
         "whatsnext" => "¿Qué desea hacer ahora?",

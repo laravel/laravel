@@ -97,7 +97,8 @@ class GutoTradeBotController extends JsonsController
             return $this->notifyUsernameRequired($this->actor->user_id);
         }
         $reply = [
-            "text" => "🙇🏻 No se que responderle a “{$this->message['text']}”.\n Ud puede interactuar con este bot usando /menu o chequee /ayuda para temas de ayuda.",
+            "text" => "🙇🏻 " . Lang::get("telegrambot::bot.errors.unrecognizedcommand.text", ["text" => $this->message["text"]]) .
+                ".\n " . Lang::get("telegrambot::bot.errors.unrecognizedcommand.hint") . ".",
         ];
         if (isset($this->message["text"]) && $this->message["text"] != "") {
             $array = $this->getCommand($this->message["text"]);
@@ -1458,8 +1459,6 @@ $jobClass::dispatchSync($request->all(), auth()->id());
 
     public function adminMenu($actor)
     {
-        $reply = [];
-
         $menu = [];
 
         array_push($menu, [
@@ -1489,48 +1488,19 @@ $jobClass::dispatchSync($request->all(), auth()->id());
             default:
                 break;
         }
-        array_push($menu, [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]]);
 
-        $reply = [
-            "text" => "👮‍♂️ *Menú de administrador*!\n_Aquí encontrará herramientas útiles para la gestión integral del bot_\n\n👇 Qué desea hacer ahora?",
-            "markup" => json_encode([
-                "inline_keyboard" => $menu,
-            ]),
-        ];
 
-        return $reply;
+        return $this->getAdminMenu(
+            $actor,
+            $menu
+        );
     }
 
     public function configMenu($actor)
     {
-        $reply = [];
-
-        $array = $actor->data;
-
-        $menu = [];
-
-        // Opciones para todos los usuarios:
-        if (isset($array[$this->telegram["username"]]["config_delete_prev_messages"])) {
-            array_push($menu, [["text" => "🟢 No eliminar mensajes previos", "callback_data" => "configdeleteprevmessages"]]);
-        } else {
-            array_push($menu, [["text" => "🔴 Eliminar mensajes previos", "callback_data" => "configdeleteprevmessages"]]);
-        }
-        $timezone = "UTC";
-        if (isset($array[$this->telegram["username"]]["time_zone"])) {
-            $timezone .= $array[$this->telegram["username"]]["time_zone"];
-        }
-        array_push($menu, [["text" => "⏰ Zona horaria {$timezone}", "callback_data" => "/utc"]]);
-
-        array_push($menu, [["text" => "↖️ Volver al menú principal", "callback_data" => "menu"]]);
-
-        $reply = [
-            "text" => "⚙️ *Menú de configuraciones*!\n_Aquí encontrará ajustes del comportamiento del bot_\n\n👇 Qué desea hacer ahora?",
-            "markup" => json_encode([
-                "inline_keyboard" => $menu,
-            ]),
-        ];
-
-        return $reply;
+        return $this->getConfigMenu(
+            $actor
+        );
     }
 
     public function notifyShortSearchParameter($user_id, $message)

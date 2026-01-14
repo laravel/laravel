@@ -17,6 +17,7 @@ trait UsesTelegramBot
 
     public $ActorsController;
     public $TelegramController;
+    public $strategies = [];
 
     public function receiveMessage()
     {
@@ -128,6 +129,131 @@ trait UsesTelegramBot
         // Envía una respuesta al servidor de Telegram para confirmar la recepción
         return response()->json(["message" => "OK"], 200);
     }
+    public function getProcessedMessage()
+    {
+        $reply = [
+            "text" => "🙇🏻 " . Lang::get("telegrambot::bot.errors.unrecognizedcommand.text", ["text" => $this->message["text"]]) .
+                ".\n " . Lang::get("telegrambot::bot.errors.unrecognizedcommand.hint") . ".",
+        ];
+
+        $array = $this->getCommand($this->message["text"]);
+        //var_dump($array);
+        //die("\n");
+        //echo strtolower($array["command"]);
+
+
+        if (isset($this->strategies[strtolower($array["command"])])) {
+            $function = $this->strategies[strtolower($array["command"])];
+            return $function();
+        }
+
+        switch (strtolower($array["command"])) {
+            case "/start":
+            case "start":
+            case "/menu":
+            case "menu":
+                $reply = $this->mainMenu($this->actor);
+                break;
+            case "adminmenu":
+                $reply = $this->mainMenu($this->actor);
+                if ($this->actor->isLevel(1, $this->telegram["username"]))
+                    $reply = $this->adminMenu($this->actor);
+                break;
+            case "configmenu":
+                $reply = $this->configMenu($this->actor);
+                break;
+
+            case "/users":
+            case "getsuscriptors":
+                if ($this->actor->isLevel(1, $this->telegram["username"]))
+                    $reply = $this->AgentsController->findSuscriptors($this, $this->actor);
+                break;
+
+            case "/user":
+                if ($this->actor->isLevel(1, $this->telegram["username"]))
+                    $reply = $this->AgentsController->findSuscriptor($this, $array["message"]);
+                break;
+
+            case "promote0":
+            case "promote1":
+            case "promote2":
+            case "promote3":
+            case "promote4":
+            case "promote5":
+            case "promote6":
+            case "promote7":
+            case "promote8":
+            case "promote9":
+                $role = str_replace("promote", "", strtolower($array["command"]));
+                $this->ActorsController->updateData(
+                    Actors::class,
+                    "user_id",
+                    $array["pieces"][1],
+                    "admin_level",
+                    $role,
+                    $this->telegram["username"]
+                );
+                $this->ActorsController->notifyRoleChange($this, $array["pieces"][1]);
+                $reply = $this->ActorsController->notifyAfterModifyRole($this, $array["pieces"][1], $role);
+                break;
+            case "deleteuser":
+                if ($this->actor->isLevel(1, $this->telegram["username"])) {
+                    // eliminar un usuario
+                    $user = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
+                    $user->delete();
+
+                    $reply = $this->ActorsController->notifyAfterDelete();
+                }
+                break;
+
+            case "/usermetadata":
+                $reply = $this->ActorsController->getApplyMetadataPrompt(
+                    $this,
+                    "promptusermetadata-" . $array["message"],
+                    $this->actor->getBackOptions(
+                        "✋ " . Lang::get("telegrambot::bot.options.cancel"),
+                        $this->telegram["username"],
+                        [1]
+                    )
+                );
+                break;
+
+
+            default:
+                $array = $this->actor->data;
+                if (isset($array[$this->telegram["username"]]["last_bot_callback_data"])) {
+                    $array = $this->getCommand($array[$this->telegram["username"]]["last_bot_callback_data"]);
+                    switch ($array["command"]) {
+                        case "promptusermetadata":
+                            // resetear el comando obtenido a traves de la BD
+                            $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
+
+                            if (count($array["pieces"]) == 2) {
+                                $message = explode(":", $this->message["text"]);
+
+                                $suscriptor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
+                                //$this->getToken($this->telegram["username"])
+                                $suscriptordata = $suscriptor->data;
+                                if (!isset($suscriptordata[$this->telegram["username"]]["metadatas"]))
+                                    $suscriptordata[$this->telegram["username"]]["metadatas"] = array();
+                                $suscriptordata[$this->telegram["username"]]["metadatas"][trim($message[0])] = trim($message[1]);
+
+                                $suscriptor->data = $suscriptordata;
+                                $suscriptor->save();
+                            }
+
+                            $reply = $this->ActorsController->notifyAfterMetadataChange($array["pieces"][1]);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                break;
+
+        }
+
+        return $reply;
+    }
 
     public function getCommand($text)
     {
@@ -227,6 +353,41 @@ trait UsesTelegramBot
 
         $reply = [
             "text" => "👮‍♂️ *" . Lang::get("telegrambot::bot.adminmenu.header") . "*!\n_" . Lang::get("telegrambot::bot.adminmenu.warning") . "_\n\n👇 " . Lang::get("telegrambot::bot.prompts.whatsnext"),
+            "markup" => json_encode([
+                "inline_keyboard" => $menu,
+            ]),
+        ];
+
+        return $reply;
+    }
+
+
+    public function getConfigMenu($actor, $menu = false)
+    {
+        $reply = [];
+
+        if (!$menu)
+            $menu = [];
+
+        $array = $actor->data;
+
+        // Opciones para todos los usuarios:
+        if (isset($array[$this->telegram["username"]]["config_delete_prev_messages"])) {
+            array_push($menu, [["text" => "🟢 " . Lang::get("telegrambot::bot.options.keepprevmessages"), "callback_data" => "configdeleteprevmessages"]]);
+        } else {
+            array_push($menu, [["text" => "🔴 " . Lang::get("telegrambot::bot.options.deleteprevmessages"), "callback_data" => "configdeleteprevmessages"]]);
+        }
+
+        $timezone = "UTC";
+        if (isset($array[$this->telegram["username"]]["time_zone"])) {
+            $timezone .= $array[$this->telegram["username"]]["time_zone"];
+        }
+        array_push($menu, [["text" => "⏰ " . Lang::get("telegrambot::bot.options.timezone", ["timezone" => $timezone]), "callback_data" => "/utc"]]);
+
+        array_push($menu, [["text" => "↖️ " . Lang::get("telegrambot::bot.options.backtomainmenu"), "callback_data" => "menu"]]);
+
+        $reply = [
+            "text" => "⚙️ *" . Lang::get("telegrambot::bot.configmenu.header") . "*!\n_" . Lang::get("telegrambot::bot.configmenu.warning") . "_\n\n👇 " . Lang::get("telegrambot::bot.prompts.whatsnext"),
             "markup" => json_encode([
                 "inline_keyboard" => $menu,
             ]),
