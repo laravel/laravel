@@ -5,6 +5,7 @@ namespace Modules\TelegramBot\Traits;
 use Illuminate\Support\Facades\Log;
 use Modules\TelegramBot\Entities\Actors;
 use Illuminate\Support\Facades\Lang;
+use Modules\TelegramBot\Http\Controllers\TelegramController;
 
 trait UsesTelegramBot
 {
@@ -96,17 +97,19 @@ trait UsesTelegramBot
 
                     //eliminando el mensaje q origino este de autoeliminacion
                     $bot_token = $this->token;
-                    $controller = $this;
-                    dispatch(function () use ($controller, $bot_token) {
+                    $message_id = $this->message["message_id"];
+                    $chat_id = $this->message["chat"]["id"];
+                    dispatch(function () use ($message_id, $chat_id, $bot_token) {
                         $array = array(
                             "message" => array(
-                                "id" => $this->message["message_id"],
+                                "id" => $message_id,
                                 "chat" => array(
-                                    "id" => $this->message["chat"]["id"],
+                                    "id" => $chat_id,
                                 ),
                             ),
                         );
-                        $controller->TelegramController->deleteMessage($array, $bot_token);
+                        $controller = new TelegramController();
+                        $controller->deleteMessage($array, $bot_token);
                     })->delay(now()->addMinutes($autodestroy));
                 }
                 $this->TelegramController->sendMessage($array, $this->token, $autodestroy);
