@@ -54,7 +54,10 @@ class ZentroOwnerBotController extends JsonsController
                 //$demo = isset($request["demo"]);
                 $hash = $this->generateHash($this->actor->user_id, $key, 20, $demo);
                 return array(
-                    "text" => "🔐 *" . strtoupper($key) . " hash:*\n`{$hash}`\n_Por seguridad este mensaje se elimina en " . ZentroOwnerBotController::$AUTODESTROY_TIME_IN_MINS . " min_",
+                    "text" =>
+                        "🔐 *" . strtoupper($key) . " hash:*\n" .
+                        "`{$hash}`\n" .
+                        "_" . Lang::get("zentroownerbot::bot.prompts.password.warning", ["time" => ZentroOwnerBotController::$AUTODESTROY_TIME_IN_MINS]) . "_",
                     "autodestroy" => ZentroOwnerBotController::$AUTODESTROY_TIME_IN_MINS,
                 );
             };
