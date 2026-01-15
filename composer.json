@@ -11,7 +11,7 @@
         "laravel/tinker": "^2.10.1"
     },
     "require-dev": {
-        "artengin/laravel-pint-artisan": "^1.0",
+        "artengin/laravel-pint-artisan": "^1.1",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",
         "laravel/sail": "^1.41",
