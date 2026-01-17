@@ -572,7 +572,7 @@ class GutoTradeBotController extends JsonsController
                     "user_id",
                     $this->actor->user_id,
                     "last_bot_callback_data",
-                    "promptaccountoperations-" . $array["pieces"][1],
+                    "promptaccountoperations2-" . $array["pieces"][1],
                     $this->telegram["username"]
                 );
                 $reply = $this->AccountsController->getOperationsPrompt();
@@ -1034,6 +1034,173 @@ class GutoTradeBotController extends JsonsController
                 return $reply;
             };
 
+        $this->strategies["getpaymentbyvalue"] =
+            function () use ($array) {
+                $reply = $this->PaymentsController->renderPaymentsByAny(
+                    $this,
+                    $this->message["text"],
+                    "Reporte de pago encontrado",
+                    [
+                        [
+                            ["text" => "↖️ Volver al menú de pagos", "callback_data" => "/payments"],
+                        ],
+                    ]
+                );
+                return $reply;
+            };
+
+        $this->strategies["getpaymentbydaysold"] =
+            function () use ($array) {
+                $reply = $this->PaymentsController->renderPaymentsByDate(
+                    $this,
+                    $this->message["text"],
+                    "Reporte de pago rezagado",
+                    [
+                        [
+                            ["text" => "↖️ Volver al menú de pagos", "callback_data" => "/payments"],
+                        ],
+                    ]
+                );
+                return $reply;
+            };
+
+        $this->strategies["promptaccountoperations2"] =
+            function () use ($array) {
+                $account = $this->AccountsController->getFirst(Accounts::class, "id", "=", $array["pieces"][1]);
+                $array = $account->data;
+                $array["remain_operations"] = $this->message["text"];
+                $account->data = $array;
+                $account->save();
+
+                $reply = $this->AccountsController->getMessageTemplate($account->toArray(), $this->actor->user_id);
+                $reply = $reply["message"];
+                $reply["markup"] = $reply["reply_markup"];
+                return $reply;
+            };
+
+        $this->strategies["promptmoneyamount2"] =
+            function () use ($array) {
+                $payment = $this->PaymentsController->getFirst(Payments::class, "id", "=", $array["pieces"][1]);
+                $payment->amount = $this->message["text"];
+                $payment->save();
+
+                // preparar el menu de opciones sobre este pago
+                $menu = $this->PaymentsController->getOptionsMenuForThisOne($this, $payment, $this->actor->data[$this->telegram["username"]]["admin_level"]);
+                $payment->sendAsTelegramMessage(
+                    $this,
+                    $this->actor,
+                    "Pago modificado",
+                    false,
+                    true,
+                    $menu
+                );
+                $reply = [
+                    "text" => "",
+                ];
+                return $reply;
+            };
+
+        $this->strategies["promptmoneycomment2"] =
+            function () use ($array) {
+                $payment = $this->PaymentsController->getFirst(Payments::class, "id", "=", $array["pieces"][1]);
+                $payment->comment = $this->message["text"];
+                $payment->save();
+
+                // preparar el menu de opciones sobre este pago
+                $menu = $this->PaymentsController->getOptionsMenuForThisOne($this, $payment, $this->actor->data[$this->telegram["username"]]["admin_level"]);
+                $payment->sendAsTelegramMessage(
+                    $this,
+                    $this->actor,
+                    "Pago modificado",
+                    false,
+                    true,
+                    $menu
+                );
+                $reply = [
+                    "text" => "",
+                ];
+                return $reply;
+            };
+
+        $this->strategies["promptmoneycomment2"] =
+            function () use ($array) {
+                $payment = $this->PaymentsController->getFirst(Payments::class, "id", "=", $array["pieces"][1]);
+                $payment->comment = $this->message["text"];
+                $payment->save();
+
+                // preparar el menu de opciones sobre este pago
+                $menu = $this->PaymentsController->getOptionsMenuForThisOne($this, $payment, $this->actor->data[$this->telegram["username"]]["admin_level"]);
+                $payment->sendAsTelegramMessage(
+                    $this,
+                    $this->actor,
+                    "Pago modificado",
+                    false,
+                    true,
+                    $menu
+                );
+                $reply = [
+                    "text" => "",
+                ];
+                return $reply;
+            };
+
+        $this->strategies["promptpaymentcomment"] =
+            function () use ($array) {
+                $payment = $this->PaymentsController->getFirst(Payments::class, "id", "=", $array["pieces"][1]);
+                //$comment, $screenshot, $sender_id, $payment_id, $data = array()
+                $this->CommentsController->create($this->message["text"], $payment->screenshot, $this->actor->user_id, $array["pieces"][1]);
+
+                switch ($this->actor->data[$this->telegram["username"]]["admin_level"]) {
+                    // si lo ha escrito un remesador se notifica a los supervisores o a los admin4
+                    case "2":
+                    case 2:
+                        if (
+                            isset($this->data["notifications"]["comments"]["new"]["tosupervisors"]) &&
+                            $this->data["notifications"]["comments"]["new"]["tosupervisors"] == 1
+                        ) {
+                            if ($payment->supervisor_id && $payment->supervisor_id > 0) {
+                                $supervisor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $payment->supervisor_id);
+                                $menu = $this->PaymentsController->getOptionsMenuForThisOne($this, $payment, 3);
+                                $payment->sendAsTelegramMessage(
+                                    $this,
+                                    $supervisor,
+                                    "Comentario sobre:",
+                                    $this->message["text"],
+                                    true,
+                                    $menu
+                                );
+                            } else {
+                                $this->PaymentsController->notifyToCapitals($this, $payment, $this->message["text"], "Comentario sobre:");
+                            }
+                        }
+                        if (
+                            isset($this->data["notifications"]["comments"]["new"]["togestors"]) &&
+                            $this->data["notifications"]["comments"]["new"]["togestors"] == 1
+                        ) {
+                            $this->PaymentsController->notifyToGestors($this, $payment, $this->message["text"], "Comentario sobre:");
+                        }
+                        break;
+                    // si lo ha escrito cualquier otro se le notifica al remesador
+                    default:
+                        if ($payment->sender_id && $payment->sender_id > 0) {
+                            $sender = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $payment->sender_id);
+                            $menu = $this->PaymentsController->getOptionsMenuForThisOne($this, $payment, 2);
+                            $payment->sendAsTelegramMessage(
+                                $this,
+                                $sender,
+                                "Comentario sobre:",
+                                $this->message["text"],
+                                true,
+                                $menu
+                            );
+                        }
+                        break;
+                }
+
+                $reply = $this->CommentsController->notifyAfterComment();
+                return $reply;
+            };
+
 
         return $this->getProcessedMessage();
 
@@ -1046,205 +1213,8 @@ class GutoTradeBotController extends JsonsController
                     if (isset($array[$this->telegram["username"]]["last_bot_callback_data"])) {
                         $array = $this->getCommand($array[$this->telegram["username"]]["last_bot_callback_data"]);
                         switch ($array["command"]) {
-                            case "getpaymentbyvalue":
-                                // resetear el comando obtenido a traves de la BD
-                                $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
-                                $reply = $this->PaymentsController->renderPaymentsByAny(
-                                    $this,
-                                    $this->message["text"],
-                                    "Reporte de pago encontrado",
-                                    [
-                                        [
-                                            ["text" => "↖️ Volver al menú de pagos", "callback_data" => "/payments"],
-                                        ],
-                                    ]
-                                );
-                                break;
-                            case "getpaymentbydaysold":
-                                // resetear el comando obtenido a traves de la BD
-                                $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
-                                $reply = $this->PaymentsController->renderPaymentsByDate(
-                                    $this,
-                                    $this->message["text"],
-                                    "Reporte de pago rezagado",
-                                    [
-                                        [
-                                            ["text" => "↖️ Volver al menú de pagos", "callback_data" => "/payments"],
-                                        ],
-                                    ]
-                                );
-                                break;
-                            case "promptaccountoperations":
-                                $account = $this->AccountsController->getFirst(Accounts::class, "id", "=", $array["pieces"][1]);
-                                $array = $account->data;
-                                $array["remain_operations"] = $this->message["text"];
-                                $account->data = $array;
-                                $account->save();
 
-                                $reply = $this->AccountsController->getMessageTemplate($account->toArray(), $this->actor->user_id);
-                                $reply = $reply["message"];
-                                $reply["markup"] = $reply["reply_markup"];
-                                break;
-                            case "promptmoneyamount":
-                                $payment = $this->PaymentsController->getFirst(Payments::class, "id", "=", $array["pieces"][1]);
-                                $payment->amount = $this->message["text"];
-                                $payment->save();
 
-                                // preparar el menu de opciones sobre este pago
-                                $menu = $this->PaymentsController->getOptionsMenuForThisOne($this, $payment, $this->actor->data[$this->telegram["username"]]["admin_level"]);
-                                $payment->sendAsTelegramMessage(
-                                    $this,
-                                    $this->actor,
-                                    "Pago modificado",
-                                    false,
-                                    true,
-                                    $menu
-                                );
-                                $reply = [
-                                    "text" => "",
-                                ];
-                                break;
-                            case "promptmoneycomment":
-                                $payment = $this->PaymentsController->getFirst(Payments::class, "id", "=", $array["pieces"][1]);
-                                $payment->comment = $this->message["text"];
-                                $payment->save();
-
-                                // preparar el menu de opciones sobre este pago
-                                $menu = $this->PaymentsController->getOptionsMenuForThisOne($this, $payment, $this->actor->data[$this->telegram["username"]]["admin_level"]);
-                                $payment->sendAsTelegramMessage(
-                                    $this,
-                                    $this->actor,
-                                    "Pago modificado",
-                                    false,
-                                    true,
-                                    $menu
-                                );
-                                $reply = [
-                                    "text" => "",
-                                ];
-                                break;
-                            case "/utc":
-                                if (is_numeric($this->message["text"])) {
-
-                                    $array = $this->actor->data;
-                                    $array[$this->telegram["username"]]["time_zone"] = $this->message["text"];
-                                    if ($this->message["text"] == 0 || $this->message["text"] == "0") {
-                                        unset($array[$this->telegram["username"]]["time_zone"]);
-                                    }
-
-                                    $this->actor->data = $array;
-                                    $this->actor->save();
-
-                                    $reply = $this->ActorsController->notifyAfterUTCChange($this->message["text"]);
-                                } else {
-                                    $reply = $this->ActorsController->notifyBadUTCValue($this->message["text"]);
-                                }
-                                break;
-                            case "promptpaymentcomment":
-                                // resetear el comando obtenido a traves de la BD
-                                $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
-
-                                $payment = $this->PaymentsController->getFirst(Payments::class, "id", "=", $array["pieces"][1]);
-                                //$comment, $screenshot, $sender_id, $payment_id, $data = array()
-                                $this->CommentsController->create($this->message["text"], $payment->screenshot, $this->actor->user_id, $array["pieces"][1]);
-
-                                switch ($this->actor->data[$this->telegram["username"]]["admin_level"]) {
-                                    // si lo ha escrito un remesador se notifica a los supervisores o a los admin4
-                                    case "2":
-                                    case 2:
-                                        if (
-                                            isset($this->data["notifications"]["comments"]["new"]["tosupervisors"]) &&
-                                            $this->data["notifications"]["comments"]["new"]["tosupervisors"] == 1
-                                        ) {
-                                            if ($payment->supervisor_id && $payment->supervisor_id > 0) {
-                                                $supervisor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $payment->supervisor_id);
-                                                $menu = $this->PaymentsController->getOptionsMenuForThisOne($this, $payment, 3);
-                                                $payment->sendAsTelegramMessage(
-                                                    $this,
-                                                    $supervisor,
-                                                    "Comentario sobre:",
-                                                    $this->message["text"],
-                                                    true,
-                                                    $menu
-                                                );
-                                            } else {
-                                                $this->PaymentsController->notifyToCapitals($this, $payment, $this->message["text"], "Comentario sobre:");
-                                            }
-                                        }
-                                        if (
-                                            isset($this->data["notifications"]["comments"]["new"]["togestors"]) &&
-                                            $this->data["notifications"]["comments"]["new"]["togestors"] == 1
-                                        ) {
-                                            $this->PaymentsController->notifyToGestors($this, $payment, $this->message["text"], "Comentario sobre:");
-                                        }
-                                        break;
-                                    // si lo ha escrito cualquier otro se le notifica al remesador
-                                    default:
-                                        if ($payment->sender_id && $payment->sender_id > 0) {
-                                            $sender = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $payment->sender_id);
-                                            $menu = $this->PaymentsController->getOptionsMenuForThisOne($this, $payment, 2);
-                                            $payment->sendAsTelegramMessage(
-                                                $this,
-                                                $sender,
-                                                "Comentario sobre:",
-                                                $this->message["text"],
-                                                true,
-                                                $menu
-                                            );
-                                        }
-                                        break;
-                                }
-
-                                $reply = $this->CommentsController->notifyAfterComment();
-                                break;
-                            case "getannouncement":
-                                // resetear el comando obtenido a traves de la BD
-                                $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
-                                $amount = 0;
-                                $suscriptors = $this->ActorsController->getAll();
-                                foreach ($suscriptors as $suscriptor) {
-                                    $array = [
-                                        "message" => [
-                                            "text" => $this->message["text"],
-                                            "chat" => [
-                                                "id" => $suscriptor->user_id,
-                                            ],
-                                            "reply_markup" => json_encode([
-                                                "inline_keyboard" => [
-                                                    [
-                                                        ["text" => "↖️ Volver al menú principal", "callback_data" => "menu"],
-                                                    ],
-                                                ],
-                                            ]),
-                                        ],
-                                    ];
-                                    $array = json_decode($this->TelegramController->sendMessage($array, $this->token), true);
-                                    if (isset($array["result"]) && isset($array["result"]["message_id"])) {
-                                        $this->TelegramController->pinMessage([
-                                            "message" => [
-                                                "chat" => [
-                                                    "id" => $suscriptor->user_id,
-                                                ],
-                                                "message_id" => $array["result"]["message_id"],
-                                            ],
-                                        ], $this->token);
-                                        $amount++;
-                                    }
-                                }
-
-                                $reply = [
-                                    "text" => "🚨 *Anuncio enviado*\nEl anuncio ha sido enviado correctamente a {$amount} suscriptores.\n\n👇 Qué desea hacer ahora?",
-                                    "markup" => json_encode([
-                                        "inline_keyboard" => [
-                                            [
-                                                ["text" => "↖️ Volver al menú de administrador", "callback_data" => "adminmenu"],
-                                            ],
-
-                                        ],
-                                    ]),
-                                ];
-
-                                break;
                             case "promptprofit":
                                 // resetear el comando obtenido a traves de la BD
                                 $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);

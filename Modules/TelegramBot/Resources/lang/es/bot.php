@@ -27,6 +27,7 @@ return [
         "sendannouncement" => "Anuncio",
         "viewusers" => "Usuarios suscritos",
         "backtomainmenu" => "Volver al menú principal",
+        "backtoadminmenu" => "Volver al menú de administrador",
         "deleteprevmessages" => "Eliminar mensajes previos",
         "keepprevmessages" => "No eliminar mensajes previos",
         "timezone" => "Zona horaria :timezone",
@@ -46,6 +47,10 @@ return [
         "announcement" => [
             "header" => "Enviar anuncio",
             "whatsnext" => "Escriba el anuncio que desea enviar",
+            "sent" => [
+                "header" => "Anuncio enviado",
+                "warning" => "El anuncio ha sido enviado correctamente a :amount suscriptores",
+            ],
         ],
         "userwithnorole" => [
             "header" => "Nuevo usuario suscrito al bot",

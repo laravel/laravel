@@ -988,7 +988,7 @@ class MoneysController extends JsonsController
 
     public function getRevalorizationPrompt($bot, $money_id)
     {
-        $bot->ActorsController->updateData(Actors::class, "user_id", $bot->actor->user_id, "last_bot_callback_data", "promptmoneyamount-{$money_id}", $bot->telegram["username"]);
+        $bot->ActorsController->updateData(Actors::class, "user_id", $bot->actor->user_id, "last_bot_callback_data", "promptmoneyamount2-{$money_id}", $bot->telegram["username"]);
 
         $reply = array(
             "text" => "🎲 *Ajustar cantidad del envio*\n\n👇 Escriba el nuevo valor:",
@@ -1004,7 +1004,7 @@ class MoneysController extends JsonsController
 
     public function getRecommentPrompt($bot, $money_id)
     {
-        $bot->ActorsController->updateData(Actors::class, "user_id", $bot->actor->user_id, "last_bot_callback_data", "promptmoneycomment-{$money_id}", $bot->telegram["username"]);
+        $bot->ActorsController->updateData(Actors::class, "user_id", $bot->actor->user_id, "last_bot_callback_data", "promptmoneycomment2-{$money_id}", $bot->telegram["username"]);
 
         $reply = array(
             "text" => "✒ *Ajustar el nombre del remitente*\n\n👇 Escriba el nuevo valor:",

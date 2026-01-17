@@ -250,6 +250,53 @@ trait UsesTelegramBot
                     ]),
                 ];
                 break;
+            case "getannouncement":
+                $amount = 0;
+                $suscriptors = $this->ActorsController->getAll();
+                foreach ($suscriptors as $suscriptor) {
+                    $array = [
+                        "message" => [
+                            "text" => $this->message["text"],
+                            "chat" => [
+                                "id" => $suscriptor->user_id,
+                            ],
+                            "reply_markup" => json_encode([
+                                "inline_keyboard" => [
+                                    [
+                                        ["text" => "↖️ " . Lang::get("telegrambot::bot.options.backtomainmenu"), "callback_data" => "menu"]
+                                    ],
+                                ],
+                            ]),
+                        ],
+                    ];
+                    $array = json_decode($this->TelegramController->sendMessage($array, $this->token), true);
+                    if (isset($array["result"]) && isset($array["result"]["message_id"])) {
+                        $this->TelegramController->pinMessage([
+                            "message" => [
+                                "chat" => [
+                                    "id" => $suscriptor->user_id,
+                                ],
+                                "message_id" => $array["result"]["message_id"],
+                            ],
+                        ], $this->token);
+                        $amount++;
+                    }
+                }
+
+                $reply = [
+                    "text" => "🚨 *" . Lang::get("telegrambot::bot.prompts.announcement.sent.header") . "*\n" .
+                        Lang::get("telegrambot::bot.prompts.announcement.sent.warning", ["amount" => $amount]) . ".\n\n" .
+                        "👇 " . Lang::get("telegrambot::bot.prompts.whatsnext"),
+                    "markup" => json_encode([
+                        "inline_keyboard" => [
+                            [
+                                ["text" => "↖️ " . Lang::get("telegrambot::bot.options.backtoadminmenu"), "callback_data" => "adminmenu"]
+                            ],
+
+                        ],
+                    ]),
+                ];
+                break;
 
             case "configdeleteprevmessages":
                 $array = $this->actor->data;
@@ -268,16 +315,30 @@ trait UsesTelegramBot
             case "/utc":
                 $reply = $this->ActorsController->getUTCPrompt($this);
                 break;
+            case "/utc2":
+                if (is_numeric($this->message["text"])) {
+
+                    $array = $this->actor->data;
+                    $array[$this->telegram["username"]]["time_zone"] = $this->message["text"];
+                    if ($this->message["text"] == 0 || $this->message["text"] == "0") {
+                        unset($array[$this->telegram["username"]]["time_zone"]);
+                    }
+
+                    $this->actor->data = $array;
+                    $this->actor->save();
+
+                    $reply = $this->ActorsController->notifyAfterUTCChange($this->message["text"]);
+                } else {
+                    $reply = $this->ActorsController->notifyBadUTCValue($this->message["text"]);
+                }
+                break;
 
             case "notimplemented":
                 $reply = $this->notifyNotImplemented($this->actor->user_id);
                 break;
 
             case "promptusermetadata":
-                Log::info("promptusermetadata array (" . count($array["pieces"]) . "): " . json_encode($array));
-
                 $message = explode(":", $this->message["text"]);
-                Log::info("promptusermetadata message: " . json_encode($message));
 
                 $suscriptor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
                 //$this->getToken($this->telegram["username"])

@@ -232,7 +232,7 @@ class ActorsController extends JsonsController
 
     public function getUTCPrompt($bot)
     {
-        $this->updateData(Actors::class, "user_id", $bot->actor->user_id, "last_bot_callback_data", "/utc", $bot->telegram["username"]);
+        $this->updateData(Actors::class, "user_id", $bot->actor->user_id, "last_bot_callback_data", "/utc2", $bot->telegram["username"]);
 
         $reply = [
             "text" => "⏰ *Ajustar zona horaria*\n\n_Definir su zona horaria hará que el bot le personalice las fechas y horas.\nPara establecer su zona horaria de la forma UTC-4 escriba solo -4._\n\n👇 Escriba en qué zona horaria esta ud:",
