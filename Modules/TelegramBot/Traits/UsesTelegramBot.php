@@ -274,6 +274,7 @@ trait UsesTelegramBot
                 break;
 
             case "promptusermetadata":
+                Log::info("promptusermetadata test: " . json_encode($array));
                 if (count($array["pieces"]) == 2) {
                     $message = explode(":", $this->message["text"]);
 
