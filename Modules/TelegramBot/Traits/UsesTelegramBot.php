@@ -274,9 +274,10 @@ trait UsesTelegramBot
                 break;
 
             case "promptusermetadata":
-                Log::info("promptusermetadata test: " . json_encode($array));
+                Log::info("promptusermetadata array: " . json_encode($array));
                 if (count($array["pieces"]) == 2) {
                     $message = explode(":", $this->message["text"]);
+                    Log::info("promptusermetadata message: " . json_encode($message));
 
                     $suscriptor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
                     //$this->getToken($this->telegram["username"])
