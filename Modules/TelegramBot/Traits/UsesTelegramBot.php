@@ -275,20 +275,20 @@ trait UsesTelegramBot
 
             case "promptusermetadata":
                 Log::info("promptusermetadata array (" . count($array["pieces"]) . "): " . json_encode($array));
-                if (count($array["pieces"]) == 2) {
-                    $message = explode(":", $this->message["text"]);
-                    Log::info("promptusermetadata message: " . json_encode($message));
 
-                    $suscriptor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
-                    //$this->getToken($this->telegram["username"])
-                    $suscriptordata = $suscriptor->data;
-                    if (!isset($suscriptordata[$this->telegram["username"]]["metadatas"]))
-                        $suscriptordata[$this->telegram["username"]]["metadatas"] = array();
-                    $suscriptordata[$this->telegram["username"]]["metadatas"][trim($message[0])] = trim($message[1]);
+                $message = explode(":", $this->message["text"]);
+                Log::info("promptusermetadata message: " . json_encode($message));
 
-                    $suscriptor->data = $suscriptordata;
-                    $suscriptor->save();
-                }
+                $suscriptor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
+                //$this->getToken($this->telegram["username"])
+                $suscriptordata = $suscriptor->data;
+                if (!isset($suscriptordata[$this->telegram["username"]]["metadatas"]))
+                    $suscriptordata[$this->telegram["username"]]["metadatas"] = array();
+                $suscriptordata[$this->telegram["username"]]["metadatas"][trim($message[0])] = trim($message[1]);
+
+                $suscriptor->data = $suscriptordata;
+                $suscriptor->save();
+
 
                 $reply = $this->ActorsController->notifyAfterMetadataChange($array["pieces"][1]);
                 break;
