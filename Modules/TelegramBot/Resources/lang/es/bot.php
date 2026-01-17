@@ -43,6 +43,10 @@ return [
             "header" => "Función no implementada",
             "warning" => "Esta función aun no está lista. Estamos trabajando en ella para sacarla en los próximos días.",
         ],
+        "announcement" => [
+            "header" => "Enviar anuncio",
+            "whatsnext" => "Escriba el anuncio que desea enviar",
+        ],
         "userwithnorole" => [
             "header" => "Nuevo usuario suscrito al bot",
             "warning" => "Invitado por",

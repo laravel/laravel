@@ -132,14 +132,26 @@ trait UsesTelegramBot
         // Envía una respuesta al servidor de Telegram para confirmar la recepción
         return response()->json(["message" => "OK"], 200);
     }
-    public function getProcessedMessage()
+    public function getProcessedMessage($array = false)
     {
+
+        // validando q el usuario tenga un @username
+        if (
+            !isset($this->actor->data["telegram"]) ||
+            !isset($this->actor->data["telegram"]["username"]) ||
+            trim($this->actor->data["telegram"]["username"]) == ""
+        ) {
+            return $this->notifyUsernameRequired($this->actor->user_id);
+        }
+
+        // preparando respuesta generica para un texto no reconocido en el bot
         $reply = [
             "text" => "🙇🏻 " . Lang::get("telegrambot::bot.errors.unrecognizedcommand.text", ["text" => $this->message["text"]]) .
                 ".\n " . Lang::get("telegrambot::bot.errors.unrecognizedcommand.hint") . ".",
         ];
 
-        $array = $this->getCommand($this->message["text"]);
+        if (!$array)
+            $array = $this->getCommand($this->message["text"]);
         //var_dump($array);
         //die("\n");
         //echo strtolower($array["command"]);
@@ -175,6 +187,11 @@ trait UsesTelegramBot
             case "/user":
                 if ($this->actor->isLevel(1, $this->telegram["username"]))
                     $reply = $this->AgentsController->findSuscriptor($this, $array["message"]);
+                break;
+
+            case "/suscribe":
+                $this->ActorsController->suscribe($this, $this->telegram["username"], $array["message"], null);
+                $reply = $this->AgentsController->findSuscriptor($this, $array["message"]);
                 break;
 
             case "promote0":
@@ -221,35 +238,69 @@ trait UsesTelegramBot
                 );
                 break;
 
+            case "sendannouncement":
+                $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "getannouncement", $this->telegram["username"]);
+                $reply = [
+                    "text" => "🚨 *" . Lang::get("telegrambot::bot.prompts.announcement.header") . "*\n\n" .
+                        "👇 " . Lang::get("telegrambot::bot.prompts.announcement.whatsnext") . ":",
+                    "markup" => json_encode([
+                        "inline_keyboard" => [
+                            [["text" => "✋ " . Lang::get("telegrambot::bot.options.cancel"), "callback_data" => "adminmenu"]],
+                        ],
+                    ]),
+                ];
+                break;
+
+            case "configdeleteprevmessages":
+                $array = $this->actor->data;
+                if (isset($array[$this->telegram["username"]]["config_delete_prev_messages"])) {
+                    unset($array[$this->telegram["username"]]["config_delete_prev_messages"]);
+                } else {
+                    $array[$this->telegram["username"]]["config_delete_prev_messages"] = true;
+                }
+
+                $this->actor->data = $array;
+                $this->actor->save();
+
+                $reply = $this->configMenu($this->actor);
+                break;
+
+            case "/utc":
+                $reply = $this->ActorsController->getUTCPrompt($this);
+                break;
+
+            case "notimplemented":
+                $reply = $this->notifyNotImplemented($this->actor->user_id);
+                break;
+
+            case "promptusermetadata":
+                if (count($array["pieces"]) == 2) {
+                    $message = explode(":", $this->message["text"]);
+
+                    $suscriptor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
+                    //$this->getToken($this->telegram["username"])
+                    $suscriptordata = $suscriptor->data;
+                    if (!isset($suscriptordata[$this->telegram["username"]]["metadatas"]))
+                        $suscriptordata[$this->telegram["username"]]["metadatas"] = array();
+                    $suscriptordata[$this->telegram["username"]]["metadatas"][trim($message[0])] = trim($message[1]);
+
+                    $suscriptor->data = $suscriptordata;
+                    $suscriptor->save();
+                }
+
+                $reply = $this->ActorsController->notifyAfterMetadataChange($array["pieces"][1]);
+                break;
+
 
             default:
                 $array = $this->actor->data;
                 if (isset($array[$this->telegram["username"]]["last_bot_callback_data"])) {
                     $array = $this->getCommand($array[$this->telegram["username"]]["last_bot_callback_data"]);
-                    switch ($array["command"]) {
-                        case "promptusermetadata":
-                            // resetear el comando obtenido a traves de la BD
-                            $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
 
-                            if (count($array["pieces"]) == 2) {
-                                $message = explode(":", $this->message["text"]);
+                    // resetear el comando obtenido a traves de la BD
+                    $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
 
-                                $suscriptor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
-                                //$this->getToken($this->telegram["username"])
-                                $suscriptordata = $suscriptor->data;
-                                if (!isset($suscriptordata[$this->telegram["username"]]["metadatas"]))
-                                    $suscriptordata[$this->telegram["username"]]["metadatas"] = array();
-                                $suscriptordata[$this->telegram["username"]]["metadatas"][trim($message[0])] = trim($message[1]);
-
-                                $suscriptor->data = $suscriptordata;
-                                $suscriptor->save();
-                            }
-
-                            $reply = $this->ActorsController->notifyAfterMetadataChange($array["pieces"][1]);
-                            break;
-                        default:
-                            break;
-                    }
+                    $reply = $this->getProcessedMessage($array);
                 }
                 break;
 
