@@ -1201,108 +1201,57 @@ class GutoTradeBotController extends JsonsController
                 return $reply;
             };
 
+        $this->strategies["promptprofit"] =
+            function () use ($array) {
+                $reply = [
+                    "text" => "",
+                ];
 
-        return $this->getProcessedMessage();
+                $array = explode(":", $this->message["text"]);
+
+                if (count($array) == 2) {
+                    $stats = $this->CapitalsController->getStats($this);
+                    // la cantidad de USDT en la wallet q aun no se han procesado
+                    $amount = $stats["usdt"]["pending"] + $stats["usdt"]["unconfirmed"];
+                    if ($amount > 0) {
+                        $negative = -1 * $amount;
+                        $data = [
+                            "confirmation_date" => date("Y-m-d H:i:s"),
+                            "confirmation_message" => request("message")["message_id"],
+                        ];
+                        $this->CapitalsController->create(
+                            $this->ProfitsController->getEURtoSendWithActiveRate($negative),
+                            $negative,
+                            "AgACAgEAAxkBAALd_GcZYv85lMhzVQ-Ue8oWgwABZORGwAACQLAxG7X30UQcBx3z45dK6AEAAwIAA3kAAzYE",
+                            $this->actor->user_id,
+                            $this->actor->user_id,
+                            $data
+                        );
+                    }
+
+                    $this->ProfitsController->update($array[0], $array[1]);
+
+                    // ajustar el capital restante
+                    if ($amount > 0)
+                        $this->CapitalsController->create(
+                            $this->ProfitsController->getEURtoSendWithActiveRate($amount),
+                            $amount,
+                            "AgACAgEAAxkBAALd_GcZYv85lMhzVQ-Ue8oWgwABZORGwAACQLAxG7X30UQcBx3z45dK6AEAAwIAA3kAAzYE",
+                            $this->actor->user_id,
+                            $this->actor->user_id,
+                            $data
+                        );
+
+                    $reply = $this->ProfitsController->notifyAfterChange();
+                }
+                return $reply;
+            };
+
 
 
         if (isset($this->message["text"]) && $this->message["text"] != "") {
-            switch (strtolower($array["command"])) {
-
-                default:
-                    $array = $this->actor->data;
-                    if (isset($array[$this->telegram["username"]]["last_bot_callback_data"])) {
-                        $array = $this->getCommand($array[$this->telegram["username"]]["last_bot_callback_data"]);
-                        switch ($array["command"]) {
-
-
-                            case "promptprofit":
-                                // resetear el comando obtenido a traves de la BD
-                                $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
-
-                                $array = explode(":", $this->message["text"]);
-
-                                if (count($array) == 2) {
-                                    $stats = $this->CapitalsController->getStats($this);
-                                    // la cantidad de USDT en la wallet q aun no se han procesado
-                                    $amount = $stats["usdt"]["pending"] + $stats["usdt"]["unconfirmed"];
-                                    if ($amount > 0) {
-                                        $negative = -1 * $amount;
-                                        $data = [
-                                            "confirmation_date" => date("Y-m-d H:i:s"),
-                                            "confirmation_message" => request("message")["message_id"],
-                                        ];
-                                        $this->CapitalsController->create(
-                                            $this->ProfitsController->getEURtoSendWithActiveRate($negative),
-                                            $negative,
-                                            "AgACAgEAAxkBAALd_GcZYv85lMhzVQ-Ue8oWgwABZORGwAACQLAxG7X30UQcBx3z45dK6AEAAwIAA3kAAzYE",
-                                            $this->actor->user_id,
-                                            $this->actor->user_id,
-                                            $data
-                                        );
-                                    }
-
-                                    $this->ProfitsController->update($array[0], $array[1]);
-
-                                    // ajustar el capital restante
-                                    if ($amount > 0)
-                                        $this->CapitalsController->create(
-                                            $this->ProfitsController->getEURtoSendWithActiveRate($amount),
-                                            $amount,
-                                            "AgACAgEAAxkBAALd_GcZYv85lMhzVQ-Ue8oWgwABZORGwAACQLAxG7X30UQcBx3z45dK6AEAAwIAA3kAAzYE",
-                                            $this->actor->user_id,
-                                            $this->actor->user_id,
-                                            $data
-                                        );
-
-                                    $reply = $this->ProfitsController->notifyAfterChange();
-                                }
-                                break;
-                            case "promptusermetadata":
-                                // resetear el comando obtenido a traves de la BD
-                                $this->ActorsController->updateData(Actors::class, "user_id", $this->actor->user_id, "last_bot_callback_data", "", $this->telegram["username"]);
-
-                                if (count($array["pieces"]) == 2) {
-                                    $message = explode(":", $this->message["text"]);
-
-                                    $suscriptor = $this->ActorsController->getFirst(Actors::class, "user_id", "=", $array["pieces"][1]);
-                                    //$this->token
-                                    $suscriptordata = $suscriptor->data;
-                                    if (!isset($suscriptordata[$this->telegram["username"]]["metadatas"]))
-                                        $suscriptordata[$this->telegram["username"]]["metadatas"] = array();
-                                    $suscriptordata[$this->telegram["username"]]["metadatas"][trim($message[0])] = trim($message[1]);
-
-                                    $suscriptor->data = $suscriptordata;
-                                    $suscriptor->save();
-                                }
-
-                                $reply = $this->ActorsController->notifyAfterMetadataChange($array["pieces"][1]);
-                                break;
-
-                            default:
-                                break;
-                        }
-                    }
-                    break;
-            }
-
-
-
-            $studlyAction = "Action";
-            $jobClass = "Modules\\GutoTradeBot\\Jobs\\{$studlyAction}";
-            // Ejecución síncrona (para casos que necesiten respuesta inmediata)
-            $reply = $jobClass::dispatchSync(
-                $this
-            );
-            /*
-            // Para ejecutar en cola (async):
-$jobClass::dispatch($request->all(), auth()->id());
-
-// Para ejecutar ahora mismo (sync):
-$jobClass::dispatchSync($request->all(), auth()->id());
-            */
-
             // Responder al texto recibido
-            return $reply;
+            return $this->getProcessedMessage();
         }
 
         if ((isset($this->message["photo"])) || isset($this->message["document"])) {

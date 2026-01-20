@@ -134,7 +134,6 @@ trait UsesTelegramBot
     }
     public function getProcessedMessage($array = false)
     {
-
         // validando q el usuario tenga un @username
         if (
             !isset($this->actor->data["telegram"]) ||
