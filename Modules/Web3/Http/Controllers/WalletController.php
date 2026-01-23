@@ -1,20 +1,16 @@
 <?php
 
-namespace Modules\ZentroTraderBot\Http\Controllers;
+namespace Modules\Web3\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request; // Necesario para type hinting
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http; // Necesario para rpcCall
 use Elliptic\EC;
 use kornrunner\Keccak;
-use Illuminate\Encryption\Encrypter;
-use Illuminate\Contracts\Encryption\DecryptException;
 use kornrunner\Ethereum\Transaction;
 use kornrunner\Ethereum\EIP1559Transaction;
-use Modules\ZentroTraderBot\Traits\BlockchainTools;
-use Modules\ZentroTraderBot\Entities\TradingSuscriptions;
+use FurqanSiddiqui\BIP39\BIP39;
+use Modules\Web3\Traits\BlockchainTools;
+use BN\BN;
 
 class WalletController extends Controller
 {
@@ -22,81 +18,228 @@ class WalletController extends Controller
 
     /**
      * GENERAR NUEVA WALLET
-     * Se llama cuando el usuario inicia el bot (/start).
+     * @return array{address: string, entropy: string, private_key: string, seed_phrase: string, status: string}
      */
-    public function generateWallet(int $userId)
+    public function generateWallet()
     {
-        // 1. Buscar el Actor por su ID de Telegram (user_id)
-        $suscriptor = TradingSuscriptions::where('user_id', $userId)->first();
+        // 1. PRIMERO generar 12 palabras BIP-39
+        $mnemonic = BIP39::Generate(12);
+        $seedPhrase = implode(' ', $mnemonic->words);
+        $entropy = $mnemonic->entropy;
 
-        // Si no existe el actor, retornamos error (o lo creamos según tu lógica)
-        if (!$suscriptor) {
-            // $suscriptor = TradingSuscriptions::create(['user_id' => $userId, 'data' => []]); 
-            return ['status' => 'error', 'message' => 'Usuario no registrado en el sistema.'];
-        }
+        // 2. DERIVAR private key DETERMINÍSTICA desde las palabras
+        $privateKeyHex = $this->seedPhraseToPrivateKey($seedPhrase);
 
-        $currentData = $suscriptor->data ?? [];
+        // 3. Generar address desde esa private key
+        $address = $this->getAddressFromKey($privateKeyHex);
 
-        // Validación: Si ya tiene wallet, devolvemos la existente
-        if (isset($currentData['wallet']['address'])) {
-            return [
-                'status' => 'exists',
-                'address' => $currentData['wallet']['address']
-            ];
-        }
+        return [
+            'status' => 'created',
+            'address' => $address,
+            'seed_phrase' => $seedPhrase, // Estas palabras generan esta private key
+            'private_key' => $privateKeyHex, // Private key derivada de las palabras
+            'entropy' => $entropy,
+        ];
+    }
 
+
+    public function recoverFromPrivateKey(string $privateKeyHex)
+    {
         try {
-            // 2. Generar Claves
-            $ec = new EC('secp256k1');
-            $keyPair = $ec->genKeyPair();
-            $privateKeyHex = $keyPair->getPrivate('hex');
-            $publicKeyHex = $keyPair->getPublic(false, 'hex');
+            // Validar formato
+            if (!preg_match('/^[a-f0-9]{64}$/i', $privateKeyHex)) {
+                throw new \Exception('Invalid private key format');
+            }
 
-            // Derivar Address
-            $pubKeyNoPrefix = substr($publicKeyHex, 2);
-            $hash = Keccak::hash(hex2bin($pubKeyNoPrefix), 256);
-            $address = '0x' . substr($hash, -40);
+            // Generar wallet
+            $address = $this->getAddressFromKey($privateKeyHex);
 
-            // 3. GUARDADO SEGURO EN JSON
-            $walletData = [
+            return [
+                'status' => 'recovered',
                 'address' => $address,
-                'private_key' => Crypt::encryptString($privateKeyHex), // 🔒 ENCRIPTADO
-                'created_at' => now()->toIso8601String()
+                'private_key' => $privateKeyHex
             ];
-
-            $currentData['wallet'] = $walletData;
-            $suscriptor->data = $currentData;
-            $suscriptor->save();
-
-            Log::info("✅ Wallet generada en JSON para usuario $userId");
-
-            return ['status' => 'created', 'address' => $address];
 
         } catch (\Exception $e) {
-            Log::error("❌ Error generando wallet: " . $e->getMessage());
-            return ['status' => 'error', 'message' => 'Error interno de criptografía'];
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
         }
     }
+
+    /**
+     * Recuperar wallet desde palabras (USA EL MISMO ALGORITMO)
+     */
+    public function recoverFromSeedPhrase(string $seedPhrase)
+    {
+        try {
+            // 1. Validar palabras
+            $words = explode(' ', trim($seedPhrase));
+            if (count($words) !== 12) {
+                throw new \Exception('Se requieren exactamente 12 palabras');
+            }
+
+            // 2. Validar BIP-39
+            $mnemonic = BIP39::Words($seedPhrase);
+
+            // 3. ✅ MISMO ALGORITMO que en generateWallet()
+            $privateKeyHex = $this->seedPhraseToPrivateKey($seedPhrase);
+
+            // 4. Generar wallet
+            $address = $this->getAddressFromKey($privateKeyHex);
+
+            return [
+                'status' => 'recovered',
+                'address' => $address,
+                'private_key' => $privateKeyHex,
+                'entropy' => $mnemonic->entropy,
+                'verification' => [
+                    'algorithm_match' => true,
+                    'bip39_valid' => true
+                ]
+            ];
+
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * Derivar private key desde seed phrase (determinístico)
+     */
+    /**
+     * Derivar private key desde seed phrase siguiendo el estándar BIP-44 (m/44'/60'/0'/0/0)
+     */
+    /**
+     * Derivar private key desde seed phrase compatible con MetaMask/SafePal
+     */
+    private function seedPhraseToPrivateKey(string $seedPhrase): string
+    {
+        // 1. Generar la SEED binaria (BIP-39)
+        $seed = hash_pbkdf2('sha512', $seedPhrase, 'mnemonic', 2048, 64, true);
+
+        // 2. Generar Master Key y Chain Code (BIP-32)
+        $hmac = hash_hmac('sha512', $seed, "Bitcoin seed", true);
+        $masterPrivateKey = substr($hmac, 0, 32);
+        $masterChainCode = substr($hmac, 32, 32);
+
+        // 3. DERIVAR la ruta m/44'/60'/0'/0/0
+        // Usamos el nuevo método blindado
+        $derived = $this->deriveBIP44Path($masterPrivateKey, $masterChainCode, "m/44'/60'/0'/0/0");
+
+        return bin2hex($derived['private_key']);
+    }
+
+    /**
+     * Derivación Jerárquica BIP-32 Blindada
+     */
+    /**
+     * Derivación Jerárquica BIP-32 Blindada y Corregida
+     */
+    private function deriveBIP44Path($key, $chainCode, $path)
+    {
+        $cleanPath = str_replace(['m', ' '], '', $path);
+        $parts = array_values(array_filter(explode('/', $cleanPath), function ($value) {
+            return $value !== '';
+        }));
+
+        $currentKey = $key;
+        $currentChainCode = $chainCode;
+
+        $ec = new EC('secp256k1');
+        // El orden 'n' de la curva secp256k1 (necesario para la suma modular)
+        $n = new BN('fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141', 16);
+
+        foreach ($parts as $part) {
+            $hardened = (strpos($part, "'") !== false);
+            $index = (int) str_replace("'", '', $part);
+
+            if ($hardened) {
+                $index += 0x80000000;
+                $data = "\0" . $currentKey . pack('N', $index);
+            } else {
+                $keyPair = $ec->keyFromPrivate(bin2hex($currentKey));
+                $pubKeyHex = $keyPair->getPublic(true, 'hex');
+                $data = hex2bin($pubKeyHex) . pack('N', $index);
+            }
+
+            $hmac = hash_hmac('sha512', $data, $currentChainCode, true);
+            $iL = substr($hmac, 0, 32);
+            $currentChainCode = substr($hmac, 32, 32);
+
+            // --- EL PASO CRUCIAL: Suma Modular ---
+            $iL_bn = new BN(bin2hex($iL), 16);
+            $currentKey_bn = new BN(bin2hex($currentKey), 16);
+
+            // k_i = (iL + k_parent) mod n
+            $childKey_bn = $iL_bn->add($currentKey_bn)->mod($n);
+
+            // Convertimos de vuelta a binario de 32 bytes
+            $currentKey = hex2bin(str_pad($childKey_bn->toString(16), 64, '0', STR_PAD_LEFT));
+
+            //DEBUG
+            //dump("Level $part: " . bin2hex($currentKey));
+        }
+
+        return [
+            'private_key' => $currentKey,
+            'chain_code' => $currentChainCode
+        ];
+    }
+
+    /**
+     * Convierte de hexadecimal a decimal usando aritmética de precisión arbitraria
+     * @param string $hex
+     * @return int|string
+     */
+    private function convertHexToDecimalPrecise(string $hex): string
+    {
+        $hex = str_replace('0x', '', $hex);
+        $dec = '0';
+        $len = strlen($hex);
+
+        for ($i = 0; $i < $len; $i++) {
+            $dec = bcmul($dec, '16');
+            $dec = bcadd($dec, (string) hexdec($hex[$i]));
+        }
+
+        return $dec;
+    }
+
+    /**
+     * Convierte números decimales grandes (representados como strings) a hexadecimal
+     * @param string $dec
+     * @return int|string
+     */
+    private function convertDecimalToRawHex(string $dec): string
+    {
+        $hex = '';
+        while (bccomp($dec, '0') > 0) {
+            $rem = bcmod($dec, '16');
+            $dec = bcdiv($dec, '16', 0);
+            $hex = dechex($rem) . $hex;
+        }
+        return $hex ?: '0';
+    }
+
 
     /**
      * CONSULTAR SALDO (ESTANDARIZADO)
      * Siempre devuelve una estructura 'portfolio' consistente.
      */
-    public function getBalance(int $userId, ?string $networkSymbol = null)
+    protected function getBalance($address, $networkSymbol = null)
     {
         // 1. Obtener Wallet
-        $suscriptor = TradingSuscriptions::where('user_id', $userId)->first();
-        if (!$suscriptor || !isset($suscriptor->data['wallet']['address'])) {
-            return ['status' => 'error', 'message' => 'No tienes wallet configurada.'];
-        }
-        $address = $suscriptor->data['wallet']['address'];
-
         $portfolio = [];
         $mode = 'global';
 
         // --- CASO A: GLOBAL (Todas las redes) ---
         if ($networkSymbol === null) {
-            $networks = config('zentrotraderbot.networks');
+            $networks = config('web3.networks');
 
             foreach ($networks as $chainId => $networkConfig) {
                 // Usamos el nombre de la red como clave (Polygon, BSC, etc.)
@@ -108,12 +251,12 @@ class WalletController extends Controller
             $mode = 'specific';
             $networkSymbol = strtoupper($networkSymbol);
 
-            $tokenConfig = config("zentrotraderbot.tokens.$networkSymbol");
+            $tokenConfig = config("web3.tokens.$networkSymbol");
             if (!$tokenConfig)
                 return ['status' => 'error', 'message' => "Red desconocida: $networkSymbol"];
 
             $chainId = $tokenConfig['chain_id'];
-            $networkConfig = config("zentrotraderbot.networks.$chainId");
+            $networkConfig = config("web3.networks.$chainId");
 
             if (!$networkConfig)
                 return ['status' => 'error', 'message' => "Configuración incompleta ID $chainId."];
@@ -142,10 +285,10 @@ class WalletController extends Controller
 
         // 1. Nativo
         $nativeHex = $this->rpcCall($rpcUrl, 'eth_getBalance', [$address, 'latest']);
-        $assets[$networkConfig['native_symbol']] = $this->hexToDec($nativeHex, 18);
+        $assets[$networkConfig['native_symbol']] = $this->formatTokenBalance($nativeHex, 18);
 
         // 2. Tokens ERC-20
-        $allTokens = config('zentrotraderbot.tokens');
+        $allTokens = config('web3.tokens');
 
         foreach ($allTokens as $symbol => $tokenData) {
             if ($tokenData['chain_id'] == $chainId && $tokenData['address'] !== '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee') {
@@ -167,48 +310,29 @@ class WalletController extends Controller
     }
 
     /**
-     * OBTENER CLAVE PRIVADA (DESCIFRADA)
-     * Uso interno para firmar transacciones.
-     */
-    public function getDecryptedPrivateKey(int $userId)
-    {
-        $suscriptor = TradingSuscriptions::where('user_id', $userId)->first();
-
-        if (!$suscriptor || !isset($suscriptor->data['wallet']['private_key'])) {
-            throw new \Exception("Usuario $userId no tiene wallet.");
-        }
-
-        $encryptedKey = $suscriptor->data['wallet']['private_key'];
-
-        // 🔓 Desencriptamos manualmente
-        return Crypt::decryptString($encryptedKey);
-    }
-
-    /**
      * RETIRAR FONDOS (Híbrido Universal v0.9)
      * - Detecta EIP-1559 vs Legacy.
      * - Límites de gas seguros para contratos/exchanges.
      */
-    public function withdraw(int $userId, string $toAddress, string $tokenSymbol, ?float $amount = null)
+    protected function withdraw(int $privateKey, string $toAddress, string $tokenSymbol, ?float $amount = null)
     {
         // NORMALIZACIÓN: Forzamos mayúsculas
         $tokenSymbol = strtoupper($tokenSymbol);
 
         // 1. OBTENER USUARIO
         try {
-            $privateKey = $this->getDecryptedPrivateKey($userId);
             $fromAddress = $this->getAddressFromKey($privateKey); // Necesario para nonce y checks
         } catch (\Exception $e) {
             return ['status' => 'error', 'message' => $e->getMessage()];
         }
 
         // 2. CONFIGURACIÓN
-        $tokenConfig = config("zentrotraderbot.tokens.$tokenSymbol");
+        $tokenConfig = config("web3.tokens.$tokenSymbol");
         if (!$tokenConfig)
             return ['status' => 'error', 'message' => "Token no configurado."];
 
         $chainId = $tokenConfig['chain_id'];
-        $network = config("zentrotraderbot.networks.$chainId");
+        $network = config("web3.networks.$chainId");
         $rpcUrl = $network['rpc_url'];
         $isNative = $tokenConfig['address'] === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
 
@@ -225,7 +349,7 @@ class WalletController extends Controller
 
             // ⚠️ AJUSTE GAS: 100k (Nativo) / 200k (Token) para evitar "Out of Gas" en contratos
             $gasLimitDec = $isNative ? 100000 : 200000;
-            $gasLimitHex = $this->decToHex($gasLimitDec);
+            $gasLimitHex = $this->formatDecimalAsHex($gasLimitDec);
 
             // Variables de construcción
             $txType = '';
@@ -250,8 +374,8 @@ class WalletController extends Controller
                 // Max Fee = (Base * 2) + Propina
                 $maxFeeDec = bcadd(bcmul($baseFeeDec, '2'), $priorityFeeDec);
 
-                $p_maxPriority = $this->decToHex($priorityFeeDec);
-                $p_maxFee = $this->decToHex($maxFeeDec);
+                $p_maxPriority = $this->formatDecimalAsHex($priorityFeeDec);
+                $p_maxFee = $this->formatDecimalAsHex($maxFeeDec);
 
                 // Costo estimado máximo
                 $totalGasCostWei = bcmul($maxFeeDec, (string) $gasLimitDec);
@@ -265,7 +389,7 @@ class WalletController extends Controller
                 // Turbo Legacy: x1.5 del precio actual
                 $turboGasPrice = bcmul($gasPriceDec, '1.5', 0);
 
-                $p_gasPrice = $this->decToHex($turboGasPrice);
+                $p_gasPrice = $this->formatDecimalAsHex($turboGasPrice);
 
                 $totalGasCostWei = bcmul($turboGasPrice, (string) $gasLimitDec);
                 $txType = 'Legacy';
@@ -296,7 +420,7 @@ class WalletController extends Controller
                 }
 
                 $finalTo = $toAddress;
-                $finalValue = $this->decToHex($amountWei);
+                $finalValue = $this->formatDecimalAsHex($amountWei);
 
             } else {
                 // ERC-20
@@ -387,7 +511,7 @@ class WalletController extends Controller
         if (!$responseHex || $responseHex === '0x')
             return 0;
 
-        return $this->hexToDec($responseHex, $decimals);
+        return $this->formatTokenBalance($responseHex, $decimals);
     }
 
     private function getRawErc20Balance($rpcUrl, $contract, $owner)
@@ -395,85 +519,5 @@ class WalletController extends Controller
         $data = '0x70a08231' . str_pad(substr($owner, 2), 64, '0', STR_PAD_LEFT);
         $res = $this->rpcCall($rpcUrl, 'eth_call', [['to' => $contract, 'data' => $data], 'latest']);
         return $this->hexToDecString($res);
-    }
-
-    /**
-     * MIGRACIÓN DE CLAVES (UTILIDAD DE UN SOLO USO)
-     * Re-encripta las wallets de la APP_KEY vieja a la actual.
-     * * @param string $oldKey La APP_KEY completa del proyecto anterior (ej: "base64:UjH...")
-     */
-    public function migrateFromOldKey($oldKeyInput)
-    {
-        // 2. Preparar el Encriptador "Viejo"
-        try {
-            // Laravel guarda las keys con el prefijo "base64:", hay que decodificarlo
-            if (str_starts_with($oldKeyInput, 'base64:')) {
-                $keyRaw = base64_decode(substr($oldKeyInput, 7));
-            } else {
-                $keyRaw = $oldKeyInput; // Por si acaso la pasas sin base64 (raro)
-            }
-
-            // Creamos una instancia manual que sabe desencriptar con la llave vieja
-            $oldEncrypter = new Encrypter($keyRaw, 'AES-256-CBC');
-        } catch (\Exception $e) {
-            return response()->json(['status' => 'error', 'message' => 'La clave antigua tiene un formato inválido.']);
-        }
-
-        // 3. Buscar Actores con Wallet
-        // Filtramos (rudimentariamente) los que tienen data
-        $actors = TradingSuscriptions::whereNotNull('data')->get();
-
-        $migratedCount = 0;
-        $errors = [];
-
-        foreach ($actors as $suscriptor) {
-            // Verificamos si tiene wallet configurada en el JSON
-            if (!isset($suscriptor->data['wallet']['private_key'])) {
-                continue;
-            }
-
-            $currentData = $suscriptor->data;
-            $encryptedKey = $currentData['wallet']['private_key'];
-
-            try {
-                // A. INTENTO DE DESCIFRADO (CON LLAVE VIEJA)
-                // El 'false' le dice: "Lo que vas a encontrar es texto plano, no intentes procesarlo como objeto PHP"
-                $decryptedPrivateKey = $oldEncrypter->decrypt($encryptedKey, false);
-
-                // B. RE-ENCRIPTADO (CON LLAVE NUEVA - AUTOMÁTICO)
-                // Crypt::encryptString usa la APP_KEY actual del .env nuevo
-                $newEncryptedKey = Crypt::encryptString($decryptedPrivateKey);
-
-                // C. ACTUALIZAR Y GUARDAR
-                $currentData['wallet']['private_key'] = $newEncryptedKey;
-
-                // Opcional: Marcar que fue migrado para no re-procesar
-                $currentData['wallet']['migrated_at'] = now()->toIso8601String();
-
-                $suscriptor->data = $currentData;
-                $suscriptor->save();
-
-                $migratedCount++;
-
-            } catch (DecryptException $e) {
-                // Si falla, puede ser que:
-                // 1. Ya estaba migrada (encriptada con la clave nueva)
-                // 2. La clave vieja es incorrecta
-
-                // Probamos si ya funciona con la clave actual para confirmar
-                try {
-                    Crypt::decryptString($encryptedKey);
-                    $errors[] = "Actor ID {$suscriptor->id}: Ya estaba migrado (Ignorado).";
-                } catch (\Exception $ex) {
-                    $errors[] = "Actor ID {$suscriptor->id}: Falló el descifrado. ¿Clave incorrecta?";
-                }
-            }
-        }
-
-        return response()->json([
-            'status' => 'finished',
-            'migrated' => $migratedCount,
-            'details' => $errors
-        ]);
     }
 }

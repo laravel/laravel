@@ -34,14 +34,30 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Modules\GutoTradeBot\Jobs\CheckEmails;
 use Illuminate\Support\Facades\Storage;
-use Modules\ZentroTraderBot\Http\Controllers\WalletController;
 use Modules\ZentroTraderBot\Entities\TradingSuscriptions;
 use Modules\ZentroTraderBot\Http\Controllers\ZentroTraderBotController;
+use Modules\Web3\Http\Controllers\WalletController;
+use Modules\ZentroTraderBot\Http\Controllers\TraderWalletController;
+
+use FurqanSiddiqui\BIP39\BIP39;
+use FurqanSiddiqui\BIP39\Wordlist;
+
 
 class TestController extends Controller
 {
     public function test(Request $request)
     {
+        $wc = new WalletController();
+
+        //$array = $wc->generateWallet();
+        //$array = $wc->recoverFromSeedPhrase("12 palabras");
+        //$array = $wc->recoverFromPrivateKey("llave privada");
+        //dd($array);
+        //die;
+
+        $wc = new TraderWalletController();
+        dd($wc->getBalance("816767995"));
+        die;
 
         $bot = new ZentroTraderBotController("ZentroTraderBot");
         $admins = $bot->ActorsController->getData(Actors::class, [
@@ -57,10 +73,6 @@ class TestController extends Controller
 
         $suscriptor = TradingSuscriptions::where('user_id', "816767995")->first();
         dd($suscriptor->data);
-        die;
-
-        $wc = new WalletController();
-        dd($wc->getBalance("816767995"));
         die;
 
         $actor = Actors::where('user_id', "816767995")->first();

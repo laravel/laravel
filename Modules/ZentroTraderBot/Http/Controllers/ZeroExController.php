@@ -9,7 +9,7 @@ use kornrunner\Ethereum\Transaction;
 use kornrunner\Ethereum\EIP1559Transaction;
 use Elliptic\EC;
 use kornrunner\Keccak;
-use Modules\ZentroTraderBot\Traits\BlockchainTools;
+use Modules\Web3\Traits\BlockchainTools;
 
 class ZeroExController extends Controller
 {
@@ -37,7 +37,7 @@ class ZeroExController extends Controller
             Log::info("👤 Iniciando Swap para usuario: $activeWalletAddress: $amount $from -> $to");
 
         // 2. CARGA DE CONFIGURACIÓN
-        $tokens = config('zentrotraderbot.tokens');
+        $tokens = config('web3.tokens');
         if (!isset($tokens[$from]) || !isset($tokens[$to])) {
             throw new \Exception("Token no configurado: $from o $to");
         }
@@ -48,7 +48,7 @@ class ZeroExController extends Controller
             throw new \Exception("Error: Swap cruzado no soportado.");
         }
 
-        $networkConfig = config("zentrotraderbot.networks.$chainId");
+        $networkConfig = config("web3.networks.$chainId");
         $rpcUrl = $networkConfig['rpc_url'];
         $explorerUrl = $networkConfig['explorer'];
 
@@ -174,7 +174,7 @@ class ZeroExController extends Controller
 
         // Usamos el Trait para convertir
         // Nota: hexToDec devuelve string formateado, hacemos cast a float para restar matemáticamente
-        return (float) $this->hexToDec($hex, $decimals);
+        return (float) $this->formatTokenBalance($hex, $decimals);
     }
 
     /**
@@ -183,13 +183,13 @@ class ZeroExController extends Controller
      */
     public function diagnoseWallet(string $walletAddress, string $tokenSymbol = 'USDC', $log = true)
     {
-        $tokenConfig = config("zentrotraderbot.tokens.$tokenSymbol");
+        $tokenConfig = config("web3.tokens.$tokenSymbol");
 
         if (!$tokenConfig)
             return response()->json(['error' => 'Token no encontrado'], 404);
 
         $chainId = $tokenConfig['chain_id'];
-        $networkConfig = config("zentrotraderbot.networks.$chainId");
+        $networkConfig = config("web3.networks.$chainId");
         $rpcUrl = $networkConfig['rpc_url'];
 
         if ($log)
@@ -266,7 +266,7 @@ class ZeroExController extends Controller
         // 1. Gas Limit (Seguro x1.5)
         $estimatedGas = (string) $txData['gas'];
         $safeGasLimit = bcmul($estimatedGas, '1.5', 0);
-        $gasLimitHex = $this->decToHex($safeGasLimit);
+        $gasLimitHex = $this->formatDecimalAsHex($safeGasLimit);
 
         // 2. ¿La red soporta EIP-1559?
         $block = $this->rpcCall($rpcUrl, 'eth_getBlockByNumber', ['latest', false], true);
@@ -279,22 +279,22 @@ class ZeroExController extends Controller
 
             $tx = new EIP1559Transaction(
                 $nonceHex,
-                $this->decToHex($priorityFeeDec),
-                $this->decToHex($maxFeeDec),
+                $this->formatDecimalAsHex($priorityFeeDec),
+                $this->formatDecimalAsHex($maxFeeDec),
                 $gasLimitHex,
                 $txData['to'],
-                $this->decToHex($txData['value']),
+                $this->formatDecimalAsHex($txData['value']),
                 $txData['data']
             );
         } else {
             // --- MODO LEGACY (BSC Viejo) ---
-            $gasPriceHex = $this->decToHex($txData['gasPrice']); // Usamos el precio que sugiere 0x
+            $gasPriceHex = $this->formatDecimalAsHex($txData['gasPrice']); // Usamos el precio que sugiere 0x
             $tx = new Transaction(
                 $nonceHex,
                 $gasPriceHex,
                 $gasLimitHex,
                 $txData['to'],
-                $this->decToHex($txData['value']),
+                $this->formatDecimalAsHex($txData['value']),
                 $txData['data']
             );
         }
@@ -322,8 +322,8 @@ class ZeroExController extends Controller
 
             $tx = new EIP1559Transaction(
                 $nonceHex,
-                $this->decToHex($priorityFeeDec),
-                $this->decToHex($maxFeeDec),
+                $this->formatDecimalAsHex($priorityFeeDec),
+                $this->formatDecimalAsHex($maxFeeDec),
                 $gasLimitHex,
                 $tokenAddress,
                 '0x0',
@@ -338,7 +338,7 @@ class ZeroExController extends Controller
             if ($log)
                 Log::info("🔥 Modo Turbo ($chainId): Gas subido a $turboGasPrice Wei.");
 
-            $tx = new Transaction($nonceHex, $this->decToHex($turboGasPrice), $gasLimitHex, $tokenAddress, '0x0', $data);
+            $tx = new Transaction($nonceHex, $this->formatDecimalAsHex($turboGasPrice), $gasLimitHex, $tokenAddress, '0x0', $data);
         }
 
         $signedTx = $tx->getRaw($privateKey, $chainId);

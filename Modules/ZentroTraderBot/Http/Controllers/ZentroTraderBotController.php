@@ -104,7 +104,7 @@ class ZentroTraderBotController extends JsonsController
         // /swap 5 POL USDC
         $this->strategies["/swap"] =
             function () use ($array) {
-                $wc = new WalletController();
+                $wc = new TraderWalletController();
                 $privateKey = $wc->getDecryptedPrivateKey($this->actor->user_id);
                 $amount = $array["pieces"][1];     // Cantidad a vender (Empieza suave, ej. 2 POL)
                 $from = $array["pieces"][2];   // Token que vendes
@@ -147,7 +147,7 @@ class ZentroTraderBotController extends JsonsController
                     "text" => "",
                 ];
 
-                $wc = new WalletController();
+                $wc = new TraderWalletController();
 
                 try {
                     $result = array();
@@ -183,7 +183,7 @@ class ZentroTraderBotController extends JsonsController
                     "text" => "",
                 ];
 
-                $wc = new WalletController();
+                $wc = new TraderWalletController();
 
                 try {
                     $tokenSymbol = $array["pieces"][count($array["pieces"]) - 1];
@@ -236,8 +236,8 @@ class ZentroTraderBotController extends JsonsController
             $suscriptor->data = array();
             $suscriptor->save();
 
-            $wc = new WalletController();
-            $wallet = $wc->generateWallet($this->actor->user_id);
+            $wc = new TraderWalletController();
+            $wallet = $wc->getWallet($this->actor->user_id);
             if (isset($wallet["address"])) {
                 $suscriptor = TradingSuscriptions::where("user_id", $this->actor->user_id)->first();
                 $array = $suscriptor->data;

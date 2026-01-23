@@ -1,21 +1,19 @@
 @section('layoutjsincludes')
-    <!-- @ include('web3::include.script.wallet_actions')-->
+    @include('web3::include.script.wallet_actions')
 @endsection
 
 <script>
     @section('ondocumentready')
-                // INIT web3modal configurations:
-                /*
-                initializeWeb3Modal(function (account, size = 8, callback = false) {
-                    onWalletConnected(account, 16, callback);
-                }, function (account, size = 8, callback = false) {
-                    onWalletDisconnected(function () {
-                        window.location.href = "{{ route('login') }}";
-                    });
-                }, function (account) {
+        // INIT web3modal configurations:
+        initializeWeb3Modal(function (account, size = 8, callback = false) {
+            onWalletConnected(account, 16, callback);
+        }, function (account, size = 8, callback = false) {
+            onWalletDisconnected(function () {
+                window.location.href = "{{ route('login') }}";
+            });
+        }, function (account) {
 
         });
-                */
     @endsection
 </script>
 <!-- ======= Header ======= -->

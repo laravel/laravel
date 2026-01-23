@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\ZentroTraderBot\Traits;
+namespace Modules\Web3\Traits;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -95,9 +95,9 @@ trait BlockchainTools
     }
 
     /**
-     * Convierte Decimal a Hexadecimal con prefijo 0x
+     * Convierte Decimal a Hexadecimal con prefijo 0x (como direcciones Ethereum que usan 0x)
      */
-    public function decToHex($decimal)
+    public function formatDecimalAsHex($decimal)
     {
         if (strpos($decimal, '0x') === 0)
             return $decimal;
@@ -113,11 +113,14 @@ trait BlockchainTools
         return '0x' . $hex;
     }
 
+
     /**
-     * Convierte Hexadecimal a Decimal Humano con precisión
-     * Maneja números grandes usando BCMath si es posible o float simple.
+     * Realiza una conversión Hexadecimal a Decimal Humano con precisión. Diseñado específicamente para balances de criptomonedas/tokens.
+     * @param string $hex
+     * @param int $decimals
+     * @return int|string
      */
-    private function hexToDec($hex, $decimals)
+    private function formatTokenBalance($hex, $decimals)
     {
         // Agregamos la verificación de NULL o vacío aquí
         if (empty($hex) || $hex === '0x0')

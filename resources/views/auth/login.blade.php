@@ -3,11 +3,11 @@
 @section('mainstyle', 'margin-left:auto;margin-top:auto;')
 
 @section('layoutjsincludes')
-    <!-- @ include('web3::include.script.wallet_actions')-->
+    @include('web3::include.script.wallet_actions')
 @endsection
 
 @section('layoutcssincludes')
-    <!-- @ include('web3::include.css.styles') -->
+    @include('web3::include.css.styles')
 @endsection
 
 @section('maincontent')
@@ -118,19 +118,17 @@
 
 <script>
     @section('ondocumentready')
-            // INIT web3modal configurations:
-            /*
-            initializeWeb3Modal(function (account, size = 8, callback = false) {
-                onWalletConnected(account, size, callback);
-            }, onWalletDisconnected, function (account) {
-                checkIsRegistered(account, function () {
-                    window.location.href = "{{ route('dashboard') }}";
-                }, function () {
-            register(account, "{{ request()->query('code') }}", function () {
+        // INIT web3modal configurations:
+        initializeWeb3Modal(function (account, size = 8, callback = false) {
+            onWalletConnected(account, size, callback);
+        }, onWalletDisconnected, function (account) {
+            checkIsRegistered(account, function () {
                 window.location.href = "{{ route('dashboard') }}";
+            }, function () {
+                register(account, "{{ request()->query('code') }}", function () {
+                    window.location.href = "{{ route('dashboard') }}";
+                });
             });
         });
-            });
-            */
     @endsection
 </script>

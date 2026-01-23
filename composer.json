@@ -12,6 +12,8 @@
         "php": "^8.2",
         "amenadiel/jpgraph": "*",
         "bacon/bacon-qr-code": "^3.0",
+        "furqansiddiqui/bip32-keypair-php": "^0.3.7",
+        "furqansiddiqui/bip39-mnemonic-php": "^0.1.7",
         "kornrunner/ethereum-offline-raw-tx": "^0.9.0",
         "kornrunner/keccak": "^1.1",
         "laravel/framework": "^12.0",

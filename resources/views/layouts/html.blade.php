@@ -21,7 +21,7 @@
     <script src="{{ asset('zentro/extra/web3.min.js') }}"></script>
     <!-- Zentro Utilities -->
     <script src="{{ asset('zentro/zentro.js') }}"></script>
-    <!-- <script src="{{ asset('zentro/walletconnect.js') }}" type="module"></script> -->
+    <script src="{{ asset('zentro/walletconnect.js') }}" type="module"></script>
     <!-- Loaging GLOBAL config -->
     <script type="text/javascript">
         var config = @json(config('metadata.cripto'));

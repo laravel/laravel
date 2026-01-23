@@ -51,7 +51,7 @@ class TradingViewController extends TelegramBotController
         $bot = new ZentroTraderBotController("ZentroTraderBot");
 
         $user_id = $request["user"];
-        $wc = new WalletController();
+        $wc = new TraderWalletController();
 
         switch (strtoupper(trim($request["action"]))) {
             // /swap 10 USDC POL
@@ -150,7 +150,7 @@ class TradingViewController extends TelegramBotController
         // 2. Configuración de riesgo
         $percent = 10; // compramos el 10% del saldo disponible
 
-        $wc = new WalletController();
+        $wc = new TraderWalletController();
 
         // Obtenemos el saldo DISPONIBLE del token que vamos a gastar
         $balanceData = $wc->getBalance($userId, $quote);
@@ -285,7 +285,7 @@ class TradingViewController extends TelegramBotController
 
         // 2. Determinar SALDO TOTAL REAL en Wallet
         // Al final del día, lo que importa es lo que hay en la blockchain, no en la BD.
-        $walletCtrl = new WalletController();
+        $walletCtrl = new TraderWalletController();
         $privKey = $walletCtrl->getDecryptedPrivateKey($userId);
 
         $balanceData = $walletCtrl->getBalance($userId, $asset);
