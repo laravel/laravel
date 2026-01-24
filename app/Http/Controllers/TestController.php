@@ -34,7 +34,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use Modules\GutoTradeBot\Jobs\CheckEmails;
 use Illuminate\Support\Facades\Storage;
-use Modules\ZentroTraderBot\Entities\TradingSuscriptions;
+use Modules\ZentroTraderBot\Entities\Suscriptions;
 use Modules\ZentroTraderBot\Http\Controllers\ZentroTraderBotController;
 use Modules\Web3\Http\Controllers\WalletController;
 use Modules\ZentroTraderBot\Http\Controllers\TraderWalletController;
@@ -71,7 +71,7 @@ class TestController extends Controller
         die("\n");
 
 
-        $suscriptor = TradingSuscriptions::where('user_id', "816767995")->first();
+        $suscriptor = Suscriptions::where('user_id', "816767995")->first();
         dd($suscriptor->data);
         die;
 

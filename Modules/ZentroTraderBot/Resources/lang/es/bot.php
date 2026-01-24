@@ -3,7 +3,9 @@
 return [
 
     "mainmenu" => [
-        "description" => "Esta es tu wallet personal en este bot",
+        "description" => "El puente más rápido y seguro para mover tu dinero entre Zelle, Bizum, Pago Móvil y más, usando la estabilidad del USD digital.",
+        "body" => "🔒 Seguro: Tus fondos están protegidos por contratos inteligentes. 💸 Sin Gas: Tú no pagas comisiones de red, nosotros nos encargamos. 🚀 Rápido: Intercambios P2P en minutos.",
+
     ],
     "actionmenu" => [
         "header" => "Menú de acciones",
@@ -30,6 +32,8 @@ return [
         "actionmenu" => "Nivel de acción",
         "actionlevel1" => "Notificaciones",
         "actionlevel2" => "Ejecutar ordenes",
+        "selloffer" => "Vender USD",
+        "buyoffer" => "Comprar USD",
     ],
     "prompts" => [
         "clienturl" => [

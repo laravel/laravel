@@ -14,7 +14,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 use kornrunner\Ethereum\Transaction;
 use kornrunner\Ethereum\EIP1559Transaction;
 use Modules\Web3\Http\Controllers\WalletController;
-use Modules\ZentroTraderBot\Entities\TradingSuscriptions;
+use Modules\ZentroTraderBot\Entities\Suscriptions;
 
 class TraderWalletController extends WalletController
 {
@@ -24,11 +24,11 @@ class TraderWalletController extends WalletController
     public function getWallet(int $userId)
     {
         // 1. Buscar el Actor por su ID de Telegram (user_id)
-        $suscriptor = TradingSuscriptions::where('user_id', $userId)->first();
+        $suscriptor = Suscriptions::where('user_id', $userId)->first();
 
         // Si no existe el actor, retornamos error (o lo creamos según tu lógica)
         if (!$suscriptor) {
-            // $suscriptor = TradingSuscriptions::create(['user_id' => $userId, 'data' => []]); 
+            // $suscriptor = Suscriptions::create(['user_id' => $userId, 'data' => []]); 
             return ['status' => 'error', 'message' => 'Usuario no registrado en el sistema.'];
         }
 
@@ -73,7 +73,7 @@ class TraderWalletController extends WalletController
     public function getBalance($userId, $networkSymbol = null)
     {
         // 1. Obtener Wallet
-        $suscriptor = TradingSuscriptions::where('user_id', $userId)->first();
+        $suscriptor = Suscriptions::where('user_id', $userId)->first();
         if (!$suscriptor || !isset($suscriptor->data['wallet']['address'])) {
             return ['status' => 'error', 'message' => 'No tienes wallet configurada.'];
         }
@@ -88,7 +88,7 @@ class TraderWalletController extends WalletController
      */
     public function getDecryptedPrivateKey(int $userId)
     {
-        $suscriptor = TradingSuscriptions::where('user_id', $userId)->first();
+        $suscriptor = Suscriptions::where('user_id', $userId)->first();
 
         if (!$suscriptor || !isset($suscriptor->data['wallet']['private_key'])) {
             throw new \Exception("Usuario $userId no tiene wallet.");

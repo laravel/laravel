@@ -4,7 +4,7 @@ namespace Modules\ZentroTraderBot\Entities;
 
 use Modules\TelegramBot\Entities\Actors;
 
-class TradingSuscriptions extends Actors
+class Suscriptions extends Actors
 {
-    protected $table = "trading_suscriptions";
+    protected $table = "suscriptions";
 }

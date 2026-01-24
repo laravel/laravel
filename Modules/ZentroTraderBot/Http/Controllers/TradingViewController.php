@@ -9,7 +9,7 @@ use Modules\TelegramBot\Entities\TelegramNestedNotifications;
 use Modules\TelegramBot\Http\Controllers\ActorsController;
 use Modules\TelegramBot\Http\Controllers\TelegramBotController;
 use Modules\TelegramBot\Http\Controllers\TelegramController;
-use Modules\ZentroTraderBot\Entities\TradingSuscriptions;
+use Modules\ZentroTraderBot\Entities\Suscriptions;
 use Modules\ZentroTraderBot\Entities\Positions;
 
 class TradingViewController extends TelegramBotController

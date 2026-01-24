@@ -26,5 +26,12 @@ class MetadataSeeder extends Seeder
             'metadatatype' => 1,
             'is_visible' => 1,
         ]);
+        Metadatas::create([
+            'name' => 'app_zentrotraderbot_telegram_community_group',
+            'value' => '-1001994576446',
+            'comment' => 'Grupo de Telegram a donde enviar notificaciones de ofertas hechas por suscriptores P2P',
+            'metadatatype' => 1,
+            'is_visible' => 1,
+        ]);
     }
 }

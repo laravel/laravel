@@ -4,6 +4,8 @@ namespace Modules\ZentroTraderBot\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\ZentroTraderBot\Entities\Offers;
+use Modules\ZentroTraderBot\Observers\OfferObserver;
 
 class ZentroTraderBotServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,9 @@ class ZentroTraderBotServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+
+        // Registramos el observador para el modelo Offer
+        Offers::observe(OfferObserver::class);
     }
 
     /**
@@ -51,7 +56,8 @@ class ZentroTraderBotServiceProvider extends ServiceProvider
             module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
+            module_path($this->moduleName, 'Config/config.php'),
+            $this->moduleNameLower
         );
     }
 

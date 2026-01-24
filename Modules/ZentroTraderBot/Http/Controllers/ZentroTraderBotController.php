@@ -8,7 +8,7 @@ use Modules\TelegramBot\Entities\Actors;
 use Modules\TelegramBot\Http\Controllers\ActorsController;
 use Modules\TelegramBot\Http\Controllers\TelegramBotController;
 use Modules\TelegramBot\Http\Controllers\TelegramController;
-use Modules\ZentroTraderBot\Entities\TradingSuscriptions;
+use Modules\ZentroTraderBot\Entities\Suscriptions;
 use App\Http\Controllers\JsonsController;
 use Modules\TelegramBot\Traits\UsesTelegramBot;
 use Illuminate\Support\Facades\Log;
@@ -54,7 +54,7 @@ class ZentroTraderBotController extends JsonsController
     public function processMessage()
     {
         $array = $this->getCommand($this->message["text"]);
-        $suscriptor = TradingSuscriptions::where("user_id", $this->actor->user_id)->first();
+        $suscriptor = Suscriptions::where("user_id", $this->actor->user_id)->first();
 
         $this->strategies["suscribemenu"] = function () use ($suscriptor) {
             return $this->suscribeMenu($suscriptor);
@@ -218,9 +218,13 @@ class ZentroTraderBotController extends JsonsController
 
     public function mainMenu($actor)
     {
-        $suscriptor = TradingSuscriptions::where("user_id", $actor->user_id)->first();
+        $suscriptor = Suscriptions::where("user_id", $actor->user_id)->first();
 
         $menu = [];
+        array_push($menu, [
+            ["text" => "🛒 " . Lang::get("zentrotraderbot::bot.options.buyoffer"), "callback_data" => "notimplemented"],
+            ["text" => "💰 " . Lang::get("zentrotraderbot::bot.options.selloffer"), "callback_data" => "notimplemented"],
+        ]);
         array_push($menu, [
             ["text" => "🔔 " . Lang::get("zentrotraderbot::bot.options.subscribtion"), "callback_data" => "suscribemenu"]
         ]);
@@ -230,16 +234,16 @@ class ZentroTraderBotController extends JsonsController
         if (!isset($suscriptor->data["wallet"])) {
             // crear el suscriptor para poderle generar wallet
             $actor = Actors::where("user_id", $this->actor->user_id)->first();
-            $suscriptor = TradingSuscriptions::where("user_id", $this->actor->user_id)->first();
+            $suscriptor = Suscriptions::where("user_id", $this->actor->user_id)->first();
             if (!$suscriptor)
-                $suscriptor = new TradingSuscriptions($actor->toArray());
+                $suscriptor = new Suscriptions($actor->toArray());
             $suscriptor->data = array();
             $suscriptor->save();
 
             $wc = new TraderWalletController();
             $wallet = $wc->getWallet($this->actor->user_id);
             if (isset($wallet["address"])) {
-                $suscriptor = TradingSuscriptions::where("user_id", $this->actor->user_id)->first();
+                $suscriptor = Suscriptions::where("user_id", $this->actor->user_id)->first();
                 $array = $suscriptor->data;
                 $array["admin_level"] = 0;
                 $array["suscription_level"] = 0;
@@ -254,8 +258,12 @@ class ZentroTraderBotController extends JsonsController
         } else
             $wallet = $suscriptor->data["wallet"];
         $description = "";
-        if (isset($wallet["address"]))
-            $description = "_" . Lang::get("zentrotraderbot::bot.mainmenu.description") . ":_\n🫆 `" . $wallet["address"] . "`\n\n";
+        if (isset($wallet["address"])) {
+            //$description = "_" . Lang::get("zentrotraderbot::bot.mainmenu.description") . ":_\n🫆 `" . $wallet["address"] . "`\n\n";
+            $description = "_" . Lang::get("zentrotraderbot::bot.mainmenu.description") . ":_\n\n" .
+                Lang::get("zentrotraderbot::bot.mainmenu.body") . "\n\n";
+        }
+
 
         return $this->getMainMenu(
             $suscriptor,
@@ -334,8 +342,8 @@ class ZentroTraderBotController extends JsonsController
     public function suscribeMenu($suscriptor, $level = -1)
     {
         if ($level > -1) {
-            $this->ActorsController->updateData(TradingSuscriptions::class, "user_id", $this->actor->user_id, "suscription_level", $level);
-            $suscriptor = TradingSuscriptions::where("user_id", $this->actor->user_id)->first();
+            $this->ActorsController->updateData(Suscriptions::class, "user_id", $this->actor->user_id, "suscription_level", $level);
+            $suscriptor = Suscriptions::where("user_id", $this->actor->user_id)->first();
         }
 
 
