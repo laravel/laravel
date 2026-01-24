@@ -49,10 +49,10 @@ class TestController extends Controller
     {
         $wc = new WalletController();
 
-        //$array = $wc->generateWallet();
+        $array = $wc->generateWallet();
         //$array = $wc->recoverFromSeedPhrase("12 palabras");
         //$array = $wc->recoverFromPrivateKey("llave privada");
-        //dd($array);
+        dd($array);
         //die;
 
         $wc = new TraderWalletController();

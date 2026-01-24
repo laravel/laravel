@@ -20,7 +20,7 @@ class WalletController extends Controller
      * GENERAR NUEVA WALLET
      * @return array{address: string, entropy: string, private_key: string, seed_phrase: string, status: string}
      */
-    public function generateWallet()
+    public function generateWallet($userPassword = "1234567890")
     {
         // 1. PRIMERO generar 12 palabras BIP-39
         $mnemonic = BIP39::Generate(12);
@@ -33,12 +33,16 @@ class WalletController extends Controller
         // 3. Generar address desde esa private key
         $address = $this->getAddressFromKey($privateKeyHex);
 
+        // 4. Generar el Keystore JSON para que el usuario se lo lleve
+        $keystore = $this->generateKeystore($privateKeyHex, $userPassword);
+
         return [
             'status' => 'created',
             'address' => $address,
             'seed_phrase' => $seedPhrase, // Estas palabras generan esta private key
             'private_key' => $privateKeyHex, // Private key derivada de las palabras
             'entropy' => $entropy,
+            'keystore_json' => json_encode($keystore) // Keystore JSON es como meter esa llave en una caja fuerte digital que solo se abre con una contraseña
         ];
     }
 
@@ -109,13 +113,7 @@ class WalletController extends Controller
     }
 
     /**
-     * Derivar private key desde seed phrase (determinístico)
-     */
-    /**
-     * Derivar private key desde seed phrase siguiendo el estándar BIP-44 (m/44'/60'/0'/0/0)
-     */
-    /**
-     * Derivar private key desde seed phrase compatible con MetaMask/SafePal
+     * Derivar private key desde seed phrase (determinístico) siguiendo el estándar BIP-44 (m/44'/60'/0'/0/0) compatible con MetaMask/SafePal
      */
     private function seedPhraseToPrivateKey(string $seedPhrase): string
     {
@@ -136,9 +134,6 @@ class WalletController extends Controller
 
     /**
      * Derivación Jerárquica BIP-32 Blindada
-     */
-    /**
-     * Derivación Jerárquica BIP-32 Blindada y Corregida
      */
     private function deriveBIP44Path($key, $chainCode, $path)
     {
@@ -224,6 +219,47 @@ class WalletController extends Controller
             $hex = dechex($rem) . $hex;
         }
         return $hex ?: '0';
+    }
+
+    /**
+     * Genera un Keystore V3 simplificado pero compatible
+     */
+    private function generateKeystore($privateKey, $password)
+    {
+        // Nota: Para un Keystore real compatible con MetaMask se usa Scrypt o PBKDF2.
+        // Aquí te doy la estructura lógica.
+        $salt = random_bytes(32);
+        $iv = random_bytes(16);
+
+        // Derivamos una llave a partir del password del usuario
+        $derivedKey = hash_pbkdf2('sha256', $password, $salt, 262144, 32, true);
+
+        // Ciframos la llave privada con la contraseña del usuario
+        $encryptedKey = openssl_encrypt(
+            hex2bin($privateKey),
+            'aes-128-ctr',
+            substr($derivedKey, 0, 16),
+            OPENSSL_RAW_DATA,
+            $iv
+        );
+
+        return [
+            "version" => 3,
+            "id" => str_replace('.', '-', uniqid('', true)),
+            "crypto" => [
+                "ciphertext" => bin2hex($encryptedKey),
+                "cipher" => "aes-128-ctr",
+                "cipherparams" => ["iv" => bin2hex($iv)],
+                "kdf" => "pbkdf2",
+                "kdfparams" => [
+                    "dklen" => 32,
+                    "salt" => bin2hex($salt),
+                    "c" => 262144,
+                    "prf" => "hmac-sha256"
+                ],
+                "mac" => hash_hmac('sha256', $encryptedKey, substr($derivedKey, 16, 16))
+            ]
+        ];
     }
 
 
@@ -486,10 +522,28 @@ class WalletController extends Controller
 
     private function getAddressFromKey($privateKey)
     {
+        // 1. Limpieza: Asegurarnos de que no tenga el prefijo '0x' y sea hex puro
+        $privateKey = str_replace('0x', '', $privateKey);
+
         $ec = new EC('secp256k1');
         $keyPair = $ec->keyFromPrivate($privateKey);
+
+        // 2. Llave pública NO comprimida (false)
+        // El formato 'hex' de Elliptic a veces incluye un prefijo '04' que indica que no es comprimida.
         $pubKey = $keyPair->getPublic(false, 'hex');
-        $hash = Keccak::hash(hex2bin(substr($pubKey, 2)), 256);
+
+        // 3. Quitar el prefijo '04' si existe
+        // La dirección de Ethereum se calcula sobre los 64 bytes de la llave pública (X e Y),
+        // omitiendo el primer byte de control (0x04).
+        if (strlen($pubKey) === 130) {
+            $pubKey = substr($pubKey, 2);
+        }
+
+        // 4. Hash Keccak-256
+        // Importante: Debe ser Keccak-256, NO SHA-3 (aunque se parecen, no son iguales)
+        $hash = Keccak::hash(hex2bin($pubKey), 256);
+
+        // 5. Tomar los últimos 40 caracteres (20 bytes)
         return '0x' . substr($hash, -40);
     }
 
