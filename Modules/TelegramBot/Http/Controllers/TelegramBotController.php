@@ -26,7 +26,6 @@ class TelegramBotController extends Controller
 
     public function scan($botname, $instance = false)
     {
-
         $controller = $this->getController($botname, $instance);
         if ($controller) {
             return $controller->scan(
