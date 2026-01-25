@@ -89,7 +89,7 @@
             tg.sendData(decodedText);
 
             // Opcional: Cerrar manualmente si sendData no lo hace inmediato (aunque suele hacerlo)
-            // tg.close();
+            tg.close();
         }
 
         function onScanFailure(error) {
