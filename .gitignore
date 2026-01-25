@@ -1,6 +1,5 @@
 *.log
 .DS_Store
-.env
 .env.backup
 .env.production
 .phpactor.json
@@ -22,3 +21,4 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+CODE_EXPLANATION.md
