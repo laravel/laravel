@@ -74,8 +74,23 @@ class ZentroOwnerBotController extends JsonsController
 
     public function mainMenu($actor)
     {
+        $menu = array();
+
+        $url = route('telegram-scanner', array(
+            "botname" => "instance",
+            "instance" => "botname"
+        ));
+
+        array_push($menu, [
+            [
+                "text" => "📷 Abrir Escáner",
+                'web_app' => ['url' => $url]
+            ],
+        ]);
+
         return $this->getMainMenu(
-            $actor
+            $actor,
+            $menu
         );
     }
 

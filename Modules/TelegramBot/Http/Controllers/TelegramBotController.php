@@ -13,6 +13,34 @@ class TelegramBotController extends Controller
 {
     public function handle($botname, $instance = false)
     {
+        $controller = $this->getController($botname, $instance);
+        if ($controller) {
+            return $controller->receiveMessage(
+                //    $botname,
+                //   $instance
+            );
+        }
+
+        abort(404, 'Bot handle controller not found');
+    }
+
+    public function scan($botname, $instance = false)
+    {
+
+        $controller = $this->getController($botname, $instance);
+        if ($controller) {
+            return $controller->scan(
+                //    $botname,
+                //   $instance
+            );
+        }
+
+
+        abort(404, 'Bot scan controller not found');
+    }
+
+    public function getController($botname, $instance = false)
+    {
         // Creando una instancia dinamica de una clase hija encargada de manipular el bot correspondiente
         $controller = "Modules\\{$botname}\\Http\\Controllers\\{$botname}Controller";
         if (class_exists($controller)) {
@@ -31,12 +59,9 @@ class TelegramBotController extends Controller
             return app()->make($controller, [
                 'botname' => $botname,
                 'instance' => $instance
-            ])->receiveMessage(
-                    //    $botname,
-                    //   $instance
-                );
+            ]);
         }
 
-        abort(404, 'Bot controller not found');
+        return false;
     }
 }

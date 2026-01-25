@@ -12,7 +12,7 @@ Route::get('/', function () {
 
 
 Route::get('/cache', function () {
-    dd(config('database.connections.TelegramBot'));
+    //dd(config('database.connections.TelegramBot'));
     echo 'Intentando borrar cache<br/>';
     $array = array(
         'route:cache',

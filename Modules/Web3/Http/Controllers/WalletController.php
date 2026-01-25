@@ -16,6 +16,8 @@ class WalletController extends Controller
 {
     use BlockchainTools;
 
+    // getErc20Nonce
+
     /**
      * GENERAR NUEVA WALLET
      * @return array{address: string, entropy: string, private_key: string, seed_phrase: string, status: string}

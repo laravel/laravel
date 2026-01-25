@@ -94,6 +94,7 @@ trait UsesTelegramBot
                 $autodestroy = 0;
                 if (isset($this->reply["autodestroy"]) && $this->reply["autodestroy"] > 0) {
                     $autodestroy = $this->reply["autodestroy"];
+                    /*
 
                     //eliminando el mensaje q origino este de autoeliminacion
                     $bot_token = $this->token;
@@ -111,6 +112,7 @@ trait UsesTelegramBot
                         $controller = new TelegramController();
                         $controller->deleteMessage($array, $bot_token);
                     })->delay(now()->addMinutes($autodestroy));
+                    */
                 }
                 $this->TelegramController->sendMessage($array, $this->token, $autodestroy);
             }
@@ -636,5 +638,11 @@ trait UsesTelegramBot
                 ],
             ]),
         );
+    }
+
+
+    public function scan()
+    {
+        return view('telegrambot::scanner');
     }
 }

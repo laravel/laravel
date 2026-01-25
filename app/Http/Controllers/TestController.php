@@ -47,6 +47,12 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
+        dd(route('telegram-scanner', array(
+            "botname" => "instance",
+            "instance" => "botname"
+        )));
+
+
         $wc = new WalletController();
 
         $array = $wc->generateWallet();

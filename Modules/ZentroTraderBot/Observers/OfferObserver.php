@@ -19,6 +19,9 @@ class OfferObserver
             ->where('is_active', true)
             ->get();
 
+        // mandarlo al canal y al grupo
+
+        // mandarlo a los usurios q estan buscando algo asi
         foreach ($matchingAlerts as $alert) {
             // Validamos que el usuario tenga un telegram_id antes de intentar enviar
             if ($alert->user && $alert->user->telegram_id) {
