@@ -59,5 +59,10 @@ class TelegramBotsSeeder extends Seeder
             'token' => '7948651884:AAGI3FjcxYyaRkmuqrLsAZP34vQxz5B2LwA',
             'data' => [],
         ]);
+        TelegramBots::create([
+            'name' => '@ZentroPackageBot',
+            'token' => '7948651884:AAGI3FjcxYyaRkmuqrLsAZP34vQxz5B2LwA',
+            'data' => [],
+        ]);
     }
 }

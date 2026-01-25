@@ -1,0 +1,14 @@
+{
+    "name": "ZentroPackageBot",
+    "alias": "zentropackagebot",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+
+    "providers": [
+        "Modules\\ZentroPackageBot\\Providers\\ZentroPackageBotServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
