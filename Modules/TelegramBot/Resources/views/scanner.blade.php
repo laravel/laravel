@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Escaner</title>
-    <script src="https:/elegram.org/js/telegram-web-app.js"></script>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
         :root {
@@ -98,6 +99,28 @@
         // Extraemos los datos de inicialización
         const initData = tg.initDataUnsafe;
 
+        let debugInfo = "--- DEBUG DE CONTEXTO ---\n";
+        debugInfo += "📱 Plataforma: " + tg.platform + "\n";
+        debugInfo += "👤 Usuario: " + (initData.user ? initData.user.username : "Desconocido") + "\n";
+
+        // El hash es único para cada bot. Si cambias de bot, este cambia.
+        debugInfo += "🔑 Hash de Sesión: " + initData.hash.substring(0, 10) + "...\n";
+
+        // Si la WebApp se abrió desde un botón, aquí verás el receptor
+        if (initData.receiver) {
+            debugInfo += "🤖 Bot ID Receptor: " + initData.receiver.id + "\n";
+        } else {
+            debugInfo += "⚠️ No se detecta receptor (¿Se abrió por URL directa?)\n";
+        }
+
+        // Mostrar en pantalla para que no tengas que conectar consola
+        alert(debugInfo);
+        console.log("Datos completos de Telegram:", initData);
+        // ----------------------------
+
+
+
+
         tg.expand(); // Expandir al máximo
 
         // Aplicar colores del tema de Telegram automáticamente
@@ -112,32 +135,40 @@
                 document.getElementById('status-title').innerText = "Procesando...";
                 document.getElementById('status-desc').innerText = "Enviando código: " + text;
 
+                // 2. Obtenemos el bot_name de la URL (importante para tu variante)
+                const urlParams = new URLSearchParams(window.location.search);
+                const botName = urlParams.get('bot_name') || 'ZentroPackageBot';
+
                 // 3. Ejecutamos el Fetch
                 fetch("{{ route('telegram-scanner-store') }}", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'X-Requested-With': 'XMLHttpRequest' // Útil para que Laravel lo detecte como AJAX
                     },
                     body: JSON.stringify({
                         code: text,
+                        bot_name: botName,
                         initData: tg.initData
                     })
                 })
                     .then(response => {
-                        if (!response.ok) throw new Error('Error ' + response.status);
+                        if (!response.ok) throw new Error('Error en el servidor');
                         return response.json();
                     })
                     .then(data => {
+                        // Solo cuando el servidor confirma éxito, cerramos la WebApp
                         if (data.success) {
                             tg.closeScanQrPopup();
-                            tg.close();
+                            setTimeout(() => { tg.close(); }, 500); // Pequeño delay para suavidad visual
                         } else {
-                            alert("Servidor dice: " + data.message);
+                            alert("Error: " + data.message);
+                            document.getElementById('retry-btn').style.display = "inline-block";
                         }
                     })
                     .catch(error => {
-                        alert("Error de conexión: " + error.message);
+                        console.error('Error:', error);
+                        alert("Fallo al conectar con el servidor.");
                         document.getElementById('retry-btn').style.display = "inline-block";
                     });
 
