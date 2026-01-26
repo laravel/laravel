@@ -93,6 +93,34 @@
 
         // Configurar la WebApp
         tg.ready();
+
+        // --- SECCIÓN DE DEBUGGING ---
+
+        // Extraemos los datos de inicialización
+        const initData = tg.initDataUnsafe;
+
+        let debugInfo = "--- DEBUG DE CONTEXTO ---\n";
+        debugInfo += "📱 Plataforma: " + tg.platform + "\n";
+        debugInfo += "👤 Usuario: " + (initData.user ? initData.user.username : "Desconocido") + "\n";
+
+        // El hash es único para cada bot. Si cambias de bot, este cambia.
+        debugInfo += "🔑 Hash de Sesión: " + initData.hash.substring(0, 10) + "...\n";
+
+        // Si la WebApp se abrió desde un botón, aquí verás el receptor
+        if (initData.receiver) {
+            debugInfo += "🤖 Bot ID Receptor: " + initData.receiver.id + "\n";
+        } else {
+            debugInfo += "⚠️ No se detecta receptor (¿Se abrió por URL directa?)\n";
+        }
+
+        // Mostrar en pantalla para que no tengas que conectar consola
+        alert(debugInfo);
+        console.log("Datos completos de Telegram:", initData);
+        // ----------------------------
+
+
+
+
         tg.expand(); // Expandir al máximo
 
         // Aplicar colores del tema de Telegram automáticamente
