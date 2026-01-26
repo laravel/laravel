@@ -65,7 +65,7 @@ class TelegramBotController extends Controller
     }
     public function storeScan()
     {
-        Log::info("storeScan " . request("code"));
+        Log::info("storeScan bot:" . request("bot") . " " . request("code"));
         //request("code")
 /*
         // 1. Extraer el chat_id del usuario desde initData (para saber a quién responder)
@@ -75,6 +75,19 @@ class TelegramBotController extends Controller
 
         $this->afterScan($user->id, request("code"));
         */
+
+        // 1. Extraer el chat_id del usuario desde initData (para saber a quién responder)
+        // Telegram envía initData como un query string, hay que parsearlo
+        parse_str(request("initData"), $tgData);
+        $user = json_decode($tgData['user'] ?? '{}');
+
+        $controller = $this->getController(request("bot"));
+        if ($controller) {
+            return $controller->afterScan(
+                $user->id,
+                request("code")
+            );
+        }
 
         return response()->json(['success' => true]);
     }

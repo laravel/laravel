@@ -134,7 +134,7 @@
                     },
                     body: JSON.stringify({
                         code: text,
-                        bot_name: botName,
+                        bot: botName,
                         initData: tg.initData
                     })
                 })
