@@ -94,28 +94,83 @@
         // Configurar la WebApp
         tg.ready();
 
+        // --- SECCIÓN DE DEBUGGING ---
+
+        // Extraemos los datos de inicialización
+        const initData = tg.initDataUnsafe;
+
+        let debugInfo = "--- DEBUG DE CONTEXTO ---\n";
+        debugInfo += "📱 Plataforma: " + tg.platform + "\n";
+        debugInfo += "👤 Usuario: " + (initData.user ? initData.user.username : "Desconocido") + "\n";
+
+        // El hash es único para cada bot. Si cambias de bot, este cambia.
+        debugInfo += "🔑 Hash de Sesión: " + initData.hash.substring(0, 10) + "...\n";
+
+        // Si la WebApp se abrió desde un botón, aquí verás el receptor
+        if (initData.receiver) {
+            debugInfo += "🤖 Bot ID Receptor: " + initData.receiver.id + "\n";
+        } else {
+            debugInfo += "⚠️ No se detecta receptor (¿Se abrió por URL directa?)\n";
+        }
+
+        // Mostrar en pantalla para que no tengas que conectar consola
+        alert(debugInfo);
+        console.log("Datos completos de Telegram:", initData);
+        // ----------------------------
+
+
+
+
+        tg.expand(); // Expandir al máximo
+
+        // Aplicar colores del tema de Telegram automáticamente
+        document.body.style.backgroundColor = tg.backgroundColor;
+        document.body.style.color = tg.textColor;
+
         function openScanner() {
-            tg.showScanQrPopup({ text: "Escanee el codigo" }, function (text) {
+            // Limpiar interfaz
+            document.getElementById('retry-btn').style.display = "none";
+            document.getElementById('status-title').innerText = "Escáner Activo";
 
-                // Obtenemos el bot_name de los parámetros de la URL actual
-                const urlParams = new URLSearchParams(window.location.search);
-                const botName = urlParams.get('bot');
+            // 1. Invoca el escáner NATIVO
+            tg.showScanQrPopup({
+                text: "Apunta a la etiqueta del paquete (QR o Barras)"
+            }, function (text) {
+                // Si el escáner lee algo:
+                tg.HapticFeedback.impactOccurred('medium');
 
-                fetch("{{ route('telegram-scanner-store') }}", {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        code: text,
-                        bot: botName,
-                        data: tg.initData
-                    })
-                })
-                    .then(r => r.json())
-                    .then(data => { if (data.success) tg.close(); });
+                // Preparamos el payload JSON
+                const payload = {
+                    code: text,
+                    timestamp: new Date().getTime()
+                };
+
+                // Enviamos los datos al bot
+                tg.sendData(JSON.stringify(payload));
+
+                // Cerramos el popup nativo y la WebApp
+                tg.closeScanQrPopup();
+                tg.close();
 
                 return true;
             });
         }
+
+        // Ejecutar automáticamente al cargar
+        try {
+            openScanner();
+        } catch (e) {
+            document.getElementById('status-title').innerText = "Error";
+            document.getElementById('status-desc').innerText = "No se pudo acceder a la cámara nativa.";
+            document.getElementById('retry-btn').style.display = "inline-block";
+        }
+
+        // Si el usuario cierra el popup nativo sin escanear, mostramos el botón de reintento
+        tg.onEvent('scanQrPopupClosed', function () {
+            document.getElementById('status-title').innerText = "Escáner cerrado";
+            document.getElementById('status-desc').innerText = "No se detectó ningún código.";
+            document.getElementById('retry-btn').style.display = "inline-block";
+        });
 
     </script>
 </body>
