@@ -92,7 +92,7 @@ class ZentroPackageBotController extends JsonsController
     {
         $menu = array();
 
-        $url = route('telegram-scanner', array(
+        $url = route('telegram-scanner-init', array(
             "botname" => $this->telegram["username"]
         ));
 
@@ -107,6 +107,20 @@ class ZentroPackageBotController extends JsonsController
             $actor,
             $menu
         );
+    }
+
+    public function afterScan($user_id, $code)
+    {
+        $array = array(
+            "message" => array(
+                "text" => $code,
+                "chat" => array(
+                    "id" => $user_id,
+                ),
+            ),
+        );
+
+        $this->TelegramController->sendMessage($array, $this->token);
     }
 
 }

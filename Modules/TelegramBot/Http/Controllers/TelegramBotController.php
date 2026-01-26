@@ -24,13 +24,13 @@ class TelegramBotController extends Controller
         abort(404, 'Bot handle controller not found');
     }
 
-    public function scan($botname, $instance = false)
+    public function initScanner($botname, $instance = false)
     {
         $controller = $this->getController($botname, $instance);
         if ($controller) {
-            return $controller->scan(
-                //    $botname,
-                //   $instance
+            return $controller->initScanner(
+                $botname,
+                $instance
             );
         }
 

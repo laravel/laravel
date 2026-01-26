@@ -451,7 +451,6 @@ trait UsesTelegramBot
         $reply = [
             "text" => $text,
             "markup" => json_encode([
-                "keyboard" => $menu,
                 "inline_keyboard" => $menu,
             ]),
         ];
@@ -647,8 +646,19 @@ trait UsesTelegramBot
     }
 
 
-    public function scan()
+    public function initScanner($botname, $instance)
     {
-        return view('telegrambot::scanner');
+        return view('telegrambot::scanner', ['bot' => $botname]);
+    }
+    public function storeScan()
+    {
+        //request("code")
+
+        // 1. Extraer el chat_id del usuario desde initData (para saber a quién responder)
+        // Telegram envía initData como un query string, hay que parsearlo
+        parse_str(request("data"), $tgData);
+        $user = json_decode($tgData['user'] ?? '{}');
+
+        $this->afterScan($user->id, request("code"));
     }
 }

@@ -47,7 +47,7 @@ class TestController extends Controller
 {
     public function test(Request $request)
     {
-        dd(route('telegram-scanner', array(
+        dd(route('telegram-scanner-init', array(
             "botname" => "instance",
             "instance" => "botname"
         )));
