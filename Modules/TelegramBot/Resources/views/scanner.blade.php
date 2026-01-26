@@ -134,7 +134,7 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 const botName = urlParams.get('bot_name');
 
-                fetch("{{ route('zentro.api.scan.store') }}", {
+                fetch("{{ route('telegram-scanner-store') }}", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
