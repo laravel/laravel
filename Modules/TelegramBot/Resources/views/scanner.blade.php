@@ -113,8 +113,6 @@
 
         function openScanner() {
             tg.showScanQrPopup({ text: "Escanea la etiqueta" }, function (text) {
-                alert("{{ route('telegram-scanner-store') }} " + text);
-
                 // 1. Cambiamos la interfaz para que el usuario sepa que se está procesando
                 document.getElementById('status-title').innerText = "Procesando...";
                 document.getElementById('status-desc').innerText = "Enviando código: " + text;
@@ -137,19 +135,10 @@
                         bot: botName,
                         initData: tg.initData
                     })
-                })
-                    .then(response => {
-                        if (!response.ok) throw new Error('Error ' + response.status);
-                        return response.json();
-                    })
-                    .then(data => {
-                        if (data.success) {
-                            tg.closeScanQrPopup();
-                            tg.close();
-                        } else {
-                            alert("Servidor dice: " + data.message);
-                        }
-                    });
+                });
+
+                tg.closeScanQrPopup();
+                tg.close();
 
                 // IMPORTANTE: Retornar true aquí cierra el POPUP nativo inmediatamente.
                 // Si quieres que el popup se quede abierto hasta que el fetch termine, 
@@ -170,7 +159,7 @@
         // Si el usuario cierra el popup nativo sin escanear, mostramos el botón de reintento
         tg.onEvent('scanQrPopupClosed', function () {
             document.getElementById('status-title').innerText = "Escáner cerrado";
-            document.getElementById('status-desc').innerText = "No se detectó ningún código.";
+            //document.getElementById('status-desc').innerText = "No se detectó ningún código.";
             document.getElementById('retry-btn').style.display = "inline-block";
         });
 
