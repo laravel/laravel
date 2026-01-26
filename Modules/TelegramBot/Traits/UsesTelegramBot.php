@@ -452,6 +452,7 @@ trait UsesTelegramBot
             "text" => $text,
             "markup" => json_encode([
                 "keyboard" => $menu,
+                "inline_keyboard" => $menu,
             ]),
         ];
 
