@@ -9,6 +9,7 @@ use Modules\TelegramBot\Http\Controllers\TelegramController;
 use Modules\TelegramBot\Entities\TelegramBots;
 use Illuminate\Support\Facades\Lang;
 use Modules\ZentroPackageBot\Entities\Packages;
+use Illuminate\Support\Facades\Log;
 
 class ZentroPackageBotController extends JsonsController
 {
@@ -111,6 +112,7 @@ class ZentroPackageBotController extends JsonsController
 
     public function afterScan($user_id, $code)
     {
+        Log::info("afterScan {$user_id} {$code}");
         $array = array(
             "message" => array(
                 "text" => $code,
