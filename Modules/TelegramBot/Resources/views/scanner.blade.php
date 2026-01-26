@@ -131,8 +131,9 @@
             tg.showScanQrPopup({ text: "Escanea la etiqueta" }, function (text) {
 
                 alert(text);
+                alert(window.location.search);
+                alert("{{ route('telegram-scanner-store') }}");
                 tg.close();
-
 
                 return true;
             });
