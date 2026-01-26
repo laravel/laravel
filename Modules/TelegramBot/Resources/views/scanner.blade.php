@@ -128,29 +128,23 @@
         document.body.style.color = tg.textColor;
 
         function openScanner() {
-            // Limpiar interfaz
-            document.getElementById('retry-btn').style.display = "none";
-            document.getElementById('status-title').innerText = "Escáner Activo";
+            tg.showScanQrPopup({ text: "Escanea la etiqueta" }, function (text) {
 
-            // 1. Invoca el escáner NATIVO
-            tg.showScanQrPopup({
-                text: "Apunta a la etiqueta del paquete (QR o Barras)"
-            }, function (text) {
-                // Si el escáner lee algo:
-                tg.HapticFeedback.impactOccurred('medium');
+                // Obtenemos el bot_name de los parámetros de la URL actual
+                const urlParams = new URLSearchParams(window.location.search);
+                const botName = urlParams.get('bot_name');
 
-                // Preparamos el payload JSON
-                const payload = {
-                    code: text,
-                    timestamp: new Date().getTime()
-                };
-
-                // Enviamos los datos al bot
-                tg.sendData(JSON.stringify(payload));
-
-                // Cerramos el popup nativo y la WebApp
-                tg.closeScanQrPopup();
-                tg.close();
+                fetch("{{ route('zentro.api.scan.store') }}", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: text,
+                        bot_name: botName, // <--- Aquí pasamos la referencia
+                        initData: tg.initData
+                    })
+                })
+                    .then(r => r.json())
+                    .then(data => { if (data.success) tg.close(); });
 
                 return true;
             });
