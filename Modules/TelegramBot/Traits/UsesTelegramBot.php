@@ -650,16 +650,4 @@ trait UsesTelegramBot
     {
         return view('telegrambot::scanner', ['bot' => $botname]);
     }
-    public function storeScan()
-    {
-        Log::info("storeScan " . request("code"));
-        //request("code")
-
-        // 1. Extraer el chat_id del usuario desde initData (para saber a quién responder)
-        // Telegram envía initData como un query string, hay que parsearlo
-        parse_str(request("data"), $tgData);
-        $user = json_decode($tgData['user'] ?? '{}');
-
-        $this->afterScan($user->id, request("code"));
-    }
 }
