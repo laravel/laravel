@@ -135,10 +135,11 @@
                         bot: botName,
                         initData: tg.initData
                     })
-                });
-
-                tg.closeScanQrPopup();
-                tg.close();
+                })
+                    .then(response => {
+                        tg.closeScanQrPopup();
+                        tg.close();
+                    });
 
                 // IMPORTANTE: Retornar true aquí cierra el POPUP nativo inmediatamente.
                 // Si quieres que el popup se quede abierto hasta que el fetch termine, 
