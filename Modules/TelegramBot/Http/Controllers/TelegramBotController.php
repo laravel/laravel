@@ -75,5 +75,7 @@ class TelegramBotController extends Controller
 
         $this->afterScan($user->id, request("code"));
         */
+
+        return response()->json(['success' => true]);
     }
 }
