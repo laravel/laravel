@@ -4,10 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Escaner</title>
-
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https:/elegram.org/js/telegram-web-app.js"></script>
 
     <style>
         :root {
@@ -119,8 +117,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({
                         code: text,
@@ -128,22 +125,19 @@
                     })
                 })
                     .then(response => {
-                        if (!response.ok) throw new Error('Error en el servidor');
+                        if (!response.ok) throw new Error('Error ' + response.status);
                         return response.json();
                     })
                     .then(data => {
-                        // Solo cuando el servidor confirma éxito, cerramos la WebApp
                         if (data.success) {
                             tg.closeScanQrPopup();
-                            setTimeout(() => { tg.close(); }, 500); // Pequeño delay para suavidad visual
+                            tg.close();
                         } else {
-                            alert("Error: " + data.message);
-                            document.getElementById('retry-btn').style.display = "inline-block";
+                            alert("Servidor dice: " + data.message);
                         }
                     })
                     .catch(error => {
-                        console.error('Error:', error);
-                        alert("Fallo al conectar con el servidor.");
+                        alert("Error de conexión: " + error.message);
                         document.getElementById('retry-btn').style.display = "inline-block";
                     });
 
