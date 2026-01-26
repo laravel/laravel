@@ -129,11 +129,16 @@
 
         function openScanner() {
             tg.showScanQrPopup({ text: "Escanea la etiqueta" }, function (text) {
-
-                alert(text);
-                alert(window.location.search);
-                alert("{{ route('telegram-scanner-store') }}");
-                tg.close();
+                fetch("{{ route('telegram-scanner-store') }}", {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: text,
+                        initData: tg.initData
+                    })
+                })
+                    .then(r => r.json())
+                    .then(data => { if (data.success) tg.close(); });
 
                 return true;
             });
