@@ -129,17 +129,51 @@
 
         function openScanner() {
             tg.showScanQrPopup({ text: "Escanea la etiqueta" }, function (text) {
+
+                // 1. Cambiamos la interfaz para que el usuario sepa que se está procesando
+                document.getElementById('status-title').innerText = "Procesando...";
+                document.getElementById('status-desc').innerText = "Enviando código: " + text;
+
+                // 2. Obtenemos el bot_name de la URL (importante para tu variante)
+                const urlParams = new URLSearchParams(window.location.search);
+                const botName = urlParams.get('bot_name') || 'ZentroPackageBot';
+
+                // 3. Ejecutamos el Fetch
                 fetch("{{ route('telegram-scanner-store') }}", {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest' // Útil para que Laravel lo detecte como AJAX
+                    },
                     body: JSON.stringify({
                         code: text,
+                        bot_name: botName,
                         initData: tg.initData
                     })
                 })
-                    .then(r => r.json())
-                    .then(data => { if (data.success) tg.close(); });
+                    .then(response => {
+                        if (!response.ok) throw new Error('Error en el servidor');
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Solo cuando el servidor confirma éxito, cerramos la WebApp
+                        if (data.success) {
+                            tg.closeScanQrPopup();
+                            setTimeout(() => { tg.close(); }, 500); // Pequeño delay para suavidad visual
+                        } else {
+                            alert("Error: " + data.message);
+                            document.getElementById('retry-btn').style.display = "inline-block";
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert("Fallo al conectar con el servidor.");
+                        document.getElementById('retry-btn').style.display = "inline-block";
+                    });
 
+                // IMPORTANTE: Retornar true aquí cierra el POPUP nativo inmediatamente.
+                // Si quieres que el popup se quede abierto hasta que el fetch termine, 
+                // podrías retornar false, pero es mejor cerrarlo y mostrar el loader en la webapp.
                 return true;
             });
         }
