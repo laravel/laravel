@@ -149,10 +149,6 @@
                         } else {
                             alert("Servidor dice: " + data.message);
                         }
-                    })
-                    .catch(error => {
-                        alert("Error de conexión: " + error.message);
-                        document.getElementById('retry-btn').style.display = "inline-block";
                     });
 
                 // IMPORTANTE: Retornar true aquí cierra el POPUP nativo inmediatamente.
