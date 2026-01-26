@@ -130,21 +130,9 @@
         function openScanner() {
             tg.showScanQrPopup({ text: "Escanea la etiqueta" }, function (text) {
 
-                // Obtenemos el bot_name de los parámetros de la URL actual
-                const urlParams = new URLSearchParams(window.location.search);
-                const botName = urlParams.get('bot_name');
+                alert(text);
+                tg.close();
 
-                fetch("{{ route('telegram-scanner-store') }}", {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        code: text,
-                        bot_name: botName, // <--- Aquí pasamos la referencia
-                        initData: tg.initData
-                    })
-                })
-                    .then(r => r.json())
-                    .then(data => { if (data.success) tg.close(); });
 
                 return true;
             });
