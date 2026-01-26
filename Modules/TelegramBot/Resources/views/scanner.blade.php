@@ -4,108 +4,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Escaner Paquetería</title>
+    <title>Escaner</title>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
     <style>
+        :root {
+            --tg-theme-bg-color: #ffffff;
+            --tg-theme-text-color: #222222;
+            --tg-theme-button-color: #3390ec;
+        }
+
         body {
             margin: 0;
             padding: 0;
-            background-color: #000;
-            color: #fff;
-            font-family: sans-serif;
+            background-color: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-        }
-
-        #reader {
-            width: 100%;
-            max-width: 600px;
-            border: none !important;
-        }
-
-        /* Personalización de la interfaz de la librería */
-        #reader__scan_region {
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        #reader__dashboard_section_csr span {
-            display: none !important;
-        }
-
-        /* Ocultar selector de cámara nativo feo */
-
-        .status-msg {
-            margin-top: 10px;
-            font-size: 14px;
             text-align: center;
-            color: #aaa;
         }
 
-        .loading {
-            font-size: 18px;
-            font-weight: bold;
-            color: #3498db;
+        .container {
+            padding: 20px;
+        }
+
+        .loader {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: var(--tg-theme-button-color);
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Botón de re-intento por si el usuario cierra el popup por error */
+        .btn-retry {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: var(--tg-theme-button-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: none;
+            /* Se muestra solo si falla o cierran */
         }
     </style>
 </head>
 
 <body>
 
-    <div id="reader"></div>
-
-    <div id="status" class="status-msg">Iniciando cámara...</div>
+    <div class="container" id="main-content">
+        <div class="loader"></div>
+        <h2 id="status-title">Iniciando Escáner...</h2>
+        <p id="status-desc">Se abrirá la cámara de Telegram para leer el código.</p>
+        <button class="btn-retry" id="retry-btn" onclick="openScanner()">Reabrir Cámara</button>
+    </div>
 
     <script>
         const tg = window.Telegram.WebApp;
+
+        // Configurar la WebApp
         tg.ready();
-        tg.expand(); // Expande la webapp al 100% de altura disponible
+        tg.expand(); // Expandir al máximo
 
-        // Configuración del escáner
-        const config = {
-            fps: 10, // Frames por segundo
-            qrbox: { width: 250, height: 250 }, // Tamaño del cuadro de enfoque
-            aspectRatio: 1.0
-        };
+        // Aplicar colores del tema de Telegram automáticamente
+        document.body.style.backgroundColor = tg.backgroundColor;
+        document.body.style.color = tg.textColor;
 
-        // Función que se ejecuta al detectar un código
-        function onScanSuccess(decodedText, decodedResult) {
-            // 1. Feedback háptico (vibración) para confirmar lectura
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.notificationOccurred('success');
-            }
+        function openScanner() {
+            // Limpiar interfaz
+            document.getElementById('retry-btn').style.display = "none";
+            document.getElementById('status-title').innerText = "Escáner Activo";
 
-            // 2. Mostrar mensaje visual rápido
-            document.getElementById('status').innerText = "✅ Leído: " + decodedText;
-            document.getElementById('status').style.color = "#2ecc71";
+            // 1. Invoca el escáner NATIVO
+            tg.showScanQrPopup({
+                text: "Apunta a la etiqueta del paquete (QR o Barras)"
+            }, function (text) {
+                // Si el escáner lee algo:
+                tg.HapticFeedback.impactOccurred('medium');
 
-            // 3. ENVIAR DATOS AL BOT Y CERRAR
-            // Esto envía el texto 'decodedText' como un mensaje de servicio al bot
-            tg.sendData(decodedText);
+                // Preparamos el payload JSON
+                const payload = {
+                    code: text,
+                    timestamp: new Date().getTime()
+                };
 
-            // Opcional: Cerrar manualmente si sendData no lo hace inmediato (aunque suele hacerlo)
-            tg.close();
+                // Enviamos los datos al bot
+                tg.sendData(JSON.stringify(payload));
+
+                // Cerramos el popup nativo y la WebApp
+                tg.closeScanQrPopup();
+                tg.close();
+
+                return true;
+            });
         }
 
-        function onScanFailure(error) {
-            // No hacer nada para no saturar, el escaneo sigue intentando
+        // Ejecutar automáticamente al cargar
+        try {
+            openScanner();
+        } catch (e) {
+            document.getElementById('status-title').innerText = "Error";
+            document.getElementById('status-desc').innerText = "No se pudo acceder a la cámara nativa.";
+            document.getElementById('retry-btn').style.display = "inline-block";
         }
 
-        // Iniciar el escáner
-        const html5QrcodeScanner = new Html5QrcodeScanner("reader", config, /* verbose= */ false);
-
-        // Renderizar
-        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-
-        // Actualizar estado visual
-        setTimeout(() => {
-            document.getElementById('status').innerText = "Apunta al código QR o de Barras";
-        }, 1000);
+        // Si el usuario cierra el popup nativo sin escanear, mostramos el botón de reintento
+        tg.onEvent('scanQrPopupClosed', function () {
+            document.getElementById('status-title').innerText = "Escáner cerrado";
+            document.getElementById('status-desc').innerText = "No se detectó ningún código.";
+            document.getElementById('retry-btn').style.display = "inline-block";
+        });
 
     </script>
 </body>

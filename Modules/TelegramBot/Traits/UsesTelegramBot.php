@@ -35,6 +35,11 @@ trait UsesTelegramBot
                 $this->message["text"] = "";
             }
 
+            if (isset($this->message["web_app_data"])) {
+                $type = "webappdata";
+                $this->message["text"] = "/webappdata";
+            }
+
         }
         if (request("callback_query")) {
             $type = "callback_query";

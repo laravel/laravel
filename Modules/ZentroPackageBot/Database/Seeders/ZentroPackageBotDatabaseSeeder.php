@@ -4,6 +4,7 @@ namespace Modules\ZentroPackageBot\Database\Seeders;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
+use Modules\ZentroPackageBot\Database\Seeders\PackagesSeeder;
 
 class ZentroPackageBotDatabaseSeeder extends Seeder
 {
@@ -16,6 +17,6 @@ class ZentroPackageBotDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        //$this->call(ActorsSeeder::class);
+        $this->call(PackagesSeeder::class);
     }
 }

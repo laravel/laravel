@@ -8,6 +8,7 @@ use Modules\TelegramBot\Http\Controllers\ActorsController;
 use Modules\TelegramBot\Http\Controllers\TelegramController;
 use Modules\TelegramBot\Entities\TelegramBots;
 use Illuminate\Support\Facades\Lang;
+use Modules\ZentroPackageBot\Entities\Packages;
 
 class ZentroPackageBotController extends JsonsController
 {
@@ -43,10 +44,7 @@ class ZentroPackageBotController extends JsonsController
     public function processMessage()
     {
         $array = $this->getCommand($this->message["text"]);
-
-        $this->strategies["/p"] =
-            $this->strategies["/pass"] =
-            $this->strategies["/password"] =
+        $this->strategies["/password"] =
             function () use ($array) {
                 $key = strtolower($array["message"]);
                 $demo = false;
@@ -55,6 +53,37 @@ class ZentroPackageBotController extends JsonsController
                         "🔐 *" . strtoupper($key) . " hash:*\n",
                 );
             };
+
+        /*
+        "web_app_data": {
+            "button_text": "📷 Abrir Escáner",
+            "data": "996-13838856"
+        }
+         */
+        if (isset($this->message['web_app_data'])) {
+            $array = $this->message['web_app_data'];
+            $this->strategies["/webappdata"] =
+                function () use ($array) {
+                    $text = "❌";
+                    // Buscamos en la base de datos (donde el Seeder ya insertó este AWB)
+                    $package = Packages::where('awb', $array["data"]["code"])
+                        ->orWhere('tracking_number', $array["data"]["code"])
+                        ->first();
+                    if ($package)
+                        $text = "👤 " . $array["data"]["user_id"] . "\n" .
+                            "✅ *Carga Internacional Detectada*\n\n" .
+                            "📦 *Item:* {$package->description}\n" .
+                            "✈️ *AWB:* {$package->awb}\n" .
+                            "📍 *Destino:* {$package->province} (SCU)\n" .
+                            "⚖️ *Peso:* {$package->weight_kg} kg";
+
+                    return array(
+                        "text" => $text,
+                    );
+                };
+        }
+
+        //$this->message['web_app_data']
 
         return $this->getProcessedMessage();
     }
