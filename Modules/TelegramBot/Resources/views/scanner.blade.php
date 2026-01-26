@@ -129,14 +129,11 @@
 
         function openScanner() {
             tg.showScanQrPopup({ text: "Escanea la etiqueta" }, function (text) {
+                alert("{{ route('telegram-scanner-store') }} " + text);
 
                 // 1. Cambiamos la interfaz para que el usuario sepa que se está procesando
                 document.getElementById('status-title').innerText = "Procesando...";
                 document.getElementById('status-desc').innerText = "Enviando código: " + text;
-
-                // 2. Obtenemos el bot_name de la URL (importante para tu variante)
-                const urlParams = new URLSearchParams(window.location.search);
-                const botName = urlParams.get('bot_name') || 'ZentroPackageBot';
 
                 // 3. Ejecutamos el Fetch
                 fetch("{{ route('telegram-scanner-store') }}", {
@@ -147,7 +144,6 @@
                     },
                     body: JSON.stringify({
                         code: text,
-                        bot_name: botName,
                         initData: tg.initData
                     })
                 })

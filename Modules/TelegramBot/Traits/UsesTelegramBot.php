@@ -652,6 +652,7 @@ trait UsesTelegramBot
     }
     public function storeScan()
     {
+        Log::info("storeScan " . request("code"));
         //request("code")
 
         // 1. Extraer el chat_id del usuario desde initData (para saber a quién responder)
