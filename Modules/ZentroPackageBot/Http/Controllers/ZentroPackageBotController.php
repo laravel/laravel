@@ -55,12 +55,6 @@ class ZentroPackageBotController extends JsonsController
                 );
             };
 
-        /*
-        "web_app_data": {
-            "button_text": "📷 Abrir Escáner",
-            "data": "996-13838856"
-        }
-         */
         if (isset($this->message['web_app_data'])) {
             $array = $this->message['web_app_data'];
             $this->strategies["/webappdata"] =
