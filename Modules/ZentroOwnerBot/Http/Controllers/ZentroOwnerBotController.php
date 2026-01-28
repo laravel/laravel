@@ -92,7 +92,7 @@ class ZentroOwnerBotController extends JsonsController
                             "💻 *" . $array["pieces"][1] . "*\n\n" .
                             "🔐 `" . $license["licence"] . "`\n" .
                             "📅 " . $license["installed"] . " ❌ " . $license["expire"] . " _" . $license["given"] . "_\n\n" .
-                            "_" . Lang::get("zentroownerbot::bot.prompts.password.warning", ["time" => ZentroOwnerBotController::$AUTODESTROY_TIME_IN_MINS]) . "_"
+                            "_" . Lang::get("zentroownerbot::bot.prompts.password.warning", ["time" => $time]) . "_"
                         ,
                         "autodestroy" => $time,
                     );
