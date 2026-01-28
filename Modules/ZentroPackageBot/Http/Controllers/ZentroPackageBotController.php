@@ -99,7 +99,7 @@ class ZentroPackageBotController extends JsonsController
 
         array_push($menu, [
             [
-                "text" => "📷 Abrir Escáner",
+                "text" => "📷 Abrir Escáner " . time(),
                 'web_app' => ['url' => $url]
             ],
         ]);
