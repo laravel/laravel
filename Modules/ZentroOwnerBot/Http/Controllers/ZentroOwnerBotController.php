@@ -85,6 +85,8 @@ class ZentroOwnerBotController extends JsonsController
                         "name" => "test",
                         "build" => "FU",
                     ));
+
+                    $time = 2 * ZentroOwnerBotController::$AUTODESTROY_TIME_IN_MINS;
                     return array(
                         "text" =>
                             "💻 *" . $array["pieces"][1] . "*\n\n" .
@@ -92,7 +94,7 @@ class ZentroOwnerBotController extends JsonsController
                             "📅 " . $license["installed"] . " ❌ " . $license["expire"] . " _" . $license["given"] . "_\n\n" .
                             "_" . Lang::get("zentroownerbot::bot.prompts.password.warning", ["time" => ZentroOwnerBotController::$AUTODESTROY_TIME_IN_MINS]) . "_"
                         ,
-                        "autodestroy" => 2 * ZentroOwnerBotController::$AUTODESTROY_TIME_IN_MINS,
+                        "autodestroy" => $time,
                     );
                 } catch (\Exception $e) {
                     return array(
