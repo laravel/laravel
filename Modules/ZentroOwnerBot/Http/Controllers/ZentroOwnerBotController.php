@@ -9,6 +9,8 @@ use Modules\TelegramBot\Http\Controllers\TelegramController;
 use Modules\TelegramBot\Entities\TelegramBots;
 use Illuminate\Support\Facades\Lang;
 
+use Modules\ZentroOwnerBot\Entities\sfSecurity;
+
 class ZentroOwnerBotController extends JsonsController
 {
     use UsesTelegramBot;
@@ -44,6 +46,8 @@ class ZentroOwnerBotController extends JsonsController
     public function processMessage()
     {
         $array = $this->getCommand($this->message["text"]);
+        //var_dump($array);
+        //die;
 
         $this->strategies["/p"] =
             $this->strategies["/pass"] =
@@ -69,12 +73,46 @@ class ZentroOwnerBotController extends JsonsController
                 );
             };
 
+        $this->strategies["/l"] =
+            $this->strategies["/lic"] =
+            $this->strategies["/licencia"] =
+            $this->strategies["/license"] =
+            function () use ($array) {
+                try {
+                    $license = $this->generateZentroLicence(array(
+                        "pc" => $array["pieces"][1],
+                        "end" => $array["pieces"][2],
+                        "name" => "test",
+                        "build" => "FU",
+                    ));
+                    return array(
+                        "text" =>
+                            "🔐 `" . $license["licence"] . "`\n" .
+                            "🧏‍♂️ " . $license["given"] . "\n" .
+                            "📅 " . $license["installed"] . " ❌ " . $license["expire"]
+                        ,
+                        "autodestroy" => 2 * ZentroOwnerBotController::$AUTODESTROY_TIME_IN_MINS,
+                    );
+                } catch (\Exception $e) {
+                    return array(
+                        "text" => "🔐 *ERROR:* " . $array["message"] . ":\n" . $e->getMessage(),
+                    );
+                }
+            };
+
         return $this->getProcessedMessage();
     }
 
     public function mainMenu($actor)
     {
         return $this->getMainMenu(
+            $actor
+        );
+    }
+
+    public function configMenu($actor)
+    {
+        return $this->getConfigMenu(
             $actor
         );
     }
@@ -120,6 +158,57 @@ class ZentroOwnerBotController extends JsonsController
         }
 
         return $hash;
+    }
+
+    public function generateZentroLicence($request)
+    {
+        $key = $request["pc"];
+
+
+        // guessing installation date
+        $array = explode("-", $request["pc"]);
+        $installed = date_create_from_format("Y-m-d", date("Y-m-d", $array[count($array) - 1]));
+        unset($array[count($array) - 1]);
+
+
+        $response = array(
+            "installed" => $installed->format("d/m/Y")
+        );
+
+        $key = implode("-", $array);
+
+        $end = $request["end"];
+        if (strpos($end, "/") > -1) {
+            $expire = date_create_from_format("d/m/Y", $end);
+            if ($expire) {
+                $span = $expire->diff($installed);
+                $period = "";
+                if ($span->format("%y") > 0)
+                    $period = $period . $span->format("%y") . "Y";
+                if ($span->format("%m") > 0)
+                    $period = $period . $span->format("%m") . "M";
+                if ($span->format("%d") > 0)
+                    $period = $period . $span->format("%d") . "D";
+
+                $end = "";
+            }
+        } else {
+            $period = strtoupper($request["end"]);
+            $expire = $installed->add(new \DateInterval("P" . $period));
+        }
+        $response["expire"] = $expire->format("d/m/Y");
+
+        // adjusting app name to Zentro&reg;
+        $text = str_replace("®", "", $request["name"]);
+        $text = str_replace("�", "", $text);
+        $text = str_replace("&reg;", "", $text);
+        $text = str_replace("Zentro", "Zentro&reg;", $text);
+        $request["name"] = $text;
+
+        $response["given"] = $period;
+        $response["licence"] = sfSecurity::generateRegistrationCode(strtoupper($request["name"] . $key), $period, $request["build"]);
+
+        return $response;
     }
 
 }
