@@ -87,15 +87,17 @@ class ZentroOwnerBotController extends JsonsController
                     ));
                     return array(
                         "text" =>
+                            "💻 *" . $array["pieces"][1] . "*\n\n" .
                             "🔐 `" . $license["licence"] . "`\n" .
                             "🧏‍♂️ " . $license["given"] . "\n" .
-                            "📅 " . $license["installed"] . " ❌ " . $license["expire"]
+                            "📅 " . $license["installed"] . " ❌ " . $license["expire"] . " [_" . $license["given"] . "_]\n\n" .
+                            "_" . Lang::get("zentroownerbot::bot.prompts.password.warning", ["time" => ZentroOwnerBotController::$AUTODESTROY_TIME_IN_MINS]) . "_"
                         ,
                         "autodestroy" => 2 * ZentroOwnerBotController::$AUTODESTROY_TIME_IN_MINS,
                     );
                 } catch (\Exception $e) {
                     return array(
-                        "text" => "🔐 *ERROR:* " . $array["message"] . ":\n" . $e->getMessage(),
+                        "text" => "❌ *ERROR:* " . $array["message"] . ":\n" . $e->getMessage(),
                     );
                 }
             };
