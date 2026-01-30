@@ -19,7 +19,9 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 - [Robust background job processing](https://laravel.com/docs/queues).
 - [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Prerequisites: Ensure that PHP (>= 8.2), Composer, and required extensions (OpenSSL, PDO, Mbstring, Tokenizer, XML, Ctype, JSON) are installed before setting up a Laravel application.
+
+Laravel is accessible, powerful, and provides the tools required for building large, robust applications.
 
 ## Learning Laravel
 
