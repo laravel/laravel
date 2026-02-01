@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -44,4 +44,4 @@ jobs:
         run: php artisan key:generate
 
       - name: Execute tests
-        run: vendor/bin/phpunit
+        run: php artisan test
