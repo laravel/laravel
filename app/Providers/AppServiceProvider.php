@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Material;
+use App\Policies\MaterialPolicy;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Register policies using Gate
+        Gate::policy(Material::class, MaterialPolicy::class);
     }
 }
+

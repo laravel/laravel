@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -44,5 +45,45 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Relasi ke Materials (untuk guru)
+    public function materials()
+    {
+        return $this->hasMany(Material::class);
+    }
+
+    // Relasi ke Reports (untuk guru/siswa)
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
+    // Relasi ke Chat Messages (pengirim)
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    // Relasi ke Chat Messages (penerima)
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
+
+    // Helper untuk cek role
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isTeacher()
+    {
+        return $this->role === 'guru';
+    }
+
+    public function isStudent()
+    {
+        return $this->role === 'siswa';
     }
 }
