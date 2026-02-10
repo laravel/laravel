@@ -27,6 +27,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
+      - name: Security checker
+        uses: symfonycorp/security-checker-action@v5
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
