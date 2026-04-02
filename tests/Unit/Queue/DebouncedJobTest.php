@@ -273,9 +273,9 @@ class CallQueuedHandlerHarness
     }
 }
 
-class DebouncedTestJob implements ShouldQueue, ShouldBeDebounced
+class DebouncedTestJob implements ShouldBeDebounced, ShouldQueue
 {
-    use Dispatchable, Queueable, InteractsWithQueue;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
     public string $debounceOwner = '';
 
@@ -302,9 +302,9 @@ class DebouncedTestJob implements ShouldQueue, ShouldBeDebounced
     }
 }
 
-class DebouncedTestJobWithId implements ShouldQueue, ShouldBeDebounced
+class DebouncedTestJobWithId implements ShouldBeDebounced, ShouldQueue
 {
-    use Dispatchable, Queueable, InteractsWithQueue;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
     public string $debounceOwner = '';
 
@@ -330,14 +330,12 @@ class DebouncedTestJobWithId implements ShouldQueue, ShouldBeDebounced
         return 'DebouncedTestJobWithId';
     }
 
-    public function handle(): void
-    {
-    }
+    public function handle(): void {}
 }
 
-class DebouncedAndUniqueTestJob implements ShouldQueue, ShouldBeDebounced, ShouldBeUnique
+class DebouncedAndUniqueTestJob implements ShouldBeDebounced, ShouldBeUnique, ShouldQueue
 {
-    use Dispatchable, Queueable, InteractsWithQueue;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
     public string $debounceOwner = '';
 
@@ -351,7 +349,5 @@ class DebouncedAndUniqueTestJob implements ShouldQueue, ShouldBeDebounced, Shoul
         return 30;
     }
 
-    public function handle(): void
-    {
-    }
+    public function handle(): void {}
 }

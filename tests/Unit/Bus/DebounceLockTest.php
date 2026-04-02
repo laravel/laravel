@@ -221,9 +221,9 @@ class DebounceLockTest extends TestCase
     }
 }
 
-class DebounceLockTestJob implements ShouldQueue, ShouldBeDebounced
+class DebounceLockTestJob implements ShouldBeDebounced, ShouldQueue
 {
-    use Queueable, InteractsWithQueue;
+    use InteractsWithQueue, Queueable;
 
     public function debounceId(): string
     {
@@ -240,28 +240,24 @@ class DebounceLockTestJob implements ShouldQueue, ShouldBeDebounced
         return 'DebounceLockTestJob';
     }
 
-    public function handle(): void
-    {
-    }
+    public function handle(): void {}
 }
 
-class DebounceLockTestJobNoId implements ShouldQueue, ShouldBeDebounced
+class DebounceLockTestJobNoId implements ShouldBeDebounced, ShouldQueue
 {
-    use Queueable, InteractsWithQueue;
+    use InteractsWithQueue, Queueable;
 
     public function displayName(): string
     {
         return 'DebounceLockTestJobNoId';
     }
 
-    public function handle(): void
-    {
-    }
+    public function handle(): void {}
 }
 
-class DebounceLockTestJobWithVia implements ShouldQueue, ShouldBeDebounced
+class DebounceLockTestJobWithVia implements ShouldBeDebounced, ShouldQueue
 {
-    use Queueable, InteractsWithQueue;
+    use InteractsWithQueue, Queueable;
 
     private Cache $customCache;
 
@@ -290,15 +286,13 @@ class DebounceLockTestJobWithVia implements ShouldQueue, ShouldBeDebounced
         return $this->customCache;
     }
 
-    public function handle(): void
-    {
-    }
+    public function handle(): void {}
 }
 
 #[DebounceFor(45)]
-class DebounceLockTestJobWithAttribute implements ShouldQueue, ShouldBeDebounced
+class DebounceLockTestJobWithAttribute implements ShouldBeDebounced, ShouldQueue
 {
-    use Queueable, InteractsWithQueue;
+    use InteractsWithQueue, Queueable;
 
     public function debounceId(): string
     {
@@ -310,15 +304,13 @@ class DebounceLockTestJobWithAttribute implements ShouldQueue, ShouldBeDebounced
         return 'DebounceLockTestJobWithAttribute';
     }
 
-    public function handle(): void
-    {
-    }
+    public function handle(): void {}
 }
 
 #[DebounceFor(45)]
-class DebounceLockTestJobMethodAndAttribute implements ShouldQueue, ShouldBeDebounced
+class DebounceLockTestJobMethodAndAttribute implements ShouldBeDebounced, ShouldQueue
 {
-    use Queueable, InteractsWithQueue;
+    use InteractsWithQueue, Queueable;
 
     public function debounceId(): string
     {
@@ -335,7 +327,5 @@ class DebounceLockTestJobMethodAndAttribute implements ShouldQueue, ShouldBeDebo
         return 'DebounceLockTestJobMethodAndAttribute';
     }
 
-    public function handle(): void
-    {
-    }
+    public function handle(): void {}
 }

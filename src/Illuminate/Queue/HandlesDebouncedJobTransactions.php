@@ -13,7 +13,7 @@ use Illuminate\Contracts\Queue\ShouldBeDebounced;
  * $this->registerDebounceLockRollback($job) in enqueueUsing()
  * alongside the existing ShouldBeUnique rollback handler.
  *
- * @see \Illuminate\Queue\Queue::enqueueUsing()
+ * @see Queue::enqueueUsing()
  */
 trait HandlesDebouncedJobTransactions
 {
@@ -25,7 +25,6 @@ trait HandlesDebouncedJobTransactions
      * in Queue::enqueueUsing().
      *
      * @param  mixed  $job
-     * @return void
      */
     protected function registerDebounceLockRollback($job): void
     {

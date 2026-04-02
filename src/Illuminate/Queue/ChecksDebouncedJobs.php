@@ -4,6 +4,7 @@ namespace Illuminate\Queue;
 
 use Illuminate\Bus\DebounceLock;
 use Illuminate\Contracts\Cache\Repository as Cache;
+use Illuminate\Contracts\Queue\Job;
 use Illuminate\Contracts\Queue\ShouldBeDebounced;
 use Illuminate\Queue\Events\JobDebounced;
 
@@ -17,7 +18,7 @@ use Illuminate\Queue\Events\JobDebounced;
  * 2. Call ensureDebounceLockIsReleased($command) after successful
  *    execution (when job is not released).
  *
- * @see \Illuminate\Queue\CallQueuedHandler::call()
+ * @see CallQueuedHandler::call()
  */
 trait ChecksDebouncedJobs
 {
@@ -25,7 +26,6 @@ trait ChecksDebouncedJobs
      * Determine if the debounced command was superseded by a newer dispatch.
      *
      * @param  mixed  $command
-     * @return bool
      */
     protected function commandWasDebounced($command): bool
     {
@@ -49,9 +49,8 @@ trait ChecksDebouncedJobs
      *
      * Fires the JobDebounced event and deletes the job from the queue.
      *
-     * @param  \Illuminate\Contracts\Queue\Job  $job
+     * @param  Job  $job
      * @param  mixed  $command
-     * @return void
      */
     protected function handleDebouncedJob($job, $command): void
     {
@@ -66,7 +65,6 @@ trait ChecksDebouncedJobs
      * Release the debounce lock after a job finishes execution.
      *
      * @param  mixed  $command
-     * @return void
      */
     protected function ensureDebounceLockIsReleased($command): void
     {

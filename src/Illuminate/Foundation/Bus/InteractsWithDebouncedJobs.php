@@ -18,7 +18,7 @@ use ReflectionClass;
  * $this->acquireDebounceLock() in __destruct() AFTER the
  * shouldDispatch() check but BEFORE the actual dispatch.
  *
- * @see \Illuminate\Foundation\Bus\PendingDispatch::__destruct()
+ * @see PendingDispatch::__destruct()
  */
 trait InteractsWithDebouncedJobs
 {
@@ -30,9 +30,8 @@ trait InteractsWithDebouncedJobs
      * It replaces any existing debounce lock for this job identity,
      * stores the owner token on the job, and sets the delay.
      *
-     * @return void
      *
-     * @throws \LogicException
+     * @throws LogicException
      */
     protected function acquireDebounceLock(): void
     {
@@ -63,8 +62,6 @@ trait InteractsWithDebouncedJobs
 
     /**
      * Read the debounceFor value from a DebounceFor PHP attribute.
-     *
-     * @return int
      */
     private function getDebounceForFromAttribute(): int
     {

@@ -10,22 +10,16 @@ class Debounced
 {
     /**
      * The debounce key.
-     *
-     * @var string
      */
     public string $key;
 
     /**
      * The debounce window in seconds.
-     *
-     * @var int
      */
     public int $debounceFor;
 
     /**
      * The lock owner token acquired at dispatch time.
-     *
-     * @var string
      */
     public string $owner;
 
@@ -33,9 +27,6 @@ class Debounced
      * Create a new middleware instance.
      *
      * The constructor runs at dispatch time and acquires the debounce lock.
-     *
-     * @param  string  $key
-     * @param  int  $debounceFor
      */
     public function __construct(string $key = '', int $debounceFor = 60)
     {
@@ -82,8 +73,6 @@ class Debounced
 
     /**
      * Create a proxy job object that provides the interface DebounceLock expects.
-     *
-     * @return object
      */
     protected function createProxyJob(): object
     {
@@ -95,8 +84,7 @@ class Debounced
             public function __construct(
                 private string $key,
                 private int $debounceFor,
-            ) {
-            }
+            ) {}
 
             public function debounceId(): string
             {

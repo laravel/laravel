@@ -43,9 +43,9 @@ class DebouncedJobIntegrationTest extends TestCase
     }
 }
 
-class FakeableDebouncedJob implements ShouldQueue, ShouldBeDebounced
+class FakeableDebouncedJob implements ShouldBeDebounced, ShouldQueue
 {
-    use Dispatchable, Queueable, InteractsWithQueue;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
     public string $debounceOwner = '';
 
@@ -59,14 +59,12 @@ class FakeableDebouncedJob implements ShouldQueue, ShouldBeDebounced
         return 30;
     }
 
-    public function handle(): void
-    {
-    }
+    public function handle(): void {}
 }
 
-class SyncDebouncedJob implements ShouldQueue, ShouldBeDebounced
+class SyncDebouncedJob implements ShouldBeDebounced, ShouldQueue
 {
-    use Dispatchable, Queueable, InteractsWithQueue;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
     public static bool $handled = false;
 
