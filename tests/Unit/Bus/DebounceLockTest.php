@@ -23,7 +23,7 @@ class DebounceLockTest extends TestCase
     public function test_acquire_returns_non_empty_owner_token(): void
     {
         $lock = $this->createMockLock('test-owner-token-123');
-        $cache = $this->createMockCacheForAcquire($lock, 60);
+        $cache = $this->createMockCacheForAcquire($lock, 30);
 
         $debounceLock = new DebounceLock($cache);
         $job = new DebounceLockTestJob;
@@ -43,7 +43,7 @@ class DebounceLockTest extends TestCase
 
         $cache = Mockery::mock(Cache::class);
         $cache->shouldReceive('lock')
-            ->with(DebounceLock::getKey(new DebounceLockTestJob), 60)
+            ->with(DebounceLock::getKey(new DebounceLockTestJob), 30)
             ->once()
             ->andReturn($lock);
 
@@ -57,7 +57,7 @@ class DebounceLockTest extends TestCase
 
         $cache2 = Mockery::mock(Cache::class);
         $cache2->shouldReceive('lock')
-            ->with(DebounceLock::getKey(new DebounceLockTestJob), 60)
+            ->with(DebounceLock::getKey(new DebounceLockTestJob), 30)
             ->once()
             ->andReturn($lock2);
 
@@ -161,9 +161,9 @@ class DebounceLockTest extends TestCase
         $lock = $this->createMockLock('attr-owner');
         $cache = Mockery::mock(Cache::class);
 
-        // DebounceFor(45) -> TTL = max(45 * 2, 10) = 90
+        // DebounceFor(45) -> TTL = 45
         $cache->shouldReceive('lock')
-            ->with(Mockery::any(), 90)
+            ->with(Mockery::any(), 45)
             ->once()
             ->andReturn($lock);
 
@@ -179,10 +179,9 @@ class DebounceLockTest extends TestCase
         $lock = $this->createMockLock('method-owner');
         $cache = Mockery::mock(Cache::class);
 
-        // debounceFor() method returns 30, so TTL = max(30 * 2, 10) = 60
-        // The attribute says 45, but the method should win
+        // debounceFor() method returns 30 — method wins over attribute (45)
         $cache->shouldReceive('lock')
-            ->with(Mockery::any(), 60)
+            ->with(Mockery::any(), 30)
             ->once()
             ->andReturn($lock);
 

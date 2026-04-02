@@ -38,13 +38,11 @@ class DebounceLock
     {
         $debounceFor = method_exists($job, 'debounceFor')
             ? $job->debounceFor()
-            : ($this->getAttributeValue($job, DebounceFor::class, 'debounceFor') ?? 0);
-
-        $ttl = max($debounceFor * 2, 10);
+            : $this->getAttributeValue($job, DebounceFor::class, 'debounceFor');
 
         $cache = $this->resolveCache($job);
 
-        $lock = $cache->lock(static::getKey($job), $ttl);
+        $lock = $cache->lock(static::getKey($job), $debounceFor);
 
         $lock->forceRelease();
         $lock->get();

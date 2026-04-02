@@ -28,7 +28,7 @@ class Debounced
      *
      * The constructor runs at dispatch time and acquires the debounce lock.
      */
-    public function __construct(string $key = '', int $debounceFor = 60)
+    public function __construct(string $key = '', int $debounceFor = 0)
     {
         $this->key = $key;
         $this->debounceFor = $debounceFor;
