@@ -1,0 +1,16 @@
+#!/bin/sh
+# crag:auto-start
+# Generated from governance.md by crag
+# Regenerate: crag compile --target husky
+set -e
+
+# lint
+composer validate --strict || exit 1
+
+# test
+composer test || exit 1
+
+# build
+npm run build || exit 1
+
+# crag:auto-end

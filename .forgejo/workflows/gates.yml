@@ -1,0 +1,33 @@
+# crag:auto-start
+# Generated from governance.md by crag
+# Regenerate: crag compile --target forgejo
+name: Governance Gates
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  gates:
+    name: Governance Gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@v4
+      - name: Setup Node.js
+        uses: https://code.forgejo.org/actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - name: "lint: composer validate --strict"
+        run: |
+          composer validate --strict
+      - name: "test: composer test"
+        run: |
+          composer test
+      - name: "build: npm run build"
+        run: |
+          npm run build
+
+# crag:auto-end
