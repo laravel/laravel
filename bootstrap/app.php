@@ -11,7 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'admin_or_subadmin' => \App\Http\Middleware\AdminOrSubAdminMiddleware::class,
+            'force_password_change' => \App\Http\Middleware\ForcePasswordChangeMiddleware::class,
+            'enforce_update_schedule' => \App\Http\Middleware\EnforceUpdateScheduleMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

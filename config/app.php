@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE', 'Asia/Jakarta'),
 
     /*
     |--------------------------------------------------------------------------
@@ -122,5 +122,18 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Route Key Fallback
+    |--------------------------------------------------------------------------
+    |
+    | If true, route model binding may accept plain numeric IDs when encrypted
+    | route keys fail to decode. Keep false in production to enforce encrypted
+    | IDs only.
+    |
+    */
+
+    'route_key_allow_plain_id' => env('ROUTE_KEY_ALLOW_PLAIN_ID', env('APP_ENV', 'production') !== 'production'),
 
 ];

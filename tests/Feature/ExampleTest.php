@@ -8,12 +8,17 @@ use Tests\TestCase;
 class ExampleTest extends TestCase
 {
     /**
-     * A basic test example.
+     * Test that routes are registered correctly.
      */
-    public function test_the_application_returns_a_successful_response(): void
+    public function test_routes_are_registered(): void
     {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
+        $routes = collect(\Illuminate\Support\Facades\Route::getRoutes())->map(function($route) {
+            return $route->uri();
+        })->toArray();
+        
+        // Verify key routes are registered
+        $this->assertContains('login', $routes);
+        $this->assertContains('dashboard', $routes);
+        $this->assertContains('pegawai', $routes);
     }
 }
