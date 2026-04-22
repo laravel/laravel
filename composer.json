@@ -78,8 +78,14 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
-        }
+        },
+        "secure-http": false
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [{
+        "name": "packagist",
+        "type": "composer",
+        "url": "http://repo.packagist.org"
+    }]
 }
