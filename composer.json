@@ -79,7 +79,7 @@
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
         },
-        "secure-http": false
+        "secure-http": true
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
