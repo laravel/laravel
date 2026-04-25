@@ -19,17 +19,21 @@ class BookingController extends Controller
             'service' => 'required',
             'name' => 'nullable',
             'message' => 'nullable',
+            'date' => 'nullable|date',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $booking = Booking::create($request->all());
+        $data = $request->except('message');
+        $data['details'] = $request->input('message');
+
+        $booking = Booking::create($data);
 
         // Send Email Notification
         try {
-            Mail::raw("New Booking Request:\n\nService: {$booking->service}\nEmail: {$booking->email}\nName: {$booking->name}\nMessage: {$booking->message}", function ($message) {
+            Mail::raw("New Booking Request:\n\nService: {$booking->service}\nDate: {$booking->date}\nEmail: {$booking->email}\nName: {$booking->name}\nMessage: {$booking->details}", function ($message) {
                 $message->to('contact@homocerti.com')
                     ->subject('Homocerti - New Booking Request');
             });

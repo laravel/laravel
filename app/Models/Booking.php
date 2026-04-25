@@ -13,8 +13,9 @@ class Booking extends Model
         'name',
         'email',
         'service',
-        'message',
+        'details',
         'status',
+        'date',
     ];
 
     protected $casts = [
