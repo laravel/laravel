@@ -1,6 +1,6 @@
--- Database: homocertiRL
-CREATE DATABASE IF NOT EXISTS homocertiRL;
-USE homocertiRL;
+-- Database: homocerti
+CREATE DATABASE IF NOT EXISTS homocerti;
+USE homocerti;
 
 -- Table: Solutions
 CREATE TABLE IF NOT EXISTS solutions (
