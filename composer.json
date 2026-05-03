@@ -7,13 +7,19 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
-        "laravel/framework": "^13.7",
+        "filament/filament": "^3.2",
+        "laravel/framework": "^11.0",
         "laravel/tinker": "^3.0"
     },
+    "repositories": [
+        {
+            "name": "packagist",
+            "type": "composer",
+            "url": "https://repo.packagist.org"
+        }
+	],
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/pail": "^1.2.5",
-        "laravel/pao": "^1.0.6",
         "laravel/pint": "^1.27",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
@@ -79,7 +85,8 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
-        }
+        },
+        "secure-http": true
     },
     "minimum-stability": "stable",
     "prefer-stable": true
