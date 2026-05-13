@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('role')->default('user'); // admin or user
+            $table->decimal('balance', 10, 2)->default(0.00); // For billing
             $table->rememberToken();
             $table->timestamps();
         });
