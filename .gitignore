@@ -7,6 +7,7 @@
 .phpunit.result.cache
 /.codex
 /.cursor/
+/.amazonq/
 /.idea
 /.nova
 /.phpunit.cache
