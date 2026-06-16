@@ -18,7 +18,7 @@ class MakeApiCommand extends Command
         {--dto : Generate a DTO scaffold}
         {--all : Generate the standard API stack}
         {--routes : Register an API resource route}
-        {--api-version=v1 : API route version prefix}
+        {--api-version= : Optional API route version prefix, such as v1 or v2}
         {--force : Overwrite existing files}';
 
     protected $description = 'Generate a standardized API stack for an API-only Laravel application.';
@@ -118,7 +118,11 @@ class MakeApiCommand extends Command
         $namespaceSuffix = $subNamespace === '' ? '' : '\\'.$subNamespace;
         $pathSuffix = $subPath === '' ? '' : DIRECTORY_SEPARATOR.$subPath;
         $routeName = Str::kebab(Str::pluralStudly($class));
-        $version = trim((string) $this->option('api-version'), '/');
+        [$version, $versionNamespaceSuffix, $versionPathSuffix] = $this->normalizeApiVersion(
+            (string) $this->option('api-version')
+        );
+        $namespaceSuffix = $versionNamespaceSuffix.$namespaceSuffix;
+        $pathSuffix = $versionPathSuffix.$pathSuffix;
 
         return [
             'class' => $class,
@@ -148,6 +152,37 @@ class MakeApiCommand extends Command
             'dtoNamespace' => "App\\DTOs{$namespaceSuffix}",
             'dtoPath' => app_path("DTOs{$pathSuffix}/{$class}Data.php"),
             'namespaceSuffix' => $namespaceSuffix,
+        ];
+    }
+
+    /**
+     * @return array{0: string, 1: string, 2: string}
+     */
+    private function normalizeApiVersion(string $version): array
+    {
+        $segments = collect(preg_split('/[\/\\\\]+/', trim($version, " \t\n\r\0\x0B/\\")))
+            ->filter()
+            ->reject(fn (string $segment): bool => Str::lower($segment) === 'api')
+            ->values();
+
+        if ($segments->isEmpty()) {
+            return ['', '', ''];
+        }
+
+        $routeVersion = $segments
+            ->map(fn (string $segment): string => Str::kebab(Str::lower($segment)))
+            ->implode('/');
+        $namespaceVersion = $segments
+            ->map(fn (string $segment): string => Str::studly($segment))
+            ->implode('\\');
+        $pathVersion = $segments
+            ->map(fn (string $segment): string => Str::studly($segment))
+            ->implode(DIRECTORY_SEPARATOR);
+
+        return [
+            $routeVersion,
+            '\\'.$namespaceVersion,
+            DIRECTORY_SEPARATOR.$pathVersion,
         ];
     }
 
