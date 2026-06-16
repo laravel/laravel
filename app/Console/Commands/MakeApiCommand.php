@@ -11,6 +11,8 @@ class MakeApiCommand extends Command
     protected $signature = 'make:api
         {name : The API resource name}
         {--controller : Generate an API controller}
+        {--model : Generate an Eloquent model}
+        {--migration : Generate a database migration}
         {--service : Generate a service class}
         {--request : Generate a form request validator}
         {--resource : Generate an API resource}
@@ -32,7 +34,15 @@ class MakeApiCommand extends Command
     ];
 
     private const COMPONENTS = [
+        'model',
+        'migration',
         ...self::STANDARD_COMPONENTS,
+        'dto',
+    ];
+
+    private const ADDITIVE_COMPONENTS = [
+        'model',
+        'migration',
         'dto',
     ];
 
@@ -95,11 +105,16 @@ class MakeApiCommand extends Command
                 ->values()
                 ->all();
 
-        if ($this->option('dto') && ! in_array('dto', $components, true)) {
-            $components[] = 'dto';
+        foreach (self::ADDITIVE_COMPONENTS as $component) {
+            if ($this->option($component) && ! in_array($component, $components, true)) {
+                $components[] = $component;
+            }
         }
 
-        return $components;
+        return collect(self::COMPONENTS)
+            ->filter(fn (string $component): bool => in_array($component, $components, true))
+            ->values()
+            ->all();
     }
 
     /**
@@ -115,44 +130,56 @@ class MakeApiCommand extends Command
         $class = $segments->pop() ?: Str::studly($name);
         $subNamespace = $segments->implode('\\');
         $subPath = $segments->implode(DIRECTORY_SEPARATOR);
-        $namespaceSuffix = $subNamespace === '' ? '' : '\\'.$subNamespace;
-        $pathSuffix = $subPath === '' ? '' : DIRECTORY_SEPARATOR.$subPath;
+        $domainNamespaceSuffix = $subNamespace === '' ? '' : '\\'.$subNamespace;
+        $domainPathSuffix = $subPath === '' ? '' : DIRECTORY_SEPARATOR.$subPath;
         $routeName = Str::kebab(Str::pluralStudly($class));
         [$version, $versionNamespaceSuffix, $versionPathSuffix] = $this->normalizeApiVersion(
             (string) $this->option('api-version')
         );
-        $namespaceSuffix = $versionNamespaceSuffix.$namespaceSuffix;
-        $pathSuffix = $versionPathSuffix.$pathSuffix;
+        $apiNamespaceSuffix = $versionNamespaceSuffix.$domainNamespaceSuffix;
+        $apiPathSuffix = $versionPathSuffix.$domainPathSuffix;
+        $table = Str::snake(Str::pluralStudly($class));
 
         return [
             'class' => $class,
             'model' => $class,
+            'modelNamespace' => "App\\Models{$domainNamespaceSuffix}",
+            'modelPath' => app_path("Models{$domainPathSuffix}/{$class}.php"),
             'modelVariable' => Str::camel($class),
             'modelPluralVariable' => Str::camel(Str::pluralStudly($class)),
+            'migration' => "create_{$table}_table",
+            'migrationNamespace' => '',
+            'migrationPath' => database_path('migrations/'.$this->migrationTimestamp()."_create_{$table}_table.php"),
+            'table' => $table,
             'route' => $routeName,
             'routeParameter' => Str::camel($class),
             'version' => $version,
             'versionPrefix' => $version === '' ? '' : $version.'/',
             'controller' => "{$class}Controller",
-            'controllerNamespace' => "App\\Http\\Controllers\\Api{$namespaceSuffix}",
-            'controllerPath' => app_path("Http/Controllers/Api{$pathSuffix}/{$class}Controller.php"),
+            'controllerNamespace' => "App\\Http\\Controllers\\Api{$apiNamespaceSuffix}",
+            'controllerPath' => app_path("Http/Controllers/Api{$apiPathSuffix}/{$class}Controller.php"),
             'service' => "{$class}Service",
-            'serviceNamespace' => "App\\Services{$namespaceSuffix}",
-            'servicePath' => app_path("Services{$pathSuffix}/{$class}Service.php"),
+            'serviceNamespace' => "App\\Services{$apiNamespaceSuffix}",
+            'servicePath' => app_path("Services{$apiPathSuffix}/{$class}Service.php"),
             'request' => "{$class}Request",
-            'requestNamespace' => "App\\Http\\Requests{$namespaceSuffix}",
-            'requestPath' => app_path("Http/Requests{$pathSuffix}/{$class}Request.php"),
+            'requestNamespace' => "App\\Http\\Requests{$apiNamespaceSuffix}",
+            'requestPath' => app_path("Http/Requests{$apiPathSuffix}/{$class}Request.php"),
             'resource' => "{$class}Resource",
-            'resourceNamespace' => "App\\Http\\Resources{$namespaceSuffix}",
-            'resourcePath' => app_path("Http/Resources{$pathSuffix}/{$class}Resource.php"),
+            'resourceNamespace' => "App\\Http\\Resources{$apiNamespaceSuffix}",
+            'resourcePath' => app_path("Http/Resources{$apiPathSuffix}/{$class}Resource.php"),
             'test' => "{$class}ApiTest",
-            'testNamespace' => "Tests\\Feature{$namespaceSuffix}",
-            'testPath' => base_path("tests/Feature{$pathSuffix}/{$class}ApiTest.php"),
+            'testNamespace' => "Tests\\Feature{$apiNamespaceSuffix}",
+            'testPath' => base_path("tests/Feature{$apiPathSuffix}/{$class}ApiTest.php"),
             'dto' => "{$class}Data",
-            'dtoNamespace' => "App\\DTOs{$namespaceSuffix}",
-            'dtoPath' => app_path("DTOs{$pathSuffix}/{$class}Data.php"),
-            'namespaceSuffix' => $namespaceSuffix,
+            'dtoNamespace' => "App\\DTOs{$apiNamespaceSuffix}",
+            'dtoPath' => app_path("DTOs{$apiPathSuffix}/{$class}Data.php"),
+            'namespaceSuffix' => $apiNamespaceSuffix,
         ];
+    }
+
+    private function migrationTimestamp(): string
+    {
+        return now()->format('Y_m_d_His');
     }
 
     /**
@@ -191,6 +218,10 @@ class MakeApiCommand extends Command
      */
     private function generateComponent(string $component, array $context): bool
     {
+        if ($component === 'migration') {
+            return $this->generateMigration($context);
+        }
+
         $stub = base_path("stubs/api/{$component}.stub");
         $path = $context["{$component}Path"];
 
@@ -222,6 +253,48 @@ class MakeApiCommand extends Command
     /**
      * @param  array<string, string>  $context
      */
+    private function generateMigration(array $context): bool
+    {
+        $stub = base_path('stubs/api/migration.stub');
+        $path = $this->existingMigrationPath($context['table']) ?: $context['migrationPath'];
+
+        if (! $this->files->exists($stub)) {
+            $this->components->error("Stub [{$stub}] does not exist.");
+
+            return false;
+        }
+
+        if ($this->files->exists($path) && ! $this->option('force')) {
+            $this->components->warn("Migration for [{$context['table']}] already exists. Use --force to overwrite.");
+
+            return false;
+        }
+
+        $this->ensureDirectoryExists(dirname($path));
+
+        $this->files->put($path, $this->replaceStubPlaceholders(
+            $this->files->get($stub),
+            'migration',
+            array_merge($context, ['migrationPath' => $path]),
+        ));
+
+        $this->components->info("Created migration: {$path}");
+
+        return true;
+    }
+
+    private function existingMigrationPath(string $table): ?string
+    {
+        $matches = glob(database_path("migrations/*_create_{$table}_table.php")) ?: [];
+
+        sort($matches);
+
+        return $matches[0] ?? null;
+    }
+
+    /**
+     * @param  array<string, string>  $context
+     */
     private function replaceStubPlaceholders(string $stub, string $component, array $context): string
     {
         $replacements = [
@@ -229,8 +302,11 @@ class MakeApiCommand extends Command
             '{{ namespace }}' => $context["{$component}Namespace"],
             '{{ rootNamespace }}' => app()->getNamespace(),
             '{{ model }}' => $context['model'],
+            '{{ modelNamespace }}' => $context['modelNamespace'],
             '{{ modelVariable }}' => $context['modelVariable'],
             '{{ modelPluralVariable }}' => $context['modelPluralVariable'],
+            '{{ migration }}' => $context['migration'],
+            '{{ table }}' => $context['table'],
             '{{ request }}' => $context['request'],
             '{{ requestNamespace }}' => $context['requestNamespace'],
             '{{ resource }}' => $context['resource'],
@@ -260,7 +336,7 @@ class MakeApiCommand extends Command
     {
         $imports = [
             'use App\Http\Controllers\Controller;',
-            "use App\Models\\{$context['model']};",
+            "use {$context['modelNamespace']}\\{$context['model']};",
         ];
 
         if ($context['hasRequest']) {

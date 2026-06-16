@@ -2,7 +2,7 @@
 
 namespace {{ namespace }};
 
-use App\Models\{{ model }};
+use {{ modelNamespace }}\{{ model }};
 use Illuminate\Database\Eloquent\Collection;
 
 class {{ class }}
