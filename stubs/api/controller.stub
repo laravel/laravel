@@ -1,0 +1,10 @@
+<?php
+
+namespace {{ namespace }};
+
+{{ controllerImports }}
+
+class {{ class }} extends Controller
+{
+{{ controllerConstructor }}{{ controllerMethods }}
+}

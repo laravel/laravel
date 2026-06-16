@@ -1,0 +1,36 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Models\{{ model }};
+use Illuminate\Database\Eloquent\Collection;
+
+class {{ class }}
+{
+    public function list(): Collection
+    {
+        return {{ model }}::query()->latest()->get();
+    }
+
+    public function create(array $data): {{ model }}
+    {
+        return {{ model }}::query()->create($data);
+    }
+
+    public function find({{ model }} ${{ modelVariable }}): {{ model }}
+    {
+        return ${{ modelVariable }};
+    }
+
+    public function update({{ model }} ${{ modelVariable }}, array $data): {{ model }}
+    {
+        ${{ modelVariable }}->update($data);
+
+        return ${{ modelVariable }}->refresh();
+    }
+
+    public function delete({{ model }} ${{ modelVariable }}): void
+    {
+        ${{ modelVariable }}->delete();
+    }
+}

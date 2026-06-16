@@ -1,0 +1,21 @@
+<?php
+
+namespace {{ namespace }};
+
+class {{ class }}
+{
+    public function __construct(
+        public readonly array $attributes = [],
+    ) {
+    }
+
+    public static function fromArray(array $attributes): self
+    {
+        return new self($attributes);
+    }
+
+    public function toArray(): array
+    {
+        return $this->attributes;
+    }
+}

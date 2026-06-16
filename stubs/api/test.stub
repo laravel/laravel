@@ -1,0 +1,18 @@
+<?php
+
+namespace {{ namespace }};
+
+use Tests\TestCase;
+
+class {{ class }} extends TestCase
+{
+    public function test_index_returns_a_successful_json_response(): void
+    {
+        $response = $this->getJson('/api/{{ versionPrefix }}{{ route }}');
+
+        $response->assertSuccessful()
+            ->assertJsonStructure([
+                'data',
+            ]);
+    }
+}
