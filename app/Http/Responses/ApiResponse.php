@@ -12,7 +12,7 @@ class ApiResponse
         $payload = [
             'success' => true,
             'message' => $message,
-            'data' => $data ?? new \stdClass(),
+            'data' => $data ?? new \stdClass,
         ];
 
         if (! empty($meta)) {
@@ -22,12 +22,12 @@ class ApiResponse
         return response()->json($payload, $status);
     }
 
-    public static function error(string $message = 'The request failed.', int $status = HttpResponse::HTTP_BAD_REQUEST, array $errors = [], string|null $code = null): JsonResponse
+    public static function error(string $message = 'The request failed.', int $status = HttpResponse::HTTP_BAD_REQUEST, array $errors = [], ?string $code = null): JsonResponse
     {
         $payload = [
             'success' => false,
             'message' => $message,
-            'errors' => $errors ?: new \stdClass(),
+            'errors' => $errors ?: new \stdClass,
         ];
 
         if ($code !== null) {

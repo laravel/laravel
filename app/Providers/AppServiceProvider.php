@@ -17,7 +17,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+            [$maxAttempts, $decayMinutes] = array_pad(
+                array_map('intval', explode(',', (string) config('api.rate_limit', '60,1'))),
+                2,
+                1,
+            );
+
+            return Limit::perMinute($maxAttempts, $decayMinutes)
+                ->by($request->user()?->id ?: $request->ip());
         });
     }
 }
