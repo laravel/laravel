@@ -1,66 +1,68 @@
 # Larapi Core
 
-A lightweight, API-only Laravel starter kit. No Blade views, no Vite, no web routes — just JSON endpoints, Sanctum bearer token auth, and a standardized API scaffolding workflow.
+Larapi Core is a lightweight API-only Laravel starter kit. It ships with JSON-first defaults, Sanctum bearer token auth, standardized API responses, and an internal generator for API resources.
 
-## What's included
+No Blade views, no Vite setup, no web routes, and no session-first assumptions.
 
-- **API-only routing** — `routes/api.php` with versioned endpoints (`/api/v1/...`)
-- **Sanctum token auth** — register, login, logout, and `/me` endpoints out of the box
-- **Standard JSON envelope** — `ApiResponse` helper with consistent `success`, `message`, `data`, and `errors` fields
-- **`make:api` command** — scaffold controllers, services, requests, resources, tests, models, and migrations
-- **Health check** — `GET /up` for uptime monitoring
+## Included
+
+- API-only routing through `routes/api.php`
+- Versioned auth endpoints under `/api/v1/auth`
+- Sanctum bearer token authentication
+- Consistent JSON response envelope
+- JSON-first exception handling for validation, auth, not-found, authorization, and rate-limit errors
+- Configurable API metadata in `config/api.php`
+- Lightweight local defaults: SQLite, file cache, sync queue
+- `make:api` scaffolding for controllers, services, requests, resources, tests, DTOs, models, and migrations
 
 ## Requirements
 
 - PHP 8.3+
 - Composer
-- SQLite (default) or MySQL/PostgreSQL
+- SQLite by default, or another Laravel-supported database
 
-## Quick start
+## Quick Start
 
 ```bash
 composer install
 cp .env.example .env
 php artisan key:generate
-touch database/database.sqlite
 php artisan migrate
 php artisan serve
 ```
 
-Or use the setup script:
+Or:
 
 ```bash
 composer setup
 php artisan serve
 ```
 
-## Authentication
+## API Defaults
 
-All protected routes use Sanctum bearer tokens.
+```dotenv
+API_NAME="${APP_NAME}"
+API_VERSION=v1
+API_RATE_LIMIT=60,1
+QUEUE_CONNECTION=sync
+CACHE_STORE=file
+```
+
+`API_RATE_LIMIT=60,1` means 60 requests per 1 minute.
+
+## Endpoints
 
 | Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
+| --- | --- | --- | --- |
+| GET | `/api/v1/status` | No | API metadata and readiness |
 | POST | `/api/v1/auth/register` | No | Create account and receive token |
 | POST | `/api/v1/auth/login` | No | Authenticate and receive token |
 | POST | `/api/v1/auth/logout` | Bearer | Revoke current token |
 | GET | `/api/v1/auth/me` | Bearer | Get authenticated user |
 
-### Example
+## Response Envelope
 
-```bash
-# Register
-curl -X POST http://localhost:8000/api/v1/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Jane","email":"jane@example.com","password":"secret123","password_confirmation":"secret123"}'
-
-# Use token
-curl http://localhost:8000/api/v1/auth/me \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
-
-## Response format
-
-Successful responses:
+Success:
 
 ```json
 {
@@ -70,7 +72,7 @@ Successful responses:
 }
 ```
 
-Error responses:
+Error:
 
 ```json
 {
@@ -81,58 +83,84 @@ Error responses:
 }
 ```
 
-Use the base `Controller` helpers or `ApiResponse` directly in your endpoints.
+Use `successResponse()` and `errorResponse()` from the base controller, or call `App\Http\Responses\ApiResponse` directly.
 
-## Scaffolding APIs
+## Authentication Example
 
-Generate a full resource stack:
+```bash
+curl -X POST http://localhost:8000/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Jane","email":"jane@example.com","password":"secret123","password_confirmation":"secret123"}'
+```
+
+```bash
+curl http://localhost:8000/api/v1/auth/me \
+  -H "Authorization: Bearer YOUR_TOKEN"
+```
+
+## Generator
+
+Generate a full API resource:
 
 ```bash
 php artisan make:api Post --all --model --migration --routes --api-version=v1
 ```
 
-This creates:
+Useful combinations:
 
-- `App\Http\Controllers\Api\V1\PostController`
-- `App\Services\V1\PostService`
-- `App\Http\Requests\V1\PostRequest`
-- `App\Http\Resources\V1\PostResource`
-- `tests/Feature/V1/PostApiTest`
-- Model and migration (with `--model --migration`)
-
-Available flags: `--controller`, `--service`, `--request`, `--resource`, `--test`, `--dto`, `--routes`, `--force`.
-
-## Project structure
-
+```bash
+php artisan make:api Post --controller --service --request
+php artisan make:api Post --model --migration
+php artisan make:api Post --all --model --migration --force
 ```
+
+Available flags:
+
+```txt
+--controller
+--service
+--request
+--resource
+--test
+--dto
+--model
+--migration
+--routes
+--api-version=v1
+--force
+```
+
+## Structure
+
+```txt
 app/
-├── Console/Commands/MakeApiCommand.php
-├── Http/
-│   ├── Controllers/
-│   │   ├── Api/V1/AuthController.php
-│   │   └── Controller.php          # successResponse() / errorResponse()
-│   └── Responses/ApiResponse.php
-├── Models/User.php
+  Console/Commands/MakeApiCommand.php
+  Http/
+    Controllers/
+      Api/V1/AuthController.php
+      Controller.php
+    Middleware/ForceJsonResponse.php
+    Responses/ApiResponse.php
+  Models/User.php
+config/
+  api.php
 routes/
-└── api.php                         # Versioned API routes only
-stubs/api/                          # Generator templates
+  api.php
+stubs/
+  api/
+tests/
+  Feature/
 ```
-
-## Configuration
-
-| File | Purpose |
-|------|---------|
-| `config/auth.php` | Sanctum guard (token-based) |
-| `config/sanctum.php` | Bearer-only token settings |
-| `.env.example` | Minimal API-focused environment |
-
-Session, frontend, and SPA cookie auth have been removed. Add them back only if your use case requires it.
 
 ## Testing
 
 ```bash
 composer test
-# or
+```
+
+or:
+
+```bash
 php artisan test
 ```
 
