@@ -1,11 +1,13 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "larapi/core",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "A lightweight API-only Laravel starter kit with Sanctum token auth and standardized scaffolding.",
     "keywords": [
         "laravel",
-        "framework"
+        "api",
+        "sanctum",
+        "rest"
     ],
     "license": "MIT",
     "require": {
@@ -57,9 +59,6 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
-        ],
-        "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
