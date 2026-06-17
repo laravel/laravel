@@ -2,8 +2,7 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
@@ -14,7 +13,7 @@ class ApiResponseTest extends TestCase
      */
     public function test_success_response_structure()
     {
-        Route::get('/test-success', [\App\Http\Controllers\TestController::class, 'success']);
+        Route::get('/test-success', [TestController::class, 'success']);
 
         $response = $this->getJson('/test-success');
 
@@ -24,9 +23,9 @@ class ApiResponseTest extends TestCase
                 'message',
                 'data' => [
                     'id',
-                    'name'
+                    'name',
                 ],
-                'meta'
+                'meta',
             ])
             ->assertJsonPath('data.id', 1)
             ->assertJsonPath('data.name', 'test')
@@ -35,7 +34,7 @@ class ApiResponseTest extends TestCase
 
     public function test_error_response_structure()
     {
-        Route::get('/test-error', [\App\Http\Controllers\TestController::class, 'error']);
+        Route::get('/test-error', [TestController::class, 'error']);
 
         $response = $this->getJson('/test-error');
 

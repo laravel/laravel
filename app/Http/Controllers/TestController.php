@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class TestController extends Controller
 {
     public function success()
     {
         return $this->successResponse([
             'id' => 1,
-            'name' => 'test'
+            'name' => 'test',
         ], 'OK', 200, ['page' => 1]);
     }
 
