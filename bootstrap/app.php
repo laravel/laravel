@@ -14,6 +14,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
@@ -63,7 +64,16 @@ return Application::configure(basePath: dirname(__DIR__))
             code: 'NOT_FOUND',
         ));
 
-        $exceptions->render(fn (TooManyRequestsHttpException $exception): JsonResponse => ApiResponse::error(
+    $exceptions->render(fn(MethodNotAllowedHttpException $exception): JsonResponse => ApiResponse::error(
+        message: 'The requested method is not allowed for this route.',
+        status: Response::HTTP_METHOD_NOT_ALLOWED,
+        code: 'METHOD_NOT_ALLOWED',
+        errors: [
+            'method' => [strtoupper(request()->getMethod())],
+        ],
+    ));
+
+    $exceptions->render(fn (TooManyRequestsHttpException $exception): JsonResponse => ApiResponse::error(
             message: 'Too many requests.',
             status: Response::HTTP_TOO_MANY_REQUESTS,
             code: 'TOO_MANY_REQUESTS',
