@@ -38,6 +38,16 @@
         }
     },
     "scripts": {
+        "ci": [
+            "@lint:check",
+            "@test"
+        ],
+        "lint": [
+            "pint"
+        ],
+        "lint:check": [
+            "pint --test"
+        ],
         "setup": [
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
@@ -55,6 +65,12 @@
         "test": [
             "@php artisan config:clear --ansi @no_additional_args",
             "@php artisan test"
+        ],
+        "test:feature": [
+            "@php artisan test --testsuite=Feature"
+        ],
+        "test:unit": [
+            "@php artisan test --testsuite=Unit"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

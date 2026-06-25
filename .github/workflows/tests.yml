@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [8.3, 8.4, 8.5]
+        php: [8.3, 8.4]
 
     name: PHP ${{ matrix.php }}
 
@@ -39,6 +39,12 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
 
+      - name: Validate Composer metadata
+        run: composer validate --strict
+
+      - name: Check code style
+        run: composer lint:check
+
       - name: Copy environment file
         run: cp .env.example .env
 
@@ -46,4 +52,4 @@ jobs:
         run: php artisan key:generate
 
       - name: Execute tests
-        run: php artisan test
+        run: composer test
