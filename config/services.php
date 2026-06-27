@@ -35,4 +35,27 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | ArcanePay Services
+    |--------------------------------------------------------------------------
+    */
+
+    'fonnte' => [
+        'token' => env('FONNTE_TOKEN'),
+    ],
+
+    'tripay' => [
+        'api_key' => env('TRIPAY_API_KEY'),
+        'private_key' => env('TRIPAY_PRIVATE_KEY'),
+        'merchant_code' => env('TRIPAY_MERCHANT_CODE'),
+        'env' => env('TRIPAY_ENV', 'sandbox'),
+    ],
+
+    'supplier' => [
+        'key' => env('SUPPLIER_API_KEY'),
+        'url' => env('SUPPLIER_API_URL'),
+        'username' => env('SUPPLIER_USERNAME'),
+    ],
+
 ];
