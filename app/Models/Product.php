@@ -12,14 +12,20 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category_id', 'name', 'supplier_code', 'base_price', 
-        'sell_price', 'status'
+        'category_id',
+        'name',
+        'supplier_code',
+        'supplier_codes',   // JSON: {"digiflazz": "ml-86", "vipreseller": "ML86D"}
+        'base_price',
+        'sell_price',
+        'status',
     ];
 
     protected $casts = [
-        'status' => 'boolean',
-        'base_price' => 'integer',
-        'sell_price' => 'integer',
+        'status'         => 'boolean',
+        'base_price'     => 'integer',
+        'sell_price'     => 'integer',
+        'supplier_codes' => 'array',
     ];
 
     public function category(): BelongsTo

@@ -10,10 +10,19 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'icon', 'status'];
+    protected $fillable = [
+        'name',
+        'slug',
+        'icon',
+        'status',
+        'need_zone',
+        'zone_label',
+        'target_label',
+    ];
 
     protected $casts = [
-        'status' => 'boolean',
+        'status'    => 'boolean',
+        'need_zone' => 'boolean',
     ];
 
     public function products(): HasMany

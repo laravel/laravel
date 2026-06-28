@@ -13,49 +13,56 @@ use Filament\Tables\Table;
 class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
-    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
-    protected static ?string $navigationLabel = 'Order';
-    protected static ?string $modelLabel = 'Order';
-    protected static ?string $pluralModelLabel = 'Daftar Order';
+
+    protected static ?string $navigationIcon  = 'heroicon-o-shopping-cart';
+    protected static ?string $navigationLabel = 'Orders';
+    protected static ?int    $navigationSort  = 3;
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('customer_id')
-                    ->relationship('customer', 'phone')
-                    ->required()
-                    ->label('Customer'),
-                Forms\Components\Select::make('product_id')
-                    ->relationship('product', 'name')
-                    ->required()
-                    ->label('Produk'),
-                Forms\Components\TextInput::make('target_id')
-                    ->required()
-                    ->label('Target ID'),
-                Forms\Components\TextInput::make('target_zone')
-                    ->label('Zone ID'),
-                Forms\Components\Select::make('status')
-                    ->options([
-                        'pending' => 'Menunggu Pembayaran',
-                        'paid' => 'Pembayaran Diterima',
-                        'processing' => 'Diproses',
-                        'success' => 'Berhasil',
-                        'failed' => 'Gagal',
-                        'expired' => 'Kadaluarsa',
-                    ])
-                    ->required()
-                    ->label('Status'),
-                Forms\Components\TextInput::make('amount')
-                    ->required()
-                    ->numeric()
-                    ->prefix('Rp')
-                    ->label('Total'),
-                Forms\Components\TextInput::make('payment_ref')
-                    ->label('Payment Ref'),
-                Forms\Components\TextInput::make('supplier_ref')
-                    ->label('Supplier Ref'),
-            ]);
+        return $form->schema([
+            Forms\Components\Select::make('customer_id')
+                ->relationship('customer', 'name')
+                ->searchable()
+                ->required(),
+
+            Forms\Components\Select::make('product_id')
+                ->relationship('product', 'name')
+                ->searchable()
+                ->required(),
+
+            Forms\Components\TextInput::make('target_id')
+                ->label('User ID')
+                ->required(),
+
+            Forms\Components\TextInput::make('target_zone')
+                ->label('Zone / Server ID')
+                ->nullable(),
+
+            Forms\Components\Select::make('status')
+                ->options([
+                    'pending'    => 'Pending',
+                    'paid'       => 'Paid',
+                    'processing' => 'Processing',
+                    'success'    => 'Success',
+                    'failed'     => 'Failed',
+                    'expired'    => 'Expired',
+                ])
+                ->required(),
+
+            Forms\Components\TextInput::make('amount')
+                ->numeric()
+                ->prefix('Rp')
+                ->required(),
+
+            Forms\Components\TextInput::make('payment_ref')
+                ->label('Payment Ref (Tripay)')
+                ->readOnly(),
+
+            Forms\Components\TextInput::make('supplier_ref')
+                ->label('Supplier Ref')
+                ->readOnly(),
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -64,67 +71,87 @@ class OrderResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('id')
                     ->label('Order ID')
-                    ->formatStateUsing(fn ($state) => 'ARC-' . $state)
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('customer.phone')
+                    ->formatStateUsing(fn ($state) => "ARC-{$state}")
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('customer.name')
                     ->label('Customer')
                     ->searchable(),
+
+                Tables\Columns\TextColumn::make('customer.phone')
+                    ->label('Phone')
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('product.category.name')
-                    ->label('Game')
-                    ->searchable(),
+                    ->label('Game'),
+
                 Tables\Columns\TextColumn::make('product.name')
-                    ->label('Produk')
-                    ->searchable(),
+                    ->label('Produk'),
+
                 Tables\Columns\TextColumn::make('target_id')
-                    ->label('Target ID'),
+                    ->label('Target'),
+
                 Tables\Columns\TextColumn::make('amount')
+                    ->label('Total')
                     ->money('IDR')
-                    ->label('Total'),
-                Tables\Columns\BadgeColumn::make('status')
-                    ->colors([
-                        'warning' => 'pending',
-                        'primary' => 'paid',
-                        'info' => 'processing',
-                        'success' => 'success',
-                        'danger' => 'failed',
-                        'gray' => 'expired',
-                    ])
-                    ->label('Status'),
+                    ->sortable(),
+
+                // FIX: BadgeColumn deprecated → use TextColumn->badge()
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'pending'    => 'warning',
+                        'paid'       => 'info',
+                        'processing' => 'info',
+                        'success'    => 'success',
+                        'failed'     => 'danger',
+                        'expired'    => 'gray',
+                        default      => 'gray',
+                    })
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Waktu')
                     ->dateTime('d M Y H:i')
-                    ->label('Waktu'),
+                    ->timezone('Asia/Jakarta')
+                    ->sortable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
-                        'pending' => 'Menunggu Pembayaran',
-                        'paid' => 'Pembayaran Diterima',
-                        'processing' => 'Diproses',
-                        'success' => 'Berhasil',
-                        'failed' => 'Gagal',
-                        'expired' => 'Kadaluarsa',
-                    ])
-                    ->label('Status'),
+                        'pending'    => 'Pending',
+                        'paid'       => 'Paid',
+                        'processing' => 'Processing',
+                        'success'    => 'Success',
+                        'failed'     => 'Failed',
+                        'expired'    => 'Expired',
+                    ]),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
                 Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ])
-            ->defaultSort('created_at', 'desc');
+            ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListOrders::route('/'),
+            'index'  => Pages\ListOrders::route('/'),
             'create' => Pages\CreateOrder::route('/create'),
-            'edit' => Pages\EditOrder::route('/{record}/edit'),
-            'view' => Pages\ViewOrder::route('/{record}'),
+            'view'   => Pages\ViewOrder::route('/{record}'),
+            'edit'   => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
 }
