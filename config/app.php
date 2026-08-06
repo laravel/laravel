@@ -63,6 +63,10 @@ return [
     | will be used by the PHP date and date-time functions. The timezone
     | is set to "UTC" by default as it is suitable for most use cases.
     |
+    | This value is not read from the environment on purpose, as it must
+    | stay identical across every environment and server that shares a
+    | database, otherwise stored dates may be interpreted differently.
+    |
     */
 
     'timezone' => 'UTC',
