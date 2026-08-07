@@ -25,3 +25,6 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Local AI / Wayfinder decision-aid prototypes (not for production or cloud)
+/resources/views/prototype
