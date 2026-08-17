@@ -77,7 +77,7 @@ return [
             'driver' => 'monthly',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
-            'max_files' => 3,
+            'max_files' => env('LOG_MONTHLY_MONTHS', 3),
             'replace_placeholders' => true,
         ],
 
