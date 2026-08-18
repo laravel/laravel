@@ -1,6 +1,11 @@
 # Release Notes
 
-## [Unreleased](https://github.com/laravel/laravel/compare/v13.9.0...13.x)
+## [Unreleased](https://github.com/laravel/laravel/compare/v13.10.0...13.x)
+
+## [v13.10.0](https://github.com/laravel/laravel/compare/v13.9.0...v13.10.0) - 2026-08-17
+
+* Add "monthly" to the available log drivers comment by [@csemazharul](https://github.com/csemazharul) in https://github.com/laravel/laravel/pull/6855
+* Ignore temporary LSP script files in `storage/framework` by [@imKenjo18](https://github.com/imKenjo18) in https://github.com/laravel/laravel/pull/6856
 
 ## [v13.9.0](https://github.com/laravel/laravel/compare/v13.8.0...v13.9.0) - 2026-08-12
 
