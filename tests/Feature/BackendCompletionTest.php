@@ -51,6 +51,24 @@ class BackendCompletionTest extends TestCase { use RefreshDatabase;
   $this->getJson('/api/v1/notifications')->assertOk()->assertJsonFragment(['subject'=>'Holiday schedule']);
  }
 
+ public function test_billing_service_generates_invoice_with_lines_via_api():void{
+  $x=$this->setupTenant();
+  $plan=MealPlan::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'name'=>'Both Meals Monthly','meal_option'=>'both','billing_type'=>'fixed_monthly','monthly_rate'=>450]);
+  \App\Models\CustomerPlan::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'customer_id'=>$x['customer']->id,'meal_plan_id'=>$plan->id,'starts_on'=>today()->startOfMonth()]);
+  Sanctum::actingAs($x['admin']);
+  $this->postJson('/api/v1/invoices',['customer_id'=>$x['customer']->uuid,'period_start'=>today()->startOfMonth()->format('Y-m-d'),'period_end'=>today()->endOfMonth()->format('Y-m-d')])->assertCreated()->assertJsonPath('data.current_charges','450.00');
+  $this->assertDatabaseCount('invoice_lines',1);
+ }
+
+ public function test_invoice_pdf_and_whatsapp_share_are_available():void{
+  $x=$this->setupTenant();
+  $invoice=Invoice::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'customer_id'=>$x['customer']->id,'invoice_number'=>'CMPL-INV1','period_start'=>today()->startOfMonth(),'period_end'=>today()->endOfMonth(),'current_charges'=>120,'total_payable'=>120,'balance'=>120,'status'=>InvoiceStatus::Unpaid,'due_date'=>today()->addDays(7)]);
+  \App\Models\InvoiceLine::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'invoice_id'=>$invoice->id,'description'=>'Both Meals Monthly','quantity'=>1,'unit_price'=>120,'amount'=>120]);
+  Sanctum::actingAs($x['admin']);
+  $this->get('/api/v1/invoices/'.$invoice->uuid.'/pdf')->assertOk()->assertHeader('content-type','application/pdf');
+  $this->postJson('/api/v1/invoices/'.$invoice->uuid.'/share')->assertOk()->assertJsonStructure(['data'=>['url','pdf_url']]);
+ }
+
  public function test_new_report_types_return_expected_headers():void{
   $x=$this->setupTenant();Sanctum::actingAs($x['admin']);
   $this->getJson('/api/v1/reports/building-outstanding')->assertOk()->assertJsonPath('data.head.0','Building');

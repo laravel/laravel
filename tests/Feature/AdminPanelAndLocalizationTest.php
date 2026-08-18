@@ -1,8 +1,17 @@
 <?php
 namespace Tests\Feature;
-use App\Enums\{InvoiceStatus,PaymentMode,Role}; use App\Models\{Building,Company,Customer,Invoice,Room,User}; use Illuminate\Foundation\Testing\RefreshDatabase; use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken; use Laravel\Sanctum\Sanctum; use Tests\TestCase;
+use App\Enums\{InvoiceStatus,PaymentMode,Role}; use App\Models\{Building,Company,Customer,Invoice,Room,User}; use Illuminate\Auth\Notifications\ResetPassword; use Illuminate\Foundation\Testing\RefreshDatabase; use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken; use Illuminate\Support\Facades\{Hash,Notification,Password}; use Laravel\Sanctum\Sanctum; use Tests\TestCase;
 class AdminPanelAndLocalizationTest extends TestCase { use RefreshDatabase;
  private function setupTenant():array{$company=Company::create(['name'=>'Panel Co','code'=>'PANEL']);$admin=User::factory()->create(['company_id'=>$company->id,'role'=>Role::CompanyAdmin]);$building=Building::withoutGlobalScopes()->create(['company_id'=>$company->id,'name'=>'Block 1','code'=>'B1']);$room=Room::withoutGlobalScopes()->create(['company_id'=>$company->id,'building_id'=>$building->id,'number'=>'11','capacity'=>3]);$customer=Customer::withoutGlobalScopes()->create(['company_id'=>$company->id,'building_id'=>$building->id,'room_id'=>$room->id,'customer_code'=>'P1','name'=>'Panel Worker','passport_number'=>'PP1','start_date'=>today()]);return compact('company','admin','building','room','customer');}
+
+ public function test_forgot_password_flow_issues_a_working_reset_link():void{
+  Notification::fake();$x=$this->setupTenant();$this->withoutMiddleware(ValidateCsrfToken::class);
+  $this->post('/forgot-password',['email'=>$x['admin']->email])->assertRedirect();
+  Notification::assertSentTo($x['admin'],ResetPassword::class);
+  $token=Password::createToken($x['admin']);
+  $this->post('/reset-password',['token'=>$token,'email'=>$x['admin']->email,'password'=>'BrandNewPass!123','password_confirmation'=>'BrandNewPass!123'])->assertRedirect('/login');
+  $this->assertTrue(Hash::check('BrandNewPass!123',$x['admin']->fresh()->password));
+ }
 
  public function test_admin_can_create_and_toggle_employees_through_the_web_panel():void{
   $x=$this->setupTenant();$this->withoutMiddleware(ValidateCsrfToken::class);
