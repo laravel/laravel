@@ -35,6 +35,8 @@ class BackendCompletionTest extends TestCase { use RefreshDatabase;
   $this->assertDatabaseCount('meal_pauses',2);
   $this->postJson('/api/v1/customers/bulk-plan',['customer_ids'=>[$x['customer']->uuid,$second->uuid],'meal_plan_id'=>$plan->uuid,'starts_on'=>today()->format('Y-m-d')])->assertOk()->assertJsonPath('data.processed',2);
   $this->assertDatabaseCount('customer_plans',2);
+  $this->postJson('/api/v1/deliveries/bulk',['scope'=>'customers','customer_ids'=>[$x['customer']->uuid,$second->uuid],'delivery_date'=>today()->format('Y-m-d'),'meal_option'=>'evening','status'=>'delivered'])->assertOk()->assertJsonPath('data.processed',2);
+  $this->assertDatabaseCount('deliveries',2);
  }
 
  public function test_receipt_history_and_admin_announcement():void{

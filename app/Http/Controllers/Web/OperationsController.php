@@ -1,9 +1,8 @@
 <?php
 namespace App\Http\Controllers\Web;
-use App\Http\Controllers\Controller; use App\Models\{AuditLog,CashHandover,Customer,DailyClosing,Delivery,Device,Invoice,NotificationLog,Payment,PaymentCorrection,User}; use Illuminate\Http\Request;
+use App\Http\Controllers\Controller; use App\Models\{AuditLog,CashHandover,Customer,DailyClosing,Delivery,Device,Invoice,NotificationLog,Payment,PaymentCorrection}; use Illuminate\Http\Request;
 class OperationsController extends Controller {
  private function page(string $title,array $columns,$rows){return view('admin.list',compact('title','columns','rows'));}
- public function employees(){return $this->page('Employees',['name','email','phone','role','is_active'],User::where('company_id',auth()->user()->company_id)->latest()->paginate(50));}
  public function deliveries(){return $this->page('Daily deliveries',['delivery_date','customer.name','meal_option','quantity','status','recorder.name','confirmed_at'],Delivery::with(['customer','recorder'])->latest('delivery_date')->paginate(50));}
  public function invoices(){return $this->page('Invoices',['invoice_number','customer.name','period_start','period_end','total_payable','amount_paid','balance','status'],Invoice::with('customer')->latest()->paginate(50));}
  public function payments(){return $this->page('Payments',['receipt.receipt_number','customer.name','amount','mode','paid_at','employee.name','reference'],Payment::with(['receipt','customer','employee'])->latest('paid_at')->paginate(50));}
@@ -14,5 +13,5 @@ class OperationsController extends Controller {
  public function audit(){return $this->page('Audit and correction log',['created_at','user_id','action','auditable_type','auditable_id','ip_address'],AuditLog::latest()->paginate(100));}
  public function devices(){return $this->page('Tablet devices',['name','device_key','platform','approved_at','disabled_at','last_seen_at'],Device::latest()->paginate(50));}
  public function notifications(){return $this->page('WhatsApp and reminders',['created_at','type','channel','recipient','subject','status','sent_at'],NotificationLog::latest()->paginate(50));}
- public function reports(){return view('reports.index');} public function settings(){return view('admin.settings',['company'=>auth()->user()->company]);} public function updateSettings(Request $r){$d=$r->validate(['currency'=>'required|string|size:3','timezone'=>'required|string|max:60','delivery_cutoff_time'=>'required|date_format:H:i','invoice_due_days'=>'required|integer|min:0|max:365','receipt_prefix'=>'nullable|max:20']);auth()->user()->company->update($d);return back()->with('status','Settings saved.');}
+ public function reports(){return view('reports.index');} public function settings(){return view('admin.settings',['company'=>auth()->user()->company]);} public function updateSettings(Request $r){$d=$r->validate(['currency'=>'required|string|size:3','timezone'=>'required|string|max:60','delivery_cutoff_time'=>'required|date_format:H:i','invoice_due_days'=>'required|integer|min:0|max:365','receipt_prefix'=>'nullable|max:20','locale'=>'required|in:en,ur,ar','low_balance_threshold'=>'nullable|decimal:0,2|min:0']);auth()->user()->company->update($d);return back()->with('status','Settings saved.');}
 }
