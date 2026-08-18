@@ -1,0 +1,39 @@
+openapi: 3.1.0
+info: {title: MealFlow API, version: 1.0.0, description: Flutter-ready multi-company meal delivery API}
+servers: [{url: /api/v1}]
+security: [{sanctum: []}]
+components:
+  securitySchemes: {sanctum: {type: http, scheme: bearer}}
+  schemas:
+    Delivery: {type: object, required: [uuid, customer_id, delivery_date, meal_option, status, idempotency_key], properties: {uuid: {type: string, format: uuid}, customer_id: {type: string, format: uuid}, delivery_date: {type: string, format: date}, meal_option: {enum: [morning, evening]}, status: {enum: [delivered, not_delivered, customer_absent, paused, cancelled]}, quantity: {type: integer, minimum: 1}, idempotency_key: {type: string}, record_version: {type: integer}}}
+    Payment: {type: object, required: [amount, mode, idempotency_key], properties: {invoice_id: {type: string, format: uuid}, customer_id: {type: string, format: uuid}, amount: {type: number, multipleOf: 0.01}, mode: {enum: [cash, card]}, paid_at: {type: string, format: date-time}, idempotency_key: {type: string}, record_version: {type: integer}}}
+    Handover: {type: object, required: [uuid, amount_submitted, idempotency_key], properties: {uuid: {type: string, format: uuid}, amount_submitted: {type: number, multipleOf: 0.01}, idempotency_key: {type: string}}}
+paths:
+  /auth/login: {post: {security: [], description: 'device_key identifies the tablet; a disabled device is rejected on login and on every later request.', responses: {'200': {description: Bearer token, device and user}, '422': {description: Invalid credentials or disabled device}}}}
+  /me: {get: {responses: {'200': {description: Authenticated user and company}}}}
+  /buildings: {get: {responses: {'200': {description: Paginated tenant buildings}}}}
+  /buildings/{building}/summary: {get: {parameters: [{name: building, in: path, required: true, schema: {type: string, format: uuid}}], responses: {'200': {description: Workers, meals today, billed/received/outstanding for one building}}}}
+  /rooms: {get: {responses: {'200': {description: Paginated tenant rooms}}}}
+  /customers: {get: {responses: {'200': {description: Paginated tenant customers}}}}
+  /customers/qr/{token}: {get: {parameters: [{name: token, in: path, required: true, schema: {type: string, format: uuid}}], responses: {'200': {description: Customer profile resolved from a scanned QR code}}}}
+  /customers/{customer}/receipts: {get: {parameters: [{name: customer, in: path, required: true, schema: {type: string, format: uuid}}], responses: {'200': {description: Paginated receipt history for a customer}}}}
+  /customers/bulk-pause: {post: {responses: {'200': {description: Meal pause applied to a set of customers}}}}
+  /customers/bulk-plan: {post: {responses: {'200': {description: Meal plan/rate reassigned to a set of customers}}}}
+  /notifications/announce: {post: {responses: {'201': {description: Company-wide announcement created}}}}
+  /deliveries: {get: {responses: {'200': {description: Paginated deliveries}}}, post: {requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/Delivery'}}}}, responses: {'201': {description: Recorded}}}}
+  /invoices: {get: {responses: {'200': {description: Paginated invoices}}}, post: {responses: {'201': {description: Invoice generated}}}}
+  /payments: {post: {requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/Payment'}}}}, responses: {'201': {description: Payment and receipt created}, '422': {description: Conflict}}}}
+  /collections: {get: {responses: {'200': {description: Employee collection totals}}}}
+  /cash-handovers: {get: {responses: {'200': {description: Handover history}}}, post: {requestBody: {required: true, content: {application/json: {schema: {$ref: '#/components/schemas/Handover'}}}}, responses: {'201': {description: Submitted}}}}
+  /deliveries/bulk: {post: {responses: {'200': {description: Room or building delivery batch recorded}}}}
+  /deliveries/{delivery}/change-requests: {post: {parameters: [{name: delivery, in: path, required: true, schema: {type: string, format: uuid}}], responses: {'201': {description: Supervisor approval requested}}}}
+  /delivery-change-requests: {get: {responses: {'200': {description: Pending and reviewed delivery changes}}}}
+  /customers/{customer}/pauses: {post: {parameters: [{name: customer, in: path, required: true, schema: {type: string, format: uuid}}], responses: {'201': {description: Meal pause created}}}}
+  /customers/{customer}/skips: {post: {parameters: [{name: customer, in: path, required: true, schema: {type: string, format: uuid}}], responses: {'201': {description: Date-specific meal skip created}}}}
+  /customers/{customer}/ledger: {get: {parameters: [{name: customer, in: path, required: true, schema: {type: string, format: uuid}}], responses: {'200': {description: Immutable customer ledger}}}}
+  /payment-corrections: {get: {responses: {'200': {description: Payment correction approval queue}}}}
+  /daily-closings: {post: {responses: {'201': {description: Employee daily closing calculated server-side}}}}
+  /imports: {get: {responses: {'200': {description: Import history}}}, post: {responses: {'201': {description: CSV or Excel import processed}}}}
+  /payments/{payment}/proof: {post: {parameters: [{name: payment, in: path, required: true, schema: {type: string, format: uuid}}], responses: {'200': {description: Proof stored privately}}}}
+  /reports/{report}: {get: {parameters: [{name: report, in: path, required: true, schema: {enum: [deliveries, billing, collections, outstanding, cash-pending, building-meals, customer-statement, payment-status, building-outstanding, revenue-summary, audit-log]}}, {name: customer, in: query, required: false, description: 'Required uuid when report=customer-statement', schema: {type: string, format: uuid}}], responses: {'200': {description: Filtered report data}}}}
+  /reports/{report}/{format}: {get: {parameters: [{name: report, in: path, required: true, schema: {type: string}}, {name: format, in: path, required: true, schema: {enum: [csv, xlsx, pdf]}}], responses: {'200': {description: Report file download}}}}

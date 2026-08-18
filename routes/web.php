@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('welcome');
+use App\Http\Controllers\Api\FinanceController; use App\Http\Controllers\ReportController; use App\Http\Controllers\Web\{AdminController,AuthController,DashboardController,OperationsController}; use Illuminate\Support\Facades\Route;
+Route::get('/shared/receipts/{receipt}/pdf',[FinanceController::class,'receipt'])->middleware('signed')->name('receipts.shared');
+Route::redirect('/','/dashboard'); Route::middleware('guest')->group(function(){Route::get('/login',[AuthController::class,'form'])->name('login');Route::post('/login',[AuthController::class,'login'])->middleware('throttle:5,1');});
+Route::middleware(['auth','active'])->group(function(){Route::post('/logout',[AuthController::class,'logout'])->name('logout');Route::get('/dashboard',DashboardController::class)->name('dashboard');
+ Route::get('/companies',[AdminController::class,'companies']);Route::post('/companies',[AdminController::class,'storeCompany']);Route::get('/buildings',[AdminController::class,'buildings']);Route::post('/buildings',[AdminController::class,'storeBuilding']);Route::get('/rooms',[AdminController::class,'rooms']);Route::post('/rooms',[AdminController::class,'storeRoom']);Route::get('/customers',[AdminController::class,'customers']);Route::post('/customers',[AdminController::class,'storeCustomer']);Route::get('/meal-plans',[AdminController::class,'plans']);Route::post('/meal-plans',[AdminController::class,'storePlan']);
+ Route::get('/employees',[OperationsController::class,'employees']);Route::get('/deliveries',[OperationsController::class,'deliveries']);Route::get('/invoices',[OperationsController::class,'invoices']);Route::get('/payments',[OperationsController::class,'payments']);Route::get('/balances',[OperationsController::class,'balances']);Route::get('/cash-handovers',[OperationsController::class,'handovers']);Route::get('/daily-closings',[OperationsController::class,'closings']);Route::get('/payment-corrections',[OperationsController::class,'corrections']);Route::get('/notifications',[OperationsController::class,'notifications']);Route::get('/audit-log',[OperationsController::class,'audit']);Route::get('/devices',[OperationsController::class,'devices']);Route::get('/reports',[OperationsController::class,'reports']);Route::get('/reports/{report}/{format}',[ReportController::class,'export']);Route::get('/settings',[OperationsController::class,'settings']);Route::put('/settings',[OperationsController::class,'updateSettings']);
 });

@@ -1,0 +1,19 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Never allow Laravel source, dependencies, secrets, or development files
+    # to be downloaded when the whole project lives inside public_html.
+    RewriteRule ^(?:app|bootstrap|config|database|docs|node_modules|resources|routes|storage|tests|vendor)(?:/|$) - [F,L,NC]
+    RewriteRule ^(?:artisan|composer\.(?:json|lock)|package(?:-lock)?\.json|phpunit\.xml|vite\.config\.js|README\.md|CHANGELOG\.md)$ - [F,L,NC]
+    RewriteRule (^|/)\. - [F,L]
+
+    # Redirect old /public URLs to the clean equivalent.
+    RewriteCond %{THE_REQUEST} \s/+public(?:[/?\s]) [NC]
+    RewriteRule ^public/?(.*)$ /$1 [R=301,L,NE]
+
+    # Internally serve only Laravel's public directory without showing it in URL.
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

@@ -1,0 +1,14 @@
+<?php
+namespace App\Services;
+use App\Enums\{InvoiceStatus,PaymentMode}; use App\Models\{LedgerEntry,Payment,PaymentCorrection,Receipt}; use Illuminate\Support\Facades\DB; use Illuminate\Validation\ValidationException;
+class CorrectionService {
+ public function approve(PaymentCorrection $request,int $reviewerId):Payment{return DB::transaction(function()use($request,$reviewerId){
+  if($request->status!=='pending')throw ValidationException::withMessages(['status'=>'This request was already reviewed.']);
+  $original=$request->payment()->lockForUpdate()->firstOrFail();$invoice=$original->invoice()->lockForUpdate()->first();
+  $reversal=Payment::create(['company_id'=>$original->company_id,'customer_id'=>$original->customer_id,'invoice_id'=>$original->invoice_id,'employee_id'=>$original->employee_id,'amount'=>-$original->amount,'mode'=>$original->mode,'paid_at'=>now(),'idempotency_key'=>'correction-reversal-'.$request->uuid,'reverses_payment_id'=>$original->id,'correction_reason'=>$request->reason,'approved_by'=>$reviewerId]);
+  $replacement=Payment::create(['company_id'=>$original->company_id,'customer_id'=>$original->customer_id,'invoice_id'=>$original->invoice_id,'employee_id'=>$original->employee_id,'amount'=>$request->corrected_amount??$original->amount,'mode'=>$request->corrected_mode??$original->mode,'paid_at'=>now(),'reference'=>$original->reference,'idempotency_key'=>'correction-replacement-'.$request->uuid,'correction_reason'=>$request->reason,'approved_by'=>$reviewerId]);
+  if($invoice){$invoice->amount_paid=round((float)$invoice->amount_paid-(float)$original->amount+(float)$replacement->amount,2);$invoice->balance=round((float)$invoice->total_payable-(float)$invoice->amount_paid,2);$invoice->status=$invoice->balance<0?InvoiceStatus::AdvancePaid:($invoice->balance==0?InvoiceStatus::FullyPaid:($invoice->amount_paid>0?InvoiceStatus::PartiallyPaid:InvoiceStatus::Unpaid));$invoice->increment('version');$invoice->save();}
+  $last=(float)(LedgerEntry::where('customer_id',$original->customer_id)->lockForUpdate()->latest('id')->value('running_balance')??0);LedgerEntry::create(['company_id'=>$original->company_id,'customer_id'=>$original->customer_id,'type'=>'payment_reversal','debit'=>$original->amount,'running_balance'=>$last+(float)$original->amount,'source_type'=>$reversal->getMorphClass(),'source_id'=>$reversal->id,'description'=>'Approved correction: '.$request->reason]);LedgerEntry::create(['company_id'=>$original->company_id,'customer_id'=>$original->customer_id,'type'=>'corrected_payment','credit'=>$replacement->amount,'running_balance'=>$last+(float)$original->amount-(float)$replacement->amount,'source_type'=>$replacement->getMorphClass(),'source_id'=>$replacement->id,'description'=>'Corrected payment']);
+  $request->update(['status'=>'approved','reviewed_by'=>$reviewerId,'reviewed_at'=>now()]);AuditService::record('payment.correction.approved',$request);return $replacement;
+ });}
+}

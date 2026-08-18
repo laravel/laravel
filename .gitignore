@@ -12,6 +12,8 @@
 /.vscode
 /.zed
 /auth.json
+/database/*.sqlite
+/Mobile app.zip
 /node_modules
 /public/build
 /public/hot
