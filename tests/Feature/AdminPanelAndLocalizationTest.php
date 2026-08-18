@@ -33,6 +33,36 @@ class AdminPanelAndLocalizationTest extends TestCase { use RefreshDatabase;
   $this->assertDatabaseHas('customers',['id'=>$x['customer']->id,'name'=>'Renamed Worker','is_active'=>false]);
  }
 
+ public function test_admin_can_verify_cash_handovers_and_review_corrections_and_delivery_changes():void{
+  $x=$this->setupTenant();$this->withoutMiddleware(ValidateCsrfToken::class);
+  $handover=\App\Models\CashHandover::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'employee_id'=>$x['admin']->id,'amount_submitted'=>200,'status'=>'submitted','submitted_at'=>now(),'idempotency_key'=>'ho-1']);
+  $this->actingAs($x['admin'])->post("/cash-handovers/{$handover->uuid}/verify",['verified_amount'=>195,'status'=>'verified'])->assertRedirect();
+  $this->assertDatabaseHas('cash_handovers',['id'=>$handover->id,'status'=>'verified','variance'=>-5]);
+
+  $invoice=Invoice::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'customer_id'=>$x['customer']->id,'invoice_number'=>'PANEL-COR1','period_start'=>today()->startOfMonth(),'period_end'=>today()->endOfMonth(),'current_charges'=>100,'total_payable'=>100,'amount_paid'=>100,'balance'=>0,'status'=>InvoiceStatus::FullyPaid]);
+  $payment=\App\Models\Payment::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'customer_id'=>$x['customer']->id,'invoice_id'=>$invoice->id,'employee_id'=>$x['admin']->id,'amount'=>100,'mode'=>PaymentMode::Cash,'paid_at'=>now(),'idempotency_key'=>'cor-1']);
+  $correction=\App\Models\PaymentCorrection::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'payment_id'=>$payment->id,'requested_by'=>$x['admin']->id,'corrected_amount'=>80,'reason'=>'Customer overpaid','status'=>'pending']);
+  $this->actingAs($x['admin'])->post("/payment-corrections/{$correction->uuid}",['decision'=>'approve'])->assertRedirect();
+  $this->assertDatabaseHas('payment_corrections',['id'=>$correction->id,'status'=>'approved']);
+  $this->assertDatabaseCount('payments',3);
+
+  $delivery=\App\Models\Delivery::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'customer_id'=>$x['customer']->id,'delivery_date'=>today(),'meal_option'=>'morning','status'=>'not_delivered','recorded_by'=>$x['admin']->id,'idempotency_key'=>'del-1','requires_approval'=>true]);
+  $change=\App\Models\DeliveryChangeRequest::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'delivery_id'=>$delivery->id,'requested_by'=>$x['admin']->id,'requested_status'=>'delivered','requested_quantity'=>1,'reason'=>'Actually delivered late','status'=>'pending']);
+  $this->actingAs($x['admin'])->post("/delivery-change-requests/{$change->uuid}",['decision'=>'approve'])->assertRedirect();
+  $this->assertDatabaseHas('delivery_change_requests',['id'=>$change->id,'status'=>'approved']);
+  $this->assertDatabaseHas('deliveries',['id'=>$delivery->id,'status'=>'delivered','requires_approval'=>false]);
+ }
+
+ public function test_admin_can_download_invoice_and_receipt_pdf_from_the_web_panel():void{
+  $x=$this->setupTenant();
+  $invoice=Invoice::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'customer_id'=>$x['customer']->id,'invoice_number'=>'PANEL-PDF1','period_start'=>today()->startOfMonth(),'period_end'=>today()->endOfMonth(),'current_charges'=>90,'total_payable'=>90,'balance'=>90,'status'=>InvoiceStatus::Unpaid]);
+  \App\Models\InvoiceLine::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'invoice_id'=>$invoice->id,'description'=>'Morning Meal','quantity'=>1,'unit_price'=>90,'amount'=>90]);
+  $payment=\App\Models\Payment::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'customer_id'=>$x['customer']->id,'invoice_id'=>$invoice->id,'employee_id'=>$x['admin']->id,'amount'=>90,'mode'=>PaymentMode::Cash,'paid_at'=>now(),'idempotency_key'=>'pdf-1']);
+  $receipt=\App\Models\Receipt::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'payment_id'=>$payment->id,'receipt_number'=>'PANEL-PDFR1']);
+  $this->actingAs($x['admin'])->get('/invoices/'.$invoice->uuid.'/pdf')->assertOk()->assertHeader('content-type','application/pdf');
+  $this->actingAs($x['admin'])->get('/receipts/'.$receipt->uuid.'/pdf')->assertOk()->assertHeader('content-type','application/pdf');
+ }
+
  public function test_low_balance_threshold_generates_a_notification():void{
   $x=$this->setupTenant();$x['company']->update(['low_balance_threshold'=>100]);
   Invoice::withoutGlobalScopes()->create(['company_id'=>$x['company']->id,'customer_id'=>$x['customer']->id,'invoice_number'=>'PANEL-I1','period_start'=>today()->startOfMonth(),'period_end'=>today()->endOfMonth(),'current_charges'=>150,'total_payable'=>150,'balance'=>150,'status'=>InvoiceStatus::Unpaid,'due_date'=>today()->addDays(5)]);
