@@ -1,0 +1,67 @@
+{
+    "name": "doctrine/inflector",
+    "description": "PHP Doctrine Inflector is a small library that can perform string manipulations with regard to upper/lowercase and singular/plural forms of words.",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "php",
+        "strings",
+        "words",
+        "manipulation",
+        "inflector",
+        "inflection",
+        "uppercase",
+        "lowercase",
+        "singular",
+        "plural"
+    ],
+    "authors": [
+        {
+            "name": "Guilherme Blanco",
+            "email": "guilhermeblanco@gmail.com"
+        },
+        {
+            "name": "Roman Borschel",
+            "email": "roman@code-factory.org"
+        },
+        {
+            "name": "Benjamin Eberlei",
+            "email": "kontakt@beberlei.de"
+        },
+        {
+            "name": "Jonathan Wage",
+            "email": "jonwage@gmail.com"
+        },
+        {
+            "name": "Johannes Schmitt",
+            "email": "schmittjoh@gmail.com"
+        }
+    ],
+    "homepage": "https://www.doctrine-project.org/projects/inflector.html",
+    "require": {
+        "php": "^7.2 || ^8.0"
+    },
+    "require-dev": {
+        "doctrine/coding-standard": "^12.0 || ^13.0",
+        "phpstan/phpstan": "^1.12 || ^2.0",
+        "phpstan/phpstan-phpunit": "^1.4 || ^2.0",
+        "phpstan/phpstan-strict-rules": "^1.6 || ^2.0",
+        "phpunit/phpunit": "^8.5 || ^12.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Doctrine\\Inflector\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Doctrine\\Tests\\Inflector\\": "tests"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "sort-packages": true
+    }
+}

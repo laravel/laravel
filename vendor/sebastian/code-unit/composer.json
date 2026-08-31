@@ -1,0 +1,52 @@
+{
+    "name": "sebastian/code-unit",
+    "description": "Collection of value objects that represent the PHP code units",
+    "type": "library",
+    "homepage": "https://github.com/sebastianbergmann/code-unit",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de",
+            "role": "lead"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/code-unit/issues",
+        "security": "https://github.com/sebastianbergmann/code-unit/security/policy"
+    },
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/_fixture"
+        ],
+        "files": [
+            "tests/_fixture/file_with_multiple_code_units.php",
+            "tests/_fixture/function.php",
+            "tests/_fixture/issue_9.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "3.0-dev"
+        }
+    }
+}

@@ -1,0 +1,28 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'tippy.js/dist/tippy.css';
+@import 'tippy.js/animations/shift-away.css';
+
+[x-cloak] {
+    display: none !important;
+}
+
+.tippy-box[data-theme~='laravel'] {
+    @apply max-w-7xl! rounded-md border text-xs shadow-md backdrop-blur-md overflow-x-auto;
+    @apply border-neutral-800 bg-neutral-900 text-white;
+    @apply dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100;
+}
+
+.tippy-content[data-theme~='laravel'] {
+    @apply px-2 py-1;
+}
+
+@media (prefers-color-scheme: dark) {
+    .shiki,
+    .shiki span {
+        color: var(--shiki-dark) !important;
+        font-style: var(--shiki-dark-font-style) !important;
+        font-weight: var(--shiki-dark-font-weight) !important;
+        text-decoration: var(--shiki-dark-text-decoration) !important;
+    }
+}

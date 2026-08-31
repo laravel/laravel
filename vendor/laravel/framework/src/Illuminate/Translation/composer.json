@@ -1,0 +1,38 @@
+{
+    "name": "illuminate/translation",
+    "description": "The Illuminate Translation package.",
+    "license": "MIT",
+    "homepage": "https://laravel.com",
+    "support": {
+        "issues": "https://github.com/laravel/framework/issues",
+        "source": "https://github.com/laravel/framework"
+    },
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/collections": "^12.0",
+        "illuminate/contracts": "^12.0",
+        "illuminate/macroable": "^12.0",
+        "illuminate/filesystem": "^12.0",
+        "illuminate/support": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Illuminate\\Translation\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "12.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

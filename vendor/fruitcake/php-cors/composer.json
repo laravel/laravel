@@ -1,0 +1,49 @@
+{
+    "name": "fruitcake/php-cors",
+    "description": "Cross-origin resource sharing library for the Symfony HttpFoundation",
+    "keywords": ["cors", "symfony", "laravel"],
+    "homepage": "https://github.com/fruitcake/php-cors",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fruitcake",
+            "homepage": "https://fruitcake.nl"
+        },
+        {
+            "name": "Barryvdh",
+            "email": "barryvdh@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "symfony/http-foundation": "^5.4|^6.4|^7.3|^8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9",
+        "squizlabs/php_codesniffer": "^4",
+        "phpstan/phpstan": "^2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fruitcake\\Cors\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Fruitcake\\Cors\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "actions": "composer test && composer analyse && composer check-style",
+        "test": "phpunit",
+        "analyse": "phpstan analyse src tests --level=10",
+        "check-style": "phpcs -p --standard=PSR12 --exclude=Generic.Files.LineLength --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+        "fix-style": "phpcbf -p --standard=PSR12 --exclude=Generic.Files.LineLength --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.3-dev"
+        }
+    }
+}

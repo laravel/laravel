@@ -1,0 +1,63 @@
+{
+  "name": "@vue-macros/common",
+  "version": "3.1.4",
+  "description": "common feature from Vue Macros.",
+  "type": "module",
+  "keywords": [
+    "vue-macros",
+    "macros",
+    "vue",
+    "sfc",
+    "setup",
+    "script-setup",
+    "common"
+  ],
+  "license": "MIT",
+  "homepage": "https://vue-macros.dev",
+  "bugs": {
+    "url": "https://github.com/vue-macros/vue-macros/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vue-macros/vue-macros.git",
+    "directory": "packages/common"
+  },
+  "author": "Kevin Deng <sxzz@sxzz.moe>",
+  "funding": "https://github.com/sponsors/vue-macros",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": "./*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "vue": "^2.7.0 || ^3.2.25"
+  },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@vue/compiler-sfc": "^3.5.22",
+    "ast-kit": "^2.1.2",
+    "local-pkg": "^1.1.2",
+    "magic-string-ast": "^1.0.2",
+    "unplugin-utils": "^0.3.0"
+  },
+  "devDependencies": {
+    "@babel/parser": "^7.28.4",
+    "@vitejs/plugin-vue": "^6.0.1"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {}
+}

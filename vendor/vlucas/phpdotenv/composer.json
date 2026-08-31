@@ -1,0 +1,60 @@
+{
+    "name": "vlucas/phpdotenv",
+    "description": "Loads environment variables from `.env` to `getenv()`, `$_ENV` and `$_SERVER` automagically.",
+    "keywords": ["env", "dotenv", "environment"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Graham Campbell",
+            "email": "hello@gjcampbell.co.uk",
+            "homepage": "https://github.com/GrahamCampbell"
+        },
+        {
+            "name": "Vance Lucas",
+            "email": "vance@vancelucas.com",
+            "homepage": "https://github.com/vlucas"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5 || ^8.0",
+        "ext-pcre": "*",
+        "graham-campbell/result-type": "^1.1.4",
+        "phpoption/phpoption": "^1.9.5",
+        "symfony/polyfill-ctype": "^1.26",
+        "symfony/polyfill-mbstring": "^1.26",
+        "symfony/polyfill-php80": "^1.26"
+    },
+    "require-dev": {
+        "ext-filter": "*",
+        "bamarni/composer-bin-plugin": "^1.8.2",
+        "phpunit/phpunit":"^8.5.34 || ^9.6.13 || ^10.4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dotenv\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dotenv\\Tests\\": "tests/Dotenv/"
+        }
+    },
+    "suggest": {
+        "ext-filter": "Required to use the boolean validator."
+    },
+    "config": {
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        },
+        "preferred-install": "dist"
+    },
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": true,
+            "forward-command": false
+        },
+        "branch-alias": {
+            "dev-master": "5.6-dev"
+        }
+    }
+}

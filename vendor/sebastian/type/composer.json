@@ -1,0 +1,51 @@
+{
+    "name": "sebastian/type",
+    "description": "Collection of value objects that represent the types of the PHP type system",
+    "type": "library",
+    "homepage": "https://github.com/sebastianbergmann/type",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de",
+            "role": "lead"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/type/issues",
+        "security": "https://github.com/sebastianbergmann/type/security/policy"
+    },
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.3"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/_fixture"
+        ],
+        "files": [
+            "tests/_fixture/callback_function.php",
+            "tests/_fixture/functions_that_declare_return_types.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "5.1-dev"
+        }
+    }
+}

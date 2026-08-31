@@ -1,0 +1,70 @@
+{
+    "name": "nunomaduro/termwind",
+    "description": "It's like Tailwind CSS, but for the console.",
+    "keywords": ["php", "cli", "package", "console", "css", "style"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nuno Maduro",
+            "email": "enunomaduro@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-mbstring": "*",
+        "symfony/console": "^7.4.4 || ^8.0.4"
+    },
+    "require-dev": {
+        "illuminate/console": "^11.47.0",
+        "laravel/pint": "^1.27.1",
+        "mockery/mockery": "^1.6.12",
+        "pestphp/pest": "^2.36.0 || ^3.8.4 || ^4.3.2",
+        "phpstan/phpstan": "^1.12.32",
+        "phpstan/phpstan-strict-rules": "^1.6.2",
+        "symfony/var-dumper": "^7.3.5 || ^8.0.4",
+        "thecodingmachine/phpstan-strict-rules": "^1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Termwind\\": "src/"
+        },
+        "files": [
+            "src/Functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "lint": "pint -v",
+        "test:lint": "pint --test -v",
+        "test:types": "phpstan analyse --ansi",
+        "test:unit": "pest --colors=always",
+        "test": [
+            "@test:lint",
+            "@test:types",
+            "@test:unit"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Termwind\\Laravel\\TermwindServiceProvider"
+            ]
+        },
+        "branch-alias": {
+            "dev-2.x": "2.x-dev"
+        }
+    }
+}

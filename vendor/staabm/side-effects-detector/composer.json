@@ -1,0 +1,38 @@
+{
+    "name": "staabm/side-effects-detector",
+    "license": "MIT",
+    "description": "A static analysis tool to detect side effects in PHP code",
+    "keywords": ["static analysis"],
+    "autoload": {
+        "classmap": ["lib/"]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
+    },
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-tokenizer": "*"
+    },
+    "require-dev": {
+        "phpstan/extension-installer": "^1.4.3",
+        "phpstan/phpstan": "^1.12.6",
+        "phpunit/phpunit": "^9.6.21",
+        "symfony/var-dumper": "^5.4.43",
+        "tomasvotruba/type-coverage": "1.0.0",
+        "tomasvotruba/unused-public": "1.0.0"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "scripts": {
+        "qa": ["@test", "@phpstan"],
+        "phpstan": "phpstan analyze",
+        "test": "phpunit"
+    }
+}

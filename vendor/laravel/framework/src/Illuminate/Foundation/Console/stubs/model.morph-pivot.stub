@@ -1,0 +1,10 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Relations\MorphPivot;
+
+class {{ class }} extends MorphPivot
+{
+    //
+}

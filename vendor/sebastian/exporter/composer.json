@@ -1,0 +1,65 @@
+{
+    "name": "sebastian/exporter",
+    "description": "Provides the functionality to export PHP variables for visualization",
+    "keywords": ["exporter","export"],
+    "homepage": "https://www.github.com/sebastianbergmann/exporter",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de"
+        },
+        {
+            "name": "Jeff Welch",
+            "email": "whatthejeff@gmail.com"
+        },
+        {
+            "name": "Volker Dusch",
+            "email": "github@wallbash.com"
+        },
+        {
+            "name": "Adam Harvey",
+            "email": "aharvey@php.net"
+        },
+        {
+            "name": "Bernhard Schussek",
+            "email": "bschussek@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/exporter/issues",
+        "security": "https://github.com/sebastianbergmann/exporter/security/policy"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2",
+        "ext-mbstring": "*",
+        "sebastian/recursion-context": "^6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.3"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/_fixture"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "6.3-dev"
+        }
+    }
+}
+

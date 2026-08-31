@@ -1,0 +1,72 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-CPLFmGa7.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-Nk3zwpQK.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/pages/Login.vue",
+      "resources/js/pages/Dashboard.vue",
+      "resources/js/pages/AdminDashboard.vue",
+      "resources/js/pages/SecurityDashboard.vue",
+      "resources/js/pages/ResponderDashboard.vue"
+    ],
+    "css": [
+      "assets/app-Bvpu5xKY.css"
+    ]
+  },
+  "resources/js/pages/AdminDashboard.vue": {
+    "file": "assets/AdminDashboard-DSq_xJL1.js",
+    "name": "AdminDashboard",
+    "src": "resources/js/pages/AdminDashboard.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/pages/Dashboard.vue": {
+    "file": "assets/Dashboard-ueN97JjS.js",
+    "name": "Dashboard",
+    "src": "resources/js/pages/Dashboard.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/pages/Login.vue": {
+    "file": "assets/Login-DcJ9Cv8a.js",
+    "name": "Login",
+    "src": "resources/js/pages/Login.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/pages/ResponderDashboard.vue": {
+    "file": "assets/ResponderDashboard-D31PL4dE.js",
+    "name": "ResponderDashboard",
+    "src": "resources/js/pages/ResponderDashboard.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  },
+  "resources/js/pages/SecurityDashboard.vue": {
+    "file": "assets/SecurityDashboard-D_2mwm1V.js",
+    "name": "SecurityDashboard",
+    "src": "resources/js/pages/SecurityDashboard.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.js"
+    ]
+  }
+}

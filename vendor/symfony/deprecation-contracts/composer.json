@@ -1,0 +1,35 @@
+{
+    "name": "symfony/deprecation-contracts",
+    "type": "library",
+    "description": "A generic function and convention to trigger deprecation notices",
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicolas Grekas",
+            "email": "p@tchwork.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=8.1"
+    },
+    "autoload": {
+        "files": [
+            "function.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-main": "3.7-dev"
+        },
+        "thanks": {
+            "name": "symfony/contracts",
+            "url": "https://github.com/symfony/contracts"
+        }
+    }
+}

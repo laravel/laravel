@@ -1,0 +1,52 @@
+{
+    "name": "laravel/tinker",
+    "description": "Powerful REPL for the Laravel framework.",
+    "keywords": ["tinker", "repl", "psysh", "laravel"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5|^8.0",
+        "illuminate/console": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+        "illuminate/contracts": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+        "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+        "psy/psysh": "^0.11.1|^0.12.0",
+        "symfony/var-dumper": "^4.3.4|^5.0|^6.0|^7.0|^8.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "~1.3.3|^1.4.2",
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^8.5.8|^9.3.3|^10.0"
+    },
+    "suggest": {
+        "illuminate/database": "The Illuminate Database package (^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0)."
+    },
+    "autoload": {
+        "psr-4": {
+            "Laravel\\Tinker\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Laravel\\Tinker\\Tests\\": "tests/",
+            "App\\": "tests/fixtures/app",
+            "One\\Two\\": "tests/fixtures/vendor/one/two"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Laravel\\Tinker\\TinkerServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

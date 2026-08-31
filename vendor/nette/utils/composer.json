@@ -1,0 +1,61 @@
+{
+	"name": "nette/utils",
+	"description": "🛠  Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
+	"keywords": ["nette", "images", "json", "password", "validation", "utility", "string", "array", "core", "slugify", "utf-8", "unicode", "paginator", "datetime"],
+	"homepage": "https://nette.org",
+	"license": ["BSD-3-Clause", "GPL-2.0-only", "GPL-3.0-only"],
+	"authors": [
+		{
+			"name": "David Grudl",
+			"homepage": "https://davidgrudl.com"
+		},
+		{
+			"name": "Nette Community",
+			"homepage": "https://nette.org/contributors"
+		}
+	],
+	"require": {
+		"php": "8.2 - 8.5"
+	},
+	"require-dev": {
+		"nette/tester": "^2.5",
+		"tracy/tracy": "^2.9",
+		"phpstan/phpstan": "^2.1@stable",
+		"phpstan/extension-installer": "^1.4@stable",
+		"nette/phpstan-rules": "^1.0",
+		"jetbrains/phpstorm-attributes": "^1.2"
+	},
+	"conflict": {
+		"nette/finder": "<3",
+		"nette/schema": "<1.2.2"
+	},
+	"suggest": {
+		"ext-iconv": "to use Strings::chr(), ord() and reverse()",
+		"ext-json": "to use Nette\\Utils\\Json",
+		"ext-intl": "to use Strings::webalize(), toAscii(), normalize() and compare()",
+		"ext-mbstring": "to use Strings::lower() etc...",
+		"ext-gd": "to use Image",
+		"ext-tokenizer": "to use Nette\\Utils\\Reflection::getUseStatements()"
+	},
+	"autoload": {
+		"classmap": ["src/"],
+		"psr-4": {
+			"Nette\\": "src"
+		}
+	},
+	"minimum-stability": "dev",
+	"scripts": {
+		"phpstan": "phpstan analyse",
+		"tester": "tester tests -s"
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "4.1-dev"
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"phpstan/extension-installer": true
+		}
+	}
+}

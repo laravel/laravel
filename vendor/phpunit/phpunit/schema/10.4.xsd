@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:annotation>
+        <xs:documentation source="https://phpunit.de/documentation.html">
+            This Schema file defines the rules by which the XML configuration file of PHPUnit 10.4 may be structured.
+        </xs:documentation>
+        <xs:appinfo source="https://phpunit.de/documentation.html"/>
+    </xs:annotation>
+    <xs:element name="phpunit" type="phpUnitType">
+        <xs:annotation>
+            <xs:documentation>Root Element</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:complexType name="sourceType">
+        <xs:all>
+            <xs:element name="include" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:group ref="sourcePathGroup"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="exclude" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:group ref="sourcePathGroup"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:all>
+        <xs:attribute name="baseline" type="xs:anyURI"/>
+        <xs:attribute name="restrictDeprecations" type="xs:boolean" default="false"/>
+        <xs:attribute name="restrictNotices" type="xs:boolean" default="false"/>
+        <xs:attribute name="restrictWarnings" type="xs:boolean" default="false"/>
+        <xs:attribute name="ignoreSuppressionOfDeprecations" type="xs:boolean" default="false"/>
+        <xs:attribute name="ignoreSuppressionOfPhpDeprecations" type="xs:boolean" default="false"/>
+        <xs:attribute name="ignoreSuppressionOfErrors" type="xs:boolean" default="false"/>
+        <xs:attribute name="ignoreSuppressionOfNotices" type="xs:boolean" default="false"/>
+        <xs:attribute name="ignoreSuppressionOfPhpNotices" type="xs:boolean" default="false"/>
+        <xs:attribute name="ignoreSuppressionOfWarnings" type="xs:boolean" default="false"/>
+        <xs:attribute name="ignoreSuppressionOfPhpWarnings" type="xs:boolean" default="false"/>
+    </xs:complexType>
+    <xs:group name="sourcePathGroup">
+        <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="directory" type="sourceDirectoryType"/>
+                <xs:element name="file" type="xs:anyURI"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:group>
+    <xs:complexType name="sourceDirectoryType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="prefix" default=""/>
+                <xs:attribute type="xs:string" name="suffix" default=".php"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="coverageType">
+        <xs:all>
+            <xs:element name="report" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:group ref="coverageReportGroup"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:all>
+        <xs:attribute name="cacheDirectory" type="xs:anyURI"/>
+        <xs:attribute name="pathCoverage" type="xs:boolean" default="false"/>
+        <xs:attribute name="includeUncoveredFiles" type="xs:boolean" default="true"/>
+        <xs:attribute name="ignoreDeprecatedCodeUnits" type="xs:boolean" default="false"/>
+        <xs:attribute name="disableCodeCoverageIgnore" type="xs:boolean" default="false"/>
+    </xs:complexType>
+    <xs:complexType name="loggingType">
+        <xs:group ref="loggingGroup"/>
+    </xs:complexType>
+    <xs:complexType name="groupsType">
+        <xs:choice>
+            <xs:sequence>
+                <xs:element name="include" type="groupType"/>
+                <xs:element name="exclude" type="groupType" minOccurs="0"/>
+            </xs:sequence>
+            <xs:sequence>
+                <xs:element name="exclude" type="groupType"/>
+            </xs:sequence>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="groupType">
+        <xs:sequence>
+            <xs:element name="group" type="xs:string" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="extensionsType">
+        <xs:sequence>
+            <xs:element name="bootstrap" type="bootstrapType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="bootstrapType">
+        <xs:sequence>
+            <xs:element name="parameter" type="parameterType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="class" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="parameterType">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="value" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:simpleType name="columnsType">
+        <xs:union>
+            <xs:simpleType>
+                <xs:restriction base="xs:integer"/>
+            </xs:simpleType>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="max"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+    <xs:simpleType name="executionOrderType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="default"/>
+            <xs:enumeration value="defects"/>
+            <xs:enumeration value="depends"/>
+            <xs:enumeration value="depends,defects"/>
+            <xs:enumeration value="depends,duration"/>
+            <xs:enumeration value="depends,random"/>
+            <xs:enumeration value="depends,reverse"/>
+            <xs:enumeration value="depends,size"/>
+            <xs:enumeration value="duration"/>
+            <xs:enumeration value="no-depends"/>
+            <xs:enumeration value="no-depends,defects"/>
+            <xs:enumeration value="no-depends,duration"/>
+            <xs:enumeration value="no-depends,random"/>
+            <xs:enumeration value="no-depends,reverse"/>
+            <xs:enumeration value="no-depends,size"/>
+            <xs:enumeration value="random"/>
+            <xs:enumeration value="reverse"/>
+            <xs:enumeration value="size"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="phpType">
+        <xs:sequence>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element name="includePath" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="ini" type="namedValueType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="const" type="namedValueType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="var" type="namedValueType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="env" type="namedValueType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="post" type="namedValueType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="get" type="namedValueType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="cookie" type="namedValueType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="server" type="namedValueType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="files" type="namedValueType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="request" type="namedValueType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="namedValueType">
+        <xs:attribute name="name" use="required" type="xs:string"/>
+        <xs:attribute name="value" use="required" type="xs:anySimpleType"/>
+        <xs:attribute name="verbatim" use="optional" type="xs:boolean"/>
+        <xs:attribute name="force" use="optional" type="xs:boolean"/>
+    </xs:complexType>
+    <xs:complexType name="phpUnitType">
+        <xs:annotation>
+            <xs:documentation>The main type specifying the document structure</xs:documentation>
+        </xs:annotation>
+        <xs:group ref="configGroup"/>
+        <xs:attributeGroup ref="configAttributeGroup"/>
+    </xs:complexType>
+    <xs:attributeGroup name="configAttributeGroup">
+        <xs:attribute name="backupGlobals" type="xs:boolean" default="false"/>
+        <xs:attribute name="backupStaticProperties" type="xs:boolean" default="false"/>
+        <xs:attribute name="bootstrap" type="xs:anyURI"/>
+        <xs:attribute name="cacheDirectory" type="xs:anyURI"/>
+        <xs:attribute name="cacheResult" type="xs:boolean" default="true"/>
+        <xs:attribute name="cacheResultFile" type="xs:anyURI"/>
+        <xs:attribute name="colors" type="xs:boolean" default="false"/>
+        <xs:attribute name="columns" type="columnsType" default="80"/>
+        <xs:attribute name="controlGarbageCollector" type="xs:boolean" default="false"/>
+        <xs:attribute name="numberOfTestsBeforeGarbageCollection" type="xs:integer" default="100"/>
+        <xs:attribute name="requireCoverageMetadata" type="xs:boolean" default="false"/>
+        <xs:attribute name="processIsolation" type="xs:boolean" default="false"/>
+        <xs:attribute name="failOnDeprecation" type="xs:boolean" default="false"/>
+        <xs:attribute name="failOnEmptyTestSuite" type="xs:boolean" default="false"/>
+        <xs:attribute name="failOnIncomplete" type="xs:boolean" default="false"/>
+        <xs:attribute name="failOnNotice" type="xs:boolean" default="false"/>
+        <xs:attribute name="failOnRisky" type="xs:boolean" default="false"/>
+        <xs:attribute name="failOnSkipped" type="xs:boolean" default="false"/>
+        <xs:attribute name="failOnWarning" type="xs:boolean" default="false"/>
+        <xs:attribute name="stopOnDefect" type="xs:boolean" default="false"/>
+        <xs:attribute name="stopOnDeprecation" type="xs:boolean" default="false"/>
+        <xs:attribute name="stopOnError" type="xs:boolean" default="false"/>
+        <xs:attribute name="stopOnFailure" type="xs:boolean" default="false"/>
+        <xs:attribute name="stopOnIncomplete" type="xs:boolean" default="false"/>
+        <xs:attribute name="stopOnNotice" type="xs:boolean" default="false"/>
+        <xs:attribute name="stopOnRisky" type="xs:boolean" default="false"/>
+        <xs:attribute name="stopOnSkipped" type="xs:boolean" default="false"/>
+        <xs:attribute name="stopOnWarning" type="xs:boolean" default="false"/>
+        <xs:attribute name="beStrictAboutChangesToGlobalState" type="xs:boolean" default="false"/>
+        <xs:attribute name="beStrictAboutOutputDuringTests" type="xs:boolean" default="false"/>
+        <xs:attribute name="beStrictAboutTestsThatDoNotTestAnything" type="xs:boolean" default="true"/>
+        <xs:attribute name="beStrictAboutTodoAnnotatedTests" type="xs:boolean" default="false"/>
+        <xs:attribute name="beStrictAboutCoverageMetadata" type="xs:boolean" default="false"/>
+        <xs:attribute name="defaultTimeLimit" type="xs:integer" default="0"/>
+        <xs:attribute name="enforceTimeLimit" type="xs:boolean" default="false"/>
+        <xs:attribute name="timeoutForSmallTests" type="xs:integer" default="1"/>
+        <xs:attribute name="timeoutForMediumTests" type="xs:integer" default="10"/>
+        <xs:attribute name="timeoutForLargeTests" type="xs:integer" default="60"/>
+        <xs:attribute name="defaultTestSuite" type="xs:string" default=""/>
+        <xs:attribute name="testdox" type="xs:boolean" default="false"/>
+        <xs:attribute name="stderr" type="xs:boolean" default="false"/>
+        <xs:attribute name="reverseDefectList" type="xs:boolean" default="false"/>
+        <xs:attribute name="registerMockObjectsFromTestArgumentsRecursively" type="xs:boolean" default="false"/>
+        <xs:attribute name="extensionsDirectory" type="xs:anyURI"/>
+        <xs:attribute name="executionOrder" type="executionOrderType" default="default"/>
+        <xs:attribute name="resolveDependencies" type="xs:boolean" default="true"/>
+        <xs:attribute name="displayDetailsOnIncompleteTests" type="xs:boolean" default="false"/>
+        <xs:attribute name="displayDetailsOnSkippedTests" type="xs:boolean" default="false"/>
+        <xs:attribute name="displayDetailsOnTestsThatTriggerDeprecations" type="xs:boolean" default="false"/>
+        <xs:attribute name="displayDetailsOnTestsThatTriggerErrors" type="xs:boolean" default="false"/>
+        <xs:attribute name="displayDetailsOnTestsThatTriggerNotices" type="xs:boolean" default="false"/>
+        <xs:attribute name="displayDetailsOnTestsThatTriggerWarnings" type="xs:boolean" default="false"/>
+    </xs:attributeGroup>
+    <xs:group name="configGroup">
+        <xs:all>
+            <xs:element ref="testSuiteFacet" minOccurs="0"/>
+            <xs:element name="groups" type="groupsType" minOccurs="0"/>
+            <xs:element name="source" type="sourceType" minOccurs="0"/>
+            <xs:element name="coverage" type="coverageType" minOccurs="0"/>
+            <xs:element name="logging" type="loggingType" minOccurs="0"/>
+            <xs:element name="extensions" type="extensionsType" minOccurs="0"/>
+            <xs:element name="php" type="phpType" minOccurs="0"/>
+        </xs:all>
+    </xs:group>
+    <xs:element name="testSuiteFacet" abstract="true"/>
+    <xs:element name="testsuite" type="testSuiteType" substitutionGroup="testSuiteFacet"/>
+    <xs:element name="testsuites" type="testSuitesType" substitutionGroup="testSuiteFacet"/>
+    <xs:complexType name="testSuitesType">
+        <xs:sequence>
+            <xs:element name="testsuite" type="testSuiteType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="testSuiteType">
+        <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:group ref="testSuitePathGroup"/>
+                <xs:element name="exclude" type="xs:string"/>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+    <xs:group name="testSuitePathGroup">
+        <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="directory" type="testSuiteDirectoryType"/>
+                <xs:element name="file" type="testSuiteFileType"/>
+            </xs:choice>
+        </xs:sequence>
+    </xs:group>
+    <xs:complexType name="testSuiteDirectoryType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:string" name="prefix" default=""/>
+                <xs:attribute type="xs:string" name="suffix" default="Test.php"/>
+                <xs:attributeGroup ref="phpVersionGroup"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="testSuiteFileType">
+        <xs:simpleContent>
+            <xs:extension base="xs:anyURI">
+                <xs:attributeGroup ref="phpVersionGroup"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:attributeGroup name="phpVersionGroup">
+        <xs:attribute name="phpVersion" type="xs:string" default="5.3.0"/>
+        <xs:attribute name="phpVersionOperator" type="xs:string" default="&gt;="/>
+    </xs:attributeGroup>
+    <xs:group name="coverageReportGroup">
+        <xs:all>
+            <xs:element name="clover" type="logToFileType" minOccurs="0"/>
+            <xs:element name="cobertura" type="logToFileType" minOccurs="0"/>
+            <xs:element name="crap4j" type="coverageReportCrap4JType" minOccurs="0" />
+            <xs:element name="html" type="coverageReportHtmlType" minOccurs="0" />
+            <xs:element name="php" type="logToFileType" minOccurs="0" />
+            <xs:element name="text" type="coverageReportTextType" minOccurs="0" />
+            <xs:element name="xml" type="logToDirectoryType" minOccurs="0" />
+        </xs:all>
+    </xs:group>
+    <xs:group name="loggingGroup">
+        <xs:all>
+            <xs:element name="junit" type="logToFileType" minOccurs="0" />
+            <xs:element name="teamcity" type="logToFileType" minOccurs="0" />
+            <xs:element name="testdoxHtml" type="logToFileType" minOccurs="0" />
+            <xs:element name="testdoxText" type="logToFileType" minOccurs="0" />
+        </xs:all>
+    </xs:group>
+    <xs:complexType name="logToFileType">
+        <xs:attribute name="outputFile" type="xs:anyURI" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="logToDirectoryType">
+        <xs:attribute name="outputDirectory" type="xs:anyURI" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="coverageReportCrap4JType">
+        <xs:attribute name="outputFile" type="xs:anyURI" use="required"/>
+        <xs:attribute name="threshold" type="xs:integer"/>
+    </xs:complexType>
+    <xs:complexType name="coverageReportHtmlType">
+        <xs:attribute name="outputDirectory" type="xs:anyURI" use="required"/>
+        <xs:attribute name="lowUpperBound" type="xs:integer" default="50"/>
+        <xs:attribute name="highLowerBound" type="xs:integer" default="90"/>
+        <xs:attribute name="colorSuccessLow" type="xs:string" default="#dff0d8"/>
+        <xs:attribute name="colorSuccessMedium" type="xs:string" default="#c3e3b5"/>
+        <xs:attribute name="colorSuccessHigh" type="xs:string" default="#99cb84"/>
+        <xs:attribute name="colorWarning" type="xs:string" default="#fcf8e3"/>
+        <xs:attribute name="colorDanger" type="xs:string" default="#f2dede"/>
+        <xs:attribute name="customCssFile" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="coverageReportTextType">
+        <xs:attribute name="outputFile" type="xs:anyURI" use="required"/>
+        <xs:attribute name="showUncoveredFiles" type="xs:boolean" default="false"/>
+        <xs:attribute name="showOnlySummary" type="xs:boolean" default="false"/>
+    </xs:complexType>
+</xs:schema>

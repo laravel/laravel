@@ -1,0 +1,119 @@
+{
+    "name": "mockery/mockery",
+    "description": "Mockery is a simple yet flexible PHP mock object framework",
+    "license": "BSD-3-Clause",
+    "type": "library",
+    "keywords": [
+        "bdd",
+        "library",
+        "mock",
+        "mock objects",
+        "mockery",
+        "stub",
+        "tdd",
+        "test",
+        "test double",
+        "testing"
+    ],
+    "authors": [
+        {
+            "name": "Pádraic Brady",
+            "email": "padraic.brady@gmail.com",
+            "homepage": "https://github.com/padraic",
+            "role": "Author"
+        },
+        {
+            "name": "Dave Marshall",
+            "email": "dave.marshall@atstsolutions.co.uk",
+            "homepage": "https://davedevelopment.co.uk",
+            "role": "Developer"
+        },
+        {
+            "name": "Nathanael Esayeas",
+            "email": "nathanael.esayeas@protonmail.com",
+            "homepage": "https://github.com/ghostwriter",
+            "role": "Lead Developer"
+        }
+    ],
+    "homepage": "https://github.com/mockery/mockery",
+    "support": {
+        "issues": "https://github.com/mockery/mockery/issues",
+        "source": "https://github.com/mockery/mockery",
+        "docs": "https://docs.mockery.io/",
+        "rss": "https://github.com/mockery/mockery/releases.atom",
+        "security": "https://github.com/mockery/mockery/security/advisories"
+    },
+    "require": {
+        "php": ">=7.3",
+        "lib-pcre": ">=7.0",
+        "hamcrest/hamcrest-php": "^2.0.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5 || ^9.6.17",
+        "symplify/easy-coding-standard": "^12.1.14"
+    },
+    "conflict": {
+        "phpunit/phpunit": "<8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mockery\\": "library/Mockery"
+        },
+        "files": [
+            "library/helpers.php",
+            "library/Mockery.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Fixture\\": "tests/Fixture/",
+            "Mockery\\Tests\\Unit\\": "tests/Unit",
+            "test\\": "tests/"
+        },
+        "files": [
+            "fixtures/autoload.php",
+            "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.3.999"
+        },
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "scripts": {
+        "check": [
+            "@composer validate",
+            "@ecs",
+            "@test"
+        ],
+        "docs": "vendor/bin/phpdoc -d library -t docs/api",
+        "ecs": [
+            "@ecs:fix",
+            "@ecs:check"
+        ],
+        "ecs:check": "ecs check --clear-cache || true",
+        "ecs:fix": "ecs check --clear-cache --fix",
+        "phive": [
+            "tools/phive update --force-accept-unsigned",
+            "tools/phive purge"
+        ],
+        "phpunit": "vendor/bin/phpunit --do-not-cache-result --colors=always",
+        "phpunit:coverage": "@phpunit --coverage-clover=coverage.xml",
+        "psalm": "tools/psalm --no-cache --show-info=true",
+        "psalm:alter": "tools/psalm --no-cache --alter --allow-backwards-incompatible-changes=false --safe-types",
+        "psalm:baseline": "@psalm --no-diff --set-baseline=psalm-baseline.xml",
+        "psalm:dry-run": "@psalm:alter --issues=all --dry-run",
+        "psalm:fix": "@psalm:alter --issues=UnnecessaryVarAnnotation,MissingPureAnnotation,MissingImmutableAnnotation",
+        "psalm:security": "@psalm --no-diff --taint-analysis",
+        "psalm:shepherd": "@psalm --no-diff --shepherd --stats --output-format=github",
+        "test": [
+            "@phpunit --stop-on-defect",
+            "@psalm",
+            "@psalm:security",
+            "@psalm:dry-run"
+        ]
+    }
+}

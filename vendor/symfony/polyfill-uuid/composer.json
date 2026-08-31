@@ -1,0 +1,38 @@
+{
+    "name": "symfony/polyfill-uuid",
+    "type": "library",
+    "description": "Symfony polyfill for uuid functions",
+    "keywords": ["polyfill", "compatibility", "portable", "uuid"],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Grégoire Pineau",
+            "email": "lyrixx@lyrixx.info"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=7.2"
+    },
+    "provide": {
+        "ext-uuid": "*"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Polyfill\\Uuid\\": "" },
+        "files": [ "bootstrap.php" ]
+    },
+    "suggest": {
+        "ext-uuid": "For best performance"
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "thanks": {
+            "name": "symfony/polyfill",
+            "url": "https://github.com/symfony/polyfill"
+        }
+    }
+}

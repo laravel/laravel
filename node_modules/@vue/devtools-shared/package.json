@@ -1,0 +1,33 @@
+{
+  "name": "@vue/devtools-shared",
+  "type": "module",
+  "version": "8.1.5",
+  "author": "webfansplz",
+  "license": "MIT",
+  "repository": {
+    "directory": "packages/shared",
+    "type": "git",
+    "url": "git+https://github.com/vuejs/devtools.git"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "rfdc": "^1.4.1"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "prepare:type": "tsdown --dts-only",
+    "stub": "tsdown --watch --onSuccess 'tsdown --dts-only'"
+  }
+}

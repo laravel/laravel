@@ -1,0 +1,20 @@
+<?php
+
+namespace {{ namespace }};
+
+use Tests\TestCase;
+
+class {{ class }} extends TestCase
+{
+    /**
+     * A basic view test example.
+     */
+    public function test_it_can_render(): void
+    {
+        $contents = $this->view('{{ name }}', [
+            //
+        ]);
+
+        $contents->assertSee('');
+    }
+}

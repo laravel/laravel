@@ -1,0 +1,45 @@
+{
+    "name": "symfony/error-handler",
+    "type": "library",
+    "description": "Provides tools to manage errors and ease debugging PHP code",
+    "keywords": [],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "psr/log": "^1|^2|^3",
+        "symfony/polyfill-php85": "^1.32",
+        "symfony/var-dumper": "^6.4|^7.0|^8.0"
+    },
+    "require-dev": {
+        "symfony/console": "^6.4|^7.0|^8.0",
+        "symfony/http-kernel": "^6.4|^7.0|^8.0",
+        "symfony/serializer": "^6.4|^7.0|^8.0",
+        "symfony/deprecation-contracts": "^2.5|^3",
+        "symfony/webpack-encore-bundle": "^1.0|^2.0"
+    },
+    "conflict": {
+        "symfony/deprecation-contracts": "<2.5",
+        "symfony/http-kernel": "<6.4"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Component\\ErrorHandler\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "bin": [
+        "Resources/bin/patch-type-declarations"
+    ],
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,43 @@
+{
+  "name": "proxy-from-env",
+  "version": "2.1.0",
+  "description": "Offers getProxyForUrl to get the proxy URL for a URL, respecting the *_PROXY (e.g. HTTP_PROXY) and NO_PROXY environment variables.",
+  "main": "index.cjs",
+  "exports": {
+    "import": "./index.js",
+    "require": "./index.cjs"
+  },
+  "files": ["index.js", "index.cjs"],
+  "scripts": {
+    "lint": "eslint *.js *.mjs *.cjs",
+    "test": "node --test ./test.js",
+    "test-require": "node ./test-require.cjs",
+    "test-coverage": "node --experimental-test-coverage --test-reporter=lcov --test-reporter-destination=lcov.info ./test.js",
+    "test-coverage-as-html": "npm run test-coverage && genhtml lcov.info -o coverage/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rob--W/proxy-from-env.git"
+  },
+  "keywords": [
+    "proxy",
+    "http_proxy",
+    "https_proxy",
+    "no_proxy",
+    "environment"
+  ],
+  "author": "Rob Wu <rob@robwu.nl> (https://robwu.nl/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rob--W/proxy-from-env/issues"
+  },
+  "homepage": "https://github.com/Rob--W/proxy-from-env#readme",
+  "devDependencies": {
+    "eslint": "^9.39.2"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=10"
+  },
+  "sideEffects": false
+}

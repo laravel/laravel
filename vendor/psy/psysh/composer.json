@@ -1,0 +1,60 @@
+{
+    "name": "psy/psysh",
+    "description": "An interactive shell for modern PHP.",
+    "type": "library",
+    "keywords": ["console", "interactive", "shell", "repl"],
+    "homepage": "https://psysh.org",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Justin Hileman",
+            "email": "justin@justinhileman.info"
+        }
+    ],
+    "require": {
+        "php": "^8.0 || ^7.4",
+        "ext-json": "*",
+        "ext-tokenizer": "*",
+        "nikic/php-parser": "^5.0 || ^4.0",
+        "symfony/console": "^8.0 || ^7.0 || ^6.0 || ^5.0 || ^4.0 || ^3.4",
+        "symfony/var-dumper": "^8.0 || ^7.0 || ^6.0 || ^5.0 || ^4.0 || ^3.4"
+    },
+    "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.2",
+        "composer/class-map-generator": "^1.6"
+    },
+    "suggest": {
+        "ext-pcntl": "Enabling the PCNTL extension makes PsySH a lot happier :)",
+        "ext-posix": "If you have PCNTL, you'll want the POSIX extension as well.",
+        "composer/class-map-generator": "Improved tab completion performance with better class discovery."
+    },
+    "autoload": {
+        "files": ["src/functions.php"],
+        "psr-4": {
+            "Psy\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Psy\\Test\\": "test/"
+        }
+    },
+    "bin": ["bin/psysh"],
+    "config": {
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.12.x-dev"
+        },
+        "bamarni-bin": {
+            "bin-links": false,
+            "forward-command": false
+        }
+    },
+    "conflict": {
+        "symfony/console": "4.4.37 || 5.3.14 || 5.3.15 || 5.4.3 || 5.4.4 || 6.0.3 || 6.0.4"
+    }
+}

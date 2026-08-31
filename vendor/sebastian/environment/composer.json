@@ -1,0 +1,44 @@
+{
+    "name": "sebastian/environment",
+    "description": "Provides functionality to handle HHVM/PHP environments",
+    "keywords": ["environment","hhvm","xdebug"],
+    "homepage": "https://github.com/sebastianbergmann/environment",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/environment/issues",
+        "security": "https://github.com/sebastianbergmann/environment/security/policy"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.3"
+    },
+    "suggest": {
+        "ext-posix": "*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "7.2-dev"
+        }
+    }
+}

@@ -1,0 +1,89 @@
+{
+  "name": "tailwindcss",
+  "version": "4.3.3",
+  "description": "A utility-first CSS framework for rapidly building custom user interfaces.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tailwindlabs/tailwindcss.git",
+    "directory": "packages/tailwindcss"
+  },
+  "bugs": "https://github.com/tailwindlabs/tailwindcss/issues",
+  "homepage": "https://tailwindcss.com",
+  "exports": {
+    ".": {
+      "types": "./dist/lib.d.mts",
+      "style": "./index.css",
+      "require": "./dist/lib.js",
+      "import": "./dist/lib.mjs"
+    },
+    "./plugin": {
+      "require": "./dist/plugin.js",
+      "import": "./dist/plugin.mjs"
+    },
+    "./plugin.js": {
+      "require": "./dist/plugin.js",
+      "import": "./dist/plugin.mjs"
+    },
+    "./defaultTheme": {
+      "require": "./dist/default-theme.js",
+      "import": "./dist/default-theme.mjs"
+    },
+    "./defaultTheme.js": {
+      "require": "./dist/default-theme.js",
+      "import": "./dist/default-theme.mjs"
+    },
+    "./colors": {
+      "require": "./dist/colors.js",
+      "import": "./dist/colors.mjs"
+    },
+    "./colors.js": {
+      "require": "./dist/colors.js",
+      "import": "./dist/colors.mjs"
+    },
+    "./lib/util/flattenColorPalette": {
+      "require": "./dist/flatten-color-palette.js",
+      "import": "./dist/flatten-color-palette.mjs"
+    },
+    "./lib/util/flattenColorPalette.js": {
+      "require": "./dist/flatten-color-palette.js",
+      "import": "./dist/flatten-color-palette.mjs"
+    },
+    "./package.json": "./package.json",
+    "./index.css": "./index.css",
+    "./index": "./index.css",
+    "./preflight.css": "./preflight.css",
+    "./preflight": "./preflight.css",
+    "./theme.css": "./theme.css",
+    "./theme": "./theme.css",
+    "./utilities.css": "./utilities.css",
+    "./utilities": "./utilities.css"
+  },
+  "publishConfig": {
+    "provenance": true,
+    "access": "public"
+  },
+  "style": "index.css",
+  "files": [
+    "dist",
+    "index.css",
+    "preflight.css",
+    "theme.css",
+    "utilities.css"
+  ],
+  "devDependencies": {
+    "@jridgewell/remapping": "^2.3.5",
+    "@types/node": "22.19.21",
+    "dedent": "1.7.2",
+    "lightningcss": "1.32.0",
+    "magic-string": "^0.30.21",
+    "source-map-js": "^1.2.1",
+    "@tailwindcss/oxide": "^4.3.3"
+  },
+  "scripts": {
+    "lint": "tsc --noEmit",
+    "build": "tsup-node --env.NODE_ENV production",
+    "dev": "tsup-node --env.NODE_ENV development --watch",
+    "test:ui": "playwright test"
+  }
+}

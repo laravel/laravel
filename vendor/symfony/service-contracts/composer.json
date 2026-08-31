@@ -1,0 +1,42 @@
+{
+    "name": "symfony/service-contracts",
+    "type": "library",
+    "description": "Generic abstractions related to writing services",
+    "keywords": ["abstractions", "contracts", "decoupling", "interfaces", "interoperability", "standards"],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicolas Grekas",
+            "email": "p@tchwork.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "psr/container": "^1.1|^2.0",
+        "symfony/deprecation-contracts": "^2.5|^3"
+    },
+    "conflict": {
+        "ext-psr": "<1.1|>=2"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Contracts\\Service\\": "" },
+        "exclude-from-classmap": [
+            "/Test/"
+        ]
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-main": "3.7-dev"
+        },
+        "thanks": {
+            "name": "symfony/contracts",
+            "url": "https://github.com/symfony/contracts"
+        }
+    }
+}

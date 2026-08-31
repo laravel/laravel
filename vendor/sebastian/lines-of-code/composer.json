@@ -1,0 +1,43 @@
+{
+    "name": "sebastian/lines-of-code",
+    "description": "Library for counting the lines of code in PHP source code",
+    "type": "library",
+    "homepage": "https://github.com/sebastianbergmann/lines-of-code",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de",
+            "role": "lead"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/lines-of-code/issues",
+        "security": "https://github.com/sebastianbergmann/lines-of-code/security/policy"
+    },
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2",
+        "nikic/php-parser": "^5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "3.0-dev"
+        }
+    }
+}

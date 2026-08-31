@@ -1,0 +1,55 @@
+{
+    "name": "doctrine/lexer",
+    "description": "PHP Doctrine Lexer parser library that can be used in Top-Down, Recursive Descent Parsers.",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "php",
+        "parser",
+        "lexer",
+        "annotations",
+        "docblock"
+    ],
+    "authors": [
+        {
+            "name": "Guilherme Blanco",
+            "email": "guilhermeblanco@gmail.com"
+        },
+        {
+            "name": "Roman Borschel",
+            "email": "roman@code-factory.org"
+        },
+        {
+            "name": "Johannes Schmitt",
+            "email": "schmittjoh@gmail.com"
+        }
+    ],
+    "homepage": "https://www.doctrine-project.org/projects/lexer.html",
+    "require": {
+        "php": "^8.1"
+    },
+    "require-dev": {
+        "doctrine/coding-standard": "^12",
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^10.5",
+        "psalm/plugin-phpunit": "^0.18.3",
+        "vimeo/psalm": "^5.21"
+    },
+    "autoload": {
+        "psr-4": {
+            "Doctrine\\Common\\Lexer\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Doctrine\\Tests\\Common\\Lexer\\": "tests"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "sort-packages": true
+    }
+}

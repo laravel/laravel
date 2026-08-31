@@ -1,0 +1,34 @@
+{
+    "name": "illuminate/json-schema",
+    "description": "The Illuminate Json Schema package.",
+    "license": "MIT",
+    "homepage": "https://laravel.com",
+    "support": {
+        "issues": "https://github.com/laravel/framework/issues",
+        "source": "https://github.com/laravel/framework"
+    },
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/contracts": "^10.50.0|^11.47.0|^12.40.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Illuminate\\JsonSchema\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "12.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

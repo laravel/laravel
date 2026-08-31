@@ -1,0 +1,75 @@
+{
+  "name": "@tailwindcss/oxide",
+  "version": "4.3.3",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tailwindlabs/tailwindcss.git",
+    "directory": "crates/node"
+  },
+  "main": "index.js",
+  "types": "index.d.ts",
+  "napi": {
+    "binaryName": "tailwindcss-oxide",
+    "packageName": "@tailwindcss/oxide",
+    "targets": [
+      "armv7-linux-androideabi",
+      "aarch64-linux-android",
+      "aarch64-apple-darwin",
+      "aarch64-unknown-linux-gnu",
+      "aarch64-unknown-linux-musl",
+      "armv7-unknown-linux-gnueabihf",
+      "x86_64-unknown-linux-musl",
+      "x86_64-unknown-freebsd",
+      "i686-pc-windows-msvc",
+      "aarch64-pc-windows-msvc",
+      "wasm32-wasip1-threads"
+    ],
+    "wasm": {
+      "initialMemory": 16384,
+      "browser": {
+        "fs": true
+      }
+    }
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@napi-rs/cli": "3.7.0",
+    "@napi-rs/wasm-runtime": "^1.1.5",
+    "emnapi": "1.11.1"
+  },
+  "engines": {
+    "node": ">= 20"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "publishConfig": {
+    "provenance": true,
+    "access": "public"
+  },
+  "optionalDependencies": {
+    "@tailwindcss/oxide-darwin-arm64": "4.3.3",
+    "@tailwindcss/oxide-linux-arm64-musl": "4.3.3",
+    "@tailwindcss/oxide-linux-arm64-gnu": "4.3.3",
+    "@tailwindcss/oxide-linux-x64-musl": "4.3.3",
+    "@tailwindcss/oxide-linux-x64-gnu": "4.3.3",
+    "@tailwindcss/oxide-wasm32-wasi": "4.3.3",
+    "@tailwindcss/oxide-freebsd-x64": "4.3.3",
+    "@tailwindcss/oxide-win32-arm64-msvc": "4.3.3",
+    "@tailwindcss/oxide-win32-x64-msvc": "4.3.3",
+    "@tailwindcss/oxide-linux-arm-gnueabihf": "4.3.3",
+    "@tailwindcss/oxide-darwin-x64": "4.3.3",
+    "@tailwindcss/oxide-android-arm64": "4.3.3"
+  },
+  "scripts": {
+    "build": "pnpm run build:platform && pnpm run build:wasm",
+    "build:platform": "napi build --platform --release",
+    "postbuild:platform": "node ./scripts/move-artifacts.mjs",
+    "build:wasm": "napi build --release --target wasm32-wasip1-threads",
+    "postbuild:wasm": "node ./scripts/move-artifacts.mjs",
+    "dev": "cargo watch --quiet --shell 'npm run build'",
+    "build:debug": "napi build --platform",
+    "version": "napi version"
+  }
+}

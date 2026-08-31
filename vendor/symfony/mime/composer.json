@@ -1,0 +1,48 @@
+{
+    "name": "symfony/mime",
+    "type": "library",
+    "description": "Allows manipulating MIME messages",
+    "keywords": ["mime", "mime-type"],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "symfony/deprecation-contracts": "^2.5|^3",
+        "symfony/polyfill-intl-idn": "^1.10",
+        "symfony/polyfill-mbstring": "^1.0"
+    },
+    "require-dev": {
+        "egulias/email-validator": "^2.1.10|^3.1|^4",
+        "league/html-to-markdown": "^5.0",
+        "phpdocumentor/reflection-docblock": "^5.2|^6.0",
+        "symfony/dependency-injection": "^6.4|^7.0|^8.0",
+        "symfony/process": "^6.4|^7.0|^8.0",
+        "symfony/property-access": "^6.4|^7.0|^8.0",
+        "symfony/property-info": "^6.4|^7.0|^8.0",
+        "symfony/serializer": "^6.4.3|^7.0.3|^8.0"
+    },
+    "conflict": {
+        "egulias/email-validator": "~3.0.0",
+        "phpdocumentor/reflection-docblock": "<5.2|>=7",
+        "phpdocumentor/type-resolver": "<1.5.1",
+        "symfony/mailer": "<6.4",
+        "symfony/serializer": "<6.4.3|>7.0,<7.0.3"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Component\\Mime\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "minimum-stability": "dev"
+}

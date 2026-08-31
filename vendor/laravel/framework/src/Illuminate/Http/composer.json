@@ -1,0 +1,49 @@
+{
+    "name": "illuminate/http",
+    "description": "The Illuminate Http package.",
+    "license": "MIT",
+    "homepage": "https://laravel.com",
+    "support": {
+        "issues": "https://github.com/laravel/framework/issues",
+        "source": "https://github.com/laravel/framework"
+    },
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-filter": "*",
+        "fruitcake/php-cors": "^1.3",
+        "guzzlehttp/guzzle": "^7.8.2",
+        "guzzlehttp/uri-template": "^1.0",
+        "illuminate/collections": "^12.0",
+        "illuminate/macroable": "^12.0",
+        "illuminate/session": "^12.0",
+        "illuminate/support": "^12.0",
+        "symfony/http-foundation": "^7.2.0",
+        "symfony/http-kernel": "^7.2.0",
+        "symfony/polyfill-php83": "^1.33",
+        "symfony/polyfill-php85": "^1.33",
+        "symfony/mime": "^7.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Illuminate\\Http\\": ""
+        }
+    },
+    "suggest": {
+        "ext-gd": "Required to use Illuminate\\Http\\Testing\\FileFactory::image()."
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "12.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

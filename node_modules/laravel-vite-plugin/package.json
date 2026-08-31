@@ -1,0 +1,68 @@
+{
+    "name": "laravel-vite-plugin",
+    "version": "2.1.0",
+    "description": "Laravel plugin for Vite.",
+    "keywords": [
+        "laravel",
+        "vite",
+        "vite-plugin"
+    ],
+    "homepage": "https://github.com/laravel/vite-plugin",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/laravel/vite-plugin"
+    },
+    "license": "MIT",
+    "author": "Laravel",
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        },
+        "./inertia-helpers": {
+            "types": "./inertia-helpers/index.d.ts",
+            "default": "./inertia-helpers/index.js"
+        }
+    },
+    "types": "./dist/index.d.ts",
+    "files": [
+        "/dist",
+        "/inertia-helpers"
+    ],
+    "bin": {
+        "clean-orphaned-assets": "bin/clean.js"
+    },
+    "scripts": {
+        "build": "npm run build-plugin && npm run build-inertia-helpers",
+        "build-plugin": "rm -rf dist && npm run build-plugin-types && npm run build-plugin-esm && cp src/dev-server-index.html dist/",
+        "build-plugin-types": "tsc --emitDeclarationOnly",
+        "build-plugin-esm": "esbuild src/index.ts --platform=node --format=esm --outfile=dist/index.js",
+        "build-inertia-helpers": "rm -rf inertia-helpers && tsc --project tsconfig.inertia-helpers.json",
+        "lint": "eslint --ext .ts ./src ./tests",
+        "test": "vitest run"
+    },
+    "devDependencies": {
+        "@eslint/eslintrc": "^3.3.1",
+        "@eslint/js": "^9.30.1",
+        "@types/node": "^20.19.0 || >=22.12.0",
+        "@typescript-eslint/eslint-plugin": "^8.0.0",
+        "@typescript-eslint/parser": "^8.0.0",
+        "esbuild": "0.25.6",
+        "eslint": "^9.0.0",
+        "globals": "^16.3.0",
+        "typescript": "^5.0.0",
+        "vite": "^7.0.0",
+        "vitest": "^3.0.0"
+    },
+    "peerDependencies": {
+        "vite": "^7.0.0"
+    },
+    "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+    },
+    "dependencies": {
+        "picocolors": "^1.0.0",
+        "vite-plugin-full-reload": "^1.1.0"
+    }
+}

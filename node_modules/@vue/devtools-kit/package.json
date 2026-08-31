@@ -1,0 +1,44 @@
+{
+  "name": "@vue/devtools-kit",
+  "type": "module",
+  "version": "8.1.5",
+  "author": "webfansplz",
+  "license": "MIT",
+  "repository": {
+    "directory": "packages/devtools-kit",
+    "type": "git",
+    "url": "git+https://github.com/vuejs/devtools.git"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./types.d.ts",
+  "files": [
+    "**.d.ts",
+    "dist"
+  ],
+  "dependencies": {
+    "birpc": "^2.6.1",
+    "hookable": "^5.5.3",
+    "perfect-debounce": "^2.0.0",
+    "@vue/devtools-shared": "^8.1.5"
+  },
+  "devDependencies": {
+    "@types/speakingurl": "^13.0.6",
+    "speakingurl": "^14.0.1",
+    "superjson": "^2.2.2",
+    "vue": "^3.5.22",
+    "vue-router": "^4.6.0"
+  },
+  "scripts": {
+    "build": "tsdown --clean",
+    "prepare:type": "tsdown --dts-only",
+    "stub": "tsdown --watch --onSuccess 'tsdown --dts-only'"
+  }
+}

@@ -1,0 +1,224 @@
+{
+    "name": "laravel/framework",
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
+    "homepage": "https://laravel.com",
+    "support": {
+        "issues": "https://github.com/laravel/framework/issues",
+        "source": "https://github.com/laravel/framework"
+    },
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-ctype": "*",
+        "ext-filter": "*",
+        "ext-hash": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-session": "*",
+        "ext-tokenizer": "*",
+        "composer-runtime-api": "^2.2",
+        "brick/math": "^0.11|^0.12|^0.13|^0.14",
+        "doctrine/inflector": "^2.0.5",
+        "dragonmantank/cron-expression": "^3.4",
+        "egulias/email-validator": "^3.2.1|^4.0",
+        "fruitcake/php-cors": "^1.3",
+        "guzzlehttp/guzzle": "^7.8.2",
+        "guzzlehttp/uri-template": "^1.0",
+        "laravel/prompts": "^0.3.0",
+        "laravel/serializable-closure": "^1.3|^2.0",
+        "league/commonmark": "^2.8.1",
+        "league/flysystem": "^3.25.1",
+        "league/flysystem-local": "^3.25.1",
+        "league/uri": "^7.5.1",
+        "monolog/monolog": "^3.0",
+        "nesbot/carbon": "^3.8.4",
+        "nunomaduro/termwind": "^2.0",
+        "psr/container": "^1.1.1|^2.0.1",
+        "psr/log": "^1.0|^2.0|^3.0",
+        "psr/simple-cache": "^1.0|^2.0|^3.0",
+        "ramsey/uuid": "^4.7",
+        "symfony/console": "^7.2.0",
+        "symfony/error-handler": "^7.2.0",
+        "symfony/finder": "^7.2.0",
+        "symfony/http-foundation": "^7.2.0",
+        "symfony/http-kernel": "^7.2.0",
+        "symfony/mailer": "^7.2.0",
+        "symfony/mime": "^7.2.0",
+        "symfony/polyfill-php83": "^1.33",
+        "symfony/polyfill-php84": "^1.34",
+        "symfony/polyfill-php85": "^1.34",
+        "symfony/process": "^7.2.0",
+        "symfony/routing": "^7.2.0",
+        "symfony/uid": "^7.2.0",
+        "symfony/var-dumper": "^7.2.0",
+        "tijsverkoyen/css-to-inline-styles": "^2.2.5",
+        "vlucas/phpdotenv": "^5.6.1",
+        "voku/portable-ascii": "^2.0.2"
+    },
+    "replace": {
+        "illuminate/auth": "self.version",
+        "illuminate/broadcasting": "self.version",
+        "illuminate/bus": "self.version",
+        "illuminate/cache": "self.version",
+        "illuminate/collections": "self.version",
+        "illuminate/concurrency": "self.version",
+        "illuminate/conditionable": "self.version",
+        "illuminate/config": "self.version",
+        "illuminate/console": "self.version",
+        "illuminate/container": "self.version",
+        "illuminate/contracts": "self.version",
+        "illuminate/cookie": "self.version",
+        "illuminate/database": "self.version",
+        "illuminate/encryption": "self.version",
+        "illuminate/events": "self.version",
+        "illuminate/filesystem": "self.version",
+        "illuminate/hashing": "self.version",
+        "illuminate/http": "self.version",
+        "illuminate/json-schema": "self.version",
+        "illuminate/log": "self.version",
+        "illuminate/macroable": "self.version",
+        "illuminate/mail": "self.version",
+        "illuminate/notifications": "self.version",
+        "illuminate/pagination": "self.version",
+        "illuminate/pipeline": "self.version",
+        "illuminate/process": "self.version",
+        "illuminate/queue": "self.version",
+        "illuminate/reflection": "self.version",
+        "illuminate/redis": "self.version",
+        "illuminate/routing": "self.version",
+        "illuminate/session": "self.version",
+        "illuminate/support": "self.version",
+        "illuminate/testing": "self.version",
+        "illuminate/translation": "self.version",
+        "illuminate/validation": "self.version",
+        "illuminate/view": "self.version",
+        "spatie/once": "*"
+    },
+    "require-dev": {
+        "ext-gmp": "*",
+        "ably/ably-php": "^1.0",
+        "aws/aws-sdk-php": "^3.322.9",
+        "fakerphp/faker": "^1.24",
+        "guzzlehttp/promises": "^2.0.3",
+        "guzzlehttp/psr7": "^2.4",
+        "laravel/pint": "^1.18",
+        "league/flysystem-aws-s3-v3": "^3.25.1",
+        "league/flysystem-ftp": "^3.25.1",
+        "league/flysystem-path-prefixing": "^3.25.1",
+        "league/flysystem-read-only": "^3.25.1",
+        "league/flysystem-sftp-v3": "^3.25.1",
+        "mockery/mockery": "^1.6.10",
+        "opis/json-schema": "^2.4.1",
+        "orchestra/testbench-core": "^10.9.0",
+        "pda/pheanstalk": "^5.0.6|^7.0.0",
+        "php-http/discovery": "^1.15",
+        "phpstan/phpstan": "^2.1.41",
+        "phpunit/phpunit": "^10.5.35|^11.5.3|^12.0.1",
+        "predis/predis": "^2.3|^3.0",
+        "resend/resend-php": "^0.10.0|^1.0",
+        "symfony/cache": "^7.2.0",
+        "symfony/http-client": "^7.2.0",
+        "symfony/psr-http-message-bridge": "^7.2.0",
+        "symfony/translation": "^7.2.0"
+    },
+    "conflict": {
+        "tightenco/collect": "<5.5.33"
+    },
+    "provide": {
+        "psr/container-implementation": "1.1|2.0",
+        "psr/log-implementation": "1.0|2.0|3.0",
+        "psr/simple-cache-implementation": "1.0|2.0|3.0"
+    },
+    "autoload": {
+        "files": [
+            "src/Illuminate/Collections/functions.php",
+            "src/Illuminate/Collections/helpers.php",
+            "src/Illuminate/Events/functions.php",
+            "src/Illuminate/Filesystem/functions.php",
+            "src/Illuminate/Foundation/helpers.php",
+            "src/Illuminate/Log/functions.php",
+            "src/Illuminate/Reflection/helpers.php",
+            "src/Illuminate/Support/functions.php",
+            "src/Illuminate/Support/helpers.php"
+        ],
+        "psr-4": {
+            "Illuminate\\": "src/Illuminate/",
+            "Illuminate\\Support\\": [
+                "src/Illuminate/Macroable/",
+                "src/Illuminate/Collections/",
+                "src/Illuminate/Conditionable/",
+                "src/Illuminate/Reflection/"
+            ]
+        }
+    },
+    "autoload-dev": {
+        "files": [
+            "tests/Database/stubs/MigrationCreatorFakeMigration.php"
+        ],
+        "psr-4": {
+            "Illuminate\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "12.x-dev"
+        }
+    },
+    "suggest": {
+        "ext-apcu": "Required to use the APC cache driver.",
+        "ext-fileinfo": "Required to use the Filesystem class.",
+        "ext-ftp": "Required to use the Flysystem FTP driver.",
+        "ext-gd": "Required to use Illuminate\\Http\\Testing\\FileFactory::image().",
+        "ext-memcached": "Required to use the memcache cache driver.",
+        "ext-pcntl": "Required to use all features of the queue worker and console signal trapping.",
+        "ext-pdo": "Required to use all database features.",
+        "ext-posix": "Required to use all features of the queue worker.",
+        "ext-redis": "Required to use the Redis cache and queue drivers (^4.0|^5.0|^6.0).",
+        "ably/ably-php": "Required to use the Ably broadcast driver (^1.0).",
+        "aws/aws-sdk-php": "Required to use the SQS queue driver, DynamoDb failed job storage, and SES mail driver (^3.322.9).",
+        "brianium/paratest": "Required to run tests in parallel (^7.0|^8.0).",
+        "fakerphp/faker": "Required to generate fake data using the fake() helper (^1.23).",
+        "filp/whoops": "Required for friendly error pages in development (^2.14.3).",
+        "laravel/tinker": "Required to use the tinker console command (^2.0).",
+        "league/flysystem-aws-s3-v3": "Required to use the Flysystem S3 driver (^3.25.1).",
+        "league/flysystem-ftp": "Required to use the Flysystem FTP driver (^3.25.1).",
+        "league/flysystem-path-prefixing": "Required to use the scoped driver (^3.25.1).",
+        "league/flysystem-read-only": "Required to use read-only disks (^3.25.1)",
+        "league/flysystem-sftp-v3": "Required to use the Flysystem SFTP driver (^3.25.1).",
+        "mockery/mockery": "Required to use mocking (^1.6).",
+        "pda/pheanstalk": "Required to use the beanstalk queue driver (^5.0).",
+        "php-http/discovery": "Required to use PSR-7 bridging features (^1.15).",
+        "phpunit/phpunit": "Required to use assertions and run tests (^10.5.35|^11.5.3|^12.0.1).",
+        "predis/predis": "Required to use the predis connector (^2.3|^3.0).",
+        "psr/http-message": "Required to allow Storage::put to accept a StreamInterface (^1.0).",
+        "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^6.0|^7.0).",
+        "resend/resend-php": "Required to enable support for the Resend mail transport (^0.10.0|^1.0).",
+        "symfony/cache": "Required to PSR-6 cache bridge (^7.2).",
+        "symfony/filesystem": "Required to enable support for relative symbolic links (^7.2).",
+        "symfony/http-client": "Required to enable support for the Symfony API mail transports (^7.2).",
+        "symfony/mailgun-mailer": "Required to enable support for the Mailgun mail transport (^7.2).",
+        "symfony/postmark-mailer": "Required to enable support for the Postmark mail transport (^7.2).",
+        "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^7.2)."
+    },
+    "config": {
+        "sort-packages": true,
+        "audit": {
+            "ignore": {
+                "GHSA-vvj3-c3rp-c85p": "Ensure testing features are compatible with affected PHPUnit versions"
+            }
+        },
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "php-http/discovery": false
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

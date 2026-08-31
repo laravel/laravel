@@ -1,0 +1,44 @@
+{
+    "name": "illuminate/session",
+    "description": "The Illuminate Session package.",
+    "license": "MIT",
+    "homepage": "https://laravel.com",
+    "support": {
+        "issues": "https://github.com/laravel/framework/issues",
+        "source": "https://github.com/laravel/framework"
+    },
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-ctype": "*",
+        "ext-session": "*",
+        "illuminate/collections": "^12.0",
+        "illuminate/contracts": "^12.0",
+        "illuminate/filesystem": "^12.0",
+        "illuminate/support": "^12.0",
+        "symfony/finder": "^7.2.0",
+        "symfony/http-foundation": "^7.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Illuminate\\Session\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "12.x-dev"
+        }
+    },
+    "suggest": {
+        "illuminate/console": "Required to use the session:table command (^12.0)."
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

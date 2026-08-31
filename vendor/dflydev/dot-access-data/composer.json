@@ -1,0 +1,67 @@
+{
+    "name": "dflydev/dot-access-data",
+    "type": "library",
+    "description": "Given a deep data structure, access data by dot notation.",
+    "homepage": "https://github.com/dflydev/dflydev-dot-access-data",
+    "keywords": ["dot", "access", "data", "notation"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dragonfly Development Inc.",
+            "email": "info@dflydev.com",
+            "homepage": "http://dflydev.com"
+        },
+        {
+            "name": "Beau Simensen",
+            "email": "beau@dflydev.com",
+            "homepage": "http://beausimensen.com"
+        },
+        {
+            "name": "Carlos Frutos",
+            "email": "carlos@kiwing.it",
+            "homepage": "https://github.com/cfrutos"
+        },
+        {
+            "name": "Colin O'Dell",
+            "email": "colinodell@gmail.com",
+            "homepage": "https://www.colinodell.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1 || ^8.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.12.42",
+        "phpunit/phpunit": "^7.5 || ^8.5 || ^9.3",
+        "scrutinizer/ocular": "1.6.0",
+        "squizlabs/php_codesniffer": "^3.5",
+        "vimeo/psalm": "^4.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dflydev\\DotAccessData\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dflydev\\DotAccessData\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "3.x-dev"
+        }
+    },
+    "scripts": {
+        "phpcs": "phpcs",
+        "phpstan": "phpstan analyse",
+        "phpunit": "phpunit --no-coverage",
+        "psalm": "psalm",
+        "test": [
+            "@phpcs",
+            "@phpstan",
+            "@psalm",
+            "@phpunit"
+        ]
+    }
+}

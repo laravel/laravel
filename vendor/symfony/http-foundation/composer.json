@@ -1,0 +1,45 @@
+{
+    "name": "symfony/http-foundation",
+    "type": "library",
+    "description": "Defines an object-oriented layer for the HTTP specification",
+    "keywords": [],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "symfony/deprecation-contracts": "^2.5|^3",
+        "symfony/polyfill-mbstring": "^1.1"
+    },
+    "require-dev": {
+        "doctrine/dbal": "^3.6|^4",
+        "predis/predis": "^1.1|^2.0",
+        "symfony/cache": "^6.4.12|^7.1.5|^8.0",
+        "symfony/clock": "^6.4|^7.0|^8.0",
+        "symfony/dependency-injection": "^6.4|^7.0|^8.0",
+        "symfony/http-kernel": "^6.4|^7.0|^8.0",
+        "symfony/mime": "^6.4|^7.0|^8.0",
+        "symfony/expression-language": "^6.4|^7.0|^8.0",
+        "symfony/rate-limiter": "^6.4|^7.0|^8.0"
+    },
+    "conflict": {
+        "doctrine/dbal": "<3.6",
+        "symfony/cache": "<6.4.12|>=7.0,<7.1.5"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Component\\HttpFoundation\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "minimum-stability": "dev"
+}

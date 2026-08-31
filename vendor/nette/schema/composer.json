@@ -1,0 +1,49 @@
+{
+	"name": "nette/schema",
+	"description": "📐 Nette Schema: validating data structures against a given Schema.",
+	"keywords": ["nette", "config"],
+	"homepage": "https://nette.org",
+	"license": ["BSD-3-Clause", "GPL-2.0-only", "GPL-3.0-only"],
+	"authors": [
+		{
+			"name": "David Grudl",
+			"homepage": "https://davidgrudl.com"
+		},
+		{
+			"name": "Nette Community",
+			"homepage": "https://nette.org/contributors"
+		}
+	],
+	"require": {
+		"php": "8.1 - 8.5",
+		"nette/utils": "^4.0"
+	},
+	"require-dev": {
+		"nette/tester": "^2.6",
+		"tracy/tracy": "^2.8",
+		"phpstan/phpstan": "^2.1.39@stable",
+		"phpstan/extension-installer": "^1.4@stable",
+		"nette/phpstan-rules": "^1.0"
+	},
+	"autoload": {
+		"classmap": ["src/"],
+		"psr-4": {
+			"Nette\\": "src"
+		}
+	},
+	"minimum-stability": "dev",
+	"scripts": {
+		"phpstan": "phpstan analyse",
+		"tester": "tester tests -s"
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.3-dev"
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"phpstan/extension-installer": true
+		}
+	}
+}

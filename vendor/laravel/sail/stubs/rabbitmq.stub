@@ -1,0 +1,20 @@
+rabbitmq:
+    image: 'rabbitmq:4-management-alpine'
+    hostname: 'rabbitmq'
+    ports:
+        - '${FORWARD_RABBITMQ_PORT:-5672}:5672'
+        - '${FORWARD_RABBITMQ_DASHBOARD_PORT:-15672}:15672'
+    environment:
+        RABBITMQ_HOST: "%"
+        RABBITMQ_DEFAULT_USER: '${RABBITMQ_USER}'
+        RABBITMQ_DEFAULT_PASS: '${RABBITMQ_PASSWORD}'
+        RABBITMQ_VHOST: '${RABBITMQ_VHOST}'
+        RABBITMQ_QUEUE: '${RABBITMQ_QUEUE}'
+    volumes:
+        - 'sail-rabbitmq:/var/lib/rabbitmq'
+    networks:
+        - sail
+    healthcheck:
+        test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+        retries: 3
+        timeout: 5s

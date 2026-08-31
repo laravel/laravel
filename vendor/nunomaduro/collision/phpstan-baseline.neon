@@ -1,0 +1,541 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider\:\:provides\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Laravel/CollisionServiceProvider.php
+
+		-
+			message: '#^Parameter \#1 \$container of class NunoMaduro\\Collision\\Adapters\\Laravel\\ExceptionHandler constructor expects Illuminate\\Contracts\\Container\\Container, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Adapters/Laravel/CollisionServiceProvider.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Laravel\\Commands\\TestCommand\:\:binary\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Laravel/Commands/TestCommand.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Laravel\\Commands\\TestCommand\:\:commonArguments\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Laravel/Commands/TestCommand.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Laravel\\Commands\\TestCommand\:\:getEnvironmentVariables\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Laravel/Commands/TestCommand.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Laravel\\Commands\\TestCommand\:\:paratestArguments\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Laravel/Commands/TestCommand.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Laravel\\Commands\\TestCommand\:\:paratestArguments\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Laravel/Commands/TestCommand.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Laravel\\Commands\\TestCommand\:\:paratestEnvironmentVariables\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Laravel/Commands/TestCommand.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Laravel\\Commands\\TestCommand\:\:phpunitArguments\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Laravel/Commands/TestCommand.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Laravel\\Commands\\TestCommand\:\:phpunitArguments\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Laravel/Commands/TestCommand.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Laravel\\Commands\\TestCommand\:\:phpunitEnvironmentVariables\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Laravel/Commands/TestCommand.php
+
+		-
+			message: '#^Parameter \#1 \$argv of class Symfony\\Component\\Console\\Input\\ArgvInput constructor expects list\<string\>\|null, non\-empty\-array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Adapters/Laravel/Commands/TestCommand.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_slice expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Adapters/Laravel/Commands/TestCommand.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of static method Illuminate\\Support\\Str\:\:startsWith\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 11
+			path: src/Adapters/Laravel/Commands/TestCommand.php
+
+		-
+			message: '#^Parameter \#1 \$name of method Dotenv\\Repository\\RepositoryInterface\:\:clear\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Adapters/Laravel/Commands/TestCommand.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Laravel\\Inspector\:\:getTrace\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Laravel/Inspector.php
+
+		-
+			message: '#^Parameter \#1 \$slowTests of method NunoMaduro\\Collision\\Adapters\\Phpunit\\Style\:\:writeSlowTests\(\) expects array\<int, NunoMaduro\\Collision\\Adapters\\Phpunit\\TestResult\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Adapters/Phpunit/Printers/DefaultPrinter.php
+
+		-
+			message: '#^Parameter \#2 \$callback of function uasort expects callable\(mixed, mixed\)\: int, Closure\(NunoMaduro\\Collision\\Adapters\\Phpunit\\TestResult, NunoMaduro\\Collision\\Adapters\\Phpunit\\TestResult\)\: int\<\-1, 1\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Adapters/Phpunit/Printers/DefaultPrinter.php
+
+		-
+			message: '#^Property NunoMaduro\\Collision\\Adapters\\Phpunit\\Printers\\DefaultPrinter\:\:\$profileSlowTests type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Phpunit/Printers/DefaultPrinter.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Phpunit\\Printers\\ReportablePrinter\:\:__call\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Phpunit/Printers/ReportablePrinter.php
+
+		-
+			message: '#^PHPDoc tag @var with type Throwable is not subtype of native type NunoMaduro\\Collision\\Exceptions\\TestException\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: src/Adapters/Phpunit/Style.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Phpunit\\Support\\ResultReflection\:\:numberOfTests\(\) should return int but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Adapters/Phpunit/Support/ResultReflection.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Adapters\\Phpunit\\TestResult\:\:__construct\(\) has parameter \$context with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Phpunit/TestResult.php
+
+		-
+			message: '#^Parameter \#9 \$context of class NunoMaduro\\Collision\\Adapters\\Phpunit\\TestResult constructor expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Adapters/Phpunit/TestResult.php
+
+		-
+			message: '#^Property NunoMaduro\\Collision\\Adapters\\Phpunit\\TestResult\:\:\$context type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Adapters/Phpunit/TestResult.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\ArgumentFormatter\:\:format\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ArgumentFormatter.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 2
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Constant NunoMaduro\\Collision\\ConsoleColor\:\:STYLES type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\ConsoleColor\:\:addTheme\(\) has parameter \$styles with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\ConsoleColor\:\:apply\(\) has parameter \$style with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\ConsoleColor\:\:getPossibleStyles\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\ConsoleColor\:\:getThemes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\ConsoleColor\:\:setThemes\(\) has parameter \$themes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\ConsoleColor\:\:themeSequence\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Parameter \#1 \$message of class NunoMaduro\\Collision\\Exceptions\\InvalidStyleException constructor expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Parameter \#1 \$name of method NunoMaduro\\Collision\\ConsoleColor\:\:themeSequence\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Parameter \#1 \$style of method NunoMaduro\\Collision\\ConsoleColor\:\:isValidStyle\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Parameter \#1 \$style of method NunoMaduro\\Collision\\ConsoleColor\:\:styleSequence\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Parameter \#2 \$styles of method NunoMaduro\\Collision\\ConsoleColor\:\:addTheme\(\) expects array\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Property NunoMaduro\\Collision\\ConsoleColor\:\:\$themes type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/ConsoleColor.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 2
+			path: src/Coverage.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Coverage\:\:getMissingCoverage\(\) should return array\<int, string\> but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Coverage.php
+
+		-
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Coverage.php
+
+		-
+			message: '#^Cannot access offset ''file'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Exceptions/TestException.php
+
+		-
+			message: '#^Cannot access offset ''line'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Exceptions/TestException.php
+
+		-
+			message: '#^Cannot access offset 0 on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Exceptions/TestException.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
+			count: 1
+			path: src/Exceptions/TestException.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Exceptions\\TestException\:\:getFile\(\) should return string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Exceptions/TestException.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Exceptions\\TestException\:\:getTrace\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Exceptions/TestException.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Exceptions\\TestException\:\:shortenMessage\(\) has parameter \$matches with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Exceptions/TestException.php
+
+		-
+			message: '#^Parameter \#2 \$string of function explode expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Exceptions/TestException.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Binary operation "\." between mixed and "\\n"\|"\\r\\n" results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Binary operation "\.\=" between string and mixed results in an error\.$#'
+			identifier: assignOp.invalid
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Cannot access offset 0 on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Cannot access offset 1 on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Cannot use array destructuring on mixed\.$#'
+			identifier: offsetAccess.nonArray
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Highlighter\:\:colorLines\(\) has parameter \$tokenLines with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Highlighter\:\:colorLines\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Highlighter\:\:getHighlightedLines\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Highlighter\:\:lineNumbers\(\) has parameter \$lines with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Highlighter\:\:splitToLines\(\) has parameter \$tokens with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Highlighter\:\:splitToLines\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Highlighter\:\:tokenize\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Parameter \#1 \$name of method NunoMaduro\\Collision\\ConsoleColor\:\:hasTheme\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Parameter \#1 \$style of method NunoMaduro\\Collision\\ConsoleColor\:\:apply\(\) expects array\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Parameter \#2 \$string of function explode expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Parameter \#2 \$text of method NunoMaduro\\Collision\\ConsoleColor\:\:apply\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Highlighter.php
+
+		-
+			message: '#^Binary operation "\." between mixed and ''\:\:'' results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Cannot call method getArgs\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Cannot call method getClass\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Writer.php
+
+		-
+			message: '#^Cannot call method getFile\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: src/Writer.php
+
+		-
+			message: '#^Cannot call method getFunction\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Cannot call method getLine\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Instanceof between Throwable and Throwable will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Writer\:\:getFrames\(\) should return array\<int, Whoops\\Exception\\Frame\> but returns array\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Writer\:\:ignoreFilesIn\(\) has parameter \$ignore with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Method NunoMaduro\\Collision\\Writer\:\:renderTrace\(\) has parameter \$frames with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Parameter \#1 \$arguments of method NunoMaduro\\Collision\\ArgumentFormatter\:\:format\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(mixed\)\: mixed\)\|null, Closure\(string\)\: non\-falsy\-string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Parameter \#1 \$filePath of method NunoMaduro\\Collision\\Writer\:\:getFileRelativePath\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of function strpos expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Parameter \#1 \$string of function rtrim expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Parameter \#2 \$array of function array_map expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Parameter \#3 \$subject of function preg_replace expects array\<float\|int\|string\>\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Parameter \#3 \$subject of function str_replace expects array\<string\>\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Part \$function \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Part \$line \(mixed\) of encapsed string cannot be cast to string\.$#'
+			identifier: encapsedStringPart.nonString
+			count: 1
+			path: src/Writer.php
+
+		-
+			message: '#^Property NunoMaduro\\Collision\\Writer\:\:\$ignore \(array\<int, Closure\|string\>\) does not accept array\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Writer.php

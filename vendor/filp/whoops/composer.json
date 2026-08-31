@@ -1,0 +1,46 @@
+{
+    "name": "filp/whoops",
+    "license": "MIT",
+    "description": "php error handling for cool kids",
+    "keywords": ["library", "error", "handling", "exception", "whoops", "throwable"],
+    "homepage": "https://filp.github.io/whoops/",
+    "authors": [
+        {
+            "name": "Filipe Dobreira",
+            "homepage": "https://github.com/filp",
+            "role": "Developer"
+        }
+    ],
+    "scripts": {
+        "demo": "php -S localhost:8000 ./examples/example.php",
+        "test": "phpunit --testdox tests"
+    },
+    "require": {
+        "php": "^7.1 || ^8.0",
+        "psr/log": "^1.0.1 || ^2.0 || ^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5.20 || ^8.5.8 || ^9.3.3",
+        "mockery/mockery": "^1.0",
+        "symfony/var-dumper": "^4.0 || ^5.0"
+    },
+    "suggest": {
+        "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
+        "whoops/soap": "Formats errors as SOAP responses"
+    },
+    "autoload": {
+        "psr-4": {
+            "Whoops\\": "src/Whoops/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Whoops\\": "tests/Whoops/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.7-dev"
+        }
+    }
+}

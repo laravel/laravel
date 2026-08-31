@@ -1,0 +1,40 @@
+{
+    "name": "sebastian/code-unit-reverse-lookup",
+    "description": "Looks up which function or method a line of code belongs to",
+    "homepage": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/issues",
+        "security": "https://github.com/sebastianbergmann/code-unit-reverse-lookup/security/policy"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "4.0-dev"
+        }
+    }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "theseer/tokenizer",
+  "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Arne Blankerts",
+      "email": "arne@blankerts.de",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/theseer/tokenizer/issues"
+  },
+  "require": {
+    "php": "^7.2 || ^8.0",
+    "ext-xmlwriter": "*",
+    "ext-dom": "*",
+    "ext-tokenizer": "*"
+  },
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  }
+}
+

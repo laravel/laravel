@@ -1,0 +1,34 @@
+{
+    "name": "league/mime-type-detection",
+    "description": "Mime-type detection for Flysystem",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Frank de Jonge",
+            "email": "info@frankdejonge.nl"
+        }
+    ],
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "phpstan": "vendor/bin/phpstan analyse -l 6 src"
+    },
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-fileinfo": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5.8 || ^9.3 || ^10.0 || ^11.0 || ^12.0",
+        "phpstan/phpstan": "^0.12.68",
+        "friendsofphp/php-cs-fixer": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "League\\MimeTypeDetection\\": "src"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.0"
+        }
+    }
+}

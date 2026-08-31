@@ -1,0 +1,181 @@
+== Version 2.1.1: Released Apr 30 2025 ==
+
+* Fix implicitly nullable via default value null for PHP 8.4 (#85)
+
+== Version 2.1.0: Released Apr 29 2025 ==
+
+* Dropped support for PHP <=7.3
+
+== Version 2.0.1: Released Jul 09 2020 ==
+
+* Added support for PHP 8
+
+
+== Version 2.0: Released Feb 26 2016 ==
+
+* Removed automatic loading of global functions
+
+
+== Version 1.1.0: Released Feb 2 2012 ==
+
+Issues Fixed: 121, 138, 147
+
+* Added non-empty matchers to complement the emptiness-matching forms.
+
+  - nonEmptyString()
+  - nonEmptyArray()
+  - nonEmptyTraversable()
+
+* Added ability to pass variable arguments to several array-based matcher
+  factory methods so they work like allOf() et al.
+
+  - anArray()
+  - arrayContainingInAnyOrder(), containsInAnyOrder()
+  - arrayContaining(), contains()
+  - stringContainsInOrder()
+
+* Matchers that accept an array of matchers now also accept variable arguments.
+  Any non-matcher arguments are wrapped by IsEqual.
+
+* Added noneOf() as a shortcut for not(anyOf()).
+
+
+== Version 1.0.0: Released Jan 20 2012 ==
+
+Issues Fixed: 119, 136, 139, 141, 148, 149, 172
+
+* Moved hamcrest.php into Hamcrest folder and renamed to Hamcrest.php.
+  This is more in line with PEAR packaging standards.
+
+* Renamed callable() to callableValue() for compatibility with PHP 5.4.
+
+* Added Hamcrest_Text_StringContainsIgnoringCase to assert using stripos().
+
+    assertThat('fOObAr', containsStringIgnoringCase('oba'));
+    assertThat('fOObAr', containsString('oba')->ignoringCase());
+
+* Fixed Hamcrest_Core_IsInstanceOf to return false for native types.
+
+* Moved string-based matchers to Hamcrest_Text package.
+  StringContains, StringEndsWith, StringStartsWith, and SubstringMatcher
+
+* Hamcrest.php and Hamcrest_Matchers.php are now built from @factory doctags.
+  Added @factory doctag to every static factory method.
+
+* Hamcrest_Matchers and Hamcrest.php now import each matcher as-needed
+  and Hamcrest.php calls the matchers directly instead of Hamcrest_Matchers.
+
+
+== Version 0.3.0: Released Jul 26 2010 ==
+
+* Added running count to Hamcrest_MatcherAssert with methods to get and reset it.
+  This can be used by unit testing frameworks for reporting.
+
+* Added Hamcrest_Core_HasToString to assert return value of toString() or __toString().
+
+    assertThat($anObject, hasToString('foo'));
+
+* Added Hamcrest_Type_IsScalar to assert is_scalar().
+  Matches values of type bool, int, float, double, and string.
+
+    assertThat($count, scalarValue());
+    assertThat('foo', scalarValue());
+
+* Added Hamcrest_Collection package.
+
+  - IsEmptyTraversable
+  - IsTraversableWithSize
+
+    assertThat($iterator, emptyTraversable());
+    assertThat($iterator, traversableWithSize(5));
+
+* Added Hamcrest_Xml_HasXPath to assert XPath expressions or the content of nodes in an XML/HTML DOM.
+
+    assertThat($dom, hasXPath('books/book/title'));
+    assertThat($dom, hasXPath('books/book[contains(title, "Alice")]', 3));
+    assertThat($dom, hasXPath('books/book/title', 'Alice in Wonderland'));
+    assertThat($dom, hasXPath('count(books/book)', greaterThan(10)));
+
+* Added aliases to match the Java API.
+
+    hasEntry() -> hasKeyValuePair()
+    hasValue() -> hasItemInArray()
+    contains() -> arrayContaining()
+    containsInAnyOrder() -> arrayContainingInAnyOrder()
+
+* Added optional subtype to Hamcrest_TypeSafeMatcher to enforce object class or resource type.
+
+* Hamcrest_TypeSafeDiagnosingMatcher now extends Hamcrest_TypeSafeMatcher.
+
+
+== Version 0.2.0: Released Jul 14 2010 ==
+
+Issues Fixed: 109, 111, 114, 115
+
+* Description::appendValues() and appendValueList() accept Iterator and IteratorAggregate. [111]
+  BaseDescription::appendValue() handles IteratorAggregate.
+
+* assertThat() accepts a single boolean parameter and
+  wraps any non-Matcher third parameter with equalTo().
+
+* Removed null return value from assertThat(). [114]
+
+* Fixed wrong variable name in contains(). [109]
+
+* Added Hamcrest_Core_IsSet to assert isset().
+
+    assertThat(array('foo' => 'bar'), set('foo'));
+    assertThat(array('foo' => 'bar'), notSet('bar'));
+
+* Added Hamcrest_Core_IsTypeOf to assert built-in types with gettype(). [115]
+  Types: array, boolean, double, integer, null, object, resource, and string.
+  Note that gettype() returns "double" for float values.
+
+    assertThat($count, typeOf('integer'));
+    assertThat(3.14159, typeOf('double'));
+    assertThat(array('foo', 'bar'), typeOf('array'));
+    assertThat(new stdClass(), typeOf('object'));
+
+* Added type-specific matchers in new Hamcrest_Type package.
+
+  - IsArray
+  - IsBoolean
+  - IsDouble (includes float values)
+  - IsInteger
+  - IsObject
+  - IsResource
+  - IsString
+
+    assertThat($count, integerValue());
+    assertThat(3.14159, floatValue());
+    assertThat('foo', stringValue());
+
+* Added Hamcrest_Type_IsNumeric to assert is_numeric().
+  Matches values of type int and float/double or strings that are formatted as numbers.
+
+    assertThat(5, numericValue());
+    assertThat('-5e+3', numericValue());
+
+* Added Hamcrest_Type_IsCallable to assert is_callable().
+
+    assertThat('preg_match', callable());
+    assertThat(array('SomeClass', 'SomeMethod'), callable());
+    assertThat(array($object, 'SomeMethod'), callable());
+    assertThat($object, callable());
+    assertThat(function ($x, $y) { return $x + $y; }, callable());
+
+* Added Hamcrest_Text_MatchesPattern for regex matching with preg_match().
+
+    assertThat('foobar', matchesPattern('/o+b/'));
+
+* Added aliases:
+  - atLeast() for greaterThanOrEqualTo()
+  - atMost() for lessThanOrEqualTo()
+
+
+== Version 0.1.0: Released Jul 7 2010 ==
+
+* Created PEAR package
+
+* Core matchers
+

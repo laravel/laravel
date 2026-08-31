@@ -1,0 +1,136 @@
+{
+  "name": "unplugin",
+  "type": "module",
+  "version": "3.3.0",
+  "description": "Unified plugin system for build tools",
+  "license": "MIT",
+  "homepage": "https://unplugin.unjs.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unjs/unplugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/unjs/unplugin/issues"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./rspack/loaders/load": "./dist/rspack/loaders/load.mjs",
+    "./rspack/loaders/transform": "./dist/rspack/loaders/transform.mjs",
+    "./webpack/loaders/load": "./dist/webpack/loaders/load.mjs",
+    "./webpack/loaders/transform": "./dist/webpack/loaders/transform.mjs",
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.mts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "publishConfig": {
+    "tag": "beta"
+  },
+  "peerDependencies": {
+    "@farmfe/core": "*",
+    "@rspack/core": "*",
+    "bun-types-no-globals": "*",
+    "esbuild": "*",
+    "rolldown": "*",
+    "rollup": "*",
+    "unloader": "*",
+    "vite": "*",
+    "webpack": "*"
+  },
+  "peerDependenciesMeta": {
+    "@farmfe/core": {
+      "optional": true
+    },
+    "@rspack/core": {
+      "optional": true
+    },
+    "bun-types-no-globals": {
+      "optional": true
+    },
+    "esbuild": {
+      "optional": true
+    },
+    "rolldown": {
+      "optional": true
+    },
+    "rollup": {
+      "optional": true
+    },
+    "unloader": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    },
+    "webpack": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@jridgewell/remapping": "^2.3.5",
+    "picomatch": "^4.0.4",
+    "webpack-virtual-modules": "^0.6.2"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^9.1.0",
+    "@antfu/ni": "^30.2.0",
+    "@arethetypeswrong/core": "^0.18.4",
+    "@farmfe/cli": "^1.0.5",
+    "@farmfe/core": "^1.7.11",
+    "@rsbuild/core": "^2.1.1",
+    "@rspack/cli": "^2.1.1",
+    "@rspack/core": "^2.1.1",
+    "@types/node": "^26.0.1",
+    "@types/picomatch": "^4.0.3",
+    "@typescript/native-preview": "7.0.0-dev.20260628.1",
+    "ansis": "^4.3.1",
+    "bumpp": "^11.1.0",
+    "bun-types-no-globals": "^1.3.11",
+    "esbuild": "^0.28.1",
+    "eslint": "^10.6.0",
+    "eslint-plugin-format": "^2.0.1",
+    "jiti": "^2.7.0",
+    "lint-staged": "^17.0.8",
+    "magic-string": "^0.30.21",
+    "publint": "^0.3.21",
+    "rolldown": "^1.1.3",
+    "rollup": "^4.62.2",
+    "simple-git-hooks": "^2.13.1",
+    "tsdown": "^0.22.3",
+    "typescript": "~6.0.3",
+    "unloader": "^0.9.0",
+    "unplugin-unused": "^0.5.7",
+    "vite": "^8.1.0",
+    "vitest": "^4.1.9",
+    "webpack": "^5.108.1",
+    "webpack-cli": "^7.1.0",
+    "unplugin": "3.3.0"
+  },
+  "resolutions": {
+    "esbuild": "catalog:peer"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm i --frozen-lockfile --ignore-scripts --offline && pnpm exec lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch src",
+    "lint": "eslint --cache .",
+    "lint:fix": "nr lint --fix",
+    "typecheck": "tsgo --noEmit",
+    "docs:dev": "pnpm -C docs run dev",
+    "docs:build": "pnpm -C docs run build",
+    "docs:gen-files": "pnpm -C docs run gen-files",
+    "release": "bumpp",
+    "test": "nr test:build && vitest run",
+    "test:build": "jiti scripts/buildFixtures.ts"
+  }
+}

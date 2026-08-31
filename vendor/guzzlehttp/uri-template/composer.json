@@ -1,0 +1,76 @@
+{
+    "name": "guzzlehttp/uri-template",
+    "description": "A polyfill class for uri_template of PHP",
+    "license": "MIT",
+    "keywords": [
+        "guzzlehttp",
+        "uri-template"
+    ],
+    "authors": [
+        {
+            "name": "Graham Campbell",
+            "email": "hello@gjcampbell.co.uk",
+            "homepage": "https://github.com/GrahamCampbell"
+        },
+        {
+            "name": "Michael Dowling",
+            "email": "mtdowling@gmail.com",
+            "homepage": "https://github.com/mtdowling"
+        },
+        {
+            "name": "George Mponos",
+            "email": "gmponos@gmail.com",
+            "homepage": "https://github.com/gmponos"
+        },
+        {
+            "name": "Tobias Nyholm",
+            "email": "tobias.nyholm@gmail.com",
+            "homepage": "https://github.com/Nyholm"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5 || ^8.0",
+        "symfony/polyfill-php80": "^1.25"
+    },
+    "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.8.2",
+        "phpunit/phpunit": "^8.5.52 || ^9.6.34",
+        "uri-template/tests": "1.0.0"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "uri-template/tests",
+                "version": "1.0.0",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://github.com/uri-templates/uritemplate-test/archive/520fdd8b0f78779d12178c357a986e0e727f4bd0.zip"
+                }
+            }
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "GuzzleHttp\\UriTemplate\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GuzzleHttp\\UriTemplate\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        },
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": true,
+            "forward-command": false
+        }
+    }
+}

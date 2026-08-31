@@ -1,0 +1,24 @@
+<?php
+
+namespace {{ factoryNamespace }};
+
+use {{ namespacedModel }};
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends Factory<{{ model }}>
+ */
+class {{ factory }}Factory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            //
+        ];
+    }
+}

@@ -1,0 +1,161 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Symfony Routing Configuration",
+  "description": "Defines the application's URL routes, including imports and environment-specific conditionals.",
+  "type": "object",
+  "patternProperties": {
+    "^[a-zA-Z0-9_.-]+$": {
+      "oneOf": [
+        { "$ref": "#/$defs/routeDefinition" },
+        { "$ref": "#/$defs/routeImport" },
+        { "$ref": "#/$defs/routeAlias" }
+      ]
+    },
+    "^when@.+$": {
+      "$ref": "#",
+      "description": "A container for routes that are only loaded in a specific environment (e.g., 'when@dev')."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "routeDefinition": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "object", "patternProperties": { "^.+$": { "type": "string" } }, "additionalProperties": false }
+          ],
+          "description": "The URL path or a map of locale=>path for localized routes."
+        },
+        "controller": {
+          "type": "string",
+          "description": "The controller that handles the request, e.g., 'App\\Controller\\BlogController::show'."
+        },
+        "methods": {
+          "description": "The HTTP method(s) this route matches.",
+          "oneOf": [
+            { "type": "string" },
+            { "type": "array", "items": { "type": "string" } }
+          ]
+        },
+        "requirements": {
+          "type": "object",
+          "description": "Regular expression constraints for path parameters.",
+          "additionalProperties": { "type": "string" }
+        },
+        "defaults": { "type": "object" },
+        "options": { "type": "object" },
+        "host": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "object", "patternProperties": { "^.+$": { "type": "string" } }, "additionalProperties": false }
+          ]
+        },
+        "schemes": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "array", "items": { "type": "string" } }
+          ]
+        },
+        "condition": { "type": "string" },
+        "locale": { "type": "string" },
+        "format": { "type": "string" },
+        "utf8": { "type": "boolean" },
+        "stateless": { "type": "boolean" },
+        "deprecated": {
+          "type": "object",
+          "properties": {
+            "package": { "type": "string" },
+            "version": { "type": "string" },
+            "message": { "type": "string" }
+          },
+          "required": ["package", "version"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["path"],
+      "additionalProperties": false
+    },
+    "routeImport": {
+      "type": "object",
+      "properties": {
+        "resource": {
+          "description": "Path to the resource to import (commonly a string or {path, namespace}), array of paths, or custom value for loaders (additional properties allowed for extensions).",
+          "oneOf": [
+            { "type": "string" },
+            { "type": "array", "items": { "type": "string" } },
+            {
+              "type": "object",
+              "properties": {
+                "path": { "type": "string", "description": "The directory path to the resource." },
+                "namespace": { "type": "string", "description": "The namespace of the controllers in the imported resource (e.g., 'App\\Availability\\UserInterface\\Api')." }
+              },
+              "required": ["path"],
+              "additionalProperties": true
+            }
+          ]
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the resource (e.g., 'attribute', 'annotation', 'yaml')."
+        },
+        "prefix": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "object", "patternProperties": { "^.+$": { "type": "string" } }, "additionalProperties": false }
+          ],
+          "description": "A URL prefix to apply to all routes from the imported resource."
+        },
+        "name_prefix": {
+          "type": "string",
+          "description": "A name prefix to apply to all routes from the imported resource."
+        },
+        "requirements": { "type": "object", "additionalProperties": { "type": "string" } },
+        "defaults": { "type": "object" },
+        "options": { "type": "object" },
+        "host": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "object", "patternProperties": { "^.+$": { "type": "string" } }, "additionalProperties": false }
+          ]
+        },
+        "schemes": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "array", "items": { "type": "string" } }
+          ]
+        },
+        "condition": { "type": "string" },
+        "trailing_slash_on_root": { "type": "boolean" },
+        "methods": { "oneOf": [ { "type": "string" }, { "type": "array", "items": { "type": "string" } } ] },
+        "locale": { "type": "string" },
+        "format": { "type": "string" },
+        "utf8": { "type": "boolean" },
+        "exclude": { "oneOf": [ { "type": "string" }, { "type": "array", "items": { "type": "string" } } ] },
+        "stateless": { "type": "boolean" },
+        "controller": { "type": "string" }
+      },
+      "required": ["resource"],
+      "additionalProperties": false
+    },
+    "routeAlias": {
+      "type": "object",
+      "properties": {
+        "alias": { "type": "string" },
+        "deprecated": {
+          "type": "object",
+          "properties": {
+            "package": { "type": "string" },
+            "version": { "type": "string" },
+            "message": { "type": "string" }
+          },
+          "required": ["package", "version"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["alias"],
+      "additionalProperties": false
+    }
+  }
+}

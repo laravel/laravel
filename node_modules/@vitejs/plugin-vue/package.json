@@ -1,0 +1,66 @@
+{
+  "name": "@vitejs/plugin-vue",
+  "version": "6.0.8",
+  "type": "module",
+  "license": "MIT",
+  "author": "Evan You",
+  "description": "The official plugin for Vue SFC support in Vite.",
+  "keywords": [
+    "vite",
+    "vite-plugin",
+    "vue"
+  ],
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitejs/vite-plugin-vue.git",
+    "directory": "packages/plugin-vue"
+  },
+  "bugs": {
+    "url": "https://github.com/vitejs/vite-plugin-vue/issues"
+  },
+  "homepage": "https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue#readme",
+  "peerDependencies": {
+    "vite": "^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0",
+    "vue": "^3.2.25"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.29.7",
+    "@jridgewell/gen-mapping": "^0.3.13",
+    "@jridgewell/trace-mapping": "^0.3.31",
+    "obug": "^2.1.3",
+    "slash": "^5.1.0",
+    "source-map-js": "^1.2.1",
+    "tsdown": "^0.22.3",
+    "unrun": "^0.3.1",
+    "vite": "^8.0.16",
+    "vue": "^3.5.39"
+  },
+  "dependencies": {
+    "@rolldown/pluginutils": "^1.0.1"
+  },
+  "compatiblePackages": {
+    "schemaVersion": 1,
+    "rolldown": {
+      "type": "incompatible",
+      "reason": "Uses Vite-specific APIs"
+    },
+    "rollup": {
+      "type": "incompatible",
+      "reason": "Uses Vite-specific APIs"
+    }
+  },
+  "scripts": {
+    "dev": "tsdown --watch",
+    "build": "tsdown"
+  }
+}

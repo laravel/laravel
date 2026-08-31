@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    XLIFF Version 2.0
+    OASIS Standard
+    05 August 2014
+    Copyright (c) OASIS Open 2014. All rights reserved.
+    Source: http://docs.oasis-open.org/xliff/xliff-core/v2.0/os/schemas/
+     -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    xmlns:xlf="urn:oasis:names:tc:xliff:document:2.0"
+    targetNamespace="urn:oasis:names:tc:xliff:document:2.0">
+
+  <!-- Import -->
+
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace"
+      schemaLocation="informativeCopiesOf3rdPartySchemas/w3c/xml.xsd"/>
+
+  <!-- Element Group -->
+
+  <xs:group name="inline">
+    <xs:choice>
+      <xs:element ref="xlf:cp"/>
+      <xs:element ref="xlf:ph"/>
+      <xs:element ref="xlf:pc"/>
+      <xs:element ref="xlf:sc"/>
+      <xs:element ref="xlf:ec"/>
+      <xs:element ref="xlf:mrk"/>
+      <xs:element ref="xlf:sm"/>
+      <xs:element ref="xlf:em"/>
+    </xs:choice>
+  </xs:group>
+
+  <!-- Attribute Types -->
+
+  <xs:simpleType name="yesNo">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="yes"/>
+      <xs:enumeration value="no"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="yesNoFirstNo">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="yes"/>
+      <xs:enumeration value="firstNo"/>
+      <xs:enumeration value="no"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="dirValue">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ltr"/>
+      <xs:enumeration value="rtl"/>
+      <xs:enumeration value="auto"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="appliesTo">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="source"/>
+      <xs:enumeration value="target"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="userDefinedValue">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[^\s:]+:[^\s:]+"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="attrType_type">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="fmt"/>
+      <xs:enumeration value="ui"/>
+      <xs:enumeration value="quote"/>
+      <xs:enumeration value="link"/>
+      <xs:enumeration value="image"/>
+      <xs:enumeration value="other"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="typeForMrkValues">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="generic"/>
+      <xs:enumeration value="comment"/>
+      <xs:enumeration value="term"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="attrType_typeForMrk">
+    <xs:union memberTypes="xlf:typeForMrkValues xlf:userDefinedValue"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="priorityValue">
+    <xs:restriction base="xs:positiveInteger">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="10"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="stateType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="initial"/>
+      <xs:enumeration value="translated"/>
+      <xs:enumeration value="reviewed"/>
+      <xs:enumeration value="final"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Structural Elements -->
+
+  <xs:element name="xliff">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="xlf:file"/>
+      </xs:sequence>
+      <xs:attribute name="version" use="required"/>
+      <xs:attribute name="srcLang" use="required"/>
+      <xs:attribute name="trgLang" use="optional"/>
+      <xs:attribute ref="xml:space" use="optional" default="default"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="file">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" ref="xlf:skeleton"/>
+        <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"
+            processContents="lax"/>
+        <xs:element minOccurs="0" maxOccurs="1" ref="xlf:notes"/>
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+          <xs:element ref="xlf:unit"/>
+          <xs:element ref="xlf:group"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:NMTOKEN"/>
+      <xs:attribute name="canResegment" use="optional" type="xlf:yesNo" default="yes"/>
+      <xs:attribute name="original" use="optional"/>
+      <xs:attribute name="translate" use="optional" type="xlf:yesNo" default="yes"/>
+      <xs:attribute name="srcDir" use="optional" type="xlf:dirValue" default="auto"/>
+      <xs:attribute name="trgDir" use="optional" type="xlf:dirValue" default="auto"/>
+      <xs:attribute ref="xml:space" use="optional"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="skeleton">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"
+            processContents="lax"/>
+      </xs:sequence>
+      <xs:attribute name="href" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="group">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"
+            processContents="lax"/>
+        <xs:element minOccurs="0" maxOccurs="1" ref="xlf:notes"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element ref="xlf:unit"/>
+          <xs:element ref="xlf:group"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:NMTOKEN"/>
+      <xs:attribute name="name" use="optional"/>
+      <xs:attribute name="canResegment" use="optional" type="xlf:yesNo"/>
+      <xs:attribute name="translate" use="optional" type="xlf:yesNo"/>
+      <xs:attribute name="srcDir" use="optional" type="xlf:dirValue"/>
+      <xs:attribute name="trgDir" use="optional" type="xlf:dirValue"/>
+      <xs:attribute name="type" use="optional" type="xlf:userDefinedValue"/>
+      <xs:attribute ref="xml:space" use="optional"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="unit">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded" namespace="##other"
+            processContents="lax"/>
+        <xs:element minOccurs="0" maxOccurs="1" ref="xlf:notes"/>
+        <xs:element minOccurs="0" maxOccurs="1" ref="xlf:originalData"/>
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+          <xs:element ref="xlf:segment"/>
+          <xs:element ref="xlf:ignorable"/>
+        </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:NMTOKEN"/>
+      <xs:attribute name="name" use="optional"/>
+      <xs:attribute name="canResegment" use="optional" type="xlf:yesNo"/>
+      <xs:attribute name="translate" use="optional" type="xlf:yesNo"/>
+      <xs:attribute name="srcDir" use="optional" type="xlf:dirValue"/>
+      <xs:attribute name="trgDir" use="optional" type="xlf:dirValue"/>
+      <xs:attribute ref="xml:space" use="optional"/>
+      <xs:attribute name="type" use="optional" type="xlf:userDefinedValue"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="segment">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" ref="xlf:source"/>
+        <xs:element minOccurs="0" maxOccurs="1" ref="xlf:target"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="optional" type="xs:NMTOKEN"/>
+      <xs:attribute name="canResegment" use="optional" type="xlf:yesNo"/>
+      <xs:attribute name="state" use="optional" type="xlf:stateType" default="initial"/>
+      <xs:attribute name="subState" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ignorable">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" ref="xlf:source"/>
+        <xs:element minOccurs="0" maxOccurs="1" ref="xlf:target"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="optional" type="xs:NMTOKEN"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="notes">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="xlf:note"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="note">
+    <xs:complexType mixed="true">
+      <xs:attribute name="id" use="optional" type="xs:NMTOKEN"/>
+      <xs:attribute name="appliesTo" use="optional" type="xlf:appliesTo"/>
+      <xs:attribute name="category" use="optional"/>
+      <xs:attribute name="priority" use="optional" type="xlf:priorityValue" default="1"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="originalData">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="xlf:data"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="data">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="xlf:cp"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:NMTOKEN"/>
+      <xs:attribute name="dir" use="optional" type="xlf:dirValue" default="auto"/>
+      <xs:attribute ref="xml:space" use="optional" fixed="preserve"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="source">
+    <xs:complexType mixed="true">
+      <xs:group ref="xlf:inline" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:attribute ref="xml:lang" use="optional"/>
+      <xs:attribute ref="xml:space" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="target">
+    <xs:complexType mixed="true">
+      <xs:group ref="xlf:inline" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:attribute ref="xml:lang" use="optional"/>
+      <xs:attribute ref="xml:space" use="optional"/>
+      <xs:attribute name="order" use="optional" type="xs:positiveInteger"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Inline Elements -->
+
+  <xs:element name="cp">
+    <!-- Code Point -->
+    <xs:complexType mixed="false">
+      <xs:attribute name="hex" use="required" type="xs:hexBinary"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ph">
+    <!-- Placeholder -->
+    <xs:complexType mixed="false">
+      <xs:attribute name="canCopy" use="optional" type="xlf:yesNo" default="yes"/>
+      <xs:attribute name="canDelete" use="optional" type="xlf:yesNo" default="yes"/>
+      <xs:attribute name="canReorder" use="optional" type="xlf:yesNoFirstNo" default="yes"/>
+      <xs:attribute name="copyOf" use="optional" type="xs:NMTOKEN"/>
+      <xs:attribute name="disp" use="optional"/>
+      <xs:attribute name="equiv" use="optional"/>
+      <xs:attribute name="id" use="required" type="xs:NMTOKEN"/>
+      <xs:attribute name="dataRef" use="optional" type="xs:NMTOKEN"/>
+      <xs:attribute name="subFlows" use="optional" type="xs:NMTOKENS"/>
+      <xs:attribute name="subType" use="optional" type="xlf:userDefinedValue"/>
+      <xs:attribute name="type" use="optional" type="xlf:attrType_type"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="pc">
+    <!-- Paired Code -->
+    <xs:complexType mixed="true">
+      <xs:group ref="xlf:inline" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:attribute name="canCopy" use="optional" type="xlf:yesNo" default="yes"/>
+      <xs:attribute name="canDelete" use="optional" type="xlf:yesNo" default="yes"/>
+      <xs:attribute name="canOverlap" use="optional" type="xlf:yesNo"/>
+      <xs:attribute name="canReorder" use="optional" type="xlf:yesNoFirstNo" default="yes"/>
+      <xs:attribute name="copyOf" use="optional" type="xs:NMTOKEN"/>
+      <xs:attribute name="dispEnd" use="optional"/>
+      <xs:attribute name="dispStart" use="optional"/>
+      <xs:attribute name="equivEnd" use="optional"/>
+      <xs:attribute name="equivStart" use="optional"/>
+      <xs:attribute name="id" use="required" type="xs:NMTOKEN"/>
+      <xs:attribute name="dataRefEnd" use="optional" type="xs:NMTOKEN"/>
+      <xs:attribute name="dataRefStart" use="optional" type="xs:NMTOKEN"/>
+      <xs:attribute name="subFlowsEnd" use="optional" type="xs:NMTOKENS"/>
+      <xs:attribute name="subFlowsStart" use="optional" type="xs:NMTOKENS"/>
+      <xs:attribute name="subType" use="optional" type="xlf:userDefinedValue"/>
+      <xs:attribute name="type" use="optional" type="xlf:attrType_type"/>
+      <xs:attribute name="dir" use="optional" type="xlf:dirValue"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="sc">
+    <!-- Start Code -->
+    <xs:complexType mixed="false">
+      <xs:attribute name="canCopy" use="optional" type="xlf:yesNo" default="yes"/>
+      <xs:attribute name="canDelete" use="optional" type="xlf:yesNo" default="yes"/>
+      <xs:attribute name="canOverlap" use="optional" type="xlf:yesNo" default="yes"/>
+      <xs:attribute name="canReorder" use="optional" type="xlf:yesNoFirstNo" default="yes"/>
+      <xs:attribute name="copyOf" use="optional" type="xs:NMTOKEN"/>
+      <xs:attribute name="dataRef" use="optional" type="xs:NMTOKEN"/>
+      <xs:attribute name="dir" use="optional" type="xlf:dirValue"/>
+      <xs:attribute name="disp" use="optional"/>
+      <xs:attribute name="equiv" use="optional"/>
+      <xs:attribute name="id" use="required" type="xs:NMTOKEN"/>
+      <xs:attribute name="isolated" use="optional" type="xlf:yesNo" default="no"/>
+      <xs:attribute name="subFlows" use="optional" type="xs:NMTOKENS"/>
+      <xs:attribute name="subType" use="optional" type="xlf:userDefinedValue"/>
+      <xs:attribute name="type" use="optional" type="xlf:attrType_type"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ec">
+    <!-- End Code -->
+    <xs:complexType mixed="false">
+      <xs:attribute name="canCopy" use="optional" type="xlf:yesNo" default="yes"/>
+      <xs:attribute name="canDelete" use="optional" type="xlf:yesNo" default="yes"/>
+      <xs:attribute name="canOverlap" use="optional" type="xlf:yesNo" default="yes"/>
+      <xs:attribute name="canReorder" use="optional" type="xlf:yesNoFirstNo" default="yes"/>
+      <xs:attribute name="copyOf" use="optional" type="xs:NMTOKEN"/>
+      <xs:attribute name="dataRef" use="optional" type="xs:NMTOKEN"/>
+      <xs:attribute name="dir" use="optional" type="xlf:dirValue"/>
+      <xs:attribute name="disp" use="optional"/>
+      <xs:attribute name="equiv" use="optional"/>
+      <xs:attribute name="id" use="optional" type="xs:NMTOKEN"/>
+      <xs:attribute name="isolated" use="optional" type="xlf:yesNo" default="no"/>
+      <xs:attribute name="startRef" use="optional" type="xs:NMTOKEN"/>
+      <xs:attribute name="subFlows" use="optional" type="xs:NMTOKENS"/>
+      <xs:attribute name="subType" use="optional" type="xlf:userDefinedValue"/>
+      <xs:attribute name="type" use="optional" type="xlf:attrType_type"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="mrk">
+    <!-- Annotation Marker -->
+    <xs:complexType mixed="true">
+      <xs:group ref="xlf:inline" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:attribute name="id" use="required" type="xs:NMTOKEN"/>
+      <xs:attribute name="translate" use="optional" type="xlf:yesNo"/>
+      <xs:attribute name="type" use="optional" type="xlf:attrType_typeForMrk"/>
+      <xs:attribute name="ref" use="optional" type="xs:anyURI"/>
+      <xs:attribute name="value" use="optional"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="sm">
+    <!-- Start Annotation Marker -->
+    <xs:complexType mixed="false">
+      <xs:attribute name="id" use="required" type="xs:NMTOKEN"/>
+      <xs:attribute name="translate" use="optional" type="xlf:yesNo"/>
+      <xs:attribute name="type" use="optional" type="xlf:attrType_typeForMrk"/>
+      <xs:attribute name="ref" use="optional" type="xs:anyURI"/>
+      <xs:attribute name="value" use="optional"/>
+      <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="em">
+    <!-- End Annotation Marker -->
+    <xs:complexType mixed="false">
+      <xs:attribute name="startRef" use="required" type="xs:NMTOKEN"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

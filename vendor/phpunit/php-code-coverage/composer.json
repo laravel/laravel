@@ -1,0 +1,68 @@
+{
+    "name": "phpunit/php-code-coverage",
+    "description": "Library that provides collection, processing, and rendering functionality for PHP code coverage information.",
+    "type": "library",
+    "keywords": [
+        "coverage",
+        "testing",
+        "xunit"
+    ],
+    "homepage": "https://github.com/sebastianbergmann/php-code-coverage",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de",
+            "role": "lead"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
+        "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2",
+        "ext-dom": "*",
+        "ext-libxml": "*",
+        "ext-xmlwriter": "*",
+        "nikic/php-parser": "^5.7.0",
+        "phpunit/php-file-iterator": "^5.1.0",
+        "phpunit/php-text-template": "^4.0.1",
+        "sebastian/code-unit-reverse-lookup": "^4.0.1",
+        "sebastian/complexity": "^4.0.1",
+        "sebastian/environment": "^7.2.1",
+        "sebastian/lines-of-code": "^3.0.1",
+        "sebastian/version": "^5.0.2",
+        "theseer/tokenizer": "^1.3.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5.46"
+    },
+    "suggest": {
+        "ext-pcov": "PHP extension that provides line coverage",
+        "ext-xdebug": "PHP extension that provides line coverage as well as branch and path coverage"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "11.0.x-dev"
+        }
+    }
+}

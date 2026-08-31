@@ -1,0 +1,125 @@
+{
+    "name": "nesbot/carbon",
+    "description": "An API extension for DateTime that supports 281 different languages.",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "date",
+        "time",
+        "DateTime"
+    ],
+    "authors": [
+        {
+            "name": "Brian Nesbitt",
+            "email": "brian@nesbot.com",
+            "homepage": "https://markido.com"
+        },
+        {
+            "name": "kylekatarnls",
+            "homepage": "https://github.com/kylekatarnls"
+        }
+    ],
+    "homepage": "https://carbonphp.github.io/carbon/",
+    "support": {
+        "issues": "https://github.com/CarbonPHP/carbon/issues",
+        "source": "https://github.com/CarbonPHP/carbon",
+        "docs": "https://carbonphp.github.io/carbon/guide/getting-started/introduction.html"
+    },
+    "funding": [
+        {
+            "url": "https://github.com/sponsors/kylekatarnls",
+            "type": "github"
+        },
+        {
+            "url": "https://tidelift.com/subscription/pkg/packagist-nesbot-carbon?utm_source=packagist-nesbot-carbon&utm_medium=referral&utm_campaign=readme",
+            "type": "tidelift"
+        },
+        {
+            "url": "https://opencollective.com/Carbon#sponsor",
+            "type": "opencollective"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-json": "*",
+        "carbonphp/carbon-doctrine-types": "<100.0",
+        "psr/clock": "^1.0",
+        "symfony/clock": "^6.3.12 || ^7.0 || ^8.0",
+        "symfony/polyfill-mbstring": "^1.0",
+        "symfony/translation": "^4.4.18 || ^5.2.1 || ^6.0 || ^7.0 || ^8.0"
+    },
+    "require-dev": {
+        "doctrine/dbal": "^3.6.3 || ^4.0",
+        "doctrine/orm": "^2.15.2 || ^3.0",
+        "friendsofphp/php-cs-fixer": "^v3.87.1",
+        "kylekatarnls/multi-tester": "^2.5.3",
+        "phpmd/phpmd": "^2.15.0",
+        "phpstan/extension-installer": "^1.4.3",
+        "phpstan/phpstan": "^2.1.22",
+        "phpunit/phpunit": "^10.5.53",
+        "squizlabs/php_codesniffer": "^3.13.4 || ^4.0.0"
+    },
+    "provide": {
+        "psr/clock-implementation": "1.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Carbon\\": "src/Carbon/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        },
+        "files": [
+            "tests/Laravel/ServiceProvider.php"
+        ]
+    },
+    "bin": [
+        "bin/carbon"
+    ],
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "composer/package-versions-deprecated": true
+        },
+        "process-timeout": 0,
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.x-dev",
+            "dev-2.x": "2.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Carbon\\Laravel\\ServiceProvider"
+            ]
+        },
+        "phpstan": {
+            "includes": [
+                "extension.neon"
+            ]
+        }
+    },
+    "scripts": {
+        "phpcs": "php-cs-fixer fix -v --diff --dry-run",
+        "phpdoc": "php phpdoc.php",
+        "phpmd": "phpmd src text /phpmd.xml",
+        "phpmd-test": "phpmd tests text /tests/phpmd-test.xml",
+        "phpstan": "phpstan analyse --configuration phpstan.neon --memory-limit 1024M",
+        "phpunit": "phpunit",
+        "style-check": [
+            "@phpcs",
+            "@phpstan",
+            "@phpmd"
+        ],
+        "test": [
+            "@phpunit",
+            "@style-check"
+        ],
+        "sponsors": "php sponsors.php"
+    }
+}

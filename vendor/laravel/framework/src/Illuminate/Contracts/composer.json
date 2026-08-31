@@ -1,0 +1,35 @@
+{
+    "name": "illuminate/contracts",
+    "description": "The Illuminate Contracts package.",
+    "license": "MIT",
+    "homepage": "https://laravel.com",
+    "support": {
+        "issues": "https://github.com/laravel/framework/issues",
+        "source": "https://github.com/laravel/framework"
+    },
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "psr/container": "^1.1.1|^2.0.1",
+        "psr/simple-cache": "^1.0|^2.0|^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Illuminate\\Contracts\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "12.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

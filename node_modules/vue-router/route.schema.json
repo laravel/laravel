@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/posva/unplugin-vue-router/main/route.schema.json",
+  "title": "Route custom block",
+  "description": "An SFC custom block to add information to a route",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the route"
+    },
+    "path": {
+      "type": "string",
+      "description": "The path of the route"
+    },
+    "meta": {
+      "type": "object",
+      "description": "The meta of the route"
+    },
+    "props": {
+      "type": "boolean",
+      "description": "Whether the route should be passed its params as props"
+    }
+  }
+}

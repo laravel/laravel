@@ -1,0 +1,37 @@
+{
+    "name": "voku/portable-ascii",
+    "description": "Portable ASCII library - performance optimized (ascii) string functions for php.",
+    "type": "library",
+    "keywords": [
+        "clean",
+        "php",
+        "ascii"
+    ],
+    "homepage": "https://github.com/voku/portable-ascii",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lars Moelleken",
+            "homepage": "https://www.moelleken.org/"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~8.5 || ~9.6 || ~10.5 || ~11.5"
+    },
+    "suggest": {
+        "ext-intl": "Use Intl for transliterator_transliterate() support"
+    },
+    "autoload": {
+        "psr-4": {
+            "voku\\": "src/voku/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "voku\\tests\\": "tests/"
+        }
+    }
+}

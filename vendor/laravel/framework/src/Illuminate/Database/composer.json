@@ -1,0 +1,55 @@
+{
+    "name": "illuminate/database",
+    "description": "The Illuminate Database package.",
+    "license": "MIT",
+    "homepage": "https://laravel.com",
+    "support": {
+        "issues": "https://github.com/laravel/framework/issues",
+        "source": "https://github.com/laravel/framework"
+    },
+    "keywords": ["laravel", "database", "sql", "orm"],
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-pdo": "*",
+        "brick/math": "^0.11|^0.12|^0.13|^0.14",
+        "illuminate/collections": "^12.0",
+        "illuminate/container": "^12.0",
+        "illuminate/contracts": "^12.0",
+        "illuminate/macroable": "^12.0",
+        "illuminate/support": "^12.0",
+        "laravel/serializable-closure": "^1.3|^2.0",
+        "symfony/polyfill-php83": "^1.33",
+        "symfony/polyfill-php84": "^1.34",
+        "symfony/polyfill-php85": "^1.34"
+    },
+    "autoload": {
+        "psr-4": {
+            "Illuminate\\Database\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "12.x-dev"
+        }
+    },
+    "suggest": {
+        "ext-filter": "Required to use the Postgres database driver.",
+        "fakerphp/faker": "Required to use the eloquent factory builder (^1.24).",
+        "illuminate/console": "Required to use the database commands (^12.0).",
+        "illuminate/events": "Required to use the observers with Eloquent (^12.0).",
+        "illuminate/filesystem": "Required to use the migrations (^12.0).",
+        "illuminate/http": "Required to convert Eloquent models to API resources (^12.0).",
+        "illuminate/pagination": "Required to paginate the result set (^12.0).",
+        "symfony/finder": "Required to use Eloquent model factories (^7.2)."
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

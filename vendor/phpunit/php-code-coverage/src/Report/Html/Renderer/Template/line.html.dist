@@ -1,0 +1,1 @@
+    <tr class="{{class}} d-flex"><td {{popover}} class="col-1 text-end"><a id="{{lineNumber}}" href="#{{lineNumber}}">{{lineNumber}}</a></td><td class="col-11 codeLine">{{lineContent}}</td></tr>

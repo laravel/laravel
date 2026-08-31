@@ -1,3 +1,38 @@
+# SENSUS
+
+SENSUS is a Laravel API with a Vue and Vite single-page application for disaster monitoring, hardware ingestion, occupancy, and role-based dashboards.
+
+## Local development
+
+Ensure MySQL is running in XAMPP, then run this command from the project root:
+
+```
+composer run dev
+```
+
+Open `http://127.0.0.1:8000` in the browser. The command starts Laravel on `127.0.0.1:8000` and Vite on `127.0.0.1:5173`.
+
+## Structure
+
+- `app/Domains`: business workflows such as hardware ingestion and disaster-state transitions.
+- `app/Http/Controllers`: thin API controllers that coordinate requests and responses.
+- `app/Http/Requests/Api/V1`: reusable API validation rules.
+- `resources/js/services`: the shared API client.
+- `resources/js/pages`: route-level dashboard views.
+- `resources/js/stores`: shared client state such as authentication.
+- `routes/api.php`: authenticated API endpoints.
+
+The API uses `/api` as its base path. The Vue API client is configured once in `resources/js/services/api.js`; feature code should use paths such as `/nodes` rather than repeating `/api`.
+
+## Checks
+
+```powershell
+& "C:\xampp\php\php.exe" artisan test
+npm.cmd run build
+```
+
+## Laravel reference
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

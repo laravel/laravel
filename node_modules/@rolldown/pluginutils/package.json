@@ -1,0 +1,40 @@
+{
+  "name": "@rolldown/pluginutils",
+  "version": "1.0.1",
+  "description": "Plugin utilities for Rolldown",
+  "keywords": [
+    "filter",
+    "plugin",
+    "rolldown"
+  ],
+  "homepage": "https://github.com/rolldown/plugins/tree/main/packages/pluginutils#readme",
+  "bugs": {
+    "url": "https://github.com/rolldown/plugins/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rolldown/plugins.git",
+    "directory": "packages/pluginutils"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./filter": "./dist/filter/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "devDependencies": {
+    "@types/picomatch": "^4.0.3",
+    "picomatch": "^4.0.4",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "dev": "tsdown --watch",
+    "build": "tsdown",
+    "test": "vitest --project pluginutils",
+    "test:types": "vitest --project pluginutils --typecheck.only"
+  }
+}

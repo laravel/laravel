@@ -1,0 +1,38 @@
+{
+    "name": "psr/http-factory",
+    "description": "PSR-17: Common interfaces for PSR-7 HTTP message factories",
+    "keywords": [
+        "psr",
+        "psr-7",
+        "psr-17",
+        "http",
+        "factory",
+        "message",
+        "request",
+        "response"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "PHP-FIG",
+            "homepage": "https://www.php-fig.org/"
+        }
+    ],
+    "support": {
+        "source": "https://github.com/php-fig/http-factory"
+    },
+    "require": {
+        "php": ">=7.1",
+        "psr/http-message": "^1.0 || ^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Psr\\Http\\Message\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}

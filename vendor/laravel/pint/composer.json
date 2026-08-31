@@ -1,0 +1,62 @@
+{
+    "name": "laravel/pint",
+    "description": "An opinionated code formatter for PHP.",
+    "keywords": ["php", "format", "formatter", "lint", "linter", "dev"],
+    "homepage": "https://laravel.com",
+    "type": "project",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/laravel/pint/issues",
+        "source": "https://github.com/laravel/pint"
+    },
+    "authors": [
+        {
+            "name": "Nuno Maduro",
+            "email": "enunomaduro@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2.0",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-tokenizer": "*",
+        "ext-xml": "*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.95.8",
+        "illuminate/view": "^12.62.0",
+        "larastan/larastan": "^3.10.0",
+        "laravel-zero/framework": "^12.1.0",
+        "mockery/mockery": "^1.6.12",
+        "nunomaduro/termwind": "^2.4.0",
+        "pestphp/pest": "^3.8.6",
+        "laravel/agent-detector": "^2.0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Scripts\\": "scripts/",
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "8.2.0"
+        },
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "bin": ["builds/pint"]
+}

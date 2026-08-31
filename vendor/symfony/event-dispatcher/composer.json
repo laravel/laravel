@@ -1,0 +1,48 @@
+{
+    "name": "symfony/event-dispatcher",
+    "type": "library",
+    "description": "Provides tools that allow your application components to communicate with each other by dispatching events and listening to them",
+    "keywords": [],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "symfony/event-dispatcher-contracts": "^2.5|^3"
+    },
+    "require-dev": {
+        "symfony/dependency-injection": "^6.4|^7.0|^8.0",
+        "symfony/expression-language": "^6.4|^7.0|^8.0",
+        "symfony/config": "^6.4|^7.0|^8.0",
+        "symfony/error-handler": "^6.4|^7.0|^8.0",
+        "symfony/framework-bundle": "^6.4|^7.0|^8.0",
+        "symfony/http-foundation": "^6.4|^7.0|^8.0",
+        "symfony/service-contracts": "^2.5|^3",
+        "symfony/stopwatch": "^6.4|^7.0|^8.0",
+        "psr/log": "^1|^2|^3"
+    },
+    "conflict": {
+        "symfony/dependency-injection": "<6.4",
+        "symfony/service-contracts": "<2.5"
+    },
+    "provide": {
+        "psr/event-dispatcher-implementation": "1.0",
+        "symfony/event-dispatcher-implementation": "2.0|3.0"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Component\\EventDispatcher\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "minimum-stability": "dev"
+}

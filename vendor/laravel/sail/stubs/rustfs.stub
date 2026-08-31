@@ -1,0 +1,26 @@
+rustfs:
+    image: 'rustfs/rustfs:latest'
+    ports:
+        - '${FORWARD_RUSTFS_PORT:-9000}:9000'
+        - '${FORWARD_RUSTFS_CONSOLE_PORT:-9001}:9001'
+    environment:
+        RUSTFS_VOLUMES: '/data'
+        RUSTFS_ADDRESS: '0.0.0.0:9000'
+        RUSTFS_CONSOLE_ADDRESS: '0.0.0.0:9001'
+        RUSTFS_CONSOLE_ENABLE: 'true'
+        RUSTFS_EXTERNAL_ADDRESS: ':9000'
+        RUSTFS_CORS_ALLOWED_ORIGINS: '*'
+        RUSTFS_CONSOLE_CORS_ALLOWED_ORIGINS: '*'
+        RUSTFS_ACCESS_KEY: 'sail'
+        RUSTFS_SECRET_KEY: 'password'
+        RUSTFS_LOG_LEVEL: 'info'
+    volumes:
+        - 'sail-rustfs:/data'
+    networks:
+        - sail
+    healthcheck:
+        test: ["CMD", "sh", "-c", "curl -f http://127.0.0.1:9000/health && curl -f http://127.0.0.1:9001/health"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+        start_period: 40s

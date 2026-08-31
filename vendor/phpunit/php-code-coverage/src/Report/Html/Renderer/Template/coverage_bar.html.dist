@@ -1,0 +1,5 @@
+       <div class="progress">
+         <div class="progress-bar bg-{{level}}" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percent}}%">
+           <span class="visually-hidden">{{percent}}% covered ({{level}})</span>
+         </div>
+       </div>

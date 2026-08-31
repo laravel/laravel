@@ -1,4 +1,3 @@
-import axios from 'axios';
-window.axios = axios;
+import api from './services/api';
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios = api;

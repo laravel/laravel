@@ -1,0 +1,42 @@
+{
+  "name": "@tailwindcss/vite",
+  "version": "4.3.3",
+  "description": "A utility-first CSS framework for rapidly building custom user interfaces.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tailwindlabs/tailwindcss.git",
+    "directory": "packages/@tailwindcss-vite"
+  },
+  "bugs": "https://github.com/tailwindlabs/tailwindcss/issues",
+  "homepage": "https://tailwindcss.com",
+  "files": [
+    "dist/"
+  ],
+  "publishConfig": {
+    "provenance": true,
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "dependencies": {
+    "@tailwindcss/oxide": "4.3.3",
+    "@tailwindcss/node": "4.3.3",
+    "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.21",
+    "vite": "^8.1.2"
+  },
+  "peerDependencies": {
+    "vite": "^5.2.0 || ^6 || ^7 || ^8"
+  },
+  "scripts": {
+    "build": "tsup-node",
+    "dev": "pnpm run build -- --watch"
+  }
+}

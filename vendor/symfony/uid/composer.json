@@ -1,0 +1,36 @@
+{
+    "name": "symfony/uid",
+    "type": "library",
+    "description": "Provides an object-oriented API to generate and represent UIDs",
+    "keywords": ["uid", "uuid", "ulid"],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Grégoire Pineau",
+            "email": "lyrixx@lyrixx.info"
+        },
+        {
+            "name": "Nicolas Grekas",
+            "email": "p@tchwork.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "symfony/polyfill-uuid": "^1.15"
+    },
+    "require-dev": {
+        "symfony/console": "^6.4|^7.0|^8.0"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Component\\Uid\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "minimum-stability": "dev"
+}

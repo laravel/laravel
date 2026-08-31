@@ -1,0 +1,45 @@
+{
+  "name": "@babel/helper-validator-identifier",
+  "version": "8.0.4",
+  "description": "Validate identifier/keywords name",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/babel/babel.git",
+    "directory": "packages/babel-helper-validator-identifier"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./lib/index.js",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "imports": {
+    "#identifier": {
+      "babel-src": {
+        "browser": "./src/identifier-browser.ts",
+        "default": "./src/identifier.ts"
+      },
+      "types": "./lib/identifier.d.ts",
+      "browser": "./lib/identifier-browser.js",
+      "default": "./lib/identifier.js"
+    }
+  },
+  "devDependencies": {
+    "@types/regenerate": "^1.4.0",
+    "@unicode/unicode-16.0.0": "^1.6.17",
+    "@unicode/unicode-17.0.0": "^1.6.17",
+    "charcodes": "^0.2.0",
+    "regenerate": "^1.4.0"
+  },
+  "engines": {
+    "node": "^22.18.0 || >=24.11.0"
+  },
+  "author": "The Babel Team (https://babel.dev/team)",
+  "type": "module"
+}

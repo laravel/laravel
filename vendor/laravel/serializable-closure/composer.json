@@ -1,0 +1,56 @@
+{
+    "name": "laravel/serializable-closure",
+    "description": "Laravel Serializable Closure provides an easy and secure way to serialize closures in PHP.",
+    "keywords": ["laravel", "Serializable", "closure"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/laravel/serializable-closure/issues",
+        "source": "https://github.com/laravel/serializable-closure"
+    },
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        },
+        {
+            "name": "Nuno Maduro",
+            "email": "nuno@laravel.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    },
+    "require-dev": {
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+        "nesbot/carbon": "^2.67|^3.0",
+        "pestphp/pest": "^2.36|^3.0|^4.0",
+        "phpstan/phpstan": "^2.0",
+        "symfony/var-dumper": "^6.2.0|^7.0.0|^8.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laravel\\SerializableClosure\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "audit": {
+            "block-insecure": false
+        },
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -1,0 +1,7 @@
+{
+	"extends": "@ljharb/tsconfig",
+	"compilerOptions": {
+		"target": "es5",
+		"ignoreDeprecations": "6.0",
+	},
+}

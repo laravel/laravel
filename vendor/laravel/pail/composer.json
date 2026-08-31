@@ -1,0 +1,70 @@
+{
+    "name": "laravel/pail",
+    "description": "Easily delve into your Laravel application's log files directly from the command line.",
+    "keywords": ["php", "tail", "laravel", "logs", "dev"],
+    "homepage": "https://github.com/laravel/pail",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/laravel/pail/issues",
+        "source": "https://github.com/laravel/pail"
+    },
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        },
+        {
+            "name": "Nuno Maduro",
+            "email": "enunomaduro@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-mbstring": "*",
+        "illuminate/console": "^10.24|^11.0|^12.0|^13.0",
+        "illuminate/contracts": "^10.24|^11.0|^12.0|^13.0",
+        "illuminate/log": "^10.24|^11.0|^12.0|^13.0",
+        "illuminate/process": "^10.24|^11.0|^12.0|^13.0",
+        "illuminate/support": "^10.24|^11.0|^12.0|^13.0",
+        "nunomaduro/termwind": "^1.15|^2.0",
+        "symfony/console": "^6.0|^7.0|^8.0"
+    },
+    "require-dev": {
+        "laravel/framework": "^10.24|^11.0|^12.0|^13.0",
+        "laravel/pint": "^1.13",
+        "orchestra/testbench-core": "^8.13|^9.17|^10.8|^11.0",
+        "pestphp/pest": "^2.20|^3.0|^4.0",
+        "pestphp/pest-plugin-type-coverage": "^2.3|^3.0|^4.0",
+        "phpstan/phpstan": "^1.12.27",
+        "symfony/var-dumper": "^6.3|^7.0|^8.0",
+        "symfony/yaml": "^6.3|^7.0|^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laravel\\Pail\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Laravel\\Pail\\PailServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

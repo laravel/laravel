@@ -1,0 +1,9 @@
+parameters:
+    bootstrapFiles:
+        - lazy/Carbon/UnprotectedDatePeriod.php
+
+services:
+    -
+        class: Carbon\PHPStan\MacroExtension
+        tags:
+            - phpstan.broker.methodsClassReflectionExtension

@@ -1,0 +1,25 @@
+{
+    "name": "league/flysystem-local",
+    "description": "Local filesystem adapter for Flysystem.",
+    "keywords": ["flysystem", "filesystem", "local", "file", "files"],
+    "type": "library",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "League\\Flysystem\\Local\\": ""
+        }
+    },
+    "require": {
+        "php": "^8.0.2",
+        "ext-fileinfo": "*",
+        "league/flysystem": "^3.0.0",
+        "league/mime-type-detection": "^1.0.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Frank de Jonge",
+            "email": "info@frankdejonge.nl"
+        }
+    ]
+}

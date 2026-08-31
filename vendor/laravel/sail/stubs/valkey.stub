@@ -1,0 +1,12 @@
+valkey:
+    image: 'valkey/valkey:alpine'
+    ports:
+        - '${FORWARD_VALKEY_PORT:-6379}:6379'
+    volumes:
+        - 'sail-valkey:/data'
+    networks:
+        - sail
+    healthcheck:
+        test: ["CMD", "valkey-cli", "ping"]
+        retries: 3
+        timeout: 5s

@@ -1,0 +1,72 @@
+{
+    "name": "league/flysystem",
+    "description": "File storage abstraction for PHP",
+    "keywords": [
+        "filesystem", "filesystems", "files", "storage", "aws",
+        "s3", "ftp", "sftp", "webdav", "file", "cloud"
+    ],
+    "scripts": {
+        "phpstan": "vendor/bin/phpstan analyse -l 6 src"
+    },
+    "type": "library",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "League\\Flysystem\\": "src"
+        }
+    },
+    "require": {
+        "php": "^8.0.2",
+        "league/flysystem-local":  "^3.0.0",
+        "league/mime-type-detection": "^1.0.0"
+    },
+    "require-dev": {
+        "ext-zip": "*",
+        "ext-fileinfo": "*",
+        "ext-ftp": "*",
+        "ext-mongodb": "^1.3|^2",
+        "microsoft/azure-storage-blob": "^1.1",
+        "phpunit/phpunit": "^9.5.11|^10.0",
+        "phpstan/phpstan": "^1.10",
+        "phpseclib/phpseclib": "^3.0.36",
+        "aws/aws-sdk-php": "^3.295.10",
+        "composer/semver": "^3.0",
+        "friendsofphp/php-cs-fixer": "^3.5",
+        "google/cloud-storage": "^1.23",
+        "async-aws/s3": "^1.5 || ^2.0",
+        "async-aws/simple-s3": "^1.1 || ^2.0",
+        "mongodb/mongodb": "^1.2|^2",
+        "sabre/dav": "^4.6.0",
+        "guzzlehttp/psr7": "^2.6"
+    },
+    "conflict": {
+        "async-aws/core": "<1.19.0",
+        "async-aws/s3": "<1.14.0",
+        "symfony/http-client": "<5.2",
+        "guzzlehttp/ringphp": "<1.1.1",
+        "guzzlehttp/guzzle": "<7.0",
+        "aws/aws-sdk-php": "3.209.31 || 3.210.0",
+        "phpseclib/phpseclib": "3.0.15"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Frank de Jonge",
+            "email": "info@frankdejonge.nl"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "league/flysystem-local",
+                "version": "3.0.0",
+                "dist": {
+                    "type": "path",
+                    "url": "src/Local"
+                }
+            }
+        }
+    ]
+}

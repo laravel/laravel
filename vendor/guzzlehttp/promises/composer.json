@@ -1,0 +1,61 @@
+{
+    "name": "guzzlehttp/promises",
+    "description": "Guzzle promises library",
+    "license": "MIT",
+    "keywords": [
+        "promise"
+    ],
+    "authors": [
+        {
+            "name": "Graham Campbell",
+            "email": "hello@gjcampbell.co.uk",
+            "homepage": "https://github.com/GrahamCampbell"
+        },
+        {
+            "name": "Michael Dowling",
+            "email": "mtdowling@gmail.com",
+            "homepage": "https://github.com/mtdowling"
+        },
+        {
+            "name": "Tobias Nyholm",
+            "email": "tobias.nyholm@gmail.com",
+            "homepage": "https://github.com/Nyholm"
+        },
+        {
+            "name": "Tobias Schultze",
+            "email": "webmaster@tubo-world.de",
+            "homepage": "https://github.com/Tobion"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5 || ^8.0",
+        "symfony/deprecation-contracts": "^2.5 || ^3.0"
+    },
+    "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.8.2",
+        "phpunit/phpunit": "^8.5.52 || ^9.6.34"
+    },
+    "autoload": {
+        "psr-4": {
+            "GuzzleHttp\\Promise\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GuzzleHttp\\Promise\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        },
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": true,
+            "forward-command": false
+        }
+    }
+}

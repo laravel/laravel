@@ -1,0 +1,27 @@
+{
+    "name": "psr/container",
+    "type": "library",
+    "description": "Common Container Interface (PHP FIG PSR-11)",
+    "keywords": ["psr", "psr-11", "container", "container-interop", "container-interface"],
+    "homepage": "https://github.com/php-fig/container",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "PHP-FIG",
+            "homepage": "https://www.php-fig.org/"
+        }
+    ],
+    "require": {
+        "php": ">=7.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Psr\\Container\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev"
+        }
+    }
+}

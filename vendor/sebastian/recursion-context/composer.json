@@ -1,0 +1,48 @@
+{
+    "name": "sebastian/recursion-context",
+    "description": "Provides functionality to recursively process PHP variables",
+    "homepage": "https://github.com/sebastianbergmann/recursion-context",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de"
+        },
+        {
+            "name": "Jeff Welch",
+            "email": "whatthejeff@gmail.com"
+        },
+        {
+            "name": "Adam Harvey",
+            "email": "aharvey@php.net"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/recursion-context/issues",
+        "security": "https://github.com/sebastianbergmann/recursion-context/security/policy"
+    },
+    "prefer-stable": true,
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "require": {
+        "php": ">=8.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.3"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "6.0-dev"
+        }
+    }
+}

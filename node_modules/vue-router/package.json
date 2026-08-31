@@ -1,0 +1,214 @@
+{
+  "name": "vue-router",
+  "version": "5.2.0",
+  "homepage": "https://router.vuejs.org",
+  "bugs": {
+    "url": "https://github.com/vuejs/router/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Eduardo San Martin Morote",
+    "email": "posva13@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuejs/router.git"
+  },
+  "funding": "https://github.com/sponsors/posva",
+  "files": [
+    "dist",
+    "index.cjs",
+    "README.md",
+    "route.schema.json",
+    "vue-router-auto-resolver.d.mts",
+    "vue-router-auto-routes.d.mts",
+    "vue-router-auto.d.ts",
+    "vue-router.node.mjs",
+    "vetur/attributes.json",
+    "vetur/tags.json"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "index.cjs",
+  "module": "dist/vue-router.js",
+  "types": "dist/vue-router.d.ts",
+  "typesVersions": {
+    "*": {
+      "vite": [
+        "./dist/unplugin/vite.d.mts"
+      ],
+      "unplugin": [
+        "./dist/unplugin/index.d.mts"
+      ],
+      "unplugin/*": [
+        "./dist/unplugin/*.d.mts"
+      ],
+      "volar/*": [
+        "./dist/volar/*.d.cts"
+      ]
+    }
+  },
+  "unpkg": "dist/vue-router.global.js",
+  "jsdelivr": "dist/vue-router.global.js",
+  "exports": {
+    ".": {
+      "types": "./dist/vue-router.d.ts",
+      "node": {
+        "import": {
+          "production": "./vue-router.node.mjs",
+          "development": "./vue-router.node.mjs",
+          "default": "./vue-router.node.mjs"
+        },
+        "require": {
+          "production": "./dist/vue-router.prod.cjs",
+          "development": "./dist/vue-router.cjs",
+          "default": "./index.cjs"
+        }
+      },
+      "import": "./dist/vue-router.js",
+      "require": "./index.cjs"
+    },
+    "./vetur/*": "./vetur/*",
+    "./package.json": "./package.json",
+    "./experimental": {
+      "types": "./dist/experimental/index.d.ts",
+      "import": "./dist/experimental/index.js"
+    },
+    "./experimental/pinia-colada": {
+      "types": "./dist/experimental/pinia-colada.d.ts",
+      "import": "./dist/experimental/pinia-colada.js"
+    },
+    "./auto-resolver": {
+      "types": "./vue-router-auto-resolver.d.mts"
+    },
+    "./auto-routes": {
+      "types": "./vue-router-auto-routes.d.mts"
+    },
+    "./auto": {
+      "types": "./vue-router-auto.d.ts",
+      "node": {
+        "import": {
+          "production": "./vue-router.node.mjs",
+          "development": "./vue-router.node.mjs",
+          "default": "./vue-router.node.mjs"
+        },
+        "require": {
+          "production": "./dist/vue-router.prod.cjs",
+          "development": "./dist/vue-router.cjs",
+          "default": "./index.cjs"
+        }
+      },
+      "import": "./dist/vue-router.js",
+      "require": "./index.cjs"
+    },
+    "./vite": {
+      "types": "./dist/unplugin/vite.d.mts",
+      "import": "./dist/unplugin/vite.mjs",
+      "require": "./dist/unplugin/vite.cjs"
+    },
+    "./unplugin": {
+      "types": "./dist/unplugin/index.d.mts",
+      "import": "./dist/unplugin/index.mjs",
+      "require": "./dist/unplugin/index.cjs"
+    },
+    "./unplugin/*": "./dist/unplugin/*",
+    "./volar/sfc-route-blocks": {
+      "types": "./dist/volar/sfc-route-blocks.d.cts",
+      "default": "./dist/volar/sfc-route-blocks.cjs"
+    },
+    "./volar/sfc-typed-router": {
+      "types": "./dist/volar/sfc-typed-router.d.cts",
+      "default": "./dist/volar/sfc-typed-router.cjs"
+    },
+    "./dist/*": "./dist/*"
+  },
+  "dependencies": {
+    "@babel/generator": "^8.0.0",
+    "@vue-macros/common": "^3.1.3",
+    "@vue/devtools-api": "^8.1.5",
+    "ast-walker-scope": "^0.9.0",
+    "chokidar": "^5.0.0",
+    "json5": "^2.2.3",
+    "local-pkg": "^1.2.1",
+    "magic-string": "^0.30.21",
+    "mlly": "^1.8.2",
+    "muggle-string": "^0.4.1",
+    "nostics": "^1.1.4",
+    "pathe": "^2.0.3",
+    "picomatch": "^4.0.5",
+    "scule": "^1.3.0",
+    "tinyglobby": "^0.2.17",
+    "unplugin": "^3.3.0",
+    "unplugin-utils": "^0.3.2",
+    "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "@babel/types": "^8.0.0",
+    "@pinia/colada": "^1.3.1",
+    "@playwright/test": "^1.61.1",
+    "@rollup/plugin-commonjs": "^29.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-replace": "^6.0.3",
+    "@rollup/plugin-terser": "^1.0.0",
+    "@standard-schema/spec": "^1.1.0",
+    "@types/babel__generator": "^7.27.0",
+    "@types/picomatch": "^4.0.3",
+    "@typescript/native-preview": "7.0.0-dev.20260707.2",
+    "@vitejs/plugin-vue": "^6.0.7",
+    "@vue/compiler-sfc": "^3.5.34",
+    "@vue/language-core": "^3.3.7",
+    "@vue/server-renderer": "^3.5.34",
+    "@vue/test-utils": "^2.4.11",
+    "connect-history-api-fallback": "^2.0.0",
+    "faked-promise": "^2.2.2",
+    "happy-dom": "^20.10.6",
+    "pinia": "^3.0.4",
+    "rimraf": "^6.1.3",
+    "rollup": "^4.62.2",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "tsdown": "^0.22.7",
+    "tsup": "^8.5.1",
+    "valibot": "^1.4.2",
+    "vite": "^7.3.0",
+    "vue": "^3.5.34",
+    "zod": "^4.4.3"
+  },
+  "peerDependencies": {
+    "@pinia/colada": ">=0.21.2",
+    "@vue/compiler-sfc": "^3.5.34 || ^4.0.0",
+    "pinia": "^3.0.4 || ^4.0.2",
+    "vite": "^7.3.0 || ^8.0.0",
+    "vue": "^3.5.34 || ^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@vue/compiler-sfc": {
+      "optional": true
+    },
+    "pinia": {
+      "optional": true
+    },
+    "@pinia/colada": {
+      "optional": true
+    },
+    "vite": {
+      "optional": true
+    }
+  },
+  "vetur": {
+    "tags": "vetur/tags.json",
+    "attributes": "vetur/attributes.json"
+  },
+  "scripts": {
+    "dev": "vitest --ui",
+    "build": "tsdown",
+    "build:old": "rimraf dist && rollup -c rollup.config.mjs",
+    "build:playground": "vue-tsc --noEmit && vite build --config playground/vite.config.ts",
+    "build:e2e": "vue-tsc --noEmit && vite build --config e2e/vite.config.mjs",
+    "build:size": "pnpm run build && rollup -c size-checks/rollup.config.mjs",
+    "dev:e2e": "vite --config e2e/vite.config.mjs",
+    "test:types": "tsgo --build tsconfig.json ./test-dts/tsconfig.experimental.json",
+    "test:unit": "vitest --coverage run",
+    "test": "pnpm run build && pnpm run '/^(test:unit|test:types)$/' && pnpm run test:e2e",
+    "test:e2e": "playwright test"
+  }
+}

@@ -1,0 +1,98 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+if ('cli' !== \PHP_SAPI) {
+    throw new Exception('This script must be run from the command line.');
+}
+
+if (\in_array('-h', $argv) || \in_array('--help', $argv)) {
+    echo implode(PHP_EOL, [
+        ' Patches type declarations based on "@return" PHPDoc and triggers deprecations for',
+        ' incompatible method declarations.',
+        '',
+        ' This assists you to make your package compatible with Symfony 7, but it can be used',
+        ' for any class/package.',
+        '',
+        ' Available configuration via environment variables:',
+        '  SYMFONY_PATCH_TYPE_DECLARATIONS',
+        '      A url-encoded string to change the behavior of the script. Available parameters:',
+        '      - "force": any value enables deprecation notices - can be any of:',
+        '          - "phpdoc" to patch only docblock annotations',
+        '          - "2" to add all possible return types',
+        '          - "1" to add return types but only to tests/final/internal/private methods',
+        '      - "php": the target version of PHP - e.g. "7.1" doesn\'t generate "object" types',
+        '      - "deprecations": "1" to trigger a deprecation notice when a child class misses a',
+        '                        return type while the parent declares an "@return" annotation',
+        '',
+        '  SYMFONY_PATCH_TYPE_EXCLUDE',
+        '      A regex matched against the full path to the class - any match will be excluded',
+        '',
+        ' Example: "SYMFONY_PATCH_TYPE_DECLARATIONS=php=7.4 ./patch-type-declarations"',
+    ]);
+    exit;
+}
+
+if (false === getenv('SYMFONY_PATCH_TYPE_DECLARATIONS')) {
+    putenv('SYMFONY_PATCH_TYPE_DECLARATIONS=force=2');
+    echo 'No SYMFONY_PATCH_TYPE_DECLARATIONS env var set, patching type declarations in all methods (run the command with "-h" for more information).'.PHP_EOL;
+}
+
+if (is_file($autoload = __DIR__.'/../../../../autoload.php')) {
+    // noop
+} elseif (is_file($autoload = __DIR__.'/../../../../../../../autoload.php')) {
+    // noop
+} else {
+    echo PHP_EOL.'  /!\ Cannot find the Composer autoloader, did you forget to run "composer install"?'.PHP_EOL;
+    exit(1);
+}
+
+if (is_file($phpunitAutoload = dirname($autoload).'/bin/.phpunit/phpunit/vendor/autoload.php')) {
+    require $phpunitAutoload;
+}
+
+$loader = require $autoload;
+
+Symfony\Component\ErrorHandler\DebugClassLoader::enable();
+
+$deprecations = [];
+set_error_handler(function ($type, $msg, $file, $line, $context = []) use (&$deprecations) {
+    if (\E_USER_DEPRECATED !== $type) {
+        return;
+    }
+
+    [,,,,, $class,] = explode('"', $msg);
+    $deprecations[$class][] = $msg;
+});
+
+$exclude = getenv('SYMFONY_PATCH_TYPE_EXCLUDE') ?: null;
+foreach ($loader->getClassMap() as $class => $file) {
+    if (str_contains($file = realpath($file), \DIRECTORY_SEPARATOR.'vendor'.\DIRECTORY_SEPARATOR)) {
+        continue;
+    }
+
+    if ($exclude && preg_match($exclude, $file)) {
+        continue;
+    }
+
+    class_exists($class);
+}
+
+Symfony\Component\ErrorHandler\DebugClassLoader::checkClasses();
+
+foreach ($deprecations as $class => $classDeprecations) {
+    echo $class.' ('.\count($classDeprecations).')'.PHP_EOL;
+    echo implode(PHP_EOL, $classDeprecations).PHP_EOL.PHP_EOL;
+}
+
+if ($deprecations && str_contains(getenv('SYMFONY_PATCH_TYPE_DECLARATIONS') ?? '', 'force')) {
+    echo 'These deprecations might be fixed by the patch script, run this again to check for type deprecations.'.PHP_EOL;
+}

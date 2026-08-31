@@ -1,0 +1,50 @@
+{
+    "name": "illuminate/validation",
+    "description": "The Illuminate Validation package.",
+    "license": "MIT",
+    "homepage": "https://laravel.com",
+    "support": {
+        "issues": "https://github.com/laravel/framework/issues",
+        "source": "https://github.com/laravel/framework"
+    },
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-filter": "*",
+        "ext-mbstring": "*",
+        "brick/math": "^0.11|^0.12|^0.13|^0.14",
+        "egulias/email-validator": "^3.2.5|^4.0",
+        "illuminate/collections": "^12.0",
+        "illuminate/container": "^12.0",
+        "illuminate/contracts": "^12.0",
+        "illuminate/macroable": "^12.0",
+        "illuminate/support": "^12.0",
+        "illuminate/translation": "^12.0",
+        "symfony/http-foundation": "^7.2",
+        "symfony/mime": "^7.2",
+        "symfony/polyfill-php83": "^1.33"
+    },
+    "autoload": {
+        "psr-4": {
+            "Illuminate\\Validation\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "12.x-dev"
+        }
+    },
+    "suggest": {
+        "illuminate/database": "Required to use the database presence verifier (^12.0).",
+        "ramsey/uuid": "Required to use Validator::validateUuid() (^4.7)."
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev"
+}

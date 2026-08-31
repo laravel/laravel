@@ -1,0 +1,129 @@
+{
+    "name": "league/commonmark",
+    "type": "library",
+    "description": "Highly-extensible PHP Markdown parser which fully supports the CommonMark spec and GitHub-Flavored Markdown (GFM)",
+    "keywords": ["markdown","parser","commonmark","gfm","github","flavored","github-flavored","md"],
+    "homepage": "https://commonmark.thephpleague.com",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Colin O'Dell",
+            "email": "colinodell@gmail.com",
+            "homepage": "https://www.colinodell.com",
+            "role": "Lead Developer"
+        }
+    ],
+    "support": {
+        "docs": "https://commonmark.thephpleague.com/",
+        "forum": "https://github.com/thephpleague/commonmark/discussions",
+        "issues": "https://github.com/thephpleague/commonmark/issues",
+        "rss": "https://github.com/thephpleague/commonmark/releases.atom",
+        "source": "https://github.com/thephpleague/commonmark"
+    },
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-mbstring": "*",
+        "league/config": "^1.1.1",
+        "psr/event-dispatcher": "^1.0",
+        "symfony/deprecation-contracts": "^2.1 || ^3.0",
+        "symfony/polyfill-php80": "^1.16"
+    },
+    "require-dev": {
+        "ext-json": "*",
+        "cebe/markdown": "^1.0",
+        "commonmark/cmark": "0.31.1",
+        "commonmark/commonmark.js": "0.31.1",
+        "composer/package-versions-deprecated": "^1.8",
+        "embed/embed": "^4.4",
+        "erusev/parsedown": "^1.0",
+        "github/gfm": "0.29.0",
+        "michelf/php-markdown": "^1.4 || ^2.0",
+        "nyholm/psr7": "^1.5",
+        "phpstan/phpstan": "^2.0.0",
+        "phpunit/phpunit": "^9.5.21 || ^10.5.9 || ^11.0.0 || ^12.0.0 || ^13.0.0",
+        "scrutinizer/ocular": "^1.8.1",
+        "symfony/finder": "^5.3 | ^6.0 | ^7.0 || ^8.0",
+        "symfony/process": "^5.4 | ^6.0 | ^7.0 || ^8.0",
+        "symfony/yaml": "^2.3 | ^3.0 | ^4.0 | ^5.0 | ^6.0 | ^7.0 || ^8.0",
+        "unleashedtech/php-coding-standard": "^3.1.1",
+        "vimeo/psalm": "^4.24.0 || ^5.0.0 || ^6.0.0"
+    },
+    "minimum-stability": "beta",
+    "suggest": {
+        "symfony/yaml": "v2.3+ required if using the Front Matter extension"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "commonmark/commonmark.js",
+                "version": "0.31.1",
+                "dist": {
+                    "url": "https://github.com/commonmark/commonmark.js/archive/0.31.1.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "commonmark/cmark",
+                "version": "0.31.1",
+                "dist": {
+                    "url": "https://github.com/commonmark/cmark/archive/0.31.1.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "github/gfm",
+                "version": "0.29.0",
+                "dist": {
+                    "url": "https://github.com/github/cmark-gfm/archive/0.29.0.gfm.13.zip",
+                    "type": "zip"
+                }
+            }
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "League\\CommonMark\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "League\\CommonMark\\Tests\\Unit\\": "tests/unit",
+            "League\\CommonMark\\Tests\\Functional\\": "tests/functional",
+            "League\\CommonMark\\Tests\\PHPStan\\": "tests/phpstan"
+        }
+    },
+    "scripts": {
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
+        "phpstan": "phpstan analyse",
+        "phpunit": "phpunit --no-coverage",
+        "psalm": "psalm --stats",
+        "pathological": "tests/pathological/test.php",
+        "test": [
+            "@phpcs",
+            "@phpstan",
+            "@psalm",
+            "@phpunit",
+            "@pathological"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "2.9-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "sort-packages": true
+    }
+}

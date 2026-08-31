@@ -1,0 +1,25 @@
+{
+    "name": "psr/simple-cache",
+    "description": "Common interfaces for simple caching",
+    "keywords": ["psr", "psr-16", "cache", "simple-cache", "caching"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "PHP-FIG",
+            "homepage": "https://www.php-fig.org/"
+        }
+    ],
+    "require": {
+        "php": ">=8.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Psr\\SimpleCache\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0.x-dev"
+        }
+    }
+}

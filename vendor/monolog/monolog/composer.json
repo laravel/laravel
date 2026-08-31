@@ -1,0 +1,82 @@
+{
+    "name": "monolog/monolog",
+    "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
+    "keywords": ["log", "logging", "psr-3"],
+    "homepage": "https://github.com/Seldaek/monolog",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jordi Boggiano",
+            "email": "j.boggiano@seld.be",
+            "homepage": "https://seld.be"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "psr/log": "^2.0 || ^3.0"
+    },
+    "require-dev": {
+        "ext-json": "*",
+        "aws/aws-sdk-php": "^3.0",
+        "doctrine/couchdb": "~1.0@dev",
+        "elasticsearch/elasticsearch": "^7 || ^8",
+        "graylog2/gelf-php": "^1.4.2 || ^2.0",
+        "guzzlehttp/guzzle": "^7.4.5",
+        "guzzlehttp/psr7": "^2.2",
+        "mongodb/mongodb": "^1.8 || ^2.0",
+        "php-amqplib/php-amqplib": "~2.4 || ^3",
+        "php-console/php-console": "^3.1.8",
+        "phpstan/phpstan": "^2",
+        "phpstan/phpstan-deprecation-rules": "^2",
+        "phpstan/phpstan-strict-rules": "^2",
+        "phpunit/phpunit": "^10.5.17 || ^11.0.7",
+        "predis/predis": "^1.1 || ^2",
+        "rollbar/rollbar": "^4.0",
+        "ruflin/elastica": "^7 || ^8",
+        "symfony/mailer": "^5.4 || ^6",
+        "symfony/mime": "^5.4 || ^6"
+    },
+    "suggest": {
+        "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
+        "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
+        "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
+        "elasticsearch/elasticsearch": "Allow sending log messages to an Elasticsearch server via official client",
+        "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
+        "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+        "ext-mongodb": "Allow sending log messages to a MongoDB server (via driver)",
+        "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
+        "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
+        "rollbar/rollbar": "Allow sending log messages to Rollbar",
+        "ext-mbstring": "Allow to work properly with unicode symbols",
+        "ext-sockets": "Allow sending log messages to a Syslog server (via UDP driver)",
+        "ext-curl": "Required to send log messages using the IFTTTHandler, the LogglyHandler, the SendGridHandler, the SlackWebhookHandler or the TelegramBotHandler",
+        "ext-openssl": "Required to send log messages using SSL"
+    },
+    "autoload": {
+        "psr-4": {"Monolog\\": "src/Monolog"}
+    },
+    "autoload-dev": {
+        "psr-4": {"Monolog\\": "tests/Monolog"}
+    },
+    "provide": {
+        "psr/log-implementation": "3.0.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "3.x-dev"
+        }
+    },
+    "scripts": {
+        "test": "@php vendor/bin/phpunit",
+        "phpstan": "@php vendor/bin/phpstan analyse"
+    },
+    "config": {
+        "lock": false,
+        "sort-packages": true,
+        "platform-check": false,
+        "allow-plugins": {
+            "php-http/discovery": false
+        }
+    }
+}

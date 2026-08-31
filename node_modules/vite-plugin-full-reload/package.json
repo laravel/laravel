@@ -1,0 +1,85 @@
+{
+  "name": "vite-plugin-full-reload",
+  "description": "Reload the page when files are modified",
+  "version": "1.2.0",
+  "license": "MIT",
+  "author": "Máximo Mussini <maximomussini@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ElMassimo/vite-plugin-full-reload"
+  },
+  "homepage": "https://github.com/ElMassimo/vite-plugin-full-reload",
+  "bugs": "https://github.com/ElMassimo/vite-plugin-full-reload/issues",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "keywords": [
+    "vite",
+    "plugin",
+    "vite-plugin",
+    "vitejs",
+    "full",
+    "reload"
+  ],
+  "dependencies": {
+    "picocolors": "^1.0.0",
+    "picomatch": "^2.3.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "*",
+    "@types/cross-spawn": "^6.0.2",
+    "@types/node": "^18",
+    "@types/picomatch": "^2.3.0",
+    "conventional-changelog-cli": "^2.2.2",
+    "cross-spawn": "^7.0.3",
+    "enquirer": "^2.3.6",
+    "eslint": "^8.20.0",
+    "husky": "^5.2.0",
+    "lint-staged": "^10.5.4",
+    "minimist": "^1.2.6",
+    "pinst": "^2.1.6",
+    "rollup": "^4.2",
+    "semver": "^7.3.7",
+    "tsup": "^7.2",
+    "typescript": "^4.7.4",
+    "vite": "^5.0.0",
+    "vitest": "^0.34"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,jsx,vue}": [
+      "eslint --fix"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "@antfu/eslint-config"
+    ],
+    "rules": {
+      "@typescript-eslint/space-before-function-paren": [
+        "warn",
+        "always"
+      ]
+    }
+  },
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "dev": "npm run build -- --watch",
+    "build": "tsup src/index.ts --dts --format cjs,esm --clean",
+    "lint": "eslint . --ext .ts,.js,.vue",
+    "_postinstall": "husky install",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "release": "node scripts/release.cjs",
+    "test": "vitest"
+  }
+}

@@ -1,0 +1,86 @@
+name: "CI"
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request: null
+
+jobs:
+  qa:
+    name: "QA"
+
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3.5.2"
+
+      - name: "Set up PHP"
+        uses: "shivammathur/setup-php@2.25.1"
+        with:
+          coverage: "none"
+          php-version: "8.0"
+          tools: "phive"
+
+      - name: "Install dependencies with composer"
+        run: "composer install --no-interaction --optimize-autoloader --prefer-dist"
+
+      - name: "Install dependencies with phive"
+        env:
+          GITHUB_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: "ant install-tools"
+
+      - name: "Run php-cs-fixer"
+        run: "ant php-cs-fixer"
+
+      - name: "Run psalm"
+        run: "ant psalm"
+
+  tests:
+    name: "Tests"
+
+    runs-on: "ubuntu-latest"
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        php-versions:
+          - "7.2"
+          - "7.3"
+          - "7.4"
+          - "8.0"
+          - "8.1"
+          - "8.2"
+
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3.5.2"
+
+      - name: "Set up PHP"
+        uses: "shivammathur/setup-php@2.25.1"
+        env:
+          COMPOSER_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        with:
+          coverage: "pcov"
+          extensions: "${{ env.extensions }}"
+          ini-values: "display_errors=On, error_reporting=-1, memory_limit=2G"
+          php-version: "${{ matrix.php-versions }}"
+          tools: "phive"
+
+      - name: "Install dependencies with composer"
+        run: "composer install --no-interaction --optimize-autoloader --prefer-dist"
+
+      - name: "Install dependencies with phive"
+        env:
+          GITHUB_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: "ant install-tools"
+
+      - name: "Run PHPUnit"
+        run: "tools/phpunit --coverage-clover build/logs/clover.xml"
+
+      - name: "Send code coverage report to codecov.io"
+        uses: "codecov/codecov-action@v3.1.4"
+        with:
+          files: "build/logs/clover.xml"

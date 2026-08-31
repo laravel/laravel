@@ -1,0 +1,125 @@
+{
+  "name": "nostics",
+  "type": "module",
+  "version": "1.2.0",
+  "description": "Structured diagnostic code library",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "contributors": [
+    "Eduardo San Martin Morote <posva13@gmail.com>",
+    "Daniel Roe <daniel@roe.dev>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/vercel-labs/nostics#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vercel-labs/nostics.git"
+  },
+  "bugs": "https://github.com/vercel-labs/nostics/issues",
+  "keywords": [],
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./formatters/ansi": "./dist/formatters/ansi.mjs",
+    "./formatters/json": "./dist/formatters/json.mjs",
+    "./reporters/dev": "./dist/reporters/dev.mjs",
+    "./reporters/fetch": "./dist/reporters/fetch.mjs",
+    "./reporters/node": "./dist/reporters/node.mjs",
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.mts",
+  "files": [
+    "dist",
+    "skills"
+  ],
+  "devDependencies": {
+    "@antfu/eslint-config": "^9.0.0",
+    "@antfu/ni": "^30.1.0",
+    "@antfu/utils": "^9.3.0",
+    "@posva/prompts": "^2.4.4",
+    "@size-limit/esbuild-why": "^12.1.0",
+    "@size-limit/preset-small-lib": "^12.1.0",
+    "@types/node": "^25.9.3",
+    "@types/semver": "^7.7.1",
+    "@vitest/coverage-v8": "4.1.8",
+    "@vitest/ui": "4.1.8",
+    "conventional-changelog": "^7.2.0",
+    "conventional-changelog-angular": "^8.3.1",
+    "eslint": "^10.5.0",
+    "lint-staged": "^17.0.7",
+    "oxfmt": "^0.54.0",
+    "publint": "^0.3.21",
+    "semver": "^7.8.4",
+    "simple-git-hooks": "^2.13.1",
+    "size-limit": "^12.1.0",
+    "tsdown": "^0.22.2",
+    "tsnapi": "^0.3.3",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.16",
+    "vitest": "^4.1.8",
+    "nostics": "1.2.0"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm i --frozen-lockfile --ignore-scripts --offline && npx lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  },
+  "size-limit": [
+    {
+      "name": "defineDiagnostics from source",
+      "path": "src/index.ts",
+      "import": "{ defineDiagnostics }"
+    },
+    {
+      "name": "defineDiagnostics",
+      "path": "dist/index.mjs",
+      "import": "{ defineDiagnostics }"
+    },
+    {
+      "name": "defineProdDiagnostics",
+      "path": "dist/index.mjs",
+      "import": "{ defineProdDiagnostics }"
+    },
+    {
+      "name": "defineDiagnostics + createConsoleReporter",
+      "path": "dist/index.mjs",
+      "import": "{ defineDiagnostics, createConsoleReporter }"
+    },
+    {
+      "name": "defineProdDiagnostics + createConsoleReporter",
+      "path": "dist/index.mjs",
+      "import": "{ defineProdDiagnostics, createConsoleReporter }"
+    },
+    {
+      "name": "formatDiagnostic",
+      "path": "dist/index.mjs",
+      "import": "{ formatDiagnostic }"
+    },
+    {
+      "name": "full root",
+      "path": "dist/index.mjs",
+      "import": "*"
+    },
+    {
+      "name": "ansi formatter",
+      "path": "dist/formatters/ansi.mjs",
+      "import": "*"
+    }
+  ],
+  "scripts": {
+    "build": "tsdown && pnpm --filter \"./packages/*\" run build",
+    "dev": "vitest",
+    "docs": "pnpm -C docs run dev",
+    "docs:build": "pnpm -C docs run build",
+    "play": "pnpm -C playground run dev",
+    "lint": "eslint",
+    "release": "node scripts/release.ts",
+    "size": "size-limit",
+    "test": "pnpm run build && pnpm run \"/^test:/\"",
+    "test:unit": "vitest run --coverage",
+    "test:types": "pnpm run typecheck",
+    "test:lint": "pnpm run lint",
+    "test:demo": "pnpm -C demo-lib run build && pnpm -C demo-lib run test && pnpm -C playground run build",
+    "typecheck": "tsc && pnpm --filter \"./packages/*\" run typecheck"
+  }
+}

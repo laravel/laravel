@@ -1,0 +1,54 @@
+{
+    "name": "laravel/prompts",
+    "type": "library",
+    "description": "Add beautiful and user-friendly forms to your command-line applications.",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Laravel\\Prompts\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "ext-mbstring": "*",
+        "composer-runtime-api": "^2.2",
+        "symfony/console": "^6.2|^7.0|^8.0"
+    },
+    "require-dev": {
+        "illuminate/collections": "^10.0|^11.0|^12.0|^13.0",
+        "phpstan/phpstan": "^1.12.28",
+        "pestphp/pest": "^2.3|^3.4|^4.0",
+        "mockery/mockery": "^1.5",
+        "phpstan/phpstan-mockery": "^1.1.3"
+    },
+    "conflict": {
+        "illuminate/console": ">=10.17.0 <10.25.0",
+        "laravel/framework": ">=10.17.0 <10.25.0"
+    },
+    "suggest": {
+        "ext-pcntl": "Required for the spinner to be animated."
+    },
+    "config": {
+        "audit": {
+            "block-insecure": false
+        },
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.3.x-dev"
+        }
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}

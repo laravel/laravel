@@ -1,0 +1,82 @@
+{
+    "name": "symfony/http-kernel",
+    "type": "library",
+    "description": "Provides a structured process for converting a Request into a Response",
+    "keywords": [],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "symfony/deprecation-contracts": "^2.5|^3",
+        "symfony/error-handler": "^6.4|^7.0|^8.0",
+        "symfony/event-dispatcher": "^7.3|^8.0",
+        "symfony/http-foundation": "^7.4|^8.0",
+        "symfony/polyfill-ctype": "^1.8",
+        "psr/log": "^1|^2|^3"
+    },
+    "require-dev": {
+        "symfony/browser-kit": "^6.4|^7.0|^8.0",
+        "symfony/clock": "^6.4|^7.0|^8.0",
+        "symfony/config": "^6.4|^7.0|^8.0",
+        "symfony/console": "^6.4|^7.0|^8.0",
+        "symfony/css-selector": "^6.4|^7.0|^8.0",
+        "symfony/dependency-injection": "^6.4.1|^7.0.1|^8.0",
+        "symfony/dom-crawler": "^6.4|^7.0|^8.0",
+        "symfony/expression-language": "^6.4|^7.0|^8.0",
+        "symfony/finder": "^6.4|^7.0|^8.0",
+        "symfony/http-client-contracts": "^2.5|^3",
+        "symfony/process": "^6.4|^7.0|^8.0",
+        "symfony/property-access": "^7.1|^8.0",
+        "symfony/routing": "^6.4|^7.0|^8.0",
+        "symfony/serializer": "^7.1|^8.0",
+        "symfony/stopwatch": "^6.4|^7.0|^8.0",
+        "symfony/translation": "^6.4|^7.0|^8.0",
+        "symfony/translation-contracts": "^2.5|^3",
+        "symfony/uid": "^6.4|^7.0|^8.0",
+        "symfony/validator": "^6.4|^7.0|^8.0",
+        "symfony/var-dumper": "^6.4|^7.0|^8.0",
+        "symfony/var-exporter": "^6.4|^7.0|^8.0",
+        "psr/cache": "^1.0|^2.0|^3.0",
+        "twig/twig": "^3.12"
+    },
+    "provide": {
+        "psr/log-implementation": "1.0|2.0|3.0"
+    },
+    "conflict": {
+        "symfony/browser-kit": "<6.4",
+        "symfony/cache": "<6.4",
+        "symfony/config": "<6.4",
+        "symfony/console": "<6.4",
+        "symfony/form": "<6.4",
+        "symfony/dependency-injection": "<6.4",
+        "symfony/doctrine-bridge": "<6.4",
+        "symfony/flex": "<2.10",
+        "symfony/http-client": "<6.4",
+        "symfony/http-client-contracts": "<2.5",
+        "symfony/mailer": "<6.4",
+        "symfony/messenger": "<6.4",
+        "symfony/translation": "<6.4",
+        "symfony/translation-contracts": "<2.5",
+        "symfony/twig-bridge": "<6.4",
+        "symfony/validator": "<6.4",
+        "symfony/var-dumper": "<6.4",
+        "twig/twig": "<3.12"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Component\\HttpKernel\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,48 @@
+{
+    "name": "laravel/sail",
+    "description": "Docker files for running a basic Laravel application.",
+    "keywords": ["laravel", "docker"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/laravel/sail/issues",
+        "source": "https://github.com/laravel/sail"
+    },
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylor@laravel.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "illuminate/console": "^9.52.16|^10.0|^11.0|^12.0|^13.0",
+        "illuminate/contracts": "^9.52.16|^10.0|^11.0|^12.0|^13.0",
+        "illuminate/support": "^9.52.16|^10.0|^11.0|^12.0|^13.0",
+        "symfony/console": "^6.0|^7.0|^8.0",
+        "symfony/yaml": "^6.0|^7.0|^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.0|^8.0|^9.0|^10.0|^11.0",
+        "phpstan/phpstan": "^2.0"
+    },
+    "bin": [
+        "bin/sail"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Laravel\\Sail\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Laravel\\Sail\\SailServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

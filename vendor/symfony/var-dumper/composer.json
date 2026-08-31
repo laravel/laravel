@@ -1,0 +1,44 @@
+{
+    "name": "symfony/var-dumper",
+    "type": "library",
+    "description": "Provides mechanisms for walking through any arbitrary PHP variable",
+    "keywords": ["dump", "debug"],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicolas Grekas",
+            "email": "p@tchwork.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "symfony/deprecation-contracts": "^2.5|^3",
+        "symfony/polyfill-mbstring": "~1.0"
+    },
+    "require-dev": {
+        "symfony/console": "^6.4|^7.0|^8.0",
+        "symfony/http-kernel": "^6.4|^7.0|^8.0",
+        "symfony/process": "^6.4|^7.0|^8.0",
+        "symfony/uid": "^6.4|^7.0|^8.0",
+        "twig/twig": "^3.12"
+    },
+    "conflict": {
+        "symfony/console": "<6.4"
+    },
+    "autoload": {
+        "files": [ "Resources/functions/dump.php" ],
+        "psr-4": { "Symfony\\Component\\VarDumper\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "bin": [
+        "Resources/bin/var-dump-server"
+    ],
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,86 @@
+{
+    "name": "nunomaduro/collision",
+    "description": "Cli error handling for console/command-line PHP applications.",
+    "keywords": ["console", "command-line", "php", "cli", "error", "handling", "laravel-zero", "laravel", "artisan", "symfony", "dev"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/nunomaduro/collision/issues",
+        "source": "https://github.com/nunomaduro/collision"
+    },
+    "authors": [
+        {
+            "name": "Nuno Maduro",
+            "email": "enunomaduro@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2.0",
+        "filp/whoops": "^2.18.4",
+        "nunomaduro/termwind": "^2.4.0",
+        "symfony/console": "^7.4.14 || ^8.1.1"
+    },
+    "conflict": {
+        "laravel/framework": "<11.48.0 || >=14.0.0",
+        "phpunit/phpunit": "<11.5.50 || >=14.0.0"
+    },
+    "require-dev": {
+        "brianium/paratest": "^7.8.5",
+        "laravel/framework": "^11.48.0 || ^12.56.0 || ^13.20.0",
+        "laravel/pint": "^1.29.3",
+        "larastan/larastan": "^3.10.0",
+        "orchestra/testbench-core": "^9.12.0 || ^10.12.1 || ^11.3.5",
+        "pestphp/pest": "^3.8.5 || ^4.7.5 || ^5.0.0",
+        "sebastian/environment": "^7.2.1 || ^8.1.2 || ^9.3.2"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Printer\\": "tests/Printer",
+            "Tests\\Unit\\": "tests/Unit",
+            "Tests\\FakeProgram\\": "tests/FakeProgram",
+            "Tests\\": "tests/LaravelApp/tests",
+            "App\\": "tests/LaravelApp/app/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "NunoMaduro\\Collision\\": "src/"
+        },
+        "files": [
+            "./src/Adapters/Phpunit/Autoload.php"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider"
+            ]
+        },
+        "branch-alias": {
+            "dev-8.x": "8.x-dev"
+        }
+    },
+    "scripts": {
+        "post-update-cmd": "@fix:pdo-constant",
+        "fix:pdo-constant": "@php scripts/fix-pdo-constant.php",
+        "lint": "pint -v",
+        "test:lint": "pint --test -v",
+        "test:types": "phpstan analyse --ansi",
+        "test:unit:phpunit": "XDEBUG_MODE=coverage phpunit --colors=always",
+        "test:unit:pest": "XDEBUG_MODE=coverage pest --colors=always",
+        "test": [
+            "@test:lint",
+            "@test:types",
+            "@test:unit:phpunit",
+            "@test:unit:pest"
+        ]
+    }
+}

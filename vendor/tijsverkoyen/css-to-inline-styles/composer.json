@@ -1,0 +1,40 @@
+{
+  "name": "tijsverkoyen/css-to-inline-styles",
+  "type": "library",
+  "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
+  "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Tijs Verkoyen",
+      "email": "css_to_inline_styles@verkoyen.eu",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "ext-dom": "*",
+    "ext-libxml": "*",
+    "symfony/css-selector": "^5.4 || ^6.0 || ^7.0 || ^8.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.5.21 || ^9.5.10",
+    "phpstan/phpstan": "^2.0",
+    "phpstan/phpstan-phpunit": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "TijsVerkoyen\\CssToInlineStyles\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "TijsVerkoyen\\CssToInlineStyles\\Tests\\": "tests"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "2.x-dev"
+    }
+  }
+}

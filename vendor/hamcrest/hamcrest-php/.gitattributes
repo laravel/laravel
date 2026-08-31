@@ -1,0 +1,6 @@
+/.coveralls.yml export-ignore
+/.gush.yml export-ignore
+/.travis.yml export-ignore
+/.github export-ignore
+/tests export-ignore
+

@@ -1,0 +1,50 @@
+{
+    "name": "phpoption/phpoption",
+    "description": "Option Type for PHP",
+    "keywords": ["php", "option", "language", "type"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Johannes M. Schmitt",
+            "email": "schmittjoh@gmail.com",
+            "homepage": "https://github.com/schmittjoh"
+        },
+        {
+            "name": "Graham Campbell",
+            "email": "hello@gjcampbell.co.uk",
+            "homepage": "https://github.com/GrahamCampbell"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5 || ^8.0"
+    },
+    "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.8.2",
+        "phpunit/phpunit": "^8.5.44 || ^9.6.25 || ^10.5.53 || ^11.5.34"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpOption\\": "src/PhpOption/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhpOption\\Tests\\": "tests/PhpOption/Tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        },
+        "preferred-install": "dist"
+    },
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": true,
+            "forward-command": false
+        },
+        "branch-alias": {
+            "dev-master": "1.9-dev"
+        }
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "name": "symfony/clock",
+    "type": "library",
+    "description": "Decouples applications from the system clock",
+    "keywords": ["clock", "time", "psr20"],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicolas Grekas",
+            "email": "p@tchwork.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "provide": {
+        "psr/clock-implementation": "1.0"
+    },
+    "require": {
+        "php": ">=8.2",
+        "psr/clock": "^1.0",
+        "symfony/polyfill-php83": "^1.28"
+    },
+    "autoload": {
+        "files": [ "Resources/now.php" ],
+        "psr-4": { "Symfony\\Component\\Clock\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "minimum-stability": "dev"
+}

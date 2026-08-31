@@ -1,0 +1,65 @@
+{
+    "name": "sebastian/comparator",
+    "description": "Provides the functionality to compare PHP values for equality",
+    "keywords": ["comparator","compare","equality"],
+    "homepage": "https://github.com/sebastianbergmann/comparator",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de"
+        },
+        {
+            "name": "Jeff Welch",
+            "email": "whatthejeff@gmail.com"
+        },
+        {
+            "name": "Volker Dusch",
+            "email": "github@wallbash.com"
+        },
+        {
+            "name": "Bernhard Schussek",
+            "email": "bschussek@2bepublished.at"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/comparator/issues",
+        "security": "https://github.com/sebastianbergmann/comparator/security/policy"
+    },
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2",
+        "sebastian/diff": "^6.0",
+        "sebastian/exporter": "^6.0",
+        "ext-dom": "*",
+        "ext-mbstring": "*"
+    },
+    "suggest": {
+        "ext-bcmath": "For comparing BcMath\\Number objects"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.4"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/_fixture"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "6.3-dev"
+        }
+    }
+}

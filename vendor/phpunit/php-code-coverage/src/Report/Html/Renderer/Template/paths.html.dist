@@ -1,0 +1,9 @@
+<hr/>
+<h4>Paths</h4>
+<p>
+    Below are the source code lines that represent each code path as identified by Xdebug. Please note a path is not
+    necessarily coterminous with a line, a line may contain multiple paths and therefore show up more than once.
+    Please also be aware that some paths may include implicit rather than explicit branches, e.g. an <code>if</code> statement
+    <i>always</i> has an <code>else</code> as part of its logical flow even if you didn't write one.
+</p>
+{{paths}}

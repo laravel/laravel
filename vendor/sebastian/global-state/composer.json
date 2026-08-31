@@ -1,0 +1,52 @@
+{
+    "name": "sebastian/global-state",
+    "description": "Snapshotting of global state",
+    "keywords": ["global state"],
+    "homepage": "https://www.github.com/sebastianbergmann/global-state",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/global-state/issues",
+        "security": "https://github.com/sebastianbergmann/global-state/security/policy"
+    },
+    "prefer-stable": true,
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        },
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "require": {
+        "php": ">=8.2",
+        "sebastian/object-reflector": "^4.0",
+        "sebastian/recursion-context": "^6.0"
+    },
+    "require-dev": {
+        "ext-dom": "*",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/_fixture/"
+        ],
+        "files": [
+            "tests/_fixture/SnapshotFunctions.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "7.0-dev"
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "psr/clock",
+  "description": "Common interface for reading the clock.",
+  "keywords": ["psr", "psr-20", "time", "clock", "now"],
+  "homepage": "https://github.com/php-fig/clock",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "PHP-FIG",
+      "homepage": "https://www.php-fig.org/"
+    }
+  ],
+  "require": {
+    "php": "^7.0 || ^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Psr\\Clock\\": "src/"
+    }
+  }
+}

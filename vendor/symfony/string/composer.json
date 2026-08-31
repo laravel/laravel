@@ -1,0 +1,44 @@
+{
+    "name": "symfony/string",
+    "type": "library",
+    "description": "Provides an object-oriented API to strings and deals with bytes, UTF-8 code points and grapheme clusters in a unified way",
+    "keywords": ["string", "utf8", "utf-8", "grapheme", "i18n", "unicode"],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicolas Grekas",
+            "email": "p@tchwork.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "symfony/deprecation-contracts": "^2.5|^3.0",
+        "symfony/polyfill-ctype": "~1.8",
+        "symfony/polyfill-intl-grapheme": "~1.33",
+        "symfony/polyfill-intl-normalizer": "~1.0",
+        "symfony/polyfill-mbstring": "~1.0"
+    },
+    "require-dev": {
+        "symfony/emoji": "^7.1|^8.0",
+        "symfony/http-client": "^6.4|^7.0|^8.0",
+        "symfony/intl": "^6.4|^7.0|^8.0",
+        "symfony/translation-contracts": "^2.5|^3.0",
+        "symfony/var-exporter": "^6.4|^7.0|^8.0"
+    },
+    "conflict": {
+        "symfony/translation-contracts": "<2.5"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Component\\String\\": "" },
+        "files": [ "Resources/functions.php" ],
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "minimum-stability": "dev"
+}

@@ -1,0 +1,201 @@
+:root {
+ --phpunit-breadcrumbs: var(--bs-gray-200);
+ --phpunit-success-bar: #28a745;
+ --phpunit-success-high: {{success-high}};
+ --phpunit-success-medium: {{success-medium}};
+ --phpunit-success-low: {{success-low}};
+ --phpunit-warning: {{warning}};
+ --phpunit-warning-bar: #ffc107;
+ --phpunit-danger: {{danger}};
+ --phpunit-danger-bar: #dc3545;
+}
+
+body {
+ font-family: sans-serif;
+ font-size: 1em;
+ font-kerning: normal;
+ text-rendering: optimizeLegibility;
+ padding-top: 10px;
+}
+
+nav .breadcrumb {
+  border-radius: var(--bs-border-radius);
+  background-color: var(--phpunit-breadcrumbs);
+  padding: .75rem 1rem;
+}
+
+.popover {
+ max-width: none;
+}
+
+.popover-body {
+ max-height: 90vh;
+ overflow-y: auto;
+}
+
+.octicon {
+ margin-right:.25em;
+ vertical-align: baseline;
+ width: 0.75em;
+}
+
+.table-bordered>thead>tr>td {
+ border-bottom-width: 1px;
+}
+
+.table tbody>tr>td, .table thead>tr>td {
+ padding-top: 3px;
+ padding-bottom: 3px;
+}
+
+.table-condensed tbody>tr>td {
+ padding-top: 0;
+ padding-bottom: 0;
+}
+
+.table .progress {
+ margin-bottom: inherit;
+}
+
+.table-borderless th, .table-borderless td {
+ border: 0 !important;
+}
+
+.table tbody tr.covered-by-large-tests, .table tbody tr.covered-by-large-tests td, li.covered-by-large-tests, tr.success, tr.success td, td.success, li.success, span.success {
+ background-color: var(--phpunit-success-low);
+}
+
+.table tbody tr.covered-by-medium-tests, .table tbody tr.covered-by-medium-tests td, li.covered-by-medium-tests {
+ background-color: var(--phpunit-success-medium);
+}
+
+.table tbody tr.covered-by-small-tests, .table tbody tr.covered-by-small-tests td, li.covered-by-small-tests {
+ background-color: var(--phpunit-success-high);
+}
+
+.table tbody tr.warning, .table tbody tr.warning td, .table tbody td.warning, li.warning, span.warning {
+ background-color: var(--phpunit-warning);
+}
+
+.table tbody tr.danger, .table tbody tr.danger td, .table tbody td.danger, li.danger, span.danger {
+ background-color: var(--phpunit-danger);
+}
+
+.table tbody td.info {
+ background-color: rgb(from var(--bs-info) r g b / 0.25);
+}
+
+td.big {
+ vertical-align: middle;
+ width: 117px;
+}
+
+td.small {
+}
+
+td.codeLine {
+ font-family: "Source Code Pro", var(--bs-font-monospace);
+ white-space: pre-wrap;
+}
+
+td span.comment {
+ color: var(--bs-secondary-color);
+}
+
+td span.default {
+ color: var(--bs-body-color);
+}
+
+td span.html {
+ color: var(--bs-secondary-color);
+}
+
+td span.keyword {
+ color: var(--bs-body-color);
+ font-weight: bold;
+}
+
+pre span.string {
+ color: var(--bs-body-color);
+}
+
+span.success, span.warning, span.danger {
+ margin-right: 2px;
+ padding-left: 10px;
+ padding-right: 10px;
+ text-align: center;
+}
+
+#toplink {
+ position: fixed;
+ left: 5px;
+ bottom: 5px;
+ outline: 0;
+}
+
+svg text {
+ font-family: var(--bs-font-sans-serif);
+ font-size: 11px;
+ color: var(--bs-gray);
+ fill: var(--bs-gray);
+}
+
+.scrollbox {
+ height:245px;
+ overflow-x:scroll;
+ overflow-y:scroll;
+}
+
+table + .structure-heading {
+ border-top: 1px solid var(--bs-gray-200);
+ padding-top: 0.5em;
+}
+
+table#code td:first-of-type {
+  padding-left: .75em;
+  padding-right: .75em;
+}
+
+table#code td:first-of-type a {
+  text-decoration: none;
+}
+
+.legend {
+ font-weight: bold;
+ margin-right: 2px;
+ padding-left: 10px;
+ padding-right: 10px;
+ text-align: center;
+}
+
+.covered-by-small-tests {
+ background-color: var(--phpunit-success-high);
+}
+
+.covered-by-medium-tests {
+ background-color: var(--phpunit-success-medium);
+}
+
+.covered-by-large-tests {
+ background-color: var(--phpunit-success-low);
+}
+
+.not-covered {
+ background-color: var(--phpunit-danger);
+}
+
+.not-coverable {
+ background-color: var(--phpunit-warning);
+}
+
+.progress-bar.bg-success {
+ background-color: var(--phpunit-success-bar) !important;
+}
+
+.progress-bar.bg-warning {
+ background-color: var(--phpunit-warning-bar) !important;
+}
+
+.progress-bar.bg-danger {
+ background-color: var(--phpunit-danger-bar) !important;
+}

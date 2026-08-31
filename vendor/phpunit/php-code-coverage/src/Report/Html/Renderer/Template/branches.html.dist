@@ -1,0 +1,9 @@
+<hr/>
+<h4>Branches</h4>
+<p>
+    Below are the source code lines that represent each code branch as identified by Xdebug. Please note a branch is not
+    necessarily coterminous with a line, a line may contain multiple branches and therefore show up more than once.
+    Please also be aware that some branches may be implicit rather than explicit, e.g. an <code>if</code> statement
+    <i>always</i> has an <code>else</code> as part of its logical flow even if you didn't write one.
+</p>
+{{branches}}

@@ -1,0 +1,69 @@
+{
+    "name": "league/config",
+    "type": "library",
+    "description": "Define configuration arrays with strict schemas and access values with dot notation",
+    "keywords": ["configuration","config","schema","array","nested","dot","dot-access"],
+    "homepage": "https://config.thephpleague.com",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Colin O'Dell",
+            "email": "colinodell@gmail.com",
+            "homepage": "https://www.colinodell.com",
+            "role": "Lead Developer"
+        }
+    ],
+    "support": {
+        "docs": "https://config.thephpleague.com/",
+        "issues": "https://github.com/thephpleague/config/issues",
+        "rss": "https://github.com/thephpleague/config/releases.atom",
+        "source": "https://github.com/thephpleague/config"
+    },
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "dflydev/dot-access-data": "^3.0.1",
+        "nette/schema": "^1.2"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.8.2",
+        "phpunit/phpunit": "^9.5.5",
+        "scrutinizer/ocular": "^1.8.1",
+        "unleashedtech/php-coding-standard": "^3.1",
+        "vimeo/psalm": "^4.7.3"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "League\\Config\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "League\\Config\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "phpcs": "phpcs",
+        "phpstan": "phpstan analyse",
+        "phpunit": "phpunit --no-coverage",
+        "psalm": "psalm",
+        "test": [
+            "@phpcs",
+            "@phpstan",
+            "@psalm",
+            "@phpunit"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "1.2-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
