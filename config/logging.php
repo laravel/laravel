@@ -116,7 +116,7 @@ return [
         'syslog' => [
             'driver' => 'syslog',
             'level' => env('LOG_LEVEL', 'debug'),
-            'facility' => env('LOG_SYSLOG_FACILITY', LOG_USER),
+            'facility' => is_numeric($facility = env('LOG_SYSLOG_FACILITY', LOG_USER)) ? (int) $facility : $facility,
             'replace_placeholders' => true,
         ],
 
